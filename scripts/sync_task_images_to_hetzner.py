@@ -7,9 +7,10 @@ Skips programbench-compiled/* images (those are per-candidate, not base images).
 import subprocess
 import sys
 import time
+from pathlib import Path
 
 REMOTE = "root@5.78.192.163"
-SSH_KEY = "C:/Users/ryang/.ssh/id_determinex"
+SSH_KEY = str(Path.home() / ".ssh" / "id_determinex")
 
 def ssh_lines(cmd: str) -> list[str]:
     r = subprocess.run(

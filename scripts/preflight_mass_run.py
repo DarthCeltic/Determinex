@@ -42,7 +42,7 @@ EXTRACTED_PB  = Path("T:/determinex-programbench/_extracted_tests")
 HF_CACHE      = Path("T:/huggingface_cache/hub")
 DB_PATH       = Path(os.environ.get(
     "DETERMINEX_DB",
-    r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
+    str(Path(os.environ.get("APPDATA", Path.home())) / "run.determinex.app" / "determinex.sqlite")
 ))
 
 # ---- Result tracker ----

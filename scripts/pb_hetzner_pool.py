@@ -27,7 +27,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PY = Path(r"C:\Users\ryang\AppData\Local\Python\pythoncore-3.11-64\python.exe")
+PY = Path(os.environ.get("DETERMINEX_PYTHON311", "python"))
 SSH = Path(r"C:\Windows\System32\OpenSSH\ssh.exe")
 SCP = Path(r"C:\Windows\System32\OpenSSH\scp.exe")
 SSH_KEY = Path.home() / ".ssh" / "id_determinex"

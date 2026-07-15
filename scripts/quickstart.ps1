@@ -13,7 +13,7 @@ param(
     [switch]$DoctorOnly,
     [switch]$NoSmoke,
     [string]$ModelsDir = $env:DETERMINEX_MODELS_DIR,
-    [string]$Python311 = "C:\Users\ryang\AppData\Local\Python\pythoncore-3.11-64\python.exe"
+    [string]$Python311 = "python"
 )
 
 $ErrorActionPreference = "Stop"
@@ -35,7 +35,10 @@ if (-not $ModelsDir) {
         }
     }
 }
-if (-not $ModelsDir) { $ModelsDir = "T:/determinex-models" }
+if (-not $ModelsDir) {
+    Write-Warn2 "DETERMINEX_MODELS_DIR not set — set it in .env or pass -ModelsDir. Falling back to .\models"
+    $ModelsDir = Join-Path $RepoRoot "models"
+}
 $ModelsDir = $ModelsDir.Replace("\", "/")
 
 # ---------- Step 1: doctor ----------

@@ -42,7 +42,7 @@ except ImportError:
 REPO_ROOT    = Path(__file__).parent.parent
 DB_PATH      = Path(os.environ.get(
     "DETERMINEX_DB",
-    r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
+    str(Path(os.environ.get("APPDATA", Path.home())) / "run.determinex.app" / "determinex.sqlite")
 ))
 CODING_LAWS  = REPO_ROOT / "scripts" / "coding_laws.md"
 ENG_KB       = REPO_ROOT / "data" / "knowledge_vault" / "engineering_knowledge_base.md"
