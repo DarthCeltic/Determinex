@@ -26,9 +26,10 @@ pub fn get_lsp_diagnostics(file_name: String) -> Result<Vec<LspDiagnostic>, Stri
     
     // For Rust files, we can shell out to cargo check --message-format=json
     if file_name.ends_with(".rs") {
-        let output = Command::new("cargo")
-            .args(["check", "--message-format=json"])
-            .output();
+        let output = crate::windows_process::no_window(
+            Command::new("cargo").args(["check", "--message-format=json"]),
+        )
+        .output();
             
         if let Ok(output) = output {
             let stdout = String::from_utf8_lossy(&output.stdout);

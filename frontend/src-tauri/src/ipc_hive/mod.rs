@@ -380,7 +380,7 @@ pub(crate) fn resolve_python_exe() -> Result<PathBuf, String> {
     // 5. PATH resolution — reject Windows Store stubs
     #[cfg(target_os = "windows")]
     {
-        if let Ok(out) = std::process::Command::new("where").arg("python").output() {
+        if let Ok(out) = crate::windows_process::no_window(std::process::Command::new("where").arg("python")).output() {
             if out.status.success() {
                 for candidate in String::from_utf8_lossy(&out.stdout).lines() {
                     let candidate = candidate.trim();
@@ -586,6 +586,7 @@ pub(crate) fn spawn_hive_subprocess_with_env(
     log::info!("[IPC] Using sidecar: {}", sidecar_path.display());
 
     let mut cmd = Command::new(&sidecar_path);
+    crate::windows_process::no_window(&mut cmd);
 
     let policy = _app
         .try_state::<crate::NetworkPolicyState>()

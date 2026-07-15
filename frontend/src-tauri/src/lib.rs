@@ -26,6 +26,7 @@ mod threads;
 mod todos;
 mod vanguard_state;
 mod vector_engine;
+mod windows_process;
 mod workspace_search;
 // CLAUDE LANE — IDE repair bridge.
 // Locked under: locks/sentinel/TAURI_LIB_RS_COMMAND_WIRING_LOCK_001.json

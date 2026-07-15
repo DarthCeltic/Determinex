@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::process::Command;
+use crate::windows_process::no_window;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -26,9 +27,7 @@ pub async fn run_project_audit() -> Result<ProjectAuditReport, String> {
     let mut total_score = 100;
     
     // 1. Check Rust compiler health
-    let cargo_status = Command::new("cargo")
-        .args(["check"])
-        .current_dir("frontend/src-tauri")
+    let cargo_status = no_window(Command::new("cargo").args(["check"]).current_dir("frontend/src-tauri"))
         .output();
         
     match cargo_status {
@@ -63,9 +62,7 @@ pub async fn run_project_audit() -> Result<ProjectAuditReport, String> {
     }
     
     // 2. Node.js NPM audit
-    let npm_audit = Command::new("npm")
-        .args(["audit", "--json"])
-        .current_dir("frontend")
+    let npm_audit = no_window(Command::new("npm").args(["audit", "--json"]).current_dir("frontend"))
         .output();
         
     let mut snyk_output = String::from("npm Audit Security Scan Report\n--------------------------------------\n");
@@ -130,9 +127,10 @@ pub async fn run_project_audit() -> Result<ProjectAuditReport, String> {
     }
     
     // 3. Credential Leak Detection
-    let leak_check = Command::new("git")
-        .args(["grep", "-i", "-E", "(api_key|secret|password)\\s*=\\s*[\"'][a-zA-Z0-9_-]{16,}[\"']"])
-        .output();
+    let leak_check = no_window(
+        Command::new("git").args(["grep", "-i", "-E", "(api_key|secret|password)\\s*=\\s*[\"'][a-zA-Z0-9_-]{16,}[\"']"]),
+    )
+    .output();
         
     match leak_check {
         Ok(output) => {

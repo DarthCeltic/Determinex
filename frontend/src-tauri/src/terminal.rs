@@ -2,6 +2,7 @@ use serde::Serialize;
 use std::path::PathBuf;
 use std::process::Stdio;
 use tokio::process::Command;
+use crate::windows_process::no_window_tokio;
 use tokio::time::{timeout, Duration};
 
 #[derive(Debug, Serialize)]
@@ -52,6 +53,7 @@ pub async fn run_terminal_command(
             "-Command",
             &command,
         ]);
+        no_window_tokio(&mut cmd);
         cmd
     };
 

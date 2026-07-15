@@ -19,6 +19,7 @@ use std::collections::HashMap;
 use std::io::{BufRead, BufReader};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
+use crate::windows_process::no_window;
 use std::sync::{Arc, Mutex};
 
 use tauri::{AppHandle, Emitter, State};
@@ -125,7 +126,10 @@ pub async fn launch_benchmark_run(
     #[cfg(target_os = "windows")]
     {
         use std::os::windows::process::CommandExt;
-        cmd.creation_flags(0x00000200); // CREATE_NEW_PROCESS_GROUP
+        // CREATE_NEW_PROCESS_GROUP (Ctrl+Break cancellation) | CREATE_NO_WINDOW
+        // (no flashing console -- this is a GUI app, the child's output goes to
+        // the log file above, nobody should ever see a console for it).
+        cmd.creation_flags(0x00000200 | 0x0800_0000);
     }
 
     let child = cmd
@@ -350,6 +354,7 @@ pub async fn get_programbench_snapshot(
         .arg(expected_total.unwrap_or(115).to_string())
         .current_dir(&root)
         .env("DETERMINEX_ROOT", &root);
+    no_window(&mut cmd);
 
     if advise.unwrap_or(true) {
         cmd.arg("--advise");
@@ -375,9 +380,7 @@ pub async fn get_programbench_snapshot(
 fn kill_process(pid: u32) {
     #[cfg(target_os = "windows")]
     {
-        let _ = Command::new("taskkill")
-            .args(["/F", "/PID", &pid.to_string()])
-            .output();
+        let _ = no_window(Command::new("taskkill").args(["/F", "/PID", &pid.to_string()])).output();
     }
     #[cfg(not(target_os = "windows"))]
     {

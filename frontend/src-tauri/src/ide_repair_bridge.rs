@@ -91,6 +91,7 @@ fn run_backend_command(command: &str, args_json: &str) -> IdeRepairResponse {
     cmd.arg(command);
     cmd.arg(args_json);
     cmd.current_dir(&root);
+    crate::windows_process::no_window(&mut cmd);
 
     match cmd.output() {
         Ok(out) => {

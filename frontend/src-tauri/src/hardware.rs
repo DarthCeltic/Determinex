@@ -13,6 +13,7 @@
 ///                                      for the GPU command queue and IOKit buffers)
 use serde::Serialize;
 use std::process::Command;
+use crate::windows_process::no_window;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PUBLIC TYPES
@@ -79,10 +80,11 @@ fn fallback_probe() -> HardwareProbe {
 /// Returns the inference budget (total − 2 000 MB overhead) on success, or `None`
 /// if the binary is absent, exits non-zero, or the output cannot be parsed.
 fn probe_nvidia() -> Option<HardwareProbe> {
-    let out = Command::new("nvidia-smi")
-        .args(["--query-gpu=memory.total", "--format=csv,noheader,nounits"])
-        .output()
-        .ok()?;
+    let out = no_window(
+        Command::new("nvidia-smi").args(["--query-gpu=memory.total", "--format=csv,noheader,nounits"]),
+    )
+    .output()
+    .ok()?;
 
     if !out.status.success() {
         return None;
@@ -110,8 +112,7 @@ fn probe_nvidia() -> Option<HardwareProbe> {
 /// Handles both the legacy ROCm ≤ 5.x text format and newer variants that
 /// still emit this field name.
 fn probe_amd() -> Option<HardwareProbe> {
-    let out = Command::new("rocm-smi")
-        .args(["--showmeminfo", "vram"])
+    let out = no_window(Command::new("rocm-smi").args(["--showmeminfo", "vram"]))
         .output()
         .ok()?;
 
@@ -163,8 +164,7 @@ fn probe_amd() -> Option<HardwareProbe> {
 /// than the 2 000 MB used for dedicated VRAM.
 #[cfg(target_os = "macos")]
 fn probe_apple_silicon() -> Option<HardwareProbe> {
-    let out = Command::new("system_profiler")
-        .args(["SPHardwareDataType"])
+    let out = no_window(Command::new("system_profiler").args(["SPHardwareDataType"]))
         .output()
         .ok()?;
 

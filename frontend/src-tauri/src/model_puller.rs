@@ -19,6 +19,16 @@ use tokio::process::Command;
 
 use crate::hardware;
 
+#[cfg(target_os = "windows")]
+fn no_window(cmd: &mut Command) -> &mut Command {
+    const CREATE_NO_WINDOW: u32 = 0x0800_0000;
+    cmd.creation_flags(CREATE_NO_WINDOW)
+}
+#[cfg(not(target_os = "windows"))]
+fn no_window(cmd: &mut Command) -> &mut Command {
+    cmd
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
 // ─────────────────────────────────────────────────────────────────────────────
@@ -72,8 +82,7 @@ fn required_models_for_budget(budget_mb: u64) -> Vec<&'static str> {
 
 /// Parse `ollama list` output to get currently installed model tags.
 async fn get_installed_models() -> Result<Vec<String>, String> {
-    let output = Command::new("ollama")
-        .arg("list")
+    let output = no_window(Command::new("ollama").arg("list"))
         .output()
         .await
         .map_err(|e| format!("Failed to run `ollama list`: {}", e))?;
@@ -120,8 +129,7 @@ fn model_is_installed(tag: &str, installed: &[String]) -> bool {
 async fn pull_model(tag: &str) -> Result<(), String> {
     log::info!("[MODEL-PULLER] Pulling model: {}", tag);
 
-    let output = Command::new("ollama")
-        .args(["pull", tag])
+    let output = no_window(Command::new("ollama").args(["pull", tag]))
         .output()
         .await
         .map_err(|e| format!("Failed to run `ollama pull {}`: {}", tag, e))?;

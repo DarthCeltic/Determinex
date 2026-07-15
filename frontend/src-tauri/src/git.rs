@@ -1,5 +1,16 @@
 use std::process::Command;
 use serde::{Deserialize, Serialize};
+use crate::windows_process::no_window;
+
+/// Every git subcommand in this file runs against the same `cwd` and needs the
+/// same console-window suppression on Windows -- factored out so that fix lives
+/// in one place instead of 11 near-identical call sites.
+fn git_cmd(cwd: &str) -> Command {
+    let mut cmd = Command::new("git");
+    cmd.current_dir(cwd);
+    no_window(&mut cmd);
+    cmd
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -28,9 +39,8 @@ pub struct GitStatusResult {
 
 #[tauri::command]
 pub fn git_status(cwd: String) -> Result<GitStatusResult, String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["status", "--porcelain", "-b"])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -88,9 +98,8 @@ pub fn git_status(cwd: String) -> Result<GitStatusResult, String> {
             let mut current_content = None;
 
             if status != "untracked" {
-                if let Ok(show_out) = Command::new("git")
+                if let Ok(show_out) = git_cmd(&cwd)
                     .args(["show", &format!("HEAD:{}", path)])
-                    .current_dir(&cwd)
                     .output()
                 {
                     if show_out.status.success() {
@@ -124,9 +133,8 @@ pub fn git_status(cwd: String) -> Result<GitStatusResult, String> {
 
 #[tauri::command]
 pub fn git_stage(cwd: String, path: String) -> Result<(), String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["add", &path])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -138,9 +146,8 @@ pub fn git_stage(cwd: String, path: String) -> Result<(), String> {
 
 #[tauri::command]
 pub fn git_unstage(cwd: String, path: String) -> Result<(), String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["restore", "--staged", &path])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -152,9 +159,8 @@ pub fn git_unstage(cwd: String, path: String) -> Result<(), String> {
 
 #[tauri::command]
 pub fn git_stage_all(cwd: String) -> Result<(), String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["add", "."])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -166,9 +172,8 @@ pub fn git_stage_all(cwd: String) -> Result<(), String> {
 
 #[tauri::command]
 pub fn git_commit(cwd: String, message: String) -> Result<(), String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["commit", "-m", &message])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -180,9 +185,8 @@ pub fn git_commit(cwd: String, message: String) -> Result<(), String> {
 
 #[tauri::command]
 pub fn git_list_branches(cwd: String) -> Result<Vec<String>, String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["branch", "--format=%(refname:short)"])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -202,9 +206,8 @@ pub fn git_list_branches(cwd: String) -> Result<Vec<String>, String> {
 
 #[tauri::command]
 pub fn git_create_branch(cwd: String, name: String) -> Result<(), String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["checkout", "-b", &name])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -216,9 +219,8 @@ pub fn git_create_branch(cwd: String, name: String) -> Result<(), String> {
 
 #[tauri::command]
 pub fn git_checkout_branch(cwd: String, name: String) -> Result<(), String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["checkout", &name])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -230,9 +232,8 @@ pub fn git_checkout_branch(cwd: String, name: String) -> Result<(), String> {
 
 #[tauri::command]
 pub fn git_push(cwd: String) -> Result<(), String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["push"])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -244,9 +245,8 @@ pub fn git_push(cwd: String) -> Result<(), String> {
 
 #[tauri::command]
 pub fn git_pull(cwd: String) -> Result<(), String> {
-    let output = Command::new("git")
+    let output = git_cmd(&cwd)
         .args(["pull"])
-        .current_dir(&cwd)
         .output()
         .map_err(|e| e.to_string())?;
 

@@ -1,4 +1,5 @@
 use std::process::{Command, Stdio};
+use crate::windows_process::no_window;
 
 use super::{
     project_root, resolve_python_exe, ConverseIdeaPayload, DiscoverIdeaPayload,
@@ -244,13 +245,15 @@ pub async fn generate_spec(payload: GenerateSpecPayload) -> Result<serde_json::V
     let stdin_json = serde_json::to_string(&serde_json::json!({ "idea": payload.idea }))
         .map_err(|e| format!("Failed to serialize generate_spec payload: {}", e))?;
 
-    let mut child = Command::new(&python)
-        .args([script.to_str().unwrap(), "--stdin"])
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .map_err(|e| format!("Failed to spawn spec_generator.py: {}", e))?;
+    let mut child = no_window(
+        Command::new(&python)
+            .args([script.to_str().unwrap(), "--stdin"])
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped()),
+    )
+    .spawn()
+    .map_err(|e| format!("Failed to spawn spec_generator.py: {}", e))?;
 
     if let Some(mut stdin) = child.stdin.take() {
         use std::io::Write;
@@ -299,13 +302,15 @@ pub async fn discover_idea(payload: DiscoverIdeaPayload) -> Result<serde_json::V
     let payload_json = serde_json::to_string(&payload)
         .map_err(|e| format!("Failed to serialize discover payload: {}", e))?;
 
-    let mut child = Command::new(&python)
-        .args([script.to_str().unwrap(), "--mode", "discover"])
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .map_err(|e| format!("Failed to spawn idea_oracle.py: {}", e))?;
+    let mut child = no_window(
+        Command::new(&python)
+            .args([script.to_str().unwrap(), "--mode", "discover"])
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped()),
+    )
+    .spawn()
+    .map_err(|e| format!("Failed to spawn idea_oracle.py: {}", e))?;
 
     if let Some(mut stdin) = child.stdin.take() {
         use std::io::Write;
@@ -377,13 +382,15 @@ pub async fn converse_idea(payload: ConverseIdeaPayload) -> Result<serde_json::V
     let payload_json = serde_json::to_string(&payload)
         .map_err(|e| format!("Failed to serialize converse payload: {}", e))?;
 
-    let mut child = Command::new(&python)
-        .args([script.to_str().unwrap(), "--mode", "converse"])
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .map_err(|e| format!("Failed to spawn idea_oracle.py: {}", e))?;
+    let mut child = no_window(
+        Command::new(&python)
+            .args([script.to_str().unwrap(), "--mode", "converse"])
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped()),
+    )
+    .spawn()
+    .map_err(|e| format!("Failed to spawn idea_oracle.py: {}", e))?;
 
     if let Some(mut stdin) = child.stdin.take() {
         use std::io::Write;
@@ -461,13 +468,15 @@ pub async fn refine_spec(payload: RefineSpecPayload) -> Result<serde_json::Value
     }))
     .map_err(|e| format!("Failed to serialize refine_spec payload: {}", e))?;
 
-    let mut child = Command::new(&python)
-        .args([script.to_str().unwrap(), "--stdin"])
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .map_err(|e| format!("Failed to spawn spec_refiner.py: {}", e))?;
+    let mut child = no_window(
+        Command::new(&python)
+            .args([script.to_str().unwrap(), "--stdin"])
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped()),
+    )
+    .spawn()
+    .map_err(|e| format!("Failed to spawn spec_refiner.py: {}", e))?;
 
     if let Some(mut stdin) = child.stdin.take() {
         use std::io::Write;

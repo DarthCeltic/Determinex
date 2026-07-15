@@ -24,7 +24,6 @@ use tokio::process::Command;
 /// the flashing command-prompt box users see. No-op on other platforms.
 #[cfg(target_os = "windows")]
 fn no_window(cmd: &mut Command) -> &mut Command {
-    use std::os::windows::process::CommandExt;
     const CREATE_NO_WINDOW: u32 = 0x0800_0000;
     cmd.creation_flags(CREATE_NO_WINDOW)
 }

@@ -1,4 +1,5 @@
 use std::process::Command;
+use crate::windows_process::no_window;
 
 use serde::Deserialize;
 use tauri::State;
@@ -54,17 +55,19 @@ pub async fn explore_workspace(
     }
 
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = Command::new(&python)
-        .args([
-            script.to_str().unwrap(),
-            "explore",
-            "--workspace",
-            &payload.workspace_path,
-            "--json",
-        ])
-        .current_dir(&root)
-        .output()
-        .map_err(|e| format!("Failed to spawn explore: {}", e))?;
+    let output = no_window(
+        Command::new(&python)
+            .args([
+                script.to_str().unwrap(),
+                "explore",
+                "--workspace",
+                &payload.workspace_path,
+                "--json",
+            ])
+            .current_dir(&root),
+    )
+    .output()
+    .map_err(|e| format!("Failed to spawn explore: {}", e))?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -110,18 +113,20 @@ pub async fn diagnose_workspace(
     }
 
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = Command::new(&python)
-        .args([
-            script.to_str().unwrap(),
-            "diagnose",
-            "--workspace",
-            &payload.workspace_path,
-            "--issue",
-            &payload.issue,
-        ])
-        .current_dir(&root)
-        .output()
-        .map_err(|e| format!("Failed to spawn diagnose: {}", e))?;
+    let output = no_window(
+        Command::new(&python)
+            .args([
+                script.to_str().unwrap(),
+                "diagnose",
+                "--workspace",
+                &payload.workspace_path,
+                "--issue",
+                &payload.issue,
+            ])
+            .current_dir(&root),
+    )
+    .output()
+    .map_err(|e| format!("Failed to spawn diagnose: {}", e))?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -180,9 +185,7 @@ pub async fn fix_workspace(
     }
 
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = Command::new(&python)
-        .args(&args)
-        .current_dir(&root)
+    let output = no_window(Command::new(&python).args(&args).current_dir(&root))
         .output()
         .map_err(|e| format!("Failed to spawn fix: {}", e))?;
 

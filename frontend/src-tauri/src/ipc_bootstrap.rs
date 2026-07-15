@@ -49,10 +49,11 @@ pub struct BootstrapResult {
 /// Called standalone by the frontend status bar and as step 0 of initialize_system.
 #[tauri::command]
 pub async fn check_docker_status() -> Result<serde_json::Value, String> {
-    let out = Command::new("docker")
-        .args(["info", "--format", "{{.ServerVersion}}"])
-        .output()
-        .await;
+    let out = crate::windows_process::no_window_tokio(
+        Command::new("docker").args(["info", "--format", "{{.ServerVersion}}"]),
+    )
+    .output()
+    .await;
 
     match out {
         Ok(ref o) if o.status.success() => {

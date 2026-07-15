@@ -1,0 +1,255 @@
+model_list:
+  # ── DETERMINEX DSL-FINE-TUNED MODELS (Tier 0 — 6GB VRAM) ────────────────────
+  # GGUFs downloaded to T:/determinex-models/versions/ on 2026-04-27.
+  # Register with Ollama:
+  #   ollama create determinex-engineer-v11-dsl -f T:/determinex-models/versions/engineer/v11-dsl/Modelfile.engineer-v11-dsl
+  #   ollama create determinex-observer-v6-dsl  -f T:/determinex-models/versions/observer/v6-dsl/Modelfile.observer-v6-dsl
+  #   ollama create determinex-sentinel-v5-dsl  -f T:/determinex-models/versions/sentinel/v5-dsl/Modelfile.sentinel-v5-dsl
+  #
+  # DSL fine-tune results (2026-04-27):
+  #   Engineer v11-dsl:  pending micro_eval — ACCEPTED (provisional)
+  #   Observer v6-dsl:   pending micro_eval — ACCEPTED (provisional)
+  #   Sentinel v5-dsl:   pending micro_eval — ACCEPTED (provisional)
+  #
+  # Active production models (2026-04-27):
+  #   determinex/engineer  → determinex-engineer-v11-dsl
+  #   determinex/observer  → determinex-observer-v6-dsl
+  #   determinex/sentinel  → determinex-sentinel-v5-dsl
+
+  - model_name: determinex/engineer   # Builder: Qwen2.5-Coder-1.5B DSL v11
+    litellm_params:
+      model: ollama/determinex-engineer-v11-dsl
+      api_base: http://localhost:11434
+
+  - model_name: determinex/observer   # Monitor: Qwen2.5-3B DSL v6
+    litellm_params:
+      model: ollama/determinex-observer-v6-dsl
+      api_base: http://localhost:11434
+
+  - model_name: determinex/sentinel   # Sentinel: Mistral-7B DSL v5
+    litellm_params:
+      model: ollama/determinex-sentinel-v5-dsl
+      api_base: http://localhost:11434
+
+  - model_name: determinex/qwen7b    # Qwen2.5-Coder-7B base (no DSL fine-tune yet): oracle/architect candidate
+    litellm_params:               # arch=qwen2, dim=3584 — already in rosetta_v1.pt
+      model: ollama/qwen2.5-coder:7b-instruct
+      api_base: http://localhost:11434
+
+  # ── GENERIC LOCAL MODELS (fallback / pre-DSL-finetune use) ───────────────
+  # 2026-07-05: verified against live `ollama list` on this workstation.
+  # The installed generic Qwen tags are the "-instruct" variants below; using
+  # bare tags like "qwen2.5-coder:3b" causes Ollama "model not found" failures
+  # during spec generation. `ollama list` / `curl localhost:11434/api/tags` is
+  # the source of truth for what's actually callable.
+  - model_name: local/fast
+    litellm_params:
+      model: ollama/qwen2.5-coder:3b-instruct
+      api_base: http://localhost:11434
+
+  - model_name: local/coder
+    litellm_params:
+      model: ollama/qwen2.5-coder:1.5b-instruct
+      api_base: http://localhost:11434
+
+  - model_name: local/smart
+    litellm_params:
+      model: ollama/mistral
+      api_base: http://localhost:11434
+
+  # ── OPENROUTER FREE MODELS (zero cost, requires OPENROUTER_API_KEY) ───────
+  # OpenRouter is OpenAI-compatible: base_url = https://openrouter.ai/api/v1
+  # All models tagged :free have $0 prompt/$0 completion pricing.
+  # Best free models as of 2026-07-08 (sorted by quality for coding tasks):
+  #
+  #   qwen3-coder:free   — 480B MoE, 1M ctx, best free coding model (rivals GPT-4o)
+  #   nemotron-ultra:free — 550B, 1M ctx, excellent reasoning
+  #   gpt-oss-120b:free  — OpenAI OSS 120B, 131K ctx
+  #   llama-3.3-70b:free — Meta Llama 3.3 70B, 131K ctx, great for review
+  #   gemma-4-31b:free   — Google Gemma 4 31B, 262K ctx
+  #
+  # Recommended zero-cost role stack:
+  #   oracle:    free/qwen3-coder   (planning + reasoning at massive scale)
+  #   architect: free/qwen3-coder   (spec-to-DAG, 1M ctx fits entire codebase)
+  #   builder:   free/qwen3-coder   (best free code generation available)
+  #   monitor:   free/llama-3.3-70b (solid reviewer, won't share VRAM with builder)
+
+  - model_name: free/qwen3-coder   # Qwen3 Coder 480B A35B — best free coding model, 1M ctx
+    litellm_params:
+      model: openrouter/qwen/qwen3-coder:free
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      extra_headers:
+        HTTP-Referer: https://determinex.ai
+        X-Title: Determinex IDE
+
+  - model_name: free/nemotron-ultra  # NVIDIA Nemotron 3 Ultra 550B — massive reasoning, 1M ctx
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      extra_headers:
+        HTTP-Referer: https://determinex.ai
+        X-Title: Determinex IDE
+
+  - model_name: free/gpt-oss-120b   # OpenAI OSS 120B — strong general, 131K ctx
+    litellm_params:
+      model: openrouter/openai/gpt-oss-120b:free
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      extra_headers:
+        HTTP-Referer: https://determinex.ai
+        X-Title: Determinex IDE
+
+  - model_name: free/llama-3.3-70b  # Meta Llama 3.3 70B — excellent reviewer, 131K ctx
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.3-70b-instruct:free
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      extra_headers:
+        HTTP-Referer: https://determinex.ai
+        X-Title: Determinex IDE
+
+  - model_name: free/gemma-4-31b    # Google Gemma 4 31B — balanced, 262K ctx
+    litellm_params:
+      model: openrouter/google/gemma-4-31b-it:free
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      extra_headers:
+        HTTP-Referer: https://determinex.ai
+        X-Title: Determinex IDE
+
+  - model_name: free/nemotron-super  # NVIDIA Nemotron 3 Super 120B — strong, 1M ctx
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3-super-120b-a12b:free
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      extra_headers:
+        HTTP-Referer: https://determinex.ai
+        X-Title: Determinex IDE
+
+  - model_name: free/cohere-code     # Cohere North Mini Code — code-focused, 256K ctx
+    litellm_params:
+      model: openrouter/cohere/north-mini-code:free
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      extra_headers:
+        HTTP-Referer: https://determinex.ai
+        X-Title: Determinex IDE
+
+  # ── DEEPSEEK API (excellent price/performance for Oracle + Architect) ────
+  - model_name: cloud/deepseek-chat    # DeepSeek-V3: best for planning/reasoning, ~$0.27/1M tokens
+    litellm_params:
+      model: deepseek/deepseek-chat
+      api_key: os.environ/DEEPSEEK_API_KEY
+      api_base: https://api.deepseek.com
+
+  - model_name: cloud/deepseek-coder   # DeepSeek-Coder-V3: code-optimized, same price
+    litellm_params:
+      model: deepseek/deepseek-coder
+      api_key: os.environ/DEEPSEEK_API_KEY
+      api_base: https://api.deepseek.com
+
+  # ── CLOUD MODELS (optional — requires API keys in .env) ──────────────────
+  - model_name: cloud/claude-fast
+    litellm_params:
+      model: claude-haiku-4-5-20251001
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  - model_name: cloud/claude-best
+    litellm_params:
+      model: claude-opus-4-6
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  - model_name: cloud/gemini-flash
+    litellm_params:
+      model: gemini/gemini-3.1-flash
+      api_key: os.environ/GEMINI_API_KEY
+
+  - model_name: cloud/gpt4o
+    litellm_params:
+      model: gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: cloud/mistral-large
+    litellm_params:
+      model: mistral/mistral-large-latest
+      api_key: os.environ/MISTRAL_API_KEY
+
+  - model_name: cloud/groq-llama
+    litellm_params:
+      model: groq/llama-3.3-70b-versatile
+      api_key: os.environ/GROQ_API_KEY
+
+router_settings:
+  routing_strategy: "cost-based"
+  fallbacks:
+    - free/qwen3-coder:    [free/nemotron-ultra, free/gpt-oss-120b, local/fast]
+    - free/nemotron-ultra: [free/qwen3-coder, free/gpt-oss-120b, local/smart]
+    - free/llama-3.3-70b:  [free/gemma-4-31b, free/gpt-oss-120b, local/fast]
+    - cloud/claude-best:    [cloud/deepseek-chat, free/qwen3-coder, local/smart]
+    - cloud/claude-fast:    [cloud/deepseek-chat, free/qwen3-coder, local/fast]
+    - cloud/deepseek-chat:  [free/qwen3-coder, determinex/observer]
+    - cloud/deepseek-coder: [free/qwen3-coder, determinex/engineer, local/coder]
+    - determinex/engineer:     [local/coder, local/fast]
+    - determinex/observer:     [local/fast]
+    - determinex/sentinel:     [determinex/observer, local/smart]
+
+# ── Determinex Hive Mind settings ────────────────────────────────────────────────
+# These settings are read by determinex_hive.py, not LiteLLM directly.
+# Edit these to match your setup — hardware tier, API tier, and model preferences.
+determinex:
+
+  # Role-to-model assignment.
+  # The benchmark system (determinex_benchmark.py) auto-assigns these at install time.
+  # You can override any assignment here. Use the model_name values from model_list above.
+  # If a model_name refers to a local model and it is not running, the role falls back
+  # to the first available fallback in router_settings.fallbacks.
+  roles:
+    # Canonical local stack (role-assignment canon: architect/oracle need the 7B —
+    # the 1.5B produces empty plans as architect; see benchmark role scores).
+    oracle:    determinex/qwen7b        # Local Qwen2.5-Coder-7B base
+    architect: determinex/qwen7b        # Local Qwen2.5-Coder-7B base
+    builder:   determinex/engineer      # Local Builder (Qwen2.5-Coder-1.5B DSL) — stays hot in VRAM
+    monitor:   determinex/observer      # Local Monitor (Qwen2.5-3B DSL)
+    # Rate-limit fallback (used 2026-07-08 E2E testing): set all four roles to
+    # determinex/engineer to avoid OpenRouter limits — works, but architect quality drops.
+    # Budget upgrade: switch oracle/architect to cloud/deepseek-chat or cloud/claude-best.
+
+  # Rate limit profile for API-backed roles.
+  # OpenRouter free tier: generous but shared. Using 1.5s inter_call_pause as safe default.
+  # Tune inter_call_pause to match your API tier's tokens-per-minute limit.
+  # Formula: inter_call_pause ≈ 60 / (your_RPM_limit * 0.8)  (80% of limit = safe headroom)
+  #
+  # Common profiles:
+  #   OpenRouter free tier:       inter_call_pause: 1.5
+  #   Anthropic free tier (~60 RPM):     inter_call_pause: 1.5
+  #   Anthropic Build tier (~1000 RPM):  inter_call_pause: 0.1
+  #   Google free tier (~60 RPM):        inter_call_pause: 1.5
+  #   Google paid tier (~360 RPM):       inter_call_pause: 0.2
+  #   OpenAI Tier 1 (~500 RPM):          inter_call_pause: 0.15
+  rate_limits:
+    inter_call_pause: 1.5            # seconds between consecutive API calls
+    backoff_seconds: [5, 15, 30, 60, 120]  # per-attempt wait on 429
+    max_retries: 5                   # 429s before build pauses and notifies user
+    tpm_limit: 40000                 # tokens/minute ceiling for your API tier
+    # Common tpm_limit values:
+    #   OpenRouter free tier:   varies by model, ~40k TPM safe
+    #   Anthropic free tier:    40,000 TPM  → tpm_limit: 40000
+    #   Anthropic Build tier:  160,000 TPM  → tpm_limit: 160000
+    #   Anthropic Scale tier:  400,000 TPM  → tpm_limit: 400000
+    #   Google free tier:       32,000 TPM  → tpm_limit: 32000
+    #   Google paid tier:      120,000 TPM  → tpm_limit: 120000
+    # The limiter tracks a rolling 60s token window and sleeps proactively before
+    # a call that would exceed this limit — prevents the 429 rather than reacting to it.
+
+    # Per-provider overrides — if you use multiple API providers simultaneously
+    # (e.g. Claude for Oracle, Gemini for Architect), set provider-specific pacing here.
+    # Keys match the model prefix: "claude" → Anthropic, "gemini" → Google, "gpt" → OpenAI
+    provider_overrides: {}
+    # Example:
+    # provider_overrides:
+    #   anthropic:
+    #     inter_call_pause: 0.1    # enterprise tier
+    #   google:
+    #     inter_call_pause: 1.5    # free tier
