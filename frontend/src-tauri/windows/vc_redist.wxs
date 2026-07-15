@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <Binary Id="VcRedistExe" SourceFile="resources\vc_redist.x64.exe" />
+    <CustomAction Id="InstallVcRedist"
+                  Impersonate="no"
+                  ExeCommand="/install /quiet /norestart"
+                  BinaryRef="VcRedistExe"
+                  Execute="deferred"
+                  Return="ignore" />
+    <InstallExecuteSequence>
+      <Custom Action="InstallVcRedist" After="InstallFiles">NOT Installed</Custom>
+    </InstallExecuteSequence>
+  </Fragment>
+</Wix>

@@ -119,6 +119,7 @@ export async function saveApiKeys(payload: {
   groq_key: string;
   deepseek_key: string;
   mistral_key: string;
+  openrouter_key: string;
 }) {
   if (!isTauri()) return;
   return await invoke("save_api_keys", { keys: payload });

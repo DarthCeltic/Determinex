@@ -118,6 +118,10 @@ async fn is_ollama_on_path() -> bool {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Download a file from `url` to `dest`, returning the path on success.
+///
+/// Retries the final write a few times: on Windows, real-time antivirus
+/// scanning commonly grabs a brief exclusive lock on a just-written `.exe`
+/// (sharing violation, os error 32), which is transient, not a real failure.
 async fn download_file(url: &str, dest: &PathBuf) -> Result<(), String> {
     log::info!("[OLLAMA-INSTALLER] Downloading {} → {:?}", url, dest);
 
@@ -151,21 +155,46 @@ async fn download_file(url: &str, dest: &PathBuf) -> Result<(), String> {
             .map_err(|e| format!("Failed to create directory {:?}: {}", parent, e))?;
     }
 
-    std::fs::write(dest, &bytes).map_err(|e| format!("Failed to write {:?}: {}", dest, e))?;
-
-    log::info!(
-        "[OLLAMA-INSTALLER] Downloaded {} bytes to {:?}",
-        bytes.len(),
-        dest
-    );
-    Ok(())
+    const MAX_WRITE_ATTEMPTS: u32 = 5;
+    let mut last_err = String::new();
+    for attempt in 1..=MAX_WRITE_ATTEMPTS {
+        match std::fs::write(dest, &bytes) {
+            Ok(()) => {
+                log::info!(
+                    "[OLLAMA-INSTALLER] Downloaded {} bytes to {:?}",
+                    bytes.len(),
+                    dest
+                );
+                return Ok(());
+            }
+            Err(e) => {
+                last_err = format!("Failed to write {:?}: {}", dest, e);
+                log::warn!(
+                    "[OLLAMA-INSTALLER] Write attempt {}/{} failed: {}",
+                    attempt,
+                    MAX_WRITE_ATTEMPTS,
+                    last_err
+                );
+                if attempt < MAX_WRITE_ATTEMPTS {
+                    tokio::time::sleep(Duration::from_millis(500 * attempt as u64)).await;
+                }
+            }
+        }
+    }
+    Err(last_err)
 }
 
 /// Install Ollama on Windows via silent installer.
 #[cfg(target_os = "windows")]
 async fn install_ollama() -> Result<(), String> {
     let temp_dir = std::env::temp_dir();
-    let installer_path = temp_dir.join("OllamaSetup.exe");
+    // Unique filename per attempt so a stale/locked file from a prior run
+    // (e.g. still held by an antivirus scan) is never reused or collided with.
+    let unique = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_millis())
+        .unwrap_or(0);
+    let installer_path = temp_dir.join(format!("OllamaSetup-{}.exe", unique));
 
     download_file(OLLAMA_DOWNLOAD_URL, &installer_path).await?;
 

@@ -2,7 +2,7 @@
 
 import { useCallback, useState, useEffect } from "react";
 import { invoke as tauriInvoke } from "@tauri-apps/api/core";
-import { isTauri, invokeSafe, saveApiKeys } from "@/lib/api";
+import { isTauri, invokeSafe, saveApiKeys, getApiKeyStatus } from "@/lib/api";
 import {
   NETWORK_POLICY_COPY,
   type NetworkPolicyMode,
@@ -54,6 +54,7 @@ type SetupApiKeys = {
   groq_key: string;
   deepseek_key: string;
   mistral_key: string;
+  openrouter_key: string;
 };
 
 export function SetupWizard() {
@@ -71,7 +72,13 @@ export function SetupWizard() {
     groq_key: "",
     deepseek_key: "",
     mistral_key: "",
+    openrouter_key: "",
   });
+  const [openrouterConfigured, setOpenrouterConfigured] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    getApiKeyStatus().then((status) => setOpenrouterConfigured(status.openrouter));
+  }, []);
 
   const isNative = isTauri();
 
@@ -260,22 +267,39 @@ export function SetupWizard() {
                 </p>
               </div>
 
-              {/* OpenRouter — free tier highlight */}
-              <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex gap-3">
-                <Zap className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-sm font-semibold text-green-200 mb-1">
-                    OpenRouter Free Tier — Already Configured ✓
-                  </p>
-                  <p className="text-xs text-green-300/80 leading-relaxed">
-                    Your <code className="font-mono bg-black/30 px-1 rounded">OPENROUTER_API_KEY</code> is already in{" "}
-                    <code className="font-mono bg-black/30 px-1 rounded">.env</code>. This unlocks{" "}
-                    <strong>27 free LLMs</strong> with zero cost — including Qwen3 Coder 480B (1M context),
-                    NVIDIA Nemotron Ultra 550B, and Llama 3.3 70B. No credit card required.
-                    Roles are pre-set to use these in <code className="font-mono bg-black/30 px-1 rounded">litellm_config.yaml</code>.
-                  </p>
+              {/* OpenRouter — real state, not assumed */}
+              {openrouterConfigured ? (
+                <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex gap-3">
+                  <Zap className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-green-200 mb-1">
+                      OpenRouter — Already Configured ✓
+                    </p>
+                    <p className="text-xs text-green-300/80 leading-relaxed">
+                      An <code className="font-mono bg-black/30 px-1 rounded">openrouter</code> key is already saved.
+                      Roles can route through it via <code className="font-mono bg-black/30 px-1 rounded">litellm_config.yaml</code>.
+                    </p>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <label className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex flex-col gap-2">
+                  <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-green-200">
+                    <Zap className="w-3.5 h-3.5 text-green-400" /> OpenRouter (optional free tier)
+                  </span>
+                  <p className="text-xs text-green-300/80 leading-relaxed">
+                    Add an OpenRouter key to unlock a range of free-tier models with no credit card
+                    required. Get one at openrouter.ai/keys.
+                  </p>
+                  <input
+                    type="password"
+                    value={apiKeys.openrouter_key}
+                    onChange={(event) => setApiKeys((current) => ({ ...current, openrouter_key: event.target.value }))}
+                    placeholder={policy === "offline" ? "Skipped in Offline / Local Only" : "Paste OpenRouter key, optional"}
+                    disabled={policy === "offline"}
+                    className="w-full rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-green-500 disabled:opacity-40"
+                  />
+                </label>
+              )}
 
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">

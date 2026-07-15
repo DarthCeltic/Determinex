@@ -41,18 +41,21 @@
       "../../Modelfile.sentinel",
       "../../Modelfile.engineer",
       "../../Modelfile.observer",
-      "../../Modelfile.leviathan"
+      "../../Modelfile.leviathan",
+      "resources/vc_redist.x64.exe"
     ],
     "externalBin": [
       "bin/determinex-hive"
     ],
     "windows": {
       "wix": {
-        "language": "en-US"
+        "language": "en-US",
+        "fragmentPaths": ["windows/vc_redist.wxs"]
       },
       "nsis": {
         "installerIcon": "icons/icon.ico",
-        "displayLanguageSelector": false
+        "displayLanguageSelector": false,
+        "installerHooks": "installer-hooks.nsh"
       }
     },
     "shortDescription": "Proof-governed local-first AI coding workbench",
