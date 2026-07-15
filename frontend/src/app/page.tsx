@@ -915,6 +915,36 @@ export default function DeterminexIDE() {
     { id:"settings-skin",label:"Appearance",          description:"Skin packs and accent color",      category:"Settings",   icon:Palette,       action:() => { setSettingsTab("skin"); setShowSettings(true); }  },
   ];
 
+  const primaryRailItems: {
+    id: PrimaryWorkspace;
+    testId: string;
+    label: string;
+    title: string;
+    icon: typeof Zap;
+    activeClass: string;
+    inactiveClass: string;
+    onClick: () => void;
+  }[] = [
+    { id: "hive", testId: "rail-work", label: "Work", title: "Work (Cmd/Ctrl+2)", icon: Zap,
+      activeClass: "text-emerald-400 scale-110 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]",
+      inactiveClass: "text-gray-500 hover:text-emerald-400", onClick: () => handleSidebarLaunch("hive") },
+    { id: "explorer", testId: "rail-space", label: "Space", title: "Space (Cmd/Ctrl+3)", icon: Folder,
+      activeClass: "text-purple-400 scale-110 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]",
+      inactiveClass: "text-gray-500 hover:text-purple-400", onClick: () => openWorkspace("overview") },
+    { id: "command", testId: "rail-command", label: "Cmd", title: "Command Center", icon: Activity,
+      activeClass: "text-blue-400 scale-110 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]",
+      inactiveClass: "text-gray-500 hover:text-blue-400", onClick: () => handleSidebarLaunch("command") },
+    { id: "benchmark", testId: "rail-brain", label: "Brain", title: "Brain", icon: Database,
+      activeClass: "text-orange-400 scale-110 drop-shadow-[0_0_8px_rgba(251,146,60,0.8)]",
+      inactiveClass: "text-gray-500 hover:text-orange-400", onClick: () => handleProjectHubNavigate("brain") },
+    { id: "proof", testId: "rail-proof", label: "Proof", title: "Proof", icon: Eye,
+      activeClass: "text-cyan-400 scale-110 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]",
+      inactiveClass: "text-gray-500 hover:text-cyan-400", onClick: () => handleSidebarLaunch("proof") },
+    { id: "audit", testId: "rail-audit", label: "Audit", title: "Project Audit Scorecard", icon: ShieldCheck,
+      activeClass: "text-red-400 scale-110 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]",
+      inactiveClass: "text-gray-500 hover:text-red-400", onClick: () => handleSidebarLaunch("audit") },
+  ];
+
   const addonItems: AddonItem[] = [
     { id: "terminal", label: "Terminal", description: "Run commands beside the active screen.", icon: TerminalIcon, tone: "text-emerald-400", panel: <TerminalPanel workspacePath={explorerRoot} /> },
     { id: "idea", label: "Idea Lab", description: "Preview sound oracles and build verified programs.", icon: Zap, tone: "text-cyan-400", panel: <GovernedIdeaCommandPanel selectedModel={selectedModel} keyStatus={keyStatus} /> },
@@ -1036,31 +1066,23 @@ export default function DeterminexIDE() {
 
           {/* Scrollable nav section */}
           <div className="flex-1 overflow-y-auto no-scrollbar flex flex-col items-center gap-4 w-full py-1">
-            {/* Primary panels */}
-            <div data-testid="rail-work" onClick={() => handleSidebarLaunch("hive")} title="Work (Cmd/Ctrl+2)"
-              className={`cursor-pointer transition-all flex flex-col items-center gap-1 ${activeSidebar === "hive" ? "text-emerald-400 scale-110 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" : "text-gray-500 hover:text-emerald-400"}`}>
-              <Zap size={19} strokeWidth={1.5} /><span className="text-[7px] uppercase font-bold leading-none">Work</span>
-            </div>
-            <div data-testid="rail-space" onClick={() => openWorkspace("overview")} title="Space (Cmd/Ctrl+3)"
-              className={`cursor-pointer transition-all flex flex-col items-center gap-1 ${activeSidebar === "explorer" ? "text-purple-400 scale-110 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]" : "text-gray-500 hover:text-purple-400"}`}>
-              <Folder size={19} strokeWidth={1.5} /><span className="text-[7px] uppercase font-bold leading-none">Space</span>
-            </div>
-            <div data-testid="rail-command" onClick={() => handleSidebarLaunch("command")} title="Command Center"
-              className={`cursor-pointer transition-all flex flex-col items-center gap-1 ${activeSidebar === "command" ? "text-blue-400 scale-110 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]" : "text-gray-500 hover:text-blue-400"}`}>
-              <Activity size={19} strokeWidth={1.5} /><span className="text-[7px] uppercase font-bold leading-none">Cmd</span>
-            </div>
-            <div data-testid="rail-brain" onClick={() => handleProjectHubNavigate("brain")} title="Brain"
-              className={`cursor-pointer transition-all flex flex-col items-center gap-1 ${activeSidebar === "benchmark" ? "text-orange-400 scale-110 drop-shadow-[0_0_8px_rgba(251,146,60,0.8)]" : "text-gray-500 hover:text-orange-400"}`}>
-              <Database size={19} strokeWidth={1.5} /><span className="text-[7px] uppercase font-bold leading-none">Brain</span>
-            </div>
-            <div data-testid="rail-proof" onClick={() => handleSidebarLaunch("proof")} title="Proof"
-              className={`cursor-pointer transition-all flex flex-col items-center gap-1 ${activeSidebar === "proof" ? "text-cyan-400 scale-110 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" : "text-gray-500 hover:text-cyan-400"}`}>
-              <Eye size={19} strokeWidth={1.5} /><span className="text-[7px] uppercase font-bold leading-none">Proof</span>
-            </div>
-            <div data-testid="rail-audit" onClick={() => handleSidebarLaunch("audit")} title="Project Audit Scorecard"
-              className={`cursor-pointer transition-all flex flex-col items-center gap-1 ${activeSidebar === "audit" ? "text-red-400 scale-110 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]" : "text-gray-500 hover:text-red-400"}`}>
-              <ShieldCheck size={19} strokeWidth={1.5} /><span className="text-[7px] uppercase font-bold leading-none">Audit</span>
-            </div>
+            {/* Primary panels -- one data-driven list instead of 6 hand-copied
+                blocks, so adding/reordering a destination is a one-line change
+                and every entry is guaranteed the same interaction pattern. */}
+            {primaryRailItems.map(({ id, testId, label, title, icon: Icon, activeClass, inactiveClass, onClick }) => (
+              <div
+                key={id}
+                data-testid={testId}
+                onClick={onClick}
+                title={title}
+                className={`cursor-pointer transition-all flex flex-col items-center gap-1 ${
+                  activeSidebar === id ? activeClass : inactiveClass
+                }`}
+              >
+                <Icon size={19} strokeWidth={1.5} />
+                <span className="text-[7px] uppercase font-bold leading-none">{label}</span>
+              </div>
+            ))}
 
             <div className="w-8 h-px bg-white/10 shrink-0" />
 
