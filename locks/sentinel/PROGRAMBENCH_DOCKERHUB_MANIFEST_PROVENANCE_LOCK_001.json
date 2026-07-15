@@ -1,0 +1,92 @@
+{
+  "lock_id": "PROGRAMBENCH_DOCKERHUB_MANIFEST_PROVENANCE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "da82a95a826faac81efdb7b4fd681e7a0fd7ac8c",
+  "purpose": "Convert exact Docker Hub manifest metadata for a missing ProgramBench cleanroom image into a signed provenance candidate without pulling layers or executing the image.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+      "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_artifact_source_escalation_lock.py"
+    ],
+    "passed": 79,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1236,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/dockerhub_manifest_provenance.py",
+    "scripts/corpus/programbench/dockerhub_manifest_provenance_record.py",
+    "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py"
+  ],
+  "doxygen_manifest_provenance": {
+    "triage_record": "assurance/evidence/programbench_infra_failure_triage/doxygen_real_bounded_rerun_20260527.MISSING_CLEANROOM_IMAGE.triage.json",
+    "manifest_metadata": "assurance/evidence/programbench_dockerhub_manifest_provenance/doxygen_dockerhub_manifest_metadata_20260527.json",
+    "provenance_record": "assurance/evidence/programbench_dockerhub_manifest_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.EXACT_REMOTE_MANIFEST_FOUND.json",
+    "operator_claim": "assurance/evidence/programbench_operator_artifact_admissions/doxygen_dockerhub_operator_claim_20260527.json",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "registry": "docker.io",
+    "repository": "programbench/doxygen_1776_doxygen.966d98e",
+    "tag": "task_cleanroom",
+    "manifest_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "config_digest": "sha256:deb6e3d2e8483c7b448ab61c6aca402b719cfcb9259c11078a32e1df0f042047",
+    "platform": "linux/amd64",
+    "last_pushed": "2026-05-03T23:32:38.802423245Z",
+    "last_updater_username": "klieret",
+    "pulled_layers": false,
+    "executed": false,
+    "hydration_authorized": false,
+    "execution_authorized": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "DOCKERHUB_MANIFEST_PROVENANCE_READY",
+    "EXACT_REMOTE_MANIFEST_FOUND",
+    "OPERATOR_CLAIM_CREATED",
+    "DOCKERHUB_MANIFEST_PROVENANCE_REJECTED",
+    "DOCKERHUB_MANIFEST_BLOCKED_NO_TRIAGE",
+    "DOCKERHUB_MANIFEST_BLOCKED_IMAGE_MISMATCH",
+    "DOCKERHUB_MANIFEST_BLOCKED_NO_DIGEST",
+    "DOCKERHUB_MANIFEST_BLOCKED_FLOATING_LATEST",
+    "DOCKERHUB_MANIFEST_BLOCKED_LAYER_PULL",
+    "DOCKERHUB_MANIFEST_BLOCKED_EXECUTION",
+    "DOCKERHUB_MANIFEST_NOT_HYDRATION_AUTHORIZED",
+    "DOCKERHUB_MANIFEST_NOT_EXECUTION_AUTHORIZED"
+  ],
+  "acceptance": [
+    "exact Docker Hub manifest metadata becomes a signed provenance candidate",
+    "operator claim is created from manifest metadata",
+    "manifest provenance does not authorize hydration, execution, or training",
+    "missing triage blocks",
+    "non-missing-image triage blocks",
+    "image mismatch blocks",
+    "missing digest blocks",
+    "latest/floating mismatch blocks",
+    "metadata indicating layer pull blocks",
+    "metadata indicating execution blocks"
+  ],
+  "policy": [
+    "Manifest metadata lookup can suggest provenance.",
+    "Operator admission validates the claim.",
+    "Hydration is a later separate gate.",
+    "No image layers are pulled by this lock.",
+    "No Docker container is run by this lock.",
+    "No ProgramBench evaluator is run by this lock.",
+    "No automatic training promotion."
+  ],
+  "does_not_prove": "Does not hydrate, fetch image layers, scan, cache, execute, or rerun ProgramBench. It proves an exact remote Docker Hub manifest digest can become a signed provenance candidate and operator admission input.",
+  "previous_lock": "PROGRAMBENCH_ARTIFACT_SOURCE_ESCALATION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_HYDRATION_LOCK_001"
+}

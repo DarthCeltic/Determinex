@@ -1,0 +1,62 @@
+{
+  "lock_id": "CLOAK_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "tests": 11,
+  "passed": 11,
+  "failed": 0,
+  "full_suite": {
+    "tests": 862,
+    "passed": 862,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/test_cloak_smoke.py"
+  ],
+  "test_classes": [
+    "CloakSmokeTests",
+    "CloakFailClosedTests"
+  ],
+  "coverage": [
+    "symbol_map_is_deterministic",
+    "symbol_map_round_trip",
+    "obfuscate_replaces_private_identifiers",
+    "obfuscate_preserves_single_chars_and_dunders",
+    "restore_file_content_round_trip",
+    "restore_patch_with_unified_diff",
+    "restore_patch_passes_through_unknown_tokens",
+    "restore_patch_fails_on_empty",
+    "obfuscate_source_fail_closed_on_internal_error",
+    "obfuscate_source_str_fail_closed_propagates_through_context",
+    "cloak_obfuscation_error_to_dict_redacts_source"
+  ],
+  "privacy_invariants": [
+    "obfuscate_source never returns plaintext on internal error (fail-closed)",
+    "CloakObfuscationError.to_dict() never embeds the source it failed on",
+    "single-char identifiers are never obfuscated (too many false positives)",
+    "dunder methods (__init__, etc.) are never obfuscated",
+    "AI-invented x_NNNN tokens pass through restore_patch unchanged",
+    "SymbolMap.build() is deterministic across re-runs"
+  ],
+  "cloak_spec": {
+    "languages_supported": 10,
+    "language_list": ["python", "go", "rust", "java", "typescript", "javascript", "ruby", "php", "c", "c++"],
+    "obfuscation_token_format": "x_NNNN (4-digit zero-padded)",
+    "context_paradox_fix": "obfuscation runs AFTER file discovery",
+    "full_file_rewrite_bug_fix": "_REGION_THRESHOLD = 0 (always region mode)",
+    "semantic_blindness_fix": "build_semantic_key() provides functional glossary",
+    "compile_gate_integration": "errors re-obfuscated before cloud prompt injection",
+    "audit_trail": "DETERMINEX_CLOAK_AUDIT=1 logs all API requests",
+    "privacy_claim": "cloud AI never sees real identifiers from private repos"
+  },
+  "implementations": [
+    "scripts/determinex_cloak.py",
+    "scripts/determinex_cloak/classifier.py",
+    "scripts/determinex_cloak/transformer.py",
+    "scripts/determinex_cloak/restoration.py",
+    "tests/test_cloak_smoke.py",
+    "scripts/verify_cloak.py"
+  ],
+  "swebench_audit_status": "B-Cloaked Rosetta OFF — PASSED audit (May 2026)",
+  "publication_note": "Cloak audit trail present. Full API-request log for publishable proof requires clean B-Uncloaked rerun for privacy-cost delta."
+}

@@ -1,0 +1,46 @@
+{
+  "lock_id": "FRONTEND_REAL_FLOW_E2E_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Frontend real-flow end-to-end smoke through the production _tauri_driver._dispatch. 9 stages (open workspace -> inspect status -> route model -> diagnose dry-run -> patch plan quarantine -> temp verify -> approval packet -> source apply dry-run -> evidence viewer). Each stage attaches an existing locked-evidence run_*.json as evidence_ref. Invariants: source_unchanged=true, approval_required=true, training_eligible=false, network_called=false, docker_used=false, frontend_backend_states_agree=true.",
+  "purpose": "Rung 8 of the Tauri-integrated frontend campaign.",
+  "depends_on_locks": [
+    "TAURI_LIB_RS_COMMAND_WIRING_LOCK_001",
+    "FRONTEND_COMMAND_INVOKE_CLIENT_LOCK_001",
+    "FRONTEND_PANEL_COMMAND_WIRING_LOCK_001",
+    "REAL_LOCAL_MODEL_PROVIDER_CONFIG_LOCK_001",
+    "OLLAMA_LOCAL_PROVIDER_SMOKE_LOCK_001",
+    "FRONTEND_LIVE_DIAGNOSE_OPT_IN_SMOKE_LOCK_001",
+    "FRONTEND_APPROVAL_PACKET_ROUNDTRIP_LOCK_001",
+    "FRONTEND_END_TO_END_REPAIR_FLOW_SMOKE_LOCK_001"
+  ],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide_frontend/test_frontend_real_flow_e2e_lock.py"
+  ],
+  "status_tokens": [
+    "FRONTEND_REAL_FLOW_E2E_PASSED",
+    "FRONTEND_REAL_FLOW_SOURCE_UNCHANGED",
+    "FRONTEND_REAL_FLOW_APPROVAL_REQUIRED",
+    "FRONTEND_REAL_FLOW_TRAINING_ELIGIBLE_FALSE",
+    "FRONTEND_REAL_FLOW_NETWORK_PROVIDER_BLOCKED",
+    "FRONTEND_REAL_FLOW_DOCKER_NOT_USED",
+    "FRONTEND_REAL_FLOW_FE_BE_STATES_AGREE"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_called": false,
+    "network_called": false,
+    "docker_used": false,
+    "subprocess_spawned": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/frontend_real_flow_e2e/run_20260528.json"
+  },
+  "next_recommended_lock": "DETERMINEX_IDE_TAURI_INTEGRATED_FINAL_STATE_LOCK_001"
+}

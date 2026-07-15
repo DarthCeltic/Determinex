@@ -1,0 +1,127 @@
+{
+  "lock_id": "PROGRAMBENCH_CLEANROOM_IMAGE_REMEDIATION_PLAN_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "b13f3aaba1745b1928f353f7b52d7b925ee4fbc6",
+  "purpose": "Plan a reproducible remediation or safer-equivalent-image path for the Doxygen cleanroom image without rebuilding, hydrating, executing, or rerunning ProgramBench.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_cleanroom_image_remediation_plan_lock.py",
+    "passed": 17,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_cleanroom_image_remediation_plan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py",
+      "tests/corpus/programbench/test_programbench_approved_scanner_setup_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_import_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py"
+    ],
+    "passed": 125,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "module": "tests/corpus/programbench",
+    "passed": 180,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1448,
+    "skipped": 5,
+    "warnings": 75
+  },
+  "implementation": [
+    "scripts/corpus/programbench/cleanroom_image_remediation_plan.py",
+    "scripts/corpus/programbench/cleanroom_image_remediation_plan_record.py",
+    "tests/corpus/programbench/test_programbench_cleanroom_image_remediation_plan_lock.py"
+  ],
+  "doxygen_live_remediation_plan": {
+    "scan_record": "assurance/evidence/programbench_cleanroom_image_scans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json",
+    "triage_record": "assurance/evidence/programbench_cleanroom_image_scan_triage/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_TRIAGED.json",
+    "plan_record": "assurance/evidence/programbench_cleanroom_image_remediation_plans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN.json",
+    "status": "CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN",
+    "recommendation": "REMEDIATE_IMAGE_REQUIRED",
+    "dominant_risk_category": "language_runtime",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "image_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "severity_counts": {
+      "critical": 38,
+      "high": 617,
+      "medium": 2729,
+      "low": 154,
+      "unknown": 0,
+      "total": 3538
+    },
+    "fixed_version_summary": {
+      "critical_high_with_fix": 650,
+      "critical_high_without_fix": 5,
+      "critical_with_fix": 38,
+      "critical_without_fix": 0,
+      "high_with_fix": 612,
+      "high_without_fix": 5
+    },
+    "primary_strategy": "update_go_runtime_toolchain",
+    "go_version_target": "1.24.13",
+    "required_inputs": {
+      "source_dockerfile_or_build_recipe_required": true,
+      "base_image_digest_required": true,
+      "expected_digest_after_rebuild": "unknown_until_rebuild",
+      "scanner_rerun_required": true,
+      "hydration_policy_rerun_required": true,
+      "bounded_rerun_revalidation_required": true
+    },
+    "fidelity_risk": "material",
+    "policy_blocked": true,
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "CLEANROOM_IMAGE_REMEDIATION_PLAN_READY",
+    "CLEANROOM_IMAGE_REMEDIATION_REQUIRED",
+    "CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN",
+    "CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BUILD_RECIPE",
+    "CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BASE_PROVENANCE",
+    "CLEANROOM_IMAGE_REMEDIATION_REQUIRES_RUNTIME_UPDATE",
+    "CLEANROOM_IMAGE_REMEDIATION_FIDELITY_RISK",
+    "CLEANROOM_IMAGE_SAFER_EQUIVALENT_REQUIRED",
+    "CLEANROOM_IMAGE_POLICY_STILL_BLOCKED",
+    "CLEANROOM_IMAGE_NOT_EXECUTABLE",
+    "CLEANROOM_IMAGE_TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "missing scan evidence blocks plan",
+    "missing triage evidence blocks plan",
+    "non-REMEDIATE_IMAGE_REQUIRED recommendation routes to alternate status",
+    "policy-unblocked image does not need remediation plan",
+    "dominant language_runtime critical/high findings produce runtime-update recommendation",
+    "Go stdlib findings produce Go runtime update strategy",
+    "missing build recipe marks remediation requires build recipe",
+    "missing base provenance marks remediation requires base provenance",
+    "plan marks benchmark fidelity risk when runtime/base changes may affect results",
+    "plan requires scan rerun after rebuild",
+    "plan requires hydration policy rerun after scan",
+    "plan requires bounded rerun revalidation before execution",
+    "plan does not mark scan passed",
+    "plan does not mark cache_ready",
+    "plan does not mark executable true",
+    "plan does not mark training_eligible true",
+    "signed remediation plan record is produced"
+  ],
+  "policy": [
+    "Remediation planning is not remediation execution.",
+    "Remediation must preserve benchmark fidelity or explicitly mark fidelity risk.",
+    "No policy exception by default.",
+    "No Docker container execution.",
+    "No ProgramBench execution.",
+    "No Doxygen retry.",
+    "No cache_ready.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not recover a build recipe, rebuild an image, select an alternate image, scan a remediated image, hydrate, execute, or score ProgramBench.",
+  "previous_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_SCAN_TRIAGE_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_BUILD_RECIPE_RECOVERY_LOCK_001"
+}

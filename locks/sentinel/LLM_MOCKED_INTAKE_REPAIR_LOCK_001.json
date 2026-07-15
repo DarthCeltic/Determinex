@@ -1,0 +1,123 @@
+{
+  "lock_id": "LLM_MOCKED_INTAKE_REPAIR_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Wires the typed model router into the intake/diagnose/repair path using mocked model outputs only. Adds MockModelClient (task-class-typed canned responses, refuses unauthorized routes), MockedIntakeRepairLoop (composes BuildAdapterRegistry + ModelRouter + MockModelClient over a fixture workspace), and MockedIntakeRepairTrace (immutable per-run trace). Pipeline: BUILD_DIAGNOSIS → PATCH_PLANNING → PATCH_GENERATION → VERIFIER_SUMMARY. Adds a TypeScript broken fixture (tests/fixtures/intake/ts_broken/) and an unsupported_repo fixture. The loop never invokes a real model, never calls the network, never invokes a subprocess, never mutates the fixture tree (sha256 before==after invariant enforced), and never opens corpus or training eligibility.",
+  "purpose": "Rung 2 of the verified-repair campaign. Proves the apparatus *shape* end-to-end without trusting a live model. The next rungs (SAFE_PATCH_DIFF_ROLLBACK, VERIFIED_REPAIR_TRACE) will replace the canned patch with a temp-workspace application and a fully signed trace; this rung pins the seams.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001",
+    "HARDENED_VERIFIED_TASK_AND_CODECLASH_LOCK_001",
+    "MODEL_ROUTER_LOCK_001"
+  ],
+  "tests": 25,
+  "passed_on_this_host": 25,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/intake/test_llm_mocked_intake_repair_lock.py"
+  ],
+  "pipeline": [
+    "BUILD_DIAGNOSIS",
+    "PATCH_PLANNING",
+    "PATCH_GENERATION",
+    "VERIFIER_SUMMARY"
+  ],
+  "fixtures_exercised": [
+    {"path": "tests/fixtures/intake/python_broken",   "build_system": "pip",   "terminus": "MOCK_LOOP_COMPLETE"},
+    {"path": "tests/fixtures/intake/rust_broken",     "build_system": "cargo", "terminus": "MOCK_LOOP_COMPLETE"},
+    {"path": "tests/fixtures/intake/go_broken",       "build_system": "go",    "terminus": "MOCK_LOOP_COMPLETE"},
+    {"path": "tests/fixtures/intake/ts_broken",       "build_system": "npm",   "terminus": "MOCK_LOOP_COMPLETE"},
+    {"path": "tests/fixtures/intake/unsupported_repo","build_system": "unknown","terminus": "UNSUPPORTED_REPO"}
+  ],
+  "status_tokens": [
+    "DIAGNOSE_MOCK_ROUTE_SELECTED",
+    "PATCH_PLAN_MOCK_GENERATED",
+    "PATCH_NOT_APPLIED_TO_SOURCE",
+    "VERIFIER_RESULT_CAPTURED",
+    "TRAINING_ELIGIBLE_FALSE",
+    "EVIDENCE_WRITTEN",
+    "UNSUPPORTED_REPO_BLOCKED",
+    "NO_NETWORK_CALL_MADE",
+    "NO_SUBPROCESS_CALL_MADE",
+    "NO_SOURCE_MUTATION"
+  ],
+  "invariants": [
+    "MockedIntakeRepairLoop.run(ws) returns an immutable MockedIntakeRepairTrace; never raises on supported fixtures.",
+    "For each of the four supported broken fixtures, the trace records diagnose_mock_route_selected=True, patch_plan_mock_generated=True, patch_not_applied_to_source=True, verifier_result_captured=True, training_eligible=False, terminus=MOCK_LOOP_COMPLETE.",
+    "The unsupported_repo fixture produces terminus=UNSUPPORTED_REPO with no mock invocations.",
+    "Workspace tree sha256 before run == sha256 after run for every fixture (no source mutation).",
+    "MockModelClient.invoke raises RouteNotAuthorizedError when execution_authorized=False.",
+    "MockModelClient.invoke raises KeyError on unregistered task class.",
+    "scripts/intake/mocked_intake_repair.py contains no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "scripts/models/mock_client.py contains no `import subprocess`, no `import urllib`.",
+    "The loop never imports any module that performs an outbound network call; it never invokes the BuildAdapter._run path on the fixture during this rung (toolchain execution is deferred to SAFE_PATCH_DIFF_ROLLBACK and VERIFIED_REPAIR_TRACE).",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56.",
+    "Signed evidence is unmutated by loop exercise."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "pb_factory_worker_loop_modified": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "online_discovery_enabled": false,
+    "safety_defaults_weakened": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/intake/mocked_intake_repair.py",
+      "scripts/intake/mocked_repair_loop_record.py",
+      "scripts/models/mock_client.py"
+    ],
+    "fixtures": [
+      "tests/fixtures/intake/ts_broken/package.json",
+      "tests/fixtures/intake/ts_broken/tsconfig.json",
+      "tests/fixtures/intake/ts_broken/src/sum.ts",
+      "tests/fixtures/intake/ts_broken/README.md",
+      "tests/fixtures/intake/unsupported_repo/notes.txt"
+    ],
+    "tests": [
+      "tests/intake/test_llm_mocked_intake_repair_lock.py"
+    ],
+    "lock": "locks/sentinel/LLM_MOCKED_INTAKE_REPAIR_LOCK_001.json",
+    "evidence": "assurance/evidence/llm_mocked_intake_repair/run_20260527.json",
+    "docs": "docs/INTAKE_REPAIR_LOOP.md"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/llm_mocked_intake_repair/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "The loop does not yet exercise the real BuildAdapter._run path against the fixture. The verifier coverage matrix is consulted only via the router's VERIFIER_SUMMARY task class; an actual `cargo check` (or equivalent) on the fixture is deferred to SAFE_PATCH_DIFF_ROLLBACK_LOCK_001, where the patch is applied to a temp copy first.",
+    "MockModelClient is intentionally not a drop-in replacement for a live provider; later rungs will introduce a LiveModelClient under LOCAL_MODEL_ADMISSION_POLICY_LOCK_001.",
+    "The fixture for an unsupported repo is minimal (notes.txt). Future rungs may add an ambiguous-multi-language fixture once the registry's multi-match tie-breaker is exercised in coverage."
+  ],
+  "next_recommended_lock": "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+  "files": [
+    "scripts/intake/mocked_intake_repair.py",
+    "scripts/intake/mocked_repair_loop_record.py",
+    "scripts/models/mock_client.py",
+    "tests/intake/test_llm_mocked_intake_repair_lock.py",
+    "tests/fixtures/intake/ts_broken/",
+    "tests/fixtures/intake/unsupported_repo/",
+    "locks/sentinel/LLM_MOCKED_INTAKE_REPAIR_LOCK_001.json",
+    "assurance/evidence/llm_mocked_intake_repair/run_20260527.json",
+    "docs/INTAKE_REPAIR_LOOP.md"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "lock_id": "TEMP_PATCH_VERIFY_COMMAND_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Applies a quarantined patch plan to a temp workspace only, runs the verifier. Source remains immutable. Human approval still required.",
+  "purpose": "Rung 5 of the IDE consumer campaign.",
+  "depends_on_locks": ["LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001"],
+  "tests": 9,
+  "passed_on_this_host": 9,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/repair/test_temp_patch_verify_command_lock.py"],
+  "status_tokens": [
+    "TEMP_PATCH_VERIFY_PASSED_TEMP_ONLY",
+    "TEMP_PATCH_VERIFY_FAILED",
+    "TEMP_PATCH_VERIFY_BLOCKED_NO_PLAN",
+    "TEMP_PATCH_VERIFY_BLOCKED_PATH_ESCAPE",
+    "TEMP_PATCH_VERIFY_SOURCE_UNCHANGED",
+    "TEMP_PATCH_VERIFY_HUMAN_APPROVAL_REQUIRED"
+  ],
+  "scope_discipline": {
+    "live_model_call_made": false,
+    "user_source_mutated": false,
+    "human_approval_bypassed": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/temp_patch_verify_command/run_20260527.json"},
+  "next_recommended_lock": "HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001"
+}

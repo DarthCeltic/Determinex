@@ -1,0 +1,73 @@
+{
+  "artifact_id": "CLOSE_LOCK_V7_DOXYGEN_RICHGO_RESULT_20260527",
+  "date": "2026-05-27",
+  "shard": "close_lock_v7_doxygen_richgo_20260527",
+  "hetzner_return": "T:/determinex-staging/hetzner_returns/close_lock_v7_doxygen_richgo_20260527",
+  "hetzner_mirror": "T:/determinex-programbench/hetzner_results/close_lock_v7_doxygen_richgo_20260527",
+  "remote_cleanup": "cleaned",
+  "items": [
+    {
+      "slug": "doxygen__doxygen.966d98e",
+      "run_root": "T:/determinex-staging/pb_doxygen_doxyfile_html_warning_v7",
+      "gate_result": "T:/determinex-staging/pb_doxygen_doxyfile_html_warning_v7/gate_result.json",
+      "baseline": {
+        "passed": 249,
+        "failed": 1,
+        "runnable": 250,
+        "total": 261
+      },
+      "candidate": {
+        "passed": 248,
+        "failed": 2,
+        "runnable": 250,
+        "total": 261
+      },
+      "decision": "reject",
+      "reason": "passed delta = -1 (baseline 249 -> candidate 248); requires strict improvement",
+      "newly_failing": [
+        "eval.tests.test_doc_run_generates_dirs.test_doc_run_with_default_config_creates_html_and_latex_dirs"
+      ],
+      "next_repair_packet": "corpus/programbench/in_progress/doxygen__doxygen.966d98e/hint_audit_20260527T220506Z.md"
+    },
+    {
+      "slug": "kyoh86__richgo.313114f",
+      "run_root": "T:/determinex-staging/pb_richgo_sh_shebang_preserve_v7",
+      "gate_result": "T:/determinex-staging/pb_richgo_sh_shebang_preserve_v7/gate_result.json",
+      "baseline": {
+        "passed": 775,
+        "failed": 11,
+        "runnable": 786,
+        "total": 950
+      },
+      "candidate": {
+        "passed": 769,
+        "failed": 14,
+        "errored": 1,
+        "runnable": 784,
+        "total": 823
+      },
+      "decision": "reject",
+      "reason": "passed delta = -6 (baseline 775 -> candidate 769); requires strict improvement",
+      "newly_failing": [
+        "eval.tests.test_richgo_color_and_decorations.test_richgo_force_color_emits_ansi_codes",
+        "tests.test_config_gaps.test_label_type_none_suppresses_labels"
+      ],
+      "next_repair_packet": "corpus/programbench/in_progress/kyoh86__richgo.313114f/hint_audit_20260527T220509Z.md"
+    }
+  ],
+  "trace": {
+    "t_corpus_root": "T:/determinex_corpus",
+    "t_corpus_total_after_backfill": 12902,
+    "t_corpus_status": "active_eval_evidence",
+    "training_eligible": false,
+    "training_exclusion_reason": "legacy ProgramBench verdict path lacks known license/safety provenance; kept as eval evidence after schema maturity backfill"
+  },
+  "corpus_integrity_after_backfill": {
+    "unsigned_count": 0,
+    "invalid_signature_count": 0,
+    "missing_required_field_count": 0,
+    "parse_error_count": 0,
+    "signature_key_scope": "durable"
+  },
+  "policy_result": "Rule-B guard held. No promotion, no local-only reject, no loose shard artifact."
+}

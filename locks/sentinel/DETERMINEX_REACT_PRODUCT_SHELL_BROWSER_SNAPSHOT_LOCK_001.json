@@ -1,0 +1,42 @@
+{
+  "lock_id": "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Rung 1 of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES. The repo does not currently have a wired headless-browser snapshot runner; a deferred finding is filed at assurance/evidence/deferred_findings/claude_lane_finding_browser_snapshot_tooling_unavailable_20260528.json. This lock provides the strongest available component-render coverage across all 8 mounted panels (UnifiedNavigationPanel, IdeaLabPanel, RepoClinicPanel, MaintenanceBayPanel, LearningStudioPanel, ProofOperatorCenterPanel, UserLevelTeachingMode, SplashDemoPanel). Tests verify: all panels exist with default export and *_STATUS_TOKENS const; every panel surfaces a BLOCKED/DISABLED/MISSING/UNDISCLOSED/PENDING/UNSUPPORTED/REQUIRED state; every non-splash panel renders READY_DOES_NOT_MEAN_AUTHORIZED; every panel surfaces training_eligible: false (or equivalent); five surfaces present in the navigation panel with human labels; splash carries 'Proof Before Mutation' tagline + 'Generated is not verified.' + 'Working means build/test/smoke passed.' + 4 negative caveats; no mutating Tauri verb in the shell.",
+  "purpose": "Rung 1 of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_LOCK_001"
+  ],
+  "tests": 18,
+  "test_modules": ["tests/ide/test_react_product_shell_browser_snapshot_lock.py"],
+  "status_tokens": [
+    "REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_PASSED",
+    "REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_BLOCKED_TOOLING_UNAVAILABLE",
+    "REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_BLOCKED_MISSING_SURFACE",
+    "REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_BLOCKED_AUTHORITY_CONFUSION"
+  ],
+  "browser_tooling_status": "unavailable_blocker_filed_strongest_available_coverage_in_place",
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "package_json_modified": false,
+    "browser_snapshot_runner_introduced": false,
+    "test_hidden_failure": false,
+    "readiness_treated_as_authorization": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_react_product_shell_browser_snapshot/run_20260528.json"
+  },
+  "remediates_finding": "browser-snapshot-coverage-strongest-available",
+  "next_recommended_lock": "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001"
+}

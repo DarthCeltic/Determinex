@@ -1,0 +1,178 @@
+{
+  "lock_id": "GO_REPAIR_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 27,
+  "passed": 27,
+  "failed": 0,
+  "full_suite": {
+    "tests": 617,
+    "passed": 617,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/locks/test_go_repair_lock.py"
+  ],
+  "test_classes": [
+    "TestGoProjectIndexer",
+    "TestGoSafetyGate",
+    "TestGoLicenseGate",
+    "TestGoBaselineAndExtraction",
+    "TestGoCorpusSigning"
+  ],
+  "coverage": [
+    "detects_go_mod",
+    "detects_module_path",
+    "detects_go_sum",
+    "detects_go_version",
+    "detects_packages",
+    "detects_test_files",
+    "detects_cmd_internal_pkg_dirs",
+    "non_go_module_returns_none",
+    "go_generate_curl_pipe_shell_rejected",
+    "go_generate_env_exfiltration_rejected",
+    "init_network_call_rejected",
+    "testmain_exec_rejected",
+    "cgo_command_injection_rejected",
+    "replace_to_local_path_rejected",
+    "module_path_spoofing_rejected",
+    "gofmt_dirty_rejected",
+    "no_license_file_rejected",
+    "gpl_license_rejected",
+    "mit_license_passes_gate",
+    "extractor_empty_when_baseline_fails",
+    "nil_guard_sites_found",
+    "no_nil_guard_returns_no_tasks",
+    "pipeline_zero_tasks_when_baseline_fails",
+    "pipeline_extracts_task_when_mutation_fails",
+    "file_restored_after_mutation",
+    "corpus_record_is_signed",
+    "tampered_record_fails_verification",
+    "record_has_go_fields",
+    "pipeline_writes_task_to_corpus",
+    "multiple_go_mutation_types_sign"
+  ],
+  "pipeline_spec": {
+    "class": "GoRepairPipeline",
+    "module": "scripts/repair/go_repair_pipeline.py",
+    "executor_signature": "Callable[[list[str], Path, int], tuple[int, str, str]]",
+    "stages": [
+      "go_mod_index",
+      "module_safety_gate",
+      "license_gate",
+      "secret_scan",
+      "go_source_safety_gate",
+      "gofmt_check",
+      "baseline_verification",
+      "nil_guard_mutation",
+      "failure_confirmation",
+      "file_restore",
+      "corpus_write"
+    ],
+    "rejection_codes": [
+      "not_go_module",
+      "unsafe_go_module",
+      "license_not_green",
+      "secret_detected",
+      "malicious_go_source",
+      "gofmt_not_clean"
+    ],
+    "oracles": [
+      "gofmt -l <go files>",
+      "go test ./..."
+    ]
+  },
+  "indexer_spec": {
+    "class": "GoProject",
+    "module": "scripts/corpus/code_ingest/go_project_indexer.py",
+    "detects": [
+      "go.mod",
+      "go.sum",
+      "module path",
+      "go version",
+      "packages",
+      "*_test.go",
+      "cmd/",
+      "internal/",
+      "pkg/",
+      "build tags",
+      "generated files",
+      "license expression"
+    ]
+  },
+  "extractor_spec": {
+    "class": "GoTaskExtractor",
+    "module": "scripts/corpus/code_ingest/go_task_extractor.py",
+    "mutation_types": [
+      "nil_guard_removal"
+    ],
+    "excluded_dirs": [
+      "vendor",
+      ".git",
+      "testdata"
+    ],
+    "file_restore_guarantee": "finally block always restores original",
+    "max_mutations_per_file": 3
+  },
+  "source_safety_gate_spec": {
+    "scan_method": "prompt_injection_detector.scan plus Go-specific static checks",
+    "block_on_risk": [
+      "HIGH",
+      "CRITICAL"
+    ],
+    "scans": [
+      "go.mod",
+      "go.sum",
+      "Makefile",
+      "Taskfile.yml",
+      "magefile.go",
+      "*.go"
+    ],
+    "patterns_covered": [
+      "go_generate_curl_pipe_shell",
+      "go_generate_env_exfiltration",
+      "init_network_call",
+      "testmain_exec_command",
+      "cgo_command_injection",
+      "suspicious_replace_directive",
+      "module_path_spoofing"
+    ]
+  },
+  "corpus_record_spec": {
+    "schema_version": "determinex-agent-trace-v1",
+    "signing_algorithm": "BLAKE2b-256 HMAC",
+    "canonical_form": "sorted-key JSON",
+    "signature_field": "_sig",
+    "minimum_sig_length": 32
+  },
+  "go_metadata_fields": [
+    "language",
+    "build_system",
+    "mutation_type",
+    "failure_type",
+    "source_file",
+    "original_line",
+    "mutated_line",
+    "line_number",
+    "failure_output",
+    "repair_patch",
+    "validator",
+    "verdict"
+  ],
+  "factory_claim": {
+    "note": "Go extends the language factory beyond Java, Rust, and Python while preserving the same safety, verifier, corpus-signing, and lock-manifest contract.",
+    "contract": "indexer -> task extractor -> safe source gate -> baseline verifier -> controlled failure generator -> repair pipeline -> oracle verifier -> signed corpus writer -> lock manifest"
+  },
+  "programbench_leverage": {
+    "confirmed_go_tools": [
+      "yj",
+      "curlie",
+      "atlas",
+      "gdu",
+      "peco"
+    ],
+    "note": "Go repair traces feed ProgramBench native flips and SWE-bench multilingual routing."
+  },
+  "previous_lock": "PYTHON_REPAIR_LOCK_001",
+  "next_lock": "NATIVE_C_CPP_REPAIR_LOCK_001"
+}

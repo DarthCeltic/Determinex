@@ -1,0 +1,32 @@
+{
+  "lock_id": "IDE_MODEL_ROUTE_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "IDE model-route panel. Pure read of routing + admission state. Shows task class, selected route, fallback chain, dry-run/live status, config state, provider smoke state, and the specific block reason when live admission is unavailable.",
+  "purpose": "Rung 2 of the IDE frontend/approval campaign.",
+  "depends_on_locks": [
+    "MODEL_ROUTER_LOCK_001",
+    "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+    "LOCAL_MODEL_CONFIG_WIZARD_LOCK_001",
+    "LOCAL_PROVIDER_SMOKE_TEST_LOCK_001"
+  ],
+  "tests": 12,
+  "passed_on_this_host": 12,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_model_route_panel_lock.py"],
+  "status_tokens": [
+    "MODEL_ROUTE_PANEL_READY",
+    "MODEL_ROUTE_DRY_RUN_DEFAULT",
+    "MODEL_ROUTE_LIVE_OPT_IN_AVAILABLE",
+    "MODEL_ROUTE_BLOCKED_NO_MODEL",
+    "MODEL_ROUTE_BLOCKED_STALE_MODEL",
+    "MODEL_ROUTE_BLOCKED_NETWORK_PROVIDER"
+  ],
+  "scope_discipline": {
+    "live_model_call_made": false,
+    "network_introduced": false,
+    "user_source_mutated": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_model_route_panel/run_20260528.json"},
+  "next_recommended_lock": "IDE_DIAGNOSE_FLOW_LOCK_001"
+}

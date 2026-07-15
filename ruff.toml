@@ -1,0 +1,26 @@
+target-version = "py311"
+line-length = 100
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (formatter handles this)
+    "B008",  # function call in default argument
+    "B905",  # zip() without explicit strict
+    "UP007", # X | Y union syntax (keep compat with 3.9)
+]
+
+[lint.per-file-ignores]
+"scripts/hive/*.py" = ["B"]
+"dataset_generation/*.py" = ["ALL"]
+
+[format]
+quote-style = "double"
+indent-style = "space"

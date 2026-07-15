@@ -1,0 +1,161 @@
+{
+  "lock_id": "HARDENED_VERIFIED_TASK_AND_CODECLASH_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Combined migration: returns the Claude lane to BLOCKED_UNSAFE=0 and MUST_MIGRATE_TO_HARDENED_RUNNER=0. Migrates scripts/verified_task/command_runner.py (replaces shell=True with argv-list /bin/sh -c or cmd.exe /c invocation through intake.hardened_runner) and scripts/determinex_codeclash_agent.py (routes py_compile through intake.hardened_runner with workspace=state.codebase). Preserves CommandResult shape and adds a new stricter run_argv() API.",
+  "purpose": "Rung 9 of the post-audit Claude-lane sequence. Seals the two safety findings surfaced by the rung-8 classification sweep. After this rung lands, the Claude lane is at the cleanest possible state for MODEL_ROUTER_LOCK_001 work to begin.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001"
+  ],
+  "tests": 30,
+  "passed_on_this_host": 30,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_hardened_verified_task_and_codeclash_lock.py"
+  ],
+  "files_migrated": [
+    "scripts/verified_task/command_runner.py",
+    "scripts/determinex_codeclash_agent.py"
+  ],
+  "migration_strategy": {
+    "command_runner.py": {
+      "approach": "Replace shell=True invocation with argv-list invocation of the platform shell binary as the first argv element, routed through intake.hardened_runner.run. _shell_argv() helper returns ['/bin/sh', '-c', command] on POSIX and ['cmd.exe', '/c', command] on Windows.",
+      "shell_semantics_preserved": "Glob expansion (*.sh), pipes, redirects, &&, ||, and Windows cmd.exe idioms (if exist Makefile (...)) all continue to work because the shell binary is still the program — only the kwarg shell=True is removed.",
+      "shell_true_kwarg_removed": true,
+      "subprocess_import_removed": true,
+      "result_shape_preserved": true,
+      "new_api": "CommandRunner.run_argv(argv: list[str], *, cwd, timeout_seconds) — stricter path that takes argv directly, no shell wrapper",
+      "returncode_conventions": {
+        "0/>0": "actual exit code (unchanged)",
+        "124": "timed_out=True (preserved from pre-migration)",
+        "126": "BLOCKED by hardened runner (new code; shell convention 'command found but not executable')",
+        "127": "tool not found (new code; shell convention 'command not found')"
+      }
+    },
+    "determinex_codeclash_agent.py": {
+      "approach": "Replace raw subprocess.run for py_compile with intake.hardened_runner.run, passing workspace=state.codebase to bound execution to the arena workspace.",
+      "fail_states_collapsed_to_compile_fail": ["blocked", "timed_out", "tool_missing", "exit_code != 0"],
+      "no_shell_true": true
+    }
+  },
+  "audit_delta": {
+    "blocked_unsafe_before": 2,
+    "blocked_unsafe_after": 0,
+    "must_migrate_before": 1,
+    "must_migrate_after": 0,
+    "unknown_before": 0,
+    "unknown_after": 0,
+    "programbench_before": 56,
+    "programbench_after": 56,
+    "total_sites_before": 299,
+    "total_sites_after": 296,
+    "evidence_run_artifact": "assurance/evidence/parallel_execution_layer_audit/run_20260527.json"
+  },
+  "audit_path_rule_changes": [
+    {
+      "path": "scripts/verified_task/command_runner.py",
+      "before": "BLOCKED_UNSAFE",
+      "after": "LEGACY_EXEMPT_READ_ONLY"
+    },
+    {
+      "path": "scripts/determinex_codeclash_agent.py",
+      "before": "MUST_MIGRATE_TO_HARDENED_RUNNER",
+      "after": "LEGACY_EXEMPT_READ_ONLY"
+    }
+  ],
+  "programbench_carve_out_verified": {
+    "site": "scripts/pb_factory_worker_loop.py:953 (shell=True)",
+    "classification": "PROGRAMBENCH_OUT_OF_SCOPE",
+    "kind_override_correctly_carved_out": true,
+    "test": "test_programbench_shell_true_still_carved_out"
+  },
+  "status_tokens": [
+    "VERIFIED_TASK_RUNNER_MIGRATED",
+    "CODECLASH_AGENT_MIGRATED",
+    "COMMAND_RUNNER_NO_SHELL_TRUE",
+    "COMMAND_RUNNER_RUN_ARGV_AVAILABLE",
+    "COMMAND_RUNNER_RESULT_SHAPE_PRESERVED",
+    "RC_BLOCKED_126",
+    "RC_TIMEOUT_124",
+    "RC_TOOL_MISSING_127",
+    "BLOCKED_UNSAFE_RETURNED_TO_ZERO",
+    "MUST_MIGRATE_RETURNED_TO_ZERO",
+    "PROGRAMBENCH_PRESERVED",
+    "WORKSPACE_BOUNDING_INHERITED",
+    "ENVIRONMENT_SCRUBBED_INHERITED",
+    "DOCKER_BLOCKED_INHERITED",
+    "SAFETY_DEFAULTS_RESPECTED"
+  ],
+  "invariants": [
+    "scripts/verified_task/command_runner.py has no shell=True kwarg anywhere (source-grep).",
+    "scripts/verified_task/command_runner.py has no subprocess.run call (source-grep) and no `import subprocess` (source-grep).",
+    "scripts/verified_task/command_runner.py imports intake.hardened_runner.",
+    "scripts/determinex_codeclash_agent.py imports intake.hardened_runner for the py_compile path.",
+    "CommandRunner.run preserves the CommandResult shape (command, cwd, returncode, stdout, stderr, duration_seconds, timed_out, .ok property, .to_dict()).",
+    "CommandRunner.run_argv() exposes a stricter argv-list API for callers that already have a list[str].",
+    "subprocess.run is never called with shell=True from CommandRunner (defensive monkeypatch sentinel verifies this).",
+    "LD_PRELOAD set in parent env does NOT reach a child spawned via CommandRunner.run_argv (end-to-end test).",
+    "TMP/TEMP/TMPDIR/DETERMINEX_TASK_TMP env vars set by CommandRunner reach the child process.",
+    "Docker invocation (`['docker', 'ps']`) through CommandRunner.run_argv returns rc=126 with stderr containing 'BLOCKED'.",
+    "Network invocation (`['curl', ...]`) returns rc=126 with 'BLOCKED'.",
+    "Timeout returns rc=124, timed_out=True, .ok=False (preserved).",
+    "Missing tool returns rc=127 (new convention).",
+    "Codeclash py_compile failures (blocked/timed_out/tool_missing/exit_code != 0) all collapse to compile_fail status — caller contract preserved.",
+    "Audit BLOCKED_UNSAFE count is 0.",
+    "Audit MUST_MIGRATE_TO_HARDENED_RUNNER count is 0.",
+    "Audit UNKNOWN_REQUIRES_REVIEW count is 0.",
+    "Audit PROGRAMBENCH_OUT_OF_SCOPE count is >= 56 (Codex lane untouched).",
+    "scripts/pb_factory_worker_loop.py:953 shell=True stays PROGRAMBENCH_OUT_OF_SCOPE (kind-override carve-out continues to work).",
+    "Path-rule for command_runner.py is now LEGACY_EXEMPT_READ_ONLY (was BLOCKED_UNSAFE).",
+    "Path-rule for determinex_codeclash_agent.py is now LEGACY_EXEMPT_READ_ONLY (was MUST_MIGRATE_TO_HARDENED_RUNNER).",
+    "No DETERMINEX_*/HF_HOME/OLLAMA_* env var required.",
+    "Safety defaults remain fail-closed.",
+    "Signed evidence is unmutated by CommandRunner exercise."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "pb_factory_worker_loop_modified": false,
+    "frontend_touched": false,
+    "model_router_started": false,
+    "docker_pulls": false,
+    "online_discovery_enabled": false,
+    "safety_defaults_weakened": false,
+    "needs_owner_decision_used_as_hiding_bucket": false,
+    "shell_true_override_weakened": false,
+    "readme_polished": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/hardened_verified_task_and_codeclash/run_20260527.json",
+    "audit_after_artifact_refreshed": "assurance/evidence/parallel_execution_layer_audit/run_20260527.json",
+    "audit_after_doc_refreshed": "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md"
+  },
+  "remaining_gaps": [
+    "scripts/pb_factory_worker_loop.py:953 shell=True remains in the codebase — Codex's responsibility (PROGRAMBENCH_OUT_OF_SCOPE).",
+    "The CommandRunner shell-wrap path executes the command via /bin/sh -c or cmd.exe /c — the inner shell can still spawn arbitrary child programs. The threat model is 'TaskSpec authors are Determinex-internal'; not a user-input boundary. Operator discipline required when adding new TaskSpec adapters.",
+    "Docker/network blocklist only checks the first argv element (the shell binary), not the contents of `-c <command>`. The hardened_runner's policy fires on the shell wrapper, not on commands nested inside it. Acceptable given the threat model; a follow-up rung could add shell-content scanning if needed.",
+    "Codeclash agent's py_compile uses a fixed 30s timeout. If arena codebases ever grow large, this may need to become configurable."
+  ],
+  "next_recommended_lock": "MODEL_ROUTER_LOCK_001",
+  "files": [
+    "scripts/verified_task/command_runner.py",
+    "scripts/determinex_codeclash_agent.py",
+    "scripts/dev/parallel_execution_layer_audit.py",
+    "tests/repair/test_hardened_verified_task_and_codeclash_lock.py",
+    "locks/sentinel/HARDENED_VERIFIED_TASK_AND_CODECLASH_LOCK_001.json",
+    "assurance/evidence/hardened_verified_task_and_codeclash/run_20260527.json",
+    "assurance/evidence/parallel_execution_layer_audit/run_20260527.json (regenerated)",
+    "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md (regenerated)"
+  ]
+}

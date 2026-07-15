@@ -1,0 +1,27 @@
+{
+  "lock_id": "IDE_PATCH_PLAN_FLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "IDE patch plan flow. Wraps OptInPatchPlanCommand. Plan is quarantined, never applied.",
+  "purpose": "Rung 4 of the IDE frontend/approval campaign.",
+  "depends_on_locks": ["OPT_IN_PATCH_PLAN_COMMAND_LOCK_001"],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_patch_plan_flow_lock.py"],
+  "status_tokens": [
+    "IDE_PATCH_PLAN_QUARANTINED",
+    "IDE_PATCH_PLAN_BLOCKED_NO_MODEL",
+    "IDE_PATCH_PLAN_BLOCKED_NOT_OPTED_IN",
+    "IDE_PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
+    "IDE_PATCH_PLAN_BLOCKED_PATH_ESCAPE",
+    "IDE_PATCH_PLAN_SOURCE_UNCHANGED"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "patch_applied": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_patch_plan_flow/run_20260528.json"},
+  "next_recommended_lock": "IDE_TEMP_VERIFY_FLOW_LOCK_001"
+}

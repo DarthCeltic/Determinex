@@ -1,0 +1,198 @@
+{
+  "lock_id": "SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Triages the 121 UNKNOWN_REQUIRES_REVIEW execution sites surfaced by the parallel execution audit. Adds 38 path-rules across 56 top-level scripts/ helpers, introduces a NEEDS_OWNER_DECISION classification token, and adds a safety-by-default kind-aware override that flags shell=True / os.system / os.popen as BLOCKED_UNSAFE regardless of path (with PROGRAMBENCH_OUT_OF_SCOPE and LEGACY_EXEMPT_TEST_FIXTURE carve-outs). Drops UNKNOWN from 121 to 0; surfaces 2 real BLOCKED_UNSAFE sites in scripts/verified_task/command_runner.py (shell=True with user-supplied command strings) and 1 MUST_MIGRATE site in scripts/determinex_codeclash_agent.py.",
+  "purpose": "Rung 8 of the post-audit Claude-lane sequence. Per directive: 'before routing models or allowing broader repair orchestration, Claude needs to know which helper scripts are harmless read-only orchestration, which are already sandboxed, which belong to Codex, and which must migrate.' This rung closes that triage gap. Migration of the 1 MUST_MIGRATE site and the 1 BLOCKED_UNSAFE file is the next rung's scope; this rung is classification only.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001"
+  ],
+  "tests": 67,
+  "passed_on_this_host": 67,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/dev/test_script_helper_execution_classification_sweep_lock.py"
+  ],
+  "audit_delta": {
+    "total_sites_before": 299,
+    "total_sites_after": 299,
+    "unknown_requires_review_before": 121,
+    "unknown_requires_review_after": 0,
+    "blocked_unsafe_before": 0,
+    "blocked_unsafe_after": 2,
+    "must_migrate_before": 0,
+    "must_migrate_after": 1,
+    "hive_sandboxed_path_before": 70,
+    "hive_sandboxed_path_after": 90,
+    "legacy_exempt_read_only_before": 37,
+    "legacy_exempt_read_only_after": 135,
+    "legacy_exempt_test_fixture_before": 4,
+    "legacy_exempt_test_fixture_after": 4,
+    "programbench_out_of_scope_before": 56,
+    "programbench_out_of_scope_after": 56,
+    "hardened_compiler_path_before": 11,
+    "hardened_compiler_path_after": 11,
+    "needs_owner_decision_after": 0
+  },
+  "new_classification_token": {
+    "token": "NEEDS_OWNER_DECISION",
+    "purpose": "Reserved for genuinely ambiguous sites that a future sweep cannot decide without Ryan's explicit ownership call. Currently 0 sites; no helper in the 121-site UNKNOWN bucket needed it.",
+    "added_to_status_tokens": true,
+    "added_to_classifications": true
+  },
+  "kind_aware_override": {
+    "module_constant": "_ALWAYS_BLOCKED_KINDS",
+    "members": ["shell=True", "os.system", "os.popen"],
+    "rule": "If a detected site's kind is in this set, it is unconditionally classified BLOCKED_UNSAFE regardless of the file's path-rule. The path-rule's rationale is preserved in the site's rationale.",
+    "carve_outs_module_constant": "_KIND_OVERRIDE_EXEMPT",
+    "carve_outs": ["PROGRAMBENCH_OUT_OF_SCOPE", "LEGACY_EXEMPT_TEST_FIXTURE"],
+    "carve_outs_rationale": "PROGRAMBENCH is Codex's responsibility — Claude does not seal Codex's shell=True sites. LEGACY_EXEMPT_TEST_FIXTURE preserves test scaffolding that may legitimately use shell semantics.",
+    "verified_carve_out_in_action": "scripts/pb_factory_worker_loop.py:953 contains shell=True but stays PROGRAMBENCH_OUT_OF_SCOPE, not BLOCKED_UNSAFE."
+  },
+  "blocked_unsafe_sites_surfaced": [
+    {
+      "file": "scripts/verified_task/command_runner.py",
+      "line": 50,
+      "kind": "subprocess.run",
+      "classification": "BLOCKED_UNSAFE",
+      "rationale": "CommandRunner.run takes `command: str` and calls subprocess.run with shell=True — classic shell injection surface. Path-rule explicitly flags this file BLOCKED_UNSAFE."
+    },
+    {
+      "file": "scripts/verified_task/command_runner.py",
+      "line": 50,
+      "kind": "shell=True",
+      "classification": "BLOCKED_UNSAFE",
+      "rationale": "Kind-aware override unconditionally flags shell=True (path-rule already agreed via the BLOCKED_UNSAFE classification above)."
+    }
+  ],
+  "must_migrate_sites_surfaced": [
+    {
+      "file": "scripts/determinex_codeclash_agent.py",
+      "line": 285,
+      "kind": "subprocess.run",
+      "classification": "MUST_MIGRATE_TO_HARDENED_RUNNER",
+      "rationale": "CodeClash arena agent invokes py_compile on user-controlled codebase files via raw subprocess.run; same pattern ShadowCompiler had pre-rung-5. Should route through intake.hardened_runner with workspace bounding."
+    }
+  ],
+  "reclassification_summary": {
+    "BLOCKED_UNSAFE (new finding)": {"files": 1, "sites": 2},
+    "MUST_MIGRATE_TO_HARDENED_RUNNER (new)": {"files": 1, "sites": 1},
+    "HIVE_SANDBOXED_PATH (SWE-bench helpers)": {
+      "files": 4,
+      "delta_sites": 20,
+      "members": [
+        "scripts/swe_run/repo.py",
+        "scripts/setup_swebench.py",
+        "scripts/smoke_test_swebench.py",
+        "scripts/benchmarks/windows/swebench_live_windows.py"
+      ]
+    },
+    "LEGACY_EXEMPT_READ_ONLY (orchestrators/probes/utils/analysis/security)": {
+      "files": 50,
+      "delta_sites": 98,
+      "category_breakdown": {
+        "benchmark_orchestrators": ["determinex_ask", "determinex_benchmark*", "determinex_bigcode_run", "determinex_fullbench", "determinex_livecode_run", "determinex_flywheel", "determinex_limits_test", "determinex_projector", "benchmark_runner", "quality_benchmark_agent", "benchmarks/windows/deepeval_humaneval"],
+        "sprint_orchestration": ["sprint4_preflight", "sprint4_smoke_pass", "sprint4_factory_validation", "sprint4_bulk_generate", "sprint4_subtype_smoke_pass"],
+        "model_gguf_maintenance": ["fix_corpus", "fix_retrain_engineer", "fix_retrain_observer", "fix_retrain_sentinel", "fix_sen_merge_gguf", "sentinel_gguf_and_fetch", "verify_gguf", "gguf_sentinel_only"],
+        "analysis_tools": ["analysis/iterate_to_lock", "analysis/llm_gen_iterate", "analysis/auto_revert_regressions"],
+        "security_scans": ["security/generate_sbom", "security/dependency_scan", "security/container_scan"],
+        "hardware_health_probes": ["hardware_profiler", "health_monitor", "vram_monitor"],
+        "eval_iteration_drivers": ["micro_eval", "patch_iterate", "full_sweep_iterate", "three_speed_gate", "rosetta_vs_text_eval", "tonight_launch", "preflight_mass_run"],
+        "corpus_tooling": ["deepseek_data_engine", "convert_failures_to_sft", "run_corpus_to_100k", "register_v1_1", "reference_diff", "run_ledger", "_batch_apply_pending"],
+        "repo_acquisition_git_clones": ["download_swebench_repos", "download_multilang_repos"],
+        "verified_task_other": ["verified_task/* except command_runner.py"]
+      }
+    },
+    "total_files_reclassified": 56,
+    "total_sites_reclassified": 121
+  },
+  "status_tokens": [
+    "SCRIPT_HELPER_SWEEP_READY",
+    "UNKNOWN_DECREASED_MATERIALLY",
+    "UNKNOWN_REACHED_ZERO",
+    "BLOCKED_UNSAFE_SURFACED",
+    "PROGRAMBENCH_PRESERVED",
+    "NEEDS_OWNER_DECISION_DEFINED",
+    "KIND_OVERRIDE_ACTIVE",
+    "KIND_OVERRIDE_CARVES_OUT_PROGRAMBENCH",
+    "KIND_OVERRIDE_CARVES_OUT_TEST_FIXTURE",
+    "ALL_HELPERS_CLASSIFIED",
+    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+    "CORPUS_UNMUTATED",
+    "SAFETY_DEFAULTS_RESPECTED"
+  ],
+  "invariants": [
+    "UNKNOWN_REQUIRES_REVIEW count is exactly 0 — every helper has a path-rule.",
+    "PROGRAMBENCH_OUT_OF_SCOPE count is >= 56 — Codex-lane files were not reclassified out of their PB classification.",
+    "All BLOCKED_UNSAFE sites live in scripts/verified_task/command_runner.py (exactly 2: subprocess.run + shell=True at line 50).",
+    "The single MUST_MIGRATE site is in scripts/determinex_codeclash_agent.py (line 285).",
+    "PB shell=True site at scripts/pb_factory_worker_loop.py:953 stays PROGRAMBENCH_OUT_OF_SCOPE (kind-override correctly carves out PB).",
+    "The kind-aware override fires for verified_task/command_runner.py's shell=True (correctly escalates to BLOCKED_UNSAFE).",
+    "NEEDS_OWNER_DECISION exists in CLASSIFICATIONS and STATUS_TOKENS, currently has 0 sites (reserved for future genuinely-ambiguous cases).",
+    "_ALWAYS_BLOCKED_KINDS contains shell=True / os.system / os.popen.",
+    "The audit is still read-only (no subprocess called during a scan — monkeypatch sentinel verified).",
+    "Signed evidence is unmutated by a scan.",
+    "Corpus write guard remains active.",
+    "Safety defaults remain fail-closed.",
+    "38 path-rules cover all 56 previously-UNKNOWN helper files."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "model_router_started": false,
+    "demo_workflow_created": false,
+    "macos_windows_ci_matrix_added": false,
+    "readme_polished": false,
+    "execution_behavior_migrated_in_this_rung": false,
+    "comment": "Pure classification triage; the 1 MUST_MIGRATE and 1 BLOCKED_UNSAFE file remain to be migrated in follow-up rungs."
+  },
+  "files_changed": {
+    "modified": [
+      "scripts/dev/parallel_execution_layer_audit.py (added NEEDS_OWNER_DECISION token, _ALWAYS_BLOCKED_KINDS, _KIND_OVERRIDE_EXEMPT, 38 path-rules, kind-aware override in scan_file)",
+      "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md (regenerated)",
+      "assurance/evidence/parallel_execution_layer_audit/run_20260527.json (regenerated)"
+    ],
+    "new": [
+      "tests/dev/test_script_helper_execution_classification_sweep_lock.py",
+      "locks/sentinel/SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001.json",
+      "assurance/evidence/script_helper_execution_classification_sweep/run_20260527.json"
+    ]
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/script_helper_execution_classification_sweep/run_20260527.json",
+    "audit_after_artifact_refreshed": "assurance/evidence/parallel_execution_layer_audit/run_20260527.json",
+    "audit_after_doc_refreshed": "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md"
+  },
+  "remaining_gaps": [
+    "scripts/verified_task/command_runner.py still uses shell=True — needs migration to intake.hardened_runner. Next rung: HARDENED_VERIFIED_TASK_COMMAND_RUNNER_LOCK_001.",
+    "scripts/determinex_codeclash_agent.py still has raw subprocess.run on user-controlled py_compile — needs migration. Could be combined with the verified_task migration in a single rung or done separately as HARDENED_CODECLASH_AGENT_LOCK_001.",
+    "NEEDS_OWNER_DECISION classification has 0 members today; if a future helper appears that Claude genuinely can't classify, it will use this token rather than UNKNOWN.",
+    "The kind-aware override carve-out for LEGACY_EXEMPT_TEST_FIXTURE is currently theoretical — no test fixture uses shell=True today. Carve-out exists as future-proofing.",
+    "scripts/pb_factory_worker_loop.py:953 shell=True remains classified PROGRAMBENCH_OUT_OF_SCOPE (carve-out worked correctly). That site is Codex's responsibility, not Claude's; it is surfaced here for awareness only."
+  ],
+  "next_recommended_lock": "HARDENED_VERIFIED_TASK_COMMAND_RUNNER_LOCK_001",
+  "alternative_next_recommended_locks": [
+    "HARDENED_CODECLASH_AGENT_LOCK_001 (smaller scope; addresses the 1 MUST_MIGRATE)",
+    "MODEL_ROUTER_LOCK_001 (after the 1 BLOCKED_UNSAFE + 1 MUST_MIGRATE are sealed)"
+  ],
+  "files": [
+    "scripts/dev/parallel_execution_layer_audit.py",
+    "tests/dev/test_script_helper_execution_classification_sweep_lock.py",
+    "locks/sentinel/SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001.json",
+    "assurance/evidence/script_helper_execution_classification_sweep/run_20260527.json",
+    "assurance/evidence/parallel_execution_layer_audit/run_20260527.json (regenerated)",
+    "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md (regenerated)"
+  ]
+}

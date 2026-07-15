@@ -1,0 +1,76 @@
+{
+  "lock_id": "OBSERVABILITY_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "tests": 25,
+  "passed": 25,
+  "failed": 0,
+  "full_suite": {
+    "tests": 887,
+    "passed": 887,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/observability/test_event_logger.py"
+  ],
+  "coverage": [
+    "event_has_trace_id",
+    "event_has_timestamp",
+    "two_events_have_different_trace_ids",
+    "to_dict_has_string_event_type",
+    "to_json_is_valid_json",
+    "to_dict_has_no_enum_values",
+    "event_type_has_task_lifecycle_events",
+    "event_type_has_baseline_events",
+    "event_type_has_corpus_events",
+    "event_type_has_cloak_events",
+    "event_type_has_gate_events",
+    "event_type_has_action_events",
+    "emit_returns_determinex_event",
+    "emit_writes_jsonl_line",
+    "emit_multiple_events_appends",
+    "emit_is_fail_silent_on_bad_path",
+    "emit_task_accepted",
+    "emit_task_denied",
+    "emit_baseline_pass",
+    "emit_baseline_fail",
+    "emit_corpus_written",
+    "emit_corpus_rejected",
+    "emit_license_rejected",
+    "emit_cloak_applied",
+    "emit_cloak_failed"
+  ],
+  "event_schema_spec": {
+    "wire_format": "one JSON object per line (JSONL), sorted keys, ASCII-safe",
+    "fields": ["event_type", "trace_id", "timestamp", "task_id", "session_id", "language", "verifier", "result", "reason", "duration_ms", "metadata"],
+    "timestamp_format": "ISO-8601 UTC",
+    "trace_id_format": "UUID v4",
+    "log_location": "T:/determinex_audit/events/YYYY-MM-DD.jsonl",
+    "fallback_location": "logs/events/YYYY-MM-DD.jsonl"
+  },
+  "event_types_defined": 37,
+  "event_subsystems": [
+    "task lifecycle (task.accepted, task.denied)",
+    "baseline (baseline.started, completed, failed)",
+    "mutation (mutation.created, skipped)",
+    "repair (repair.started, completed, failed)",
+    "verifier/oracle (verifier.started, completed, timeout)",
+    "corpus (corpus.row_written, row_rejected, signed, signature_failed)",
+    "cloak (cloak.applied, failed, audit_logged)",
+    "gates (gate.license_rejected, accepted, supply_chain_rejected, secret_rejected)",
+    "action safety (action.allowed, confirmation_required, blocked)",
+    "hive/pipeline (session.started, completed, dag.generated, step.*, compile.*)",
+    "schema (schema.validation_failed, migration_applied)"
+  ],
+  "fail_silent_guarantee": "emit() never propagates filesystem errors to caller",
+  "future_surfaces": [
+    "determinex status --live (CLI tail)",
+    "Tauri frontend live event stream",
+    "Grafana-compatible JSONL ingest"
+  ],
+  "implementations": [
+    "scripts/observability/event_schema.py",
+    "scripts/observability/event_logger.py",
+    "tests/observability/test_event_logger.py"
+  ]
+}

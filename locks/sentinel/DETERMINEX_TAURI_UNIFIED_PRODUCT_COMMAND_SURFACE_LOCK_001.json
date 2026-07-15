@@ -1,0 +1,54 @@
+{
+  "lock_id": "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Rung 1 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES. Adds 8 read-only Tauri commands surfacing the locked unified-product backend view-models: get_unified_product_navigation_model, get_idea_lab_workflow_state, get_repo_clinic_workflow_state, get_maintenance_bay_workflow_state, get_learning_studio_workflow_state, get_proof_operator_center_state, get_user_level_teaching_windows, get_unified_splash_demo_spec. Each command routes 1:1 from the Tauri verb to the inner IDEBackendCommandSurface verb (name matches behavior). Each handler returns a deterministic JSON-serializable snapshot of its lock module's view-model and always emits source_mutation_authorized=False and training_eligible=False on the CommandResult and inside the payload. Tests refuse any command name containing apply_source / write_training / train_ / approve_packet / run_programbench / import_artifact / scan_artifact / grant / release / deploy substrings. NO mutating, training, approval-granting, ProgramBench, or release command added.",
+  "purpose": "Rung 1 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES.",
+  "depends_on_locks": [
+    "IDE_BACKEND_COMMAND_SURFACE_LOCK_001",
+    "TAURI_COMMAND_VERB_ALIGNMENT_LOCK_001",
+    "DETERMINEX_UNIFIED_PRODUCT_UX_FINAL_STATE_LOCK_001"
+  ],
+  "tests": 12,
+  "test_modules": [
+    "tests/ide/test_tauri_unified_product_command_surface_lock.py"
+  ],
+  "status_tokens": [
+    "TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_PASSED",
+    "TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_BLOCKED_COMMAND_MISMATCH",
+    "TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_BLOCKED_AUTHORITY_LEAK",
+    "TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_BLOCKED_MUTATING_COMMAND"
+  ],
+  "commands_added": [
+    "get_unified_product_navigation_model",
+    "get_idea_lab_workflow_state",
+    "get_repo_clinic_workflow_state",
+    "get_maintenance_bay_workflow_state",
+    "get_learning_studio_workflow_state",
+    "get_proof_operator_center_state",
+    "get_user_level_teaching_windows",
+    "get_unified_splash_demo_spec"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "mutating_command_added": false,
+    "approval_granting_command_added": false,
+    "programbench_write_command_added": false,
+    "training_command_added": false,
+    "command_name_does_not_match_behavior": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_tauri_unified_product_command_surface/run_20260528.json"
+  },
+  "remediates_finding": "live-react-tauri-command-surface",
+  "next_recommended_lock": "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001"
+}

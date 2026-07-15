@@ -1,0 +1,99 @@
+{
+  "lock_id": "ARBITRARY_REPO_READINESS_MATRIX_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Machine-readable readiness matrix for arbitrary-repo repair. Rows: Python/pip/pytest, Rust/cargo, Go/go test, TypeScript/npm/jest, TypeScript/npm/vitest, Java/Maven/JUnit, Java/Gradle/JUnit, Unknown. Columns: adapter_backed, verifier_backed, model_route_exists, mocked_repair_trace_exists, safe_patch_workspace_supported, human_approval_gate_exists, ide_state_exposed, corpus_guard_exists, live_model_admitted. Each row carries a closed-set ready_level. Pure function: no execution, no subprocess, no network.",
+  "purpose": "Rung 9 of the verified-repair campaign. Surfaces a precise, machine-readable picture of where the apparatus is — and is not — ready. The IDE / CLI / audit tools consume this directly. Unsupported rows are explicitly BLOCKED_UNSUPPORTED; no row is marked ready that isn't.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LLM_MOCKED_INTAKE_REPAIR_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+    "VERIFIED_REPAIR_TRACE_LOCK_001",
+    "HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001",
+    "IDE_REPAIR_STATE_MODEL_LOCK_001",
+    "CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001",
+    "LOCAL_MODEL_ADMISSION_POLICY_LOCK_001"
+  ],
+  "tests": 13,
+  "passed_on_this_host": 13,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/intake/test_arbitrary_repo_readiness_matrix_lock.py"
+  ],
+  "status_tokens": [
+    "READINESS_MATRIX_WRITTEN",
+    "READY_MOCKED_TRACE",
+    "READY_TEMP_PATCH_ONLY",
+    "READY_REQUIRES_LIVE_MODEL_ADMISSION",
+    "READY_REQUIRES_VERIFIER",
+    "BLOCKED_UNSUPPORTED"
+  ],
+  "required_rows": [
+    {"language": "Python",     "build_system": "pip",     "test_framework": "pytest"},
+    {"language": "Rust",       "build_system": "cargo",   "test_framework": "cargo test"},
+    {"language": "Go",         "build_system": "go",      "test_framework": "go test"},
+    {"language": "TypeScript", "build_system": "npm",     "test_framework": "jest"},
+    {"language": "TypeScript", "build_system": "npm",     "test_framework": "vitest"},
+    {"language": "Java",       "build_system": "maven",   "test_framework": "junit"},
+    {"language": "Java",       "build_system": "gradle",  "test_framework": "junit"},
+    {"language": "Unknown",    "build_system": "unknown", "test_framework": ""}
+  ],
+  "invariants": [
+    "build_readiness_matrix is a pure function — no I/O beyond reading lock-manifest file *presence*.",
+    "Every required (language, build_system) row is present in the output.",
+    "Unsupported row (language='Unknown') carries ready_level=BLOCKED_UNSUPPORTED and adapter_backed=False.",
+    "Every supported row carries a ready_level from {READY_MOCKED_TRACE, READY_TEMP_PATCH_ONLY, READY_REQUIRES_LIVE_MODEL_ADMISSION, READY_REQUIRES_VERIFIER}.",
+    "live_model_admitted is False on every row at this rung — no row falsely claims live admission.",
+    "Matrix construction is deterministic (excluding the generated_at timestamp).",
+    "Matrix JSON round-trips cleanly.",
+    "scripts/intake/arbitrary_repo_readiness_*.py contains no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "build_readiness_matrix calls no subprocess (defensive monkeypatch sentinel verifies this).",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "false_ready_claim_made": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/intake/arbitrary_repo_readiness_matrix.py",
+      "scripts/intake/arbitrary_repo_readiness_record.py"
+    ],
+    "tests": [
+      "tests/intake/test_arbitrary_repo_readiness_matrix_lock.py"
+    ],
+    "lock": "locks/sentinel/ARBITRARY_REPO_READINESS_MATRIX_LOCK_001.json",
+    "evidence": "assurance/evidence/arbitrary_repo_readiness_matrix/run_20260527.json",
+    "docs": "docs/ARBITRARY_REPO_READINESS_MATRIX.md"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/arbitrary_repo_readiness_matrix/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "live_model_admitted is False everywhere by construction at this rung. A future LIVE rung will produce a regenerated matrix with selected rows flipped.",
+    "Capability tags per row (e.g. which model classes can serve which adapters) are not modeled — that's an IDE-rendering concern handled downstream.",
+    "Generated_at uses utc-now; the matrix is otherwise deterministic — tests assert this."
+  ],
+  "next_recommended_lock": "DETERMINEX_IDE_BACKEND_FINAL_STATE_LOCK_001",
+  "files": [
+    "scripts/intake/arbitrary_repo_readiness_matrix.py",
+    "scripts/intake/arbitrary_repo_readiness_record.py",
+    "tests/intake/test_arbitrary_repo_readiness_matrix_lock.py",
+    "locks/sentinel/ARBITRARY_REPO_READINESS_MATRIX_LOCK_001.json",
+    "assurance/evidence/arbitrary_repo_readiness_matrix/run_20260527.json",
+    "docs/ARBITRARY_REPO_READINESS_MATRIX.md"
+  ]
+}

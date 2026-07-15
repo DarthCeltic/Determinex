@@ -1,0 +1,50 @@
+{
+  "lock_id": "OLLAMA_MODEL_PULL_OPERATOR_GUIDE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "If the canonical local-model id is not pulled, produce a record carrying the EXACT operator command (`ollama pull <id>`), a safety warning, and the next validation command. This lock DOES NOT pull. Auto-pull is intentionally deferred — Determinex will not download an external blob without an explicit, separately-locked policy gate.",
+  "purpose": "Rung 2 of the real-model + build-adapter-verifier campaign (subordinate to Codex audit repair).",
+  "depends_on_locks": [
+    "CANONICAL_LOCAL_MODEL_ID_SELECTION_LOCK_001"
+  ],
+  "tests": 14,
+  "passed_on_this_host": 14,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_ollama_model_pull_operator_guide_lock.py"
+  ],
+  "status_tokens": [
+    "OPERATOR_GUIDE_WRITTEN",
+    "OPERATOR_GUIDE_NOT_NEEDED_MODEL_AVAILABLE",
+    "OPERATOR_GUIDE_BLOCKED_NETWORK_PROVIDER",
+    "OPERATOR_GUIDE_BLOCKED_PROVIDER_UNAVAILABLE",
+    "OPERATOR_GUIDE_BLOCKED_STALE_ID",
+    "OPERATOR_GUIDE_BLOCKED_UNPINNED"
+  ],
+  "this_host_result": {
+    "decision": "OPERATOR_GUIDE_NOT_NEEDED_MODEL_AVAILABLE",
+    "notes": [
+      "host already has determinex-engineer-v11-dsl pulled; no operator action required",
+      "guide module remains tested through fixture selections"
+    ]
+  },
+  "scope_discipline": {
+    "auto_pull_performed": false,
+    "network_provider_admitted": false,
+    "training_eligibility_opened": false,
+    "live_model_called": false,
+    "source_mutation_authorized": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false
+  },
+  "subordinate_to": {
+    "campaign": "Codex proof-control audit repair",
+    "note": "This campaign does NOT claim full-suite clean until the Codex audit repair lands."
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/ollama_model_pull_operator_guide/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001"
+}

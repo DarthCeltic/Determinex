@@ -1,0 +1,56 @@
+{
+  "lock_id": "DETERMINEX_REACT_SPLASH_DEMO_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Rung 9 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES. Live React SplashDemoPanel at frontend/src/components/ide-product-shell/SplashDemoPanel.tsx. Renders 5 steps in canonical order: Idea Lab (happy) -> Repo Clinic (happy) -> Maintenance Bay (blocked) -> Learning Studio (teaching) -> Proof / Operator Center (proof). Tagline 'Proof Before Mutation' rendered as both the h2 and as a data-tagline attribute. Required phrases visible: 'Generated is not verified.' and 'Working means build/test/smoke passed.'. 'This demo does NOT prove' section enumerates: 'not all apps', 'not all languages', 'not production-ready arbitrary apps', 'not training enabled'. Infrastructure caveats visible: no network, no Docker, no ProgramBench, no real user repo touched (fixture only). Tests forbid mutating Tauri verbs, real-user-repo mentions, and forbidden universality claims.",
+  "purpose": "Rung 9 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "DETERMINEX_UNIFIED_PRODUCT_SPLASH_DEMO_SPEC_LOCK_001",
+    "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001",
+    "CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001"
+  ],
+  "tests": 15,
+  "test_modules": ["tests/ide/test_react_splash_demo_panel_lock.py"],
+  "status_tokens": [
+    "REACT_SPLASH_DEMO_PANEL_PASSED",
+    "REACT_SPLASH_DEMO_PANEL_BLOCKED_FALSE_UNIVERSALITY",
+    "REACT_SPLASH_DEMO_PANEL_BLOCKED_AUTHORITY_CONFUSION",
+    "REACT_SPLASH_DEMO_PANEL_BLOCKED_MISSING_PROOF_VIEW"
+  ],
+  "panel_path": "frontend/src/components/ide-product-shell/SplashDemoPanel.tsx",
+  "required_tagline": "Proof Before Mutation",
+  "required_phrases": [
+    "Generated is not verified.",
+    "Working means build/test/smoke passed."
+  ],
+  "required_negative_caveats": [
+    "not all apps",
+    "not all languages",
+    "not production-ready arbitrary apps",
+    "not training enabled"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false,
+    "all_codebases_claim": false,
+    "production_ready_arbitrary_apps_claim": false,
+    "training_enabled_in_demo": false,
+    "real_external_mutation_in_demo": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_react_splash_demo_panel/run_20260528.json"
+  },
+  "remediates_finding": "live-react-splash-demo-panel",
+  "next_recommended_lock": "DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_LOCK_001"
+}

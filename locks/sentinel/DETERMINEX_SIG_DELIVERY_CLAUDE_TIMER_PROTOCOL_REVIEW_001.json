@@ -1,0 +1,82 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/sig_delivery_claude_timer_protocol_review_001/claim_boundary_20260601G.json",
+    "timer_state": "assurance/evidence/sig_delivery_claude_timer_protocol_review_001/timer_state_20260601G.json",
+    "verdict": "assurance/evidence/sig_delivery_claude_timer_protocol_review_001/verdict_20260601G.json"
+  },
+  "audit_pass": true,
+  "blocked": false,
+  "blocked_reason": "Timer applied",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "Sig-delivery Claude review = TIMER-PROTOCOL-GATED OPERATOR SIG CHANNEL + FIRST VALID IMPORT review.",
+    "Reviewed commit: 961ddbdaa4673b82a0d10437b04635a03d7f3f5a. Initial marker at bfb184ff0 had invalid 41-char hash; Codex amended commit and re-emitted marker with valid 40-char hash matching HEAD.",
+    "Timer protocol applied (36 min, 7 rechecks, deadline 60 min).",
+    "Claude rejects: template imports as real signature / placeholder signature imports / wrong packet hash imports / broadened command imports / expired approval imports / queue record without valid material / spend in this delivery-channel wave / React/Vite dependency admission / protected action execution / score rise without evidence / release/open/product-ready claims / family-support promotion.",
+    "Standard: 10/10 Codex lanes recorded; canonical inbox + validator + rejection corpus + dry-run import + template all built. No real signature material exists; dry-run BLOCKED_NO_REAL_MATERIAL; queue 0→0; signed_spend 0→0; React/Vite eligibility BLOCKED; 0 families promoted; no score movement; authority boundary HELD 22 waves.",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Canonical release-supported cells = 10. Release-supported families = 0.",
+    "Hard floor STILL uncrossed (22 waves). Acceptable blocked case verified."
+  ],
+  "commit": "961ddbdaa4673b82a0d10437b04635a03d7f3f5a",
+  "creates_source_truth": false,
+  "date": "2026-06-01",
+  "doc": "docs/DETERMINEX_SIG_DELIVERY_CLAUDE_TIMER_PROTOCOL_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "sig_delivery_claude_lane_A",
+  "gulp_wave_id": "sig_delivery_v1",
+  "head_recheck_protocol_applied": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_sig_delivery_review": true,
+  "is_timer_protocol_gated_review": true,
+  "lane": "A",
+  "lock_id": "DETERMINEX_SIG_DELIVERY_CLAUDE_TIMER_PROTOCOL_REVIEW_001",
+  "marker_validated_before_review": true,
+  "purpose": "Sig-delivery Claude Lane A. Timer protocol applied; 7 rechecks; deadline 60 min respected.",
+  "record": "assurance/evidence/sig_delivery_claude_timer_protocol_review_001/run_20260601G.SIG_DELIVERY_CLAUDE_TIMER_PROTOCOL_REVIEW_001_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "reviewed_commit": "961ddbdaa4673b82a0d10437b04635a03d7f3f5a",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "stale_review_avoided": true,
+  "state_classification": "SIGNATURE_DELIVERY_CHANNEL_BUILT_NO_REAL_MATERIAL_QUEUE_EMPTY_NO_SPEND_BOUNDARY_HELD_22_WAVES",
+  "status": "SIG_DELIVERY_CLAUDE_TIMER_PROTOCOL_REVIEW_001_PASSED",
+  "test_modules": [
+    "tests/status/test_sig_delivery_claude_timer_protocol_review_001.py"
+  ],
+  "timer_protocol_applied": true,
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "head_recheck_protocol_applied": true,
+      "marker_validated_before_review": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true,
+      "reviewed_commit_set": true,
+      "stale_review_avoided": true,
+      "timer_protocol_applied": true
+    },
+    "passed": true
+  },
+  "verdict": "TIMER_PROTOCOL_APPLIED_36_MIN_WAIT_7_RECHECKS_DEADLINE_60_MIN_RESPECTED"
+}

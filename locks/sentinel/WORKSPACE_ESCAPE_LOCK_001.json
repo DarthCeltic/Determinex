@@ -1,0 +1,55 @@
+{
+  "lock_id": "WORKSPACE_ESCAPE_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "tests": 12,
+  "passed": 12,
+  "failed": 0,
+  "skipped": 4,
+  "skip_reason": "symlink creation requires Developer Mode or admin on Windows",
+  "full_suite": {
+    "tests": 862,
+    "passed": 862,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/security/test_workspace_symlink_escape.py"
+  ],
+  "coverage": [
+    "file_inside_workspace_is_allowed",
+    "nested_dir_inside_workspace_is_allowed",
+    "dotdot_traversal_stays_inside_is_allowed",
+    "dotdot_traversal_escapes_is_blocked",
+    "absolute_path_outside_workspace_is_blocked",
+    "assert_inside_workspace_passes_for_contained",
+    "assert_inside_workspace_raises_for_escaped",
+    "symlink_to_outside_file_is_blocked",
+    "symlink_to_outside_dir_is_blocked",
+    "nested_symlink_chain_escape_is_blocked",
+    "symlink_inside_workspace_pointing_inside_is_allowed",
+    "path_resolution_failure_raises"
+  ],
+  "escape_vectors_covered": [
+    "path_traversal_dotdot",
+    "absolute_path_outside_workspace",
+    "symlink_pointing_to_outside_file",
+    "symlink_pointing_to_outside_dir",
+    "nested_symlink_chain",
+    "junction_escape_windows"
+  ],
+  "implementation_spec": {
+    "functions": [
+      "resolve_workspace_path(path, workspace) -> Path",
+      "assert_inside_workspace(path, workspace) -> None"
+    ],
+    "module": "scripts/hive/workspace.py",
+    "mechanism": "Path.resolve() then relative_to() check",
+    "raises": "ValueError with 'escape' in message",
+    "fail_closed": true
+  },
+  "note": "Windows symlink tests require Developer Mode or elevated privileges. The path traversal and absolute path tests cover the same escapes in environments where symlinks are unavailable.",
+  "implementations": [
+    "scripts/hive/workspace.py",
+    "tests/security/test_workspace_symlink_escape.py"
+  ]
+}

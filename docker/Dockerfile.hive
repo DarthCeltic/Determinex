@@ -1,0 +1,75 @@
+# Dockerfile.hive — Determinex Hive Mind Python worker
+#
+# Packages the determinex_hive.py DAG orchestrator and its dependencies into a
+# reproducible image. Compiler Oracle tools (rustc, go) are included so the
+# container can validate generated code without host toolchain dependencies.
+#
+# Network isolation: --network none is the default in docker-compose.hive.yml.
+# The ONLY egress allowed is the Ollama API (host.docker.internal:11434) and
+# optionally the Anthropic/Google APIs if an explicit override network is given.
+# This prevents telemetry poisoning and supply-chain exfiltration from model output.
+#
+# Build:
+#   docker build -f docker/Dockerfile.hive -t determinex-hive:latest .
+#
+# Run (via compose):
+#   docker compose -f docker/docker-compose.hive.yml up
+
+FROM python:3.11-slim-bookworm
+
+# ── System deps ───────────────────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    git \
+    build-essential \
+    # Go toolchain (Compiler Oracle: go build ./...)
+    golang-go \
+    # Needed by fastembed ONNX runtime
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── Rust toolchain (Compiler Oracle: cargo build / cargo check) ───────────────
+# Installed as root, available system-wide. rustup manages the toolchain version
+# so the image can be rebuilt with a specific channel (RUST_CHANNEL arg).
+ARG RUST_CHANNEL=stable
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+    | sh -s -- -y --default-toolchain ${RUST_CHANNEL} --no-modify-path \
+    && rustup component add clippy rustfmt \
+    && cargo --version \
+    && rustc --version
+
+# ── Python environment ────────────────────────────────────────────────────────
+WORKDIR /determinex
+
+# Install Python deps before copying code for layer caching
+COPY scripts/hive/requirements.txt /tmp/hive_requirements.txt
+RUN pip install --no-cache-dir -r /tmp/hive_requirements.txt
+
+# ── Application code ──────────────────────────────────────────────────────────
+COPY scripts/ /determinex/scripts/
+COPY sessions/ /determinex/sessions/
+
+# ── Runtime user (non-root) ───────────────────────────────────────────────────
+# Drop to non-root after setup. Compiler oracle needs write access to /tmp for
+# workspace directories.
+RUN useradd -m -u 1000 hive \
+    && chown -R hive:hive /determinex \
+    && chmod 1777 /tmp
+
+USER hive
+
+# ── Entrypoint ────────────────────────────────────────────────────────────────
+# Default command runs the hive orchestrator. Override via docker compose
+# `command:` key for subcommands (new-session, generate-dag, run-session).
+#
+# --init in docker-compose.hive.yml provides PID 1 zombie reaping so compiler
+# child processes (rustc, go build) are properly reaped on exit.
+ENV PYTHONPATH=/determinex/scripts \
+    PYTHONUNBUFFERED=1
+
+ENTRYPOINT ["python", "/determinex/scripts/determinex_hive.py"]
+CMD ["--help"]

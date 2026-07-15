@@ -1,0 +1,83 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_023_promotion_negative_fixture_corpus_review_001/claim_boundary_20260601C.json",
+    "promotion_corpus_state": "assurance/evidence/wave_023_promotion_negative_fixture_corpus_review_001/promotion_corpus_state_20260601C.json",
+    "verdict": "assurance/evidence/wave_023_promotion_negative_fixture_corpus_review_001/verdict_20260601C.json"
+  },
+  "audit_pass": true,
+  "blocked": false,
+  "blocked_reason": "Fixture corpus exercised",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "Wave 023 Claude reviews are TIMER-PROTOCOL-GATED DAY 1 PRODUCT SPINE VERIFICATION.",
+    "Reviewed commit: 86bc1446f40f7d8e789118b948052764aa10d69e. Timer protocol + HEAD-recheck protocol applied.",
+    "Claude waited for Codex review-ready marker before reviewing; marker validated at step-2 of timer protocol; marker reviewed_commit reachable from HEAD; no stale review.",
+    "Historical finding (Lane A): initial marker at 2d1e056c8 had schema/test/marker field-name divergence (`reviewed_commit_hash` vs required `final_commit_hash`); Codex fix commit 86bc1446f resolved the divergence and tests now pass 12/12.",
+    "Claude rejects: 5/5 family verification as 5/5 family support / typed-blocked as support / LOCAL_ONLY_VERIFIED as family support / MISSING_DEPENDENCY as structural-only / NO_SPEND signature packet as authority granted.",
+    "Standard: 3/5 Tier-1 batch 002 families LOCAL_ONLY_VERIFIED with transcripts; 2/5 typed-blocked (react_vite MISSING_DEPENDENCY, tauri OPERATOR_AUTHORITY); all 5 NOT family-support eligible; all authority/readiness flags remain false.",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Canonical release-supported cells = 10. Release-supported families = 0.",
+    "Codex source truth is not mutated. Score deltas require evidence-delta artifact citation."
+  ],
+  "commit": "86bc1446f40f7d8e789118b948052764aa10d69e",
+  "creates_source_truth": false,
+  "date": "2026-06-01",
+  "doc": "docs/DETERMINEX_WAVE023_PROMOTION_NEGATIVE_FIXTURE_CORPUS_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_023_claude_lane_H",
+  "gulp_wave_id": "023",
+  "head_recheck_protocol_applied": true,
+  "is_day1_product_spine_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_timer_protocol_gated_review": true,
+  "lane": "H",
+  "lock_id": "DETERMINEX_WAVE023_PROMOTION_NEGATIVE_FIXTURE_CORPUS_REVIEW_001",
+  "marker_validated_before_review": true,
+  "purpose": "Wave 023 Claude Lane H. 5 allowed positive categories + 8 forbidden negative categories each exercised by fixture with expected rejection transcript. Reject any forbidden promotion path / any rejection-bypass / any silent skip.",
+  "record": "assurance/evidence/wave_023_promotion_negative_fixture_corpus_review_001/run_20260601C.WAVE023_PROMOTION_NEGATIVE_FIXTURE_CORPUS_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "reviewed_commit": "86bc1446f40f7d8e789118b948052764aa10d69e",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "stale_review_avoided": true,
+  "state_classification": "WAVE_023_DAY1_PRODUCT_SPINE_LANDED_AT_HEAD",
+  "status": "WAVE023_PROMOTION_NEGATIVE_FIXTURE_CORPUS_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_023_promotion_negative_fixture_corpus_review_001.py"
+  ],
+  "timer_protocol_applied": true,
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "head_recheck_protocol_applied": true,
+      "marker_validated_before_review": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true,
+      "reviewed_commit_set": true,
+      "stale_review_avoided": true,
+      "timer_protocol_applied": true
+    },
+    "passed": true
+  },
+  "verdict": "PROMOTION_NEGATIVE_FIXTURE_CORPUS_EXERCISED — corpus:True rejection_transcript:True. 5 allowed positive categories + 8 forbidden negative categories each fixture-exercised. Forbidden promotions correctly rejected."
+}

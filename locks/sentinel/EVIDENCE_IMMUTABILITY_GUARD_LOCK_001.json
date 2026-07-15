@@ -1,0 +1,30 @@
+{
+  "lock_id": "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Inspection commands (determinex evidence validate, determinex config show/doctor, determinex status) are verified read-only and must not mutate evidence or corpus files.",
+  "tests": 20,
+  "passed": 20,
+  "failed": 0,
+  "skipped": 0,
+  "test_modules": [
+    "tests/test_immutability_guard.py"
+  ],
+  "coverage": [
+    "evidence_validate_no_file_mutations",
+    "config_show_no_file_mutations",
+    "status_script_no_corpus_writes",
+    "no_corpus_write_flag_exported_in_read_only_context"
+  ],
+  "invariants": [
+    "determinex evidence validate does not create, modify, or delete any files in assurance/evidence/",
+    "determinex config show does not write to scripts/, assurance/, or corpus/",
+    "determinex status does not call any corpus write method",
+    "read_only_context() exports DETERMINEX_NO_CORPUS_WRITE=1 inside the context",
+    "read_only_context() restores the previous env value on exit (including on exception)",
+    "read_only_context() is composable (nested contexts work correctly)"
+  ],
+  "files": [
+    "tests/test_immutability_guard.py"
+  ]
+}

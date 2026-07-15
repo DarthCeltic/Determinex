@@ -1,0 +1,51 @@
+{
+  "lock_id": "CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates the deferred CLAUDE-AUTH-015 finding: no clear 'this will write files' confirmation panel before source mutation. Backend now declares the canonical PreApplyConfirmationPanelViewModel that the frontend must render, plus a check() function that refuses panels missing canonical_patch_body_hash / diff_hash / verifier_status, missing rollback_snapshot_ref past DRY_RUN, or with authority ambiguity between ui_state and source_mutation_authorized. The 5 distinct ui_states are PREVIEW, DRY_RUN, APPROVED, SOURCE_MUTATION_AUTHORIZED, SOURCE_MUTATION_APPLIED. source_mutation_authorized=True is only valid in the last two; consequence text must include 'source mutation' and 'will write'; training-eligibility text must say training remains False. Panel.training_eligible=True is BLOCKED outright — training never opens through the panel.",
+  "purpose": "Rung 4 of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES.",
+  "depends_on_locks": [
+    "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001",
+    "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+    "SOURCE_MUTATION_ROLLBACK_SNAPSHOT_LOCK_001",
+    "CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001"
+  ],
+  "tests": 22,
+  "test_modules": [
+    "tests/ide/test_pre_apply_confirmation_panel_lock.py"
+  ],
+  "status_tokens": [
+    "PRE_APPLY_CONFIRMATION_PANEL_PASSED",
+    "PRE_APPLY_CONFIRMATION_PANEL_BLOCKED_MISSING_HASH",
+    "PRE_APPLY_CONFIRMATION_PANEL_BLOCKED_MISSING_VERIFIER",
+    "PRE_APPLY_CONFIRMATION_PANEL_BLOCKED_AUTHORITY_AMBIGUITY",
+    "PRE_APPLY_CONFIRMATION_PANEL_BLOCKED_MISSING_SNAPSHOT",
+    "PRE_APPLY_CONFIRMATION_PANEL_BLOCKED_TRAINING_OPENED"
+  ],
+  "ui_states": [
+    "PRE_APPLY_UI_PREVIEW",
+    "PRE_APPLY_UI_DRY_RUN",
+    "PRE_APPLY_UI_APPROVED",
+    "PRE_APPLY_UI_SOURCE_MUTATION_AUTHORIZED",
+    "PRE_APPLY_UI_SOURCE_MUTATION_APPLIED"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "panel_can_open_training": false,
+    "panel_can_open_source_mutation_unilaterally": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_pre_apply_confirmation_panel/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-015",
+  "next_recommended_lock": "CLAUDE_CONFIG_ROOT_ALLOWLIST_LOCK_001"
+}

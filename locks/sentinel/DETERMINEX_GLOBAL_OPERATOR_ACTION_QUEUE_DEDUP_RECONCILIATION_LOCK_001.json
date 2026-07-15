@@ -1,0 +1,29 @@
+{
+  "lock_id": "DETERMINEX_GLOBAL_OPERATOR_ACTION_QUEUE_DEDUP_RECONCILIATION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Deduplicate and clarify the global operator action queue without granting authority.",
+  "depends_on_locks": [
+    "DETERMINEX_GLOBAL_OPERATOR_ACTION_QUEUE_LOCK_001",
+    "DETERMINEX_GLOBAL_TRAINING_ELIGIBILITY_GUARD_LOCK_001"
+  ],
+  "status": "GLOBAL_OPERATOR_QUEUE_DEDUP_WRITTEN",
+  "integrity_status": "GLOBAL_OPERATOR_QUEUE_DEDUP_INTEGRITY_PASSED",
+  "record": "assurance/evidence/global_operator_action_queue_dedup_reconciliation/run_20260528.GLOBAL_OPERATOR_QUEUE_DEDUP_WRITTEN.json",
+  "test_modules": [
+    "tests/status/test_determinex_global_operator_action_queue_dedup_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/status/test_determinex_global_operator_action_queue_dedup_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "actions_before": 17,
+  "actions_after": 16,
+  "deduplicated_groups": 1,
+  "can_execute_any": false,
+  "can_mutate_source_any": false,
+  "can_write_training_row_any": false,
+  "approvals_granted": false,
+  "training_rows_written": false
+}

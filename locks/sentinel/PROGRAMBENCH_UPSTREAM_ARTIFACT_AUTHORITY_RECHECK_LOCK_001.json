@@ -1,0 +1,96 @@
+{
+  "lock_id": "PROGRAMBENCH_UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "87eff7703940f1c0da19d0819be5970f4667325e",
+  "purpose": "Reconcile Doxygen ProgramBench task_cleanroom upstream artifact authority with Determinex's separate rebuild, remediation, execution-security, cache-readiness, and training-eligibility gates without running Docker or ProgramBench.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_upstream_artifact_authority_recheck_lock.py",
+    "passed": 14,
+    "failed": 0
+  },
+  "related_programbench_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench\\test_programbench_upstream_artifact_authority_recheck_lock.py tests\\corpus\\programbench\\test_programbench_alternate_cleanroom_image_provenance_lock.py tests\\corpus\\programbench\\test_programbench_operator_provenance_request_packet_lock.py tests\\corpus\\programbench\\test_programbench_rebuild_provenance_quarantine_decision_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_recipe_provenance_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_provenance_gap_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_remediation_plan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_triage_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_hydration_lock.py tests\\corpus\\programbench\\test_programbench_approved_scanner_setup_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scanner_admission_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_import_lock.py tests\\corpus\\programbench\\test_programbench_dockerhub_manifest_provenance_lock.py tests\\corpus\\programbench\\test_programbench_operator_artifact_admission_lock.py -q --tb=short",
+    "passed": 248,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench -q --tb=short",
+    "passed": 303,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 303,
+    "failed": 0
+  },
+  "evidence_validation": {
+    "evidence_index_entries": 85,
+    "validation_errors": []
+  },
+  "implementation": [
+    "scripts/corpus/programbench/upstream_artifact_authority_recheck.py",
+    "scripts/corpus/programbench/upstream_artifact_authority_recheck_record.py",
+    "tests/corpus/programbench/test_programbench_upstream_artifact_authority_recheck_lock.py"
+  ],
+  "doxygen_upstream_artifact_authority_recheck": {
+    "recheck_record": "assurance/evidence/programbench_upstream_artifact_authority_recheck/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_COMPLETED.json",
+    "instance_id": "doxygen__doxygen.966d98e",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "image_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "upstream_benchmark_artifact_authority": "PRESENT",
+    "rebuild_provenance_authority": "ABSENT",
+    "remediation_authority": "ABSENT",
+    "execution_security_policy": "BLOCKED_SCAN_FAILED",
+    "decision": "OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED_EXECUTION_BLOCKED_SCAN_FAILED",
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "consumed_records": [
+    "assurance/evidence/programbench_dockerhub_manifest_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.EXACT_REMOTE_MANIFEST_FOUND.json",
+    "assurance/evidence/programbench_operator_provenance_requests/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.json",
+    "assurance/evidence/programbench_rebuild_provenance_quarantine_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.json",
+    "assurance/evidence/programbench_cleanroom_image_scans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json",
+    "assurance/evidence/programbench_cleanroom_image_hydration/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json",
+    "assurance/evidence/programbench_alternate_cleanroom_image_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.json",
+    "locks/sentinel/PROGRAMBENCH_ONLINE_PROVIDER_REGISTRY_LOCK_001.json"
+  ],
+  "authority_boundaries": [
+    "Official upstream benchmark artifact authority is not rebuild provenance authority.",
+    "Official upstream benchmark artifact authority is not remediation authority.",
+    "Official upstream benchmark artifact authority is not execution security authority.",
+    "Official upstream benchmark artifact authority is not cache readiness.",
+    "Official upstream benchmark artifact authority is not training eligibility."
+  ],
+  "acceptance": [
+    "consumes prior Doxygen provenance, scan, remediation, rebuild-decision, operator-request, and alternate-provenance records",
+    "verifies ProgramBench task_cleanroom naming maps doxygen__doxygen.966d98e to programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "verifies exact digest consistency with sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "records upstream benchmark artifact authority as PRESENT",
+    "records rebuild provenance authority as ABSENT",
+    "records remediation authority as ABSENT",
+    "records execution security policy as BLOCKED_SCAN_FAILED",
+    "admits official artifact metadata only",
+    "does not rebuild",
+    "does not remediate",
+    "does not run Docker containers",
+    "does not run ProgramBench",
+    "keeps cache_ready false",
+    "keeps executable false",
+    "keeps training_eligible false"
+  ],
+  "policy": [
+    "No broad web search.",
+    "No inferred officialness.",
+    "No latest tags.",
+    "No Docker run.",
+    "No ProgramBench rerun.",
+    "No rebuild.",
+    "No remediation.",
+    "No policy exception.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not prove that the Doxygen cleanroom image is safe to execute, rebuild, remediate, hydrate into cache, rerun under ProgramBench, or convert into training data. It only reconciles official upstream artifact metadata authority with the still-blocking local security and provenance gates.",
+  "previous_lock": "PROGRAMBENCH_ALTERNATE_CLEANROOM_IMAGE_PROVENANCE_LOCK_001",
+  "next_lock_if_execution_blocked_by_scan": "PROGRAMBENCH_OFFICIAL_ARTIFACT_SECURITY_DECISION_LOCK_001",
+  "next_lock_if_upstream_artifact_authority_absent_or_inconclusive": "PROGRAMBENCH_CLEANROOM_PROVENANCE_DEAD_END_PACKET_LOCK_001"
+}

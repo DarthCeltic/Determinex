@@ -1,0 +1,132 @@
+{
+  "lock_id": "SQL_ORACLE_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 22,
+  "passed": 22,
+  "failed": 0,
+  "full_suite": {
+    "tests": 686,
+    "passed": 686,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/locks/test_sql_oracle_lock.py"
+  ],
+  "test_classes": [
+    "TestSqlSchemaLoader",
+    "TestSqlSafetyGate",
+    "TestSqlExecutionAndCompare",
+    "TestSqlRepairTrace",
+    "TestSqlCorpusSigning"
+  ],
+  "coverage": [
+    "loads_tables",
+    "loads_columns",
+    "primary_key_metadata",
+    "select_allowed",
+    "with_allowed",
+    "drop_blocked",
+    "update_blocked",
+    "multi_statement_blocked",
+    "pragma_writable_schema_blocked",
+    "executes_query",
+    "blocks_unsafe_execute",
+    "reports_sql_error",
+    "normalizes_unordered_rows",
+    "ordered_compare_respects_order",
+    "unordered_compare_ignores_order",
+    "predicate_mutation_changes_query",
+    "mutated_query_fails_expected_result",
+    "repaired_query_matches_expected",
+    "trace_payload_has_required_fields",
+    "sql_corpus_record_is_signed",
+    "tampered_sql_record_fails_verification",
+    "failed_final_verdict_payload"
+  ],
+  "pipeline_spec": {
+    "class": "SqlOracle",
+    "module": "scripts/sql/sql_oracle.py",
+    "stages": [
+      "schema_load",
+      "unsafe_query_gate",
+      "baseline_execute",
+      "result_normalize",
+      "result_compare",
+      "predicate_mutation",
+      "repair_execute",
+      "signed_corpus_write"
+    ],
+    "rejection_codes": [
+      "unsafe_sql_blocked"
+    ],
+    "oracle": "sqlite execute + normalized result comparator"
+  },
+  "schema_spec": {
+    "class": "SqlSchema",
+    "detects": [
+      "tables",
+      "columns",
+      "column types",
+      "not-null flags",
+      "primary keys"
+    ]
+  },
+  "safety_gate_spec": {
+    "blocked": [
+      "ATTACH",
+      "DETACH",
+      "DROP",
+      "DELETE",
+      "UPDATE",
+      "INSERT",
+      "ALTER",
+      "CREATE",
+      "REPLACE",
+      "PRAGMA writable_schema",
+      "VACUUM",
+      "multi-statement SQL"
+    ],
+    "allowed": [
+      "SELECT",
+      "WITH"
+    ]
+  },
+  "corpus_record_spec": {
+    "schema_version": "determinex-agent-trace-v1",
+    "signing_algorithm": "BLAKE2b-256 HMAC",
+    "canonical_form": "sorted-key JSON",
+    "signature_field": "_sig",
+    "minimum_sig_length": 32
+  },
+  "sql_metadata_fields": [
+    "language",
+    "dialect",
+    "mutation_type",
+    "question",
+    "initial_sql",
+    "repaired_sql",
+    "expected_rows",
+    "initial_ok",
+    "initial_error",
+    "final_ok",
+    "final_rows",
+    "validator",
+    "verdict"
+  ],
+  "factory_claim": {
+    "note": "SQL extends the compiler-oracle pattern into a database oracle: schema, execute, compare, repair, sign.",
+    "contract": "schema loader -> safe query gate -> executor -> comparator -> repair trace -> signed corpus writer -> lock manifest"
+  },
+  "benchmark_leverage": {
+    "targets": [
+      "BIRD",
+      "BIRD-Critic",
+      "LiveSQLBench",
+      "enterprise analytics tasks"
+    ],
+    "note": "The sqlite backend is the first deterministic local SQL oracle; postgres/mysql adapters can plug into the same trace schema."
+  },
+  "previous_lock": "TYPESCRIPT_REPAIR_LOCK_001",
+  "next_lock": "BROWSER_AGENT_LOCK_001"
+}

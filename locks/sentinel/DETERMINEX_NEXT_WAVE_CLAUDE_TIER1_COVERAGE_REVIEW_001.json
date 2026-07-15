@@ -1,0 +1,81 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/next_wave_claude_tier1_coverage_review_001/claim_boundary_20260601E.json",
+    "tier1_state": "assurance/evidence/next_wave_claude_tier1_coverage_review_001/tier1_state_20260601E.json",
+    "verdict": "assurance/evidence/next_wave_claude_tier1_coverage_review_001/verdict_20260601E.json"
+  },
+  "audit_pass": true,
+  "blocked": false,
+  "blocked_reason": "Tier-1 unchanged",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "Next-wave Claude review = TIMER-PROTOCOL-GATED FIRST SIGNED SPEND + BASELINE review.",
+    "Reviewed commit: 717ffbeb8f049c5b577f6b611901240b6107e567. Marker successor at 08cd79daa69ebac7af0f4d2409deaa30cc86196c. Timer protocol applied (34+ min wait, 7 rechecks).",
+    "Claude rejects: spend without signed approval / dependency admission exceeding packet scope / broad package update / React-Vite local verification without transcript / local-only as clean-host / exact cell as family support / score rises without evidence / baseline mismatch remaining unexplained / release/open/product-ready claims / universal support claims.",
+    "Standard: 8/8 Codex lanes recorded; baseline reconciled (W023→overnight continuity proven); React/Vite packet structurally complete but UNSIGNED → typed blocker; NO spend occurred; 0 families promoted; next packet selection rational (React/Vite remains rank-1).",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Canonical release-supported cells = 10. Release-supported families = 0.",
+    "Hard floor STILL uncrossed (20 waves): signed_valid_queue=0, signed_spend=0, 0 SBOMs, 0 clean-host, 0 GUI, 0 installer, 0 protected execution."
+  ],
+  "commit": "717ffbeb8f049c5b577f6b611901240b6107e567",
+  "creates_source_truth": false,
+  "date": "2026-06-01",
+  "doc": "docs/DETERMINEX_NEXT_WAVE_CLAUDE_TIER1_COVERAGE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "next_wave_claude_lane_H",
+  "gulp_wave_id": "next_wave_first_spend",
+  "head_recheck_protocol_applied": true,
+  "is_first_signed_spend_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_timer_protocol_gated_review": true,
+  "lane": "H",
+  "lock_id": "DETERMINEX_NEXT_WAVE_CLAUDE_TIER1_COVERAGE_REVIEW_001",
+  "marker_validated_before_review": true,
+  "purpose": "Next-wave Claude Lane H. Tier-1 coverage did NOT inflate. Verified count and typed-blocked count unchanged from overnight. react_vite + tauri still typed-blocked.",
+  "record": "assurance/evidence/next_wave_claude_tier1_coverage_review_001/run_20260601E.NEXT_WAVE_CLAUDE_TIER1_COVERAGE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "reviewed_commit": "717ffbeb8f049c5b577f6b611901240b6107e567",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "stale_review_avoided": true,
+  "state_classification": "FIRST_SIGNED_SPEND_BLOCKED_UNSIGNED_BOUNDARY_HELD_20_WAVES",
+  "status": "NEXT_WAVE_CLAUDE_TIER1_COVERAGE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_next_wave_claude_tier1_coverage_review_001.py"
+  ],
+  "timer_protocol_applied": true,
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "head_recheck_protocol_applied": true,
+      "marker_validated_before_review": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true,
+      "reviewed_commit_set": true,
+      "stale_review_avoided": true,
+      "timer_protocol_applied": true
+    },
+    "passed": true
+  },
+  "verdict": "TIER1_COVERAGE_UNCHANGED_VERIFIED — verified count and typed-blocked count unchanged from overnight close. react_vite_apps still BLOCKED_NO_REAL_SIGNATURE (no admission); tauri_electron_desktop still BLOCKED_REQUIRES_OPERATOR_AUTHORITY. No inflation."
+}

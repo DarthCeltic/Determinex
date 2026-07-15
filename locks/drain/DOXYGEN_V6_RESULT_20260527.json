@@ -1,0 +1,69 @@
+{
+  "artifact_id": "DOXYGEN_V6_RESULT_20260527",
+  "date": "2026-05-27",
+  "slug": "doxygen__doxygen.966d98e",
+  "shard": "doxygen_v6_conditional_doc_warning_20260527",
+  "run_root": "T:/determinex-staging/pb_doxygen_conditional_doc_warning_v6",
+  "gate_result": "T:/determinex-staging/pb_doxygen_conditional_doc_warning_v6/gate_result.json",
+  "eval_json": "T:/determinex-staging/pb_doxygen_conditional_doc_warning_v6/doxygen__doxygen.966d98e/doxygen__doxygen.966d98e.eval.json",
+  "hetzner_return": "T:/determinex-staging/hetzner_returns/doxygen_v6_conditional_doc_warning_20260527",
+  "hetzner_mirror": "T:/determinex-programbench/hetzner_results/doxygen_v6_conditional_doc_warning_20260527",
+  "baseline": {
+    "passed": 249,
+    "failed": 1,
+    "skipped": 1,
+    "runnable": 250,
+    "total": 261
+  },
+  "candidate": {
+    "passed": 248,
+    "failed": 2,
+    "skipped": 1,
+    "runnable": 250,
+    "total": 261
+  },
+  "decision": "reject",
+  "reason": "passed delta = -1 (baseline 249 -> candidate 248); requires strict improvement",
+  "failure_class": "argv0_preservation_present_but_failing",
+  "matched_patterns": [
+    "argv0_preservation",
+    "stderr_stdout_normalization",
+    "serializer_exactness",
+    "clap_error_format",
+    "harness_plumbing"
+  ],
+  "newly_failing": [
+    "eval.tests.test_config_env_handling.test_env_var_substitution_in_value_affects_behavior_quiet"
+  ],
+  "baseline_failure_remaining": [
+    "eval.tests.test_config_and_run.test_documentation_run_generates_expected_html_files"
+  ],
+  "trace": {
+    "local_legacy_corpus": "corpus/programbench/training_corpus/pb_verdict_corpus.jsonl",
+    "t_corpus_root": "T:/determinex_corpus",
+    "rows_emitted": 250,
+    "rows_pass": 248,
+    "rows_fail": 2,
+    "t_corpus_total_after_backfill": 11868,
+    "t_corpus_status": "active_eval_evidence",
+    "training_eligible": false,
+    "training_exclusion_reason": "license/safety provenance unknown for this legacy ProgramBench verdict path; kept as eval evidence after schema maturity backfill"
+  },
+  "corpus_integrity_after_backfill": {
+    "unsigned_count": 0,
+    "invalid_signature_count": 0,
+    "missing_required_field_count": 0,
+    "parse_error_count": 0,
+    "signature_key_scope": "durable"
+  },
+  "next_repair_packet": {
+    "path": "corpus/programbench/in_progress/doxygen__doxygen.966d98e/hint_audit_20260527T213714Z.md",
+    "recommended_action": "Do not requeue the conditional stderr suppression patch. Isolate argv0/env-config behavior against the upstream binary; fix the env-var substitution regression before any next Doxygen candidate."
+  },
+  "remote_cleanup": "cleaned",
+  "lock_context": [
+    "CORPUS_SCHEMA_MATURITY_LOCK_001",
+    "BENCH_TO_CORPUS_ELIGIBILITY_LOCK_001",
+    "NO_LOOSE_BENCH_ARTIFACTS_LOCK_001"
+  ]
+}

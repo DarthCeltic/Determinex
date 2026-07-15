@@ -1,0 +1,48 @@
+{
+  "lock_id": "FRONTEND_QUALITY_RAILS_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Frontend quality rails: Prettier formatting baseline, Vitest smoke test suite (10 tests), ESLint via eslint-config-next, CI job for all three.",
+  "tests": 10,
+  "passed": 10,
+  "failed": 0,
+  "skipped": 0,
+  "test_files": [
+    "frontend/src/__tests__/smoke.test.ts"
+  ],
+  "test_coverage": [
+    "isTauri() returns false in SSR (window undefined)",
+    "isTauri() returns false when __TAURI_INTERNALS__ absent",
+    "isTauri() returns false when __TAURI_INTERNALS__ is null",
+    "isTauri() returns false when transformCallback missing",
+    "isTauri() returns true when fully wired",
+    "MoAResult accepts fully-formed shape",
+    "MoAResult allows optional review_notes",
+    "thread_id is a non-empty string",
+    "HealthTelemetry.status is string",
+    "HealthTelemetry.pack_task_active is boolean"
+  ],
+  "invariants": [
+    "All matched files pass Prettier code style (npm run format-check)",
+    "ESLint passes on all src/ files",
+    "Vitest runs ≥10 tests without network or filesystem",
+    "Tauri IPC is mocked in setup.ts — tests run in jsdom, not Tauri",
+    "src-tauri/ is in .prettierignore (generated files excluded)",
+    "vitest.config.ts uses @vitejs/plugin-react and jsdom environment",
+    "CI runs frontend-quality job on every push/PR touching frontend/**"
+  ],
+  "tools": {
+    "prettier": "3.x",
+    "vitest": "4.x",
+    "eslint": "9.x (via eslint-config-next)"
+  },
+  "files": [
+    "frontend/.prettierrc.json",
+    "frontend/.prettierignore",
+    "frontend/vitest.config.ts",
+    "frontend/src/__tests__/setup.ts",
+    "frontend/src/__tests__/smoke.test.ts",
+    "frontend/package.json",
+    ".github/workflows/test.yml"
+  ]
+}

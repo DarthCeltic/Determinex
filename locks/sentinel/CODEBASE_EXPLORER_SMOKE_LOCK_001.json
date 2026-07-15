@@ -1,0 +1,143 @@
+{
+  "lock_id": "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Smoke coverage for scripts/codebase_explorer.py — the main arbitrary-repo intake/diagnosis path. Three tiny fixture repos (Python/Rust/Go) prove CodebaseExplorer can ingest a repo, detect language + build system, run shadow build/test, surface at least one issue signal, AND do so without mutating source, corpus, or signed evidence, without requiring T:/, and without weakening safety defaults.",
+  "purpose": "First test coverage for the largest untested module in the repo. Establishes a regression floor for the arbitrary-repo intake path. Does NOT redesign codebase_explorer — that is the next rung (BUILD_ADAPTER_REGISTRY_LOCK_001).",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001"
+  ],
+  "tests": 12,
+  "passed_on_this_host": 12,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/intake/test_codebase_explorer_smoke_lock.py"
+  ],
+  "test_coverage": [
+    "status tokens form a closed set, matched to lock manifest",
+    "codebase_explorer module imports cleanly (SSRF guard at import time passes)",
+    "no drive letter required to locate fixtures",
+    "python_broken: pip + pytest detected, test_failure finding surfaced, source tree unmutated, signed evidence unmutated",
+    "rust_broken: cargo + cargo test detected, compilation finding surfaced (cargo check rejects), source tree unmutated (Cargo.lock treated as build cruft)",
+    "go_broken: go + go test detected, compilation or test_failure finding surfaced, source tree unmutated",
+    "no-drive-letter intake: DETERMINEX_*/HF_HOME/OLLAMA_* stripped, WorkspaceLoader still detects language",
+    "corpus write guard is in effect during smoke (DETERMINEX_NO_CORPUS_WRITE=1 → CorpusWriteBlockedError)",
+    "safety defaults remain fail-closed after a smoke run (assert_safety_defaults returns [])",
+    "lock manifest exists",
+    "lock manifest status tokens match module STATUS_TOKENS",
+    "lock manifest pins fixtures_count == 3"
+  ],
+  "fixtures_count": 3,
+  "fixtures": [
+    {
+      "name": "python_broken",
+      "path": "tests/fixtures/intake/python_broken",
+      "build_system_expected": "pip",
+      "test_framework_expected": "pytest",
+      "manifest_files": ["pyproject.toml"],
+      "issue": "src/calc.py::add subtracts instead of adds; tests/test_calc.py asserts 2+3==5 → pytest fails",
+      "expected_finding_category": "test_failure"
+    },
+    {
+      "name": "rust_broken",
+      "path": "tests/fixtures/intake/rust_broken",
+      "build_system_expected": "cargo",
+      "test_framework_expected": "cargo test",
+      "manifest_files": ["Cargo.toml"],
+      "issue": "src/lib.rs::add returns a string literal from a fn declared i32 → cargo check rejects with E0308",
+      "expected_finding_category": "compilation",
+      "toolchain_dependency": "cargo must be on PATH (test skipped otherwise)"
+    },
+    {
+      "name": "go_broken",
+      "path": "tests/fixtures/intake/go_broken",
+      "build_system_expected": "go",
+      "test_framework_expected": "go test",
+      "manifest_files": ["go.mod"],
+      "issue": "calc/calc.go::Add returns \"oops\" from a signature declared int → go build rejects",
+      "expected_finding_category": "compilation",
+      "toolchain_dependency": "go must be on PATH (test skipped otherwise)"
+    }
+  ],
+  "status_tokens": [
+    "CODEBASE_EXPLORER_SMOKE_PASSED",
+    "CODEBASE_EXPLORER_SMOKE_FAILED",
+    "FIXTURE_REPO_LOADED",
+    "LANGUAGE_DETECTED",
+    "BUILD_HINT_DETECTED",
+    "DIAGNOSIS_REPORT_WRITTEN",
+    "ISSUE_SIGNAL_DETECTED",
+    "SOURCE_TREE_UNMUTATED",
+    "CORPUS_UNMUTATED",
+    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+    "PATH_PORTABLE",
+    "SAFETY_DEFAULTS_RESPECTED"
+  ],
+  "intake_path_exercised": {
+    "entry_point": "scripts.codebase_explorer.CodebaseExplorer(workspace).explore() -> WorkspaceReport",
+    "modules_covered": [
+      "WorkspaceLoader.scan",
+      "WorkspaceLoader._classify_file",
+      "detect_build_system",
+      "detect_language",
+      "ShadowCompiler.compile",
+      "ShadowCompiler.run_tests",
+      "ShadowCompiler._shadow_compile_python",
+      "ShadowCompiler._format_output",
+      "CodebaseExplorer.__init__",
+      "CodebaseExplorer.explore"
+    ],
+    "modules_NOT_covered_in_this_lock": [
+      "IssueLocalizer (requires LLM mock — deferred to next rung)",
+      "PatchPipeline (requires LLM mock — deferred to next rung)",
+      "CodebaseExplorer.diagnose (requires LLM mock — deferred)",
+      "CodebaseExplorer.fix (requires LLM mock — deferred)",
+      "main / CLI dispatch (covered indirectly via subprocess call from frontend IPC, not unit-tested here)"
+    ]
+  },
+  "safety_invariants": [
+    "Fixture is copied to a tmp_path before exploration; the git-tracked fixture is never mutated.",
+    "SOURCE_TREE_UNMUTATED hash compares before/after the COPY, ignoring tool-generated build cruft (Cargo.lock, go.sum, __pycache__/, target/, .pytest_cache/).",
+    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD hashes assurance/evidence/evidence_index.json + every locks/sentinel/*.json before and after each per-fixture explore.",
+    "DETERMINEX_NO_CORPUS_WRITE=1 is set in the test env; any corpus write would raise CorpusWriteBlockedError.",
+    "DETERMINEX_AUDIT_DIR is redirected to the tmp_path so observability events never touch real logs.",
+    "DETERMINEX_OLLAMA_URL is pinned to http://localhost:11434 to satisfy codebase_explorer's import-time SSRF guard.",
+    "DETERMINEX_TEST_TIMEOUT=45 caps every shadow subprocess so a wedge fails fast.",
+    "No network access: shadow build/test runs only the local toolchains (cargo, go, py_compile, pytest).",
+    "No Docker pulls.",
+    "No model/API calls (the LLM-dependent diagnose/fix paths are excluded from this lock)."
+  ],
+  "evidence": {
+    "run_artifact": "assurance/evidence/codebase_explorer_smoke/run_20260527.json",
+    "summary_this_host": {
+      "platform": "win32",
+      "python": "3.11.9",
+      "python_broken": {"build": "pip", "test": "pytest", "findings": 1, "health": 0.70},
+      "rust_broken":   {"build": "cargo", "test": "cargo test", "findings": 4, "health": 0.30},
+      "go_broken":     {"build": "go", "test": "go test", "findings": 2, "health": 0.30}
+    }
+  },
+  "remaining_gaps_in_codebase_explorer": [
+    "No tests for IssueLocalizer, PatchPipeline, diagnose(), or fix() — all require LLM mocking. Deferred to a future LLM-mocked-intake lock.",
+    "Build-system detection is still a 14-line if-ladder in detect_build_system; no adapter contract. This is the explicit subject of the next rung, BUILD_ADAPTER_REGISTRY_LOCK_001.",
+    "ShadowCompiler shells out via raw subprocess.run; it does not route through hive/compiler.py's hardened sandbox / Job Objects. To be addressed by PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001.",
+    "MAX_SCAN_FILES=5000 silently truncates large repos — no warning is surfaced in the WorkspaceReport.",
+    "Stale model id defaults are still hardcoded at codebase_explorer.py:58-59 (engineer-v10-dsl / observer-v5-dsl). To be addressed by MODEL_ROUTER_LOCK_001.",
+    "No incremental indexing — every explore() call rescans the whole repo.",
+    "No symbol cross-ref / LSP-style index — diagnose() is keyword + traceback parsing only."
+  ],
+  "next_recommended_lock": "BUILD_ADAPTER_REGISTRY_LOCK_001",
+  "files": [
+    "tests/intake/__init__.py",
+    "tests/intake/test_codebase_explorer_smoke_lock.py",
+    "tests/fixtures/intake/python_broken/",
+    "tests/fixtures/intake/rust_broken/",
+    "tests/fixtures/intake/go_broken/",
+    "locks/sentinel/CODEBASE_EXPLORER_SMOKE_LOCK_001.json",
+    "assurance/evidence/codebase_explorer_smoke/run_20260527.json"
+  ]
+}

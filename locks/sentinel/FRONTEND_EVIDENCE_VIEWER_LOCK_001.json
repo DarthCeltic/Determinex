@@ -1,0 +1,23 @@
+{
+  "lock_id": "FRONTEND_EVIDENCE_VIEWER_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Read-only evidence viewer. Shows source mutation status, training_eligible=false, lock IDs, evidence files. No edit controls. Health note references determinex evidence validate.",
+  "purpose": "Rung 9 of the real frontend campaign.",
+  "depends_on_locks": ["FRONTEND_REPAIR_PANEL_SHELL_LOCK_001"],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide_frontend/test_frontend_evidence_viewer_lock.py"],
+  "status_tokens": [
+    "EVIDENCE_VIEWER_READY",
+    "EVIDENCE_VIEWER_READ_ONLY",
+    "EVIDENCE_HEALTH_VISIBLE"
+  ],
+  "scope_discipline": {
+    "edit_controls_added": false,
+    "user_source_mutated": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/frontend_evidence_viewer/run_20260528.json"},
+  "next_recommended_lock": "LOCAL_MODEL_SETTINGS_PANEL_LOCK_001"
+}

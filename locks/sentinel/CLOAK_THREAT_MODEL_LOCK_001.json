@@ -1,0 +1,65 @@
+{
+  "lock_id": "CLOAK_THREAT_MODEL_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Formal Project Cloak threat model: 14 leak vectors enumerated with mitigation, verification test, and residual risk for each. Audit procedure specified. Locked alongside Rung 6 of pre-release hardening sprint.",
+  "doc": "docs/CLOAK_THREAT_MODEL.md",
+  "depends_on_locks": [
+    "CLOAK_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001"
+  ],
+  "leak_vectors_documented": 14,
+  "leak_vectors": [
+    "2.1 Identifier in source body",
+    "2.2 Identifier in docstring",
+    "2.3 Identifier in compile-error feedback loop",
+    "2.4 Identifier in API request metadata (headers, schemas, user-agent)",
+    "2.5 Identifier in tool/function-calling schema",
+    "2.6 Star-import pass-through (Python)",
+    "2.7 Single-character and dunder exemptions (by design)",
+    "2.8 File path leakage in region mode",
+    "2.9 String-literal leakage",
+    "2.10 Plaintext fallback on internal error (fail-closed invariant)",
+    "2.11 Tree-sitter silent regex fallback",
+    "2.12 Region threshold misconfiguration",
+    "2.13 Map persistence leakage (operator policy)",
+    "2.14 Out-of-band telemetry channels"
+  ],
+  "out_of_scope_documented": [
+    "Local host compromise",
+    "Side-channel inference (timing, token count, model selection)",
+    "Adversaries with access to operator's GitHub clone or backups",
+    "Pattern-match attacks using prior real-name vocabulary",
+    "Cross-run inference (mitigated by per-instance symbol map rotation)"
+  ],
+  "audit_procedure": {
+    "steps": 6,
+    "preconditions": ["DETERMINEX_CLOAK=1", "DETERMINEX_CLOAK_AUDIT=1", "determinex doctor passes cloak + tree-sitter"],
+    "verifier": "scripts/verify_cloak.py",
+    "strict_mode_required": true,
+    "evidence_archive_path": "assurance/evidence/cloak_audits/<run-id>/"
+  },
+  "verifying_tests": [
+    "tests/test_cloak_smoke.py::CloakSmokeTests (6 tests)",
+    "tests/test_cloak_smoke.py::CloakFailClosedTests (3 tests)"
+  ],
+  "verifying_runs": [
+    "SWE-bench B-Cloaked (Rosetta OFF): 1,813,760 identifiers verified across 300 instances, zero leaks"
+  ],
+  "invariants": [
+    "Every leak vector has a mitigation, a verifying test or audit, and an explicit residual-risk rating",
+    "Out-of-scope items are enumerated explicitly so operators do not over-claim",
+    "Audit procedure is repeatable and produces a machine-checkable artifact (verify_cloak.py exit code + leak count)",
+    "Map files (cloak_map_*.json) are .gitignored and treated as host secrets",
+    "Tool schema names must come from closed vocabulary (operator-discipline requirement, documented)",
+    "Plaintext fallback on internal error is forbidden (fail-closed invariant, unit-tested)"
+  ],
+  "files": [
+    "docs/CLOAK_THREAT_MODEL.md",
+    "scripts/determinex_cloak.py",
+    "scripts/determinex_cloak/",
+    "scripts/verify_cloak.py",
+    "scripts/cloak_audit.py",
+    "tests/test_cloak_smoke.py"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "lock_id": "PROGRAMBENCH_ONLINE_ARTIFACT_DISCOVERY_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Add a discovery-only online artifact lane for missing ProgramBench replay images and artifacts without trusting online sources by default.",
+  "focused_tests": {
+    "module": "tests/corpus/test_programbench_online_artifact_discovery_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/online_artifact_discovery.py",
+    "scripts/corpus/legacy_recovery/artifact_source_registry.py",
+    "scripts/corpus/legacy_recovery/artifact_provenance.py",
+    "scripts/corpus/legacy_recovery/artifact_trust_policy.py",
+    "scripts/corpus/legacy_recovery/artifact_security_scan.py",
+    "assurance/config/artifact_sources.json",
+    "tests/corpus/test_programbench_online_artifact_discovery_lock.py"
+  ],
+  "batch_001_online_discovery_report": {
+    "path": "assurance/evidence/programbench_online_artifact_discovery_batch_001.json",
+    "source_batch": "assurance/evidence/legacy_replay_promotion_batch_001.json",
+    "candidates": 10,
+    "online_artifacts_pinned": 0,
+    "online_artifacts_rejected": 0,
+    "online_artifacts_ambiguous": 0,
+    "IMAGE_MISSING": 10,
+    "reason": "online_searcher_not_configured"
+  },
+  "statuses": [
+    "ONLINE_DISCOVERY_CANDIDATE_FOUND",
+    "ONLINE_ARTIFACT_PINNED",
+    "ONLINE_ARTIFACT_REJECTED",
+    "ONLINE_ARTIFACT_AMBIGUOUS",
+    "IMAGE_MISSING"
+  ],
+  "admission_rule": "Online can suggest. Provenance can admit. Verifier can trust.",
+  "acceptance": [
+    "missing local image can trigger online discovery",
+    "tag-only OCI image is rejected",
+    "digest-pinned OCI image can be admitted as a candidate",
+    "ambiguous candidates are rejected",
+    "public-untrusted source cannot execute without scan",
+    "security scan failure blocks hydration",
+    "provenance record is written and signed",
+    "digest mismatch blocks hydration",
+    "Hugging Face artifact requires exact revision",
+    "floating main revision is rejected for execution use",
+    "blocked source is rejected",
+    "old pinned artifact is not replaced in-place"
+  ],
+  "trust_ladder": [
+    "trusted_internal",
+    "verified_upstream",
+    "official_project",
+    "public_untrusted",
+    "unknown",
+    "blocked"
+  ],
+  "policy": [
+    "Discovery is not execution.",
+    "No network pull happens in this lock.",
+    "Download/hydration must start in quarantine.",
+    "Digest or exact revision is required before use.",
+    "Security scan metadata is required for public or upstream sources.",
+    "Provenance must be HMAC signed before an artifact can enter replay hydration."
+  ],
+  "does_not_prove": "Does not prove online images are available for Batch 001; the default Batch 001 report keeps online search disabled and returns IMAGE_MISSING for all 10 candidates.",
+  "previous_lock": "PROGRAMBENCH_REPLAY_IMAGE_HYDRATION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_ARTIFACT_METADATA_RECOVERY_LOCK_001"
+}

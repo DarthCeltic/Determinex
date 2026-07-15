@@ -1,0 +1,76 @@
+{
+  "lock_id": "PROGRAMBENCH_REPLAY_IMAGE_HYDRATION_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Resolve ProgramBench replay task images or explicit local no-image verifier mode before replay execution.",
+  "focused_tests": {
+    "module": "tests/corpus/test_programbench_replay_image_hydration_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/programbench_image_hydrator.py",
+    "scripts/corpus/legacy_recovery/programbench_local_verifier_mode.py",
+    "tests/corpus/test_programbench_replay_image_hydration_lock.py"
+  ],
+  "batch_001_image_hydration_report": {
+    "path": "assurance/evidence/programbench_replay_batch_001_image_hydration_report.json",
+    "source_batch": "assurance/evidence/legacy_replay_promotion_batch_001.json",
+    "candidates": 10,
+    "IMAGE_LOCAL_READY": 0,
+    "IMAGE_HYDRATED_FROM_CACHE": 0,
+    "IMAGE_PULL_READY": 0,
+    "LOCAL_NO_IMAGE_VERIFIER_READY": 0,
+    "IMAGE_METADATA_MISSING": 10,
+    "IMAGE_NAME_AMBIGUOUS": 0,
+    "IMAGE_PULL_FAILED": 0
+  },
+  "statuses": [
+    "IMAGE_LOCAL_READY",
+    "IMAGE_PULL_READY",
+    "IMAGE_HYDRATED_FROM_CACHE",
+    "IMAGE_MISSING",
+    "IMAGE_PULL_FAILED",
+    "IMAGE_METADATA_MISSING",
+    "IMAGE_NAME_AMBIGUOUS",
+    "LOCAL_NO_IMAGE_VERIFIER_READY",
+    "LOCAL_NO_IMAGE_VERIFIER_UNSUPPORTED",
+    "ONLINE_DISCOVERY_CANDIDATE_FOUND",
+    "ONLINE_ARTIFACT_PINNED",
+    "ONLINE_ARTIFACT_REJECTED",
+    "ONLINE_ARTIFACT_AMBIGUOUS"
+  ],
+  "ready_statuses": [
+    "IMAGE_LOCAL_READY",
+    "IMAGE_HYDRATED_FROM_CACHE",
+    "LOCAL_NO_IMAGE_VERIFIER_READY",
+    "ONLINE_ARTIFACT_PINNED"
+  ],
+  "acceptance": [
+    "local Docker image found produces IMAGE_LOCAL_READY",
+    "missing image with pull disabled never attempts pull",
+    "ambiguous image names are rejected",
+    "missing explicit image metadata is surfaced separately",
+    "cache artifact hydrates image",
+    "pull allowed without runner marks IMAGE_PULL_READY",
+    "pull failure is explicit",
+    "local no-image verifier requires explicit metadata",
+    "local no-image verifier uses verifier_scope=local_replay",
+    "local no-image verifier is blocked when required fixtures are missing",
+    "batch report writes status counts"
+  ],
+  "policy": [
+    "Image hydration is preflight only.",
+    "No verifier is run by this lock.",
+    "No corpus row is promoted by this lock.",
+    "Local no-image mode is local_replay only and never official_programbench.",
+    "Pulls are disabled unless explicitly allowed."
+  ],
+  "does_not_prove": "Does not prove Batch 001 can replay yet; all 10 canonical roots currently lack explicit task_image metadata or explicit local verifier metadata.",
+  "previous_lock": "PROGRAMBENCH_ROOT_DISAMBIGUATION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_ONLINE_ARTIFACT_DISCOVERY_LOCK_001"
+}

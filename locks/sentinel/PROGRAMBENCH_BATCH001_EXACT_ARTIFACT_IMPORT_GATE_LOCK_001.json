@@ -1,0 +1,25 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_EXACT_ARTIFACT_IMPORT_GATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Create the gate that can accept or reject exact imported artifact evidence for the ten Batch001 targets.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_LOCK_001"
+  ],
+  "status": "EXACT_ARTIFACT_IMPORT_REQUIRED",
+  "record": "assurance/evidence/programbench_batch001_exact_artifact_import_gate/programbench_batch001_exact_artifact_import_gate_run_20260528.EXACT_ARTIFACT_IMPORT_REQUIRED.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "live_packets_processed": 0,
+  "fixture_packets_treated_as_live": false,
+  "executable": false,
+  "cache_ready": false,
+  "training_eligible": false,
+  "does_not_prove": "The gate is ready to evaluate future evidence; no live import evidence was accepted."
+}

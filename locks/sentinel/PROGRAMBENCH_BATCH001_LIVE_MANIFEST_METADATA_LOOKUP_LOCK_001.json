@@ -1,0 +1,28 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_LIVE_MANIFEST_METADATA_LOOKUP_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Use the safe registry manifest client to perform exact metadata-only DockerHub manifest lookup for ten derived Batch001 ProgramBench image references.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_IMAGE_NAME_DERIVATION_LOCK_001",
+    "PROGRAMBENCH_BATCH001_EXACT_MANIFEST_METADATA_PLAN_LOCK_001",
+    "PROGRAMBENCH_SAFE_REGISTRY_MANIFEST_CLIENT_LOCK_001"
+  ],
+  "status": "BATCH001_LIVE_MANIFEST_LOOKUP_COMPLETED",
+  "record": "assurance/evidence/programbench_batch001_live_manifest_metadata_lookup/programbench_batch001_live_manifest_metadata_lookup_run_20260528.BATCH001_LIVE_MANIFEST_LOOKUP_COMPLETED.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py",
+    "passed": 8,
+    "failed": 0
+  },
+  "targets_attempted": 10,
+  "manifests_found": 10,
+  "execution_performed": false,
+  "docker_pull_performed": false,
+  "layer_download_performed": false,
+  "training_rows_written": false,
+  "does_not_prove": "Does not admit execution, scan status, cache readiness, or benchmark results."
+}

@@ -1,0 +1,143 @@
+{
+  "lock_id": "BUILD_ADAPTER_REGISTRY_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Extracts build-system detection out of codebase_explorer's 14-line if-ladder into a BuildAdapter protocol + BuildAdapterRegistry with deterministic single/multi-match selection and an explicit Unknown fallback. Preserves codebase_explorer.detect_build_system's historical (build_system, test_framework) return tuple so the rung-1 smoke fixtures pass unchanged.",
+  "purpose": "Rung 2 of the post-audit Claude-lane sequence. Establishes the adapter contract that real arbitrary-repo intake needs (monorepos, polyglot trees, custom test commands) without redesigning ShadowCompiler or moving the LLM-dependent paths. ShadowCompiler-vs-hive/compiler.py unification is reserved for PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001"
+  ],
+  "tests": 36,
+  "passed_on_this_host": 36,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/intake/test_build_adapter_registry_lock.py"
+  ],
+  "adapter_protocol": {
+    "module": "scripts/intake/build_adapters.py",
+    "members": [
+      "name: ClassVar[str]",
+      "build_system_id: ClassVar[str]",
+      "test_framework_id: ClassVar[str]",
+      "priority: ClassVar[int]",
+      "detect(workspace: Path) -> DetectionResult",
+      "discover_tests(workspace: Path) -> list[str]",
+      "run_shadow_build(workspace: Path, timeout: int = 60) -> ShadowBuildResult",
+      "parse_failure(output: str) -> list[ParsedFinding]"
+    ],
+    "dataclasses": [
+      "DetectionResult(matched: bool, confidence: float, evidence_files: list[str], notes: str)",
+      "ShadowBuildResult(ran: bool, success: bool, output: str, tool_missing: bool, timed_out: bool)",
+      "ParsedFinding(severity: str, category: str, message: str, file: str, line: int)"
+    ],
+    "design_notes": [
+      "Class-method based; no instance state — composes cleanly with the registry and is trivial to mock.",
+      "_run() helper wraps subprocess.run with FileNotFoundError -> tool_missing and TimeoutExpired -> timed_out (never raises).",
+      "Adapters are intentionally raw subprocess for this rung — sandboxing unification is PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001's scope."
+    ]
+  },
+  "adapters_count": 7,
+  "adapters": [
+    {"name": "Rust",            "build_id": "cargo",   "test_id": "cargo test",  "priority": 100, "manifests": ["Cargo.toml"]},
+    {"name": "Go",              "build_id": "go",      "test_id": "go test",     "priority": 95,  "manifests": ["go.mod"]},
+    {"name": "Python",          "build_id": "pip",     "test_id": "pytest",      "priority": 50,  "manifests": ["pyproject.toml", "setup.py", "setup.cfg", "requirements.txt"]},
+    {"name": "Node/TypeScript", "build_id": "npm",     "test_id": "jest",        "priority": 40,  "manifests": ["package.json"], "refines_test_framework_from": "devDependencies (vitest/mocha/jest)"},
+    {"name": "Java/Maven",      "build_id": "maven",   "test_id": "maven test",  "priority": 30,  "manifests": ["pom.xml"]},
+    {"name": "Java/Gradle",     "build_id": "gradle",  "test_id": "gradle test", "priority": 30,  "manifests": ["build.gradle", "build.gradle.kts"]},
+    {"name": "Unknown",         "build_id": "unknown", "test_id": "unknown",     "priority": -1,  "manifests": [], "role": "explicit fallback when no manifest matches"}
+  ],
+  "registry_selection_rules": [
+    "detect_all(workspace) calls adapter.detect() on every adapter except UnknownAdapter; keeps those with matched=True and confidence > 0.",
+    "select(workspace) returns the primary adapter as a SelectionResult.",
+    "Zero matches -> UnknownAdapter explicitly, multi_match=False, note='no build manifest detected; UnknownAdapter selected'.",
+    "One match -> that adapter, multi_match=False.",
+    "Multiple matches -> sort by (-priority, -confidence, build_system_id) deterministic tie-break; top is primary, multi_match=True, note enumerates the matched build_system_ids."
+  ],
+  "codebase_explorer_compat": {
+    "function": "scripts/codebase_explorer.detect_build_system(root) -> tuple[str, str]",
+    "now_delegates_to": "intake.build_adapter_registry.default_registry().select(root)",
+    "return_shape_preserved": true,
+    "historical_strings_preserved": ["cargo", "go", "pip", "npm", "maven", "gradle", "unknown"],
+    "npm_devdeps_refinement_preserved": true,
+    "fixtures_compat_verified": {
+      "python_broken": ["pip", "pytest"],
+      "rust_broken":   ["cargo", "cargo test"],
+      "go_broken":     ["go", "go test"]
+    },
+    "deferred_adapters_fall_to_unknown": ["bundler", "composer", "mix", "make", "cmake"],
+    "deferred_note": "Smoke fixtures do not exercise these. Migrating them is a follow-up adapter; absence is documented, not silent."
+  },
+  "status_tokens": [
+    "BUILD_ADAPTER_REGISTRY_READY",
+    "BUILD_ADAPTER_DETECTED",
+    "BUILD_ADAPTER_UNKNOWN",
+    "BUILD_ADAPTER_MULTI_MATCH",
+    "TEST_DISCOVERY_READY",
+    "SHADOW_BUILD_READY",
+    "FAILURE_PARSE_READY",
+    "CODEBASE_EXPLORER_COMPAT_PRESERVED",
+    "SOURCE_TREE_UNMUTATED",
+    "CORPUS_UNMUTATED",
+    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+    "PATH_PORTABLE",
+    "SAFETY_DEFAULTS_RESPECTED"
+  ],
+  "invariants": [
+    "Every builtin adapter detects its own rung-1 fixture (Python -> python_broken, Rust -> rust_broken, Go -> go_broken).",
+    "No adapter false-positives across the three rung-1 fixtures.",
+    "Empty / no-manifest workspace returns UnknownAdapter (multi_match=False, explicit note), does NOT crash.",
+    "Polyglot synthetic workspace (Cargo.toml + go.mod + pyproject.toml) returns Rust as primary, multi_match=True, ordered match list contains all three build_system_ids.",
+    "select() is deterministic: same input -> same primary and same matched ordering across invocations.",
+    "discover_tests returns expected test command strings per language (pytest / cargo test / go test).",
+    "Unknown.discover_tests returns []. Unknown.run_shadow_build returns ran=False, success=True with explanatory output.",
+    "run_shadow_build returns tool_missing=True (does NOT raise) when the underlying binary is absent from PATH.",
+    "parse_failure produces ParsedFinding records with correct file/line extraction for Rust (E0308 + --> location) and Go (file.go:N:M:) formats; Python parse_failure recognizes pytest FAILED and Python syntax/indentation errors.",
+    "codebase_explorer.detect_build_system returns identical legacy (build, test) tuples for python_broken, rust_broken, go_broken after the migration.",
+    "CodebaseExplorer.explore() against the Python fixture still produces build_system='pip', test_framework='pytest', health<1.0.",
+    "Registry select() does not mutate the source tree.",
+    "Registry select() does not mutate any signed evidence file (evidence_index.json or locks/sentinel/*.json).",
+    "Corpus write guard (DETERMINEX_NO_CORPUS_WRITE=1) raises CorpusWriteBlockedError during the test session.",
+    "No DETERMINEX_*/HF_HOME/OLLAMA_* env vars required for registry select() to function.",
+    "DeterminexSettings.assert_safety_defaults() returns [] after a registry exercise."
+  ],
+  "safety_invariants": [
+    "Adapters use raw subprocess.run with bounded timeout via _run(); FileNotFoundError -> tool_missing flag, TimeoutExpired -> timed_out flag — never propagate exceptions to callers.",
+    "UnknownAdapter.detect intentionally returns matched=False so the registry can construct its own explicit fallback selection — there is no silent passthrough.",
+    "Registry select() never writes to disk.",
+    "Tests that exercise toolchains (cargo, go) skip cleanly when the binary is not on PATH — no hard dependency on a particular dev host."
+  ],
+  "evidence": {
+    "run_artifact": "assurance/evidence/build_adapter_registry/run_20260527.json",
+    "summary": {
+      "python_broken_compat": ["pip", "pytest"],
+      "rust_broken_compat":   ["cargo", "cargo test"],
+      "go_broken_compat":     ["go", "go test"],
+      "polyglot_multi_match": ["cargo", "go", "pip"],
+      "polyglot_primary":     "Rust",
+      "unknown_fallback":     "Unknown"
+    }
+  },
+  "remaining_gaps": [
+    "Bundler (Gemfile), Composer (composer.json), Mix (mix.exs), Make (Makefile), CMake (CMakeLists.txt) are NOT yet adapters — they fall through to UnknownAdapter. Not regressions: the smoke fixtures don't exercise them. Targeted in a follow-up.",
+    "Adapters still shell out via raw subprocess.run; they do not route through hive/compiler.py's hardened sandbox. Subject of PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001 (rung 4).",
+    "discover_tests returns suggested command strings only; it does not introspect pytest plugins, gradle test goals, npm script aliases, etc. Acceptable for this rung.",
+    "Confidence scoring is heuristic (Python: 0.65 + 0.15 per extra manifest). No formal calibration against real-world repos.",
+    "ShadowCompiler in codebase_explorer.py is not yet migrated to use adapter.run_shadow_build(); the migration footprint is intentionally narrow (only detect_build_system delegates).",
+    "Monorepos with per-subdirectory build systems (e.g. /backend/Cargo.toml + /frontend/package.json) are detected as if the root has both — registry sees them as multi-match. Per-subtree adapter scoping is future work."
+  ],
+  "next_recommended_lock": "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+  "files": [
+    "scripts/intake/__init__.py",
+    "scripts/intake/build_adapters.py",
+    "scripts/intake/build_adapter_registry.py",
+    "scripts/codebase_explorer.py",
+    "tests/intake/test_build_adapter_registry_lock.py",
+    "locks/sentinel/BUILD_ADAPTER_REGISTRY_LOCK_001.json",
+    "assurance/evidence/build_adapter_registry/run_20260527.json"
+  ]
+}

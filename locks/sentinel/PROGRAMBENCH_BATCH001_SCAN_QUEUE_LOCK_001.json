@@ -1,0 +1,25 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_SCAN_QUEUE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Create a scan queue for Batch001 targets with metadata-only digests and pending artifact import requirements.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_EXACT_ARTIFACT_IMPORT_GATE_LOCK_001"
+  ],
+  "status": "BATCH001_SCAN_QUEUE_WRITTEN",
+  "record": "assurance/evidence/programbench_batch001_scan_queue/programbench_batch001_scan_queue_run_20260528.BATCH001_SCAN_QUEUE_WRITTEN.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "scan_queue_entries": 10,
+  "scan_status": "SCAN_PENDING_ARTIFACT_IMPORT",
+  "scan_performed": false,
+  "execution_performed": false,
+  "training_rows_written": false,
+  "does_not_prove": "Does not scan artifacts; no artifact import evidence has been accepted yet."
+}

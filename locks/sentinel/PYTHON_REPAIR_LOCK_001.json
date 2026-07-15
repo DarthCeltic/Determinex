@@ -1,0 +1,160 @@
+{
+  "lock_id": "PYTHON_REPAIR_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 41,
+  "passed": 41,
+  "failed": 0,
+  "full_suite": {
+    "tests": 590,
+    "passed": 590,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/locks/test_python_repair_lock.py"
+  ],
+  "test_classes": [
+    "TestPythonProjectIndexer",
+    "TestPythonSetupFileSafetyGate",
+    "TestPythonLicenseGate",
+    "TestPythonBaselineEnforcement",
+    "TestPythonNoneGuardExtraction",
+    "TestPythonCorpusSigning",
+    "TestPythonMutationTypes"
+  ],
+  "coverage": [
+    "pyproject_toml_detected",
+    "package_name_parsed",
+    "setup_py_detected",
+    "test_runner_detected_pytest",
+    "tests_dir_detected",
+    "src_layout_detected",
+    "no_python_project_returns_none",
+    "setup_cfg_detected",
+    "malicious_setup_py_rejected",
+    "malicious_pyproject_rejected",
+    "safe_setup_py_passes_gate",
+    "setup_file_result_has_reason_field",
+    "safe_setup_file_result_is_safe",
+    "rejected_setup_file_has_zero_tasks",
+    "no_license_file_rejected",
+    "gpl_license_rejected",
+    "mit_license_passes_gate",
+    "apache_license_passes_gate",
+    "rejected_license_has_zero_tasks",
+    "extractor_returns_empty_when_baseline_fails",
+    "extractor_proceeds_when_baseline_passes",
+    "baseline_failure_message_captured",
+    "pipeline_zero_tasks_when_baseline_fails",
+    "pipeline_extracts_tasks_on_baseline_pass",
+    "none_guard_sites_found",
+    "no_none_guards_returns_empty_tasks",
+    "task_has_correct_mutation_type",
+    "venv_excluded_from_scan",
+    "file_restored_after_mutation",
+    "corpus_record_is_signed",
+    "tampered_record_fails_verification",
+    "record_has_python_language_field",
+    "record_has_all_required_fields",
+    "failure_output_truncated_to_500",
+    "different_tasks_have_different_signatures",
+    "pipeline_writes_task_to_corpus",
+    "none_guard_removal_task_signed",
+    "assertion_error_classified_correctly",
+    "multiple_mutation_types_all_signed",
+    "pytest_validator_field",
+    "swebench_source_benchmark_preserved"
+  ],
+  "pipeline_spec": {
+    "class": "PythonRepairPipeline",
+    "module": "scripts/repair/python_repair_pipeline.py",
+    "executor_signature": "Callable[[list[str], Path, int], tuple[int, str, str]]",
+    "stages": [
+      "license_gate",
+      "secret_scan",
+      "setup_file_gate",
+      "baseline_verification",
+      "none_guard_mutation",
+      "failure_confirmation",
+      "file_restore",
+      "corpus_write"
+    ],
+    "rejection_codes": [
+      "license_not_green",
+      "secret_detected",
+      "malicious_setup_file"
+    ],
+    "oracle": "python -m pytest"
+  },
+  "indexer_spec": {
+    "class": "PythonProject",
+    "module": "scripts/corpus/code_ingest/python_project_indexer.py",
+    "detects": [
+      "pyproject.toml",
+      "setup.py",
+      "setup.cfg",
+      "pytest.ini",
+      "tox.ini",
+      "noxfile.py",
+      "src layout",
+      "tests layout",
+      "package name",
+      "build backend",
+      "test runner",
+      "license expression"
+    ]
+  },
+  "extractor_spec": {
+    "class": "PythonTaskExtractor",
+    "module": "scripts/corpus/code_ingest/python_task_extractor.py",
+    "mutation_types": [
+      "none_guard_removal"
+    ],
+    "excluded_dirs": [".venv", "venv", "env", "__pycache__", ".tox", ".nox", "dist", "build", ".git"],
+    "file_restore_guarantee": "finally block always restores original",
+    "max_mutations_per_file": 3
+  },
+  "setup_file_gate_spec": {
+    "scan_method": "prompt_injection_detector.injection_scan",
+    "block_on_risk": ["HIGH", "CRITICAL"],
+    "scans": ["setup.py", "pyproject.toml", "setup.cfg"],
+    "rationale": "setup.py executes arbitrary Python during pip install; malicious ones can exfiltrate secrets or execute payloads"
+  },
+  "corpus_record_spec": {
+    "schema_version": "determinex-agent-trace-v1",
+    "signing_algorithm": "BLAKE2b-256 HMAC",
+    "canonical_form": "sorted-key JSON",
+    "signature_field": "_sig",
+    "minimum_sig_length": 32
+  },
+  "python_metadata_fields": [
+    "language",
+    "build_system",
+    "mutation_type",
+    "failure_type",
+    "source_file",
+    "original_block",
+    "mutated_block",
+    "line_number",
+    "failure_output",
+    "repair_patch",
+    "validator",
+    "verdict"
+  ],
+  "swebench_integration": {
+    "note": "Every SWE-bench repo that passes license + setup gates routes through this pipeline. Predictions become signed corpus records. Even rejected attempts (verdict=fail) are training signal.",
+    "source_benchmark_field": "source_benchmark",
+    "example_values": ["swebench_lite", "swebench_verified", "swebench_full"]
+  },
+  "implementations": [
+    "scripts/repair/python_repair_pipeline.py",
+    "scripts/corpus/code_ingest/python_project_indexer.py",
+    "scripts/corpus/code_ingest/python_task_extractor.py",
+    "scripts/corpus/code_ingest/license_detector.py",
+    "scripts/corpus/code_ingest/secret_scanner.py",
+    "scripts/agents/prompt_injection_detector.py",
+    "corpus/corpus_manager.py"
+  ],
+  "previous_lock": "RUST_REPAIR_LOCK_001",
+  "next_lock": "GO_REPAIR_LOCK_001"
+}

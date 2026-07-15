@@ -1,0 +1,67 @@
+{
+  "lock_id": "PROGRAMBENCH_REPLAY_METADATA_RECOVERY_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Recover or reconstruct ProgramBench replay metadata for Batch 001 candidates without executing guessed metadata.",
+  "focused_tests": {
+    "module": "tests/corpus/legacy_recovery/test_programbench_metadata_recovery_lock.py",
+    "passed": 8,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/programbench_metadata_recovery.py",
+    "scripts/corpus/legacy_recovery/programbench_metadata_sources.py",
+    "scripts/corpus/legacy_recovery/programbench_replay_manifest.py",
+    "tests/corpus/legacy_recovery/test_programbench_metadata_recovery_lock.py"
+  ],
+  "batch_001_metadata_recovery_report": {
+    "path": "assurance/evidence/programbench_replay_batch_001_metadata_recovery.json",
+    "source_report": "assurance/evidence/programbench_replay_batch_001_image_hydration_report.json",
+    "candidates": 10,
+    "hydration_unlocked": 0,
+    "quarantine_only": 10,
+    "METADATA_RECONSTRUCTED_HIGH_CONFIDENCE": 10
+  },
+  "statuses": [
+    "METADATA_EXACT_MATCH",
+    "METADATA_RECONSTRUCTED_HIGH_CONFIDENCE",
+    "METADATA_RECONSTRUCTED_LOW_CONFIDENCE",
+    "LOCAL_VERIFIER_METADATA_FOUND",
+    "TASK_IMAGE_FOUND",
+    "TASK_IMAGE_SOURCE_CANDIDATE_FOUND",
+    "TASK_IMAGE_UNRESOLVED",
+    "METADATA_CONFLICT",
+    "METADATA_RECOVERY_FAILED"
+  ],
+  "hydration_unlock_statuses": [
+    "METADATA_EXACT_MATCH",
+    "LOCAL_VERIFIER_METADATA_FOUND",
+    "TASK_IMAGE_FOUND"
+  ],
+  "acceptance": [
+    "explicit task_image metadata unlocks hydration",
+    "explicit local verifier metadata unlocks hydration",
+    "conflicting task_image metadata blocks hydration",
+    "Dockerfile discovery creates a source candidate only",
+    "binary plus build metadata becomes high-confidence quarantine-only metadata",
+    "source shape alone becomes low-confidence quarantine-only metadata",
+    "missing root fails recovery cleanly",
+    "batch report and replay manifests are written"
+  ],
+  "policy": [
+    "Canonical root tells us where.",
+    "Metadata tells us how.",
+    "Verifier tells us whether.",
+    "Corpus tells us what it means.",
+    "Recovered exact metadata may qualify replay.",
+    "Guessed or reconstructed metadata may only create candidate records.",
+    "Nothing executes from a guess."
+  ],
+  "does_not_prove": "Does not prove Batch 001 can replay yet; all 10 recovered rows are high-confidence quarantine-only command candidates, not explicit task_image or local verifier metadata.",
+  "previous_lock": "PROGRAMBENCH_REPLAY_IMAGE_HYDRATION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_ONLINE_PROVIDER_REGISTRY_LOCK_001"
+}

@@ -1,0 +1,119 @@
+{
+  "lock_id": "PROGRAMBENCH_ARTIFACT_SOURCE_ESCALATION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "71be79941e05aa4910b9b6da8dd365842454d757",
+  "purpose": "Generate a precise operator checklist when ProgramBench cleanroom image provenance is missing and block hydration until real provenance is supplied.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_artifact_source_escalation_lock.py",
+    "passed": 11,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+      "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_artifact_source_escalation_lock.py"
+    ],
+    "passed": 69,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1083,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/artifact_source_escalation.py",
+    "scripts/corpus/programbench/artifact_source_escalation_record.py",
+    "tests/corpus/programbench/test_programbench_artifact_source_escalation_lock.py"
+  ],
+  "doxygen_escalation": {
+    "triage_record": "assurance/evidence/programbench_infra_failure_triage/doxygen_real_bounded_rerun_20260527.MISSING_CLEANROOM_IMAGE.triage.json",
+    "escalation_record": "assurance/evidence/programbench_artifact_source_escalations/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.ARTIFACT_SOURCE_ESCALATION_WRITTEN.json",
+    "missing_image": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "local_docker_inspect": "No such image",
+    "real_provenance_found": true,
+    "real_operator_admission_found": true,
+    "real_admission_record": "assurance/evidence/programbench_operator_artifact_admissions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.json",
+    "source_provenance_record": "assurance/evidence/programbench_dockerhub_manifest_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.EXACT_REMOTE_MANIFEST_FOUND.json",
+    "remote_registry_metadata": {
+      "registry": "docker.io",
+      "repository": "programbench/doxygen_1776_doxygen.966d98e",
+      "tag": "task_cleanroom",
+      "manifest_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+      "last_pushed": "2026-05-03T23:32:38.802423245Z",
+      "last_updater_username": "klieret"
+    },
+    "fixture_admission_found": true,
+    "fixture_admission_ignored": true,
+    "hydration_authorized": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "ARTIFACT_SOURCE_ESCALATION_READY",
+    "ARTIFACT_SOURCE_ESCALATION_WRITTEN",
+    "ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE",
+    "ARTIFACT_SOURCE_ESCALATION_BLOCKED_NOT_OPERATOR_RECOVERY",
+    "ARTIFACT_SOURCE_ESCALATION_NOT_REQUIRED_REAL_ADMISSION_EXISTS",
+    "MISSING_REAL_PROVENANCE",
+    "OPERATOR_CHECKLIST_GENERATED",
+    "FIXTURE_ADMISSION_IGNORED",
+    "NO_HYDRATION_AUTHORIZED",
+    "NO_EXECUTION_AUTHORIZED"
+  ],
+  "required_provenance_fields": [
+    "image_reference",
+    "digest or immutable_revision",
+    "source registry/source location",
+    "tag",
+    "license/provenance notes",
+    "operator_id",
+    "intended_scope.tool",
+    "intended_scope.candidate_id",
+    "related_triage_record",
+    "admission_reason"
+  ],
+  "accepted_forms": [
+    "local image tar with sha256 digest and source/provenance notes",
+    "registry reference pinned by digest",
+    "official ProgramBench build recipe with reproducible hash",
+    "signed internal cache record"
+  ],
+  "rejected_forms": [
+    "latest tag",
+    "name-only image",
+    "pulled from Docker Hub without digest/provenance",
+    "unverified public image",
+    "fixture admission record",
+    "quarantine-only artifact"
+  ],
+  "acceptance": [
+    "missing real provenance generates operator checklist",
+    "missing triage blocks escalation",
+    "non-missing-image triage blocks",
+    "triage not requiring operator recovery blocks",
+    "fixture admission is ignored for real hydration",
+    "real admission marks escalation not required",
+    "required provenance fields are listed",
+    "accepted and rejected forms are listed",
+    "escalation never authorizes hydration or execution",
+    "escalation is not training eligible",
+    "signed escalation record is produced"
+  ],
+  "policy": [
+    "The fixture proves the gate only.",
+    "Real provenance authorizes the next step.",
+    "Escalation generates the exact operator checklist.",
+    "No hydration without real accepted operator admission.",
+    "No execution.",
+    "No ProgramBench rerun.",
+    "No training promotion."
+  ],
+  "does_not_prove": "Does not hydrate, fetch image layers, scan, cache, or execute the cleanroom image. It now records that exact remote registry provenance exists and that hydration remains a separate gate.",
+  "previous_lock": "PROGRAMBENCH_OPERATOR_ARTIFACT_ADMISSION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_HYDRATION_LOCK_001"
+}

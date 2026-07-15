@@ -1,0 +1,50 @@
+{
+  "lock_id": "DETERMINEX_REPO_CLINIC_WORKFLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Repo Clinic existing-codebase workflow. 17 flow steps and 13 UI states. evaluate() preserves every authority gate from the prior campaigns and refuses: (1) verifier missing while source mutation attempted or 'fixed' label shown -> BLOCKED_VERIFIER_MISSING; (2) diagnosis treated as authorization OR local-model admission treated as source authorization OR source_mutation_authorized_by_gate=True without both temp_verifier_passed AND approval_present -> BLOCKED_SOURCE_MUTATION_CONFUSION; (3) 'fixed' label shown without post_apply_verifier_passed -> BLOCKED_FALSE_FIXED_LABEL. training_eligible stays False; record never opens source mutation.",
+  "purpose": "Rung 3 of DETERMINEX_UNIFIED_PRODUCT_UX_SHELL_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001",
+    "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+    "POST_APPLY_VERIFIER_NO_DEFAULT_PASS_LOCK_001",
+    "MODEL_ADMISSION_NO_BYPASS_LOCK_001"
+  ],
+  "tests": 18,
+  "test_modules": ["tests/ide/test_repo_clinic_workflow_lock.py"],
+  "status_tokens": [
+    "REPO_CLINIC_WORKFLOW_WRITTEN",
+    "REPO_CLINIC_WORKFLOW_BLOCKED_VERIFIER_MISSING",
+    "REPO_CLINIC_WORKFLOW_BLOCKED_FALSE_FIXED_LABEL",
+    "REPO_CLINIC_WORKFLOW_BLOCKED_SOURCE_MUTATION_CONFUSION"
+  ],
+  "ui_states": [
+    "REPO_OPENED", "REPO_ANALYZED", "TOOLCHAIN_MISSING",
+    "VERIFIER_MISSING", "ISSUE_DIAGNOSED_UNVERIFIED",
+    "PATCH_PROPOSED_QUARANTINED", "TEMP_VERIFIER_PASSED",
+    "APPROVAL_REQUIRED", "SOURCE_MUTATION_AUTHORIZED",
+    "SOURCE_MUTATION_APPLIED", "POST_APPLY_VERIFIER_PASSED",
+    "REPAIR_VERIFIED", "REPAIR_FAILED_HONESTLY"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "diagnosis_authorizes_mutation": false,
+    "admission_authorizes_source_mutation": false,
+    "fixed_label_without_post_apply_verifier": false,
+    "no_followup_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_repo_clinic_workflow/run_20260528.json"
+  },
+  "remediates_finding": "product-shell-repo-clinic",
+  "next_recommended_lock": "DETERMINEX_MAINTENANCE_BAY_WORKFLOW_LOCK_001"
+}

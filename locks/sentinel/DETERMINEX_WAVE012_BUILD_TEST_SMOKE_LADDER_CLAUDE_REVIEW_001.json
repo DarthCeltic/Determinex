@@ -1,0 +1,72 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_012_build_test_smoke_ladder_claude_review_001/claim_boundary_20260610.json",
+    "codex_deltas": "assurance/evidence/wave_012_build_test_smoke_ladder_claude_review_001/codex_deltas_20260610.json",
+    "ladder_order_violation": "assurance/evidence/wave_012_build_test_smoke_ladder_claude_review_001/ladder_order_violation_20260610.json",
+    "risks": "assurance/evidence/wave_012_build_test_smoke_ladder_claude_review_001/risks_20260610.json",
+    "rung_ladder_audit": "assurance/evidence/wave_012_build_test_smoke_ladder_claude_review_001/rung_ladder_audit_20260610.json",
+    "verdict": "assurance/evidence/wave_012_build_test_smoke_ladder_claude_review_001/verdict_20260610.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "Ladder integrity violated: build + install proven without detect, test, smoke",
+  "claim_boundary": [
+    "Wave 012 Claude reviews are CAPABILITY-SATURATION attack audits and parallel critique.",
+    "Central question: did Codex EXPAND under-the-hood capability, or rename maps/dry-runs/blockers/packets into progress?",
+    "Claude rejects: dry-run as install / failed-dry-run as pass / scaffold-import as installed-entry-point / packet as execution / map as capability / detector as build / build as smoke / smoke as clean-host / GUI artifact as GUI launch / first-paint as GUI e2e / SBOM plan as SBOM / release-supported cell as family support / score rise without evidence delta.",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Installer, driver, GUI, SBOM, training, and network actions remain gated on REAL signed operator approval consumed at executor entry.",
+    "Release-supported cells remain 10 (9 user-visible / 1 internal / 0 install-packaging).",
+    "Release-supported families remain 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-10",
+  "doc": "docs/DETERMINEX_WAVE012_BUILD_TEST_SMOKE_LADDER_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_012_claude_lane_B6",
+  "gulp_wave_id": "012",
+  "is_capability_saturation_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "lane": "B6",
+  "lock_id": "DETERMINEX_WAVE012_BUILD_TEST_SMOKE_LADDER_CLAUDE_REVIEW_001",
+  "purpose": "Wave 012 Claude Lane B6. Support-depth ladder. Rungs: detect / scaffold / build / test / smoke / package-install / clean-host / release-supported.",
+  "record": "assurance/evidence/wave_012_build_test_smoke_ladder_claude_review_001/run_20260610.WAVE012_BUILD_TEST_SMOKE_LADDER_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE012_BUILD_TEST_SMOKE_LADDER_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_012_build_test_smoke_ladder_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant": true,
+      "release_supported_families_invariant": true
+    },
+    "passed": true
+  },
+  "verdict": "LADDER_INTEGRITY_VIOLATED_OUT_OF_ORDER_RUNG_SATISFACTION — 3/8 rungs satisfied, but in wrong order: detect=False / scaffold=True / build=True / test=False / smoke=False / package_install=True / clean_host=False / release_supported=False. Build and install proven WITHOUT detect, test, or smoke."
+}

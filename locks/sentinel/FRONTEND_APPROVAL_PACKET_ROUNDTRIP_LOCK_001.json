@@ -1,0 +1,41 @@
+{
+  "lock_id": "FRONTEND_APPROVAL_PACKET_ROUNDTRIP_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Approval packet round-trip via the locked HumanApprovalSigningFlow and SourceApplyGateFlow. Exercises 5 paths: approve(fixture), reject, stale packet, diff mismatch, verifier failed. Every stage keeps source mutation BLOCKED — even the fixture-approved stage which reaches IDE_SOURCE_APPLY_DRY_RUN_READY but does not mutate.",
+  "purpose": "Rung 7 of the Tauri-integrated frontend campaign.",
+  "depends_on_locks": [
+    "IDE_HUMAN_APPROVAL_SIGNING_FLOW_LOCK_001",
+    "IDE_SOURCE_APPLY_GATE_FLOW_LOCK_001",
+    "FRONTEND_HUMAN_APPROVAL_PANEL_LOCK_001",
+    "FRONTEND_SOURCE_APPLY_DRY_RUN_PANEL_LOCK_001"
+  ],
+  "tests": 12,
+  "passed_on_this_host": 12,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide_frontend/test_frontend_approval_packet_roundtrip_lock.py"
+  ],
+  "status_tokens": [
+    "APPROVAL_PACKET_ROUNDTRIP_READY",
+    "APPROVAL_REJECT_PATH_READY",
+    "APPROVAL_FIXTURE_ONLY",
+    "APPROVAL_SOURCE_MUTATION_BLOCKED",
+    "APPROVAL_STALE_VISIBLE",
+    "APPROVAL_DIFF_MISMATCH_VISIBLE",
+    "APPROVAL_VERIFIER_FAILED_VISIBLE"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_called": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/frontend_approval_packet_roundtrip/run_20260528.json"
+  },
+  "next_recommended_lock": "FRONTEND_REAL_FLOW_E2E_LOCK_001"
+}

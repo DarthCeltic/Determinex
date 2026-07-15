@@ -1,0 +1,27 @@
+{
+  "lock_id": "HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Human approval packet model the IDE can display before source mutation. Carries trace_id, workspace_identity, diff_hash, diff_summary, files_changed, verifier_result, model_route_ref, patch_plan_ref, temp_patch_ref, risk_summary, approval_required, approval_status, operator_identity, operator_signature, timestamp, stale_after. Evaluator returns a closed-set status token. Never applies source mutation.",
+  "purpose": "Rung 6 of the IDE consumer campaign.",
+  "depends_on_locks": ["HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001"],
+  "tests": 12,
+  "passed_on_this_host": 12,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_human_approval_packet_ui_model_lock.py"],
+  "status_tokens": [
+    "HUMAN_APPROVAL_PACKET_WRITTEN",
+    "HUMAN_APPROVAL_REQUIRED",
+    "HUMAN_APPROVAL_BLOCKED_MISSING_PACKET",
+    "HUMAN_APPROVAL_BLOCKED_STALE_PACKET",
+    "HUMAN_APPROVAL_BLOCKED_DIFF_MISMATCH",
+    "HUMAN_APPROVAL_BLOCKED_VERIFIER_NOT_PASSED"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_call_made": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/human_approval_packet_ui_model/run_20260527.json"},
+  "next_recommended_lock": "IDE_BACKEND_COMMAND_SURFACE_LOCK_001"
+}

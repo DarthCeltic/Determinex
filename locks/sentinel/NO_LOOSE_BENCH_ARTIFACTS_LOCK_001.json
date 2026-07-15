@@ -1,0 +1,50 @@
+{
+  "lock_id": "NO_LOOSE_BENCH_ARTIFACTS_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Ensure benchmark outputs resolve into a corpus-visible status instead of becoming orphan eval JSON, logs, shards, or local-only accept/reject artifacts.",
+  "focused_tests": {
+    "module": "tests/test_no_loose_bench_artifacts_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 772,
+    "failed": 0
+  },
+  "implementation": [
+    "scripts/verified_task/reconcile_benchmark_artifacts.py",
+    "tests/test_no_loose_bench_artifacts_lock.py"
+  ],
+  "allowed_terminal_trace_statuses": [
+    "active_training_eligible",
+    "active_eval_evidence",
+    "rejected",
+    "quarantined",
+    "infra_failure"
+  ],
+  "coverage": [
+    "clean_gated_eval_tree_passes",
+    "eval_json_without_gate_or_trace_is_flagged",
+    "orphan_log_without_manifest_is_flagged",
+    "remote_running_shard_is_flagged_as_non_terminal",
+    "corpus_trace_statuses_are_counted_and_validated"
+  ],
+  "reproduction_commands": [
+    ".\\.venv\\Scripts\\python.exe -m pytest tests/test_no_loose_bench_artifacts_lock.py -q --tb=short",
+    ".\\.venv\\Scripts\\python.exe scripts\\verified_task\\reconcile_benchmark_artifacts.py <benchmark_roots> --active-manifest <HETZNER_ACTIVE_MANIFEST.json> --json"
+  ],
+  "policy": [
+    "Every benchmark output must resolve into signed training row, signed eval evidence, signed reject, or signed infrastructure-failure trace.",
+    "No eval JSON without nearby gate result or corpus trace.",
+    "No orphan logs without a manifest ancestor.",
+    "No shard may be treated as done while active manifest state remains remote_running.",
+    "No local-only accept or reject outside corpus writer discipline."
+  ],
+  "production_context": {
+    "richgo_v6_schema_mature_20260527": "terminal_reject_ingested_and_remote_cleaned",
+    "doxygen_v6_conditional_doc_warning_20260527": "terminal_reject_ingested_and_remote_cleaned"
+  },
+  "does_not_prove": "Does not prove benchmark success or training corpus maturity; it proves benchmark artifact reconciliation and status discipline.",
+  "previous_lock": "TRAINING_CORPUS_DASHBOARD_LOCK_001",
+  "next_lock": "AIDER_POLYGLOT_TRACE_HARNESS_LOCK_001"
+}

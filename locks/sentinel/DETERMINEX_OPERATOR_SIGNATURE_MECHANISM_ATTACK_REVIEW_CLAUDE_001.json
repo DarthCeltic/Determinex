@@ -1,0 +1,68 @@
+{
+  "artifact_paths": {
+    "authority_boundary": "assurance/evidence/wave_007_operator_signature_mechanism_attack_review_claude_001/authority_boundary_20260605.json",
+    "blocked_packets_chain": "assurance/evidence/wave_007_operator_signature_mechanism_attack_review_claude_001/blocked_packets_chain_20260605.json",
+    "codex_deltas": "assurance/evidence/wave_007_operator_signature_mechanism_attack_review_claude_001/codex_deltas_20260605.json",
+    "risks": "assurance/evidence/wave_007_operator_signature_mechanism_attack_review_claude_001/risks_20260605.json",
+    "signature_mechanism_audit": "assurance/evidence/wave_007_operator_signature_mechanism_attack_review_claude_001/signature_mechanism_audit_20260605.json",
+    "verdict": "assurance/evidence/wave_007_operator_signature_mechanism_attack_review_claude_001/verdict_20260605.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "Operator signature mechanism axes 13/14 unsatisfied; mechanism not safe to unlock 5 packets",
+  "claim_boundary": [
+    "Wave 007 Claude reviews are planning audits and parallel critique.",
+    "No authority granted. No support promotion. No source truth mutation.",
+    "Installer, driver, GUI, SBOM, training, and network actions remain gated on exact signed operator approval.",
+    "Release-supported cells remain 10 (9 user-visible / 1 internal / 0 install-packaging).",
+    "Release-supported families remain 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-05",
+  "doc": "docs/DETERMINEX_OPERATOR_SIGNATURE_MECHANISM_ATTACK_REVIEW_CLAUDE_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_007_claude_lane_X",
+  "gulp_wave_id": "007",
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "lane": "X",
+  "lock_id": "DETERMINEX_OPERATOR_SIGNATURE_MECHANISM_ATTACK_REVIEW_CLAUDE_001",
+  "purpose": "Wave 007 Claude Lane X. Operator signature mechanism — signer identity, hash binding, expiration, revocation, audit log, allowed/forbidden, rollback, detector, inheritance blocker, simulated-vs-real distinction.",
+  "record": "assurance/evidence/wave_007_operator_signature_mechanism_attack_review_claude_001/run_20260605.OPERATOR_SIGNATURE_MECHANISM_ATTACK_REVIEW_CLAUDE_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "OPERATOR_SIGNATURE_MECHANISM_ATTACK_REVIEW_CLAUDE_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_007_operator_signature_mechanism_attack_review_claude_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant": true,
+      "release_supported_families_invariant": true
+    },
+    "passed": true
+  },
+  "verdict": "MECHANISM_NOT_SAFE_TO_UNLOCK_NSIS_MSEDGEDRIVER_SYFT_GUI_LAUNCH_IDEA_LAB — 13 of 14 axes unsatisfied (only approval inheritance blocker landed in Wave 003). Until at least signer identity, hash binding, expiration, simulated-vs-real distinction, and execution-without-approval detector land, NO packet should treat a present 'approval' as unlock."
+}

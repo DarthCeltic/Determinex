@@ -1,0 +1,48 @@
+{
+  "lock_id": "DETERMINEX_REACT_RELEASE_READINESS_BLOCKER_PANEL_LOCK_001",
+  "date": "2026-05-29",
+  "commit": "clean-main",
+  "description": "Rung 4 of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES. Adds frontend/src/components/ide-product-shell/ReleaseReadinessBlockerPanel.tsx — a panel that surfaces the active release blockers instead of hiding them. Every flag (releaseReady, publicReleaseScrubRequired, installDemoWorkflowPending, repoScrubPending, claimLedgerActive, broadPublicClaimsGranted, trainingEligible, programbenchExecutedFromClaudeLane, programbenchImportedFromClaudeLane, programbenchScannedFromClaudeLane, sourceMutationAuthorized) is a compile-time CONSTANT (not derived from props). Required testids: release-ready-badge with data-value='false', public-release-scrub-required, install-demo-workflow-pending, repo-scrub-pending, claim-ledger-active (references CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001), evidence-reconciliation-status (default mentions WORKSPACE_EVIDENCE_RECONCILIATION_PASSED), broad-public-claims-granted, training-eligible (data-training-eligible='false'), programbench-status ('NOT executed, NOT imported, NOT scanned (unless separately gated)'), source-mutation-authorized ('no source mutation authorized unless a separate proper approval gate supplies it'). Captions: 'This panel REPORTS status. It does NOT authorize release, source mutation, or training.' + 'Ready does NOT mean authorized.' + 'Training stays false (training_eligible: false).'. Tests forbid invokeUnifiedProductCommand calls and any per-prop flag override (props.releaseReady, if (props.releaseReady), etc.).",
+  "purpose": "Rung 4 of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001",
+    "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001",
+    "DETERMINEX_REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_LOCK_001",
+    "CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001"
+  ],
+  "tests": 23,
+  "test_modules": ["tests/ide/test_react_release_readiness_blocker_panel_lock.py"],
+  "status_tokens": [
+    "REACT_RELEASE_READINESS_BLOCKER_PANEL_PASSED",
+    "REACT_RELEASE_READINESS_BLOCKER_PANEL_BLOCKED_HIDES_RELEASE_FALSE",
+    "REACT_RELEASE_READINESS_BLOCKER_PANEL_BLOCKED_HIDES_CLAIM_LIMITS"
+  ],
+  "panel_path": "frontend/src/components/ide-product-shell/ReleaseReadinessBlockerPanel.tsx",
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "release_ready_hidden": false,
+    "release_ready_set_true": false,
+    "claim_limits_hidden": false,
+    "broad_public_claims_granted": false,
+    "programbench_authorized_from_claude_lane": false,
+    "panel_invokes_mutating_command": false,
+    "props_can_override_release_ready": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false,
+    "all_codebases_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_react_release_readiness_blocker_panel/run_20260529.json"
+  },
+  "remediates_finding": "live-react-release-readiness-blocker-panel",
+  "next_recommended_lock": "DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_LOCK_001"
+}

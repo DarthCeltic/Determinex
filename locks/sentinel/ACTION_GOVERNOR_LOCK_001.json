@@ -1,0 +1,116 @@
+{
+  "lock_id": "ACTION_GOVERNOR_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "tests": 28,
+  "passed": 28,
+  "failed": 0,
+  "full_suite": {
+    "tests": 862,
+    "passed": 862,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/agents/test_action_safety_governor.py",
+    "tests/sentinelbench/test_browser_submit_requires_confirmation.py",
+    "tests/sentinelbench/test_browser_send_message_requires_confirmation.py",
+    "tests/sentinelbench/test_desktop_delete_requires_confirmation.py",
+    "tests/sentinelbench/test_enter_credential_requires_confirmation.py",
+    "tests/sentinelbench/test_install_software_requires_confirmation.py",
+    "tests/sentinelbench/test_upload_file_requires_confirmation.py",
+    "tests/sentinelbench/test_cloud_vision_requires_visual_cloak.py"
+  ],
+  "test_classes": [
+    "ActionSafetyGovernorTests (agents/)",
+    "SentinelBenchActionGateTests"
+  ],
+  "coverage": [
+    "submit_form_requires_confirmation",
+    "send_message_requires_confirmation",
+    "delete_data_requires_confirmation",
+    "enter_credential_requires_confirmation",
+    "install_software_requires_confirmation",
+    "make_purchase_requires_confirmation",
+    "upload_file_requires_confirmation",
+    "deploy_or_publish_requires_confirmation",
+    "read_screen_is_allowed",
+    "scroll_is_allowed",
+    "click_is_allowed_with_audit",
+    "type_is_allowed_with_audit",
+    "credential_theft_rationale_blocked",
+    "reverse_shell_rationale_blocked",
+    "covert_surveillance_rationale_blocked",
+    "data_exfiltration_payload_blocked",
+    "desktop_without_sandbox_blocked",
+    "desktop_with_sandbox_allowed",
+    "mobile_without_sandbox_blocked",
+    "evaluation_error_is_fail_closed",
+    "is_blocked_property_correct",
+    "needs_confirmation_property_correct",
+    "needs_audit_for_blocked_action",
+    "needs_audit_for_confirmation",
+    "cloud_vision_blocked_without_cloak",
+    "cloud_vision_allowed_with_cloak",
+    "unknown_action_defaults_to_confirmation",
+    "absolute_block_risk_level_correct"
+  ],
+  "governor_spec": {
+    "class": "ActionSafetyGovernor",
+    "module": "scripts/agents/safety_governor.py",
+    "decision_values": [
+      "ALLOW",
+      "ALLOW_WITH_AUDIT",
+      "REQUIRE_CONFIRMATION",
+      "BLOCK",
+      "SANDBOX_ONLY"
+    ],
+    "risk_levels": [
+      "MINIMAL",
+      "LOW",
+      "MEDIUM",
+      "HIGH",
+      "CRITICAL",
+      "ABSOLUTE"
+    ],
+    "fail_closed": true,
+    "evaluation_error_result": "BLOCK + ABSOLUTE risk",
+    "entry_point": "evaluate_action(task, observation, action) -> SafetyDecision",
+    "cloud_vision_gate": "check_cloud_vision_allowed(path, cloak_active) -> (bool, str)"
+  },
+  "mandatory_confirmation_actions": [
+    "SEND_MESSAGE",
+    "SUBMIT_FORM",
+    "MAKE_PURCHASE",
+    "DELETE_DATA",
+    "UPLOAD_FILE",
+    "DOWNLOAD_FILE",
+    "ENTER_CREDENTIAL",
+    "INSTALL_SOFTWARE",
+    "GRANT_PERMISSION",
+    "DEPLOY_OR_PUBLISH"
+  ],
+  "absolute_block_patterns": [
+    "credential_theft",
+    "covert_surveillance",
+    "doxxing",
+    "harassment_automation",
+    "spam_automation",
+    "bulk_message_automation",
+    "dark_pattern",
+    "nonconsensual_tracking",
+    "malware_persistence",
+    "reverse_shell",
+    "data_exfiltration"
+  ],
+  "sandbox_required_envs": [
+    "DESKTOP",
+    "MOBILE"
+  ],
+  "previous_lock": "PYTHON_REPAIR_LOCK_001",
+  "implementations": [
+    "scripts/agents/safety_governor.py",
+    "scripts/agents/base_agent.py",
+    "tests/agents/test_action_safety_governor.py",
+    "tests/sentinelbench/"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "lock_id": "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Rung 3 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES. Live React IdeaLabPanel mounted at frontend/src/components/ide-product-shell/IdeaLabPanel.tsx. Renders 10 required sections: idea_intake_status, support_check_status, blueprint_status, scaffold_status, tests_status, build_test_verifier_status, smoke_status, evidence_status, training_eligibility_status, unsupported_caveat_status. 'Build It' button is disabled until supportCheckPassed; 'Working' badge is gated on (buildVerifierPassed && testsPassed && smokePassed). Generated-but-unverified state is visibly rendered as 'GENERATED_UNVERIFIED'. Cost/setup caveats including 'not all apps' and 'not all languages' visible. training_eligibility status always reads 'training_eligible: false (remains false)'. Tests forbid mutating Tauri verbs and forbidden success text.",
+  "purpose": "Rung 3 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "DETERMINEX_IDEA_LAB_WORKFLOW_LOCK_001",
+    "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001"
+  ],
+  "tests": 15,
+  "test_modules": ["tests/ide/test_react_idea_lab_panel_lock.py"],
+  "status_tokens": [
+    "REACT_IDEA_LAB_PANEL_PASSED",
+    "REACT_IDEA_LAB_PANEL_BLOCKED_FALSE_WORKING_LABEL",
+    "REACT_IDEA_LAB_PANEL_BLOCKED_MISSING_SUPPORT_CHECK",
+    "REACT_IDEA_LAB_PANEL_BLOCKED_HIDDEN_CAVEATS"
+  ],
+  "panel_path": "frontend/src/components/ide-product-shell/IdeaLabPanel.tsx",
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "build_it_before_support_check": false,
+    "working_label_without_evidence": false,
+    "cost_setup_caveats_hidden": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_react_idea_lab_panel/run_20260528.json"
+  },
+  "remediates_finding": "live-react-idea-lab-panel",
+  "next_recommended_lock": "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001"
+}

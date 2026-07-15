@@ -1,0 +1,227 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, clean-main]
+    paths:
+      - 'scripts/**'
+      - 'determinex_trainer/**'
+      - 'tests/**'
+      - 'locks/**'
+      - 'pyproject.toml'
+      - 'requirements*.txt'
+      - 'uv.lock'
+      - '.pre-commit-config.yaml'
+      - '.github/workflows/test.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'determinex_trainer/**'
+      - 'tests/**'
+      - 'locks/**'
+      - 'frontend/src/**'
+      - 'frontend/src-tauri/**'
+      - 'frontend/package*.json'
+      - 'frontend/vitest.config.ts'
+      - 'frontend/.prettierrc.json'
+      - 'pyproject.toml'
+      - 'requirements*.txt'
+      - 'uv.lock'
+      - '.pre-commit-config.yaml'
+      - '.github/workflows/test.yml'
+
+jobs:
+  lint:
+    name: Lint (ruff + pre-commit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pre-commit
+        run: pip install pre-commit
+      - name: Run pre-commit hooks
+        run: pre-commit run --all-files
+
+  doc-guard:
+    name: Doc guard (mojibake + PB count)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ftfy
+        run: pip install ftfy
+      - name: Mojibake scan (fail on any found)
+        run: python scripts/fix_mojibake.py --scan
+      - name: ProgramBench lock count consistency
+        run: python scripts/pb_doc_count_check.py
+
+  security-audit:
+    name: Security (pip-audit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pip-audit
+        run: pip install pip-audit
+      - name: Audit dependencies
+        # Audit core deps only — bench/dev extras skipped (they include heavy ML stacks)
+        run: |
+          pip install -r requirements.txt --quiet
+          pip-audit --desc --skip-editable
+
+  python-tests:
+    name: Python — pytest + coverage gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e .[dev]
+      - name: Pytest with coverage (gate ≥2%)
+        env:
+          DETERMINEX_ROOT: ${{ github.workspace }}
+        # Gate is set at 2% — the CI environment lacks T:/ drive, Ollama, and GPU,
+        # so most scripts are excluded by the "not integration and not slow" marks.
+        # Current covered: determinex_settings.py, determinex_cli.py, determinex_doctor.py.
+        # Target path to 60%: mock hardware-dependent checks; add portable unit tests
+        # for corpus/, hive/, cloak/, and rosetta/ modules.
+        run: |
+          pytest tests/ -v --tb=short \
+            -m "not integration and not slow" \
+            --cov=scripts \
+            --cov-report=term-missing \
+            --cov-fail-under=2
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: .coverage
+          retention-days: 7
+      - name: Compiler Oracle limits test
+        env:
+          DETERMINEX_ROOT: ${{ github.workspace }}
+        run: python scripts/determinex_limits_test.py
+
+  frontend-quality:
+    name: Frontend (ESLint + Prettier + Vitest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: ESLint
+        run: npx eslint .
+      - name: Prettier check
+        run: npm run format-check
+      - name: Vitest smoke tests (≥10 tests)
+        run: npm test
+
+  rust-check:
+    name: Rust (cargo check)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: cargo check
+        working-directory: frontend/src-tauri
+        run: cargo check --all-targets
+
+  evidence-validate:
+    name: Evidence integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install minimal deps
+        run: pip install -e . --no-deps
+      - name: Validate evidence index (read-only)
+        env:
+          DETERMINEX_ROOT: ${{ github.workspace }}
+        run: determinex evidence validate
+      - name: Release cell drift detector (read-only)
+        env:
+          DETERMINEX_ROOT: ${{ github.workspace }}
+        run: python scripts/status/release_cell_drift_detector_workflow_guard.py
+
+  arch-gauntlet:
+    # ARCH_GAUNTLET_CI_LOCK_001 — witnesses the architecture / intake /
+    # repair safety + portability invariants on Linux/Ubuntu, not only
+    # Ryan's local Windows host. Runs the gauntlet in --strict mode plus
+    # the focused test files for every architecture rung landed to date
+    # (CONFIG_SPINE through HARDENED_REPAIR_PIPELINE_EXECUTORS).
+    name: Architecture gauntlet + intake/repair safety
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+      - uses: extractions/setup-just@v2
+      - name: Install Python deps
+        run: |
+          pip install -r requirements.txt
+          pip install -e .[dev]
+      - name: Run architecture regression gauntlet (--strict)
+        env:
+          # No Windows drive letter on CI; gauntlet's PATH_PORTABILITY
+          # check handles this. No corpus writes allowed in CI.
+          DETERMINEX_ROOT: ${{ github.workspace }}
+          DETERMINEX_NO_CORPUS_WRITE: "1"
+        run: |
+          mkdir -p _ci_artifacts
+          python scripts/dev/architecture_regression_gauntlet.py \
+            --strict \
+            --json _ci_artifacts/architecture_regression_gauntlet.json
+      - name: Run focused architecture / intake / repair safety tests
+        env:
+          DETERMINEX_ROOT: ${{ github.workspace }}
+          DETERMINEX_NO_CORPUS_WRITE: "1"
+        run: |
+          pytest -v --tb=short \
+            tests/dev/test_architecture_regression_gauntlet_lock.py \
+            tests/dev/test_parallel_execution_layer_audit_lock.py \
+            tests/intake/test_codebase_explorer_smoke_lock.py \
+            tests/intake/test_build_adapter_registry_lock.py \
+            tests/intake/test_verifier_coverage_matrix_lock.py \
+            tests/intake/test_hardened_intake_execution_runner_lock.py \
+            tests/repair/test_hardened_repair_pipeline_executors_lock.py
+      - name: Re-validate evidence index after gauntlet
+        env:
+          DETERMINEX_ROOT: ${{ github.workspace }}
+        run: determinex evidence validate
+      - name: Upload gauntlet JSON report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: architecture-regression-gauntlet
+          path: _ci_artifacts/architecture_regression_gauntlet.json
+          retention-days: 30

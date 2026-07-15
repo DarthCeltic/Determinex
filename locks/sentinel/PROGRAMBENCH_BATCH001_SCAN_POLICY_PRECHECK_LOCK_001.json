@@ -1,0 +1,25 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_SCAN_POLICY_PRECHECK_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Define Batch001 scan policy thresholds and routing before any artifact scan is performed.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_SCAN_QUEUE_LOCK_001"
+  ],
+  "status": "SCAN_POLICY_PRECHECK_WRITTEN",
+  "record": "assurance/evidence/programbench_batch001_scan_policy_precheck/programbench_batch001_scan_policy_precheck_run_20260528.SCAN_POLICY_PRECHECK_WRITTEN.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "critical_threshold": 0,
+  "high_threshold": 0,
+  "scan_pass_implies_execution": false,
+  "scan_fail_routes_to_security_decision": true,
+  "training_eligible": false,
+  "does_not_prove": "Does not perform a scan or make an execution/security admission decision."
+}

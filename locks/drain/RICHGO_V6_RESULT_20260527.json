@@ -1,0 +1,71 @@
+{
+  "artifact_id": "RICHGO_V6_RESULT_20260527",
+  "date": "2026-05-27",
+  "slug": "kyoh86__richgo.313114f",
+  "shard": "richgo_v6_schema_mature_20260527",
+  "run_root": "T:/determinex-staging/pb_kyoh86_richgo_native_v6",
+  "gate_result": "T:/determinex-staging/pb_kyoh86_richgo_native_v6/gate_result.json",
+  "eval_json": "T:/determinex-staging/pb_kyoh86_richgo_native_v6/kyoh86__richgo.313114f/kyoh86__richgo.313114f.eval.json",
+  "hetzner_return": "T:/determinex-staging/hetzner_returns/richgo_v6_schema_mature_20260527",
+  "hetzner_mirror": "T:/determinex-programbench/hetzner_results/richgo_v6_schema_mature_20260527",
+  "baseline": {
+    "passed": 775,
+    "failed": 11,
+    "skipped": 1,
+    "runnable": 786,
+    "total": 950
+  },
+  "candidate": {
+    "passed": 772,
+    "failed": 14,
+    "skipped": 1,
+    "runnable": 786,
+    "total": 823
+  },
+  "decision": "reject",
+  "reason": "passed delta = -3 (baseline 775 -> candidate 772); requires strict improvement",
+  "failure_class": "argv0_preservation_present_but_failing",
+  "matched_patterns": [
+    "argv0_preservation",
+    "stderr_stdout_normalization",
+    "bash_path_dependency",
+    "native_required",
+    "serializer_exactness",
+    "clap_error_format",
+    "harness_plumbing"
+  ],
+  "newly_failing": [
+    "eval.tests.test_richgo_color_and_decorations.test_richgo_force_color_emits_ansi_codes"
+  ],
+  "trace": {
+    "local_legacy_corpus": "corpus/programbench/training_corpus/pb_verdict_corpus.jsonl",
+    "t_corpus_root": "T:/determinex_corpus",
+    "rows_emitted": 786,
+    "rows_pass": 772,
+    "rows_fail": 14,
+    "t_corpus_total_after_backfill": 11618,
+    "t_corpus_status": "active_eval_evidence",
+    "training_eligible": false,
+    "training_exclusion_reason": "license/safety provenance unknown for this legacy ProgramBench verdict path; kept as eval evidence after schema maturity backfill"
+  },
+  "corpus_integrity_after_backfill": {
+    "unsigned_count": 0,
+    "invalid_signature_count": 0,
+    "duplicate_trace_hash_count": 0,
+    "missing_language_count": 0,
+    "missing_failure_type_count": 0,
+    "missing_provenance_count": 0,
+    "missing_verifier_count": 0,
+    "parse_error_count": 0,
+    "signature_key_scope": "durable"
+  },
+  "next_repair_packet": {
+    "path": "corpus/programbench/in_progress/kyoh86__richgo.313114f/hint_audit_20260527T211458Z.md",
+    "recommended_action": "Preserve the harness-visible program name in the wrapper before the native binary runs; isolate timeout regressions against upstream before another launcher change."
+  },
+  "remote_cleanup": "cleaned",
+  "lock_context": [
+    "CORPUS_SCHEMA_MATURITY_LOCK_001",
+    "BENCH_TO_CORPUS_ELIGIBILITY_LOCK_001"
+  ]
+}

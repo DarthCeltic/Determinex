@@ -1,0 +1,13 @@
+# Snyk ignore rules for Determinex
+# Exclude third-party vendored venv packages — not first-party code.
+# All 41 Snyk issues from prior scan were in these vendored files.
+
+scripts/fine_tuning/venv/**
+overbuild-env/**
+
+# False-positive SSRF (python/Ssrf) in convert_failures_to_sft.py
+# The HTTP target URL is hardcoded to http://localhost:11434 (local Ollama server).
+# The --model CLI arg flows only into the JSON body (model name field), NOT into the URL.
+# The model name is validated against a strict regex allowlist before any HTTP call.
+# This is a local-only training tool; no external server is contacted.
+scripts/convert_failures_to_sft.py

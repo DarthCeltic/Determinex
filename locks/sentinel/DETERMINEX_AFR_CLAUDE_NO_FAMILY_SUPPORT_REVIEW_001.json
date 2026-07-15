@@ -1,0 +1,81 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/afr_claude_no_family_support_review_001/claim_boundary_20260601O.json",
+    "verdict": "assurance/evidence/afr_claude_no_family_support_review_001/verdict_20260601O.json"
+  },
+  "audit_pass": true,
+  "blocked": false,
+  "blocked_reason": "verified",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "AFR Claude review = TIMER+STABILITY GATED ACTIVE FAMILY REMEDIATION + SCORE CANONICALIZATION.",
+    "Reviewed commit: cb243c5c2a371439eb6c4a8b175055d9e3a41cbb. Marker (successor): 9ec5e15b21d68447a5f05ab4335d7ffc3f5af8c4.",
+    "Claude rejects: blocked-as-support / mapped-as-support / score canonicalization without evidence / test/verifier/binary/lockfile mutation / unauthorized dependency install / SBOM/clean-host/GUI/installer execution / public upload / release-ready / family-support claim / universal support / tests disabled.",
+    "Standard: scores CANONICALIZED (3 categories moved per evidence); 4 families newly LOCAL_VERIFIED; LOCAL_VERIFIED 4→8 / STRUCTURALLY_MAPPED 12→8; queue 1→1; spend 1→1; cells 10; families 0.",
+    "Canonical cells = 10; families = 0."
+  ],
+  "commit": "cb243c5c2a371439eb6c4a8b175055d9e3a41cbb",
+  "creates_source_truth": false,
+  "date": "2026-06-01",
+  "doc": "docs/DETERMINEX_AFR_CLAUDE_NO_FAMILY_SUPPORT_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "afr_claude_lane_Y",
+  "gulp_wave_id": "afr_v1",
+  "head_recheck_protocol_applied": true,
+  "head_stability_check_applied": true,
+  "is_afr_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_stability_checked_review": true,
+  "is_timer_protocol_gated_review": true,
+  "lane": "Y",
+  "lock_id": "DETERMINEX_AFR_CLAUDE_NO_FAMILY_SUPPORT_REVIEW_001",
+  "marker_validated_before_review": true,
+  "purpose": "AFR Claude Lane Y. No family-support claim from exact-cell verification.",
+  "record": "assurance/evidence/afr_claude_no_family_support_review_001/run_20260601O.AFR_CLAUDE_NO_FAMILY_SUPPORT_REVIEW_001_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "reviewed_commit": "cb243c5c2a371439eb6c4a8b175055d9e3a41cbb",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "stale_review_avoided": true,
+  "state_classification": "ACTIVE_REMEDIATION_STARTED_SCORE_CANONICALIZED_4_FAMILIES_PROMOTED",
+  "status": "AFR_CLAUDE_NO_FAMILY_SUPPORT_REVIEW_001_PASSED",
+  "test_modules": [
+    "tests/status/test_afr_claude_no_family_support_review_001.py"
+  ],
+  "timer_protocol_applied": true,
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "head_recheck_protocol_applied": true,
+      "head_stability_check_applied": true,
+      "marker_validated_before_review": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true,
+      "reviewed_commit_set": true,
+      "stale_review_avoided": true,
+      "timer_protocol_applied": true
+    },
+    "passed": true
+  },
+  "verdict": "NO_FAMILY_SUPPORT_FROM_EXACT_CELL_VERIFIED — promotions are 'exact local capability' scope; release_supported_families remains 0."
+}

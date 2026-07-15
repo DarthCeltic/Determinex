@@ -1,0 +1,118 @@
+{
+  "lock_id": "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Architecture Regression Gauntlet: a single command that re-verifies the new config/path/CLI/reproducibility/evidence/frontend/storage spine works together AND that all legacy script entry points still work. Read-only against the live repo; T:/ not required; fail-closed safety defaults verified under a clean env.",
+  "purpose": "Catch any regression in the 6-rung architecture sprint with one invocation: `python scripts/dev/architecture_regression_gauntlet.py --strict`. Runs in CI alongside the other quality gates.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "DETERMINEX_CLI_LOCK_001",
+    "REPRODUCIBLE_DEV_LOCK_001",
+    "CI_QUALITY_GATE_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "FRONTEND_QUALITY_RAILS_LOCK_001",
+    "CLOAK_THREAT_MODEL_LOCK_001",
+    "STORAGE_OPERATIONS_LOCK_001"
+  ],
+  "checks_run": 17,
+  "checks_by_class": {
+    "cli_unified_entry_point": 6,
+    "just_runner_recipes": 5,
+    "legacy_script_compatibility": 3,
+    "read_only_mutation_guard": 1,
+    "path_portability": 1,
+    "unsafe_defaults_fail_closed": 1
+  },
+  "checks_enumerated": [
+    "cli.version",
+    "cli.config_show",
+    "cli.config_doctor",
+    "cli.doctor",
+    "cli.status_summary",
+    "cli.evidence_validate",
+    "just.runner",
+    "just.doctor",
+    "just.test",
+    "just.evidence",
+    "just.audit",
+    "legacy.doctor",
+    "legacy.status_summary",
+    "legacy.evidence_index",
+    "guard.read_only_evidence",
+    "portability.paths",
+    "safety.defaults"
+  ],
+  "status_tokens": [
+    "ARCH_GAUNTLET_PASSED",
+    "ARCH_GAUNTLET_FAILED",
+    "CLI_COMMAND_AVAILABLE",
+    "CLI_COMMAND_FAILED",
+    "LEGACY_SCRIPT_COMPATIBLE",
+    "LEGACY_SCRIPT_BROKEN",
+    "READ_ONLY_COMMAND_MUTATED_EVIDENCE",
+    "READ_ONLY_COMMAND_PRESERVED_EVIDENCE",
+    "PATH_PORTABILITY_CONFIRMED",
+    "PATH_PORTABILITY_FAILED",
+    "UNSAFE_DEFAULT_BLOCKED",
+    "UNSAFE_DEFAULT_OPEN",
+    "JUST_RUNNER_PRESENT",
+    "JUST_RUNNER_MISSING_SKIPPED"
+  ],
+  "invariants": [
+    "Every CLI subcommand (--version, config show, config doctor, doctor, status --summary, evidence validate) exits 0 or 1 and produces a recognizable status report.",
+    "Legacy scripts (determinex_doctor.py, determinex_status.py --summary, evidence_index.py --check) remain runnable with no breakage.",
+    "All read-only inspection commands preserve the SHA-256 of assurance/evidence/evidence_index.json and every locks/sentinel/*.json file.",
+    "determinex_settings resolves every path-with-fallback to a working value under a CLEAN environment (no DETERMINEX_*, no HF_HOME, no OLLAMA_*).",
+    "Every DETERMINEX_* env override is honored, and the override path appears in the resolved property — no T:/ drive letter required for correctness.",
+    "Under a clean env, all safety flags fail closed: online_discovery=False, allow_cloud_fallback=False, allow_unsandboxed=False, require_docker=True, require_cloak=True, offline_observer=True, flywheel_auto=False.",
+    "The status-token set is frozen — pinned both in the gauntlet module and in this lock manifest. Drift fails test_lock_manifest_status_tokens_match_module.",
+    "The just runner is OPTIONAL — when absent, the four just.* recipe checks return JUST_RUNNER_MISSING_SKIPPED rather than failing the rollup.",
+    "Evidence-index validation uses the --check flag (read-only); the gauntlet never writes evidence_index.json.",
+    "The gauntlet itself does not mutate the live repo — it shells out to subprocesses and hashes a watched file set before+after."
+  ],
+  "tests": 16,
+  "test_modules": [
+    "tests/dev/test_architecture_regression_gauntlet_lock.py"
+  ],
+  "test_coverage": [
+    "gauntlet module imports cleanly",
+    "status tokens are a frozen closed set (matches expected enumeration)",
+    "REPO_ROOT and SCRIPTS_DIR resolve to the live repo",
+    "_hash_path returns None for missing files",
+    "_hash_path detects single-byte changes",
+    "_hash_path matches stdlib hashlib.sha256 output",
+    "check_cli_version returns a known token",
+    "check_cli_config_doctor returns a known token",
+    "check_just_runner returns a known token (graceful skip when just missing)",
+    "check_legacy_evidence_index returns a known token",
+    "read-only guard returns PRESERVED on clean run (no mutation)",
+    "path portability confirmed under clean env + temp override",
+    "unsafe defaults blocked under clean env (all 8 flags match expectations)",
+    "_hash_tree detects single-byte mutation across a directory",
+    "full gauntlet rolls up to PASSED on live repo (marked slow)",
+    "lock manifest exists; status tokens align with module; checks_run pinned"
+  ],
+  "host_capture": {
+    "platform": "win32",
+    "python": "3.11.9",
+    "just_available": false,
+    "rollup_status": "ARCH_GAUNTLET_PASSED",
+    "checks_run": 17,
+    "checks_failed": 0
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/architecture_regression_gauntlet/run_20260527.json",
+    "run_command": "python scripts/dev/architecture_regression_gauntlet.py --json assurance/evidence/architecture_regression_gauntlet/run_20260527.json"
+  },
+  "files": [
+    "scripts/dev/architecture_regression_gauntlet.py",
+    "scripts/dev/__init__.py",
+    "tests/dev/test_architecture_regression_gauntlet_lock.py",
+    "tests/dev/__init__.py",
+    "locks/sentinel/DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001.json",
+    "assurance/evidence/architecture_regression_gauntlet/run_20260527.json"
+  ],
+  "ci_recommendation": "Add a `arch-gauntlet` job to .github/workflows/test.yml that runs `python scripts/dev/architecture_regression_gauntlet.py --strict`. Currently NOT wired (kept as a developer-side check until the gauntlet's stability has been observed across multiple commits)."
+}

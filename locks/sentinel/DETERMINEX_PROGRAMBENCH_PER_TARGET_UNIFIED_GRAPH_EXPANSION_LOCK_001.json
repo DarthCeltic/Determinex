@@ -1,0 +1,32 @@
+{
+  "lock_id": "DETERMINEX_PROGRAMBENCH_PER_TARGET_UNIFIED_GRAPH_EXPANSION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Expand ProgramBench unified graph coverage to Doxygen plus each of the 10 metadata-admitted Batch001 targets.",
+  "depends_on_locks": [
+    "DETERMINEX_UNIFIED_STATUS_SURFACE_AND_EVIDENCE_GRAPH_LOCK_001",
+    "PROGRAMBENCH_BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_LOCK_001",
+    "PROGRAMBENCH_BATCH001_METADATA_DIGEST_ADMISSION_FROM_LIVE_LOOKUP_LOCK_001"
+  ],
+  "status": "PROGRAMBENCH_PER_TARGET_GRAPH_WRITTEN",
+  "integrity_status": "PROGRAMBENCH_PER_TARGET_GRAPH_INTEGRITY_PASSED",
+  "record": "assurance/evidence/programbench_per_target_unified_graph_expansion/run_20260528.PROGRAMBENCH_PER_TARGET_GRAPH_WRITTEN.json",
+  "test_modules": [
+    "tests/status/test_determinex_programbench_per_target_unified_graph_expansion_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/status/test_determinex_programbench_per_target_unified_graph_expansion_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "targets_expanded": 11,
+  "batch001_targets": 10,
+  "metadata_to_execution_blocked": true,
+  "import_request_to_authorization_blocked": true,
+  "scan_queue_to_execution_blocked": true,
+  "blocked_task_to_training_blocked": true,
+  "execution_authorized": false,
+  "artifact_import_authorized": false,
+  "training_eligible": false,
+  "training_rows_written": false
+}

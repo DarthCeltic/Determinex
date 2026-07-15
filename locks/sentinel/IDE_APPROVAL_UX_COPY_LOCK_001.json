@@ -1,0 +1,31 @@
+{
+  "lock_id": "IDE_APPROVAL_UX_COPY_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Exact user-facing approval/warning text. Plain, direct, non-hype. Required sections: diagnosis_advisory, patch_plan_untrusted, verifier_result_explanation, temp_workspace_explanation, source_mutation_warning, approval_consequences, reject_option, evidence_trail_explanation, training_eligibility_notice, live_model_disclaimer, no_blind_approval. Tests refuse forbidden phrases (always correct / guaranteed / risk-free / blindly approve / etc).",
+  "purpose": "Rung 10 of the IDE frontend/approval campaign. The apparatus must not encourage blind approval.",
+  "depends_on_locks": [],
+  "tests": 10,
+  "passed_on_this_host": 10,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_approval_ux_copy_lock.py"],
+  "status_tokens": [],
+  "required_sections": [
+    "diagnosis_advisory", "patch_plan_untrusted",
+    "verifier_result_explanation", "temp_workspace_explanation",
+    "source_mutation_warning", "approval_consequences", "reject_option",
+    "evidence_trail_explanation", "training_eligibility_notice",
+    "live_model_disclaimer", "no_blind_approval"
+  ],
+  "forbidden_phrases": [
+    "always correct", "guaranteed to work", "risk-free",
+    "trust the AI", "the model is always right", "blindly approve",
+    "no need to read"
+  ],
+  "scope_discipline": {
+    "ai_hype_encouraged": false,
+    "blind_approval_implied": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_approval_ux_copy/run_20260528.json"},
+  "next_recommended_lock": "IDE_END_TO_END_UI_FLOW_TRACE_LOCK_001"
+}

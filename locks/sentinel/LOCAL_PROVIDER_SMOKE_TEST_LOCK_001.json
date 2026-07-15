@@ -1,0 +1,35 @@
+{
+  "lock_id": "LOCAL_PROVIDER_SMOKE_TEST_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Bounded local provider smoke test. Composes the existing LiveModelCompatHarness with a written LocalModelConfigRecord and a fixture FixtureProvider. Output is always captured as untrusted. No source repo input. No patch generation. No corpus write. No training eligibility.",
+  "purpose": "Rung 2 of the IDE consumer campaign.",
+  "depends_on_locks": [
+    "LOCAL_MODEL_CONFIG_WIZARD_LOCK_001",
+    "LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001"
+  ],
+  "tests": 13,
+  "passed_on_this_host": 13,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/models/test_local_provider_smoke_test_lock.py"],
+  "status_tokens": [
+    "LOCAL_PROVIDER_SMOKE_PASSED",
+    "LOCAL_PROVIDER_SMOKE_BLOCKED_NOT_CONFIGURED",
+    "LOCAL_PROVIDER_SMOKE_BLOCKED_PROVIDER_UNAVAILABLE",
+    "LOCAL_PROVIDER_SMOKE_BLOCKED_TIMEOUT",
+    "LOCAL_PROVIDER_SMOKE_BLOCKED_NETWORK_PROVIDER",
+    "LOCAL_PROVIDER_SMOKE_OUTPUT_UNTRUSTED",
+    "LOCAL_PROVIDER_SMOKE_BLOCKED_MALFORMED_OUTPUT"
+  ],
+  "scope_discipline": {
+    "live_model_call_made": false,
+    "network_introduced": false,
+    "subprocess_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "training_eligibility_opened": false,
+    "output_trusted": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/local_provider_smoke_test/run_20260527.json"},
+  "next_recommended_lock": "OPT_IN_LIVE_DIAGNOSE_COMMAND_LOCK_001"
+}

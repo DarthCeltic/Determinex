@@ -1,0 +1,76 @@
+{
+  "lock_id": "STORAGE_OPERATIONS_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Storage operations runbook: T:/ topology, model cache authority, tiered backup strategy, log rotation policy, free-space monitoring, and quarterly restore drill. Locked alongside Rung 6 of pre-release hardening sprint.",
+  "doc": "docs/STORAGE_OPERATIONS.md",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001"
+  ],
+  "storage_tiers": {
+    "tier_a_critical_must_backup": [
+      "T:/determinex-models/rosetta_v1.pt",
+      "T:/determinex_corpus/*.jsonl",
+      "T:/determinex-models/*.gguf (custom-trained variants)"
+    ],
+    "tier_b_regenerable_index_only": [
+      "T:/determinex-swebench/",
+      "T:/determinex-programbench/",
+      "T:/huggingface_cache/"
+    ],
+    "tier_c_ephemeral_no_backup": [
+      "T:/determinex_artifacts/quarantine/",
+      "T:/determinex_artifacts/cache/",
+      "T:/determinex-staging/"
+    ]
+  },
+  "model_cache_authority": {
+    "single_source_of_truth": "DETERMINEX_MODELS_DIR (default T:/determinex-models, fallback data/models/)",
+    "ollama_blob_store": "treated as derived cache; OLLAMA_MODELS env var for relocation",
+    "hf_home_independent": true,
+    "rosetta_path": "$DETERMINEX_MODELS_DIR/rosetta_v1.pt (override via DETERMINEX_ROSETTA_PT_PATH)"
+  },
+  "log_rotation_streams": {
+    "observability_events": {"path": "T:/determinex_audit/events/ or logs/events/", "rotation": "1 file/day", "retention_days": 90, "lock_referenced_retention": "indefinite"},
+    "session_wal": {"path": "sessions/<id>/wal.jsonl", "rotation": "per-session", "retention_days": null, "note": "indefinite, small audit-grade"},
+    "swebench_pb_runs": {"path": "logs/swebench/<id>/, logs/programbench/<id>/", "rotation": "per-run", "retention_days": 180, "lock_referenced_retention": "indefinite"},
+    "cloak_audit": {"path": "logs/swebench/<id>/cloak_audit/", "rotation": "per-run", "retention_days": 180, "policy": "never auto-deleted while lock active"}
+  },
+  "free_space_thresholds": {
+    "OK_gb": 50,
+    "WARN_gb": 20,
+    "FAIL_gb": 20,
+    "guard_env": "DETERMINEX_DISK_GUARD",
+    "guard_default": true,
+    "fail_blocks": "bench runs requiring workspace egress"
+  },
+  "quarterly_restore_drill": {
+    "frequency": "quarterly",
+    "tier_a_targets": ["rosetta_v1.pt", "corpus/*.jsonl"],
+    "record_path": "assurance/evidence/storage_drills/<YYYYMMDD>.json",
+    "doctor_warn_at_days": 120,
+    "doctor_fail_at_days": 180
+  },
+  "invariants": [
+    "All T:/ paths either have a documented local fallback or a documented reason for requiring the drive",
+    "DETERMINEX_MODELS_DIR is the only model cache authority",
+    "Tier-A backups exist and SHA256-verify against manifest",
+    "Log rotation respects evidence/lock references — locked artifacts never auto-delete",
+    "Free-space FAIL state blocks bench runs that need workspace egress",
+    "Quarterly restore drill record exists and is < 180 days old",
+    "DETERMINEX_NO_CORPUS_WRITE does not block log rotation (maintenance vs. corpus mutation distinction)"
+  ],
+  "future_work_referenced_not_blocking": [
+    "scripts/ops/backup_tier_a.ps1 — backup runner (referenced, to-be-authored)",
+    "scripts/ops/rotate_logs.py — rotation runner (referenced, to-be-authored)",
+    "Task Scheduler integration for nightly rotate + Saturday backup"
+  ],
+  "files": [
+    "docs/STORAGE_OPERATIONS.md",
+    "scripts/determinex_settings.py",
+    "scripts/determinex_doctor.py"
+  ]
+}

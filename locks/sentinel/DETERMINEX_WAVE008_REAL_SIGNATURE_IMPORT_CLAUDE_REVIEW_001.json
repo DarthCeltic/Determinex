@@ -1,0 +1,71 @@
+{
+  "artifact_paths": {
+    "approval_resolution_matrix_post_codex": "assurance/evidence/wave_008_real_signature_import_claude_review_001/approval_resolution_matrix_post_codex_20260606.json",
+    "claim_boundary": "assurance/evidence/wave_008_real_signature_import_claude_review_001/claim_boundary_20260606.json",
+    "codex_deltas": "assurance/evidence/wave_008_real_signature_import_claude_review_001/codex_deltas_20260606.json",
+    "import_procedure_audit": "assurance/evidence/wave_008_real_signature_import_claude_review_001/import_procedure_audit_20260606.json",
+    "risks": "assurance/evidence/wave_008_real_signature_import_claude_review_001/risks_20260606.json",
+    "signed_valid_queue": "assurance/evidence/wave_008_real_signature_import_claude_review_001/signed_valid_queue_20260606.json",
+    "verdict": "assurance/evidence/wave_008_real_signature_import_claude_review_001/verdict_20260606.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "0 real signatures; signed_valid queue unmaterialized",
+  "claim_boundary": [
+    "Wave 008 Claude reviews are POST-EXECUTION planning audits and parallel critique.",
+    "Central question: did Codex EXECUTE, or did it create another packet?",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Installer, driver, GUI, SBOM, training, and network actions remain gated on exact REAL signed operator approval.",
+    "Release-supported cells remain 10 (9 user-visible / 1 internal / 0 install-packaging).",
+    "Release-supported families remain 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-06",
+  "doc": "docs/DETERMINEX_WAVE008_REAL_SIGNATURE_IMPORT_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_008_claude_lane_Y2",
+  "gulp_wave_id": "008",
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "lane": "Y2",
+  "lock_id": "DETERMINEX_WAVE008_REAL_SIGNATURE_IMPORT_CLAUDE_REVIEW_001",
+  "purpose": "Wave 008 Claude Lane Y2. Real signature import — sweep classified 6/6 'unsigned'; verify no execution path consumed bad approval state.",
+  "record": "assurance/evidence/wave_008_real_signature_import_claude_review_001/run_20260606.WAVE008_REAL_SIGNATURE_IMPORT_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE008_REAL_SIGNATURE_IMPORT_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_008_real_signature_import_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant": true,
+      "release_supported_families_invariant": true
+    },
+    "passed": true
+  },
+  "verdict": "NO_REAL_SIGNATURES_IMPORTED — 0/6 signed_valid; 6 unsigned; 0 simulated_only; executed_from_bad_state=0. Boundary intact — but signed_valid queue is unmaterialized AND the import procedure for a real signature is undocumented."
+}

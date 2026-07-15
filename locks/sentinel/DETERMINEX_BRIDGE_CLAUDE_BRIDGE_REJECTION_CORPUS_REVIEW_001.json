@@ -1,0 +1,83 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/bridge_claude_bridge_rejection_corpus_review_001/claim_boundary_20260601L.json",
+    "rejection_state": "assurance/evidence/bridge_claude_bridge_rejection_corpus_review_001/rejection_state_20260601L.json",
+    "verdict": "assurance/evidence/bridge_claude_bridge_rejection_corpus_review_001/verdict_20260601L.json"
+  },
+  "audit_pass": true,
+  "blocked": false,
+  "blocked_reason": "Corpus exercised",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "Bridge Claude review = TIMER+STABILITY GATED PACKET-TO-RUNTIME-SPEND review (FIRST SPEND).",
+    "Reviewed commit: 973e14baf4760759029517185aaaa9f03ffba359. Marker (successor): 22460b5fb4d4f7792cec43bc0fd8ec34c7ca6bb9.",
+    "Claude rejects: invalid-packet admission / hash-mismatch admission / wrong-commit admission / reused-packet admission / blanket admission / spend without queue entry / spend reuse / scope widening / command differs from approved / unrelated dependency changes / SBOM/clean-host/GUI/installer execution outside scope / public upload / release-ready claim / family promotion / score rise without evidence / tests disabled.",
+    "Standard: First-ever signed runtime spend occurred. queue 0→1; spend 0→1; React/Vite admission PASSED but local verification NOT CLAIMED (admission ≠ local-verified support). 5 other packets remain CERTIFIED but NOT_ADMITTED / PREREQ_BLOCKED. Tier-1 unchanged; cells 10; families 0; scores unchanged (movement explicitly rejected).",
+    "Canonical cells = 10; families = 0.",
+    "Hard floor crossed cleanly: 1 narrow signed spend with full evidence chain; other gates intact."
+  ],
+  "commit": "973e14baf4760759029517185aaaa9f03ffba359",
+  "creates_source_truth": false,
+  "date": "2026-06-01",
+  "doc": "docs/DETERMINEX_BRIDGE_CLAUDE_BRIDGE_REJECTION_CORPUS_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "bridge_claude_lane_D",
+  "gulp_wave_id": "bridge_v1",
+  "head_recheck_protocol_applied": true,
+  "head_stability_check_applied": true,
+  "is_bridge_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_stability_checked_review": true,
+  "is_timer_protocol_gated_review": true,
+  "lane": "D",
+  "lock_id": "DETERMINEX_BRIDGE_CLAUDE_BRIDGE_REJECTION_CORPUS_REVIEW_001",
+  "marker_validated_before_review": true,
+  "purpose": "Bridge Claude Lane D. Bridge-specific rejection corpus covers attacks: hash-change/wrong-commit/reuse/etc.",
+  "record": "assurance/evidence/bridge_claude_bridge_rejection_corpus_review_001/run_20260601L.BRIDGE_CLAUDE_BRIDGE_REJECTION_CORPUS_REVIEW_001_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "reviewed_commit": "973e14baf4760759029517185aaaa9f03ffba359",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "stale_review_avoided": true,
+  "state_classification": "FIRST_RUNTIME_SPEND_REACT_VITE_ADMISSION_PASSED_LOCAL_VERIFY_NOT_CLAIMED",
+  "status": "BRIDGE_CLAUDE_BRIDGE_REJECTION_CORPUS_REVIEW_001_PASSED",
+  "test_modules": [
+    "tests/status/test_bridge_claude_bridge_rejection_corpus_review_001.py"
+  ],
+  "timer_protocol_applied": true,
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "head_recheck_protocol_applied": true,
+      "head_stability_check_applied": true,
+      "marker_validated_before_review": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true,
+      "reviewed_commit_set": true,
+      "stale_review_avoided": true,
+      "timer_protocol_applied": true
+    },
+    "passed": true
+  },
+  "verdict": "BRIDGE_REJECTION_CORPUS_VERIFIED — bridge-specific rejection fixtures exercise hash-change / wrong-commit / reuse / wrong-type / all-scope / broadened-command / missing-forbidden / invalid-operator / bypass-validator / double-admission cases."
+}

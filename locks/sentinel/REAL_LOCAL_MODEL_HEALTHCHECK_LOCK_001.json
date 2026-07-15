@@ -1,0 +1,56 @@
+{
+  "lock_id": "REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Bounded local-only model healthcheck. POSTs a trivial fixed prompt ('Reply with the single word OK.') to <localhost>/api/generate and records whether the daemon answered within a strict timeout. Output is always recorded as untrusted. NO source/repo content is included in the prompt. No patch is generated. No training row is written.",
+  "purpose": "Rung 3 of the real-model + build-adapter-verifier campaign (subordinate to Codex audit repair).",
+  "depends_on_locks": [
+    "CANONICAL_LOCAL_MODEL_ID_SELECTION_LOCK_001",
+    "REAL_OLLAMA_PROVIDER_DETECTION_LOCK_001"
+  ],
+  "tests": 15,
+  "passed_on_this_host": 15,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_real_local_model_healthcheck_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_LOCAL_MODEL_HEALTHCHECK_PASSED",
+    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_MODEL_NOT_PULLED",
+    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_TIMEOUT",
+    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_PROVIDER_UNAVAILABLE",
+    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_NOT_SELECTED",
+    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_PROVIDER_ERROR",
+    "REAL_LOCAL_MODEL_HEALTHCHECK_OUTPUT_UNTRUSTED"
+  ],
+  "this_host_result": {
+    "decision": "REAL_LOCAL_MODEL_HEALTHCHECK_PASSED",
+    "model_id": "determinex-engineer-v11-dsl",
+    "elapsed_ms_approx": 15438,
+    "response_chars": 3,
+    "notes": [
+      "first real local-model response in the Determinex apparatus",
+      "output remains untrusted; no source mutation authorized",
+      "verifier remains the source of truth for any repair flow"
+    ]
+  },
+  "scope_discipline": {
+    "network_provider_admitted": false,
+    "patch_generated": false,
+    "repo_source_inputted": false,
+    "training_eligibility_opened": false,
+    "source_mutation_authorized": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false
+  },
+  "subordinate_to": {
+    "campaign": "Codex proof-control audit repair",
+    "note": "This campaign does NOT claim full-suite clean until the Codex audit repair lands."
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_local_model_healthcheck/run_20260528.json"
+  },
+  "next_recommended_lock": "BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001"
+}

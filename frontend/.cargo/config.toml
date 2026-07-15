@@ -1,0 +1,5 @@
+[build]
+# Redirect Cargo build artifacts to T:\ — keeps C:\ free.
+# Rust debug builds consume ~14 GB; C:\ has limited headroom.
+# T:\ has 1.5 TB free and is the designated build scratch drive.
+target-dir = "T:\\determinex-target"

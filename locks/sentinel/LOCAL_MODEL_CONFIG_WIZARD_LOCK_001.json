@@ -1,0 +1,32 @@
+{
+  "lock_id": "LOCAL_MODEL_CONFIG_WIZARD_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Safe local-model configuration wizard. Writes JSON configs to a caller-supplied config_root. Default is enabled=False, dry_run_default=True. Network providers, unpinned ids, stale ids, unknown providers, unsupported task classes are all blocked. No model invocation; the wizard only writes JSON.",
+  "purpose": "Rung 1 of the IDE consumer campaign.",
+  "depends_on_locks": ["LOCAL_MODEL_LIVE_ADMISSION_LOCK_001"],
+  "tests": 15,
+  "passed_on_this_host": 15,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/models/test_local_model_config_wizard_lock.py"],
+  "status_tokens": [
+    "LOCAL_MODEL_CONFIG_WRITTEN",
+    "LOCAL_MODEL_CONFIG_BLOCKED_NETWORK_PROVIDER",
+    "LOCAL_MODEL_CONFIG_BLOCKED_UNPINNED_MODEL",
+    "LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER",
+    "LOCAL_MODEL_CONFIG_BLOCKED_UNSUPPORTED_TASK_CLASS",
+    "LOCAL_MODEL_CONFIG_BLOCKED_STALE_MODEL_ID",
+    "LOCAL_MODEL_CONFIG_BLOCKED_INVALID_LOCATION",
+    "LOCAL_MODEL_CONFIG_DRY_RUN_ONLY"
+  ],
+  "scope_discipline": {
+    "live_model_call_made": false,
+    "network_introduced": false,
+    "subprocess_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/local_model_config_wizard/run_20260527.json"},
+  "next_recommended_lock": "LOCAL_PROVIDER_SMOKE_TEST_LOCK_001"
+}

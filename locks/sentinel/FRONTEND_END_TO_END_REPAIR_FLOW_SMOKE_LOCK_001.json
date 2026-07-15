@@ -1,0 +1,46 @@
+{
+  "lock_id": "FRONTEND_END_TO_END_REPAIR_FLOW_SMOKE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Frontend end-to-end repair-flow smoke trace. Walks the 10 visible Tauri commands the TSX panels call through the production _tauri_driver._dispatch in-process. Every stage carries source_mutation_authorized=false and training_eligible=false. No subprocess, no socket, no live model call.",
+  "purpose": "Rung 11 of the real frontend campaign.",
+  "depends_on_locks": [
+    "TAURI_RUST_COMMAND_BRIDGE_LOCK_001",
+    "FRONTEND_REPAIR_PANEL_SHELL_LOCK_001",
+    "FRONTEND_WORKSPACE_STATUS_PANEL_LOCK_001",
+    "FRONTEND_MODEL_ROUTE_PANEL_LOCK_001",
+    "FRONTEND_DIAGNOSE_AND_PATCH_PLAN_FLOW_LOCK_001",
+    "FRONTEND_TEMP_VERIFY_PANEL_LOCK_001",
+    "FRONTEND_HUMAN_APPROVAL_PANEL_LOCK_001",
+    "FRONTEND_SOURCE_APPLY_DRY_RUN_PANEL_LOCK_001",
+    "FRONTEND_EVIDENCE_VIEWER_LOCK_001",
+    "LOCAL_MODEL_SETTINGS_PANEL_LOCK_001",
+    "IDE_BACKEND_COMMAND_SURFACE_LOCK_001"
+  ],
+  "tests": 12,
+  "passed_on_this_host": 12,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide_frontend/test_frontend_end_to_end_repair_flow_smoke_lock.py"
+  ],
+  "status_tokens": [
+    "FRONTEND_E2E_SMOKE_TRACE_WRITTEN",
+    "FRONTEND_E2E_SMOKE_SOURCE_UNCHANGED",
+    "FRONTEND_E2E_SMOKE_APPROVAL_REQUIRED",
+    "FRONTEND_E2E_SMOKE_TRAINING_ELIGIBLE_FALSE",
+    "FRONTEND_E2E_SMOKE_NO_LIVE_MODEL_CALL",
+    "FRONTEND_E2E_SMOKE_NO_NETWORK_CALL"
+  ],
+  "scope_discipline": {
+    "source_apply_control_added": false,
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_called": false,
+    "network_called": false,
+    "subprocess_spawned": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/frontend_end_to_end_repair_flow_smoke/run_20260528.json"
+  },
+  "next_recommended_lock": "DETERMINEX_IDE_FRONTEND_READY_FINAL_STATE_LOCK_001"
+}

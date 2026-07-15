@@ -1,0 +1,60 @@
+{
+  "lock_id": "REAL_APPROVAL_APPLY_POST_VERIFY_TRACE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "End-to-end real-approval-gated apply + post-apply verifier trace. Composes the locked rollback-snapshot + apply-after-approval + post-apply-verifier + rollback-execution modules with a hardened-runner-backed verifier callable from the build-adapter selection. No approval supplied -> REAL_APPROVAL_REQUIRED. Real ACCEPTED approval -> apply -> post-verify -> rollback on fail. Training eligibility remains FALSE on every record; promotion is gated by a separate future global training guard.",
+  "purpose": "Rung 8 of the real-model + build-adapter-verifier campaign (subordinate to Codex audit repair).",
+  "depends_on_locks": [
+    "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001",
+    "REAL_TEMP_PATCH_VERIFY_LOCK_001",
+    "BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001",
+    "SOURCE_MUTATION_ROLLBACK_SNAPSHOT_LOCK_001",
+    "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+    "POST_APPLY_VERIFIER_LOCK_001",
+    "SOURCE_MUTATION_ROLLBACK_EXECUTION_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001"
+  ],
+  "tests": 12,
+  "passed_on_this_host": 12,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_real_approval_apply_post_verify_trace_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_APPROVAL_REQUIRED",
+    "REAL_APPROVAL_APPLY_POST_VERIFY_PASSED",
+    "REAL_APPROVAL_APPLY_POST_VERIFY_FAILED_ROLLBACK_REQUIRED",
+    "REAL_APPROVAL_APPLY_BLOCKED_NO_APPROVAL",
+    "REAL_APPROVAL_APPLY_BLOCKED_MISMATCH",
+    "REAL_APPROVAL_APPLY_BLOCKED_NO_TEMP_VERIFY",
+    "REAL_APPROVAL_APPLY_BLOCKED_NO_VERIFIER"
+  ],
+  "this_host_result": {
+    "decision": "REAL_APPROVAL_APPLY_POST_VERIFY_PASSED",
+    "notes": [
+      "real approval ACCEPTED",
+      "real source mutation applied to fixture workspace",
+      "real `pytest -q` post-apply verifier passed",
+      "training_eligible=false (training guard not promoted)"
+    ]
+  },
+  "scope_discipline": {
+    "training_eligibility_opened": false,
+    "training_row_written": false,
+    "network_called": false,
+    "docker_used": false,
+    "subprocess_spawned_outside_hardened_runner": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false
+  },
+  "subordinate_to": {
+    "campaign": "Codex proof-control audit repair",
+    "note": "This campaign does NOT claim full-suite clean until the Codex audit repair lands."
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_approval_apply_post_verify_trace/run_20260528.json"
+  },
+  "next_recommended_lock": "CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_LOCK_001"
+}

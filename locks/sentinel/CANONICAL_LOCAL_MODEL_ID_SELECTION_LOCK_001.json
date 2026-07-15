@@ -1,0 +1,55 @@
+{
+  "lock_id": "CANONICAL_LOCAL_MODEL_ID_SELECTION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Canonical local-model id selection. Combines CURRENT_MODEL_IDS / STALE_MODEL_IDS from the locked model router with the locked detection record to classify the host into one of MODEL_AVAILABLE / MODEL_NOT_PULLED / PROVIDER_NOT_RUNNING / PROVIDER_NOT_RECOGNIZED / etc. Records the exact operator action (e.g. `ollama pull <id>`) when the canonical model is missing. Pure decision — no model invocation, no pull, no network call.",
+  "purpose": "Rung 1 of the real-model + build-adapter-verifier campaign (subordinate to Codex audit repair).",
+  "depends_on_locks": [
+    "REAL_OLLAMA_PROVIDER_DETECTION_LOCK_001",
+    "REAL_LOCAL_MODEL_ADMISSION_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LOCAL_MODEL_ADMISSION_POLICY_LOCK_001"
+  ],
+  "tests": 16,
+  "passed_on_this_host": 16,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_canonical_local_model_id_selection_lock.py"
+  ],
+  "status_tokens": [
+    "CANONICAL_LOCAL_MODEL_SELECTED",
+    "CANONICAL_LOCAL_MODEL_BLOCKED_NOT_PULLED",
+    "CANONICAL_LOCAL_MODEL_BLOCKED_STALE_ID",
+    "CANONICAL_LOCAL_MODEL_BLOCKED_UNPINNED",
+    "CANONICAL_LOCAL_MODEL_BLOCKED_PROVIDER_UNAVAILABLE",
+    "CANONICAL_LOCAL_MODEL_BLOCKED_NETWORK_PROVIDER"
+  ],
+  "this_host_result": {
+    "decision": "CANONICAL_LOCAL_MODEL_SELECTED",
+    "host_state": "MODEL_AVAILABLE",
+    "selected_model_id": "determinex-engineer-v11-dsl",
+    "notes": [
+      "host Ollama daemon answered with the canonical id pulled",
+      "live invocation still gated by REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001"
+    ]
+  },
+  "scope_discipline": {
+    "network_provider_admitted": false,
+    "live_model_called": false,
+    "model_pulled": false,
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false
+  },
+  "subordinate_to": {
+    "campaign": "Codex proof-control audit repair",
+    "note": "This campaign does NOT claim full-suite clean until the Codex audit repair lands."
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/canonical_local_model_id_selection/run_20260528.json"
+  },
+  "next_recommended_lock": "OLLAMA_MODEL_PULL_OPERATOR_GUIDE_LOCK_001"
+}

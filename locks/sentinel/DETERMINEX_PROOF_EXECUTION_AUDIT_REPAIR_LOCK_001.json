@@ -1,0 +1,41 @@
+{
+  "lock_id": "DETERMINEX_PROOF_EXECUTION_AUDIT_REPAIR_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Repair proof-control execution audit regression by narrowly classifying the proof readiness git-status probe and proving scripts/proof has no unsafe, must-migrate, or unknown execution sites.",
+  "depends_on_locks": [
+    "DETERMINEX_PROOF_CONTROL_READINESS_AUDIT_LOCK_001",
+    "DETERMINEX_PROOF_CONTROL_PLANE_FINAL_STATE_LOCK_001"
+  ],
+  "status": "PROOF_EXECUTION_AUDIT_REPAIR_CLASSIFIED_READ_ONLY",
+  "record": "assurance/evidence/proof_execution_audit_repair/run_20260528.PROOF_EXECUTION_AUDIT_REPAIR_CLASSIFIED_READ_ONLY.json",
+  "test_modules": [
+    "tests/proof/test_determinex_proof_execution_audit_repair_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/proof/test_determinex_proof_execution_audit_repair_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "proof_execution_sites": [
+    {
+      "file_path": "scripts/proof/proof_control_readiness_audit.py",
+      "line": 140,
+      "kind": "subprocess.run",
+      "classification": "LEGACY_EXEMPT_READ_ONLY",
+      "rationale": "Fixed-argv git status probe for dirty Claude/Tauri final-state detection; no shell, no payload execution, no authority grant."
+    }
+  ],
+  "blocked_unsafe": 0,
+  "must_migrate": 0,
+  "unknown": 0,
+  "execution_authority_granted": false,
+  "source_mutation_authority_granted": false,
+  "training_eligibility_granted": false,
+  "docker_run_performed": false,
+  "programbench_rerun_performed": false,
+  "artifact_import_performed": false,
+  "scan_performed": false,
+  "source_mutation_performed": false,
+  "training_rows_written": false
+}

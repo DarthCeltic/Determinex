@@ -1,0 +1,107 @@
+{
+  "lock_id": "PROGRAMBENCH_CLEANROOM_BUILD_RECIPE_RECOVERY_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "fac45c4dbcdc2420b94d583d77fad98f877ac1e0",
+  "purpose": "Recover or reconstruct the Doxygen cleanroom image build recipe from local evidence only, without rebuilding, pulling, hydrating, executing Docker, or rerunning ProgramBench.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_cleanroom_build_recipe_recovery_lock.py",
+    "passed": 16,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_cleanroom_build_recipe_recovery_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_remediation_plan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py",
+      "tests/corpus/programbench/test_programbench_approved_scanner_setup_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_import_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py"
+    ],
+    "passed": 141,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "module": "tests/corpus/programbench",
+    "passed": 196,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1500,
+    "skipped": 5,
+    "warnings": 75
+  },
+  "implementation": [
+    "scripts/corpus/programbench/cleanroom_build_recipe_recovery.py",
+    "scripts/corpus/programbench/cleanroom_build_recipe_recovery_record.py",
+    "tests/corpus/programbench/test_programbench_cleanroom_build_recipe_recovery_lock.py"
+  ],
+  "doxygen_build_recipe_recovery": {
+    "remediation_plan": "assurance/evidence/programbench_cleanroom_image_remediation_plans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN.json",
+    "recovery_record": "assurance/evidence/programbench_cleanroom_build_recipe_recovery/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY.json",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "image_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "required_strategy": "update_go_runtime_toolchain",
+    "go_version_target": "1.24.13",
+    "fidelity_risk": "material",
+    "status": "BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY",
+    "original_recipe_file_recovered": false,
+    "image_config_history_present": true,
+    "base_image_digest_present": false,
+    "go_runtime_version_detected": "1.21.0",
+    "go_update_compatible": true,
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "BUILD_RECIPE_RECOVERY_READY",
+    "BUILD_RECIPE_RECOVERED_EXACT",
+    "BUILD_RECIPE_RECOVERED_PARTIAL",
+    "BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY",
+    "BUILD_RECIPE_MISSING",
+    "BUILD_RECIPE_BLOCKED_INSUFFICIENT_PROVENANCE",
+    "BUILD_RECIPE_BLOCKED_NO_REMEDIATION_PLAN",
+    "BUILD_RECIPE_BLOCKED_IMAGE_MISMATCH",
+    "BUILD_RECIPE_BLOCKED_DIGEST_MISMATCH",
+    "BUILD_RECIPE_DOCKERFILE_PRESENT",
+    "BUILD_RECIPE_BUILD_SCRIPT_PRESENT",
+    "BUILD_RECIPE_BASE_DIGEST_PRESENT",
+    "BUILD_RECIPE_BASE_DIGEST_MISSING",
+    "BUILD_RECIPE_IMAGE_HISTORY_PRESENT",
+    "BUILD_RECIPE_GO_UPDATE_COMPATIBLE",
+    "BUILD_RECIPE_MATERIAL_FIDELITY_RISK",
+    "BUILD_RECIPE_NOT_EXECUTABLE",
+    "BUILD_RECIPE_TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "consumes signed remediation plan",
+    "verifies target image and digest match",
+    "records all searched evidence locations",
+    "records whether Dockerfile, build script, base image digest, and toolchain pins are present",
+    "identifies whether Go 1.24.13 update is recipe-compatible",
+    "distinguishes exact recipe, partial recipe, quarantine-only reconstruction, missing recipe, and insufficient provenance",
+    "redacts credential-like tokens from image history",
+    "produces signed build recipe recovery evidence",
+    "keeps cache_ready false",
+    "keeps executable false",
+    "keeps training_eligible false"
+  ],
+  "policy": [
+    "Build recipe recovery is not remediation execution.",
+    "Image config history can reconstruct a quarantine-only recipe candidate but is not executable provenance.",
+    "No broad web search.",
+    "No Docker pull.",
+    "No Docker run.",
+    "No image rebuild.",
+    "No ProgramBench rerun.",
+    "No cache_ready.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not prove the original cleanroom Dockerfile or pinned base image digest has been recovered. Does not rebuild, scan a remediated image, hydrate, execute, score ProgramBench, or create training rows.",
+  "previous_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_REMEDIATION_PLAN_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_BUILD_RECIPE_PROVENANCE_GAP_LOCK_001"
+}

@@ -1,0 +1,55 @@
+{
+  "lock_id": "DETERMINEX_REACT_REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_LOCK_001",
+  "date": "2026-05-29",
+  "commit": "clean-main",
+  "description": "Binds the React Repo Clinic panel to the Codex Repo Clinic fixture-repair splash demo evidence (DETERMINEX_REPO_CLINIC_FIXTURE_REPAIR_SPLASH_DEMO_LOCK_001) read-only. Adds a read-only Tauri command get_repo_clinic_verified_demo_status, a Python loader at scripts/ide/repo_clinic_verified_demo_status.py, and a React component at frontend/src/components/ide-product-shell/RepoClinicVerifiedDemoStatus.tsx. The loader reads the most recent run_*.json under assurance/evidence/repo_clinic_fixture_repair_splash_demo/ and returns PASSED only if (1) status == REPO_CLINIC_FIXTURE_REPAIR_SPLASH_DEMO_PASSED; (2) source_mutation_authorized / training_eligible / approval_authority_granted / authority.real_user_source_mutation_authorized / authority.broad_claims_granted / top-level real_user_source_mutation_authorized are all NOT True; (3) fixture_mutation_only == True; (4) claim_boundary includes 'Repo Clinic Python fixture repair demo only', 'fixture/demo workspace mutation only', 'not all codebases', 'not all languages', 'not arbitrary repair', and 'training remains false'; (5) no affirmative forbidden broad-claim phrase appears outside verification.blocked_path_demo, evidence.claim_scanner_result, and claim_boundary; (6) verification.repair_verified=True implies baseline_failed=True AND repair_tests_passed=True AND false_fixed_claim_blocked=True. If the evidence file is not present locally, returns AWAITING_EVIDENCE; if status != PASSED returns BLOCKED_MALFORMED; the React component surfaces an 'Awaiting Codex reconciliation' or 'Binding blocked' banner accordingly. The component renders demo title, target workflow, language, issue summary, baseline-failure-captured, repair-verifier-passed, repair-verified-for-fixture-only, false-fixed-claim-blocked, fixture-mutation-only badge, affected files, evidence ref, patch body hash, fixture workspace, claim boundary, blocked-path summary, training-false badge, source-mutation-false badge, Ready-does-NOT-mean-authorized + Real user repo mutation NOT authorized captions. It NEVER surfaces: all codebases / all languages / arbitrary repair / arbitrary production repair / real user repo mutation authorized / training enabled / source_mutation_authorized: true / release_ready: true claims.",
+  "purpose": "Bind the verified Repo Clinic fixture-repair evidence into the live React Repo Clinic panel.",
+  "depends_on_locks": [
+    "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001",
+    "DETERMINEX_REPO_CLINIC_FIXTURE_REPAIR_SPLASH_DEMO_LOCK_001",
+    "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001"
+  ],
+  "tests": 29,
+  "test_modules": ["tests/ide/test_react_repo_clinic_verified_demo_status_binding_lock.py"],
+  "status_tokens": [
+    "REACT_REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_PASSED",
+    "REACT_REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_AWAITING_EVIDENCE",
+    "REACT_REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_BROAD_CLAIM",
+    "REACT_REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_AUTHORITY_CONFUSION",
+    "REACT_REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_MALFORMED"
+  ],
+  "panel_path": "frontend/src/components/ide-product-shell/RepoClinicVerifiedDemoStatus.tsx",
+  "backend_loader": "scripts/ide/repo_clinic_verified_demo_status.py",
+  "tauri_command": "get_repo_clinic_verified_demo_status",
+  "bound_to_evidence": "assurance/evidence/repo_clinic_fixture_repair_splash_demo/run_*.json",
+  "patch_body_hash_observed": "08c463e8a0aaace634c0efd1fcaf79daeba27bffb49a6fddac4e250c52cc585a",
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "broad_claims_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "verified_label_without_evidence": false,
+    "all_codebases_claim": false,
+    "all_languages_claim": false,
+    "arbitrary_repair_claim": false,
+    "production_ready_arbitrary_apps_claim": false,
+    "training_enabled_in_demo": false,
+    "readiness_treated_as_authorization": false,
+    "no_followup_claim": false,
+    "fixture_mutation_only_dropped": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_react_repo_clinic_verified_demo_status_binding/run_20260529.json"
+  },
+  "remediates_finding": "live-react-repo-clinic-verified-demo-binding",
+  "next_recommended_lock": "DETERMINEX_MAINTENANCE_BAY_DRY_RUN_UPDATE_SPLASH_DEMO_LOCK_001"
+}

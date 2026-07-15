@@ -1,0 +1,68 @@
+{
+  "lock_id": "LIVE_MODEL_DIAGNOSE_ONLY_TRACE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Permits a live/local or fixture model to participate in diagnosis only. Task classes admitted: BUILD_DIAGNOSIS, TEST_FAILURE_LOCALIZATION. Response is captured as ADVISORY ONLY; the verifier remains the source of truth. No patch is generated. No source mutation. No corpus row. No training eligibility.",
+  "purpose": "Rung 3 of the live-local-model campaign. Opens the smallest live-model surface (diagnosis) without giving the model any patching authority. Sets up LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001 to extend the surface to patch *plans* (still untrusted).",
+  "depends_on_locks": [
+    "MODEL_ROUTER_LOCK_001",
+    "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+    "LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001"
+  ],
+  "tests": 14,
+  "passed_on_this_host": 14,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/repair/test_live_model_diagnose_only_trace_lock.py"],
+  "status_tokens": [
+    "LIVE_DIAGNOSE_TRACE_WRITTEN",
+    "LIVE_DIAGNOSE_BLOCKED_MODEL_NOT_ADMITTED",
+    "LIVE_DIAGNOSE_BLOCKED_UNSUPPORTED_TASK",
+    "LIVE_DIAGNOSE_RESPONSE_CAPTURED_ADVISORY_ONLY",
+    "LIVE_DIAGNOSE_NO_SOURCE_MUTATION",
+    "LIVE_DIAGNOSE_BLOCKED_PROVIDER_REJECTED"
+  ],
+  "allowed_task_classes": ["BUILD_DIAGNOSIS", "TEST_FAILURE_LOCALIZATION"],
+  "invariants": [
+    "LiveDiagnoseTraceRunner.run is a pure function over (workspace, task_class, admission, provider, payload).",
+    "Only BUILD_DIAGNOSIS and TEST_FAILURE_LOCALIZATION are admitted; any other task class blocks with LIVE_DIAGNOSE_BLOCKED_UNSUPPORTED_TASK.",
+    "Admission must be READY with live_call_authorized=True; otherwise LIVE_DIAGNOSE_BLOCKED_MODEL_NOT_ADMITTED.",
+    "Harness rejection (timeout, malformed, empty, oversized, schema) bubbles up as LIVE_DIAGNOSE_BLOCKED_PROVIDER_REJECTED.",
+    "patch_generated is False on every trace.",
+    "source_mutation_authorized, corpus_write_authorized, training_eligible are False on every trace.",
+    "advisory_only is True on every trace.",
+    "Workspace sha256 tree before==after for every run.",
+    "scripts/repair/live_diagnose_trace*.py contains no `import subprocess`, no `import urllib`, no `import socket`."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "patch_generated": false,
+    "training_eligibility_opened": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/repair/live_diagnose_trace.py",
+      "scripts/repair/live_diagnose_trace_record.py"
+    ],
+    "tests": ["tests/repair/test_live_model_diagnose_only_trace_lock.py"],
+    "lock": "locks/sentinel/LIVE_MODEL_DIAGNOSE_ONLY_TRACE_LOCK_001.json",
+    "evidence": "assurance/evidence/live_model_diagnose_only_trace/run_20260527.json",
+    "docs": "docs/LIVE_MODEL_DIAGNOSE_ONLY_TRACE.md"
+  },
+  "evidence": {"run_artifact": "assurance/evidence/live_model_diagnose_only_trace/run_20260527.json"},
+  "next_recommended_lock": "LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001",
+  "files": [
+    "scripts/repair/live_diagnose_trace.py",
+    "scripts/repair/live_diagnose_trace_record.py",
+    "tests/repair/test_live_model_diagnose_only_trace_lock.py",
+    "locks/sentinel/LIVE_MODEL_DIAGNOSE_ONLY_TRACE_LOCK_001.json",
+    "assurance/evidence/live_model_diagnose_only_trace/run_20260527.json",
+    "docs/LIVE_MODEL_DIAGNOSE_ONLY_TRACE.md"
+  ]
+}

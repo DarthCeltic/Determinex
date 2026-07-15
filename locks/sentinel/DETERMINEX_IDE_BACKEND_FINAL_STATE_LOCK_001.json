@@ -1,0 +1,121 @@
+{
+  "lock_id": "DETERMINEX_IDE_BACKEND_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Campaign-end final backend apparatus state. Assembles a single FinalBackendState dataclass that consolidates every dimension of the Claude lane's verified-repair work: execution surface, model routing, repo intake, verifier matrix, mocked repair loop, safe patch workspace, source mutation gate, IDE backend state, live model calls, training eligibility, release readiness, next unblocker. Pure function over lock-manifest file presence; no subprocess, no network, no source mutation.",
+  "purpose": "Rung 10 of the verified-repair campaign — the campaign finale. Pins the equilibrium state the apparatus reached: clean execution surface, dry-run model routing, mocked end-to-end loop, temp-only safe patch, source mutation blocked pending human approval, IDE backend state ready, NO live model calls, training eligibility BLOCKED, NOT RELEASED. The next unblocker is LOCAL_MODEL_LIVE_ADMISSION_AND_IDE_UI_FLOW.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001",
+    "SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001",
+    "HARDENED_VERIFIED_TASK_AND_CODECLASH_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LLM_MOCKED_INTAKE_REPAIR_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+    "VERIFIED_REPAIR_TRACE_LOCK_001",
+    "HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001",
+    "IDE_REPAIR_STATE_MODEL_LOCK_001",
+    "CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001",
+    "LOCAL_MODEL_ADMISSION_POLICY_LOCK_001",
+    "ARBITRARY_REPO_READINESS_MATRIX_LOCK_001"
+  ],
+  "tests": 31,
+  "passed_on_this_host": 31,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/dev/test_determinex_ide_backend_final_state_lock.py"
+  ],
+  "status_tokens": [
+    "DETERMINEX_IDE_BACKEND_FINAL_STATE_WRITTEN",
+    "EXECUTION_SURFACE_CLEAN",
+    "MODEL_ROUTING_READY_DRY_RUN",
+    "REPO_INTAKE_READY_FIXTURES",
+    "VERIFIER_MATRIX_PARTIAL_BACKED",
+    "MOCKED_REPAIR_LOOP_READY",
+    "SAFE_PATCH_WORKSPACE_READY_TEMP_ONLY",
+    "SOURCE_MUTATION_BLOCKED_PENDING_HUMAN_APPROVAL",
+    "IDE_BACKEND_STATE_READY",
+    "LIVE_MODEL_CALLS_NOT_ADMITTED",
+    "TRAINING_ELIGIBILITY_BLOCKED_BY_DEFAULT",
+    "RELEASE_READINESS_NOT_RELEASED",
+    "NEXT_UNBLOCKER_DECLARED"
+  ],
+  "final_backend_dimensions": {
+    "execution_surface": "CLEAN",
+    "model_routing": "READY_DRY_RUN",
+    "repo_intake": "READY_FIXTURES",
+    "verifier_matrix": "PARTIAL_BACKED",
+    "mocked_repair_loop": "READY",
+    "safe_patch_workspace": "READY_TEMP_ONLY",
+    "source_mutation": "BLOCKED_PENDING_HUMAN_APPROVAL",
+    "ide_backend_state": "READY",
+    "live_model_calls": "NOT_ADMITTED",
+    "training_eligibility": "BLOCKED_BY_DEFAULT",
+    "release_readiness": "NOT_RELEASED",
+    "next_unblocker": "LOCAL_MODEL_LIVE_ADMISSION_AND_IDE_UI_FLOW"
+  },
+  "invariants": [
+    "assemble_final_state is a pure function — no I/O beyond lock-manifest file presence checks.",
+    "Every upstream lock (foundation hardening + verified-repair campaign) is present on disk; test_every_upstream_lock_is_present is parametrized over the full list.",
+    "live_model_calls is NOT_ADMITTED — no live model call is authorized by this rung.",
+    "training_eligibility is BLOCKED_BY_DEFAULT — no training row produced anywhere in the campaign.",
+    "source_mutation is BLOCKED_PENDING_HUMAN_APPROVAL — original repo writes still require an accepted ApprovalGateDecision.",
+    "release_readiness is NOT_RELEASED — the campaign produces a complete apparatus, not a public release.",
+    "next_unblocker is declared as LOCAL_MODEL_LIVE_ADMISSION_AND_IDE_UI_FLOW.",
+    "scripts/dev/determinex_ide_backend_final_state*.py contains no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "assemble_final_state calls no subprocess (defensive monkeypatch sentinel verifies this).",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "release_workflow_added": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/dev/determinex_ide_backend_final_state.py",
+      "scripts/dev/determinex_ide_backend_final_state_record.py"
+    ],
+    "tests": [
+      "tests/dev/test_determinex_ide_backend_final_state_lock.py"
+    ],
+    "lock": "locks/sentinel/DETERMINEX_IDE_BACKEND_FINAL_STATE_LOCK_001.json",
+    "evidence": "assurance/evidence/determinex_ide_backend_final_state/run_20260527.json",
+    "docs": "docs/DETERMINEX_IDE_BACKEND_FINAL_STATE.md"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_ide_backend_final_state/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "The next unblocker (LOCAL_MODEL_LIVE_ADMISSION_AND_IDE_UI_FLOW) is named but not implemented — that's a separate campaign.",
+    "IDE Tauri frontend rendering remains downstream; this rung exposes the state, not the UI.",
+    "No release/demo workflow; the apparatus is at equilibrium, not at v1.0."
+  ],
+  "next_recommended_lock": "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+  "files": [
+    "scripts/dev/determinex_ide_backend_final_state.py",
+    "scripts/dev/determinex_ide_backend_final_state_record.py",
+    "tests/dev/test_determinex_ide_backend_final_state_lock.py",
+    "locks/sentinel/DETERMINEX_IDE_BACKEND_FINAL_STATE_LOCK_001.json",
+    "assurance/evidence/determinex_ide_backend_final_state/run_20260527.json",
+    "docs/DETERMINEX_IDE_BACKEND_FINAL_STATE.md"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "lock_id": "TAURI_RUST_COMMAND_BRIDGE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Standalone Tauri Rust bridge module (frontend/src-tauri/src/ide_repair_bridge.rs) declaring 10 #[tauri::command] functions that shell out via argv-list to scripts/ide/_tauri_driver.py, which calls IDEBackendCommandSurface. Does NOT modify lib.rs; the integration recipe is documented in docs/TAURI_RUST_COMMAND_BRIDGE.md.",
+  "purpose": "Rung 1 of the real frontend campaign. Produces the Rust seam without touching the frontend team's wire-up.",
+  "depends_on_locks": [
+    "TAURI_BACKEND_COMMAND_BRIDGE_LOCK_001",
+    "IDE_BACKEND_COMMAND_SURFACE_LOCK_001"
+  ],
+  "tests": 17,
+  "passed_on_this_host": 17,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide_frontend/test_tauri_rust_command_bridge_lock.py"],
+  "status_tokens": [
+    "TAURI_RUST_COMMAND_BRIDGE_READY",
+    "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_NO_TAURI_APP",
+    "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
+    "TAURI_COMMAND_SOURCE_MUTATION_BLOCKED",
+    "TAURI_COMMAND_TEMP_ONLY"
+  ],
+  "rust_commands": [
+    "open_workspace",
+    "get_workspace_status",
+    "get_model_route_status",
+    "diagnose_dry_run",
+    "diagnose_live_opt_in",
+    "generate_patch_plan",
+    "verify_temp_patch",
+    "get_human_approval_packet",
+    "source_apply_dry_run",
+    "get_repair_flow_state"
+  ],
+  "scope_discipline": {
+    "lib_rs_modified": false,
+    "codex_files_touched": false,
+    "user_source_mutated": false,
+    "live_model_call_made": false,
+    "network_seam_introduced": false,
+    "shell_string_introduced": false,
+    "training_eligibility_opened": false
+  },
+  "files_added": {
+    "rust": ["frontend/src-tauri/src/ide_repair_bridge.rs"],
+    "python": ["scripts/ide/_tauri_driver.py"],
+    "tests": ["tests/ide_frontend/test_tauri_rust_command_bridge_lock.py"],
+    "lock": "locks/sentinel/TAURI_RUST_COMMAND_BRIDGE_LOCK_001.json",
+    "evidence": "assurance/evidence/tauri_rust_command_bridge/run_20260528.json",
+    "docs": "docs/TAURI_RUST_COMMAND_BRIDGE.md"
+  },
+  "evidence": {"run_artifact": "assurance/evidence/tauri_rust_command_bridge/run_20260528.json"},
+  "next_recommended_lock": "FRONTEND_REPAIR_PANEL_SHELL_LOCK_001"
+}

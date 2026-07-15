@@ -1,0 +1,50 @@
+{
+  "lock_id": "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Rung 2 of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES. Binds the React Idea Lab panel to the Codex Idea Lab verified Python CLI splash demo evidence (lock DETERMINEX_IDEA_LAB_PYTHON_CLI_VERIFIED_SPLASH_DEMO_LOCK_001). Adds a read-only Tauri command get_idea_lab_verified_demo_status, a Python loader at scripts/ide/idea_lab_verified_demo_status.py, and a React component at frontend/src/components/ide-product-shell/IdeaLabVerifiedDemoStatus.tsx. The loader reads the most recent run_*.json under assurance/evidence/idea_lab_python_cli_verified_splash_demo/ and returns PASSED only if (1) source_mutation_authorized != True, (2) training_eligible != True, (3) approval_authority_granted != True, (4) claim_boundary includes the required scope statements ('Python CLI/file-data demo only', 'not all apps', 'not any language', 'training remains false'), (5) no affirmative forbidden broad-claim phrase appears outside the blocked_path_demo subsection, and (6) verified_working_local_app=True implies tests_passed AND smoke_passed. If the evidence file is not present locally, returns AWAITING_EVIDENCE; the React component surfaces an 'Awaiting Codex reconciliation' banner rather than fake a verified status. The component renders demo title, app class, target language, verified-for-fixture-only status, tests/smoke pass, evidence ref, claim boundary, training-false badge, and Ready-does-NOT-mean-authorized caption. It NEVER surfaces all-app / any-language / production-ready-arbitrary / training-enabled / source-mutation-authorized / no-followup / release-ready claims.",
+  "purpose": "Rung 2 of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001",
+    "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001"
+  ],
+  "tests": 24,
+  "test_modules": ["tests/ide/test_react_idea_lab_verified_demo_status_binding_lock.py"],
+  "status_tokens": [
+    "REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_PASSED",
+    "REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_AWAITING_EVIDENCE",
+    "REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_BROAD_CLAIM",
+    "REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_AUTHORITY_CONFUSION"
+  ],
+  "panel_path": "frontend/src/components/ide-product-shell/IdeaLabVerifiedDemoStatus.tsx",
+  "backend_loader": "scripts/ide/idea_lab_verified_demo_status.py",
+  "tauri_command": "get_idea_lab_verified_demo_status",
+  "bound_to_evidence": "assurance/evidence/idea_lab_python_cli_verified_splash_demo/run_*.json",
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "broad_claims_granted": false,
+    "verified_label_without_evidence": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false,
+    "all_codebases_claim": false,
+    "production_ready_arbitrary_apps_claim": false,
+    "training_enabled_in_demo": false,
+    "readiness_treated_as_authorization": false,
+    "no_followup_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_react_idea_lab_verified_demo_status_binding/run_20260528.json"
+  },
+  "remediates_finding": "live-react-idea-lab-verified-demo-binding",
+  "next_recommended_lock": "DETERMINEX_REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_LOCK_001"
+}

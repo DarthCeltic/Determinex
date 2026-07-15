@@ -1,0 +1,79 @@
+{
+  "lock_id": "PROGRAMBENCH_REAL_BOUNDED_RERUN_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Execute exactly one live ProgramBench rerun from one still-valid authorized packet, then record the outcome as signed eval evidence.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+    "passed": 11,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py"
+    ],
+    "passed": 31,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/real_bounded_rerun.py",
+    "scripts/corpus/programbench/real_bounded_rerun_record.py",
+    "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py"
+  ],
+  "live_attempt": {
+    "packet": "assurance/evidence/programbench_root_cause_packets/doxygen_real_bounded_rerun_20260527.json",
+    "tool": "doxygen__doxygen.966d98e",
+    "candidate_id": "close_lock_v7_doxygen_richgo_20260527",
+    "max_attempts": 1,
+    "executed": true,
+    "outcome_status": "REAL_BOUNDED_RERUN_INFRA_FAILURE",
+    "outcome_record": "assurance/evidence/programbench_real_bounded_reruns/doxygen_real_bounded_rerun_20260527.REAL_BOUNDED_RERUN_INFRA_FAILURE.json",
+    "reason": "ProgramBench evaluator preflight failed before official eval because cleanroom Docker image is missing: programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "training_eligible": false,
+    "record_status": "active_eval_evidence"
+  },
+  "statuses": [
+    "REAL_BOUNDED_RERUN_EXECUTED",
+    "REAL_BOUNDED_RERUN_IMPROVED",
+    "REAL_BOUNDED_RERUN_REJECTED",
+    "REAL_BOUNDED_RERUN_REGRESSED",
+    "REAL_BOUNDED_RERUN_INFRA_FAILURE",
+    "REAL_BOUNDED_RERUN_BLOCKED_PACKET_INVALID",
+    "REAL_BOUNDED_RERUN_BLOCKED_SCOPE_MISMATCH",
+    "REAL_BOUNDED_RERUN_BLOCKED_ATTEMPT_LIMIT",
+    "REAL_BOUNDED_RERUN_OUTCOME_SIGNED"
+  ],
+  "acceptance": [
+    "invalid packet blocks live rerun",
+    "scope mismatch blocks live rerun",
+    "attempt limit blocks live rerun",
+    "Richgo cannot be triggered by Doxygen packet",
+    "mock live run records signed active_eval_evidence",
+    "improved result is not automatically training eligible",
+    "rejected result is still signed evidence",
+    "infra failure is signed as infra failure",
+    "preflight image missing output is classified as infra failure",
+    "no retry occurs after failure",
+    "quarantine-only packet does not execute"
+  ],
+  "policy": [
+    "One packet.",
+    "One tool.",
+    "One candidate.",
+    "One attempt.",
+    "One signed outcome.",
+    "Packet authorizes scope.",
+    "Verifier authorizes outcome.",
+    "Corpus policy authorizes training.",
+    "No automatic training promotion."
+  ],
+  "does_not_prove": "Does not prove Doxygen improved; the single governed live attempt reached ProgramBench preflight and recorded an infrastructure failure because the required cleanroom Docker image is missing.",
+  "previous_lock": "PROGRAMBENCH_BOUNDED_RERUN_EXECUTION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_INFRA_FAILURE_TRIAGE_LOCK_001"
+}

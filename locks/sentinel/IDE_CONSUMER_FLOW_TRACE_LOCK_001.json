@@ -1,0 +1,33 @@
+{
+  "lock_id": "IDE_CONSUMER_FLOW_TRACE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "End-to-end IDE consumer flow trace with fixture providers. Composes inspect -> route -> diagnose -> patch plan quarantine -> temp patch verify -> human approval packet -> source apply dry-run -> final state.",
+  "purpose": "Rung 9 of the IDE consumer campaign.",
+  "depends_on_locks": [
+    "LOCAL_MODEL_CONFIG_WIZARD_LOCK_001",
+    "OPT_IN_LIVE_DIAGNOSE_COMMAND_LOCK_001",
+    "OPT_IN_PATCH_PLAN_COMMAND_LOCK_001",
+    "TEMP_PATCH_VERIFY_COMMAND_LOCK_001",
+    "HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001",
+    "SOURCE_MUTATION_APPLY_DRY_RUN_LOCK_001"
+  ],
+  "tests": 8,
+  "passed_on_this_host": 8,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_consumer_flow_trace_lock.py"],
+  "status_tokens": [
+    "IDE_CONSUMER_FLOW_TRACE_WRITTEN",
+    "IDE_CONSUMER_FLOW_SOURCE_UNCHANGED",
+    "IDE_CONSUMER_FLOW_HUMAN_APPROVAL_REQUIRED",
+    "IDE_CONSUMER_FLOW_TRAINING_ELIGIBLE_FALSE"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "live_model_call_made": false,
+    "network_introduced": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_consumer_flow_trace/run_20260527.json"},
+  "next_recommended_lock": "DETERMINEX_IDE_CONSUMER_READY_FINAL_STATE_LOCK_001"
+}

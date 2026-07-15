@@ -1,0 +1,43 @@
+{
+  "lock_id": "ROLLBACK_SYMLINK_SEMANTICS_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates CLAUDE-AUTH-009. Three execution layers now refuse to operate on a workspace that contains symlink(s): (1) source_mutation_rollback_snapshot.take_snapshot, (2) source_mutation_apply_after_approval.apply_after_approval, (3) source_mutation_rollback_execution.execute_rollback. The previous code paths called Path.is_file() (follows symlinks) and shutil.copytree(symlinks=False) (follows symlinks). A workspace containing a hostile symlink (e.g. pointing at /etc/passwd) would have had TARGET content snapshotted and then restored as a regular file at restore time. Rather than implement cross-platform symlink-target tracking (link semantics, link-of-link chains, non-existing targets), this lock takes the conservative path: refuse outright and ask the operator to resolve the workspace to a symlink-free state before retrying. The symlink check is implemented in scripts/repair/symlink_policy.py using Path.is_symlink() (does NOT follow links). Each layer surfaces a layer-specific token: ROLLBACK_SNAPSHOT_BLOCKED_SYMLINKS_UNSUPPORTED, SOURCE_MUTATION_BLOCKED_SYMLINKS_UNSUPPORTED, SOURCE_ROLLBACK_BLOCKED_SYMLINKS_UNSUPPORTED. Defense-in-depth: each layer checks its own invariants and never trusts upstream callers.",
+  "purpose": "Rung 8 of the Claude authority leak remediation campaign.",
+  "depends_on_locks": [
+    "SOURCE_MUTATION_ROLLBACK_SNAPSHOT_LOCK_001",
+    "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+    "SOURCE_MUTATION_ROLLBACK_EXECUTION_LOCK_001"
+  ],
+  "tests": 14,
+  "passed_on_this_host": "host-dependent",
+  "skipped_on_this_host": "host-dependent",
+  "test_modules": [
+    "tests/repair/test_rollback_symlink_semantics_lock.py"
+  ],
+  "status_tokens": [
+    "ROLLBACK_SYMLINK_BLOCKED_UNSUPPORTED",
+    "ROLLBACK_SNAPSHOT_BLOCKED_SYMLINKS_UNSUPPORTED",
+    "SOURCE_MUTATION_BLOCKED_SYMLINKS_UNSUPPORTED",
+    "SOURCE_ROLLBACK_BLOCKED_SYMLINKS_UNSUPPORTED"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "symlink_dereference_attempted": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/rollback_symlink_semantics/run_20260528.json"
+  },
+  "host_note": "Symlink-creation tests are skipped on hosts that lack the privilege to create symlinks (Windows without Developer Mode or SeCreateSymbolicLinkPrivilege). The lock's defensive checks still execute; only the integration coverage that needs a real symlink in the workspace is skipped on those hosts.",
+  "remediates_finding": "CLAUDE-AUTH-009",
+  "next_recommended_lock": "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_LOCK_001"
+}

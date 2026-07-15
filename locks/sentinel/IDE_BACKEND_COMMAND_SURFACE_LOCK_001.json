@@ -1,0 +1,32 @@
+{
+  "lock_id": "IDE_BACKEND_COMMAND_SURFACE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Single backend command-dispatch surface for the IDE/Tauri layer. Commands: inspect_workspace, route_model, diagnose_dry_run, diagnose_live_opt_in, generate_patch_plan_opt_in, verify_temp_patch, get_repair_state, get_human_approval_packet. Read-only/status commands cannot mutate source. Live commands require opt_in. Patch commands operate temp-only. Approval packet command does not approve.",
+  "purpose": "Rung 7 of the IDE consumer campaign.",
+  "depends_on_locks": [
+    "MODEL_ROUTER_LOCK_001",
+    "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+    "HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001"
+  ],
+  "tests": 16,
+  "passed_on_this_host": 16,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_backend_command_surface_lock.py"],
+  "status_tokens": [
+    "IDE_BACKEND_COMMAND_SURFACE_READY",
+    "IDE_COMMAND_BLOCKED_NOT_OPTED_IN",
+    "IDE_COMMAND_BLOCKED_NO_MODEL",
+    "IDE_COMMAND_SOURCE_MUTATION_BLOCKED",
+    "IDE_COMMAND_TEMP_ONLY",
+    "IDE_COMMAND_BLOCKED_UNKNOWN_COMMAND",
+    "IDE_COMMAND_OK"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "live_model_call_made": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_backend_command_surface/run_20260527.json"},
+  "next_recommended_lock": "SOURCE_MUTATION_APPLY_DRY_RUN_LOCK_001"
+}

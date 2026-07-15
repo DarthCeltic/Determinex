@@ -1,0 +1,134 @@
+{
+  "lock_id": "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Honest machine-readable + human-readable matrix mapping (language × build_system_id × test_framework_id) onto coverage status {backed | partial | missing | unknown}. Backed means an end-to-end deterministic verifier path is wired; partial means detection works but verifier path is incomplete; missing means the combination is a known target with no oracle wiring today; unknown is the explicit fail-closed default. Unsupported combinations NEVER silently become backed or partial.",
+  "purpose": "Rung 3 of the post-audit Claude-lane sequence. Closes the 'what does verifier-governed actually mean' credibility gap identified in the gap-to-100 audit. Provides the truth layer for any future claim about language coverage and gives the next adapter expansion (Ruby/PHP/Swift/Kotlin/Scala/Elixir/.NET) a clear scope.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001"
+  ],
+  "tests": 39,
+  "passed_on_this_host": 39,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/intake/test_verifier_coverage_matrix_lock.py"
+  ],
+  "entries_count": 18,
+  "counts": {
+    "backed": 5,
+    "partial": 3,
+    "missing": 9,
+    "unknown": 1
+  },
+  "matrix_rows": {
+    "backed": [
+      {"language": "Python", "build": "pip", "test": "pytest"},
+      {"language": "Rust", "build": "cargo", "test": "cargo test"},
+      {"language": "Go", "build": "go", "test": "go test"},
+      {"language": "Java", "build": "maven", "test": "maven test"},
+      {"language": "Java", "build": "gradle", "test": "gradle test"}
+    ],
+    "partial": [
+      {"language": "Kotlin", "build": "gradle", "test": "junit",
+       "reason": "JavaGradleAdapter detects build.gradle.kts but compiles Java only (gradle compileJava, not compileKotlin)"},
+      {"language": "TypeScript", "build": "npm", "test": "jest",
+       "reason": "Build oracle relies on package.json having a 'build' script — not a true tsc gate"},
+      {"language": "TypeScript", "build": "npm", "test": "vitest",
+       "reason": "Build oracle weak (same as jest path); vitest execution wired"}
+    ],
+    "missing": [
+      {"language": "C/C++", "build": "cmake", "test": "ctest"},
+      {"language": "C/C++", "build": "make", "test": "make test"},
+      {"language": "Elixir", "build": "mix", "test": "exunit"},
+      {"language": ".NET", "build": "dotnet", "test": "xunit"},
+      {"language": "PHP", "build": "composer", "test": "phpunit"},
+      {"language": "Ruby", "build": "bundler", "test": "rspec"},
+      {"language": "Scala", "build": "sbt", "test": "scalatest"},
+      {"language": "Swift", "build": "swiftpm", "test": "XCTest"},
+      {"language": "TypeScript", "build": "npm", "test": "mocha"}
+    ],
+    "unknown": [
+      {"language": "(any)", "build": "unknown", "test": "unknown",
+       "reason": "UnknownAdapter explicit registry fallback"}
+    ]
+  },
+  "status_tokens": [
+    "VERIFIER_COVERAGE_MATRIX_READY",
+    "VERIFIER_COVERAGE_BACKED",
+    "VERIFIER_COVERAGE_PARTIAL",
+    "VERIFIER_COVERAGE_MISSING",
+    "VERIFIER_COVERAGE_UNKNOWN",
+    "UNSUPPORTED_COMBINATION_FAILS_CLOSED",
+    "COVERAGE_DOCS_GENERATED",
+    "COVERAGE_DOCS_MATCH_MATRIX",
+    "ADAPTER_OUTPUTS_MAPPED",
+    "CLAIMS_GUARD_READY"
+  ],
+  "honesty_rules": [
+    "A row is BACKED only if a deterministic verifier/oracle is wired end-to-end: detection in BuildAdapter registry + shadow build + test execution + corpus/repair pipeline. Existence of a scripts/validators/ module is NOT sufficient (those are DATA ENGINE ONLY).",
+    "A row is PARTIAL when SOMETHING is wired but the path is incomplete: weak build oracle, missing repair path, partial language support in a generic adapter, or test framework recognized but not executed.",
+    "A row is MISSING when the combination is a known target but no deterministic verifier path exists in this repo today.",
+    "Any (lang, build, test) NOT in COVERAGE_MATRIX returns UNKNOWN via lookup(). There is no implicit fallback to PARTIAL or BACKED.",
+    "Every BuildAdapter's canonical (build_system_id, test_framework_id) MUST appear in the matrix — verified by test_every_adapter_static_output_is_covered.",
+    "Node refinement test framework ids (vitest, mocha) MUST appear in the matrix — verified by test_node_adapter_refinements_are_covered."
+  ],
+  "invariants": [
+    "lookup(language, build_system_id, test_framework_id) returns a CoverageEntry with status BACKED, PARTIAL, MISSING, or UNKNOWN — never raises.",
+    "Unsupported combinations fail closed to UNKNOWN with a 'fails closed' note.",
+    "classify_for_build_test(build, test) agrees with lookup() for every matrix row.",
+    "summary() counts sum to len(COVERAGE_MATRIX).",
+    "to_markdown() output is byte-identical to docs/VERIFIER_COVERAGE_MATRIX.md (after \\r\\n normalization).",
+    "lookup() and to_markdown() never mutate signed evidence or any locks/sentinel/*.json file.",
+    "Corpus write guard remains active during tests (DETERMINEX_NO_CORPUS_WRITE=1 → CorpusWriteBlockedError).",
+    "No DETERMINEX_*/HF_HOME/OLLAMA_* env var is required to call lookup().",
+    "Safety defaults remain fail-closed after exercising the matrix.",
+    "BACKED rows' oracle_path mentions at least one wiring artifact (run_shadow_build, run_tests, RepairPipeline, or ShadowCompiler) — defensive check prevents empty claims."
+  ],
+  "doc": {
+    "path": "docs/VERIFIER_COVERAGE_MATRIX.md",
+    "generated_from": "scripts/intake/verifier_coverage_matrix.to_markdown()",
+    "regenerate_cmd": "python -m scripts.intake.verifier_coverage_matrix --emit-md docs/VERIFIER_COVERAGE_MATRIX.md",
+    "byte_identical_assertion": "tests/intake/test_verifier_coverage_matrix_lock.py::test_doc_matches_matrix_to_markdown_output"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/verifier_coverage_matrix/run_20260527.json",
+    "summary": {
+      "matrix_size": 18,
+      "counts": {"backed": 5, "partial": 3, "missing": 9, "unknown": 1},
+      "unsupported_fake_combination_status": "unknown"
+    }
+  },
+  "adapter_output_coverage": {
+    "Rust (cargo, cargo test)": "backed",
+    "Go (go, go test)": "backed",
+    "Python (pip, pytest)": "backed",
+    "Java/Maven (maven, maven test)": "backed",
+    "Java/Gradle (gradle, gradle test)": "backed",
+    "Node/TypeScript (npm, jest) default": "partial",
+    "Node/TypeScript (npm, vitest) refined": "partial",
+    "Node/TypeScript (npm, mocha) refined": "missing",
+    "Unknown (unknown, unknown)": "unknown"
+  },
+  "remaining_gaps": [
+    "Ruby/PHP/Swift/Scala/Elixir/.NET/CMake/Make adapters do not exist in BuildAdapterRegistry yet. The matrix documents them as MISSING; the adapter expansion is a follow-up rung.",
+    "TypeScript jest/vitest build oracle is weak (relies on package.json having a 'build' script). A real tsc gate would promote both to BACKED.",
+    "Kotlin/gradle/junit shows PARTIAL because JavaGradleAdapter compiles Java only. A KotlinGradleAdapter would promote it to BACKED.",
+    "C/C++ has NATIVE_C_CPP_REPAIR_LOCK_001 for the corpus side but no inference adapter; CMake/Make adapters would close this.",
+    "The matrix does not yet integrate with codebase_explorer.CodebaseExplorer.explore() output (no automatic 'coverage status' annotation in the WorkspaceReport). Targeted in a future rung.",
+    "Per-test-framework granularity is limited to the strings the registry exposes; multi-framework projects (e.g. jest + cypress) collapse to whichever the adapter picks first."
+  ],
+  "next_recommended_lock": "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+  "files": [
+    "scripts/intake/verifier_coverage_matrix.py",
+    "tests/intake/test_verifier_coverage_matrix_lock.py",
+    "docs/VERIFIER_COVERAGE_MATRIX.md",
+    "locks/sentinel/VERIFIER_COVERAGE_MATRIX_LOCK_001.json",
+    "assurance/evidence/verifier_coverage_matrix/run_20260527.json"
+  ]
+}

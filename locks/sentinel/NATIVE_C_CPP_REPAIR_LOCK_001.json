@@ -1,0 +1,171 @@
+{
+  "lock_id": "NATIVE_C_CPP_REPAIR_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 24,
+  "passed": 24,
+  "failed": 0,
+  "full_suite": {
+    "tests": 641,
+    "passed": 641,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/locks/test_native_c_cpp_repair_lock.py"
+  ],
+  "test_classes": [
+    "TestNativeProjectIndexer",
+    "TestNativeSafetyGate",
+    "TestNativeLicenseGate",
+    "TestNativeBaselineAndExtraction",
+    "TestNativeCorpusSigning"
+  ],
+  "coverage": [
+    "detects_make_project",
+    "detects_cmake_project",
+    "detects_c_and_cpp_languages",
+    "detects_sources_headers_tests_and_compile_commands",
+    "non_native_project_returns_none",
+    "makefile_curl_pipe_shell_rejected",
+    "cmake_execute_process_network_rejected",
+    "cmake_custom_command_network_rejected",
+    "runtime_system_shell_execution_rejected",
+    "no_license_file_rejected",
+    "gpl_license_rejected",
+    "mit_license_passes_gate",
+    "extractor_empty_when_baseline_fails",
+    "null_guard_sites_found_for_c",
+    "null_guard_sites_found_for_cpp",
+    "no_null_guard_returns_no_tasks",
+    "pipeline_zero_tasks_when_baseline_fails",
+    "pipeline_extracts_task_when_mutation_fails",
+    "file_restored_after_mutation",
+    "corpus_record_is_signed",
+    "tampered_record_fails_verification",
+    "record_has_native_fields",
+    "pipeline_writes_task_to_corpus",
+    "multiple_native_mutation_types_sign"
+  ],
+  "pipeline_spec": {
+    "class": "NativeCxxRepairPipeline",
+    "module": "scripts/repair/native_c_cpp_repair_pipeline.py",
+    "executor_signature": "Callable[[list[str], Path, int], tuple[int, str, str]]",
+    "stages": [
+      "native_project_index",
+      "license_gate",
+      "secret_scan",
+      "native_source_safety_gate",
+      "baseline_verification",
+      "null_guard_mutation",
+      "failure_confirmation",
+      "file_restore",
+      "corpus_write"
+    ],
+    "rejection_codes": [
+      "not_native_project",
+      "license_not_green",
+      "secret_detected",
+      "malicious_native_source"
+    ],
+    "oracles": [
+      "make test",
+      "ctest --output-on-failure",
+      "meson test"
+    ]
+  },
+  "indexer_spec": {
+    "class": "NativeProject",
+    "module": "scripts/corpus/code_ingest/native_c_cpp_project_indexer.py",
+    "detects": [
+      "Makefile",
+      "CMakeLists.txt",
+      "configure",
+      "configure.ac",
+      "meson.build",
+      "compile_commands.json",
+      "C sources",
+      "C++ sources",
+      "headers",
+      "tests/",
+      "license expression"
+    ]
+  },
+  "extractor_spec": {
+    "class": "NativeTaskExtractor",
+    "module": "scripts/corpus/code_ingest/native_c_cpp_task_extractor.py",
+    "mutation_types": [
+      "null_guard_removal"
+    ],
+    "excluded_dirs": [
+      ".git",
+      "build",
+      "vendor"
+    ],
+    "file_restore_guarantee": "finally block always restores original",
+    "max_mutations_per_file": 3
+  },
+  "source_safety_gate_spec": {
+    "scan_method": "prompt_injection_detector.scan plus native build/source checks",
+    "block_on_risk": [
+      "HIGH",
+      "CRITICAL"
+    ],
+    "scans": [
+      "Makefile",
+      "CMakeLists.txt",
+      "configure",
+      "configure.ac",
+      "meson.build",
+      "*.c",
+      "*.cc",
+      "*.cpp",
+      "*.cxx",
+      "*.h",
+      "*.hpp"
+    ],
+    "patterns_covered": [
+      "makefile_curl_pipe_shell",
+      "cmake_execute_process_network",
+      "cmake_custom_command_network",
+      "runtime_system_shell_execution"
+    ]
+  },
+  "corpus_record_spec": {
+    "schema_version": "determinex-agent-trace-v1",
+    "signing_algorithm": "BLAKE2b-256 HMAC",
+    "canonical_form": "sorted-key JSON",
+    "signature_field": "_sig",
+    "minimum_sig_length": 32
+  },
+  "native_metadata_fields": [
+    "language",
+    "build_system",
+    "mutation_type",
+    "failure_type",
+    "source_file",
+    "original_line",
+    "mutated_line",
+    "line_number",
+    "failure_output",
+    "repair_patch",
+    "validator",
+    "verdict"
+  ],
+  "factory_claim": {
+    "note": "C/C++ share one native systems backend because Make/CMake/autotools detection, source safety gates, and native validators overlap heavily.",
+    "contract": "indexer -> task extractor -> safe source gate -> baseline verifier -> controlled failure generator -> repair pipeline -> oracle verifier -> signed corpus writer -> lock manifest"
+  },
+  "programbench_leverage": {
+    "confirmed_native_tools": [
+      "lnav",
+      "xz",
+      "7zip",
+      "proj",
+      "quickjs",
+      "ffmpeg-family tools"
+    ],
+    "note": "Native C/C++ traces feed DebugBench, systems repair, and ProgramBench source flips."
+  },
+  "previous_lock": "GO_REPAIR_LOCK_001",
+  "next_lock": "TYPESCRIPT_REPAIR_LOCK_001"
+}

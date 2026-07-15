@@ -1,0 +1,46 @@
+{
+  "lock_id": "REAL_OLLAMA_PROVIDER_DETECTION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real Ollama provider detection. Two-step localhost-only probe: shutil.which('ollama') for the CLI, then GET /api/tags with a strict timeout. Captures the model name list when the daemon answers. Read-only — no live inference, no model pull, no ollama subprocess. Non-localhost endpoints are refused as a network provider attempt.",
+  "purpose": "Rung 1 of the real repair flow campaign.",
+  "depends_on_locks": [
+    "OLLAMA_LOCAL_PROVIDER_SMOKE_LOCK_001",
+    "REAL_LOCAL_MODEL_PROVIDER_CONFIG_LOCK_001"
+  ],
+  "tests": 13,
+  "passed_on_this_host": 13,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_real_ollama_provider_detection_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_OLLAMA_PROVIDER_DETECTED",
+    "REAL_OLLAMA_PROVIDER_BLOCKED_NOT_INSTALLED",
+    "REAL_OLLAMA_PROVIDER_BLOCKED_NOT_RUNNING",
+    "REAL_OLLAMA_PROVIDER_BLOCKED_TIMEOUT",
+    "REAL_OLLAMA_PROVIDER_BLOCKED_NETWORK_PROVIDER"
+  ],
+  "this_host_result": {
+    "decision": "REAL_OLLAMA_PROVIDER_DETECTED",
+    "endpoint": "http://127.0.0.1:11434",
+    "notes": [
+      "ollama binary present on PATH",
+      "daemon responded with model list",
+      "real live inference still NOT performed by this lock"
+    ]
+  },
+  "scope_discipline": {
+    "live_inference_called": false,
+    "network_provider_admitted": false,
+    "repo_source_inputted": false,
+    "patch_generated": false,
+    "training_eligibility_opened": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_ollama_provider_detection/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_LOCAL_MODEL_ADMISSION_LOCK_001"
+}

@@ -1,0 +1,71 @@
+{
+  "lock_id": "DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Rung 10 (finale) of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES. Asserts all nine prior dimensions are closed (Tauri command surface, unified navigation panel, Idea Lab panel, Repo Clinic panel, Maintenance Bay panel, Learning Studio panel, Proof / Operator Center panel, user-level / teaching mode, splash demo panel) AND none of them opens source_mutation_authorized or training_eligible AND none of them opens unsupported-claim keys (all_apps_claim, all_languages_claim, all_codebases_claim, no_followup_claim, production_ready_arbitrary_apps_claim, training_enabled_in_demo, readiness_treated_as_authorization). Evaluator at scripts/repair/live_react_unified_product_shell_final_state.evaluate is read-only on disk; never runs a runtime gate. release_ready stays False (public release scrub/install/demo workflow is a future rung). First-splash implementation (DETERMINEX_IDEA_LAB_PYTHON_CLI_VERIFIED_SPLASH_DEMO_LOCK_001) is the recommended next rung.",
+  "purpose": "Rung 10 (finale) of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001",
+    "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001",
+    "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001",
+    "DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001",
+    "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001",
+    "DETERMINEX_REACT_PROOF_OPERATOR_CENTER_PANEL_LOCK_001",
+    "DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001",
+    "DETERMINEX_REACT_SPLASH_DEMO_PANEL_LOCK_001"
+  ],
+  "tests": 13,
+  "test_modules": ["tests/repair/test_live_react_unified_product_shell_final_state_lock.py"],
+  "status_tokens": [
+    "LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_PASSED",
+    "LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_BLOCKED_MISSING_RUNG",
+    "LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
+  ],
+  "live_mount_dimensions": {
+    "tauri_command_surface": "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "unified_navigation_panel": "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001",
+    "idea_lab_panel": "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001",
+    "repo_clinic_panel": "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001",
+    "maintenance_bay_panel": "DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001",
+    "learning_studio_panel": "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001",
+    "proof_operator_center_panel": "DETERMINEX_REACT_PROOF_OPERATOR_CENTER_PANEL_LOCK_001",
+    "user_level_teaching_mode": "DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001",
+    "splash_demo_panel": "DETERMINEX_REACT_SPLASH_DEMO_PANEL_LOCK_001"
+  },
+  "campaign_terminal_state": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "release_ready": false,
+    "live_product_shell_mounted": true,
+    "first_splash_implementation_pending": true,
+    "unsupported_claims_blocked": true,
+    "dimensions_closed": 9,
+    "rungs_completed": 10
+  },
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false,
+    "all_codebases_claim": false,
+    "no_followup_claim": false,
+    "production_ready_arbitrary_apps_claim": false,
+    "training_enabled_in_demo": false,
+    "readiness_treated_as_authorization": false,
+    "frontend_invokes_mutating_command": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_live_react_unified_product_shell_final_state/run_20260528.json"
+  },
+  "remediates_finding": "DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES_FINAL_STATE",
+  "next_recommended_lock": "DETERMINEX_IDEA_LAB_PYTHON_CLI_VERIFIED_SPLASH_DEMO_LOCK_001"
+}

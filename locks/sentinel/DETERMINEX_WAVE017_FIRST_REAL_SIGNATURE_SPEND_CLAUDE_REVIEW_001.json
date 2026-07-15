@@ -1,0 +1,71 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_017_first_real_signature_spend_claude_review_001/claim_boundary_20260615.json",
+    "codex_deltas": "assurance/evidence/wave_017_first_real_signature_spend_claude_review_001/codex_deltas_20260615.json",
+    "risks": "assurance/evidence/wave_017_first_real_signature_spend_claude_review_001/risks_20260615.json",
+    "six_level_audit": "assurance/evidence/wave_017_first_real_signature_spend_claude_review_001/six_level_audit_20260615.json",
+    "verdict": "assurance/evidence/wave_017_first_real_signature_spend_claude_review_001/verdict_20260615.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "No signature present; queue empty 9 waves",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "Wave 017 Claude reviews are CANONICAL-REGISTRY-VERIFICATION + HARD-EXECUTION-FLOOR attack audits.",
+    "Headline 1: did Codex Wave 016 canonical machinery actually work from final HEAD? Headline 2: did Codex cross any hard execution floor?",
+    "Claude rejects: registry exists as 'all readers consume it' / drift detector exists as 'CI guard live' / signoff schema exists as 'legacy backfilled' / local-preview evidence as release-supported / release-supported exact cells as family support / packet as signed authority / signed authority as spent authority / SBOM packet as artifact / GUI packet as visual proof / local simulation as clean host / fixture execution as family support / proof-report anchor pointing only to narrative / score rise without evidence-delta.",
+    "Standard: canonical registry consumption beats existence; live drift CI beats packet; signoff records beat status claims; local-preview proof is not release-supported; fixture execution is not family support; signed spend beats packets.",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Canonical release-supported cells = 10 (read from registry, not hardcoded). Release-supported families = 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-15",
+  "doc": "docs/DETERMINEX_WAVE017_FIRST_REAL_SIGNATURE_SPEND_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_017_claude_lane_Y11",
+  "gulp_wave_id": "017",
+  "is_canonical_registry_verification_and_hard_floor_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "lane": "Y11",
+  "lock_id": "DETERMINEX_WAVE017_FIRST_REAL_SIGNATURE_SPEND_CLAUDE_REVIEW_001",
+  "purpose": "Wave 017 Claude Lane Y11. signed-valid queue; operator approval files; validation result; import result; spend result; execution_allowed event; admission/execution transcript; rollback/cleanup; audit chain. Verdict distinguishes 6 levels.",
+  "record": "assurance/evidence/wave_017_first_real_signature_spend_claude_review_001/run_20260615.WAVE017_FIRST_REAL_SIGNATURE_SPEND_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE017_FIRST_REAL_SIGNATURE_SPEND_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_017_first_real_signature_spend_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true
+    },
+    "passed": true
+  },
+  "verdict": "SIX_LEVEL_VERDICT_NO_SIGNATURE_PRESENT — Level 1/6. 9 waves; signed_valid_queue empty; 47 audit log rows all denials/events; 0 admissions."
+}

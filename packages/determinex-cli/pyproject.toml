@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "determinex-cli"
+version = "0.0.1.dev0"
+description = "Local-only preview package for the Determinex CLI boundary."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "See repository root LICENSE" }
+authors = [{ name = "Ryan Gurganious" }]
+classifiers = [
+  "Private :: Do Not Upload",
+  "Programming Language :: Python :: 3",
+]
+
+[project.scripts]
+determinex-cli-preview = "determinex_cli_package:main"

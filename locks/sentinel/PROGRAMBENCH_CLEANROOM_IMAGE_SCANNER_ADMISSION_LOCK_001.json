@@ -1,0 +1,101 @@
+{
+  "lock_id": "PROGRAMBENCH_CLEANROOM_IMAGE_SCANNER_ADMISSION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "d390e5c8810aedaaa6a46158295756bfca2eb98d",
+  "purpose": "Admit approved cleanroom image scanners by identity, version, and non-executing archive-scan capability before the scan gate may use them.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py",
+    "passed": 15,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+      "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_artifact_source_escalation_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_import_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py"
+    ],
+    "passed": 132,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1251,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/cleanroom_image_scanner_admission.py",
+    "scripts/corpus/programbench/cleanroom_image_scanner_admission_record.py",
+    "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py"
+  ],
+  "doxygen_live_scanner_admission": {
+    "admission_record": "assurance/evidence/programbench_cleanroom_image_scanner_admissions/trivy.CLEANROOM_SCANNER_ADMITTED.json",
+    "status": "CLEANROOM_SCANNER_ADMITTED",
+    "scanner_name": "trivy",
+    "scanner_path": "C:/Users/ryang/AppData/Local/Microsoft/WinGet/Packages/AquaSecurity.Trivy_Microsoft.Winget.Source_8wekyb3d8bbwe/trivy.exe",
+    "scanner_version": "Version: 0.70.0",
+    "capability": "trivy image --input <archive.tar> --format json",
+    "reason": "",
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "approved_scanner_types": [
+    "trivy",
+    "grype",
+    "docker_scout only when archive scanning is verified without container execution"
+  ],
+  "statuses": [
+    "CLEANROOM_SCANNER_ADMISSION_READY",
+    "CLEANROOM_SCANNER_ADMITTED",
+    "CLEANROOM_SCANNER_REJECTED",
+    "CLEANROOM_SCANNER_NOT_FOUND",
+    "CLEANROOM_SCANNER_VERSION_READ",
+    "CLEANROOM_SCANNER_VERSION_FAILED",
+    "CLEANROOM_SCANNER_CAPABILITY_VERIFIED",
+    "CLEANROOM_SCANNER_CAPABILITY_UNSUPPORTED",
+    "CLEANROOM_SCANNER_BLOCKED_UNKNOWN",
+    "CLEANROOM_SCANNER_BLOCKED_WRAPPER",
+    "CLEANROOM_SCANNER_BLOCKED_REQUIRES_EXECUTION",
+    "CLEANROOM_SCANNER_ADMISSION_RECORD_SIGNED",
+    "CLEANROOM_SCANNER_NOT_CACHE_READY",
+    "CLEANROOM_SCANNER_NOT_EXECUTABLE",
+    "CLEANROOM_SCANNER_TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "missing scanner path produces CLEANROOM_SCANNER_NOT_FOUND",
+    "unknown scanner names are rejected",
+    "mock Trivy with valid version and capability is admitted",
+    "mock Grype with valid version and capability is admitted",
+    "Docker Scout is admitted only when non-executing archive scan capability is verified",
+    "wrapper paths are rejected unless explicitly allowlisted",
+    "scanners requiring container execution are rejected",
+    "version read failures reject scanner admission",
+    "capability failures reject scanner admission",
+    "signed scanner admission records are produced",
+    "scanner admission does not scan the Doxygen artifact",
+    "scanner admission does not mark cache_ready",
+    "scanner admission does not mark executable true",
+    "scanner admission does not mark training_eligible true"
+  ],
+  "policy": [
+    "Scanner admission is not scanning.",
+    "Scanning is not hydration.",
+    "Hydration is not execution.",
+    "No Docker container execution.",
+    "No ProgramBench execution.",
+    "No Doxygen retry.",
+    "No cache_ready without successful scan and hydration policy.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not scan, hydrate, execute, or score ProgramBench. It proves Trivy is admitted for non-executing archive scanning only.",
+  "previous_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_SCAN_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_SCAN_LOCK_001"
+}

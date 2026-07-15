@@ -1,0 +1,107 @@
+{
+  "name": "Determinex: Auto eval-regen loop",
+  "description": "Watches done.txt → runs failure analyzer → regenerates scaffolds → relaunches pool. Replaces manual iteration cycle.",
+  "active": false,
+  "nodes": [
+    {
+      "name": "Schedule (poll every 30 min)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [200, 200],
+      "parameters": {
+        "rule": { "interval": [{ "field": "minutes", "minutesInterval": 30 }] }
+      }
+    },
+    {
+      "name": "SSH: pool status",
+      "type": "n8n-nodes-base.ssh",
+      "position": [400, 200],
+      "parameters": {
+        "command": "wc -l /root/queue/pending_*.txt /root/queue/claimed.txt /root/queue/done.txt"
+      }
+    },
+    {
+      "name": "Parse status",
+      "type": "n8n-nodes-base.code",
+      "position": [600, 200],
+      "parameters": {
+        "language": "python",
+        "code": "import re\ntext = $input.first().json.stdout\nout = {}\nfor line in text.splitlines():\n    parts = line.split()\n    if len(parts) >= 2:\n        key = parts[1].split('/')[-1].replace('.txt','')\n        out[key] = int(parts[0])\nreturn {'json': out}"
+      }
+    },
+    {
+      "name": "If drained",
+      "type": "n8n-nodes-base.if",
+      "position": [800, 200],
+      "parameters": {
+        "conditions": {
+          "number": [{
+            "value1": "={{ $json.pending_light + $json.pending_heavy + $json.claimed }}",
+            "operation": "equal",
+            "value2": 0
+          }]
+        }
+      }
+    },
+    {
+      "name": "Sync evals back",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [1000, 100],
+      "parameters": {
+        "command": "powershell.exe -File C:\\Dev\\Determinex\\scripts\\sync_hetzner_evals.ps1"
+      }
+    },
+    {
+      "name": "Import to DB",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [1200, 100],
+      "parameters": {
+        "command": "python C:\\Dev\\Determinex\\scripts\\determinex_db.py import-evals"
+      }
+    },
+    {
+      "name": "Run failure analyzer",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [1400, 100],
+      "parameters": {
+        "command": "python C:\\Dev\\Determinex\\scripts\\programbench_failure_analyzer.py"
+      }
+    },
+    {
+      "name": "Regen scaffolds",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [1600, 100],
+      "parameters": {
+        "command": "python C:\\Dev\\Determinex\\scripts\\scaffold_synthesizer.py --execute"
+      }
+    },
+    {
+      "name": "Push to Hetzner",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [1800, 100],
+      "parameters": {
+        "command": "powershell.exe -File C:\\Dev\\Determinex\\scripts\\pool_launch.ps1 -LightQueue C:/tmp/queue_all_with_overrides.txt -HetznerLanes 8 -LocalLanes 2 -TimeoutMin 20 -ResetQueue"
+      }
+    },
+    {
+      "name": "Notify Discord",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [2000, 100],
+      "parameters": {
+        "command": "python C:\\Dev\\Determinex\\scripts\\determinex_notify.py --level=ok \"Pool drained; iter {{$now}} relaunched\""
+      }
+    }
+  ],
+  "connections": {
+    "Schedule (poll every 30 min)": { "main": [[{ "node": "SSH: pool status", "type": "main", "index": 0 }]] },
+    "SSH: pool status": { "main": [[{ "node": "Parse status", "type": "main", "index": 0 }]] },
+    "Parse status": { "main": [[{ "node": "If drained", "type": "main", "index": 0 }]] },
+    "If drained": { "main": [
+      [{ "node": "Sync evals back", "type": "main", "index": 0 }]
+    ]},
+    "Sync evals back": { "main": [[{ "node": "Import to DB", "type": "main", "index": 0 }]] },
+    "Import to DB": { "main": [[{ "node": "Run failure analyzer", "type": "main", "index": 0 }]] },
+    "Run failure analyzer": { "main": [[{ "node": "Regen scaffolds", "type": "main", "index": 0 }]] },
+    "Regen scaffolds": { "main": [[{ "node": "Push to Hetzner", "type": "main", "index": 0 }]] },
+    "Push to Hetzner": { "main": [[{ "node": "Notify Discord", "type": "main", "index": 0 }]] }
+  }
+}

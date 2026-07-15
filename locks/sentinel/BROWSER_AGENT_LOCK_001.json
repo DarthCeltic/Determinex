@@ -1,0 +1,103 @@
+{
+  "lock_id": "BROWSER_AGENT_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 18,
+  "passed": 18,
+  "failed": 0,
+  "full_suite": {
+    "tests": 704,
+    "passed": 704,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/locks/test_browser_agent_lock.py"
+  ],
+  "test_classes": [
+    "TestBrowserUrlPolicy",
+    "TestBrowserActionPolicy",
+    "TestBrowserOracle",
+    "TestBrowserPromptInjectionGate",
+    "TestBrowserReplayAndCorpus"
+  ],
+  "coverage": [
+    "allows_normal_https_url",
+    "blocks_javascript_url",
+    "blocks_data_html_url",
+    "blocks_local_network_url",
+    "blocks_credential_url",
+    "blocks_payment_form_submit",
+    "allows_low_risk_form_submit",
+    "blocks_executable_download",
+    "allows_plain_text_download",
+    "url_match_passes",
+    "url_match_fails",
+    "selector_exists_passes",
+    "selector_exists_fails",
+    "browser_page_injection_detected",
+    "benign_browser_content_clean",
+    "replay_records_action_sequence",
+    "browser_trace_record_is_signed",
+    "tampered_browser_trace_rejected"
+  ],
+  "pipeline_spec": {
+    "modules": [
+      "scripts/browser/safe_browsing_policy.py",
+      "scripts/browser/browser_verifier.py",
+      "scripts/browser/replay_recorder.py",
+      "scripts/agents/prompt_injection_detector.py",
+      "scripts/corpus/corpus_manager.py"
+    ],
+    "stages": [
+      "url_policy_gate",
+      "action_policy_gate",
+      "prompt_injection_gate",
+      "browser_oracle_verify",
+      "replay_record",
+      "signed_browser_trace_write"
+    ],
+    "oracles": [
+      "url match",
+      "selector exists",
+      "DOM/browser verdict",
+      "HMAC corpus verify"
+    ]
+  },
+  "safety_gate_spec": {
+    "url_blocks": [
+      "javascript:",
+      "data:text/html",
+      "credential URLs",
+      "IP-only/local-network URLs"
+    ],
+    "action_blocks": [
+      "payment/PII form submission",
+      "executable downloads"
+    ],
+    "content_blocks": [
+      "browser prompt injection",
+      "hidden instruction override"
+    ]
+  },
+  "corpus_record_spec": {
+    "corpus_type": "browser_trace",
+    "schema_version": "determinex-agent-trace-v1",
+    "signing_algorithm": "BLAKE2b-256 HMAC",
+    "canonical_form": "sorted-key JSON",
+    "signature_field": "_sig",
+    "minimum_sig_length": 32
+  },
+  "fixes_landed": [
+    {
+      "file": "scripts/browser/browser_verifier.py",
+      "issue": "stray walrus expression used as a decorator made the browser verifier unimportable",
+      "fix": "removed invalid decorator line"
+    }
+  ],
+  "factory_claim": {
+    "note": "Browser tasks now have the same verifier/corpus lock shape as code tasks: policy gate, browser oracle, replay record, signed trace.",
+    "contract": "safe browser policy -> observation/action -> oracle verifier -> replay recorder -> signed browser_trace corpus -> lock manifest"
+  },
+  "previous_lock": "SQL_ORACLE_LOCK_001",
+  "next_lock": "DISTILLATION_LOCK_001"
+}

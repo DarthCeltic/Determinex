@@ -1,0 +1,23 @@
+{
+  "lock_id": "DETERMINEX_APPEND_ONLY_EVIDENCE_LEDGER_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Create an append-only hash-chain evidence ledger snapshot over the evidence index manifests.",
+  "depends_on_locks": [
+    "DETERMINEX_MERGE_POINT_FINAL_STATE_LOCK_001"
+  ],
+  "status": "APPEND_ONLY_EVIDENCE_LEDGER_VALIDATED",
+  "record": "assurance/evidence/append_only_evidence_ledger/run_20260528.APPEND_ONLY_EVIDENCE_LEDGER_VALIDATED.json",
+  "test_modules": [
+    "tests/proof/test_determinex_append_only_evidence_ledger_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/proof/test_determinex_append_only_evidence_ledger_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "ledger_written": true,
+  "chain_valid": true,
+  "mutation_detected": false,
+  "does_not_prove": "Does not make old evidence immutable by itself; it writes a tamper-evident migration snapshot for validation and future append-only enforcement."
+}

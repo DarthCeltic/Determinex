@@ -1,0 +1,43 @@
+{
+  "lock_id": "VISUAL_REPAIR_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 21,
+  "passed": 21,
+  "failed": 0,
+  "test_module": "tests/test_visual_repair_pipeline.py",
+  "acceptance_criteria": [
+    "screenshot_ingested",
+    "visual_cloak_active_or_blocked",
+    "cloak_unavailable_blocks_not_passes",
+    "repair_spec_contains_issue_text",
+    "repair_spec_correct_env_type",
+    "corpus_record_has_schema_version",
+    "corpus_record_has_hmac_sig",
+    "corpus_verify_passes_valid",
+    "corpus_verify_rejects_tampered",
+    "upload_file_requires_confirmation",
+    "submit_form_requires_confirmation",
+    "delete_data_requires_confirmation",
+    "exfiltration_intent_blocks",
+    "read_screen_allowed",
+    "webarena_spec_correct",
+    "osworld_spec_enforces_vm",
+    "androidworld_spec_enforces_emulator"
+  ],
+  "modules_verified": [
+    "scripts/bench_adapters/swebench_multimodal.py",
+    "scripts/bench_adapters/webarena.py",
+    "scripts/bench_adapters/osworld.py",
+    "scripts/bench_adapters/androidworld.py",
+    "scripts/vision/visual_cloak.py",
+    "scripts/corpus/corpus_manager.py",
+    "scripts/agents/safety_governor.py"
+  ],
+  "system_total": {
+    "sentinel_lock": "SENTINEL_LOCK_001",
+    "combined_tests": 142,
+    "combined_passed": 142
+  },
+  "next_lock": "COMPILER_VISUAL_LOCK_001"
+}

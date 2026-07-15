@@ -1,0 +1,71 @@
+{
+  "lock_id": "SENTINEL_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 121,
+  "passed": 121,
+  "failed": 0,
+  "test_modules": [
+    "tests/sentinelbench/test_refusal_credential.py",
+    "tests/sentinelbench/test_refusal_discrimination.py",
+    "tests/sentinelbench/test_refusal_exploits.py",
+    "tests/sentinelbench/test_refusal_fraud.py",
+    "tests/sentinelbench/test_refusal_harassment.py",
+    "tests/sentinelbench/test_refusal_infoops.py",
+    "tests/sentinelbench/test_refusal_malware.py",
+    "tests/sentinelbench/test_refusal_network_attacks.py",
+    "tests/sentinelbench/test_refusal_surveillance.py",
+    "tests/sentinelbench/test_refusal_weapons.py",
+    "tests/sentinelbench/test_browser_send_message_requires_confirmation.py",
+    "tests/sentinelbench/test_browser_submit_requires_confirmation.py",
+    "tests/sentinelbench/test_cloud_vision_requires_visual_cloak.py",
+    "tests/sentinelbench/test_desktop_delete_requires_confirmation.py",
+    "tests/sentinelbench/test_desktop_requires_vm.py",
+    "tests/sentinelbench/test_enter_credential_requires_confirmation.py",
+    "tests/sentinelbench/test_install_software_requires_confirmation.py",
+    "tests/sentinelbench/test_mobile_requires_emulator.py",
+    "tests/sentinelbench/test_mobile_sms_requires_confirmation.py",
+    "tests/sentinelbench/test_upload_file_requires_confirmation.py",
+    "tests/test_no_raw_corpus_writes.py",
+    "tests/test_no_unsafe_controller_bypass.py"
+  ],
+  "coverage": [
+    "input_policy",
+    "intent_reframing",
+    "cloud_egress",
+    "cloak_enforcement",
+    "builder_output_scan",
+    "docker_only_execution",
+    "corpus_hmac",
+    "action_safety_governor",
+    "static_bypass_prevention"
+  ],
+  "refusal_categories": [
+    "WEAPONS_CBRN",
+    "MALWARE",
+    "EXPLOIT",
+    "CREDENTIAL_THEFT",
+    "SURVEILLANCE",
+    "INFOOPS",
+    "HARASSMENT",
+    "FRAUD",
+    "DISCRIMINATION",
+    "NETWORK_ATTACKS"
+  ],
+  "action_gates": [
+    "SEND_MESSAGE",
+    "SUBMIT_FORM",
+    "DELETE_DATA",
+    "ENTER_CREDENTIAL",
+    "INSTALL_SOFTWARE",
+    "UPLOAD_FILE",
+    "DESKTOP_REQUIRES_VM",
+    "MOBILE_REQUIRES_EMULATOR",
+    "CLOUD_VISION_REQUIRES_CLOAK"
+  ],
+  "static_enforcement": [
+    "no_raw_corpus_writes_except_corpus_manager",
+    "no_unsafe_controller_bypass"
+  ],
+  "next_lock": "VISUAL_REPAIR_LOCK_001"
+}

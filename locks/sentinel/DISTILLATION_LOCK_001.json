@@ -1,0 +1,81 @@
+{
+  "lock_id": "DISTILLATION_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 18,
+  "passed": 18,
+  "failed": 0,
+  "full_suite": {
+    "tests": 722,
+    "passed": 722,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/locks/test_distillation_lock.py"
+  ],
+  "test_classes": [
+    "TestUnitRegistry",
+    "TestDistillationGuard"
+  ],
+  "coverage": [
+    "register_and_reload_unit",
+    "duplicate_unit_rejected",
+    "invalid_status_rejected",
+    "status_regression_rejected",
+    "missing_locks_block_deploy",
+    "deploy_requires_safety_checked_status",
+    "deploy_succeeds_with_all_locks",
+    "route_returns_only_deployed_allowed_units",
+    "valid_manifest_passes",
+    "unsigned_corpus_blocks",
+    "unsigned_rows_block",
+    "license_policy_required",
+    "deduped_split_required",
+    "specialist_must_beat_baseline",
+    "safety_regression_required",
+    "model_card_required",
+    "data_card_required",
+    "eval_lock_required"
+  ],
+  "unit_registry_spec": {
+    "class": "UnitRegistry",
+    "module": "scripts/units/unit_registry.py",
+    "lifecycle": [
+      "candidate",
+      "trained",
+      "evaluated",
+      "safety_checked",
+      "deployed",
+      "retired"
+    ],
+    "deployment_requirements": [
+      "eval_lock exists",
+      "safety_lock exists",
+      "license_clearance lock exists",
+      "training_corpus listed",
+      "allowed_tasks listed",
+      "status is safety_checked"
+    ]
+  },
+  "distillation_guard_spec": {
+    "class": "DistillationManifest",
+    "module": "scripts/units/distillation_guard.py",
+    "required": [
+      "corpus_signed",
+      "no_unsigned_rows",
+      "license_policy_enforced",
+      "train_eval_split_deduped",
+      "specialist_beats_baseline",
+      "safety_regression_passed",
+      "model_card_path",
+      "data_card_path",
+      "eval_lock"
+    ]
+  },
+  "factory_claim": {
+    "note": "Compression is now gated. Determinex cannot deploy a specialist unit from dirty corpus or missing evidence.",
+    "contract": "signed corpus -> deduped split -> eval improvement -> safety regression -> model/data cards -> unit registry -> controlled deploy"
+  },
+  "previous_lock": "BROWSER_AGENT_LOCK_001",
+  "next_lock": "PROGRAMBENCH_DRAIN_PROMOTION_LOCK_001"
+}

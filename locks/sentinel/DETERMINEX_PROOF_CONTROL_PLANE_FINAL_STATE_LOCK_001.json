@@ -1,0 +1,28 @@
+{
+  "lock_id": "DETERMINEX_PROOF_CONTROL_PLANE_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Write final non-authorizing state for the Determinex proof-control foundation.",
+  "depends_on_locks": [
+    "DETERMINEX_PROOF_SOURCE_REGISTRY_LOCK_001",
+    "DETERMINEX_PROOF_TYPE_AUTHORITY_MATRIX_LOCK_001",
+    "DETERMINEX_PROOF_GAP_PACKET_LOCK_001",
+    "DETERMINEX_PROOF_DISCOVERY_ORCHESTRATOR_LOCK_001",
+    "DETERMINEX_PROOF_GENERATION_TOOL_ADMISSION_LOCK_001"
+  ],
+  "status": "PROOF_CONTROL_PLANE_FINAL_STATE_WRITTEN",
+  "record": "assurance/evidence/proof_control_plane_final_state/run_20260528.PROOF_CONTROL_PLANE_FINAL_STATE_WRITTEN.json",
+  "test_modules": [
+    "tests/proof/test_determinex_proof_control_plane_final_state_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/proof/test_determinex_proof_control_plane_final_state_lock.py",
+    "passed": 2,
+    "failed": 0
+  },
+  "execution_authority_granted": false,
+  "source_mutation_authority_granted": false,
+  "training_eligibility_granted": false,
+  "next_unblocker": "UNIFIED_STATUS_SURFACE_AND_EVIDENCE_GRAPH",
+  "does_not_prove": "Does not execute, mutate source, approve packets, import artifacts, scan artifacts, or create training rows."
+}

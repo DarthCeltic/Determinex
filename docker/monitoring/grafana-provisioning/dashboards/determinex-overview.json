@@ -1,0 +1,103 @@
+{
+  "title": "Determinex ProgramBench — Overview",
+  "uid": "determinex-overview",
+  "tags": ["determinex"],
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Tools scored (latest)",
+      "type": "stat",
+      "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4},
+      "datasource": "Postgres",
+      "targets": [{
+        "rawSql": "SELECT COUNT(*) FROM latest_scores WHERE pct IS NOT NULL",
+        "format": "table"
+      }]
+    },
+    {
+      "id": 2,
+      "title": "Weighted aggregate %",
+      "type": "gauge",
+      "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4},
+      "datasource": "Postgres",
+      "targets": [{
+        "rawSql": "SELECT 100.0 * SUM(passed)::float / NULLIF(SUM(total),0) FROM latest_scores",
+        "format": "table"
+      }],
+      "fieldConfig": {"defaults": {"max": 100, "min": 0, "thresholds": {"steps": [
+        {"value": 0, "color": "red"}, {"value": 30, "color": "orange"},
+        {"value": 50, "color": "yellow"}, {"value": 70, "color": "green"}
+      ]}}}
+    },
+    {
+      "id": 3,
+      "title": "Score bucket distribution",
+      "type": "bargauge",
+      "gridPos": {"x": 12, "y": 0, "w": 12, "h": 4},
+      "datasource": "Postgres",
+      "targets": [{
+        "rawSql": "SELECT bucket as metric, n as value FROM dashboard_buckets ORDER BY bucket DESC",
+        "format": "table"
+      }]
+    },
+    {
+      "id": 4,
+      "title": "Pool queue state",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8},
+      "datasource": "Prometheus",
+      "targets": [
+        {"expr": "determinex_pool_count{state='pending',tier='light'}", "legendFormat": "pending light"},
+        {"expr": "determinex_pool_count{state='pending',tier='heavy'}", "legendFormat": "pending heavy"},
+        {"expr": "determinex_pool_count{state='claimed',tier='all'}", "legendFormat": "claimed"},
+        {"expr": "determinex_pool_count{state='done',tier='all'}", "legendFormat": "done"}
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Top 15 by latest score",
+      "type": "table",
+      "gridPos": {"x": 12, "y": 4, "w": 12, "h": 8},
+      "datasource": "Postgres",
+      "targets": [{
+        "rawSql": "SELECT instance_id, pct, passed, total FROM latest_scores WHERE pct IS NOT NULL ORDER BY pct DESC LIMIT 15",
+        "format": "table"
+      }]
+    },
+    {
+      "id": 6,
+      "title": "Per-tool score history",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 12, "w": 24, "h": 8},
+      "datasource": "Postgres",
+      "targets": [{
+        "rawSql": "SELECT ran_at as time, instance_id, pct FROM evals WHERE pct IS NOT NULL AND ran_at > NOW() - INTERVAL '24 hours' ORDER BY ran_at",
+        "format": "time_series"
+      }]
+    },
+    {
+      "id": 7,
+      "title": "Worker cache hit rate",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 20, "w": 12, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {"expr": "rate(determinex_worker_cache_hit_total[5m])", "legendFormat": "hits/s"},
+        {"expr": "rate(determinex_worker_cache_miss_total[5m])", "legendFormat": "misses/s"}
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Eval logs (errors)",
+      "type": "logs",
+      "gridPos": {"x": 12, "y": 20, "w": 12, "h": 6},
+      "datasource": "Loki",
+      "targets": [{
+        "expr": "{job=\"determinex_eval\"} |~ \"(?i)error|fail|timeout\""
+      }]
+    }
+  ]
+}

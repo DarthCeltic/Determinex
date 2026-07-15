@@ -1,0 +1,38 @@
+{
+  "lock_id": "DETERMINEX_UNIFIED_STATUS_SURFACE_AND_EVIDENCE_GRAPH_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Create the first read-only unified Determinex status and evidence graph that consumes Claude and Codex lane evidence without mutating either lane.",
+  "depends_on_locks": [
+    "DETERMINEX_PROOF_CONTROL_READINESS_AUDIT_LOCK_001",
+    "DETERMINEX_IDE_TAURI_INTEGRATED_FINAL_STATE_LOCK_001",
+    "PROGRAMBENCH_BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_LOCK_001",
+    "PROGRAMBENCH_DOXYGEN_LANE_FINAL_STATE_LOCK_001"
+  ],
+  "status": "UNIFIED_STATUS_READY",
+  "graph_status": "UNIFIED_EVIDENCE_GRAPH_INTEGRITY_PASSED",
+  "records": [
+    "assurance/evidence/unified_status_surface/run_20260528.UNIFIED_STATUS_READY.json",
+    "assurance/evidence/unified_evidence_graph/run_20260528.UNIFIED_EVIDENCE_GRAPH_WRITTEN.json"
+  ],
+  "test_modules": [
+    "tests/status/test_determinex_unified_status_surface_and_evidence_graph_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/status/test_determinex_unified_status_surface_and_evidence_graph_lock.py",
+    "passed": 6,
+    "failed": 0
+  },
+  "source_mutation_authorized": false,
+  "programbench_execution_authorized": false,
+  "artifact_import_authorized": false,
+  "training_eligible": false,
+  "docker_run_performed": false,
+  "programbench_rerun_performed": false,
+  "artifact_import_performed": false,
+  "scan_performed": false,
+  "training_rows_written": false,
+  "operator_approval_granted": false,
+  "release_workflow_created": false,
+  "does_not_prove": "Does not authorize Docker, ProgramBench rerun, artifact import, scan, source mutation, training rows, operator packet approval, or release workflow."
+}

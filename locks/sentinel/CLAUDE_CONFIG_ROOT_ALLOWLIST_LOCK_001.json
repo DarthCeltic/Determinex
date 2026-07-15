@@ -1,0 +1,39 @@
+{
+  "lock_id": "CLAUDE_CONFIG_ROOT_ALLOWLIST_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates deferred CLAUDE-AUTH-011 risk: local model config save path was inside the repo with no allowlist or dangerous-root denylist. Adds scripts/ide/config_root_allowlist.py::verify(requested_root, allowed_parents=...) that refuses (1) None/empty/NUL paths (BLOCKED_MALFORMED_PATH); (2) any input containing '..' segments (BLOCKED_PATH_TRAVERSAL); (3) resolved paths matching the dangerous-root denylist (POSIX: /, /etc, /usr, /bin, /sbin, /boot, /sys, /proc, /dev, /root, /var, /lib, /lib64, /System, /Library; Windows: C:\\, C:\\Windows, C:\\Program Files, C:\\Program Files (x86), C:\\ProgramData) (BLOCKED_DISALLOWED_ROOT); (4) resolved paths NOT inside any caller-supplied allowed_parents (BLOCKED_UNTRUSTED_CONFIG). Empty allowed_parents refuses everything. Verifier never creates the directory; never opens source_mutation or training.",
+  "purpose": "Rung 5 of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES.",
+  "depends_on_locks": [],
+  "tests": 17,
+  "test_modules": [
+    "tests/ide/test_config_root_allowlist_lock.py"
+  ],
+  "status_tokens": [
+    "CONFIG_ROOT_ALLOWLIST_PASSED",
+    "CONFIG_ROOT_BLOCKED_DISALLOWED_ROOT",
+    "CONFIG_ROOT_BLOCKED_PATH_TRAVERSAL",
+    "CONFIG_ROOT_BLOCKED_UNTRUSTED_CONFIG",
+    "CONFIG_ROOT_BLOCKED_MALFORMED_PATH"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "dangerous_root_accepted": false,
+    "traversal_accepted": false,
+    "directory_created": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_config_root_allowlist/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-011",
+  "next_recommended_lock": "CLAUDE_FRONTEND_AUTHORITY_VISUAL_AUDIT_LOCK_001"
+}

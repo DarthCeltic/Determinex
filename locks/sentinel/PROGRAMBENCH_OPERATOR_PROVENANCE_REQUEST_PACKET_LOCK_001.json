@@ -1,0 +1,112 @@
+{
+  "lock_id": "PROGRAMBENCH_OPERATOR_PROVENANCE_REQUEST_PACKET_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "607665753ec96355e6e8badb4ac80a83bc61968c",
+  "purpose": "Generate a signed operator-facing provenance request packet that states exactly what external evidence is required before Doxygen cleanroom image rebuild authority can be considered.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_operator_provenance_request_packet_lock.py",
+    "passed": 19,
+    "failed": 0
+  },
+  "related_programbench_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench\\test_programbench_operator_provenance_request_packet_lock.py tests\\corpus\\programbench\\test_programbench_rebuild_provenance_quarantine_decision_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_recipe_provenance_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_provenance_gap_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_remediation_plan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_triage_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_hydration_lock.py tests\\corpus\\programbench\\test_programbench_approved_scanner_setup_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scanner_admission_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_import_lock.py tests\\corpus\\programbench\\test_programbench_dockerhub_manifest_provenance_lock.py tests\\corpus\\programbench\\test_programbench_operator_artifact_admission_lock.py -q --tb=short",
+    "passed": 216,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench -q --tb=short",
+    "passed": 271,
+    "failed": 0
+  },
+  "evidence_validation": {
+    "evidence_index_entries": 83,
+    "validation_errors": []
+  },
+  "implementation": [
+    "scripts/corpus/programbench/operator_provenance_request_packet.py",
+    "scripts/corpus/programbench/operator_provenance_request_packet_record.py",
+    "tests/corpus/programbench/test_programbench_operator_provenance_request_packet_lock.py"
+  ],
+  "doxygen_operator_provenance_request": {
+    "rebuild_quarantine_decision": "assurance/evidence/programbench_rebuild_provenance_quarantine_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.json",
+    "request_packet": "assurance/evidence/programbench_operator_provenance_requests/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.json",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "image_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "current_decision": "REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY",
+    "missing_evidence": [
+      "original_cleanroom_build_recipe",
+      "original_build_context",
+      "pinned_base_image_digest",
+      "toolchain_version_provenance",
+      "operator_signed_source_base_recipe_binding"
+    ],
+    "original_go_runtime_expected": "1.21.0",
+    "remediation_target_go_runtime": "1.24.13",
+    "fidelity_risk": "material",
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "OPERATOR_PROVENANCE_REQUEST_PACKET_READY",
+    "OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN",
+    "OPERATOR_PROVENANCE_REQUEST_BLOCKED_NO_DECISION",
+    "OPERATOR_PROVENANCE_REQUEST_BLOCKED_IMAGE_MISMATCH",
+    "OPERATOR_PROVENANCE_REQUEST_BLOCKED_DIGEST_MISMATCH",
+    "OPERATOR_PROVENANCE_REQUEST_BLOCKED_CHAIN_INVALID",
+    "ORIGINAL_RECIPE_PROVENANCE_REQUIRED",
+    "PINNED_BASE_IMAGE_DIGEST_REQUIRED",
+    "ORIGINAL_BUILD_CONTEXT_REQUIRED",
+    "TOOLCHAIN_PROVENANCE_REQUIRED",
+    "GO_RUNTIME_ORIGINAL_CONFIRMATION_REQUIRED",
+    "GO_REMEDIATION_TARGET_CONFIRMED",
+    "MATERIAL_FIDELITY_RISK_DISCLOSED",
+    "REBUILD_NOT_AUTHORIZED",
+    "DOCKER_PULL_NOT_AUTHORIZED",
+    "DOCKER_EXECUTION_NOT_AUTHORIZED",
+    "HYDRATION_NOT_AUTHORIZED",
+    "PROGRAMBENCH_RERUN_NOT_AUTHORIZED",
+    "CACHE_READY_FALSE",
+    "EXECUTABLE_FALSE",
+    "TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "consumes signed rebuild quarantine decision",
+    "verifies target image and digest match",
+    "verifies remediation plan, build recipe recovery, provenance gap, and recipe provenance recovery chain",
+    "enumerates original recipe gap closure evidence",
+    "enumerates pinned base image digest gap closure evidence",
+    "records original Go 1.21.0 confirmation requirement",
+    "records remediation target Go 1.24.13 confirmation requirement",
+    "records benchmark fidelity impact",
+    "records acceptable and unacceptable provenance forms",
+    "writes signed operator provenance request packet",
+    "keeps rebuild unauthorized",
+    "keeps Docker pull and execution unauthorized",
+    "keeps hydration unauthorized",
+    "keeps ProgramBench rerun unauthorized",
+    "keeps cache_ready false",
+    "keeps executable false",
+    "keeps training_eligible false"
+  ],
+  "policy": [
+    "Requesting provenance is not admitting provenance.",
+    "Operator evidence must bind source, recipe, base digest, toolchain, and target image.",
+    "OCI history alone is not sufficient.",
+    "Reconstructed Dockerfile-style steps alone are not sufficient.",
+    "No image rebuild.",
+    "No Docker pull.",
+    "No Docker run.",
+    "No hydration.",
+    "No ProgramBench rerun.",
+    "No policy exception.",
+    "No cache_ready.",
+    "No executable.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not admit operator provenance, rebuild, pull, hydrate, execute Docker, rerun ProgramBench, grant cache readiness, or create training eligibility.",
+  "previous_lock": "PROGRAMBENCH_REBUILD_PROVENANCE_QUARANTINE_DECISION_LOCK_001",
+  "next_lock_if_operator_provenance_supplied": "PROGRAMBENCH_OPERATOR_PROVENANCE_ADMISSION_LOCK_001",
+  "next_lock_if_no_provenance_available": "PROGRAMBENCH_ALTERNATE_CLEANROOM_IMAGE_PROVENANCE_LOCK_001",
+  "next_lock_if_provenance_incomplete": "PROGRAMBENCH_OPERATOR_PROVENANCE_REJECTION_LOCK_001"
+}

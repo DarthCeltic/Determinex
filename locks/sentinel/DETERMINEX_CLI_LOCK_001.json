@@ -1,0 +1,54 @@
+{
+  "lock_id": "DETERMINEX_CLI_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Unified `determinex` console script installed via pyproject.toml entry_point. All subcommands verified: doctor, status, config show/doctor, evidence validate/render. All existing scripts untouched.",
+  "tests": 13,
+  "passed": 13,
+  "failed": 0,
+  "skipped": 0,
+  "test_modules": [
+    "tests/test_determinex_cli.py"
+  ],
+  "coverage": [
+    "import_no_side_effects",
+    "version_flag",
+    "help_flag",
+    "explicit_help_flag",
+    "unknown_command",
+    "config_show",
+    "config_show_masks_api_keys",
+    "config_doctor_clean",
+    "config_doctor_flags_open_violation",
+    "evidence_validate_passes",
+    "evidence_validate_is_read_only",
+    "config_unknown_subcommand",
+    "evidence_unknown_subcommand"
+  ],
+  "invariants": [
+    "determinex --version prints 1.0.0",
+    "determinex with no args or --help prints usage and exits 0",
+    "determinex config show masks API keys (never prints plaintext key value)",
+    "determinex config doctor exits 1 when any safety flag is open",
+    "determinex config doctor exits 0 when all flags are closed",
+    "determinex evidence validate is strictly read-only (no file mutations)",
+    "evidence validate reads manifest_path from evidence_index.json entries",
+    "All 48 evidence entries resolve to existing files",
+    "Old scripts (determinex_doctor.py, determinex_status.py) remain functional as standalone scripts",
+    "pip install -e . --no-deps creates the determinex console script"
+  ],
+  "entry_point": "scripts.determinex_cli:main",
+  "console_script": "determinex",
+  "pyproject_changes": [
+    "version 0.1.0 -> 1.0.0",
+    "build-backend: setuptools.backends.legacy:build -> setuptools.build_meta",
+    "removed dead starlette dependency",
+    "[tool.pyrefly] -> [tool.pyright] with correct key names",
+    "added [project.scripts] section with determinex entry point"
+  ],
+  "files": [
+    "scripts/determinex_cli.py",
+    "tests/test_determinex_cli.py",
+    "pyproject.toml"
+  ]
+}

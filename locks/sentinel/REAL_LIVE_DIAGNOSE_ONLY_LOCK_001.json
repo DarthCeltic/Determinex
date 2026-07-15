@@ -1,0 +1,46 @@
+{
+  "lock_id": "REAL_LIVE_DIAGNOSE_ONLY_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real live-diagnose runner. POSTs to <localhost>/api/generate to produce an advisory diagnostic summary only. Output is always recorded as untrusted; the verifier remains the source of truth. Gates: admission must be REAL_LOCAL_MODEL_ADMITTED, caller must pass opt_in=True, task_class must be in the admitted set, endpoint must be localhost (default transport), bounded timeout. Pluggable transport for tests. No patch generation, no source mutation, no training row, no network provider.",
+  "purpose": "Rung 3 of the real repair flow campaign.",
+  "depends_on_locks": [
+    "REAL_OLLAMA_PROVIDER_DETECTION_LOCK_001",
+    "REAL_LOCAL_MODEL_ADMISSION_LOCK_001"
+  ],
+  "tests": 15,
+  "passed_on_this_host": 15,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_real_live_diagnose_only_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_LIVE_DIAGNOSE_WRITTEN",
+    "REAL_LIVE_DIAGNOSE_BLOCKED_NO_MODEL",
+    "REAL_LIVE_DIAGNOSE_BLOCKED_NOT_OPTED_IN",
+    "REAL_LIVE_DIAGNOSE_ADVISORY_ONLY",
+    "REAL_LIVE_DIAGNOSE_BLOCKED_TIMEOUT",
+    "REAL_LIVE_DIAGNOSE_BLOCKED_PROVIDER_ERROR"
+  ],
+  "this_host_result": {
+    "decision": "REAL_LIVE_DIAGNOSE_BLOCKED_TIMEOUT",
+    "notes": [
+      "Ollama daemon is up but the admitted model id (determinex-engineer-v11-dsl) is not pulled on this host.",
+      "The runner blocked honestly rather than fake success.",
+      "Apparatus remains ready for when the canonical model is pulled locally."
+    ]
+  },
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "patch_generated": false,
+    "network_provider_admitted": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "release_workflow_added": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_live_diagnose_only/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_PATCH_PLAN_QUARANTINE_LOCK_001"
+}

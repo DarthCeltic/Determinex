@@ -1,0 +1,27 @@
+{
+  "lock_id": "IDE_TEMP_VERIFY_FLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "IDE temp verify flow. Applies a quarantined patch plan to temp only. Source unchanged. Human approval required.",
+  "purpose": "Rung 5 of the IDE frontend/approval campaign.",
+  "depends_on_locks": ["TEMP_PATCH_VERIFY_COMMAND_LOCK_001"],
+  "tests": 9,
+  "passed_on_this_host": 9,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_temp_verify_flow_lock.py"],
+  "status_tokens": [
+    "IDE_TEMP_VERIFY_RUNNING",
+    "IDE_TEMP_VERIFY_FAILED",
+    "IDE_TEMP_VERIFY_PASSED_TEMP_ONLY",
+    "IDE_TEMP_VERIFY_SOURCE_UNCHANGED",
+    "IDE_TEMP_VERIFY_HUMAN_APPROVAL_REQUIRED",
+    "IDE_TEMP_VERIFY_BLOCKED_NO_PLAN"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "human_approval_bypassed": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_temp_verify_flow/run_20260528.json"},
+  "next_recommended_lock": "IDE_HUMAN_APPROVAL_SIGNING_FLOW_LOCK_001"
+}

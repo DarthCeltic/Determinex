@@ -1,0 +1,102 @@
+{
+  "lock_id": "CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Final-state assembly for the Claude lane after live-local-model admission. Consolidates 16 upstream locks (10 backend apparatus + 6 live-local-model) into a single ClaudeLaneLiveModelReadyFinalState. Pure function over lock-manifest file presence; no subprocess, no network.",
+  "purpose": "Campaign finale for the live-local-model work. Pins the equilibrium: live admission is opt-in local-only, network models blocked by default, diagnose-only and patch-plan and temp-patch verifier surfaces are READY, source mutation remains BLOCKED pending human approval, training eligibility blocked by default, NOT RELEASED. Next unblocker: REAL_LOCAL_MODEL_CONFIG_AND_HUMAN_APPROVAL_UI.",
+  "depends_on_locks": [
+    "DETERMINEX_IDE_BACKEND_FINAL_STATE_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LLM_MOCKED_INTAKE_REPAIR_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+    "VERIFIED_REPAIR_TRACE_LOCK_001",
+    "HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001",
+    "IDE_REPAIR_STATE_MODEL_LOCK_001",
+    "CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001",
+    "LOCAL_MODEL_ADMISSION_POLICY_LOCK_001",
+    "ARBITRARY_REPO_READINESS_MATRIX_LOCK_001",
+    "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+    "LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001",
+    "LIVE_MODEL_DIAGNOSE_ONLY_TRACE_LOCK_001",
+    "LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001",
+    "LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001",
+    "IDE_LIVE_MODEL_REPAIR_FLOW_STATE_LOCK_001"
+  ],
+  "tests": 24,
+  "passed_on_this_host": 24,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/dev/test_claude_lane_live_model_ready_final_state_lock.py"],
+  "status_tokens": [
+    "CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_WRITTEN",
+    "EXECUTION_SURFACE_CLEAN",
+    "MODEL_ROUTING_READY",
+    "LIVE_MODEL_ADMISSION_READY_OPT_IN_LOCAL_ONLY",
+    "NETWORK_MODELS_BLOCKED_BY_DEFAULT",
+    "DIAGNOSE_ONLY_TRACE_READY",
+    "PATCH_PLAN_QUARANTINE_READY",
+    "TEMP_PATCH_VERIFIER_GATE_READY",
+    "SOURCE_MUTATION_BLOCKED_PENDING_HUMAN_APPROVAL",
+    "IDE_LIVE_STATE_READY",
+    "TRAINING_ELIGIBILITY_BLOCKED_BY_DEFAULT",
+    "RELEASE_READINESS_NOT_RELEASED",
+    "NEXT_UNBLOCKER_DECLARED"
+  ],
+  "final_dimensions": {
+    "execution_surface": "CLEAN",
+    "model_routing": "READY",
+    "live_model_admission": "READY_OPT_IN_LOCAL_ONLY",
+    "network_models": "BLOCKED_BY_DEFAULT",
+    "diagnose_only_trace": "READY",
+    "patch_plan_quarantine": "READY",
+    "temp_patch_verifier_gate": "READY",
+    "source_mutation": "BLOCKED_PENDING_HUMAN_APPROVAL",
+    "ide_live_state": "READY",
+    "training_eligibility": "BLOCKED_BY_DEFAULT",
+    "release_readiness": "NOT_RELEASED",
+    "next_unblocker": "REAL_LOCAL_MODEL_CONFIG_AND_HUMAN_APPROVAL_UI"
+  },
+  "invariants": [
+    "assemble_live_model_ready_final_state is a pure function over lock-manifest file presence.",
+    "All 16 upstream locks are present on disk; tests parametrize over the full set.",
+    "live_model_admission is READY_OPT_IN_LOCAL_ONLY — never UNCONDITIONALLY_READY.",
+    "network_models is BLOCKED_BY_DEFAULT.",
+    "source_mutation is BLOCKED_PENDING_HUMAN_APPROVAL.",
+    "training_eligibility is BLOCKED_BY_DEFAULT.",
+    "release_readiness is NOT_RELEASED.",
+    "next_unblocker is declared.",
+    "scripts/dev/claude_lane_live_model_ready_final_state*.py contains no `import subprocess`, no `import urllib`, no `import socket`.",
+    "assemble called no subprocess (monkeypatch sentinel)."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "release_workflow_added": false,
+    "existing_lock_removed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/dev/claude_lane_live_model_ready_final_state.py",
+      "scripts/dev/claude_lane_live_model_ready_final_state_record.py"
+    ],
+    "tests": ["tests/dev/test_claude_lane_live_model_ready_final_state_lock.py"],
+    "lock": "locks/sentinel/CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001.json",
+    "evidence": "assurance/evidence/claude_lane_live_model_ready_final_state/run_20260527.json",
+    "docs": "docs/CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE.md"
+  },
+  "evidence": {"run_artifact": "assurance/evidence/claude_lane_live_model_ready_final_state/run_20260527.json"},
+  "next_recommended_lock": "REAL_LOCAL_MODEL_CONFIG_AND_HUMAN_APPROVAL_UI",
+  "files": [
+    "scripts/dev/claude_lane_live_model_ready_final_state.py",
+    "scripts/dev/claude_lane_live_model_ready_final_state_record.py",
+    "tests/dev/test_claude_lane_live_model_ready_final_state_lock.py",
+    "locks/sentinel/CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001.json",
+    "assurance/evidence/claude_lane_live_model_ready_final_state/run_20260527.json",
+    "docs/CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE.md"
+  ]
+}

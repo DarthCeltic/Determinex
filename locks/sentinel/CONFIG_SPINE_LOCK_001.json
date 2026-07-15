@@ -1,0 +1,56 @@
+{
+  "lock_id": "CONFIG_SPINE_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Central configuration spine — all Determinex env vars and paths resolved through scripts/determinex_settings.py; safety flags fail closed by default.",
+  "tests": 31,
+  "passed": 31,
+  "failed": 0,
+  "skipped": 0,
+  "test_modules": [
+    "tests/test_settings.py"
+  ],
+  "coverage": [
+    "import_no_side_effects",
+    "safety_flags_default_closed",
+    "assert_safety_defaults_clean",
+    "assert_safety_defaults_catches_open_flags",
+    "env_var_override_path",
+    "env_var_override_model",
+    "api_key_resolution_primary",
+    "api_key_resolution_alias",
+    "hmac_key_fallback",
+    "hmac_key_primary_wins",
+    "audit_dir_local_fallback_when_drive_absent",
+    "path_with_env_override_never_needs_drive",
+    "singleton_returns_same_instance",
+    "reset_singleton_creates_fresh",
+    "resolved_summary_contains_all_keys",
+    "resolved_summary_masks_api_keys",
+    "resolved_summary_unset_key_label",
+    "check_path_availability_returns_bools",
+    "env_bool_parsing_all_variants",
+    "env_bool_default_false_when_unset"
+  ],
+  "invariants": [
+    "DeterminexSettings imports in stdlib-only environment (no pydantic required)",
+    "All safety flags return False/secure when env vars not set",
+    "online_discovery=False by default — no unpinned artifact fetching",
+    "allow_cloud_fallback=False by default — no silent cloud escapes",
+    "allow_unsandboxed=False by default — isolation required",
+    "require_docker=True by default",
+    "require_cloak=True by default",
+    "offline_observer=True by default",
+    "flywheel_auto=False by default — manual retrain trigger only",
+    "Explicit env var always beats T:/ default",
+    "T:/ fallback to local path when drive absent and local_fallback provided",
+    "API keys masked in resolved_summary() — never logged in plaintext",
+    "assert_safety_defaults() reports all open flags explicitly"
+  ],
+  "doctor_check": "settings_spine — ACTIVE on Ryan's machine (31 settings resolved, all safety defaults closed)",
+  "files": [
+    "scripts/determinex_settings.py",
+    "tests/test_settings.py",
+    "scripts/determinex_doctor.py"
+  ]
+}

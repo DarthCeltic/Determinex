@@ -1,0 +1,29 @@
+{
+  "lock_id": "IDE_WORKSPACE_OPEN_FLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "IDE-facing workspace-open / inspect flow. Read-only. Validates the path, refuses traversal/non-directory/non-existent paths, runs BuildAdapterRegistry, classifies verifier coverage. Source sha256 tree before==after.",
+  "purpose": "Rung 1 of the IDE frontend/approval campaign.",
+  "depends_on_locks": ["BUILD_ADAPTER_REGISTRY_LOCK_001", "VERIFIER_COVERAGE_MATRIX_LOCK_001"],
+  "tests": 14,
+  "passed_on_this_host": 14,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_workspace_open_flow_lock.py"],
+  "status_tokens": [
+    "WORKSPACE_OPEN_READY",
+    "WORKSPACE_OPEN_BLOCKED_PATH_ESCAPE",
+    "WORKSPACE_OPEN_BLOCKED_UNSUPPORTED_REPO",
+    "WORKSPACE_OPEN_VERIFIER_AVAILABLE",
+    "WORKSPACE_OPEN_VERIFIER_MISSING",
+    "WORKSPACE_OPEN_SOURCE_UNCHANGED",
+    "WORKSPACE_OPEN_BLOCKED_NOT_A_DIRECTORY"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "live_model_call_made": false,
+    "network_introduced": false,
+    "subprocess_introduced": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_workspace_open_flow/run_20260528.json"},
+  "next_recommended_lock": "IDE_MODEL_ROUTE_PANEL_LOCK_001"
+}

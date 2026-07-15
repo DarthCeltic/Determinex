@@ -1,0 +1,52 @@
+{
+  "lock_id": "DETERMINEX_MAINTENANCE_BAY_WORKFLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Maintenance Bay workflow. 8 maintenance types (dependency_update, security_fix, docs_update, test_hardening, refactor, migration, formatting_lint_cleanup, performance_cleanup) and 8 UI states. evaluate() refuses: (1) unknown maintenance type -> BLOCKED_AUTHORITY_CONFUSION; (2) dependency or security maintenance without risk_visible OR advisory_status_caveated -> BLOCKED_AUTHORITY_CONFUSION; (3) compatibility_verifier missing while update applied label enabled -> BLOCKED_MISSING_COMPATIBILITY_VERIFIER; (4) updated_label_enabled without post_apply_verifier_passed -> BLOCKED_FALSE_UPDATED_LABEL; (5) update_applied_label without approval_present OR compatibility_verifier_passed -> BLOCKED_AUTHORITY_CONFUSION (proposed != applied). training_eligible stays False.",
+  "purpose": "Rung 4 of DETERMINEX_UNIFIED_PRODUCT_UX_SHELL_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001",
+    "DETERMINEX_REPO_CLINIC_WORKFLOW_LOCK_001",
+    "POST_APPLY_VERIFIER_NO_DEFAULT_PASS_LOCK_001"
+  ],
+  "tests": 19,
+  "test_modules": ["tests/ide/test_maintenance_bay_workflow_lock.py"],
+  "status_tokens": [
+    "MAINTENANCE_BAY_WORKFLOW_WRITTEN",
+    "MAINTENANCE_BAY_WORKFLOW_BLOCKED_FALSE_UPDATED_LABEL",
+    "MAINTENANCE_BAY_WORKFLOW_BLOCKED_MISSING_COMPATIBILITY_VERIFIER",
+    "MAINTENANCE_BAY_WORKFLOW_BLOCKED_AUTHORITY_CONFUSION"
+  ],
+  "maintenance_types": [
+    "dependency_update", "security_fix", "docs_update",
+    "test_hardening", "refactor", "migration",
+    "formatting_lint_cleanup", "performance_cleanup"
+  ],
+  "ui_states": [
+    "MAINTENANCE_REQUESTED", "MAINTENANCE_PLAN_WRITTEN",
+    "UPDATE_PROPOSED_QUARANTINED", "COMPATIBILITY_VERIFIER_REQUIRED",
+    "UPDATE_VERIFIED", "UPDATE_BLOCKED_UNVERIFIED",
+    "UPDATE_APPLIED_AFTER_APPROVAL", "UPDATE_FAILED_HONESTLY"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "updated_label_without_post_apply_verifier": false,
+    "proposed_treated_as_applied": false,
+    "advisory_uncaveated": false,
+    "all_codebases_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_maintenance_bay_workflow/run_20260528.json"
+  },
+  "remediates_finding": "product-shell-maintenance-bay",
+  "next_recommended_lock": "DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001"
+}

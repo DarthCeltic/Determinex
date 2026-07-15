@@ -1,0 +1,46 @@
+{
+  "artifact_id": "SEVENZIP_V5_RESULT_20260527",
+  "date": "2026-05-27",
+  "shard": "7zip_v5_argv0_single_file_launcher_20260527",
+  "hetzner_return": "T:/determinex-staging/hetzner_returns/7zip_v5_argv0_single_file_launcher_20260527",
+  "hetzner_mirror": "T:/determinex-programbench/hetzner_results/7zip_v5_argv0_single_file_launcher_20260527",
+  "remote_cleanup": "cleaned",
+  "items": [
+    {
+      "slug": "ip7z__7zip.839151e",
+      "run_root": "T:/determinex-staging/pb_7zip_argv0_single_file_launcher_v5",
+      "gate_result": "T:/determinex-staging/pb_7zip_argv0_single_file_launcher_v5/gate_result.json",
+      "baseline": {
+        "passed": 151,
+        "failed": 375,
+        "runnable": 526,
+        "total": 1234
+      },
+      "candidate": {
+        "passed": 3,
+        "failed": 523,
+        "runnable": 526,
+        "total": 1234
+      },
+      "decision": "reject",
+      "reason": "passed delta = -148 (baseline 151 -> candidate 3); requires strict improvement",
+      "failure_class": "behavioral_regression_and_launcher_dependency",
+      "next_repair_packet": "corpus/programbench/in_progress/ip7z__7zip.839151e/hint_audit_20260527T223120Z.md"
+    }
+  ],
+  "trace": {
+    "t_corpus_root": "T:/determinex_corpus",
+    "t_corpus_total_after_backfill": 13478,
+    "t_corpus_status": "active_eval_evidence",
+    "training_eligible": false,
+    "training_exclusion_reason": "legacy ProgramBench verdict path lacks known license/safety provenance; kept as eval evidence after schema maturity backfill"
+  },
+  "corpus_integrity_after_backfill": {
+    "unsigned_count": 0,
+    "invalid_signature_count": 0,
+    "missing_required_field_count": 0,
+    "parse_error_count": 0,
+    "signature_key_scope": "durable"
+  },
+  "policy_result": "Rule-B guard held. No promotion, no local-only reject, no loose shard artifact."
+}

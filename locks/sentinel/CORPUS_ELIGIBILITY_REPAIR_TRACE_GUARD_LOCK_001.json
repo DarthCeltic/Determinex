@@ -1,0 +1,103 @@
+{
+  "lock_id": "CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Pure decision function that enumerates every reason a repair trace produced by the current campaign is NOT admissible as a training corpus row. Distinguishes *evidence* (signed, indexed, replayable — under assurance/evidence/) from *training data* (would feed model fine-tuning — under corpus/). At this rung every trace is BLOCKED, with at minimum BLOCKED_MOCKED_MODEL_OUTPUT + BLOCKED_TEMP_WORKSPACE_ONLY + BLOCKED_NO_LIVE_MODEL_CALL + BLOCKED_POLICY firing. Future rungs (live model admission, live operator approval) may defeat individual reasons; only when every reason is satisfied can a positive admission step open eligibility.",
+  "purpose": "Rung 7 of the verified-repair campaign. The boundary between 'we ran this' and 'this teaches the model.' Pins the policy that no evidence produced under mocked / fixture conditions ever flows into training. Sets up LOCAL_MODEL_ADMISSION_POLICY (next rung) to start defeating the NO_LIVE_MODEL_CALL reason.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LLM_MOCKED_INTAKE_REPAIR_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+    "VERIFIED_REPAIR_TRACE_LOCK_001",
+    "HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001",
+    "IDE_REPAIR_STATE_MODEL_LOCK_001"
+  ],
+  "tests": 20,
+  "passed_on_this_host": 20,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/corpus/test_corpus_eligibility_repair_trace_guard_lock.py"
+  ],
+  "status_tokens": [
+    "CORPUS_ELIGIBILITY_BLOCKED",
+    "CORPUS_ELIGIBILITY_EVIDENCE_ONLY",
+    "BLOCKED_MOCKED_MODEL_OUTPUT",
+    "BLOCKED_TEMP_WORKSPACE_ONLY",
+    "BLOCKED_SOURCE_NOT_APPROVED",
+    "BLOCKED_VERIFIER_FAILED",
+    "BLOCKED_UNSUPPORTED_REPO",
+    "BLOCKED_NO_LIVE_MODEL_CALL",
+    "BLOCKED_HUMAN_APPROVAL_REQUIRED",
+    "BLOCKED_POLICY"
+  ],
+  "blocked_reasons": {
+    "MOCKED_MODEL_OUTPUT": "Every trace today routes through MockModelClient. Mocked output is evidence, not training data.",
+    "TEMP_WORKSPACE_ONLY": "Patches only ever applied to a SafePatchWorkspace temp copy. Temp-only patches are evidence, not training data.",
+    "SOURCE_NOT_APPROVED": "No accepted ApprovalGateDecision was supplied with the trace.",
+    "VERIFIER_FAILED": "The trace's safe-patch verifier returned PATCH_VERIFIER_FAILED.",
+    "UNSUPPORTED_REPO": "Trace.final_status is TRACE_BLOCKED_UNSUPPORTED_REPO.",
+    "NO_LIVE_MODEL_CALL": "The current campaign uses mocked model output exclusively.",
+    "HUMAN_APPROVAL_REQUIRED": "No approval has been generated yet (approval is None or REQUIRED).",
+    "POLICY": "Default policy blocks corpus admission for every trace produced by the current campaign."
+  },
+  "invariants": [
+    "RepairTraceEligibilityGuard.evaluate is a pure function — no I/O.",
+    "Every trace under DEFAULT_POLICY decides BLOCKED, regardless of pass/fail/unsupported.",
+    "training_eligible is False on every CorpusEligibilityDecision, even under a hypothetical all-flags-open policy (eligibility requires a separate positive admission step).",
+    "BLOCKED_MOCKED_MODEL_OUTPUT, BLOCKED_TEMP_WORKSPACE_ONLY, BLOCKED_NO_LIVE_MODEL_CALL, and BLOCKED_POLICY fire for every trace under DEFAULT_POLICY.",
+    "BLOCKED_UNSUPPORTED_REPO fires only when trace.final_status == TRACE_BLOCKED_UNSUPPORTED_REPO.",
+    "BLOCKED_VERIFIER_FAILED fires only when trace.safe_patch_result.verifier_status == PATCH_VERIFIER_FAILED.",
+    "BLOCKED_SOURCE_NOT_APPROVED clears when an ACCEPTED ApprovalGateDecision is supplied; remaining reasons still apply.",
+    "BLOCKED_HUMAN_APPROVAL_REQUIRED clears once an approval has been produced (accepted or blocked); REQUIRED still fires while no packet has been submitted.",
+    "scripts/corpus/repair_trace_eligibility_*.py contains no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "Guard evaluation does not mutate the original workspace tree (sha256 before==after).",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "training_eligibility_opened": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/corpus/repair_trace_eligibility_guard.py",
+      "scripts/corpus/repair_trace_eligibility_record.py"
+    ],
+    "tests": [
+      "tests/corpus/test_corpus_eligibility_repair_trace_guard_lock.py"
+    ],
+    "lock": "locks/sentinel/CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001.json",
+    "evidence": "assurance/evidence/corpus_eligibility_repair_trace_guard/run_20260527.json",
+    "docs": "docs/CORPUS_ELIGIBILITY_REPAIR_TRACES.md"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/corpus_eligibility_repair_trace_guard/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "Even with a hypothetical all-flags-open policy the guard emits CORPUS_ELIGIBILITY_EVIDENCE_ONLY rather than ELIGIBLE — eligibility requires a future rung's *positive* admission step (not just absence of blockers).",
+    "BLOCKED_NO_LIVE_MODEL_CALL and BLOCKED_MOCKED_MODEL_OUTPUT are conceptually similar but separate flags so a future LOCAL_MODEL_ADMISSION rung can satisfy them independently."
+  ],
+  "next_recommended_lock": "LOCAL_MODEL_ADMISSION_POLICY_LOCK_001",
+  "files": [
+    "scripts/corpus/repair_trace_eligibility_guard.py",
+    "scripts/corpus/repair_trace_eligibility_record.py",
+    "tests/corpus/test_corpus_eligibility_repair_trace_guard_lock.py",
+    "locks/sentinel/CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001.json",
+    "assurance/evidence/corpus_eligibility_repair_trace_guard/run_20260527.json",
+    "docs/CORPUS_ELIGIBILITY_REPAIR_TRACES.md"
+  ]
+}

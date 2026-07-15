@@ -1,0 +1,87 @@
+{
+  "lock_id": "CORPUS_SCHEMA_MATURITY_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Separate durable corpus integrity from schema-complete training eligibility.",
+  "focused_tests": {
+    "module": "tests/corpus/test_corpus_schema_maturity_lock.py",
+    "passed": 8,
+    "failed": 0
+  },
+  "coverage_tests": {
+    "modules": [
+      "tests/corpus/test_corpus_schema_maturity_lock.py",
+      "tests/corpus/test_corpus_coverage_gate.py"
+    ],
+    "passed": 15,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 740,
+    "failed": 0
+  },
+  "implementation": [
+    "scripts/corpus/corpus_schema_maturity.py",
+    "scripts/corpus/corpus_coverage_report.py",
+    "corpus/programbench/training_corpus/TRAINING_EXCLUSION.json"
+  ],
+  "t_corpus_after_backfill": {
+    "root": "T:/determinex_corpus",
+    "total_rows": 10832,
+    "active_training_eligible": 0,
+    "active_eval_evidence": 10832,
+    "legacy_backfill_needed": 0,
+    "quarantined": 0,
+    "rejected": 0,
+    "training_ineligible": 10832,
+    "missing_required_field_count": 0,
+    "invalid_signature_count": 0,
+    "unsigned_count": 0,
+    "parse_error_count": 0,
+    "duplicate_trace_hash_count": 0,
+    "ephemeral_signature_count": 0,
+    "current_signature_key_scope": "durable",
+    "validator": "programbench eval",
+    "backup": "T:/determinex_corpus/code_verdict/2026-05-27.jsonl.pre_schema_maturity.bak"
+  },
+  "language_distribution": {
+    "rust": 6851,
+    "go": 1802,
+    "c": 1200,
+    "python": 979
+  },
+  "failure_distribution": {
+    "none": 7807,
+    "programbench_failure": 3025
+  },
+  "source_kind_distribution": {
+    "benchmark_verdict": 1745,
+    "programbench_legacy_verdict": 9087
+  },
+  "required_fields": [
+    "schema_version",
+    "corpus_type",
+    "language_or_environment_type",
+    "source_kind",
+    "trace_hash",
+    "signature_key_scope",
+    "record_status",
+    "created_at",
+    "verifier_command",
+    "verifier_result",
+    "failure_type"
+  ],
+  "record_status_model": [
+    "active_training_eligible",
+    "active_eval_evidence",
+    "legacy_backfill_needed",
+    "quarantined",
+    "rejected"
+  ],
+  "policy": [
+    "Signed is not enough.",
+    "Training-eligible requires schema-complete.",
+    "Legacy rows may be active_eval_evidence after backfill but are not training fuel.",
+    "Local legacy ProgramBench corpus is excluded from training by default until migrated."
+  ],
+  "next_lock": "CORPUS_TRAINING_ELIGIBILITY_LOCK_001"
+}

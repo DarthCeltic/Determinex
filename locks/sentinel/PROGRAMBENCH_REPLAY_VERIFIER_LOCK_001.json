@@ -1,0 +1,63 @@
+{
+  "lock_id": "PROGRAMBENCH_REPLAY_VERIFIER_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Take selected legacy ProgramBench replay candidates, reconstruct/hydrate replay context, run a fresh verifier through an injectable runner, and emit exactly one signed outcome row per candidate.",
+  "focused_tests": {
+    "module": "tests/corpus/test_programbench_replay_verifier_lock.py",
+    "passed": 7,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/programbench_replay_verifier.py",
+    "scripts/corpus/legacy_recovery/replay_workspace_builder.py",
+    "scripts/corpus/legacy_recovery/replay_outcome_writer.py",
+    "scripts/corpus/legacy_recovery/legacy_candidate_selector.py",
+    "tests/corpus/test_programbench_replay_verifier_lock.py"
+  ],
+  "batch_001_result": {
+    "path": "assurance/evidence/programbench_replay_batch_001_result.json",
+    "source_batch": "assurance/evidence/legacy_replay_promotion_batch_001.json",
+    "candidates": 10,
+    "attempted": 10,
+    "active_training_eligible": 0,
+    "active_eval_evidence": 0,
+    "signed_rejects": 0,
+    "signed_infra_failures": 10,
+    "loose_artifacts": 0,
+    "rows_path": "assurance/evidence/programbench_replay_batch_001_rows.jsonl",
+    "signed_rows": 10,
+    "valid_signatures": 10
+  },
+  "outcome_contract": [
+    "active_training_eligible",
+    "active_eval_evidence",
+    "signed_reject",
+    "signed_infra_failure"
+  ],
+  "acceptance": [
+    "selected candidate has tool, language_guess, failure_class, duplicate_cluster_id, legacy_row_hash, expected_verifier, and priority_score",
+    "candidate hash or cluster hash is validated before replay",
+    "workspace hydration failure writes signed_infra_failure",
+    "successful replay without repair transition writes active_eval_evidence",
+    "replay failure/regression writes signed_reject",
+    "active_training_eligible requires verified repair_transition=true",
+    "each candidate writes exactly one signed row",
+    "each candidate writes a replay manifest",
+    "batch result reports zero loose artifacts"
+  ],
+  "policy": [
+    "Legacy suggests.",
+    "Replay verifies.",
+    "Only fresh verifier-backed repair transitions train.",
+    "Replay-only evidence is not training fuel.",
+    "Infrastructure failures are signed outcomes, not loose artifacts."
+  ],
+  "does_not_prove": "Does not prove a live ProgramBench workspace was successfully hydrated for Batch 001; the first run intentionally resolved missing workspaces into signed infra-failure rows.",
+  "previous_lock": "LEGACY_REPLAY_PROMOTION_LOCK_001",
+  "next_lock": "AIDER_POLYGLOT_SAMPLE_RUN_LOCK_001"
+}

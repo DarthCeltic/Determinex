@@ -1,0 +1,30 @@
+{
+  "lock_id": "CI_QUALITY_GATE_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "CI quality gate: lint job (pre-commit/ruff), security audit job (pip-audit), pytest+coverage job (gate 2%, path to 60%), evidence integrity job, Rust cargo check.",
+  "invariants": [
+    "CI runs on push to main/clean-main and on PR to main",
+    "lint job runs pre-commit --all-files (includes ruff check, ruff-format, no-shell-true, no-hardcoded-paths, detect-private-key)",
+    "security-audit job runs pip-audit on requirements.txt",
+    "python-tests job runs pytest with --cov-fail-under=2 (current CI-achievable gate)",
+    "evidence-validate job runs `determinex evidence validate` read-only",
+    "rust-check job runs cargo check --all-targets",
+    "Coverage gate path: 2% now → 60% target as hardware-dependent checks are mocked",
+    "uv.lock included in CI trigger paths (ensures lock stays in sync)",
+    "Coverage artifact uploaded on every run for trend tracking"
+  ],
+  "ci_jobs": [
+    "lint",
+    "security-audit",
+    "python-tests",
+    "rust-check",
+    "evidence-validate"
+  ],
+  "coverage_current": "2%",
+  "coverage_target": "60%",
+  "coverage_gap_reason": "Most scripts depend on T:/ drive, Ollama, Docker, GPU; these are excluded by 'not integration and not slow' markers in CI",
+  "files": [
+    ".github/workflows/test.yml"
+  ]
+}

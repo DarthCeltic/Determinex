@@ -1,0 +1,110 @@
+{
+  "lock_id": "PROGRAMBENCH_OPERATOR_ARTIFACT_ADMISSION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "1891191f9faa2b3ae88e4589ec4bc1990420581a",
+  "purpose": "Allow an operator to supply exact artifact provenance for a ProgramBench missing cleanroom image while preventing hydration, execution, or training promotion.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py",
+    "passed": 14,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+      "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py"
+    ],
+    "passed": 58,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1072,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/operator_artifact_admission.py",
+    "scripts/corpus/programbench/operator_artifact_admission_record.py",
+    "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py"
+  ],
+  "doxygen_missing_image": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+  "source_triage_record": "assurance/evidence/programbench_infra_failure_triage/doxygen_real_bounded_rerun_20260527.MISSING_CLEANROOM_IMAGE.triage.json",
+  "sample_accepted_fixture": {
+    "operator_claim": "assurance/evidence/programbench_operator_artifact_admissions/fixtures/doxygen_operator_admission_sample_claim.json",
+    "admission_record": "assurance/evidence/programbench_operator_artifact_admissions/fixtures/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.json",
+    "status": "OPERATOR_ARTIFACT_ADMISSION_ACCEPTED",
+    "hydration_candidate": true,
+    "executable": false,
+    "training_eligible": false,
+    "note": "Fixture-only acceptance proof; not a real hydration instruction."
+  },
+  "real_registry_admission": {
+    "operator_claim": "assurance/evidence/programbench_operator_artifact_admissions/doxygen_dockerhub_operator_claim_20260527.json",
+    "admission_record": "assurance/evidence/programbench_operator_artifact_admissions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.json",
+    "source_provenance_record": "assurance/evidence/programbench_dockerhub_manifest_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.EXACT_REMOTE_MANIFEST_FOUND.json",
+    "status": "OPERATOR_ARTIFACT_ADMISSION_ACCEPTED",
+    "digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "hydration_candidate": true,
+    "executable": false,
+    "training_eligible": false,
+    "note": "Real Docker Hub exact-reference manifest metadata; admitted as a hydration candidate only, not hydrated or executed."
+  },
+  "required_operator_claim_fields": [
+    "image_reference",
+    "source_type",
+    "source_url_or_registry",
+    "digest or immutable_revision",
+    "tag",
+    "created_at_or_published_at if available",
+    "license_provenance_notes or provenance_notes",
+    "operator_id",
+    "intended_scope",
+    "related_triage_record",
+    "admission_reason"
+  ],
+  "statuses": [
+    "OPERATOR_ARTIFACT_ADMISSION_READY",
+    "OPERATOR_ARTIFACT_ADMISSION_ACCEPTED",
+    "OPERATOR_ARTIFACT_ADMISSION_REJECTED",
+    "OPERATOR_ARTIFACT_BLOCKED_NO_TRIAGE",
+    "OPERATOR_ARTIFACT_BLOCKED_SCOPE_MISMATCH",
+    "OPERATOR_ARTIFACT_BLOCKED_IMAGE_MISMATCH",
+    "OPERATOR_ARTIFACT_BLOCKED_NO_DIGEST",
+    "OPERATOR_ARTIFACT_BLOCKED_FLOATING_TAG",
+    "OPERATOR_ARTIFACT_BLOCKED_NO_PROVENANCE",
+    "OPERATOR_ARTIFACT_BLOCKED_PUBLIC_UNTRUSTED_DIRECT_HYDRATION",
+    "OPERATOR_ARTIFACT_HYDRATION_CANDIDATE",
+    "OPERATOR_ARTIFACT_NOT_EXECUTABLE"
+  ],
+  "acceptance": [
+    "valid operator admission with exact image reference and digest is accepted",
+    "missing triage record blocks",
+    "non-MISSING_CLEANROOM_IMAGE triage blocks",
+    "image mismatch blocks",
+    "scope mismatch blocks",
+    "missing digest blocks",
+    "latest/floating tag without digest blocks",
+    "missing provenance blocks",
+    "public-untrusted direct hydration blocks",
+    "accepted admission becomes hydration_candidate only",
+    "accepted admission is not executable",
+    "accepted admission is not training eligible",
+    "signed admission outcome is produced",
+    "triage not requiring operator recovery blocks"
+  ],
+  "policy": [
+    "Operator may supply provenance.",
+    "Admission validates provenance.",
+    "Hydration is a later separate gate.",
+    "No image pulls.",
+    "No Docker execution.",
+    "No ProgramBench execution.",
+    "No quarantine-only execution.",
+    "No automatic training promotion."
+  ],
+  "does_not_prove": "Does not hydrate, fetch, scan, cache, or execute the cleanroom image. It only admits or rejects operator-supplied provenance as a signed hydration candidate.",
+  "previous_lock": "PROGRAMBENCH_INFRA_FAILURE_TRIAGE_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_HYDRATION_LOCK_001"
+}

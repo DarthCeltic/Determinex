@@ -1,0 +1,40 @@
+{
+  "lock_id": "DETERMINEX_CODEX_STATUS_SUBPROCESS_CLASSIFICATION_REPAIR_PLAN_LOCK_001",
+  "date": "2026-05-29",
+  "commit": "unrecorded",
+  "series_id": "DETERMINEX_CODEX_STATUS_SUBPROCESS_CLASSIFICATION_REPAIR_PLAN_LOCK_001",
+  "purpose": "Classify the two deferred Codex-lane subprocess.run sites under scripts/status without loosening helper execution policy.",
+  "status": "CODEX_STATUS_SUBPROCESS_CLASSIFICATION_REPAIRED",
+  "record": "assurance/evidence/codex_status_subprocess_classification_repair_plan/run_20260529.CODEX_STATUS_SUBPROCESS_CLASSIFICATION_REPAIRED.json",
+  "test_modules": [
+    "tests/dev/test_script_helper_execution_classification_sweep_lock.py",
+    "tests/dev/test_parallel_execution_layer_audit_lock.py",
+    "tests/repair/test_hardened_verified_task_and_codeclash_lock.py",
+    "tests/models/test_local_model_live_admission_lock.py",
+    "tests/models/test_model_router_lock.py",
+    "tests/status/test_determinex_workspace_evidence_reconciliation_002.py"
+  ],
+  "subprocess_sites": [
+    {
+      "path": "scripts/status/idea_lab_python_cli_verified_splash_demo.py",
+      "required_category": "allowed safe helper",
+      "audit_classification": "LEGACY_EXEMPT_TEST_FIXTURE"
+    },
+    {
+      "path": "scripts/status/splash_path_reconciliation_and_prep.py",
+      "required_category": "legacy exempt read-only",
+      "audit_classification": "LEGACY_EXEMPT_READ_ONLY"
+    }
+  ],
+  "helper_execution_policy_loosened": false,
+  "claude_files_changed": false,
+  "source_mutation_authorized": false,
+  "artifact_import_authorized": false,
+  "programbench_execution_authorized": false,
+  "benchmark_execution_authorized": false,
+  "proof_execution_authorized": false,
+  "approval_authority_granted": false,
+  "training_eligible": false,
+  "training_rows_written": false,
+  "broad_claims_granted": false
+}

@@ -1,0 +1,71 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_014_classifier_state_expansion_claude_review_001/claim_boundary_20260612.json",
+    "codex_deltas": "assurance/evidence/wave_014_classifier_state_expansion_claude_review_001/codex_deltas_20260612.json",
+    "risks": "assurance/evidence/wave_014_classifier_state_expansion_claude_review_001/risks_20260612.json",
+    "states_audit": "assurance/evidence/wave_014_classifier_state_expansion_claude_review_001/states_audit_20260612.json",
+    "verdict": "assurance/evidence/wave_014_classifier_state_expansion_claude_review_001/verdict_20260612.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "2/6 states in matrix; 0/6 fully instrumented (fixtures+transcripts+consistency tests)",
+  "claim_boundary": [
+    "Wave 014 Claude reviews are SIGNED-EXECUTION HARD-FLOOR attack audits and parallel critique.",
+    "Central question: did Codex cross the hard execution floor, or did it again rename packets, specs, maps, local simulations, and linter text into capability?",
+    "Claude rejects: approval packet as signed authority / signed authority as spent authority / admission as execution / local venv as clean host / detector fixture as arbitrary project support / command map as execution / verifier enum as verifier rejection / linter text as CI enforcement / package metadata as public package release / local-preview exact cell as family support / built GUI artifact as GUI launch / first-paint as GUI e2e / SBOM packet as SBOM artifact / score delta schema as score-delta enforcement / proof-report anchor as evidence if it points only to narrative.",
+    "Standard: signed spend beats packets; clean-host transcript beats local simulation; SBOM artifact beats SBOM plan; visual proof beats GUI build; verifier rejection beats verifier enum; exact-cell gates beat status wording; evidence delta beats score drift.",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Installer, driver, GUI, SBOM, training, and network actions remain gated on REAL signed operator approval consumed at executor entry.",
+    "Release-supported cells remain 10. Release-supported families remain 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-12",
+  "doc": "docs/DETERMINEX_WAVE014_CLASSIFIER_STATE_EXPANSION_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_014_claude_lane_C8",
+  "gulp_wave_id": "014",
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_signed_execution_floor_review": true,
+  "lane": "C8",
+  "lock_id": "DETERMINEX_WAVE014_CLASSIFIER_STATE_EXPANSION_CLAUDE_REVIEW_001",
+  "purpose": "Wave 014 Claude Lane C8. INSTALLED_GLOBAL / INSTALLED_PROJECT_LOCAL / MISSING_GLOBAL / NETWORK_GATED / HARDWARE_GATED / UNKNOWN_BLOCKED states; per-tool transcripts; blocker enum; network/hardware-gated safety; consistency tests. Reject free-text or untested states.",
+  "record": "assurance/evidence/wave_014_classifier_state_expansion_claude_review_001/run_20260612.WAVE014_CLASSIFIER_STATE_EXPANSION_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE014_CLASSIFIER_STATE_EXPANSION_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_014_classifier_state_expansion_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant": true,
+      "release_supported_families_invariant": true
+    },
+    "passed": true
+  },
+  "verdict": "TWO_OF_SIX_STATES_IN_MATRIX_ZERO_OF_SIX_FULLY_INSTRUMENTED — only INSTALLED_GLOBAL + MISSING_GLOBAL used; no fixtures, transcripts, or safety tests for the remaining 4 states."
+}

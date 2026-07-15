@@ -1,0 +1,71 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_019_first_real_signature_import_spend_claude_review_001/claim_boundary_20260617.json",
+    "codex_deltas": "assurance/evidence/wave_019_first_real_signature_import_spend_claude_review_001/codex_deltas_20260617.json",
+    "five_level_audit": "assurance/evidence/wave_019_first_real_signature_import_spend_claude_review_001/five_level_audit_20260617.json",
+    "risks": "assurance/evidence/wave_019_first_real_signature_import_spend_claude_review_001/risks_20260617.json",
+    "verdict": "assurance/evidence/wave_019_first_real_signature_import_spend_claude_review_001/verdict_20260617.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "Level 1/5; no signature; 11 waves",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "Wave 019 Claude reviews are HARD-FLOOR + FULL-VERIFIER-SIGNOFF + TIER-1-EXPANSION attack audits.",
+    "Three headline questions: (1) did Codex cross any real execution floor? (2) did Codex expand Tier-1 family execution without false family-support claims? (3) did Codex complete verifier signoff enforcement for the 10 canonical cells?",
+    "Claude rejects: approval packet as signed approval / signed approval as spent approval / spend event as successful execution / tool admission as SBOM artifact / local simulation as clean host / build artifact as GUI launch / screenshot/first-paint as GUI e2e / exact cell as family support / local preview as release support / one fixture transcript as supported family / evidence packet as actual proof / score estimate as evidence-delta-bound score.",
+    "Standard: execution floor needs signed spend + admission event + transcript; Tier-1 expansion ≠ family support; legacy signoff = 6 missing kinds per cell, packet status PARTIAL.",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Canonical release-supported cells = 10 (registry-bound). Release-supported families = 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-17",
+  "doc": "docs/DETERMINEX_WAVE019_FIRST_REAL_SIGNATURE_IMPORT_SPEND_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_019_claude_lane_C13",
+  "gulp_wave_id": "019",
+  "is_hard_floor_and_full_signoff_and_tier1_expansion_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "lane": "C13",
+  "lock_id": "DETERMINEX_WAVE019_FIRST_REAL_SIGNATURE_IMPORT_SPEND_CLAUDE_REVIEW_001",
+  "purpose": "Wave 019 Claude Lane C13. signed-valid queue; operator approval files; audit log; validation; target/command-scope hash binding; expiration/revocation; one-time spend rule; execution_allowed event; execution transcript; rollback/cleanup. 5-level verdict.",
+  "record": "assurance/evidence/wave_019_first_real_signature_import_spend_claude_review_001/run_20260617.WAVE019_FIRST_REAL_SIGNATURE_IMPORT_SPEND_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE019_FIRST_REAL_SIGNATURE_IMPORT_SPEND_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_019_first_real_signature_import_spend_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true
+    },
+    "passed": true
+  },
+  "verdict": "FIVE_LEVEL_VERDICT_NO_SIGNATURE_PRESENT — Level 1/5. 11 waves; signed_valid_queue empty; ready-to-sign packets exist; no real signature imported."
+}

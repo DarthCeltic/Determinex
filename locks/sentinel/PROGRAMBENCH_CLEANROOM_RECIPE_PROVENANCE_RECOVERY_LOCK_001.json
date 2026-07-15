@@ -1,0 +1,135 @@
+{
+  "lock_id": "PROGRAMBENCH_CLEANROOM_RECIPE_PROVENANCE_RECOVERY_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "607665753ec96355e6e8badb4ac80a83bc61968c",
+  "purpose": "Attempt to close Doxygen cleanroom recipe provenance gaps by finding exact original recipe provenance and pinned base-image digest evidence without rebuilding, pulling, hydrating, executing Docker, or rerunning ProgramBench.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_cleanroom_recipe_provenance_recovery_lock.py",
+    "passed": 20,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_cleanroom_recipe_provenance_recovery_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_build_recipe_provenance_gap_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_build_recipe_recovery_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_remediation_plan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py",
+      "tests/corpus/programbench/test_programbench_approved_scanner_setup_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_import_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py"
+    ],
+    "passed": 179,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "module": "tests/corpus/programbench",
+    "passed": 234,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1624,
+    "failed": 11,
+    "skipped": 5,
+    "warnings": 111,
+    "status": "failed_unrelated_architecture_and_harness_residue",
+    "failure_summary": [
+      "parallel execution audit doc/runtime drift",
+      "script helper classification sweep expected pre-migration unsafe sites but runtime found none",
+      "HARDENED_VERIFIED_TASK_AND_CODECLASH_LOCK_001 manifest missing",
+      "verified_task command runner quoting failure in unrelated harness tests",
+      "config show immutability guard sees parallel_execution_layer_audit evidence mutation"
+    ]
+  },
+  "implementation": [
+    "scripts/corpus/programbench/cleanroom_recipe_provenance_recovery.py",
+    "scripts/corpus/programbench/cleanroom_recipe_provenance_recovery_record.py",
+    "tests/corpus/programbench/test_programbench_cleanroom_recipe_provenance_recovery_lock.py"
+  ],
+  "doxygen_recipe_provenance_recovery": {
+    "provenance_gap": "assurance/evidence/programbench_cleanroom_build_recipe_provenance_gaps/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.BUILD_RECIPE_PROVENANCE_GAP_WRITTEN.json",
+    "recovery_record": "assurance/evidence/programbench_cleanroom_recipe_provenance_recovery/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.RECIPE_PROVENANCE_RECOVERED_PARTIAL.json",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "image_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "decision": "REBUILD_PROVENANCE_PARTIAL_QUARANTINE_ONLY",
+    "original_cleanroom_build_recipe_closed": false,
+    "pinned_base_image_digest_closed": false,
+    "go_runtime_update_plan_available": true,
+    "fidelity_risk": "material",
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "RECIPE_PROVENANCE_RECOVERY_READY",
+    "RECIPE_PROVENANCE_RECOVERED_EXACT",
+    "RECIPE_PROVENANCE_RECOVERED_PARTIAL",
+    "BASE_IMAGE_PROVENANCE_RECOVERED_EXACT",
+    "BASE_IMAGE_PROVENANCE_RECOVERED_PARTIAL",
+    "PROVENANCE_RECOVERY_BLOCKED",
+    "PROVENANCE_RECOVERY_EXHAUSTED",
+    "REBUILD_PROVENANCE_READY",
+    "REBUILD_PROVENANCE_PARTIAL_QUARANTINE_ONLY",
+    "REBUILD_PROVENANCE_BLOCKED",
+    "RECIPE_PROVENANCE_BLOCKED_NO_GAP",
+    "RECIPE_PROVENANCE_BLOCKED_IMAGE_MISMATCH",
+    "RECIPE_PROVENANCE_BLOCKED_DIGEST_MISMATCH",
+    "ORIGINAL_RECIPE_STILL_MISSING",
+    "BASE_IMAGE_DIGEST_STILL_MISSING",
+    "OCI_HISTORY_REMAINS_QUARANTINE_ONLY",
+    "MATERIAL_FIDELITY_RISK_REMAINS",
+    "REBUILD_NOT_AUTHORIZED",
+    "DOCKER_PULL_NOT_AUTHORIZED",
+    "DOCKER_EXECUTION_NOT_AUTHORIZED",
+    "HYDRATION_NOT_AUTHORIZED",
+    "PROGRAMBENCH_RERUN_NOT_AUTHORIZED",
+    "CACHE_READY_FALSE",
+    "TRAINING_INELIGIBLE"
+  ],
+  "allowed_recovery_sources": [
+    "local evidence roots",
+    "ProgramBench task metadata",
+    "recovered replay manifests",
+    "imported image OCI config/history",
+    "local repo history",
+    "local lock records",
+    "signed provenance records",
+    "internal cache manifests",
+    "operator-supplied exact provenance packets if present",
+    "pinned provider metadata already admitted by previous locks"
+  ],
+  "acceptance": [
+    "consumes the signed provenance gap packet",
+    "verifies image name and digest match",
+    "searches only allowed local or admitted provenance sources",
+    "records each searched location",
+    "records whether original Dockerfile or build recipe was found",
+    "records whether pinned base image digest was found",
+    "records whether Go 1.24.13 remediation can be applied with benchmark fidelity preserved",
+    "keeps cache_ready false",
+    "keeps executable false",
+    "keeps training_eligible false",
+    "blocks rebuild unless exact original recipe and pinned base digest are recovered",
+    "writes signed provenance recovery evidence"
+  ],
+  "policy": [
+    "No broad web search.",
+    "No blind Docker pulls.",
+    "No latest tags.",
+    "No inferred official images.",
+    "No Docker container execution.",
+    "No ProgramBench rerun.",
+    "No image rebuild.",
+    "No hydration.",
+    "No policy exception.",
+    "No cache_ready.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not recover exact original Doxygen cleanroom Dockerfile provenance or pinned base image digest. Does not rebuild, pull, hydrate, execute Docker, rerun ProgramBench, mark cache_ready, or create training eligibility.",
+  "previous_lock": "PROGRAMBENCH_CLEANROOM_BUILD_RECIPE_PROVENANCE_GAP_LOCK_001",
+  "next_lock": "PROGRAMBENCH_REBUILD_PROVENANCE_QUARANTINE_DECISION_LOCK_001"
+}

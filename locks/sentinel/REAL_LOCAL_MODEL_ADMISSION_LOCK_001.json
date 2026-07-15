@@ -1,0 +1,41 @@
+{
+  "lock_id": "REAL_LOCAL_MODEL_ADMISSION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real local-model admission gate. Admits one model only when (a) provider is in the local set and not no_model, (b) Ollama-backed admits require a DETECTED detection record, (c) model_id is in CURRENT_MODEL_IDS, (d) model_id is not in STALE_MODEL_IDS, (e) every requested task class is supported, and (f) the caller explicitly passes opt_in=True. Pure decision surface — no model invocation.",
+  "purpose": "Rung 2 of the real repair flow campaign.",
+  "depends_on_locks": [
+    "REAL_OLLAMA_PROVIDER_DETECTION_LOCK_001",
+    "REAL_LOCAL_MODEL_PROVIDER_CONFIG_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LOCAL_MODEL_ADMISSION_POLICY_LOCK_001"
+  ],
+  "tests": 16,
+  "passed_on_this_host": 16,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_real_local_model_admission_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_LOCAL_MODEL_ADMITTED",
+    "REAL_LOCAL_MODEL_BLOCKED_NO_PROVIDER",
+    "REAL_LOCAL_MODEL_BLOCKED_UNPINNED",
+    "REAL_LOCAL_MODEL_BLOCKED_STALE",
+    "REAL_LOCAL_MODEL_BLOCKED_UNSUPPORTED_TASK_CLASS",
+    "REAL_LOCAL_MODEL_BLOCKED_NOT_OPTED_IN",
+    "REAL_LOCAL_MODEL_BLOCKED_NETWORK_PROVIDER"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "live_model_called": false,
+    "network_provider_admitted": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "release_workflow_added": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_local_model_admission/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_LIVE_DIAGNOSE_ONLY_LOCK_001"
+}

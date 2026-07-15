@@ -1,0 +1,25 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Generate operator packet templates for supplying exact artifact tars for Batch001 metadata-admitted targets.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_ARTIFACT_IMPORT_PREFLIGHT_LOCK_001"
+  ],
+  "status": "OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_WRITTEN",
+  "record": "assurance/evidence/programbench_batch001_operator_artifact_import_packet_bundle/programbench_batch001_operator_artifact_import_packet_bundle_run_20260528.OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_WRITTEN.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "operator_import_packets_written": 10,
+  "outbox": "assurance/operator_outbox/programbench/batch001_import_scan/manifest.json",
+  "approvals_granted": 0,
+  "execution_authorized": false,
+  "training_eligible": false,
+  "does_not_prove": "Templates are not live operator packets, approvals, imports, scans, execution authority, or training rows."
+}

@@ -1,0 +1,76 @@
+{
+  "artifact_paths": {
+    "approval_resolution": "assurance/evidence/syft_sbom_signed_admission_and_standards_sbom_generation/approval_resolution_20260531.json",
+    "generated_sbom_artifacts_or_blocker": "assurance/evidence/syft_sbom_signed_admission_and_standards_sbom_generation/generated_sbom_artifacts_or_blocker_20260531.json",
+    "license_security_boundary": "assurance/evidence/syft_sbom_signed_admission_and_standards_sbom_generation/license_security_boundary_20260531.json",
+    "next_release_hygiene_queue": "assurance/evidence/syft_sbom_signed_admission_and_standards_sbom_generation/next_release_hygiene_queue_20260531.json",
+    "sbom_coverage_report": "assurance/evidence/syft_sbom_signed_admission_and_standards_sbom_generation/sbom_coverage_report_20260531.json",
+    "signed_approval_request": "assurance/evidence/syft_sbom_signed_admission_and_standards_sbom_generation/signed_approval_request_20260531.json",
+    "tool_admission_record": "assurance/evidence/syft_sbom_signed_admission_and_standards_sbom_generation/tool_admission_record_20260531.json"
+  },
+  "authority": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "launch_readiness_granted": false,
+    "production_readiness_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_readiness_granted": false,
+    "release_ready": false,
+    "release_supported": false,
+    "source_mutation_authorized": false,
+    "support_depth_promotion_granted": false,
+    "training_eligible": false,
+    "training_rows_written": false,
+    "universal_support_claimed": false
+  },
+  "claim_boundary": {
+    "authority": {
+      "approval_authority_granted": false,
+      "artifact_import_authorized": false,
+      "benchmark_execution_authorized": false,
+      "broad_claims_granted": false,
+      "launch_readiness_granted": false,
+      "production_readiness_granted": false,
+      "programbench_execution_authorized": false,
+      "proof_execution_authority_granted": false,
+      "real_user_source_mutation_authorized": false,
+      "release_deploy_workflow_created": false,
+      "release_readiness_granted": false,
+      "release_ready": false,
+      "release_supported": false,
+      "source_mutation_authorized": false,
+      "support_depth_promotion_granted": false,
+      "training_eligible": false,
+      "training_rows_written": false,
+      "universal_support_claimed": false
+    },
+    "boundaries": [
+      "Wave 006 records exact-cell proof only.",
+      "No launch, release, production, open availability, source mutation, proof execution, training, or universal support authority is granted.",
+      "Installer, driver, GUI, SBOM, and network actions require exact signed approval before execution.",
+      "Blocked lanes emit executable next packets instead of pretending success."
+    ]
+  },
+  "doc_path": "docs/DETERMINEX_SYFT_SBOM_SIGNED_ADMISSION_AND_STANDARDS_SBOM_GENERATION_001.md",
+  "lane": "F",
+  "lock_id": "DETERMINEX_SYFT_SBOM_SIGNED_ADMISSION_AND_STANDARDS_SBOM_GENERATION_LOCK_001",
+  "run_record": "assurance/evidence/syft_sbom_signed_admission_and_standards_sbom_generation/run_20260531.SYFT_SBOM_SIGNED_ADMISSION_AND_STANDARDS_SBOM_GENERATION_BLOCKED_ON_OPERATOR_SIGNATURE.json",
+  "status": "SYFT_SBOM_SIGNED_ADMISSION_AND_STANDARDS_SBOM_GENERATION_BLOCKED_ON_OPERATOR_SIGNATURE",
+  "test_modules": [
+    "tests/status/test_syft_sbom_signed_admission_and_standards_sbom_generation_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "no_broad_claims": true,
+      "no_training_rows": true
+    },
+    "passed": true
+  }
+}

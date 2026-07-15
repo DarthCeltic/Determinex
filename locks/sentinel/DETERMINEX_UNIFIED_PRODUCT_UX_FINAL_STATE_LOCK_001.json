@@ -1,0 +1,68 @@
+{
+  "lock_id": "DETERMINEX_UNIFIED_PRODUCT_UX_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Finale of DETERMINEX_UNIFIED_PRODUCT_UX_SHELL_SERIES. Asserts all eight UX-shell dimensions are closed (navigation model, idea_lab workflow, repo_clinic workflow, maintenance_bay workflow, learning_studio workflow, proof_operator_center view-model, user_levels & teaching windows, splash demo spec) AND none of them opens source_mutation_authorized or training_eligible AND none of them opens unsupported-claim keys (all_apps_claim, all_languages_claim, all_codebases_claim, no_followup_claim, production_ready_arbitrary_apps_claim, training_enabled_in_demo). Evaluator at scripts/repair/unified_product_ux_final_state.evaluate reads each prior rung's lock manifest and evidence artifact on disk; never runs a runtime gate. release_ready stays False (public-release scrub/install/demo workflow is a future rung); demo_ready is implicit from the splash demo spec being closed.",
+  "purpose": "Rung 9 (finale) of DETERMINEX_UNIFIED_PRODUCT_UX_SHELL_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001",
+    "DETERMINEX_IDEA_LAB_WORKFLOW_LOCK_001",
+    "DETERMINEX_REPO_CLINIC_WORKFLOW_LOCK_001",
+    "DETERMINEX_MAINTENANCE_BAY_WORKFLOW_LOCK_001",
+    "DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001",
+    "DETERMINEX_PROOF_OPERATOR_CENTER_VIEWMODEL_LOCK_001",
+    "DETERMINEX_UNIFIED_USER_LEVELS_AND_TEACHING_WINDOWS_LOCK_001",
+    "DETERMINEX_UNIFIED_PRODUCT_SPLASH_DEMO_SPEC_LOCK_001"
+  ],
+  "tests": 13,
+  "test_modules": ["tests/repair/test_unified_product_ux_final_state_lock.py"],
+  "status_tokens": [
+    "UNIFIED_PRODUCT_UX_FINAL_STATE_PASSED",
+    "UNIFIED_PRODUCT_UX_FINAL_STATE_BLOCKED_MISSING_RUNG",
+    "UNIFIED_PRODUCT_UX_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
+  ],
+  "ux_shell_dimensions": {
+    "navigation_model": "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001",
+    "idea_lab_workflow": "DETERMINEX_IDEA_LAB_WORKFLOW_LOCK_001",
+    "repo_clinic_workflow": "DETERMINEX_REPO_CLINIC_WORKFLOW_LOCK_001",
+    "maintenance_bay_workflow": "DETERMINEX_MAINTENANCE_BAY_WORKFLOW_LOCK_001",
+    "learning_studio_workflow": "DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001",
+    "proof_operator_center_viewmodel": "DETERMINEX_PROOF_OPERATOR_CENTER_VIEWMODEL_LOCK_001",
+    "user_levels_teaching_windows": "DETERMINEX_UNIFIED_USER_LEVELS_AND_TEACHING_WINDOWS_LOCK_001",
+    "splash_demo_spec": "DETERMINEX_UNIFIED_PRODUCT_SPLASH_DEMO_SPEC_LOCK_001"
+  },
+  "campaign_terminal_state": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "release_ready": false,
+    "demo_ready_as_spec": true,
+    "unified_ux_shell_ready_as_model": true,
+    "real_react_mount_pending": true,
+    "unsupported_claims_blocked": true,
+    "dimensions_closed": 8,
+    "rungs_completed": 9
+  },
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false,
+    "all_codebases_claim": false,
+    "no_followup_claim": false,
+    "production_ready_arbitrary_apps_claim": false,
+    "training_enabled_in_demo": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_unified_product_ux_final_state/run_20260528.json"
+  },
+  "remediates_finding": "DETERMINEX_UNIFIED_PRODUCT_UX_SHELL_SERIES_FINAL_STATE",
+  "next_recommended_lock": null
+}

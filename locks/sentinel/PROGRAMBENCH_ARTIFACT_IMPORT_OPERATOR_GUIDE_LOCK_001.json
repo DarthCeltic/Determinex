@@ -1,0 +1,30 @@
+{
+  "lock_id": "PROGRAMBENCH_ARTIFACT_IMPORT_OPERATOR_GUIDE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Write an operator-facing guide and machine-readable checklist for supplying exact artifact import provenance for the 10 Batch001 metadata-admitted ProgramBench targets.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_LOCK_001",
+    "PROGRAMBENCH_BATCH001_OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_LOCK_001",
+    "PROGRAMBENCH_COMMIT_PROVENANCE_REPAIR_AUDIT_LOCK_001"
+  ],
+  "status": "ARTIFACT_IMPORT_OPERATOR_GUIDE_WRITTEN",
+  "record": "assurance/evidence/programbench_artifact_import_operator_guide/run_20260528.ARTIFACT_IMPORT_OPERATOR_GUIDE_WRITTEN.json",
+  "docs": "docs/PROGRAMBENCH_ARTIFACT_IMPORT_OPERATOR_GUIDE.md",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_artifact_import_operator_guide_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_artifact_import_operator_guide_lock.py",
+    "passed": 6,
+    "failed": 0
+  },
+  "targets_documented": 10,
+  "doxygen_included": false,
+  "artifact_import_authorized": false,
+  "scan_authorized": false,
+  "execution_performed": false,
+  "training_rows_written": false,
+  "next_unblocker": "SUPPLY_OPERATOR_ARTIFACT_IMPORT_PACKETS_FOR_BATCH001",
+  "does_not_prove": "Does not import artifacts, scan artifacts, approve packets, run Docker, run ProgramBench, mark cache_ready, mark executable, or create training data."
+}

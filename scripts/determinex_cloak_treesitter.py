@@ -1,0 +1,438 @@
+"""
+scripts/determinex_cloak_treesitter.py — Real AST identifier extraction via tree-sitter
+
+Replaces regex-based _build_cloak_context_regex in determinex_cloak.py with
+proper parse-tree traversal for Rust, Java, Ruby, PHP, C, C++, Go, TypeScript,
+and JavaScript.  Python continues to use the stdlib ast module.
+
+Architecture:
+  - Lazy-load language grammars (one Parser per language, cached for the process)
+  - Per-language S-expression queries target definition-site nodes only
+  - Same safe-list + single-char + dunder filters as the Python path
+  - Falls back gracefully if tree-sitter can't parse a file (partial results kept)
+
+API used (tree-sitter 0.24+):
+    q  = Query(lang, query_str)              # compile
+    m  = QueryCursor(q).matches(root_node)   # execute → [(pat_idx, {name: [Node]})]
+
+Import contract (called from determinex_cloak.py):
+    from determinex_cloak_treesitter import (
+        extract_treesitter_identifiers,   # (source_bytes, language, safe) → frozenset
+        TS_SUPPORTED_LANGUAGES,           # frozenset of language names
+        resolve_python_star_imports,      # (py_files, repo_root, safe, collector)
+    )
+"""
+from __future__ import annotations
+
+import logging
+import re
+from pathlib import Path
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from tree_sitter import Language, Parser, Query
+
+log = logging.getLogger("determinex_cloak")
+
+TS_SUPPORTED_LANGUAGES: frozenset[str] = frozenset([
+    "rust", "java", "ruby", "php", "c", "cpp",
+    "go", "typescript", "javascript",
+])
+
+# ── grammar language object loaders ───────────────────────────────────────────
+
+def _load_language_obj(language: str):
+    """Return the raw tree-sitter language binding object, or None."""
+    try:
+        if language == "rust":
+            import tree_sitter_rust as m; return m.language()
+        if language == "java":
+            import tree_sitter_java as m; return m.language()
+        if language == "ruby":
+            import tree_sitter_ruby as m; return m.language()
+        if language == "php":
+            import tree_sitter_php as m; return m.language_php()
+        if language == "c":
+            import tree_sitter_c as m; return m.language()
+        if language in ("cpp", "c++"):
+            import tree_sitter_cpp as m; return m.language()
+        if language == "go":
+            import tree_sitter_go as m; return m.language()
+        if language in ("typescript", "ts"):
+            import tree_sitter_typescript as m; return m.language_typescript()
+        if language in ("javascript", "js"):
+            import tree_sitter_javascript as m; return m.language()
+    except Exception as e:
+        log.debug("tree-sitter grammar not available for %s: %s", language, e)
+    return None
+
+
+# ── per-language definition-site queries (verified against tree-sitter 0.25.x) ──
+# Queries use tree-sitter S-expression syntax.
+# `name: (node_type)` uses the grammar's named field where available.
+# Each capture is named @n and collected into frozenset[str].
+
+_QUERIES: dict[str, str] = {
+    "rust": """
+        (function_item name: (identifier) @n)
+        (struct_item name: (type_identifier) @n)
+        (enum_item name: (type_identifier) @n)
+        (trait_item name: (type_identifier) @n)
+        (impl_item type: (type_identifier) @n)
+        (type_item name: (type_identifier) @n)
+        (const_item name: (identifier) @n)
+        (static_item name: (identifier) @n)
+        (mod_item name: (identifier) @n)
+        (field_declaration name: (field_identifier) @n)
+        (enum_variant name: (identifier) @n)
+        (let_declaration pattern: (identifier) @n)
+    """,
+
+    "java": """
+        (class_declaration name: (identifier) @n)
+        (interface_declaration name: (identifier) @n)
+        (enum_declaration name: (identifier) @n)
+        (record_declaration name: (identifier) @n)
+        (annotation_type_declaration name: (identifier) @n)
+        (method_declaration name: (identifier) @n)
+        (constructor_declaration name: (identifier) @n)
+        (variable_declarator name: (identifier) @n)
+    """,
+
+    "ruby": """
+        (method name: (identifier) @n)
+        (singleton_method name: (identifier) @n)
+        (class name: (constant) @n)
+        (module name: (constant) @n)
+    """,
+
+    "php": """
+        (function_definition name: (name) @n)
+        (method_declaration name: (name) @n)
+        (class_declaration name: (name) @n)
+        (interface_declaration name: (name) @n)
+        (trait_declaration name: (name) @n)
+        (property_element (variable_name (name) @n))
+    """,
+
+    "c": """
+        (function_definition
+          declarator: (function_declarator
+            declarator: (identifier) @n))
+        (declaration
+          declarator: (function_declarator
+            declarator: (identifier) @n))
+        (struct_specifier name: (type_identifier) @n)
+        (union_specifier name: (type_identifier) @n)
+        (enum_specifier name: (type_identifier) @n)
+        (type_definition declarator: (type_identifier) @n)
+    """,
+
+    "cpp": """
+        (function_definition
+          declarator: (function_declarator
+            declarator: (identifier) @n))
+        (function_definition
+          declarator: (function_declarator
+            declarator: (qualified_identifier name: (identifier) @n)))
+        (declaration
+          declarator: (function_declarator
+            declarator: (identifier) @n))
+        (struct_specifier name: (type_identifier) @n)
+        (class_specifier name: (type_identifier) @n)
+        (union_specifier name: (type_identifier) @n)
+        (enum_specifier name: (type_identifier) @n)
+        (namespace_definition (namespace_identifier) @n)
+        (type_definition declarator: (type_identifier) @n)
+        (field_declaration declarator: (field_identifier) @n)
+    """,
+
+    "go": """
+        (function_declaration name: (identifier) @n)
+        (method_declaration name: (field_identifier) @n)
+        (type_spec name: (type_identifier) @n)
+        (var_spec name: (identifier) @n)
+        (const_spec name: (identifier) @n)
+        (short_var_declaration
+          left: (expression_list (identifier) @n))
+    """,
+
+    "typescript": """
+        (function_declaration name: (identifier) @n)
+        (class_declaration name: (type_identifier) @n)
+        (interface_declaration name: (type_identifier) @n)
+        (type_alias_declaration name: (type_identifier) @n)
+        (enum_declaration name: (identifier) @n)
+        (method_definition name: (property_identifier) @n)
+        (variable_declarator name: (identifier) @n)
+        (lexical_declaration
+          (variable_declarator name: (identifier) @n))
+    """,
+
+    "javascript": """
+        (function_declaration name: (identifier) @n)
+        (generator_function_declaration name: (identifier) @n)
+        (class_declaration name: (identifier) @n)
+        (method_definition name: (property_identifier) @n)
+        (variable_declarator name: (identifier) @n)
+        (lexical_declaration
+          (variable_declarator name: (identifier) @n))
+    """,
+}
+
+# ── caches (process-level) ────────────────────────────────────────────────────
+
+_LANG_OBJECTS: dict[str, Language | None] = {}
+_PARSERS: dict[str, Parser | None] = {}
+_COMPILED_QUERIES: dict[str, Query | None] = {}
+
+_SINGLE_CHAR = re.compile(r'^[a-zA-Z_]$')
+_DUNDER = re.compile(r'^__[a-zA-Z_][a-zA-Z0-9_]*__$')
+
+
+def _get_lang_and_parser(language: str):
+    """Return (Language, Parser) pair, or (None, None) on failure."""
+    if language not in _PARSERS:
+        try:
+            from tree_sitter import Language, Parser  # type: ignore[import]
+            raw = _load_language_obj(language)
+            if raw is None:
+                _PARSERS[language] = None
+                _LANG_OBJECTS[language] = None
+            else:
+                lang_obj = Language(raw)
+                _LANG_OBJECTS[language] = lang_obj
+                _PARSERS[language] = Parser(lang_obj)
+        except Exception as e:
+            log.debug("tree-sitter init failed (%s): %s", language, e)
+            _PARSERS[language] = None
+            _LANG_OBJECTS[language] = None
+    return _LANG_OBJECTS.get(language), _PARSERS.get(language)
+
+
+def _get_query(language: str):
+    """Return a compiled Query for the language, or None."""
+    if language in _COMPILED_QUERIES:
+        return _COMPILED_QUERIES[language]
+    lang_obj, _ = _get_lang_and_parser(language)
+    if lang_obj is None:
+        _COMPILED_QUERIES[language] = None
+        return None
+    query_src = _QUERIES.get(language, "").strip()
+    if not query_src:
+        _COMPILED_QUERIES[language] = None
+        return None
+    try:
+        from tree_sitter import Query  # type: ignore[import]
+        q = Query(lang_obj, query_src)
+        _COMPILED_QUERIES[language] = q
+        return q
+    except Exception as e:
+        log.warning("tree-sitter query compile failed (%s): %s", language, e)
+        _COMPILED_QUERIES[language] = None
+        return None
+
+
+# ── main extraction function ──────────────────────────────────────────────────
+
+def extract_treesitter_identifiers(
+    source: str | bytes,
+    language: str,
+    safe: frozenset[str],
+) -> frozenset[str]:
+    """
+    Parse source with tree-sitter and return definition-site private identifiers.
+
+    Parameters
+    ----------
+    source:   str or bytes — source text of the file
+    language: language key matching TS_SUPPORTED_LANGUAGES
+    safe:     frozenset of known-safe names (stdlib, builtins, framework APIs)
+
+    Returns
+    -------
+    frozenset[str] of private identifiers not in safe.
+    Returns empty frozenset on parse failure (caller should fall back to regex).
+    """
+    _, parser = _get_lang_and_parser(language)
+    query = _get_query(language)
+    if parser is None or query is None:
+        return frozenset()
+
+    raw = source if isinstance(source, bytes) else source.encode("utf-8", errors="replace")
+    try:
+        tree = parser.parse(raw)
+    except Exception as e:
+        log.debug("tree-sitter parse failed (%s): %s", language, e)
+        return frozenset()
+
+    try:
+        from tree_sitter import QueryCursor  # type: ignore[import]
+        matches = list(QueryCursor(query).matches(tree.root_node))
+    except Exception as e:
+        log.debug("tree-sitter query exec failed (%s): %s", language, e)
+        return frozenset()
+
+    found: set[str] = set()
+    for _pat_idx, capture_dict in matches:
+        for nodes in capture_dict.values():
+            for node in nodes:
+                name = raw[node.start_byte:node.end_byte].decode("utf-8", errors="replace")
+                _filter_add(name, safe, language, found)
+
+    return frozenset(found)
+
+
+def _filter_add(name: str, safe: frozenset[str], language: str, found: set[str]) -> None:
+    """Apply safe-list, length, and shape filters — mirrors the Python AST path."""
+    name = name.strip()
+    if not name or len(name) < 2:
+        return
+    if _SINGLE_CHAR.match(name):
+        return
+    if _DUNDER.match(name):
+        return
+    # PHP: strip leading $ from variable names
+    if name.startswith("$"):
+        name = name[1:]
+        if not name or len(name) < 2:
+            return
+    # Go: exported names start with uppercase — they're the public API, not proprietary.
+    # Unexported (lowercase) are the private identifiers we want to obfuscate.
+    if language == "go" and name and name[0].isupper():
+        return
+    if name in safe:
+        return
+    found.add(name)
+
+
+# ── Python star-import resolution ─────────────────────────────────────────────
+
+def resolve_python_star_imports(
+    py_files: list[Path],
+    repo_path: Path,
+    safe_names: frozenset[str],
+    collector,   # _IdentifierCollector instance from determinex_cloak
+) -> list[str]:
+    """
+    Fix the star-import privacy hole:
+
+    For each `from module import *` found in py_files, if the module resolves
+    to a file within repo_path, parse it and add its exported identifiers to
+    collector.found (same as if those names had been defined in-place).
+
+    Previously these names leaked to the cloud API uncloaked.  After this fix
+    they're obfuscated along with everything else.
+
+    Returns list of warning strings for modules that couldn't be resolved
+    (still external / third-party).
+    """
+    import ast as _ast
+    resolved_modules: set[Path] = set()  # avoid double-parsing
+    unresolved: list[str] = []
+
+    for py_file in py_files:
+        try:
+            source = py_file.read_text(encoding="utf-8", errors="ignore")
+            tree = _ast.parse(source, filename=str(py_file))
+        except Exception:
+            continue
+
+        for node in _ast.walk(tree):
+            if not isinstance(node, _ast.ImportFrom):
+                continue
+            if not any(alias.name == "*" for alias in node.names):
+                continue
+
+            module_name = node.module or ""
+            level = node.level  # 0=absolute, 1+=relative
+
+            resolved = _resolve_module_path(
+                module_name, level, py_file.parent, repo_path
+            )
+
+            if resolved is None or resolved in resolved_modules:
+                if resolved is None:
+                    rel = py_file.relative_to(repo_path) if py_file.is_relative_to(repo_path) else py_file
+                    unresolved.append(f"{rel}: from {module_name} import *")
+                continue
+
+            resolved_modules.add(resolved)
+            try:
+                src = resolved.read_text(encoding="utf-8", errors="ignore")
+                mod_tree = _ast.parse(src, filename=str(resolved))
+
+                all_names = _extract_dunder_all(mod_tree)
+                if all_names is not None:
+                    # Module defines __all__: only those names are exported
+                    for name in all_names:
+                        collector._add(name)
+                else:
+                    # No __all__: all top-level public definitions are exported.
+                    # Re-use the same collector type from determinex_cloak.
+                    try:
+                        from determinex_cloak import _IdentifierCollector  # type: ignore[import]
+                    except ImportError:
+                        continue
+                    sub = _IdentifierCollector(safe_names)
+                    sub.visit(mod_tree)
+                    for name in sub.found:
+                        collector._add(name)
+
+                log.debug("Star-import: resolved %s → %d names added",
+                          resolved.name, len(all_names or []))
+            except Exception as e:
+                log.debug("Star-import: failed to parse %s: %s", resolved, e)
+
+    return unresolved
+
+
+def _resolve_module_path(
+    module_name: str,
+    level: int,
+    file_dir: Path,
+    repo_root: Path,
+) -> Optional[Path]:
+    """
+    Attempt to resolve a Python module reference to a .py file within repo_root.
+    Returns None if external or cannot be found.
+    """
+    parts = module_name.split(".") if module_name else []
+
+    if level > 0:
+        # Relative import: walk up `level - 1` directories
+        base = file_dir
+        for _ in range(level - 1):
+            base = base.parent
+        if parts:
+            candidate = base.joinpath(*parts)
+        else:
+            candidate = base
+    else:
+        # Absolute import from repo root
+        if not parts:
+            return None
+        candidate = repo_root.joinpath(*parts)
+
+    for suffix in (candidate.with_suffix(".py"), candidate / "__init__.py"):
+        try:
+            if suffix.exists() and suffix.is_relative_to(repo_root):
+                return suffix
+        except Exception:
+            pass
+    return None
+
+
+def _extract_dunder_all(tree) -> Optional[list[str]]:
+    """Return __all__ contents as list[str], or None if not defined / not literal."""
+    import ast as _ast
+    for node in _ast.walk(tree):
+        if not isinstance(node, _ast.Assign):
+            continue
+        if any(isinstance(t, _ast.Name) and t.id == "__all__" for t in node.targets):
+            if isinstance(node.value, (_ast.List, _ast.Tuple)):
+                return [
+                    elt.value for elt in node.value.elts
+                    if isinstance(elt, _ast.Constant) and isinstance(elt.value, str)
+                ]
+    return None

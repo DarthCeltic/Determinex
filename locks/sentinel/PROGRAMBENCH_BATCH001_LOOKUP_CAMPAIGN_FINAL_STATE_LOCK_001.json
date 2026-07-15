@@ -1,0 +1,31 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_LOOKUP_CAMPAIGN_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Write final state for the Batch001 safe manifest lookup campaign.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_SAFE_REGISTRY_MANIFEST_CLIENT_LOCK_001",
+    "PROGRAMBENCH_BATCH001_LIVE_MANIFEST_METADATA_LOOKUP_LOCK_001",
+    "PROGRAMBENCH_BATCH001_METADATA_DIGEST_ADMISSION_FROM_LIVE_LOOKUP_LOCK_001",
+    "PROGRAMBENCH_BATCH001_POST_LOOKUP_STATE_REFRESH_LOCK_001",
+    "PROGRAMBENCH_BATCH001_IMPORT_SCAN_PLANNING_LOCK_001",
+    "PROGRAMBENCH_BATCH001_OPERATOR_PACKET_REFRESH_AFTER_LOOKUP_LOCK_001"
+  ],
+  "status": "BATCH001_LOOKUP_CAMPAIGN_FINAL_STATE_WRITTEN",
+  "record": "assurance/evidence/programbench_batch001_lookup_campaign_final_state/programbench_batch001_lookup_campaign_final_state_run_20260528.BATCH001_LOOKUP_CAMPAIGN_FINAL_STATE_WRITTEN.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py",
+    "passed": 8,
+    "failed": 0
+  },
+  "targets_attempted": 10,
+  "manifests_found": 10,
+  "digests_admitted_metadata_only": 10,
+  "now_need_import_scan": 10,
+  "execution_performed": false,
+  "training_rows_written": false,
+  "does_not_prove": "Does not prove import, scan, execution authorization, official score availability, cache readiness, or training eligibility."
+}

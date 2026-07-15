@@ -1,0 +1,70 @@
+{
+  "lock_id": "REAL_REPAIR_FLOW_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Final state for the real repair flow campaign. Consolidates the 10 upstream rungs into a single RealRepairFlowFinalState. Source mutation is now possible — but only behind real human approval + temp verifier + rollback snapshot + source/diff hash binding + post-apply verifier + rollback-on-fail. Training eligibility remains BLOCKED by default. Network providers blocked. No Docker. No release workflow.",
+  "purpose": "Campaign finale for the real local-model + real human-approval source-apply path.",
+  "depends_on_locks": [
+    "REAL_OLLAMA_PROVIDER_DETECTION_LOCK_001",
+    "REAL_LOCAL_MODEL_ADMISSION_LOCK_001",
+    "REAL_LIVE_DIAGNOSE_ONLY_LOCK_001",
+    "REAL_PATCH_PLAN_QUARANTINE_LOCK_001",
+    "REAL_TEMP_PATCH_VERIFY_LOCK_001",
+    "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001",
+    "SOURCE_MUTATION_ROLLBACK_SNAPSHOT_LOCK_001",
+    "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+    "POST_APPLY_VERIFIER_LOCK_001",
+    "SOURCE_MUTATION_ROLLBACK_EXECUTION_LOCK_001"
+  ],
+  "tests": 18,
+  "passed_on_this_host": 18,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/dev/test_real_repair_flow_final_state_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_REPAIR_FLOW_FINAL_STATE_WRITTEN",
+    "REAL_LOCAL_MODEL_PROVIDER_READY_OR_BLOCKED_WITH_REASON",
+    "REAL_MODEL_ADMISSION_READY_OPT_IN",
+    "LIVE_DIAGNOSE_READY_ADVISORY_ONLY",
+    "PATCH_PLAN_QUARANTINE_READY",
+    "TEMP_PATCH_VERIFIER_READY_HUMAN_APPROVAL_REQUIRED",
+    "HUMAN_APPROVAL_READY_REAL_SIGNED_ONLY",
+    "ROLLBACK_SNAPSHOT_READY",
+    "SOURCE_APPLY_AFTER_APPROVAL_READY_GATED",
+    "POST_APPLY_VERIFIER_READY",
+    "ROLLBACK_STATUS_READY_ON_FAIL",
+    "SOURCE_MUTATION_GATED_BY_REAL_APPROVAL",
+    "TRAINING_ELIGIBILITY_BLOCKED_BY_DEFAULT",
+    "RELEASE_READINESS_NOT_RELEASED",
+    "NEXT_UNBLOCKER_DECLARED"
+  ],
+  "final_dimensions": {
+    "real_local_model_provider": "READY_OR_BLOCKED_WITH_REASON",
+    "real_model_admission": "READY_OPT_IN",
+    "live_diagnose": "READY_ADVISORY_ONLY",
+    "patch_plan_quarantine": "READY",
+    "temp_patch_verifier": "READY_HUMAN_APPROVAL_REQUIRED",
+    "human_approval": "READY_REAL_SIGNED_ONLY",
+    "rollback_snapshot": "READY",
+    "source_apply_after_approval": "READY_GATED",
+    "post_apply_verifier": "READY",
+    "rollback_status": "READY_ON_FAIL",
+    "source_mutation": "GATED_BY_REAL_APPROVAL",
+    "training_eligibility": "BLOCKED_BY_DEFAULT",
+    "release_readiness": "NOT_RELEASED",
+    "next_unblocker": "REAL_BUILD_ADAPTER_BACKED_VERIFIER_AND_REAL_LOCAL_MODEL_PULLED"
+  },
+  "scope_discipline": {
+    "training_eligibility_opened": false,
+    "training_row_written": false,
+    "network_provider_admitted": false,
+    "docker_used": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_repair_flow_final_state/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_BUILD_ADAPTER_BACKED_VERIFIER_AND_REAL_LOCAL_MODEL_PULLED"
+}

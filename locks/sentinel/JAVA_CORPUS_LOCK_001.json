@@ -1,0 +1,48 @@
+{
+  "lock_id": "JAVA_CORPUS_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 7,
+  "passed": 7,
+  "failed": 0,
+  "test_modules": [
+    "tests/corpus/test_java_junit_trace_signed.py"
+  ],
+  "coverage": [
+    "schema_version_on_record",
+    "hmac_signature_present",
+    "hmac_signature_verifies",
+    "tampered_record_fails_verification",
+    "java_metadata_preserved",
+    "corpus_type_code_verdict",
+    "different_records_different_signatures"
+  ],
+  "corpus_record_spec": {
+    "schema_version": "determinex-agent-trace-v1",
+    "signing_algorithm": "BLAKE2b-256 HMAC",
+    "canonical_form": "sorted-key JSON",
+    "signature_field": "_sig",
+    "minimum_sig_length": 32
+  },
+  "java_metadata_fields": [
+    "language",
+    "build_system",
+    "framework",
+    "failure_type",
+    "failing_test",
+    "error_message",
+    "mutated_file",
+    "original_snippet",
+    "repair_patch",
+    "validator",
+    "verdict"
+  ],
+  "implementations": [
+    "corpus/corpus_manager.py",
+    "scripts/corpus/code_ingest/java_task_extractor.py",
+    "scripts/corpus/code_ingest/maven_project_indexer.py",
+    "scripts/corpus/code_ingest/gradle_project_indexer.py",
+    "scripts/corpus/code_ingest/junit_harness_builder.py"
+  ],
+  "previous_lock": "CORPUS_LICENSE_LOCK_001"
+}

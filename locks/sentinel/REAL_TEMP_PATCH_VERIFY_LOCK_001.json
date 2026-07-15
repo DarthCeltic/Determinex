@@ -1,0 +1,39 @@
+{
+  "lock_id": "REAL_TEMP_PATCH_VERIFY_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real temp-patch apply + verify. Stages a copy of the original workspace into a temp root, applies the quarantined plan there, and runs the verifier. Original source is NEVER written — pre/post sha256 hashes of the original tree are captured as a defense-in-depth invariant. PASS sets human_approval_required=True; FAIL blocks. Verifier callable is pluggable; default is the locked stub_verifier_pass.",
+  "purpose": "Rung 5 of the real repair flow campaign.",
+  "depends_on_locks": [
+    "REAL_PATCH_PLAN_QUARANTINE_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+    "LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001"
+  ],
+  "tests": 12,
+  "passed_on_this_host": 12,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_real_temp_patch_verify_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_TEMP_PATCH_VERIFIER_PASSED",
+    "REAL_TEMP_PATCH_VERIFIER_FAILED",
+    "REAL_TEMP_PATCH_SOURCE_UNCHANGED",
+    "REAL_TEMP_PATCH_HUMAN_APPROVAL_REQUIRED",
+    "REAL_TEMP_PATCH_BLOCKED_NOT_QUARANTINED",
+    "REAL_TEMP_PATCH_BLOCKED_APPLY_REJECTED"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "release_workflow_added": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_temp_patch_verify/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001"
+}

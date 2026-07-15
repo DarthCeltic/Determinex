@@ -1,0 +1,71 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_016_local_preview_promotion_full_gate_claude_review_001/claim_boundary_20260614.json",
+    "codex_deltas": "assurance/evidence/wave_016_local_preview_promotion_full_gate_claude_review_001/codex_deltas_20260614.json",
+    "per_package_full_gate_matrix": "assurance/evidence/wave_016_local_preview_promotion_full_gate_claude_review_001/per_package_full_gate_matrix_20260614.json",
+    "risks": "assurance/evidence/wave_016_local_preview_promotion_full_gate_claude_review_001/risks_20260614.json",
+    "verdict": "assurance/evidence/wave_016_local_preview_promotion_full_gate_claude_review_001/verdict_20260614.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "0/3 packages satisfy full local-preview gates; 3/3 Codex prior promotions superseded",
+  "claim_boundary": [
+    "Wave 016 Claude reviews are CANONICAL-PROMOTION + HARD-EXECUTION-FLOOR attack audits.",
+    "Headline questions: (1) did Codex fix the canonical promotion authority structural problem from Wave 015? (2) did Codex cross any hard execution floor?",
+    "Claude rejects: canonical constant in Codex module as canonical truth / second constant renamed CANONICAL as canonical truth / conveyor not bound to source / signoff schema not enforced by promotion / proof-report anchor pointing only to narrative / local-preview proof as release-supported without gates / release-supported cell as family support / public package as local-preview package / packet as signed authority / signed authority as spent authority / admission as execution / SBOM packet as artifact / GUI packet as visual proof / local simulation as clean host / linter text as CI enforcement / score rise without evidence-delta.",
+    "Standard: single canonical source beats packet promotion; verifier signoff beats status wording; conveyor binding beats narrative; drift CI beats manual audit; signed spend beats approval packets.",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Installer, driver, GUI, SBOM, training, and network actions remain gated on REAL signed operator approval consumed at executor entry.",
+    "Canonical release-supported cells = 10. Release-supported families = 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-14",
+  "doc": "docs/DETERMINEX_WAVE016_LOCAL_PREVIEW_PROMOTION_FULL_GATE_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_016_claude_lane_L10",
+  "gulp_wave_id": "016",
+  "is_canonical_promotion_and_hard_floor_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "lane": "L10",
+  "lock_id": "DETERMINEX_WAVE016_LOCAL_PREVIEW_PROMOTION_FULL_GATE_CLAUDE_REVIEW_001",
+  "purpose": "Wave 016 Claude Lane L10. Per package: wheel/PEP517 + isolated install + installed entry point + source-tree leakage rejection + detector + fixture + 3 verifier signoffs + fake-transcript rejection + proof-report anchor + metadata + local-preview boundary + score evidence-delta + canonical release-supported status. Per-package verdict.",
+  "record": "assurance/evidence/wave_016_local_preview_promotion_full_gate_claude_review_001/run_20260614.WAVE016_LOCAL_PREVIEW_PROMOTION_FULL_GATE_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE016_LOCAL_PREVIEW_PROMOTION_FULL_GATE_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_016_local_preview_promotion_full_gate_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant": true,
+      "release_supported_families_invariant": true
+    },
+    "passed": true
+  },
+  "verdict": "PER_PACKAGE: canonical_release_supported_exact_cell=0 / local_preview_proven_not_release_supported=3 / noncanonical_prior_claim_superseded=3. 0/3 satisfy full local-preview gates."
+}

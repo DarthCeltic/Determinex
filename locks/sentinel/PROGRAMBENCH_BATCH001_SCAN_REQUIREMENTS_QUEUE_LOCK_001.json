@@ -1,0 +1,39 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_SCAN_REQUIREMENTS_QUEUE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Generate scan/import requirements for Batch001 targets with admitted metadata digests before any execution.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_MANIFEST_DIGEST_ADMISSION_LOCK_001"
+  ],
+  "status": "SCAN_REQUIREMENTS_BLOCKED_NO_DIGEST",
+  "record": "assurance/evidence/programbench_batch001_scan_requirements_queue/programbench_batch001_scan_requirements_queue_run_20260528.SCAN_REQUIREMENTS_BLOCKED_NO_DIGEST.json",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_batch001_metadata_campaign_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "execution_performed": false,
+  "docker_pull_performed": false,
+  "training_rows_written": false,
+  "does_not_prove": "Does not authorize import, scan, hydration, execution, or training.",
+  "full_suite": {
+    "module": "tests/corpus/programbench",
+    "passed": 381,
+    "failed": 0
+  },
+  "related_stack": {
+    "modules": [
+      "tests/corpus/test_programbench_online_artifact_discovery_lock.py",
+      "tests/corpus/test_programbench_online_provider_registry_lock.py",
+      "tests/corpus/test_programbench_replay_hydration_lock.py",
+      "tests/corpus/test_programbench_replay_image_hydration_lock.py",
+      "tests/corpus/test_programbench_replay_verifier_lock.py",
+      "tests/corpus/test_programbench_root_disambiguation_lock.py",
+      "tests/corpus/test_programbench_task_root_resolution_lock.py"
+    ],
+    "passed": 62,
+    "failed": 0,
+    "skipped": 1
+  }
+}

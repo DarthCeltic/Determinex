@@ -1,0 +1,81 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/rvrep_claude_changed_source_files_review_001/claim_boundary_20260601N.json",
+    "verdict": "assurance/evidence/rvrep_claude_changed_source_files_review_001/verdict_20260601N.json"
+  },
+  "audit_pass": true,
+  "blocked": false,
+  "blocked_reason": "verified",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "RV-repair Claude review = TIMER+STABILITY GATED REPAIR+VERIFICATION+ACCOUNTING.",
+    "Reviewed commit: 96368312fce162c80091f659809256039cf81f60. Marker (successor): c68450db3e1c8481debae156beb15b13161a9a2f.",
+    "Claude rejects: test/verifier/binary/lint-config mutation, ESLint rule weakening, suppression-instead-of-repair, lockfile change without spend, failed reported as passed, Tier-1 promotion without canonical evidence, universal-accounting framed as support claim, score inflation, second protected action, SBOM/clean-host/GUI/installer execution.",
+    "Standard: lint+test+build+smoke ALL PASSED on retry. 3 frontend components repaired (only). Tier-1 PROMOTED 8/10→9/10 local + 2/10→1/10 typed-blocked. 31 families mapped (4 LV / 12 SM / 5 AR / 5 TM / 4 VR / 1 UN). queue 1→1; spend 1→1. Universal accounting MAPPED not SUPPORT.",
+    "Canonical cells = 10; families = 0."
+  ],
+  "commit": "96368312fce162c80091f659809256039cf81f60",
+  "creates_source_truth": false,
+  "date": "2026-06-01",
+  "doc": "docs/DETERMINEX_RVREP_CLAUDE_CHANGED_SOURCE_FILES_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "rvrep_claude_lane_C",
+  "gulp_wave_id": "rvrep_v1",
+  "head_recheck_protocol_applied": true,
+  "head_stability_check_applied": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_rvrep_review": true,
+  "is_stability_checked_review": true,
+  "is_timer_protocol_gated_review": true,
+  "lane": "C",
+  "lock_id": "DETERMINEX_RVREP_CLAUDE_CHANGED_SOURCE_FILES_REVIEW_001",
+  "marker_validated_before_review": true,
+  "purpose": "RV-repair Claude Lane C. Changed source files = 3 frontend components only.",
+  "record": "assurance/evidence/rvrep_claude_changed_source_files_review_001/run_20260601N.RVREP_CLAUDE_CHANGED_SOURCE_FILES_REVIEW_001_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "reviewed_commit": "96368312fce162c80091f659809256039cf81f60",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "stale_review_avoided": true,
+  "state_classification": "REACT_VITE_REPAIRED_VERIFIED_TIER1_PROMOTED_8_TO_9_LOCAL_ACCOUNTING_MAPPED",
+  "status": "RVREP_CLAUDE_CHANGED_SOURCE_FILES_REVIEW_001_PASSED",
+  "test_modules": [
+    "tests/status/test_rvrep_claude_changed_source_files_review_001.py"
+  ],
+  "timer_protocol_applied": true,
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "head_recheck_protocol_applied": true,
+      "head_stability_check_applied": true,
+      "marker_validated_before_review": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true,
+      "reviewed_commit_set": true,
+      "stale_review_avoided": true,
+      "timer_protocol_applied": true
+    },
+    "passed": true
+  },
+  "verdict": "CHANGED_SOURCE_FILES_VERIFIED — exactly ['frontend/src/components/ide-product-shell/MaintenanceBayPanel.tsx', 'frontend/src/components/ide-product-shell/RepoClinicPanel.tsx', 'frontend/src/components/ide-product-shell/TandemPostClaudeBindingReconciliation005Panel.tsx']."
+}

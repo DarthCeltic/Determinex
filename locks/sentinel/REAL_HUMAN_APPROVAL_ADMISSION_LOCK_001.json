@@ -1,0 +1,43 @@
+{
+  "lock_id": "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real human-approval admission gate. Strictly distinguishes real operator approvals (signature_kind=='real_local_signed', 64-hex signature, non-empty operator) from the fixture path used by tests / UI previews. Refuses stale, diff-mismatch, verifier-not-passed, fixture, and empty-operator approvals. Accepting an approval still leaves source_mutation_authorized=False — the source-apply rung is the only place that flips that.",
+  "purpose": "Rung 6 of the real repair flow campaign.",
+  "depends_on_locks": [
+    "REAL_TEMP_PATCH_VERIFY_LOCK_001",
+    "IDE_HUMAN_APPROVAL_SIGNING_FLOW_LOCK_001",
+    "FRONTEND_APPROVAL_PACKET_ROUNDTRIP_LOCK_001"
+  ],
+  "tests": 16,
+  "passed_on_this_host": 16,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide/test_real_human_approval_admission_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_HUMAN_APPROVAL_ACCEPTED",
+    "REAL_HUMAN_APPROVAL_REQUIRED",
+    "REAL_HUMAN_APPROVAL_REJECTED",
+    "REAL_HUMAN_APPROVAL_BLOCKED_STALE",
+    "REAL_HUMAN_APPROVAL_BLOCKED_DIFF_MISMATCH",
+    "REAL_HUMAN_APPROVAL_BLOCKED_VERIFIER_NOT_PASSED",
+    "REAL_HUMAN_APPROVAL_BLOCKED_FIXTURE",
+    "REAL_HUMAN_APPROVAL_BLOCKED_TRACE_MISMATCH",
+    "REAL_HUMAN_APPROVAL_BLOCKED_OPERATOR_EMPTY",
+    "REAL_HUMAN_APPROVAL_BLOCKED_SIGNATURE_INVALID"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "fixture_approval_admitted": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "codex_lane_files_touched": false,
+    "release_workflow_added": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_human_approval_admission/run_20260528.json"
+  },
+  "next_recommended_lock": "SOURCE_MUTATION_ROLLBACK_SNAPSHOT_LOCK_001"
+}

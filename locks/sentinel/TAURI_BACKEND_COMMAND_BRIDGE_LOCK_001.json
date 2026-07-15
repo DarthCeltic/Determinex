@@ -1,0 +1,43 @@
+{
+  "lock_id": "TAURI_BACKEND_COMMAND_BRIDGE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Stable Python backend bridge API a Tauri (or web/CLI) frontend can consume via FFI/IPC/HTTP. 10 Tauri-style commands wrapping the existing IDEBackendCommandSurface. No Tauri/Rust files are modified; this rung pins the Python API. Includes a presence probe (tauri_app_present) that checks frontend/src-tauri/Cargo.toml without touching it.",
+  "purpose": "Rung 8 of the IDE frontend/approval campaign.",
+  "depends_on_locks": ["IDE_BACKEND_COMMAND_SURFACE_LOCK_001"],
+  "tests": 13,
+  "passed_on_this_host": 13,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_tauri_backend_command_bridge_lock.py"],
+  "status_tokens": [
+    "TAURI_BRIDGE_READY",
+    "TAURI_BRIDGE_BLOCKED_NO_TAURI_APP",
+    "TAURI_BRIDGE_API_STABLE",
+    "TAURI_COMMAND_SOURCE_MUTATION_BLOCKED",
+    "TAURI_COMMAND_TEMP_ONLY",
+    "TAURI_COMMAND_OK",
+    "TAURI_COMMAND_BLOCKED_NOT_OPTED_IN",
+    "TAURI_COMMAND_BLOCKED_NO_MODEL",
+    "TAURI_COMMAND_BLOCKED_UNKNOWN"
+  ],
+  "commands": [
+    "open_workspace",
+    "get_workspace_status",
+    "get_model_route_status",
+    "diagnose_dry_run",
+    "diagnose_live_opt_in",
+    "generate_patch_plan",
+    "verify_temp_patch",
+    "get_human_approval_packet",
+    "source_apply_dry_run",
+    "get_repair_flow_state"
+  ],
+  "scope_discipline": {
+    "tauri_rust_modified": false,
+    "user_source_mutated": false,
+    "live_model_call_made": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/tauri_backend_command_bridge/run_20260528.json"},
+  "next_recommended_lock": "IDE_FRONTEND_STATE_CONTRACT_LOCK_001"
+}

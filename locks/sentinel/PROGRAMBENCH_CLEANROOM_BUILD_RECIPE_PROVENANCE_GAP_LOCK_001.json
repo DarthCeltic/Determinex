@@ -1,0 +1,117 @@
+{
+  "lock_id": "PROGRAMBENCH_CLEANROOM_BUILD_RECIPE_PROVENANCE_GAP_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "9e01593db63a155c16461e851ef621c71451ad8f",
+  "purpose": "Turn quarantine-only Doxygen cleanroom build recipe reconstruction into a signed provenance-gap packet before any rebuild, hydration, execution, or ProgramBench rerun can be considered.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_cleanroom_build_recipe_provenance_gap_lock.py",
+    "passed": 18,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_cleanroom_build_recipe_provenance_gap_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_build_recipe_recovery_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_remediation_plan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py",
+      "tests/corpus/programbench/test_programbench_approved_scanner_setup_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_import_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py"
+    ],
+    "passed": 159,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "module": "tests/corpus/programbench",
+    "passed": 214,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1510,
+    "failed": 8,
+    "skipped": 5,
+    "warnings": 75,
+    "status": "failed_unrelated_architecture_audit",
+    "failure_summary": [
+      "parallel execution audit token/classification drift includes NEEDS_OWNER_DECISION",
+      "scripts/determinex_codeclash_agent.py still has non-repair MUST_MIGRATE subprocess.run residue",
+      "scripts/verified_task/command_runner.py still has BLOCKED_UNSAFE shell=True audit residue"
+    ]
+  },
+  "implementation": [
+    "scripts/corpus/programbench/cleanroom_build_recipe_provenance_gap.py",
+    "scripts/corpus/programbench/cleanroom_build_recipe_provenance_gap_record.py",
+    "tests/corpus/programbench/test_programbench_cleanroom_build_recipe_provenance_gap_lock.py"
+  ],
+  "doxygen_provenance_gap": {
+    "remediation_plan": "assurance/evidence/programbench_cleanroom_image_remediation_plans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN.json",
+    "recipe_recovery": "assurance/evidence/programbench_cleanroom_build_recipe_recovery/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY.json",
+    "gap_record": "assurance/evidence/programbench_cleanroom_build_recipe_provenance_gaps/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.BUILD_RECIPE_PROVENANCE_GAP_WRITTEN.json",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "image_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "detected_go": "1.21.0",
+    "target_go": "1.24.13",
+    "required_gaps": [
+      "ORIGINAL_RECIPE_MISSING",
+      "BASE_IMAGE_DIGEST_MISSING",
+      "RECONSTRUCTED_FROM_IMAGE_HISTORY_ONLY",
+      "MATERIAL_FIDELITY_RISK",
+      "REBUILD_NOT_AUTHORIZED"
+    ],
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "BUILD_RECIPE_PROVENANCE_GAP_READY",
+    "BUILD_RECIPE_PROVENANCE_GAP_WRITTEN",
+    "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_PLAN",
+    "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_RECOVERY",
+    "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_IMAGE_MISMATCH",
+    "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_DIGEST_MISMATCH",
+    "ORIGINAL_RECIPE_MISSING",
+    "BASE_IMAGE_DIGEST_MISSING",
+    "RECONSTRUCTED_FROM_IMAGE_HISTORY_ONLY",
+    "MATERIAL_FIDELITY_RISK",
+    "REDACTION_INVARIANT_VERIFIED",
+    "REDACTION_INVARIANT_FAILED",
+    "REBUILD_NOT_AUTHORIZED",
+    "DOCKER_EXECUTION_NOT_AUTHORIZED",
+    "HYDRATION_NOT_AUTHORIZED",
+    "PROGRAMBENCH_RERUN_NOT_AUTHORIZED",
+    "CACHE_READY_FALSE",
+    "TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "consumes signed remediation plan and signed recipe recovery evidence",
+    "verifies image name and digest match across records",
+    "writes signed provenance-gap evidence",
+    "enumerates missing original recipe and base image digest provenance",
+    "defines evidence needed to close each provenance gap",
+    "classifies OCI config history as explanatory but not equivalent to original Dockerfile provenance",
+    "keeps rebuild unauthorized",
+    "keeps Docker execution unauthorized",
+    "keeps hydration unauthorized",
+    "keeps ProgramBench rerun unauthorized",
+    "keeps cache_ready false",
+    "keeps training eligibility false",
+    "covers redaction invariant for image-history-derived material"
+  ],
+  "policy": [
+    "OCI image history can explain probable build steps but cannot prove the original benchmark-faithful build recipe.",
+    "Quarantine-only reconstruction cannot authorize rebuild, hydration, Docker execution, ProgramBench rerun, or training rows.",
+    "No policy exception.",
+    "No alternate image selection.",
+    "No image rebuild.",
+    "No Docker pull.",
+    "No Docker run.",
+    "No ProgramBench rerun."
+  ],
+  "does_not_prove": "Does not recover the missing original Dockerfile, pinned base image digest, or benchmark-faithful rebuild provenance. Does not rebuild, hydrate, execute, rerun Doxygen, or create training eligibility.",
+  "previous_lock": "PROGRAMBENCH_CLEANROOM_BUILD_RECIPE_RECOVERY_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_RECIPE_PROVENANCE_RECOVERY_LOCK_001"
+}

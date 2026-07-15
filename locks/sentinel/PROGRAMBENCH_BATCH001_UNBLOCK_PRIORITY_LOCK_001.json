@@ -1,0 +1,58 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_UNBLOCK_PRIORITY_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Rank known Batch001 ProgramBench instances by easiest safe path to real runnable evidence using existing evidence only.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_STATE_AGGREGATOR_LOCK_001",
+    "PROGRAMBENCH_BATCH001_METADATA_RECOVERY_QUEUE_LOCK_001",
+    "PROGRAMBENCH_EXACT_PROVIDER_PROBE_PLAN_LOCK_001",
+    "PROGRAMBENCH_OPERATOR_ACTION_QUEUE_LOCK_001",
+    "PROGRAMBENCH_CAMPAIGN_STATUS_BOARD_LOCK_001",
+    "PROGRAMBENCH_RERUN_READINESS_MATRIX_LOCK_001",
+    "PROGRAMBENCH_EVIDENCE_GRAPH_LOCK_001",
+    "PROGRAMBENCH_DOGEN_LANE_FINAL_STATE_LOCK_001"
+  ],
+  "status": "BATCH001_UNBLOCK_PRIORITY_WRITTEN",
+  "record": "assurance/evidence/programbench_batch001_unblock_priority/programbench_batch001_unblock_priority_run_20260528.BATCH001_UNBLOCK_PRIORITY_WRITTEN.json",
+  "execution_performed": false,
+  "docker_run_performed": false,
+  "docker_pull_performed": false,
+  "programbench_rerun_performed": false,
+  "policy_exception_granted": false,
+  "training_rows_written": false,
+  "does_not_authorize": [
+    "Doxygen execution",
+    "Docker pull or run",
+    "ProgramBench rerun",
+    "image rebuild",
+    "image remediation",
+    "policy exception grant",
+    "training row generation"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_batch001_unblock_priority_lock.py",
+    "passed": 4,
+    "failed": 0
+  },
+  "full_suite": {
+    "module": "tests/corpus/programbench",
+    "passed": 371,
+    "failed": 0
+  },
+  "related_stack": {
+    "modules": [
+      "tests/corpus/test_programbench_online_artifact_discovery_lock.py",
+      "tests/corpus/test_programbench_online_provider_registry_lock.py",
+      "tests/corpus/test_programbench_replay_hydration_lock.py",
+      "tests/corpus/test_programbench_replay_image_hydration_lock.py",
+      "tests/corpus/test_programbench_replay_verifier_lock.py",
+      "tests/corpus/test_programbench_root_disambiguation_lock.py",
+      "tests/corpus/test_programbench_task_root_resolution_lock.py"
+    ],
+    "passed": 62,
+    "failed": 0,
+    "skipped": 1
+  },
+  "next_lock": "PROGRAMBENCH_BATCH001_IMAGE_METADATA_TARGET_REVIEW_LOCK_001"
+}

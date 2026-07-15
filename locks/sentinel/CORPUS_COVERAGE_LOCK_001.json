@@ -1,0 +1,88 @@
+{
+  "lock_id": "CORPUS_COVERAGE_LOCK_001",
+  "date": "2026-05-27",
+  "tests": 7,
+  "passed": 7,
+  "failed": 0,
+  "full_suite": {
+    "tests": 732,
+    "passed": 732,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/corpus/test_corpus_coverage_gate.py"
+  ],
+  "coverage": [
+    "verified_task_corpus_writer_emits_hmac_signature",
+    "coverage_report_counts_language_framework_build_system_failure_validator_source_license_benchmark_outcome_safety_router",
+    "coverage_gate_fails_unsigned_rows",
+    "coverage_gate_can_require_durable_hmac_key",
+    "resign_record_preserves_payload_and_verifies",
+    "coverage_gate_requires_language_failure_provenance_and_verifier",
+    "benchmark_trace_adapter_contract_outputs_attempt_reject_accept_repair_task"
+  ],
+  "implementation": {
+    "coverage_report": "scripts/corpus/corpus_coverage_report.py",
+    "durable_signature_migration": "scripts/corpus/resign_corpus_records.py",
+    "benchmark_trace_contract": "scripts/verified_task/benchmark_trace_contract.py",
+    "signed_verified_task_writer": "scripts/verified_task/corpus_writer.py",
+    "docs": [
+      "docs/UNIVERSAL_VERIFIED_TASK_HARNESS.md",
+      "docs/UNIVERSAL_VERIFIED_TASK_LANGUAGE_MATRIX.md"
+    ]
+  },
+  "operating_rule": [
+    "no_benchmark_without_corpus",
+    "no_corpus_without_provenance",
+    "no_repair_without_verifier",
+    "no_trace_without_signature",
+    "no_claim_without_lock"
+  ],
+  "coverage_dimensions": [
+    "language",
+    "framework",
+    "build_system",
+    "failure_type",
+    "validator",
+    "source_kind",
+    "license_bucket",
+    "benchmark_source",
+    "repair_outcome",
+    "safety_outcome",
+    "model_router"
+  ],
+  "live_scan_2026_05_27": {
+    "roots": [
+      "T:/determinex_corpus",
+      "corpus/programbench/training_corpus"
+    ],
+    "total_rows": 1408110,
+    "signed_code_verdict_rows_on_t": 10832,
+    "durable_signature_rows_on_t": 10832,
+    "invalid_signature_rows_on_t": 0,
+    "ephemeral_signature_rows_on_t": 0,
+    "legacy_unsigned_local_rows": 1399476,
+    "parse_error_count": 39194,
+    "duplicate_trace_hash_count": 6692,
+    "t_signed_rows_by_language": {
+      "rust": 6851,
+      "python": 979,
+      "go": 1802,
+      "c": 1200
+    },
+    "verdict": "factory_gate_locked_but_corpus_maturity_not_met",
+    "note": "The lock proves the coverage gate and signed benchmark trace contract. The live corpus scan intentionally remains red because legacy local ProgramBench rows are unsigned and malformed."
+  },
+  "minimum_public_claim_threshold": {
+    "signed_traces_per_major_language": 100,
+    "traces_per_major_failure_class": 25,
+    "source_types_per_language": 3,
+    "real_benchmark_integrations_per_priority_language": 1,
+    "unsigned_rows": 0,
+    "unlicensed_rows": 0,
+    "unsafe_source_gate_bypasses": 0,
+    "dedupe_report_required": true,
+    "corpus_card_required": true
+  },
+  "next_lock": "PROGRAMBENCH_DRAIN_PROMOTION_LOCK_001"
+}

@@ -1,0 +1,85 @@
+{
+  "lock_id": "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Opt-in, bounded, evidence-recorded live local-model admission gate. Dry-run remains the default; live admission requires both mode=OPT_IN_LIVE and opt_in_live=True. The gate composes the metadata-only LocalModelAdmissionPolicy (rung 8) with the router and inventory. Even a READY decision keeps source_mutation_authorized=False, corpus_write_authorized=False, and training_eligible=False — those gates are independent. No I/O: the gate never calls a model, never spawns a subprocess, never reaches the network.",
+  "purpose": "First rung of the live-local-model campaign. Defeats the BLOCKED_NO_LIVE_MODEL_CALL reason in the corpus eligibility guard for opt-in callers, while keeping every other safety default closed. Sets up LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001 to exercise the live-model interface against fixture providers.",
+  "depends_on_locks": [
+    "MODEL_ROUTER_LOCK_001",
+    "LOCAL_MODEL_ADMISSION_POLICY_LOCK_001",
+    "CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001",
+    "DETERMINEX_IDE_BACKEND_FINAL_STATE_LOCK_001"
+  ],
+  "tests": 23,
+  "passed_on_this_host": 23,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_local_model_live_admission_lock.py"
+  ],
+  "status_tokens": [
+    "LOCAL_MODEL_LIVE_ADMISSION_READY",
+    "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_DRY_RUN_DEFAULT",
+    "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_NO_CONFIG",
+    "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_MODEL_UNAVAILABLE",
+    "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_STALE_MODEL_ID",
+    "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNPINNED_MODEL",
+    "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_NETWORK_PROVIDER",
+    "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNSUPPORTED_TASK_CLASS",
+    "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNKNOWN_PROVIDER",
+    "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_MISSING_INVENTORY",
+    "LOCAL_MODEL_LIVE_ADMISSION_METADATA_ONLY"
+  ],
+  "supported_providers": ["ollama", "local_hf", "executable_adapter", "no_model"],
+  "invariants": [
+    "LiveModelAdmissionGate.evaluate is a pure function — no I/O.",
+    "Default config mode=DRY_RUN, opt_in_live=False, allow_network_provider=False, require_pinned_id=True.",
+    "Dry-run default blocks live admission with LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_DRY_RUN_DEFAULT.",
+    "Explicit opt-in with a pinned, available, current id on a local provider for an allowed task class produces LOCAL_MODEL_LIVE_ADMISSION_READY with live_call_authorized=True.",
+    "Stale model_id blocks with LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_STALE_MODEL_ID.",
+    "Unpinned model_id (not in CURRENT_MODEL_IDS) blocks with LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNPINNED_MODEL.",
+    "Network provider blocks with LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_NETWORK_PROVIDER under default config.",
+    "Unknown provider blocks with LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNKNOWN_PROVIDER.",
+    "Unsupported task class blocks with LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNSUPPORTED_TASK_CLASS.",
+    "Empty inventory blocks with LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_MISSING_INVENTORY.",
+    "Inventory present but model not in it blocks with LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_MODEL_UNAVAILABLE.",
+    "Base policy refusal yields LOCAL_MODEL_LIVE_ADMISSION_METADATA_ONLY (e.g. missing capabilities) — live not authorized.",
+    "EVERY decision (READY included) sets source_mutation_authorized=False, corpus_write_authorized=False, training_eligible=False.",
+    "scripts/models/live_model_admission*.py contains no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "training_eligibility_opened": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/models/live_model_admission.py",
+      "scripts/models/live_model_admission_record.py"
+    ],
+    "tests": ["tests/models/test_local_model_live_admission_lock.py"],
+    "lock": "locks/sentinel/LOCAL_MODEL_LIVE_ADMISSION_LOCK_001.json",
+    "evidence": "assurance/evidence/local_model_live_admission/run_20260527.json",
+    "docs": "docs/LOCAL_MODEL_LIVE_ADMISSION.md"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/local_model_live_admission/run_20260527.json"
+  },
+  "next_recommended_lock": "LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001",
+  "files": [
+    "scripts/models/live_model_admission.py",
+    "scripts/models/live_model_admission_record.py",
+    "tests/models/test_local_model_live_admission_lock.py",
+    "locks/sentinel/LOCAL_MODEL_LIVE_ADMISSION_LOCK_001.json",
+    "assurance/evidence/local_model_live_admission/run_20260527.json",
+    "docs/LOCAL_MODEL_LIVE_ADMISSION.md"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "lock_id": "SOURCE_MUTATION_APPLY_DRY_RUN_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Dry-run source-mutation apply. Consumes an approval packet + observed source hash + observed diff. Returns what WOULD be applied without writing. Detects missing approval, stale source, diff mismatch, verifier-not-passed. Never writes to source.",
+  "purpose": "Rung 8 of the IDE consumer campaign.",
+  "depends_on_locks": ["HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001"],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/repair/test_source_mutation_apply_dry_run_lock.py"],
+  "status_tokens": [
+    "SOURCE_APPLY_DRY_RUN_READY",
+    "SOURCE_APPLY_DRY_RUN_BLOCKED_NO_APPROVAL",
+    "SOURCE_APPLY_DRY_RUN_BLOCKED_STALE_SOURCE",
+    "SOURCE_APPLY_DRY_RUN_BLOCKED_DIFF_MISMATCH",
+    "SOURCE_APPLY_DRY_RUN_BLOCKED_VERIFIER_NOT_PASSED",
+    "SOURCE_APPLY_DRY_RUN_SOURCE_UNCHANGED"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "live_model_call_made": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/source_mutation_apply_dry_run/run_20260527.json"},
+  "next_recommended_lock": "IDE_CONSUMER_FLOW_TRACE_LOCK_001"
+}

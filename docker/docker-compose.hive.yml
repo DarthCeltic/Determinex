@@ -1,0 +1,82 @@
+# docker-compose.hive.yml — Determinex Hive Mind service definition
+#
+# Usage:
+#   docker compose -f docker/docker-compose.hive.yml run hive run-session --session <id>
+#   docker compose -f docker/docker-compose.hive.yml run hive generate-dag --session <id>
+#
+# Isolation model:
+#   - network_mode: none — zero egress by default (supply-chain + telemetry block)
+#   - Ollama runs on the host; the hive reaches it via extra_hosts host-gateway
+#   - API keys (Anthropic, Google) injected via env_file, never baked into image
+#   - Sessions dir bind-mounted so Tauri can read manifest.json and session.log
+#     without copying files in/out of the container
+
+services:
+  hive:
+    image: determinex-hive:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.hive
+      args:
+        RUST_CHANNEL: stable
+
+    # PID 1 zombie reaping — prevents rustc/go build children from becoming zombies
+    # when the Python orchestrator exits. Without --init, orphaned compiler processes
+    # accumulate as zombies until the container is removed.
+    init: true
+
+    # Default: full network isolation.
+    # To allow Anthropic/Google API calls, override with:
+    #   docker compose ... --env-file .env run --network bridge hive ...
+    network_mode: none
+
+    # Override for Ollama + API access (used when network_mode is not none):
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    environment:
+      # Ollama endpoint — points to host machine's Ollama daemon
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+
+      # Python buffering off so logs appear in real time (critical for log streaming)
+      - PYTHONUNBUFFERED=1
+
+      # Workspace temp dir inside container — writable by hive user
+      - DETERMINEX_WORKSPACE_BASE=/tmp/determinex_workspaces
+
+    # API keys loaded from project root .env — never hardcoded
+    env_file:
+      - path: ../.env
+        required: false  # container still starts without it (local-only mode)
+
+    volumes:
+      # Sessions: shared with Tauri so manifest.json and session.log are readable
+      # by the Rust backend without IPC round-trips
+      - type: bind
+        source: ../sessions
+        target: /determinex/sessions
+
+      # Scripts: bind-mount for development iteration — remove for production builds
+      - type: bind
+        source: ../scripts
+        target: /determinex/scripts
+        read_only: true
+
+      # Rosetta weights (read-only — SHA256 verified at load time)
+      # Override: set DETERMINEX_ROSETTA_DIR env var before running docker compose
+      - type: bind
+        source: ${DETERMINEX_ROSETTA_DIR:-${HOME}/.determinex/rosetta}
+        target: /home/hive/.determinex/rosetta
+        read_only: true
+
+    # Resource limits — prevents a runaway DAG from OOM-killing the host
+    deploy:
+      resources:
+        limits:
+          memory: 4G      # adjust up for larger models (6B+)
+          cpus: "4.0"
+        reservations:
+          memory: 512M
+
+    # Restart policy: never auto-restart (Tauri manages session lifecycle)
+    restart: "no"

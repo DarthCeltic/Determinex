@@ -1,0 +1,42 @@
+{
+  "lock_id": "FRONTEND_LIVE_DIAGNOSE_OPT_IN_SMOKE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Frontend live-diagnose opt-in smoke. Drives the visible diagnose flow through the production _tauri_driver._dispatch. Asserts: (a) dry-run path always succeeds, (b) live path blocked without opt_in (BLOCKED_NOT_OPTED_IN), (c) live path blocked when no provider configured (BLOCKED_NO_MODEL), (d) output advisory only, (e) no patch generated, (f) no source mutation, (g) no training row, (h) no network.",
+  "purpose": "Rung 6 of the Tauri-integrated frontend campaign.",
+  "depends_on_locks": [
+    "TAURI_LIB_RS_COMMAND_WIRING_LOCK_001",
+    "FRONTEND_COMMAND_INVOKE_CLIENT_LOCK_001",
+    "FRONTEND_PANEL_COMMAND_WIRING_LOCK_001",
+    "REAL_LOCAL_MODEL_PROVIDER_CONFIG_LOCK_001",
+    "OLLAMA_LOCAL_PROVIDER_SMOKE_LOCK_001"
+  ],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide_frontend/test_frontend_live_diagnose_opt_in_smoke_lock.py"
+  ],
+  "status_tokens": [
+    "FRONTEND_LIVE_DIAGNOSE_SMOKE_READY",
+    "FRONTEND_LIVE_DIAGNOSE_BLOCKED_NO_PROVIDER",
+    "FRONTEND_LIVE_DIAGNOSE_BLOCKED_NOT_OPTED_IN",
+    "FRONTEND_LIVE_DIAGNOSE_ADVISORY_ONLY",
+    "FRONTEND_LIVE_DIAGNOSE_NO_PATCH_GENERATED",
+    "FRONTEND_LIVE_DIAGNOSE_NO_SOURCE_MUTATION",
+    "FRONTEND_LIVE_DIAGNOSE_NO_TRAINING_ROW"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_row_written": false,
+    "patch_generated": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/frontend_live_diagnose_opt_in_smoke/run_20260528.json"
+  },
+  "next_recommended_lock": "FRONTEND_APPROVAL_PACKET_ROUNDTRIP_LOCK_001"
+}

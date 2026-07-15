@@ -1,0 +1,50 @@
+{
+  "lock_id": "CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates the deferred CLAUDE-AUTH-005 finding from the Claude Opus 4.8 merge-audit dump: backend/frontend status surfaces use a wide vocabulary (READY, ADMITTED, ACCEPTED, AUTHORIZED, ALLOWED, ...) and an operator or downstream agent might equate READY with AUTHORIZED. This lock introduces an 8-class disjoint authority vocabulary (capability_available, evidence_present, request_pending, admission_present, approval_present, execution_authorized, source_mutation_authorized, training_eligible) and a canonical classifier (scripts/repair/ready_authorized_vocabulary.py) that maps every known status token to exactly one class. Hard invariants: (1) no READY token classifies into a class that implies authorization; (2) no fixture-only approval token classifies as source_mutation_authorized; (3) no frontend surface token classifies into an authorization-implying class; (4) no existing token classifies as training_eligible. SOURCE_MUTATION_APPLIED_AFTER_APPROVAL is the single token in source_mutation_authorized and only the apply gate may emit it.",
+  "purpose": "Rung 1 of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES.",
+  "depends_on_locks": [],
+  "tests": 14,
+  "test_modules": [
+    "tests/repair/test_ready_authorized_language_lock.py"
+  ],
+  "status_tokens": [
+    "READY_AUTHORIZED_LANGUAGE_PASSED",
+    "READY_AUTHORIZED_LANGUAGE_BLOCKED_AMBIGUOUS_LABEL",
+    "READY_AUTHORIZED_LANGUAGE_BLOCKED_UI_AUTHORITY_CONFUSION"
+  ],
+  "vocabulary_classes": [
+    "capability_available",
+    "evidence_present",
+    "request_pending",
+    "admission_present",
+    "approval_present",
+    "execution_authorized",
+    "source_mutation_authorized",
+    "training_eligible"
+  ],
+  "classes_that_imply_authorization": [
+    "execution_authorized",
+    "source_mutation_authorized",
+    "training_eligible"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "ready_treated_as_authorized": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_auth_005_ready_authorized_language/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-005",
+  "next_recommended_lock": "CLAUDE_OPERATOR_IDENTITY_BOUNDING_LOCK_001"
+}

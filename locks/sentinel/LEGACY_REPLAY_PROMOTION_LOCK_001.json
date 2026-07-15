@@ -1,0 +1,58 @@
+{
+  "lock_id": "LEGACY_REPLAY_PROMOTION_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Prove quarantined legacy replay candidates can produce new signed active_training_eligible rows only after fresh verifier evidence, without mutating the legacy source.",
+  "focused_tests": {
+    "module": "tests/corpus/test_legacy_replay_promotion_lock.py",
+    "passed": 7,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/legacy_trace_promoter.py",
+    "scripts/corpus/legacy_recovery/legacy_promotion_budget.py",
+    "scripts/corpus/legacy_recovery/legacy_chunk_runner.py",
+    "scripts/corpus/legacy_recovery/legacy_candidate_selector.py",
+    "tests/corpus/test_legacy_replay_promotion_lock.py"
+  ],
+  "batch_001_plan": {
+    "path": "assurance/evidence/legacy_replay_promotion_batch_001.json",
+    "source_scan": "assurance/evidence/legacy_recovery_scan_100k.json",
+    "selected_count": 10,
+    "distinct_tools": 10,
+    "distinct_failure_classes": 3,
+    "promotion_attempts_run": 0,
+    "training_rows_created": 0
+  },
+  "acceptance": [
+    "legacy row remains quarantined and unchanged",
+    "replay candidate selected from bucketed legacy evidence",
+    "fresh verifier artifact or run id required",
+    "failure_class assigned",
+    "repair_outcome assigned",
+    "new row written separately",
+    "new row active_training_eligible only when complete",
+    "new row links recovered_from.legacy_row_hash",
+    "new row signed",
+    "promotion budget prevents noisy tool or duplicate cluster flooding"
+  ],
+  "promotion_budget": {
+    "max_attempts_per_scan": 10,
+    "max_per_tool": 3,
+    "max_per_duplicate_cluster": 1
+  },
+  "promotion_rules": [
+    "Never mutate a legacy row into training eligibility.",
+    "Never write active_training_eligible from legacy evidence without fresh verifier evidence.",
+    "A recovered row must use source_kind=legacy_replay_recovered.",
+    "A recovered row must include recovered_from.legacy_row_hash.",
+    "Promotion attempts are budgeted by scan, tool, and duplicate cluster."
+  ],
+  "does_not_prove": "Does not prove any real legacy ProgramBench row has been promoted yet; it proves the safe promotion contract and budget controls.",
+  "previous_lock": "LEGACY_CORPUS_RECOVERY_LOCK_001",
+  "next_lock": "AIDER_POLYGLOT_SAMPLE_RUN_LOCK_001"
+}

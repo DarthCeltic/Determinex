@@ -1,0 +1,36 @@
+{
+  "lock_id": "CORPUS_WRITE_GUARD_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Corpus write guard: DETERMINEX_NO_CORPUS_WRITE env var and read_only_context() context manager block all corpus writes at the _write_record/_write_records level.",
+  "tests": 20,
+  "passed": 20,
+  "failed": 0,
+  "skipped": 0,
+  "test_modules": [
+    "tests/test_immutability_guard.py"
+  ],
+  "coverage": [
+    "assert_writes_allowed_passes_when_flag_unset",
+    "assert_writes_blocked_when_flag_set (1, true, yes, True, YES)",
+    "assert_writes_allowed_for_falsy_values (0, false, no, empty, off)",
+    "read_only_context_blocks_writes",
+    "read_only_context_restores_env_on_exit",
+    "read_only_context_restores_previous_value",
+    "read_only_context_composable",
+    "read_only_context_restores_on_exception"
+  ],
+  "invariants": [
+    "DETERMINEX_NO_CORPUS_WRITE=1 (or true/yes, case-insensitive) blocks _write_record and _write_records",
+    "DETERMINEX_NO_CORPUS_WRITE=0 / false / no / empty / off does NOT block writes",
+    "CorpusWriteBlockedError is raised (not silenced) — callers must handle it",
+    "read_only_context() is a context manager wrapping _assert_writes_allowed",
+    "read_only_context() restores previous value of DETERMINEX_NO_CORPUS_WRITE on exit",
+    "read_only_context() works under exceptions (try/finally semantics)",
+    "Both _write_record and _write_records call _assert_writes_allowed before any I/O"
+  ],
+  "files": [
+    "scripts/corpus/corpus_manager.py",
+    "tests/test_immutability_guard.py"
+  ]
+}

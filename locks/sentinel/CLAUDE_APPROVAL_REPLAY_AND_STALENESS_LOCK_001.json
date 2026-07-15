@@ -1,0 +1,45 @@
+{
+  "lock_id": "CLAUDE_APPROVAL_REPLAY_AND_STALENESS_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates the deferred CLAUDE-AUTH-016 (no replay-protection / nonce) and CLAUDE-AUTH-013 (no minimum freshness window) findings. Defines a typed ApprovalPacket (approval_id nonce, timestamp_epoch_s, trace_id, workspace_identity_hash, canonical_patch_body_hash, verifier_ref, rollback_snapshot_ref) and an ApprovalReplayAndStalenessVerifier with an in-memory NonceLedger. The verifier refuses: (1) reused approval_id; (2) age > max_age_seconds (default 24h); (3) workspace hash mismatch; (4) canonical patch body hash mismatch; (5) verifier ref mismatch; (6) rollback snapshot ref mismatch; (7) malformed packet (empty, NUL, negative ts). Replay attack scenario test demonstrates a previously valid approval cannot be replayed even when the attacker swaps in a different workspace or patch body. The verifier NEVER opens source mutation; it gates the apply path's right to honor a packet.",
+  "purpose": "Rung 3 of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES.",
+  "depends_on_locks": [
+    "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001",
+    "APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001"
+  ],
+  "tests": 22,
+  "test_modules": [
+    "tests/repair/test_approval_replay_and_staleness_lock.py"
+  ],
+  "status_tokens": [
+    "APPROVAL_REPLAY_STALENESS_PASSED",
+    "APPROVAL_REPLAY_BLOCKED_REUSED_NONCE",
+    "APPROVAL_REPLAY_BLOCKED_STALE_APPROVAL",
+    "APPROVAL_REPLAY_BLOCKED_WORKSPACE_MISMATCH",
+    "APPROVAL_REPLAY_BLOCKED_PATCH_BODY_MISMATCH",
+    "APPROVAL_REPLAY_BLOCKED_VERIFIER_REF_MISMATCH",
+    "APPROVAL_REPLAY_BLOCKED_SNAPSHOT_REF_MISMATCH",
+    "APPROVAL_REPLAY_BLOCKED_MALFORMED_PACKET"
+  ],
+  "default_max_age_seconds": 86400,
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "replay_accepted": false,
+    "stale_packet_accepted": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_approval_replay_and_staleness/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-016,CLAUDE-AUTH-013",
+  "next_recommended_lock": "CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001"
+}

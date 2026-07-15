@@ -1,0 +1,33 @@
+{
+  "lock_id": "IDE_END_TO_END_UI_FLOW_TRACE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "End-to-end IDE UI flow trace. Composes open_workspace → model_route_panel → diagnose → patch_plan → temp_verify → approval_packet → source_apply_gate stages. Fixture provider; no live model. Source unchanged. Approval required.",
+  "purpose": "Rung 11 of the IDE frontend/approval campaign.",
+  "depends_on_locks": [
+    "IDE_WORKSPACE_OPEN_FLOW_LOCK_001",
+    "IDE_MODEL_ROUTE_PANEL_LOCK_001",
+    "IDE_DIAGNOSE_FLOW_LOCK_001",
+    "IDE_PATCH_PLAN_FLOW_LOCK_001",
+    "IDE_TEMP_VERIFY_FLOW_LOCK_001",
+    "IDE_HUMAN_APPROVAL_SIGNING_FLOW_LOCK_001",
+    "IDE_SOURCE_APPLY_GATE_FLOW_LOCK_001"
+  ],
+  "tests": 8,
+  "passed_on_this_host": 8,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_end_to_end_ui_flow_trace_lock.py"],
+  "status_tokens": [
+    "IDE_UI_FLOW_TRACE_WRITTEN",
+    "IDE_UI_FLOW_SOURCE_UNCHANGED",
+    "IDE_UI_FLOW_APPROVAL_REQUIRED",
+    "IDE_UI_FLOW_TRAINING_ELIGIBLE_FALSE"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "live_model_call_made": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_end_to_end_ui_flow_trace/run_20260528.json"},
+  "next_recommended_lock": "DETERMINEX_IDE_UI_READY_FINAL_STATE_LOCK_001"
+}

@@ -1,0 +1,25 @@
+{
+  "lock_id": "FRONTEND_WORKSPACE_STATUS_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Workspace status panel TSX component. Read-only inspection: calls get_workspace_status, displays path / adapter / supported / verifier / evidence refs. No source apply controls.",
+  "purpose": "Rung 3 of the real frontend campaign.",
+  "depends_on_locks": ["FRONTEND_REPAIR_PANEL_SHELL_LOCK_001"],
+  "tests": 10,
+  "passed_on_this_host": 10,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide_frontend/test_frontend_workspace_status_panel_lock.py"],
+  "status_tokens": [
+    "WORKSPACE_STATUS_PANEL_READY",
+    "WORKSPACE_STATUS_UNSUPPORTED_VISIBLE",
+    "WORKSPACE_STATUS_VERIFIER_MISSING_VISIBLE",
+    "WORKSPACE_STATUS_SOURCE_UNCHANGED"
+  ],
+  "scope_discipline": {
+    "source_apply_control_added": false,
+    "user_source_mutated": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/frontend_workspace_status_panel/run_20260528.json"},
+  "next_recommended_lock": "FRONTEND_MODEL_ROUTE_PANEL_LOCK_001"
+}

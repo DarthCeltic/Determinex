@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "generated_for": "tauri_bundle_resource",
+  "models_dir_env": "DETERMINEX_MODELS_DIR",
+  "default_models_dir": "T:/determinex-models",
+  "roles": {
+    "engineer": {
+      "tier": "C1",
+      "params": "1.5B",
+      "family": "Qwen2.5-Coder",
+      "ollama_tag": "determinex-engineer-v11-dsl",
+      "rosetta_arch": "qwen2_1b5",
+      "hidden_dim": 1536
+    },
+    "observer": {
+      "tier": "C3",
+      "params": "3B",
+      "family": "Qwen2.5",
+      "ollama_tag": "determinex-observer-v6-dsl",
+      "rosetta_arch": "qwen2_3b",
+      "hidden_dim": 2048
+    },
+    "sentinel": {
+      "tier": "C7",
+      "params": "7B",
+      "family": "Mistral",
+      "ollama_tag": "determinex-sentinel-v5-dsl",
+      "rosetta_arch": "mistral_7b",
+      "hidden_dim": 4096
+    },
+    "leviathan": {
+      "tier": "C14",
+      "params": "14B",
+      "family": "Qwen2.5-Coder",
+      "ollama_tag": "qwen2.5-coder:14b-instruct-q4_K_M",
+      "rosetta_arch": "qwen2_14b",
+      "hidden_dim": 5120
+    }
+  }
+}

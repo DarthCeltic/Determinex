@@ -1,0 +1,33 @@
+{
+  "lock_id": "OPT_IN_PATCH_PLAN_COMMAND_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Opt-in command that requests a patch plan from an admitted local model and quarantines it via LivePatchPlanQuarantine. Does not apply. opt_in=True required.",
+  "purpose": "Rung 4 of the IDE consumer campaign.",
+  "depends_on_locks": [
+    "LOCAL_MODEL_CONFIG_WIZARD_LOCK_001",
+    "LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001"
+  ],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/repair/test_opt_in_patch_plan_command_lock.py"],
+  "status_tokens": [
+    "OPT_IN_PATCH_PLAN_QUARANTINED",
+    "OPT_IN_PATCH_PLAN_BLOCKED_NO_MODEL",
+    "OPT_IN_PATCH_PLAN_BLOCKED_NOT_OPTED_IN",
+    "OPT_IN_PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
+    "OPT_IN_PATCH_PLAN_BLOCKED_PATH_ESCAPE",
+    "OPT_IN_PATCH_PLAN_BLOCKED_PROVIDER_UNAVAILABLE"
+  ],
+  "scope_discipline": {
+    "live_model_call_made": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "patch_applied": false,
+    "corpus_row_written": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/opt_in_patch_plan_command/run_20260527.json"},
+  "next_recommended_lock": "TEMP_PATCH_VERIFY_COMMAND_LOCK_001"
+}

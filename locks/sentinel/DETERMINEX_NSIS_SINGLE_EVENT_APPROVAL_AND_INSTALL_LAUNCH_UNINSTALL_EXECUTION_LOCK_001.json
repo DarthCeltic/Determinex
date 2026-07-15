@@ -1,0 +1,63 @@
+{
+  "actual_sha256": "1dc1253883d241b6a41befda5bdabb0a3656550ddc299ede0a4144f237753982",
+  "artifact_path": "frontend/src-tauri/target/release/bundle/nsis/Determinex_0.1.0_x64-setup.exe",
+  "artifact_paths": {
+    "artifact_reverification": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/nsis_artifact_reverification_20260531.json",
+    "claim_boundary": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/claim_boundary_20260531.json",
+    "cleanup_record": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/cleanup_record_20260531.json",
+    "install_transcript": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/install_transcript_20260531.json",
+    "launch_smoke_transcript": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/launch_smoke_transcript_20260531.json",
+    "operator_approval_resolution": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/operator_approval_resolution_20260531.json",
+    "readiness_gate": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/installer_readiness_gate_20260531.json",
+    "ready_to_sign_packet": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/ready_to_sign_operator_approval_packet_20260531.json",
+    "uninstall_transcript": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/uninstall_transcript_20260531.json"
+  },
+  "authority": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "launch_readiness_granted": false,
+    "production_readiness_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_readiness_granted": false,
+    "release_ready": false,
+    "release_supported": false,
+    "source_mutation_authorized": false,
+    "support_depth_promotion_granted": false,
+    "training_eligible": false,
+    "training_rows_written": false,
+    "universal_support_claimed": false
+  },
+  "blocked_reasons": [
+    "operator_signature_missing_or_invalid",
+    "BLOCKED_ON_OPERATOR_SIGNATURE",
+    "public_installer_gate_missing:exact_signed_operator_approval",
+    "public_installer_gate_missing:install_passed",
+    "public_installer_gate_missing:launch_smoke_passed",
+    "public_installer_gate_missing:uninstall_passed",
+    "public_installer_gate_missing:sbom_gate_passed",
+    "public_installer_gate_missing:license_gate_passed",
+    "public_installer_gate_missing:signing_gate_passed",
+    "public_installer_gate_missing:clean_host_fresh_install_passed"
+  ],
+  "cleanup_passed": true,
+  "doc_path": "docs/DETERMINEX_NSIS_SINGLE_EVENT_APPROVAL_AND_INSTALL_LAUNCH_UNINSTALL_EXECUTION_001.md",
+  "exact_signed_approval_present": false,
+  "expected_sha256": "1dc1253883d241b6a41befda5bdabb0a3656550ddc299ede0a4144f237753982",
+  "install_executed": false,
+  "install_path": "C:/tmp/determinex_nsis_single_event_approval_and_install_launch_uninstall_execution_001",
+  "launch_smoke_executed": false,
+  "lock_id": "DETERMINEX_NSIS_SINGLE_EVENT_APPROVAL_AND_INSTALL_LAUNCH_UNINSTALL_EXECUTION_LOCK_001",
+  "public_installer_readiness": false,
+  "purpose": "Run bounded NSIS install, launch smoke, uninstall, and cleanup only after exact signed single-event operator approval.",
+  "run_record": "assurance/evidence/nsis_single_event_approval_and_install_launch_uninstall_execution/run_20260531.BLOCKED_ON_OPERATOR_SIGNATURE.json",
+  "status": "BLOCKED_ON_OPERATOR_SIGNATURE",
+  "test_modules": [
+    "tests/status/test_nsis_single_event_approval_and_install_launch_uninstall_execution_001.py"
+  ],
+  "uninstall_executed": false
+}

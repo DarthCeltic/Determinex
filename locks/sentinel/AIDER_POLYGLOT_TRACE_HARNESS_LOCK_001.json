@@ -1,0 +1,42 @@
+{
+  "lock_id": "AIDER_POLYGLOT_TRACE_HARNESS_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Turn Aider Polyglot / Exercism-style benchmark attempts into signed, schema-complete corpus traces across locked languages.",
+  "focused_tests": {
+    "module": "tests/test_aider_polyglot_trace_harness_lock.py",
+    "passed": 8,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 772,
+    "failed": 0
+  },
+  "implementation": [
+    "scripts/bench_adapters/aider_polyglot_trace_harness.py",
+    "tests/test_aider_polyglot_trace_harness_lock.py"
+  ],
+  "trace_paths": [
+    "accept_to_active_training_eligible",
+    "failure_to_repair_task_training_row",
+    "reject_to_schema_complete_training_signal",
+    "infra_failure_to_signed_eval_evidence"
+  ],
+  "language_targets": [
+    "python",
+    "rust",
+    "go",
+    "java",
+    "typescript",
+    "cpp"
+  ],
+  "policy": [
+    "Aider runs are trace farms, not scoreboard-only runs.",
+    "Each attempt emits exactly one signed corpus row.",
+    "Verifier-backed pass/fail/reject traces may become active_training_eligible when source gates pass.",
+    "Infrastructure failures are signed eval evidence, not training fuel.",
+    "Language balance must be visible in summary output before scaling."
+  ],
+  "does_not_prove": "Does not prove an Aider benchmark score; it proves the trace harness can emit eligible corpus rows before a scored campaign.",
+  "previous_lock": "NO_LOOSE_BENCH_ARTIFACTS_LOCK_001",
+  "next_lock": "AIDER_POLYGLOT_SAMPLE_RUN_LOCK_001"
+}

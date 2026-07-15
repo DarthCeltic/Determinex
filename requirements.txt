@@ -1,0 +1,25 @@
+# Core Determinex dependencies — training stack + inference + cloud API clients.
+# For pip install: pip install -r requirements.txt
+# Benchmark-only deps: scripts/requirements_bench.txt
+# Inference-only (lighter): scripts/requirements.txt
+fastembed>=0.4.0
+datasets>=2.0.0
+transformers>=4.40.0
+huggingface_hub>=0.20.0
+peft>=0.10.0
+trl>=0.8.0
+bitsandbytes>=0.43.0
+accelerate>=0.28.0
+requests>=2.31.0
+numpy>=1.26.0
+tiktoken>=0.6.0
+openai>=1.0.0
+anthropic>=0.25.0
+torch>=2.12.1  # CVE-2025-3000 (memory corruption in torch.jit.script), fixed 2026-06-30
+litellm>=1.0.0
+PyYAML>=6.0
+psutil>=5.9.0
+cryptography>=48.0.1  # GHSA-537c-gmf6-5ccf, fixed 2026-06-30
+rich>=13.0.0
+aiohttp>=3.14.1  # 11 CVEs incl. CVE-2026-54273/4/6/7/8/9/80, fixed 2026-06-30
+pip-audit>=2.7.0  # dependency_scan.py's scanner -- must be present for the gate to run for real

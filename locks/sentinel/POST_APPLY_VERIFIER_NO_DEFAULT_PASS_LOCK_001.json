@@ -1,0 +1,41 @@
+{
+  "lock_id": "POST_APPLY_VERIFIER_NO_DEFAULT_PASS_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates CLAUDE-AUTH-003. post_apply_verifier.run now refuses verifier=None with POST_APPLY_VERIFIER_BLOCKED_MISSING_VERIFIER and refuses stub_verifier_pass/stub_verifier_fail callables when fixture_mode=False with POST_APPLY_VERIFIER_BLOCKED_FIXTURE_VERIFIER_IN_LIVE_PATH. Stub verifiers are only honored when the caller explicitly passes fixture_mode=True.",
+  "purpose": "Rung 3 of the Claude authority leak remediation campaign.",
+  "depends_on_locks": [
+    "POST_APPLY_VERIFIER_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001"
+  ],
+  "tests": 14,
+  "passed_on_this_host": 14,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_post_apply_verifier_lock.py"
+  ],
+  "status_tokens": [
+    "POST_APPLY_VERIFIER_EXPLICIT_REQUIRED",
+    "POST_APPLY_VERIFIER_BLOCKED_MISSING_VERIFIER",
+    "POST_APPLY_VERIFIER_BLOCKED_FIXTURE_VERIFIER_IN_LIVE_PATH",
+    "POST_APPLY_VERIFIER_PASSED",
+    "POST_APPLY_VERIFIER_FAILED"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "training_row_written": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/post_apply_verifier_no_default_pass/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-003",
+  "next_recommended_lock": "MODEL_ADMISSION_NO_BYPASS_LOCK_001"
+}

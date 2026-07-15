@@ -1,0 +1,86 @@
+{
+  "lock_id": "PROGRAMBENCH_ROOT_CAUSE_PACKET_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Fresh ProgramBench reruns require a structured root-cause packet before any drain attempt.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/root_cause_packet.py",
+    "scripts/corpus/programbench/root_cause_packet_schema.py",
+    "scripts/corpus/programbench/root_cause_packet_gate.py",
+    "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py"
+  ],
+  "sample_packet": {
+    "path": "assurance/evidence/programbench_root_cause_packets/doxygen_root_cause_sample_20260527.json",
+    "authorization_status": "RERUN_AUTHORIZED",
+    "rerun_scope": {
+      "tool": "doxygen__doxygen.966d98e",
+      "candidate_id": "close_lock_v7_doxygen_richgo_20260527",
+      "max_attempts": 1,
+      "timeout_seconds": 3600
+    }
+  },
+  "statuses": [
+    "ROOT_CAUSE_PACKET_READY",
+    "ROOT_CAUSE_PACKET_INCOMPLETE",
+    "ROOT_CAUSE_PACKET_CONFLICT",
+    "ROOT_CAUSE_PACKET_STALE",
+    "ROOT_CAUSE_PACKET_REJECTED",
+    "RERUN_AUTHORIZED",
+    "RERUN_BLOCKED_NO_PACKET",
+    "RERUN_BLOCKED_STALE_PACKET"
+  ],
+  "required_fields": [
+    "packet_id",
+    "benchmark_name",
+    "candidate_id",
+    "baseline_score",
+    "candidate_score",
+    "score_delta",
+    "baseline_artifact_reference",
+    "candidate_artifact_reference",
+    "failing_tests",
+    "regression_diff_summary",
+    "suspected_patch_location",
+    "suspected_failure_class",
+    "repair_hypothesis",
+    "expected_score_recovery",
+    "rerun_scope",
+    "evidence_inputs",
+    "created_at",
+    "packet_signature"
+  ],
+  "acceptance": [
+    "valid packet becomes ROOT_CAUSE_PACKET_READY",
+    "missing failing_tests blocks authorization",
+    "missing suspected_patch_location blocks authorization",
+    "missing repair_hypothesis blocks authorization",
+    "conflicting baseline/candidate references produce ROOT_CAUSE_PACKET_CONFLICT",
+    "stale packet produces RERUN_BLOCKED_STALE_PACKET",
+    "no packet produces RERUN_BLOCKED_NO_PACKET",
+    "ready packet produces RERUN_AUTHORIZED only for bounded rerun_scope",
+    "quarantine-only replay manifest cannot authorize execution",
+    "invalid packet signature is rejected"
+  ],
+  "policy": [
+    "No rerun without concrete root-cause packet.",
+    "No benchmark without corpus.",
+    "No corpus without provenance.",
+    "No repair without verifier.",
+    "No trace without signature.",
+    "Nothing from quarantine executes.",
+    "Reconstructed metadata is not execution permission.",
+    "Authorization does not execute ProgramBench."
+  ],
+  "does_not_prove": "Does not prove any candidate repair is correct or execute ProgramBench; it only proves reruns are blocked unless a signed, bounded, evidence-backed packet is ready.",
+  "previous_lock": "PROGRAMBENCH_ONLINE_PROVIDER_REGISTRY_LOCK_001",
+  "next_lock": "PROGRAMBENCH_ROOT_CAUSE_PACKET_APPLICATION_LOCK_001"
+}

@@ -1,0 +1,78 @@
+{
+  "lock_id": "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Finale of the Claude Opus 4.8 merge-audit authority-leak remediation campaign. A single record asserts that all eight authority-leak dimensions are closed AND the campaign opens neither source_mutation nor training_eligibility. The umbrella claim is safe_for_cross_lane_boundary == True. The finale evaluator (scripts/repair/claude_authority_leak_remediation_final_state.evaluate) inspects every prior rung's lock manifest and evidence artifact on disk; it never re-runs the underlying gates. CLAUDE-AUTH-005 (cross-lane status surface labelling) and all eight LOW findings are explicitly deferred to a future campaign.",
+  "purpose": "Rung 9 (finale) of the Claude authority leak remediation campaign.",
+  "depends_on_locks": [
+    "REAL_APPROVAL_DIFF_BODY_CONTENT_BINDING_LOCK_001",
+    "APPLY_GATE_FIXTURE_REFUSAL_LOCK_001",
+    "POST_APPLY_VERIFIER_NO_DEFAULT_PASS_LOCK_001",
+    "MODEL_ADMISSION_NO_BYPASS_LOCK_001",
+    "TAURI_COMMAND_VERB_ALIGNMENT_LOCK_001",
+    "DIAGNOSE_PROMPT_OPACITY_ENFORCEMENT_LOCK_001",
+    "APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001",
+    "ROLLBACK_SYMLINK_SEMANTICS_LOCK_001"
+  ],
+  "tests": 10,
+  "test_modules": [
+    "tests/repair/test_claude_authority_leak_remediation_final_state_lock.py"
+  ],
+  "status_tokens": [
+    "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_PASSED",
+    "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_BLOCKED_MISSING_RUNG",
+    "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
+  ],
+  "remediation_dimensions": {
+    "diff_body_binding": "CLAUDE-AUTH-001",
+    "fixture_refusal": "CLAUDE-AUTH-002",
+    "post_apply_verifier_default_pass": "CLAUDE-AUTH-003",
+    "model_admission_bypass": "CLAUDE-AUTH-004",
+    "tauri_command_alignment": "CLAUDE-AUTH-006",
+    "diagnose_prompt_opacity": "CLAUDE-AUTH-007",
+    "approval_signature_binding": "CLAUDE-AUTH-008",
+    "rollback_symlink_semantics": "CLAUDE-AUTH-009"
+  },
+  "findings_deferred": [
+    "CLAUDE-AUTH-005",
+    "CLAUDE-AUTH-010",
+    "CLAUDE-AUTH-011",
+    "CLAUDE-AUTH-012",
+    "CLAUDE-AUTH-013",
+    "CLAUDE-AUTH-014",
+    "CLAUDE-AUTH-015",
+    "CLAUDE-AUTH-016",
+    "CLAUDE-AUTH-017"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "fake_approval": false,
+    "fake_verifier_success": false,
+    "synthesized_admission_accepted": false,
+    "hex_shape_only_signature_accepted": false,
+    "symlink_dereference_attempted": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_authority_leak_remediation_final_state/run_20260528.json"
+  },
+  "remediates_finding": "claude_opus48_merge_authority_audit_dump_20260528",
+  "next_recommended_lock": null,
+  "campaign_terminal_state": {
+    "safe_for_cross_lane_boundary": true,
+    "rungs_completed": 9,
+    "dimensions_closed": 8,
+    "findings_remediated": 8,
+    "findings_deferred": 9,
+    "source_mutation_authorized": false,
+    "training_eligible": false
+  }
+}

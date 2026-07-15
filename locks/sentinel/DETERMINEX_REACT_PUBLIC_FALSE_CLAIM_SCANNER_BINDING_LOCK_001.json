@@ -1,0 +1,89 @@
+{
+  "backend_loader": "scripts/ide/public_false_claim_scanner_status.py",
+  "bound_to_evidence": [
+    "assurance/evidence/public_tidal_wave_flagship_flow_certification/run_20260529.PUBLIC_TIDAL_WAVE_FLAGSHIP_FLOW_CERTIFICATION_PASSED.json",
+    "assurance/evidence/public_proof_report_export/run_20260529.PUBLIC_PROOF_REPORT_EXPORT_PASSED.json"
+  ],
+  "captions_included": [
+    "This panel displays evidence; it does not grant authority.",
+    "Claim scanner output is a public-safety boundary. It prevents report language from overstating support, release readiness, production readiness, authority, training eligibility, or universal coverage.",
+    "Every listed phrase is BLOCKED or FLAGGED.",
+    "Forbidden shortcuts remain forbidden.",
+    "Universal support is not claimed.",
+    "Release-supported remains 0 cells / 0 families."
+  ],
+  "claim_boundary": [
+    "Read-only React binding to combined Codex public false-claim scanner evidence.",
+    "9 flagship-side phrases + 11 export-side forbidden claims, all BLOCKED_OR_FLAGGED.",
+    "Combined distinct phrases: 17.",
+    "Scanner output is a public-safety boundary; it does NOT grant authority.",
+    "Forbidden shortcuts remain forbidden.",
+    "release_supported remains 0 cells / 0 families.",
+    "source_mutation_authorized remains false.",
+    "real_user_source_mutation_authorized remains false.",
+    "proof_execution_authority_granted remains false.",
+    "training_eligible remains false.",
+    "broad_claims_granted remains false.",
+    "universal support is not claimed.",
+    "proof report export is not release readiness."
+  ],
+  "commit": "unrecorded",
+  "dashboard_report": "docs/DETERMINEX_REACT_PUBLIC_FALSE_CLAIM_SCANNER_BINDING.md",
+  "date": "2026-05-29",
+  "focused_tests": {
+    "failed": 0,
+    "module": "tests/ide/test_react_public_false_claim_scanner_binding_lock.py",
+    "passed": 17
+  },
+  "full_suite": {
+    "failed": 0,
+    "note": "Focused false-claim scanner binding suite.",
+    "passed": 17
+  },
+  "hard_rules_enforced": [
+    "flagship/export run artifact absent / unparseable -> AWAITING_EVIDENCE",
+    "flagship status != PASSED -> BLOCKED_MALFORMED",
+    "export status != PASSED -> BLOCKED_MALFORMED",
+    "false_claim_scanner_model phrases length != 9 -> BLOCKED_SCANNER_COUNT_MISMATCH",
+    "export contract forbidden_report_claims length != 11 -> BLOCKED_FORBIDDEN_COUNT_MISMATCH",
+    "any phrase entry action != BLOCK_OR_FLAG -> BLOCKED_SCANNER_ACTION_MISMATCH",
+    "any phrase entry current_claim_allowed != False -> BLOCKED_SCANNER_ACTION_MISMATCH",
+    "required block phrase missing from combined set -> BLOCKED_SCANNER_MISSING_REQUIRED_PHRASE"
+  ],
+  "loader_decision_on_current_evidence": "REACT_PUBLIC_FALSE_CLAIM_SCANNER_BINDING_PASSED",
+  "lock_id": "DETERMINEX_REACT_PUBLIC_FALSE_CLAIM_SCANNER_BINDING_LOCK_001",
+  "next_recommended_rung": "DETERMINEX_REACT_PUBLIC_AUTHORITY_BOUNDARY_BINDING_LOCK_001",
+  "panel_path": "frontend/src/components/ide-product-shell/PublicFalseClaimScannerPanel.tsx",
+  "purpose": "Read-only React visual binding of Codex combined false-claim scanner evidence (9 flagship + 11 export forbidden claims). Refuses scanner-count drift, action mismatch, current_claim_allowed=true, and required-block phrase coverage gap.",
+  "record": "assurance/evidence/determinex_react_public_false_claim_scanner_binding/run_20260529.json",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "claude_owns_data_plane": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "scanner_grants_authority": false,
+    "scanner_weakens_forbidden_shortcuts": false,
+    "source_mutation_authorized": false,
+    "source_truth_mutated": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "series_id": "DETERMINEX_REACT_PUBLIC_FALSE_CLAIM_SCANNER_BINDING_LOCK_001",
+  "source_audit_paths": [],
+  "source_evidence_paths": [
+    "assurance/evidence/public_tidal_wave_flagship_flow_certification/run_20260529.PUBLIC_TIDAL_WAVE_FLAGSHIP_FLOW_CERTIFICATION_PASSED.json",
+    "assurance/evidence/public_proof_report_export/run_20260529.PUBLIC_PROOF_REPORT_EXPORT_PASSED.json",
+    "assurance/evidence/evidence_index.json"
+  ],
+  "status": "REACT_PUBLIC_FALSE_CLAIM_SCANNER_BINDING_PASSED",
+  "tauri_command": "get_public_false_claim_scanner_status",
+  "test_modules": [
+    "tests/ide/test_react_public_false_claim_scanner_binding_lock.py"
+  ]
+}

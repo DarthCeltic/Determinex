@@ -1,0 +1,49 @@
+{
+  "audit_pass": true,
+  "claim_boundary": [
+    "Installer NOT executable / launchable / installable in any user-facing sense.",
+    "SmartScreen will warn on unsigned binary; must document the exact path.",
+    "SBOM/license/security/signing all incomplete; minimum 6 gates remain.",
+    "Linux CI fresh-install candidate exists, but no runner yet.",
+    "GitHub Releases requires SBOM/license/security; winget requires EV signing.",
+    "Subpackage distribution (determinex-cli, determinex-cloak) is a parallel lower-risk path to user adoption.",
+    "MSI path status must be recorded (pursuing/paused/abandoned).",
+    "Pre-signing distribution allowed only as 'unsigned internal preview' framing.",
+    "No Codex source truth mutated by this Claude lane."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-05-31",
+  "doc": "docs/DETERMINEX_INSTALLER_REALITY_SBOM_SIGNING_PUBLIC_DISTRIBUTION_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "claude_y",
+  "gulp_wave_id": "004",
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "linux_ci_fresh_install_runner_exists": false,
+  "lock_id": "DETERMINEX_INSTALLER_REALITY_SBOM_SIGNING_PUBLIC_DISTRIBUTION_CLAUDE_REVIEW_001",
+  "next_recommended_codex_delta_count": 5,
+  "nsis_signing_status": "unsigned",
+  "purpose": "Gulp Wave 004 Claude Lane Y. Installer reality + SBOM + signing + public distribution channel review. Reviews exact path from artifact to beta-distribution candidate. Adds subpackage distribution as parallel low-risk user-adoption path.",
+  "record": "assurance/evidence/installer_reality_sbom_signing_public_distribution_claude_review/run_20260531.INSTALLER_REALITY_SBOM_SIGNING_PUBLIC_DISTRIBUTION_CLAUDE_REVIEW_PASSED.json",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "INSTALLER_REALITY_SBOM_SIGNING_PUBLIC_DISTRIBUTION_CLAUDE_REVIEW_PASSED",
+  "subpackage_distribution_priority": "high",
+  "test_modules": [
+    "tests/status/test_installer_reality_sbom_signing_public_distribution_claude_review_001.py"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "name": "determinex",
+  "displayName": "Determinex - verified AI coding",
+  "description": "Build from an idea, repair any repo, with oracle-bounded correctness. Any AI (Claude/Codex/Gemini/local) plugs in; nothing it produces is accepted unless the oracle passes.",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
+  "publisher": "darthceltic",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["AI", "Programming Languages", "Testing"],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "determinex.buildFromIdea", "title": "Determinex: Build From Idea (verified)" },
+      { "command": "determinex.previewIdeaOracle", "title": "Determinex: Preview the Sound Oracle for an Idea" },
+      { "command": "determinex.repairDiagnose", "title": "Determinex: Diagnose This Repo (blame + slop)" },
+      { "command": "determinex.governanceStatus", "title": "Determinex: No-Overclaim Governance Status" }
+    ],
+    "configuration": {
+      "title": "Determinex",
+      "properties": {
+        "determinex.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Python interpreter that can import the Determinex backend."
+        },
+        "determinex.repoRoot": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the Determinex checkout (defaults to the first workspace folder)."
+        },
+        "determinex.model": {
+          "type": "string",
+          "default": "determinex-engineer-v11-dsl",
+          "description": "Local Ollama model id for Build From Idea."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.4.0"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_018_drift_detector_workflow_status_guard_claude_review_001/claim_boundary_20260616.json",
+    "codex_deltas": "assurance/evidence/wave_018_drift_detector_workflow_status_guard_claude_review_001/codex_deltas_20260616.json",
+    "risks": "assurance/evidence/wave_018_drift_detector_workflow_status_guard_claude_review_001/risks_20260616.json",
+    "verdict": "assurance/evidence/wave_018_drift_detector_workflow_status_guard_claude_review_001/verdict_20260616.json",
+    "workflow_audit": "assurance/evidence/wave_018_drift_detector_workflow_status_guard_claude_review_001/workflow_audit_20260616.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "Drift detector not in .github/workflows; pytest-only",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "Wave 018 Claude reviews are CANONICAL-WIRING + LEGACY-BACKFILL + FIRST-FAMILY attack audits.",
+    "Two headline questions: (1) did Codex move from 'registry exists' to 'registry cannot be bypassed'? (2) did Codex move from 'Tier-1 families are mapped' to 'at least one Tier-1 family has safe build/test/smoke execution transcript'?",
+    "Claude rejects: registry exists as 'cannot be bypassed' / drift detector exists as 'workflow live' / hardcoded stale constants as harmless / proof anchor existing as resolving / signoff schema as backfilled-and-classified / promotion gate as real without negative tests / proof report narrative as registry binding / local-preview package as release-supported / Tier-1 fixture transcript as family support / packet as signed authority / signed authority as spent authority / SBOM packet as artifact / GUI packet as visual proof / local simulation as clean host / score rise without evidence-delta.",
+    "Standard: every reader binds; drift CI workflow-live; signoffs backfilled with evidence; negative fixtures block; proof report registry-bound; Tier-1 transcript ≠ family support; signed spend beats packets; visual proof beats GUI build.",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Canonical release-supported cells = 10 (registry-bound). Release-supported families = 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-16",
+  "doc": "docs/DETERMINEX_WAVE018_DRIFT_DETECTOR_WORKFLOW_STATUS_GUARD_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_018_claude_lane_B12",
+  "gulp_wave_id": "018",
+  "is_canonical_wiring_and_first_family_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "lane": "B12",
+  "lock_id": "DETERMINEX_WAVE018_DRIFT_DETECTOR_WORKFLOW_STATUS_GUARD_CLAUDE_REVIEW_001",
+  "purpose": "Wave 018 Claude Lane B12. .github/workflows/*.yml binding (if present); fallback status guard binding; live transcript; failing/passing/historical fixtures; explicit historical field use; whether developer skipping full pytest still caught.",
+  "record": "assurance/evidence/wave_018_drift_detector_workflow_status_guard_claude_review_001/run_20260616.WAVE018_DRIFT_DETECTOR_WORKFLOW_STATUS_GUARD_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE018_DRIFT_DETECTOR_WORKFLOW_STATUS_GUARD_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_018_drift_detector_workflow_status_guard_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true
+    },
+    "passed": true
+  },
+  "verdict": "DRIFT_DETECTOR_NOT_LIVE_AS_CI_WORKFLOW_OR_STATUS_GUARD — 1/4 workflows; pytest-only; substring historical classification."
+}

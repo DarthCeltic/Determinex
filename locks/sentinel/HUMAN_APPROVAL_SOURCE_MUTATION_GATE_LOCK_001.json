@@ -1,0 +1,99 @@
+{
+  "lock_id": "HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Defines the gate that decides whether a previously-verified temp-workspace patch may be applied to the original repo. The gate itself performs NO write to the original repo — it returns an ApprovalGateDecision that the IDE/CLI consumer would honor under its own audited write path. Approval requires an ApprovalPacket that matches the VerifiedRepairTrace bit-for-bit on trace_id, workspace_identity, diff_sha256, verifier_status, and operator/approval_token. Any mismatch yields a specific SOURCE_MUTATION_BLOCKED_* status. The accepted path is SOURCE_MUTATION_APPROVAL_ACCEPTED_FIXTURE — note the FIXTURE suffix: this rung does NOT admit live operator approvals; it only proves the decision logic.",
+  "purpose": "Rung 5 of the verified-repair campaign. Pins the invariant that source mutation remains BLOCKED by default and can only be opened by a packet that references an exactly-matching verified trace. The next rungs (IDE state model, corpus guard, local model admission, readiness matrix, final state) compose against this gate; nothing in the apparatus ever writes to the user's original repo without a downstream consumer producing an ACCEPTED decision first.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LLM_MOCKED_INTAKE_REPAIR_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+    "VERIFIED_REPAIR_TRACE_LOCK_001"
+  ],
+  "tests": 16,
+  "passed_on_this_host": 16,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_human_approval_source_mutation_gate_lock.py"
+  ],
+  "status_tokens": [
+    "SOURCE_MUTATION_APPROVAL_REQUIRED",
+    "SOURCE_MUTATION_APPROVAL_ACCEPTED_FIXTURE",
+    "SOURCE_MUTATION_BLOCKED_MISSING_APPROVAL",
+    "SOURCE_MUTATION_BLOCKED_DIFF_MISMATCH",
+    "SOURCE_MUTATION_BLOCKED_STALE_TRACE",
+    "SOURCE_MUTATION_BLOCKED_VERIFIER_NOT_PASSED",
+    "SOURCE_MUTATION_BLOCKED_REPO_MISMATCH",
+    "SOURCE_MUTATION_BLOCKED_TRACE_ID_MISMATCH",
+    "SOURCE_MUTATION_BLOCKED_OPERATOR_EMPTY"
+  ],
+  "approval_packet_required_fields": [
+    "trace_id (must match VerifiedRepairTrace.trace_id)",
+    "workspace_identity (must match VerifiedRepairTrace.workspace)",
+    "diff_sha256 (sha256 over unified diff; must match trace's safe_patch_result.unified_diff)",
+    "verifier_status (informational; gate uses the trace's value)",
+    "timestamp_utc",
+    "operator (non-empty)",
+    "approval_token (non-empty)",
+    "fixture (True for this rung)"
+  ],
+  "invariants": [
+    "HumanApprovalGate.evaluate is a pure function — no I/O, no file write, no subprocess.",
+    "ACCEPTED requires ALL of: non-empty operator, non-empty approval_token, trace_id match, workspace_identity match, diff_sha256 match, verifier_status==PATCH_VERIFIER_PASSED_TEMP_ONLY, trace.final_status==TRACE_VERIFIER_PASSED_TEMP_ONLY, trace.source_unchanged_confirmed is True.",
+    "Any missing field or mismatch yields a specific SOURCE_MUTATION_BLOCKED_* token.",
+    "source_mutation_authorized is False on every blocked decision and True only on SOURCE_MUTATION_APPROVAL_ACCEPTED_FIXTURE.",
+    "Verifier-failed trace cannot be approved (its diff is empty after rollback, AND its verifier_status != PATCH_VERIFIER_PASSED_TEMP_ONLY).",
+    "Unsupported-repo trace cannot be approved (no safe_patch_result; gate refuses on DIFF_MISMATCH or VERIFIER_NOT_PASSED).",
+    "scripts/repair/human_approval_gate.py and human_approval_record.py contain no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "Gate evaluation against any packet (valid or invalid) does NOT mutate the original fixture tree (sha256 before==after).",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "live_operator_admitted": false,
+    "actual_source_write_implemented": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/repair/human_approval_gate.py",
+      "scripts/repair/human_approval_record.py"
+    ],
+    "tests": [
+      "tests/repair/test_human_approval_source_mutation_gate_lock.py"
+    ],
+    "lock": "locks/sentinel/HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001.json",
+    "evidence": "assurance/evidence/human_approval_source_mutation_gate/run_20260527.json",
+    "docs": "docs/HUMAN_APPROVAL_SOURCE_MUTATION_GATE.md"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/human_approval_source_mutation_gate/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "Live operator approval (non-fixture) is deferred. The accepted decision today is named SOURCE_MUTATION_APPROVAL_ACCEPTED_FIXTURE specifically so a future rung adding the live operator path can introduce a distinct ACCEPTED_LIVE token without breaking the closed set.",
+    "The actual original-repo write is NOT performed by this lock — only the gate decision. The IDE/CLI consumer of an ACCEPTED decision is responsible for the write under its own audited path (deferred to the IDE backend rungs).",
+    "Replay-attack protection (timestamp staleness, nonce, single-use token) is not enforced beyond the basic non-empty checks. A LIVE rung would add expiry + single-use semantics."
+  ],
+  "next_recommended_lock": "IDE_REPAIR_STATE_MODEL_LOCK_001",
+  "files": [
+    "scripts/repair/human_approval_gate.py",
+    "scripts/repair/human_approval_record.py",
+    "tests/repair/test_human_approval_source_mutation_gate_lock.py",
+    "locks/sentinel/HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001.json",
+    "assurance/evidence/human_approval_source_mutation_gate/run_20260527.json",
+    "docs/HUMAN_APPROVAL_SOURCE_MUTATION_GATE.md"
+  ]
+}

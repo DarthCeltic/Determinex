@@ -1,0 +1,214 @@
+name: Determinex Release Package Matrix
+
+on:
+  workflow_dispatch:
+    inputs:
+      package_approval_id:
+        description: "Single-event operator approval ID for release package build execution"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: determinex-release-package-matrix
+  cancel-in-progress: false
+
+env:
+  DETERMINEX_NO_CORPUS_WRITE: "1"
+  DETERMINEX_RELEASE_PACKAGE_MATRIX: "1"
+
+jobs:
+  windows-packages:
+    name: Windows MSI and NSIS packages
+    runs-on: windows-latest
+    timeout-minutes: 90
+    steps:
+      - name: Require operator approval ID
+        shell: pwsh
+        run: |
+          if ("${{ inputs.package_approval_id }}" -eq "") {
+            throw "package_approval_id is required"
+          }
+          "approval_id=${{ inputs.package_approval_id }}" | Out-File -FilePath package_approval.txt -Encoding utf8
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Restore frontend dependencies
+        working-directory: frontend
+        run: npm.cmd ci
+      - name: Build Windows packages and download bundle
+        shell: pwsh
+        run: |
+          powershell -ExecutionPolicy Bypass -File scripts\release\build_release_package.ps1 `
+            -SkipDependencyRestore `
+            -SkipSbom `
+            -SkipSidecar `
+            -CargoTargetDir .tmp\determinex-cargo-target `
+            -PackageDownloadBundle `
+            -TauriBundleTarget all `
+            -DownloadBundleOutputDir .tmp\determinex-download-bundles
+      - name: Record Windows trust packet
+        shell: pwsh
+        run: |
+          python scripts\release\windows_trust_packet.py `
+            --manifest assurance\evidence\determinex_download_bundle_20260707\download_manifest.json `
+            --output assurance\evidence\windows_trust\windows_trust_ci.json
+      - name: Run Windows clean-host install smoke
+        shell: pwsh
+        run: |
+          powershell -ExecutionPolicy Bypass -File scripts\release\run_windows_clean_host_install_smoke.ps1 `
+            -ManifestPath assurance\evidence\determinex_download_bundle_20260707\download_manifest.json `
+            -OutputPath assurance\evidence\full_release_closure\clean_host_install_transcript_ci.json
+      - name: Validate Windows clean-host transcript
+        shell: pwsh
+        run: |
+          python scripts\release\clean_host_install_transcript.py --validate assurance\evidence\full_release_closure\clean_host_install_transcript_ci.json
+      - name: Upload Windows package evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: determinex-package-matrix-windows
+          path: |
+            package_approval.txt
+            .tmp/determinex-download-bundles/
+            assurance/evidence/determinex_download_bundle_20260707/
+            assurance/evidence/windows_msi/
+            assurance/evidence/windows_trust/
+            assurance/evidence/full_release_closure/clean_host_install_transcript_ci.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  linux-packages:
+    name: Linux AppImage deb rpm packages
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Require operator approval ID
+        run: |
+          test -n "${{ inputs.package_approval_id }}"
+          echo "approval_id=${{ inputs.package_approval_id }}" > package_approval.txt
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Tauri Linux package dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            curl \
+            file \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libssl-dev \
+            libwebkit2gtk-4.1-dev \
+            libxdo-dev \
+            patchelf \
+            pkg-config \
+            wget
+      - name: Restore frontend dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Build Linux packages
+        working-directory: frontend
+        run: npm run tauri -- build --bundles appimage,deb,rpm
+      - name: Package Linux download bundle evidence
+        working-directory: frontend
+        run: |
+          python ../scripts/release/package_download_bundle.py \
+            --installer-dir src-tauri/target/release/bundle \
+            --output-dir ../.tmp/determinex-download-bundles \
+            --evidence-dir ../assurance/evidence/determinex_download_bundle_20260707
+      - name: Upload Linux package evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: determinex-package-matrix-linux
+          path: |
+            package_approval.txt
+            .tmp/determinex-download-bundles/
+            assurance/evidence/determinex_download_bundle_20260707/
+          if-no-files-found: warn
+          retention-days: 30
+
+  combined-download-bundle:
+    name: Combined public download bundle
+    runs-on: ubuntu-24.04
+    needs: [windows-packages, linux-packages]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Download Windows package matrix artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: determinex-package-matrix-windows
+          path: .tmp/package-matrix-input/windows
+      - name: Download Linux package matrix artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: determinex-package-matrix-linux
+          path: .tmp/package-matrix-input/linux
+      - name: Merge platform evidence and installers
+        run: |
+          mkdir -p assurance/evidence .tmp/combined-installers
+          cp -R .tmp/package-matrix-input/windows/assurance/evidence/. assurance/evidence/
+          cp -R .tmp/package-matrix-input/linux/assurance/evidence/. assurance/evidence/
+          find .tmp/package-matrix-input -type f \( \
+            -iname '*.exe' -o \
+            -iname '*.msi' -o \
+            -iname '*.AppImage' -o \
+            -iname '*.deb' -o \
+            -iname '*.rpm' \
+          \) -exec cp {} .tmp/combined-installers/ \;
+          test -n "$(find .tmp/combined-installers -type f -iname '*.msi' -print -quit)"
+          test -n "$(find .tmp/combined-installers -type f -iname '*.AppImage' -print -quit)"
+          test -n "$(find .tmp/combined-installers -type f -iname '*.deb' -print -quit)"
+          test -n "$(find .tmp/combined-installers -type f -iname '*.rpm' -print -quit)"
+      - name: Build combined download bundle
+        run: |
+          python scripts/release/package_download_bundle.py \
+            --installer-dir .tmp/combined-installers \
+            --output-dir .tmp/determinex-combined-download-bundles \
+            --evidence-dir assurance/evidence/determinex_download_bundle_20260707
+      - name: Refresh release gates from combined bundle
+        run: |
+          python scripts/release/determinex_release_gates.py \
+            --output assurance/evidence/determinex_release_gate_status/release_gates_ci.json
+      - name: Upload combined package evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: determinex-package-matrix-combined
+          path: |
+            .tmp/determinex-combined-download-bundles/
+            assurance/evidence/determinex_download_bundle_20260707/
+            assurance/evidence/determinex_release_gate_status/release_gates_ci.json
+            assurance/evidence/windows_msi/
+            assurance/evidence/windows_trust/
+            assurance/evidence/full_release_closure/clean_host_install_transcript_ci.json
+          if-no-files-found: warn
+          retention-days: 30

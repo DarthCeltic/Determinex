@@ -1,0 +1,32 @@
+{
+  "lock_id": "REPRODUCIBLE_DEV_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Reproducible development environment: uv.lock pins 145 transitive deps; justfile provides standard task aliases; build-backend corrected to setuptools.build_meta.",
+  "invariants": [
+    "uv.lock is present and resolves 145 packages for Python 3.11+",
+    "justfile exposes: doctor, test, test-cov, test-quick, limits, evidence, lint, lint-fix, precommit, audit, audit-uv, status, tail, all",
+    "bigcodebench removed from bench extras (broken vllm transitive dep)",
+    "build-backend uses setuptools.build_meta (not the non-existent backends.legacy)",
+    "version bumped to 1.0.0 in pyproject.toml",
+    "[tool.pyrefly] corrected to [tool.pyright] with correct key names",
+    "starlette dead dependency removed",
+    "ruff pre-commit pin updated from v0.4.7 to v0.11.12"
+  ],
+  "files": [
+    "uv.lock",
+    "justfile",
+    "pyproject.toml",
+    ".pre-commit-config.yaml"
+  ],
+  "uv_lock_stats": {
+    "packages": 145,
+    "python_requires": ">=3.11",
+    "generated_by": "uv 0.10.7"
+  },
+  "justfile_recipes": [
+    "doctor", "config", "test", "test-cov", "test-quick", "limits",
+    "evidence", "evidence-render", "lint", "lint-fix", "precommit",
+    "audit", "audit-uv", "cloak-verify", "status", "tail", "all"
+  ]
+}

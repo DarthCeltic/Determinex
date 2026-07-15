@@ -1,0 +1,43 @@
+{
+  "lock_id": "DETERMINEX_GLOBAL_TRAINING_ELIGIBILITY_GUARD_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Create a unified negative training eligibility guard across Claude, Codex, and Proof Control Plane evidence.",
+  "depends_on_locks": [
+    "DETERMINEX_PROOF_EXECUTION_AUDIT_REPAIR_LOCK_001",
+    "DETERMINEX_UNIFIED_STATUS_SURFACE_AND_EVIDENCE_GRAPH_LOCK_001",
+    "DETERMINEX_GLOBAL_OPERATOR_ACTION_QUEUE_LOCK_001",
+    "DETERMINEX_PROOF_TYPE_AUTHORITY_MATRIX_LOCK_001"
+  ],
+  "status": "GLOBAL_TRAINING_ELIGIBILITY_GUARD_WRITTEN",
+  "record": "assurance/evidence/global_training_eligibility_guard/run_20260528.GLOBAL_TRAINING_ELIGIBILITY_GUARD_WRITTEN.json",
+  "test_modules": [
+    "tests/status/test_determinex_global_training_eligibility_guard_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/status/test_determinex_global_training_eligibility_guard_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "blocked_statuses": [
+    "TRAINING_BLOCKED_METADATA_ONLY",
+    "TRAINING_BLOCKED_OPERATOR_ACTION",
+    "TRAINING_BLOCKED_MODEL_OUTPUT_ONLY",
+    "TRAINING_BLOCKED_TEMP_ONLY_PATCH",
+    "TRAINING_BLOCKED_MISSING_APPROVAL",
+    "TRAINING_BLOCKED_MISSING_POST_APPLY_VERIFIER",
+    "TRAINING_BLOCKED_PROGRAMBENCH_SECURITY_POLICY",
+    "TRAINING_BLOCKED_PROOF_GAP",
+    "TRAINING_ELIGIBILITY_REQUIRES_POSITIVE_GATE"
+  ],
+  "training_eligible": false,
+  "can_write_training_row_any": false,
+  "positive_gate_required": true,
+  "execution_performed": false,
+  "source_mutation_performed": false,
+  "programbench_rerun_performed": false,
+  "artifact_import_performed": false,
+  "scan_performed": false,
+  "approvals_granted": false,
+  "training_rows_written": false
+}

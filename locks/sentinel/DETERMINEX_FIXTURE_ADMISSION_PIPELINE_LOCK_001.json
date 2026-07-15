@@ -1,0 +1,55 @@
+{
+  "claim_boundary": [
+    "Fixture admission is not support.",
+    "Fixture admission is not support-depth promotion.",
+    "Fixture admission is not release readiness.",
+    "Fixture admission is not source mutation authority.",
+    "Fixture admission is not proof execution authority.",
+    "Fixture admission is not training eligibility.",
+    "Fixture admission is not universal support.",
+    "This lock admits no concrete executable proof and executes no untrusted fixture."
+  ],
+  "commit": "unrecorded",
+  "date": "2026-05-29",
+  "deferred_next_locks": [
+    "DETERMINEX_SCAFFOLD_BUILD_TEST_SMOKE_EXPANSION_LOCK_001",
+    "DETERMINEX_REPAIR_MAINTENANCE_CORPUS_EXPANSION_LOCK_001",
+    "DETERMINEX_PACKAGING_FRESH_INSTALL_MATRIX_LOCK_001",
+    "DETERMINEX_SUPPORT_DEPTH_PROMOTION_WAVE_002_LOCK_001"
+  ],
+  "doc": "docs/DETERMINEX_FIXTURE_ADMISSION_PIPELINE_001.md",
+  "fixture_admission_policy": "assurance/evidence/fixture_admission_pipeline/fixture_admission_policy_20260529.json",
+  "fixture_blocker_queue": "assurance/evidence/fixture_admission_pipeline/fixture_blocker_queue_20260529.json",
+  "fixture_state_machine": "assurance/evidence/fixture_admission_pipeline/fixture_state_machine_20260529.json",
+  "fixture_to_verifier_slot_map": "assurance/evidence/fixture_admission_pipeline/fixture_to_verifier_slot_map_20260529.json",
+  "lock_id": "DETERMINEX_FIXTURE_ADMISSION_PIPELINE_LOCK_001",
+  "next_recommended_lock": "DETERMINEX_SCAFFOLD_BUILD_TEST_SMOKE_EXPANSION_LOCK_001",
+  "purpose": "Define how fixtures become admissible evidence inputs for verifier slots without executing unsafe projects, installing toolchains, reducing blockers, or granting support/release/source/proof/training authority.",
+  "record": "assurance/evidence/fixture_admission_pipeline/run_20260529.FIXTURE_ADMISSION_PIPELINE_PASSED.json",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "launch_readiness_granted": false,
+    "production_readiness_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_readiness_granted": false,
+    "release_ready": false,
+    "release_supported": false,
+    "source_mutation_authorized": false,
+    "support_depth_promotion_granted": false,
+    "training_eligible": false,
+    "training_rows_written": false,
+    "universal_support_claimed": false
+  },
+  "status": "FIXTURE_ADMISSION_PIPELINE_PASSED",
+  "status_artifact": "assurance/evidence/fixture_admission_pipeline/fixture_admission_status_20260529.json",
+  "test_modules": [
+    "tests/status/test_fixture_admission_pipeline_001.py"
+  ],
+  "tests": 18
+}

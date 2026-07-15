@@ -1,0 +1,27 @@
+# Modelfile.leviathan — Determinex Leviathan (RAM-resident fallback)
+#
+# Role: Last-resort code architect called after LEVIATHAN_ESCALATION_ROUND
+#       consecutive Engineer failures on a task.
+#
+# Memory layout:
+#   VRAM (6 GB): Sentinel / Engineer / Observer hot-swap as normal
+#   RAM  (19 GB): Leviathan stays resident (keep_alive: 1800s via harness)
+#
+# To register:
+#   ollama create determinex-leviathan:v1 -f Modelfile.leviathan
+#   (deepseek-coder-v2:latest is already downloaded — no pull needed)
+
+FROM deepseek-coder-v2:latest
+
+# Force CPU-only inference — VRAM stays free for the VRAM swarm
+PARAMETER num_gpu 0
+
+# Large context: receives full failed code + compiler output + task prompt
+PARAMETER num_ctx 8192
+
+# Deterministic output required — same as Engineer/Observer
+PARAMETER temperature 0
+
+# Keep in system RAM between escalation calls (harness sends keep_alive=1800)
+# This matches LEVIATHAN_KEEP_ALIVE_SECS in benchmark_ingestor.rs
+PARAMETER num_keep -1

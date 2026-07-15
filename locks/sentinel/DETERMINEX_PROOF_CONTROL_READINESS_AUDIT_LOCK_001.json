@@ -1,0 +1,27 @@
+{
+  "lock_id": "DETERMINEX_PROOF_CONTROL_READINESS_AUDIT_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Audit that the Determinex proof-control plane is ready for unified status consumption without starting unified status while Claude/Tauri work may be in flight.",
+  "depends_on_locks": [
+    "DETERMINEX_PROOF_CONTROL_PLANE_FINAL_STATE_LOCK_001"
+  ],
+  "status": "PROOF_CONTROL_READY_FOR_UNIFIED_STATUS",
+  "record": "assurance/evidence/proof_control_readiness_audit/run_20260528.PROOF_CONTROL_READY_FOR_UNIFIED_STATUS.json",
+  "test_modules": [
+    "tests/proof/test_determinex_proof_control_readiness_audit_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/proof/test_determinex_proof_control_readiness_audit_lock.py",
+    "passed": 4,
+    "failed": 0
+  },
+  "execution_authority_granted": false,
+  "source_mutation_authority_granted": false,
+  "training_eligibility_granted": false,
+  "docker_run_performed": false,
+  "programbench_rerun_performed": false,
+  "source_mutation_performed": false,
+  "training_rows_written": false,
+  "does_not_prove": "Does not start unified status, mutate Claude/Tauri files, run Docker, run ProgramBench, mutate source, or create training rows."
+}

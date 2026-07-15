@@ -1,0 +1,99 @@
+{
+  "lock_id": "VERIFIED_REPAIR_TRACE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Composes the four prior rungs into a single signed end-to-end trace. VerifiedRepairTraceRunner walks: BuildAdapterRegistry.select → ModelRouter.route (per task class) → MockModelClient.invoke → SafePatchWorkspace.apply_and_verify → injected verifier callable → trace assembly. The output is a VerifiedRepairTrace whose trace_id is sha256-derived from (workspace, salt, canned_kind) and whose trace_fingerprint is sha256 over the canonical JSON body. Source repo is never mutated (sha256 tree before==after enforced through the safe-patch workspace). corpus_eligibility=BLOCKED_BY_DEFAULT and training_eligible=False on every trace, regardless of outcome.",
+  "purpose": "Rung 4 of the verified-repair campaign. This is the apparatus proof — the moment the four pillars compose cleanly. Sets up HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001 (the next rung) to gate the eventual original-repo write against a trace_id + diff hash + verifier-passed evidence packet.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LLM_MOCKED_INTAKE_REPAIR_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001"
+  ],
+  "tests": 13,
+  "passed_on_this_host": 13,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_verified_repair_trace_lock.py"
+  ],
+  "fixtures_traced": [
+    {"path": "tests/fixtures/intake/python_broken",   "adapter": "Python",  "expected": "TRACE_VERIFIER_PASSED_TEMP_ONLY"},
+    {"path": "tests/fixtures/intake/rust_broken",     "adapter": "Rust",    "expected": "TRACE_VERIFIER_FAILED"},
+    {"path": "tests/fixtures/intake/go_broken",       "adapter": "Go",      "expected": "TRACE_VERIFIER_PASSED_TEMP_ONLY"},
+    {"path": "tests/fixtures/intake/ts_broken",       "adapter": "Node/TypeScript", "expected": "TRACE_VERIFIER_PASSED_TEMP_ONLY"},
+    {"path": "tests/fixtures/intake/unsupported_repo","adapter": "Unknown", "expected": "TRACE_BLOCKED_UNSUPPORTED_REPO"}
+  ],
+  "status_tokens": [
+    "VERIFIED_REPAIR_TRACE_WRITTEN",
+    "TRACE_BLOCKED_UNSUPPORTED_REPO",
+    "TRACE_BLOCKED_NO_VERIFIER",
+    "TRACE_PATCH_FAILED",
+    "TRACE_VERIFIER_FAILED",
+    "TRACE_VERIFIER_PASSED_TEMP_ONLY",
+    "TRACE_SOURCE_UNCHANGED_CONFIRMED",
+    "TRAINING_ELIGIBLE_FALSE",
+    "TRACE_BLOCKED_NO_ROUTE"
+  ],
+  "invariants": [
+    "VerifiedRepairTrace.trace_id is sha256(workspace + salt + canned_kind) — reproducible from inputs.",
+    "VerifiedRepairTrace.trace_fingerprint = sha256(canonical JSON of trace) — stable across repeated to_json() calls of the same trace.",
+    "The runner composes BuildAdapterRegistry + ModelRouter + MockModelClient + SafePatchWorkspace + verifier callable. No new I/O surface is introduced.",
+    "Unsupported repo (UnknownAdapter) short-circuits with TRACE_BLOCKED_UNSUPPORTED_REPO; safe_patch_result is empty; no mock invocation.",
+    "Source-preservation: workspace sha256 tree is unchanged after every run, across all five fixtures, in both verifier-pass and verifier-fail paths.",
+    "Verifier-fail path: trace.final_status=TRACE_VERIFIER_FAILED; safe_patch_result.verifier_status=PATCH_VERIFIER_FAILED; original_unchanged True.",
+    "corpus_eligibility is always 'BLOCKED_BY_DEFAULT' and training_eligible is always False on every trace path.",
+    "scripts/repair/verified_repair_trace.py and verified_repair_trace_record.py contain no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "The runner never invokes BuildAdapter.run_shadow_build on the original workspace — that would trigger a real toolchain. Real-toolchain integration is opt-in via the verifier argument; tests use stub verifiers.",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false,
+    "real_toolchain_invoked_in_tests": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/repair/verified_repair_trace.py",
+      "scripts/repair/verified_repair_trace_record.py"
+    ],
+    "tests": [
+      "tests/repair/test_verified_repair_trace_lock.py"
+    ],
+    "lock": "locks/sentinel/VERIFIED_REPAIR_TRACE_LOCK_001.json",
+    "evidence": "assurance/evidence/verified_repair_trace/run_20260527.json",
+    "docs": "docs/VERIFIED_REPAIR_TRACE.md"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/verified_repair_trace/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "Tests use stub verifiers (always pass / always fail). BuildAdapter-backed verifiers that run cargo check / pytest on the temp workspace are opt-in (caller passes a real verifier); not exercised by the lock's focused tests.",
+    "Trace_fingerprint includes the temp_workspace path, which varies across runs. trace_id is the input-derived invariant; trace_fingerprint is the output-derived invariant.",
+    "Trace records are NOT yet wired into the evidence_index as machine-readable corpus rows. Corpus admission is gated by CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001 (next-next rung)."
+  ],
+  "next_recommended_lock": "HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001",
+  "files": [
+    "scripts/repair/verified_repair_trace.py",
+    "scripts/repair/verified_repair_trace_record.py",
+    "tests/repair/test_verified_repair_trace_lock.py",
+    "locks/sentinel/VERIFIED_REPAIR_TRACE_LOCK_001.json",
+    "assurance/evidence/verified_repair_trace/run_20260527.json",
+    "docs/VERIFIED_REPAIR_TRACE.md"
+  ]
+}

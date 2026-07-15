@@ -1,0 +1,83 @@
+{
+  "lock_id": "LEGACY_CORPUS_RECOVERY_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Exploit quarantined legacy corpus as mined evidence, replay planning, and failure taxonomy without promoting dirty rows into training.",
+  "focused_tests": {
+    "module": "tests/corpus/test_legacy_corpus_recovery_lock.py",
+    "passed": 9,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/legacy_scan.py",
+    "scripts/corpus/legacy_recovery/legacy_parse_recover.py",
+    "scripts/corpus/legacy_recovery/legacy_bucket_classifier.py",
+    "scripts/corpus/legacy_recovery/legacy_failure_clusterer.py",
+    "scripts/corpus/legacy_recovery/legacy_replay_planner.py",
+    "scripts/corpus/legacy_recovery/legacy_quarantine_report.py",
+    "scripts/corpus/legacy_recovery/legacy_trace_promoter.py",
+    "scripts/corpus/legacy_recovery/programbench_priority_model.py",
+    "tests/corpus/test_legacy_corpus_recovery_lock.py"
+  ],
+  "evidence_outputs": [
+    "assurance/evidence/legacy_quarantine_report.json",
+    "assurance/evidence/legacy_failure_taxonomy.json",
+    "assurance/evidence/legacy_replay_candidate_list.json",
+    "assurance/evidence/programbench_priority_model.json"
+  ],
+  "sample_audit": {
+    "path": "corpus/programbench/training_corpus/pb_verdict_corpus.jsonl",
+    "rows_scanned": 100000,
+    "truncated": true,
+    "bucket_counts": {
+      "reconstructable_verifier_row": 99909,
+      "unrecoverable": 91
+    },
+    "replay_candidate_count": 99909,
+    "training_eligible_rows": 0
+  },
+  "top_failure_clusters": [
+    "uncategorized",
+    "stdout_stderr_mismatch",
+    "path_env_dependency",
+    "exit_code_mismatch",
+    "argv0_alias_regression",
+    "missing_asset",
+    "native_required",
+    "locale_encoding_issue",
+    "progress_output_noise",
+    "wrapper_churn_risk",
+    "date_time_nondeterminism"
+  ],
+  "top_replay_priority_tools": [
+    "antonmedv__fx.86d0d34",
+    "axodotdev__oranda.27d60c7",
+    "nikolassv__bartib.6b9b5ce",
+    "ammarabouzor__tui-journal.2b4540d",
+    "sibprogrammer__xq.b89f681",
+    "rcoh__angle-grinder.9c2fc88",
+    "jarun__nnn.cb2c535",
+    "riquito__tuc.16fb471",
+    "gabotechs__dep-tree.60a95a2",
+    "naggie__dstask.ff57396"
+  ],
+  "promotion_rules": [
+    "Legacy rows remain quarantined forever.",
+    "Recovered training rows must be new rows linked by recovered_from.legacy_row_hash.",
+    "Promotion requires parseable source, dedupe, bounded provenance, language/tool identification, reconstructed verifier, fresh verifier run, failure_class, repair_outcome, acceptable license/source risk, canonical-v2 trace_hash, and durable HMAC signature.",
+    "Rows without fresh verifier evidence may inform taxonomy, routing, queue priority, and anti-pattern detection only."
+  ],
+  "policy": [
+    "The legacy corpus is raw ore, not training fuel.",
+    "Do not train directly from local legacy ProgramBench rows.",
+    "Use legacy evidence to generate replay candidates and synthetic mutation suites.",
+    "Use weak legacy evidence for router/risk/priority only, not repair examples."
+  ],
+  "does_not_prove": "Does not make the 1.4M-row local legacy corpus training eligible; it proves a controlled recovery path and initial mined evidence outputs.",
+  "previous_lock": "LOCAL_LEGACY_CORPUS_QUARANTINE_LOCK_001",
+  "next_lock": "AIDER_POLYGLOT_SAMPLE_RUN_LOCK_001"
+}

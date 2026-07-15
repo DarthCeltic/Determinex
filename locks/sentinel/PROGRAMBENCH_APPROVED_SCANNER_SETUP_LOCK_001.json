@@ -1,0 +1,115 @@
+{
+  "lock_id": "PROGRAMBENCH_APPROVED_SCANNER_SETUP_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "d390e5c8810aedaaa6a46158295756bfca2eb98d",
+  "purpose": "Configure or admit an approved scanner installation path before cleanroom image scanning can be retried.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_approved_scanner_setup_lock.py",
+    "passed": 16,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_approved_scanner_setup_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_import_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py"
+    ],
+    "passed": 69,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "passed": 148,
+    "failed": 0,
+    "modules": [
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+      "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_artifact_source_escalation_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_import_lock.py",
+      "tests/corpus/programbench/test_programbench_approved_scanner_setup_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py"
+    ]
+  },
+  "full_suite": {
+    "passed": 1339,
+    "failed": 2,
+    "skipped": 5,
+    "note": "Failures are unrelated dev parallel-execution audit tests: ShadowCompiler and BuildAdapter subprocess-site detection."
+  },
+  "implementation": [
+    "scripts/corpus/programbench/approved_scanner_setup.py",
+    "scripts/corpus/programbench/approved_scanner_setup_record.py",
+    "tests/corpus/programbench/test_programbench_approved_scanner_setup_lock.py"
+  ],
+  "doxygen_live_scanner_setup": {
+    "setup_record": "assurance/evidence/programbench_approved_scanner_setup/trivy.APPROVED_SCANNER_ADMISSION_PASSED.json",
+    "status": "APPROVED_SCANNER_ADMISSION_PASSED",
+    "scanner_name": "trivy",
+    "scanner_path": "C:/Users/ryang/AppData/Local/Microsoft/WinGet/Packages/AquaSecurity.Trivy_Microsoft.Winget.Source_8wekyb3d8bbwe/trivy.exe",
+    "scanner_version": "Version: 0.70.0",
+    "capability": "trivy image --input <archive.tar> --format json",
+    "admission_status": "CLEANROOM_SCANNER_ADMITTED",
+    "reason": "",
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "preferred_order": [
+    "trivy",
+    "grype"
+  ],
+  "statuses": [
+    "APPROVED_SCANNER_SETUP_READY",
+    "APPROVED_SCANNER_FOUND",
+    "APPROVED_SCANNER_NOT_FOUND",
+    "APPROVED_SCANNER_OPERATOR_PATH_ACCEPTED",
+    "APPROVED_SCANNER_OPERATOR_PATH_REJECTED",
+    "APPROVED_SCANNER_VERSION_VERIFIED",
+    "APPROVED_SCANNER_CAPABILITY_VERIFIED",
+    "APPROVED_SCANNER_SETUP_REQUIRED",
+    "APPROVED_SCANNER_ADMISSION_RERUN_READY",
+    "APPROVED_SCANNER_ADMISSION_PASSED",
+    "APPROVED_SCANNER_ADMISSION_FAILED",
+    "CLEANROOM_IMAGE_NOT_EXECUTABLE",
+    "CLEANROOM_IMAGE_TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "existing Trivy path is preferred and accepted with mocks",
+    "existing Grype path is accepted when Trivy is absent",
+    "unknown scanner is rejected",
+    "missing scanner produces APPROVED_SCANNER_SETUP_REQUIRED",
+    "operator-provided valid scanner path is accepted",
+    "operator-provided invalid path is rejected",
+    "version read failure rejects scanner",
+    "capability failure rejects scanner",
+    "setup record is signed",
+    "scanner admission can be rerun after valid setup",
+    "setup does not scan the Doxygen artifact",
+    "setup does not mark cache_ready",
+    "setup does not mark executable true",
+    "setup does not mark training_eligible true",
+    "no Docker container execution occurs",
+    "no ProgramBench rerun occurs"
+  ],
+  "policy": [
+    "Scanner setup is not scanning.",
+    "Scanner admission is not scanning.",
+    "Scanning is not hydration.",
+    "Hydration is not execution.",
+    "No Docker container execution.",
+    "No ProgramBench execution.",
+    "No Doxygen retry.",
+    "No cache_ready without successful scan and hydration policy.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not scan, hydrate, execute, or score ProgramBench. It proves Trivy is installed/admitted and ready for the scan gate only.",
+  "previous_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_SCANNER_ADMISSION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_SCAN_LOCK_001 completed; current blocker is scan policy failure"
+}

@@ -1,0 +1,32 @@
+{
+  "lock_id": "IDE_SOURCE_APPLY_GATE_FLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "IDE source apply gate. Pure decision surface. Consumes a signing record + packet + observed source state. Returns DRY_RUN_READY, FIXTURE_ONLY, or specific block reason. Never mutates the original repo.",
+  "purpose": "Rung 7 of the IDE frontend/approval campaign.",
+  "depends_on_locks": [
+    "IDE_HUMAN_APPROVAL_SIGNING_FLOW_LOCK_001",
+    "SOURCE_MUTATION_APPLY_DRY_RUN_LOCK_001"
+  ],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_source_apply_gate_flow_lock.py"],
+  "status_tokens": [
+    "IDE_SOURCE_APPLY_BLOCKED_NO_APPROVAL",
+    "IDE_SOURCE_APPLY_BLOCKED_STALE_SOURCE",
+    "IDE_SOURCE_APPLY_BLOCKED_DIFF_MISMATCH",
+    "IDE_SOURCE_APPLY_BLOCKED_VERIFIER_NOT_PASSED",
+    "IDE_SOURCE_APPLY_DRY_RUN_READY",
+    "IDE_SOURCE_APPLY_SOURCE_UNCHANGED",
+    "IDE_SOURCE_APPLY_FIXTURE_ONLY",
+    "IDE_SOURCE_APPLY_BLOCKED_NOT_SIGNED"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "real_source_apply_implemented": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_source_apply_gate_flow/run_20260528.json"},
+  "next_recommended_lock": "TAURI_BACKEND_COMMAND_BRIDGE_LOCK_001"
+}

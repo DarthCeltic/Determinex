@@ -1,0 +1,43 @@
+{
+  "lock_id": "FRONTEND_PANEL_COMMAND_WIRING_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Per-panel command binding registry. Single source of truth mapping each visible repair panel to the Tauri command(s) it must call, the default mode it must operate in, and the always-blocked source-mutation rule. Python audit pins each binding against the panel's TSX source.",
+  "purpose": "Rung 3 of the Tauri-integrated frontend campaign.",
+  "depends_on_locks": [
+    "TAURI_LIB_RS_COMMAND_WIRING_LOCK_001",
+    "FRONTEND_COMMAND_INVOKE_CLIENT_LOCK_001",
+    "FRONTEND_REPAIR_PANEL_SHELL_LOCK_001",
+    "FRONTEND_WORKSPACE_STATUS_PANEL_LOCK_001",
+    "FRONTEND_MODEL_ROUTE_PANEL_LOCK_001",
+    "FRONTEND_DIAGNOSE_AND_PATCH_PLAN_FLOW_LOCK_001",
+    "FRONTEND_TEMP_VERIFY_PANEL_LOCK_001",
+    "FRONTEND_HUMAN_APPROVAL_PANEL_LOCK_001",
+    "FRONTEND_SOURCE_APPLY_DRY_RUN_PANEL_LOCK_001",
+    "FRONTEND_EVIDENCE_VIEWER_LOCK_001"
+  ],
+  "tests": 10,
+  "passed_on_this_host": 10,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide_frontend/test_frontend_panel_command_wiring_lock.py"
+  ],
+  "status_tokens": [
+    "FRONTEND_PANEL_COMMAND_WIRING_READY",
+    "FRONTEND_DRY_RUN_DEFAULT_CONFIRMED",
+    "FRONTEND_LIVE_OPT_IN_REQUIRED",
+    "FRONTEND_SOURCE_MUTATION_BLOCKED"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_called": false,
+    "network_provider_admitted": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/frontend_panel_command_wiring/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_LOCAL_MODEL_PROVIDER_CONFIG_LOCK_001"
+}

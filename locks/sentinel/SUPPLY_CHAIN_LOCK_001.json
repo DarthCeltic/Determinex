@@ -1,0 +1,77 @@
+{
+  "lock_id": "SUPPLY_CHAIN_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 133,
+  "passed": 133,
+  "failed": 0,
+  "test_modules": [
+    "tests/corpus/test_license_gate.py",
+    "tests/corpus/test_gpl_requires_review.py",
+    "tests/corpus/test_no_unlicensed_code_ingest.py",
+    "tests/corpus/test_secret_code_rejected.py",
+    "tests/corpus/test_java_junit_trace_signed.py",
+    "tests/redteam/test_prompt_injection_browser.py",
+    "tests/redteam/test_prompt_injection_pdf.py",
+    "tests/redteam/test_poisoned_repo_readme.py",
+    "tests/redteam/test_malicious_maven_plugin.py"
+  ],
+  "coverage": [
+    "license_gate",
+    "spdx_normalization",
+    "secret_scanning",
+    "corpus_deduplication",
+    "prompt_injection_detection",
+    "supply_chain_attack_detection",
+    "corpus_hmac_signing",
+    "maven_project_indexing",
+    "red_team_browser",
+    "red_team_pdf",
+    "red_team_readme",
+    "red_team_maven"
+  ],
+  "implementations": [
+    "scripts/corpus/code_ingest/license_detector.py",
+    "scripts/corpus/code_ingest/spdx_normalizer.py",
+    "scripts/corpus/code_ingest/secret_scanner.py",
+    "scripts/corpus/code_ingest/deduper.py",
+    "scripts/corpus/code_ingest/maven_project_indexer.py",
+    "scripts/corpus/code_ingest/gradle_project_indexer.py",
+    "scripts/corpus/code_ingest/java_task_extractor.py",
+    "scripts/corpus/code_ingest/junit_harness_builder.py",
+    "scripts/agents/prompt_injection_detector.py",
+    "scripts/security/generate_sbom.py",
+    "scripts/security/dependency_scan.py",
+    "scripts/security/verify_lockfiles.py"
+  ],
+  "license_policy": {
+    "green_auto_ingest": ["MIT", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "ISC", "Unlicense", "CC0-1.0", "0BSD", "BlueOak-1.0.0", "BSD-2-Clause-Patent"],
+    "yellow_review_required": ["MPL-2.0", "EPL-2.0", "EPL-1.0", "CC-BY-4.0", "CC-BY-SA-4.0", "EUPL-1.2"],
+    "red_blocked": ["GPL-2.0-only", "GPL-2.0-or-later", "GPL-3.0-only", "GPL-3.0-or-later", "AGPL-3.0-only", "AGPL-3.0-or-later", "LGPL-2.0-only", "LGPL-2.1-only", "LGPL-2.1-or-later", "LGPL-3.0-only", "LGPL-3.0-or-later", "SSPL-1.0", "BUSL-1.1", "Commons-Clause"],
+    "unknown_blocked": true,
+    "fail_closed": true
+  },
+  "secret_scanner_categories": [
+    "private_key", "llm_key", "aws", "gcp", "vcs_token",
+    "service_token", "token", "database", "api_key", "password"
+  ],
+  "injection_patterns": {
+    "critical": 7,
+    "high": 9,
+    "suspicious": 4,
+    "total": 20
+  },
+  "assurance_docs": [
+    "assurance/controls/control_matrix.json",
+    "assurance/risks/risk_register.json",
+    "assurance/evidence/evidence_index.json",
+    "docs/THREAT_MODEL.md",
+    "docs/RISK_REGISTER.md",
+    "docs/CONTROL_MATRIX.md",
+    "docs/CORPUS_LICENSE_POLICY.md",
+    "docs/SUPPLY_CHAIN_SECURITY.md",
+    "docs/INCIDENT_RESPONSE.md"
+  ],
+  "previous_lock": "VISUAL_REPAIR_LOCK_001",
+  "next_lock": "CORPUS_LICENSE_LOCK_001"
+}

@@ -1,0 +1,24 @@
+{
+  "lock_id": "DETERMINEX_PROOF_GAP_PACKET_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Create normalized non-authorizing proof gap packets for missing or insufficient proof.",
+  "depends_on_locks": [
+    "DETERMINEX_PROOF_SOURCE_REGISTRY_LOCK_001",
+    "DETERMINEX_PROOF_TYPE_AUTHORITY_MATRIX_LOCK_001"
+  ],
+  "status": "PROOF_GAP_PACKET_WRITTEN",
+  "record": "assurance/evidence/proof_gap_packets/run_20260528.PROOF_GAP_PACKET_WRITTEN.json",
+  "test_modules": [
+    "tests/proof/test_determinex_proof_gap_packet_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/proof/test_determinex_proof_gap_packet_lock.py",
+    "passed": 4,
+    "failed": 0
+  },
+  "execution_authorized": false,
+  "source_mutation_authorized": false,
+  "training_eligible": false,
+  "does_not_prove": "Does not satisfy any proof gap or authorize execution, source mutation, or training."
+}

@@ -1,0 +1,66 @@
+{
+  "lock_id": "DETERMINEX_IDE_TAURI_INTEGRATED_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Final Tauri-integrated state for the Determinex IDE. Consolidates the 8 Tauri-integrated rungs plus the prior frontend-ready foundation into a single DeterminexIDETauriIntegratedFinalState. Source mutation, training eligibility, live model call, network providers, and Docker all remain BLOCKED by default. lib.rs now exposes the 10 bridge commands.",
+  "purpose": "Campaign finale for REAL_TAURI_LIB_RS_WIRING_AND_LIVE_LOCAL_MODEL_PROVIDER.",
+  "depends_on_locks": [
+    "TAURI_LIB_RS_COMMAND_WIRING_LOCK_001",
+    "FRONTEND_COMMAND_INVOKE_CLIENT_LOCK_001",
+    "FRONTEND_PANEL_COMMAND_WIRING_LOCK_001",
+    "REAL_LOCAL_MODEL_PROVIDER_CONFIG_LOCK_001",
+    "OLLAMA_LOCAL_PROVIDER_SMOKE_LOCK_001",
+    "FRONTEND_LIVE_DIAGNOSE_OPT_IN_SMOKE_LOCK_001",
+    "FRONTEND_APPROVAL_PACKET_ROUNDTRIP_LOCK_001",
+    "FRONTEND_REAL_FLOW_E2E_LOCK_001",
+    "DETERMINEX_IDE_FRONTEND_READY_FINAL_STATE_LOCK_001"
+  ],
+  "tests": 17,
+  "passed_on_this_host": 17,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/dev/test_determinex_ide_tauri_integrated_final_state_lock.py"
+  ],
+  "status_tokens": [
+    "DETERMINEX_IDE_TAURI_INTEGRATED_FINAL_STATE_WRITTEN",
+    "TAURI_LIB_RS_WIRING_READY",
+    "FRONTEND_COMMAND_CLIENT_READY",
+    "PANEL_COMMAND_WIRING_READY",
+    "LOCAL_MODEL_PROVIDER_CONFIG_READY_OPT_IN",
+    "OLLAMA_PROVIDER_SMOKE_READY_OR_BLOCKED_WITH_REASON",
+    "LIVE_DIAGNOSE_OPT_IN_READY_OR_BLOCKED_WITH_REASON",
+    "APPROVAL_PACKET_ROUNDTRIP_READY",
+    "FRONTEND_REAL_FLOW_E2E_READY",
+    "SOURCE_MUTATION_BLOCKED_PENDING_REAL_HUMAN_APPROVAL",
+    "TRAINING_ELIGIBILITY_BLOCKED_BY_DEFAULT",
+    "RELEASE_READINESS_NOT_RELEASED",
+    "NEXT_UNBLOCKER_DECLARED"
+  ],
+  "final_dimensions": {
+    "tauri_lib_rs_wiring": "READY",
+    "frontend_command_client": "READY",
+    "panel_command_wiring": "READY",
+    "local_model_provider_config": "READY_OPT_IN",
+    "ollama_provider_smoke": "READY_OR_BLOCKED_WITH_REASON",
+    "live_diagnose_opt_in": "READY_OR_BLOCKED_WITH_REASON",
+    "approval_packet_roundtrip": "READY",
+    "frontend_real_flow_e2e": "READY",
+    "source_mutation": "BLOCKED_PENDING_REAL_HUMAN_APPROVAL",
+    "training_eligibility": "BLOCKED_BY_DEFAULT",
+    "release_readiness": "NOT_RELEASED",
+    "next_unblocker": "REAL_LOCAL_MODEL_AVAILABLE_AND_REAL_USER_APPROVAL_APPLY_GATE"
+  },
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_called": false,
+    "network_provider_admitted": false,
+    "docker_used": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_ide_tauri_integrated_final_state/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_LOCAL_MODEL_AVAILABLE_AND_REAL_USER_APPROVAL_APPLY_GATE"
+}

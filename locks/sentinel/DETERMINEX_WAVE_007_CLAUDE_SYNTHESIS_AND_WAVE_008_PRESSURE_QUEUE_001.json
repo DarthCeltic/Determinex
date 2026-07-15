@@ -1,0 +1,79 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/claim_boundary_20260605.json",
+    "lane_matrix": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/lane_matrix_20260605.json",
+    "top_20_full_system_blockers": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/top_20_full_system_blockers_20260605.json",
+    "top_20_trust_blockers": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/top_20_trust_blockers_20260605.json",
+    "top_20_wow_blockers": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/top_20_wow_blockers_20260605.json",
+    "top_30_codex_deltas": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/top_30_codex_deltas_20260605.json",
+    "top_public_claim_risks": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/top_public_claim_risks_20260605.json",
+    "verdict": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/verdict_20260605.json",
+    "wave_008_claude_lanes": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/wave_008_claude_lanes_20260605.json",
+    "wave_008_codex_pressure_queue": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/wave_008_codex_pressure_queue_20260605.json"
+  },
+  "audit_pass": true,
+  "blocked": false,
+  "blocked_reason": null,
+  "claim_boundary": [
+    "Wave 007 Claude reviews are planning audits and parallel critique.",
+    "No authority granted. No support promotion. No source truth mutation.",
+    "Installer, driver, GUI, SBOM, training, and network actions remain gated on exact signed operator approval.",
+    "Release-supported cells remain 10 (9 user-visible / 1 internal / 0 install-packaging).",
+    "Release-supported families remain 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-05",
+  "doc": "docs/DETERMINEX_WAVE_007_CLAUDE_SYNTHESIS_AND_WAVE_008_PRESSURE_QUEUE_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_007_claude_lane_Q",
+  "gulp_wave_id": "007",
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_synthesis_lane": true,
+  "lane": "Q",
+  "lock_id": "DETERMINEX_WAVE_007_CLAUDE_SYNTHESIS_AND_WAVE_008_PRESSURE_QUEUE_001",
+  "purpose": "Wave 007 Claude Lane Q. Synthesize all Wave 007 Claude reviews; rank top 30 Codex deltas; top 20 full-system / trust / wow blockers; public claim risks; Wave 008 Claude lanes; Wave 008 Codex pressure queue.",
+  "record": "assurance/evidence/wave_007_claude_synthesis_and_wave_008_pressure_queue_001/run_20260605.WAVE_007_CLAUDE_SYNTHESIS_AND_WAVE_008_PRESSURE_QUEUE_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE_007_CLAUDE_SYNTHESIS_AND_WAVE_008_PRESSURE_QUEUE_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_007_claude_synthesis_and_wave_008_pressure_queue_001.py"
+  ],
+  "top_20_full_system_blocker_count": 20,
+  "top_20_trust_blocker_count": 20,
+  "top_20_wow_blocker_count": 20,
+  "top_30_codex_deltas_count": 30,
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant": true,
+      "release_supported_families_invariant": true
+    },
+    "passed": true
+  },
+  "verdict": "WAVE_007_CLAUDE_ATTACK_REVIEW_COMPLETE — 12 attack lanes recorded. Operator signature mechanism remains the single highest-leverage Codex action; GUI first-paint, ProgramBench moat wiring, Cloak crypto/side-channel, SBOM/signing chain, HTML proof report integrity, and OMG five-field score schema are the other top blockers. Claim gate must be CI-wired before any narrative move. 30 ranked Codex deltas + 60 blockers (20 full-system + 20 trust + 20 wow) + 12 public-claim risks queued. Wave 008 generates 9 Claude lanes + 18 Codex pressure-queue items.",
+  "wave_008_claude_lane_count": 9,
+  "wave_008_codex_queue_count": 18
+}

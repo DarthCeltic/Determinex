@@ -1,0 +1,81 @@
+{
+  "backend_loader": "scripts/ide/universal_100_top_level_blocker_inventory_status.py",
+  "bound_to_evidence": "assurance/evidence/universal_100_top_level_blocker_inventory/run_20260529.UNIVERSAL_100_TOP_LEVEL_BLOCKER_INVENTORY_PASSED.json",
+  "captions_included": [
+    "This panel displays evidence; it does not grant authority.",
+    "Inventory classifies blockers and safe next rungs only.",
+    "Inventory does not promote support or grant capability.",
+    "Forbidden shortcuts remain forbidden.",
+    "Operator-action and provider-gate blockers remain operator-gated.",
+    "Local resolvability does not mean automatic closure.",
+    "Universal 100 means routing/accounting, not universal execution."
+  ],
+  "claim_boundary": [
+    "Read-only React binding to Codex top-level blocker inventory evidence.",
+    "10 blockers classified across categories: AUTHORITY_MISSING=1, LOCAL_DEPENDENCY_MISSING=2, NETWORK_REQUIRED_BUT_NOT_ALLOWED=1, TOOLCHAIN_MISSING_OR_UNVERIFIED=3, VERIFIER_MISSING=3.",
+    "Inventory classifies blockers and safe next rungs only.",
+    "Inventory does NOT promote support or grant capability.",
+    "Forbidden shortcuts remain forbidden.",
+    "Operator-action and provider-gate blockers remain operator-gated.",
+    "Local resolvability does NOT mean automatic closure.",
+    "No source mutation, training, release, approval, proof-execution, or broad-claims authority granted."
+  ],
+  "commit": "unrecorded",
+  "dashboard_report": "docs/DETERMINEX_REACT_UNIVERSAL_100_TOP_LEVEL_BLOCKER_INVENTORY_BINDING.md",
+  "date": "2026-05-29",
+  "focused_tests": {
+    "failed": 0,
+    "module": "tests/ide/test_react_universal_100_top_level_blocker_inventory_binding_lock.py",
+    "passed": 22
+  },
+  "full_suite": {
+    "failed": 0,
+    "note": "Focused blocker inventory binding suite.",
+    "passed": 22
+  },
+  "hard_rules_enforced": [
+    "status mismatch -> BLOCKED_MALFORMED",
+    "authority flag true -> BLOCKED_AUTHORITY_CONFUSION",
+    "broad_claims_granted true -> BLOCKED_BROAD_CLAIM",
+    "blockers list absent / empty when blocker_count > 0 -> BLOCKED_MALFORMED",
+    "blocker missing blocker_id / category / family / sector_id / local_resolvability / safe_next_rung / forbidden_shortcut -> BLOCKED_MALFORMED",
+    "category_counts / local_resolvability_counts absent -> BLOCKED_MALFORMED",
+    "forbidden broad-claim phrase outside refusal context -> BLOCKED_BROAD_CLAIM",
+    "evidence absent/corrupt -> AWAITING_EVIDENCE"
+  ],
+  "loader_decision_on_current_evidence": "REACT_UNIVERSAL_100_TOP_LEVEL_BLOCKER_INVENTORY_BINDING_PASSED",
+  "lock_id": "DETERMINEX_REACT_UNIVERSAL_100_TOP_LEVEL_BLOCKER_INVENTORY_BINDING_LOCK_001",
+  "next_recommended_rung": "DETERMINEX_REACT_UNIVERSAL_100_TOP_LEVEL_SECTOR_GAP_CLOSURE_WAVE_001_BINDING_LOCK_001",
+  "panel_path": "frontend/src/components/ide-product-shell/Universal100TopLevelBlockerInventoryPanel.tsx",
+  "purpose": "Read-only React visual binding of Codex Universal 100 top-level blocker inventory evidence (10 blockers classified by category, family, sector, local resolvability, safe next rung, forbidden shortcut). Refuses authority broadening, missing blocker fields, missing category/resolvability counts, and forbidden broad-claim phrases. Inventory classifies; it does not promote.",
+  "record": "assurance/evidence/determinex_react_universal_100_top_level_blocker_inventory_binding/run_20260529.json",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "claude_owns_data_plane": false,
+    "inventory_promotes_capability": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "safe_next_rung_grants_authority": false,
+    "source_mutation_authorized": false,
+    "source_truth_mutated": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "series_id": "DETERMINEX_REACT_UNIVERSAL_100_TOP_LEVEL_BLOCKER_INVENTORY_BINDING_LOCK_001",
+  "source_audit_paths": [],
+  "source_evidence_paths": [
+    "assurance/evidence/universal_100_top_level_blocker_inventory/run_20260529.UNIVERSAL_100_TOP_LEVEL_BLOCKER_INVENTORY_PASSED.json",
+    "assurance/evidence/evidence_index.json"
+  ],
+  "status": "REACT_UNIVERSAL_100_TOP_LEVEL_BLOCKER_INVENTORY_BINDING_PASSED",
+  "tauri_command": "get_universal_100_top_level_blocker_inventory_status",
+  "test_modules": [
+    "tests/ide/test_react_universal_100_top_level_blocker_inventory_binding_lock.py"
+  ]
+}

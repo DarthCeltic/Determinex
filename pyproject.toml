@@ -1,0 +1,91 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "determinex"
+version = "1.0.0"
+description = "Compiler-verified multi-agent code intelligence with DAG build loop and Rosetta Stone cross-architecture embedding bridge"
+requires-python = ">=3.11"
+license = { text = "AGPL-3.0-or-later" }
+readme = "README.md"
+
+dependencies = [
+    "fastembed>=0.4.0",
+    "sqlite-vec>=0.1.9",
+    "datasets>=2.0.0",
+    "transformers>=4.40.0",
+    "huggingface_hub>=0.20.0",
+    "peft>=0.10.0",
+    "trl>=0.8.0",
+    "bitsandbytes>=0.43.0",
+    "accelerate>=0.28.0",
+    "requests>=2.31.0",
+    "numpy>=1.26.0",
+    "tiktoken>=0.6.0",
+    "openai>=1.0.0",
+    "anthropic>=0.25.0",
+    "torch>=2.1.0",
+    "cryptography>=42.0.0",
+    "litellm>=1.0.0",
+]
+
+[project.scripts]
+determinex = "scripts.determinex_cli:main"
+
+[project.optional-dependencies]
+# Benchmark evaluation (evalplus) — not needed for normal use
+# Note: bigcodebench removed — it depends on vllm which has broken build metadata
+bench = [
+    "evalplus>=0.3.0",
+    "datasets>=2.16.0",
+    "litellm>=1.0.0",
+    "tqdm>=4.66.0",
+]
+# Test infrastructure — pytest + coverage. Install with: pip install -e .[dev]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=5.0.0",
+    "pytest-timeout>=2.3.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scripts*", "determinex_trainer*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.json"]
+
+[tool.pyright]
+pythonVersion = "3.11"
+extraPaths = ["scripts"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+# Exclude fixture sub-trees: tests/fixtures/intake/<lang>_broken/ contains
+# intentionally-failing sample repos that must NOT be auto-collected.
+norecursedirs = ["fixtures", ".*", "*.egg", "node_modules", "venv", ".venv"]
+addopts = ["-ra", "--strict-markers"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: integration tests requiring Ollama/Docker",
+]
+
+[tool.coverage.run]
+source = ["scripts", "determinex_trainer"]
+omit = [
+    "tests/*",
+    "*/site-packages/*",
+    "scripts/testing/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]

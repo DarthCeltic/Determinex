@@ -1,0 +1,78 @@
+{
+  "artifact_paths": {
+    "approval_resolution": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/approval_resolution_20260531.json",
+    "driver_admission_record": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/driver_admission_record_20260531.json",
+    "driver_source_integrity_record": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/driver_source_integrity_record_20260531.json",
+    "first_paint_transcript": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/first_paint_transcript_20260531.json",
+    "gui_first_paint_claim_boundary": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/gui_first_paint_claim_boundary_20260531.json",
+    "next_gui_queue": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/next_gui_queue_20260531.json",
+    "orphan_cleanup_record": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/orphan_cleanup_record_20260531.json",
+    "signed_approval_request": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/signed_approval_request_20260531.json",
+    "visual_evidence_record": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/visual_evidence_record_20260531.json"
+  },
+  "authority": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "launch_readiness_granted": false,
+    "production_readiness_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_readiness_granted": false,
+    "release_ready": false,
+    "release_supported": false,
+    "source_mutation_authorized": false,
+    "support_depth_promotion_granted": false,
+    "training_eligible": false,
+    "training_rows_written": false,
+    "universal_support_claimed": false
+  },
+  "claim_boundary": {
+    "authority": {
+      "approval_authority_granted": false,
+      "artifact_import_authorized": false,
+      "benchmark_execution_authorized": false,
+      "broad_claims_granted": false,
+      "launch_readiness_granted": false,
+      "production_readiness_granted": false,
+      "programbench_execution_authorized": false,
+      "proof_execution_authority_granted": false,
+      "real_user_source_mutation_authorized": false,
+      "release_deploy_workflow_created": false,
+      "release_readiness_granted": false,
+      "release_ready": false,
+      "release_supported": false,
+      "source_mutation_authorized": false,
+      "support_depth_promotion_granted": false,
+      "training_eligible": false,
+      "training_rows_written": false,
+      "universal_support_claimed": false
+    },
+    "boundaries": [
+      "Wave 006 records exact-cell proof only.",
+      "No launch, release, production, open availability, source mutation, proof execution, training, or universal support authority is granted.",
+      "Installer, driver, GUI, SBOM, and network actions require exact signed approval before execution.",
+      "Blocked lanes emit executable next packets instead of pretending success."
+    ]
+  },
+  "doc_path": "docs/DETERMINEX_SIGNED_MSEDGEDRIVER_ADMISSION_AND_GUI_FIRST_PAINT_EXECUTION_001.md",
+  "lane": "B",
+  "lock_id": "DETERMINEX_SIGNED_MSEDGEDRIVER_ADMISSION_AND_GUI_FIRST_PAINT_EXECUTION_LOCK_001",
+  "run_record": "assurance/evidence/signed_msedgedriver_admission_and_gui_first_paint_execution/run_20260531.SIGNED_MSEDGEDRIVER_ADMISSION_AND_GUI_FIRST_PAINT_EXECUTION_BLOCKED_ON_OPERATOR_SIGNATURE.json",
+  "status": "SIGNED_MSEDGEDRIVER_ADMISSION_AND_GUI_FIRST_PAINT_EXECUTION_BLOCKED_ON_OPERATOR_SIGNATURE",
+  "test_modules": [
+    "tests/status/test_signed_msedgedriver_admission_and_gui_first_paint_execution_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "no_broad_claims": true,
+      "no_training_rows": true
+    },
+    "passed": true
+  }
+}

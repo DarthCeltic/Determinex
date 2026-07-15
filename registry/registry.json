@@ -1,0 +1,88 @@
+{
+  "_comment": "Determinex Rosetta Stone Dynamic Registry — the package manager manifest for cross-architecture latent bridge weights.",
+  "_doc": "Determinex pings this file on startup. If remote version > local version for any family, the client pulls the delta weight file and calls RosettaStone.load_family_extension(). Clients never need to retrain. Contributors submit new families via PR.",
+  "_sha256_note": "PLACEHOLDER_RUN_sha256sum_TO_FILL entries are intentional — filled at release time when weight files are uploaded to GitHub Releases. Run: sha256sum family_<arch>.pt and paste the hex digest here before tagging a release.",
+  "_dims_note": "hub_dim MUST match D_ROSETTA in train_rosetta_bases.py (currently 4096). family_dim must match the model's input embedding dimension (general.embedding_length in GGUF header). Verify with: python scripts/determinex_rosetta.py probe <model-tag>",
+  "registry_version": 1,
+  "hub_dim": 4096,
+  "min_determinex_version": "1.0.0",
+  "families": {
+    "llama": {
+      "version": 1,
+      "family_dim": 4096,
+      "description": "Meta Llama 3.x / Mistral-7B. Covers Llama-3.x, Mistral-7B, Hermes, Dolphin, WizardLM, OpenHermes, Zephyr, and all derived fine-tunes. determinex-sentinel-v3 uses this arch (reports general.architecture=llama).",
+      "hf_model_id": "meta-llama/Llama-3.1-8B-Instruct",
+      "url": "https://github.com/DarthCeltic/determinex/releases/download/rosetta-v1/family_llama.pt",
+      "sha256": "PLACEHOLDER_RUN_sha256sum_TO_FILL",
+      "size_kb": 64,
+      "contributed_by": "determinex-core",
+      "validated": true
+    },
+    "qwen2": {
+      "version": 1,
+      "family_dim": 3584,
+      "description": "Alibaba Qwen 2.5 7B (Qwen2.5-Coder-7B-Instruct). Hidden dim 3584. Covers Qwen-Coder-7B, Qwen2.5-Instruct-7B, DeepSeek-Distill-Qwen-7B.",
+      "hf_model_id": "Qwen/Qwen2.5-Coder-7B-Instruct",
+      "url": "https://github.com/DarthCeltic/determinex/releases/download/rosetta-v1/family_qwen2.pt",
+      "sha256": "PLACEHOLDER_RUN_sha256sum_TO_FILL",
+      "size_kb": 56,
+      "contributed_by": "determinex-core",
+      "validated": true
+    },
+    "qwen2_3b": {
+      "version": 1,
+      "family_dim": 2048,
+      "description": "Alibaba Qwen 2.5 3B (Qwen2.5-Coder-3B-Instruct). Hidden dim 2048. determinex-observer-v5-dsl uses this arch. Pending: rosetta_v1.pt retrain to include this arch.",
+      "hf_model_id": "Qwen/Qwen2.5-Coder-3B-Instruct",
+      "url": "https://github.com/DarthCeltic/determinex/releases/download/rosetta-v1/family_qwen2_3b.pt",
+      "sha256": "PLACEHOLDER_RUN_sha256sum_TO_FILL",
+      "size_kb": 32,
+      "contributed_by": "determinex-core",
+      "validated": false
+    },
+    "qwen2_1b5": {
+      "version": 1,
+      "family_dim": 1536,
+      "description": "Alibaba Qwen 2.5 1.5B (Qwen2.5-Coder-1.5B-Instruct). Hidden dim 1536. determinex-engineer-v10-dsl uses this arch.",
+      "hf_model_id": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+      "url": "https://github.com/DarthCeltic/determinex/releases/download/rosetta-v1/family_qwen2_1b5.pt",
+      "sha256": "PLACEHOLDER_RUN_sha256sum_TO_FILL",
+      "size_kb": 24,
+      "contributed_by": "determinex-core",
+      "validated": true
+    },
+    "deepseek2": {
+      "version": 1,
+      "family_dim": 4096,
+      "description": "DeepSeek-Coder-V2-Lite (deepseek-coder-v2-lite-instruct). Hidden dim 4096. Covers DeepSeek-Coder-V2, DeepSeek-V3, DeepSeek-R1.",
+      "hf_model_id": "deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct",
+      "url": "https://github.com/DarthCeltic/determinex/releases/download/rosetta-v1/family_deepseek2.pt",
+      "sha256": "PLACEHOLDER_RUN_sha256sum_TO_FILL",
+      "size_kb": 64,
+      "contributed_by": "determinex-core",
+      "validated": true
+    },
+    "phi3": {
+      "version": 1,
+      "family_dim": 3072,
+      "description": "Microsoft Phi-3-mini (Phi-3-mini-4k-instruct). Hidden dim 3072. Covers Phi-3, Phi-3.5, Phi-4.",
+      "hf_model_id": "microsoft/Phi-3-mini-4k-instruct",
+      "url": "https://github.com/DarthCeltic/determinex/releases/download/rosetta-v1/family_phi3.pt",
+      "sha256": "PLACEHOLDER_RUN_sha256sum_TO_FILL",
+      "size_kb": 48,
+      "contributed_by": "determinex-core",
+      "validated": true
+    },
+    "gemma": {
+      "version": 1,
+      "family_dim": 2304,
+      "description": "Google Gemma 2 (gemma-2-2b-it). Hidden dim 2304. Covers Gemma 2/3, CodeGemma, ShieldGemma.",
+      "hf_model_id": "google/gemma-2-2b-it",
+      "url": "https://github.com/DarthCeltic/determinex/releases/download/rosetta-v1/family_gemma.pt",
+      "sha256": "PLACEHOLDER_RUN_sha256sum_TO_FILL",
+      "size_kb": 36,
+      "contributed_by": "determinex-core",
+      "validated": false
+    }
+  }
+}

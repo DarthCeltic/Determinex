@@ -1,0 +1,76 @@
+{
+  "lock_id": "PROGRAMBENCH_OFFICIAL_ARTIFACT_SECURITY_DECISION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "87eff7703940f1c0da19d0819be5970f4667325e",
+  "purpose": "Decide the Doxygen official upstream ProgramBench artifact security posture after authority recheck without granting policy exceptions, stronger sandbox approval, Docker execution, ProgramBench rerun, cache readiness, or training eligibility.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_official_artifact_security_decision_lock.py",
+    "passed": 8,
+    "failed": 0
+  },
+  "related_programbench_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench\\test_programbench_official_artifact_security_decision_lock.py tests\\corpus\\programbench\\test_programbench_upstream_artifact_authority_recheck_lock.py tests\\corpus\\programbench\\test_programbench_alternate_cleanroom_image_provenance_lock.py tests\\corpus\\programbench\\test_programbench_operator_provenance_request_packet_lock.py tests\\corpus\\programbench\\test_programbench_rebuild_provenance_quarantine_decision_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_recipe_provenance_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_provenance_gap_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_remediation_plan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_triage_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_hydration_lock.py tests\\corpus\\programbench\\test_programbench_approved_scanner_setup_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scanner_admission_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_import_lock.py tests\\corpus\\programbench\\test_programbench_dockerhub_manifest_provenance_lock.py tests\\corpus\\programbench\\test_programbench_operator_artifact_admission_lock.py -q --tb=short",
+    "passed": 256,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench -q --tb=short",
+    "passed": 311,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 311,
+    "failed": 0
+  },
+  "evidence_validation": {
+    "evidence_index_entries": 86,
+    "validation_errors": []
+  },
+  "implementation": [
+    "scripts/corpus/programbench/official_artifact_security_decision.py",
+    "scripts/corpus/programbench/official_artifact_security_decision_record.py",
+    "tests/corpus/programbench/test_programbench_official_artifact_security_decision_lock.py"
+  ],
+  "doxygen_official_artifact_security_decision": {
+    "security_decision_record": "assurance/evidence/programbench_official_artifact_security_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OFFICIAL_ARTIFACT_SECURITY_DECISION_WRITTEN.json",
+    "upstream_authority_recheck": "assurance/evidence/programbench_upstream_artifact_authority_recheck/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_COMPLETED.json",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "image_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "decision": "OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED",
+    "metadata_only_admitted": true,
+    "security_policy_exception_granted": false,
+    "stronger_sandbox_approved": false,
+    "docker_pull_authorized": false,
+    "docker_execution_authorized": false,
+    "hydration_authorized": false,
+    "programbench_rerun_authorized": false,
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "acceptance": [
+    "consumes signed upstream artifact authority recheck record",
+    "records official artifact execution decision as OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED",
+    "keeps official artifact metadata-only admission",
+    "does not grant security policy exception",
+    "does not approve stronger sandbox execution",
+    "does not authorize Docker pull or Docker execution",
+    "does not authorize hydration",
+    "does not authorize ProgramBench rerun",
+    "keeps cache_ready false",
+    "keeps executable false",
+    "keeps training_eligible false"
+  ],
+  "policy": [
+    "Official upstream artifact authority is not execution authority.",
+    "Failed security scan blocks execution.",
+    "Policy exception and stronger sandbox approval require later explicit gates.",
+    "No Docker run.",
+    "No ProgramBench rerun.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not prove the official artifact is safe to execute, that an exception should be granted, or that a stronger sandbox is sufficient. It records the current security decision as metadata-only admission with execution blocked by failed scan policy.",
+  "previous_lock": "PROGRAMBENCH_UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_LOCK_001",
+  "next_lock_if_operator_wants_exception": "PROGRAMBENCH_SECURITY_POLICY_EXCEPTION_REQUEST_LOCK_001",
+  "next_lock_if_operator_wants_sandbox_path": "PROGRAMBENCH_OFFICIAL_ARTIFACT_SANDBOX_REQUIREMENTS_LOCK_001"
+}

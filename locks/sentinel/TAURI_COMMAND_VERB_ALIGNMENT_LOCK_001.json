@@ -1,0 +1,38 @@
+{
+  "lock_id": "TAURI_COMMAND_VERB_ALIGNMENT_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates CLAUDE-AUTH-006. The Tauri command `source_apply_dry_run` used to route to the inner backend command `get_repair_state`, which returned a repair-state record rather than a dry-run-specific response. The fix adds a dedicated `source_apply_dry_run` inner command in the backend command surface with a payload that explicitly declares `mode=dry_run_only` and `source_apply_attempted=false`. The Tauri driver mapping is updated so the verb matches the behavior. No real source apply is attempted.",
+  "purpose": "Rung 5 of the Claude authority leak remediation campaign.",
+  "depends_on_locks": [
+    "TAURI_RUST_COMMAND_BRIDGE_LOCK_001",
+    "FRONTEND_SOURCE_APPLY_DRY_RUN_PANEL_LOCK_001",
+    "IDE_BACKEND_COMMAND_SURFACE_LOCK_001"
+  ],
+  "tests": 7,
+  "passed_on_this_host": 7,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide/test_tauri_command_verb_alignment_lock.py"
+  ],
+  "status_tokens": [
+    "TAURI_COMMAND_VERB_ALIGNMENT_PASSED",
+    "TAURI_COMMAND_VERB_ALIGNMENT_FAILED"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/tauri_command_verb_alignment/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-006",
+  "next_recommended_lock": "DIAGNOSE_PROMPT_OPACITY_ENFORCEMENT_LOCK_001"
+}

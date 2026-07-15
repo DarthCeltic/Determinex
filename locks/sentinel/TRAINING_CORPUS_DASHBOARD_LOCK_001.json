@@ -1,0 +1,47 @@
+{
+  "lock_id": "TRAINING_CORPUS_DASHBOARD_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Track active_training_eligible corpus growth separately from active_eval_evidence so corpus maturity cannot be hidden by signed row volume.",
+  "focused_tests": {
+    "module": "tests/corpus/test_training_corpus_dashboard.py",
+    "passed": 4,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 772,
+    "failed": 0
+  },
+  "implementation": [
+    "scripts/corpus/training_corpus_dashboard.py",
+    "tests/corpus/test_training_corpus_dashboard.py",
+    "assurance/evidence/training_corpus_dashboard.json"
+  ],
+  "live_t_corpus_snapshot": {
+    "root": "T:/determinex_corpus",
+    "total_rows": 13478,
+    "active_eval_evidence": 13478,
+    "active_training_eligible": 0,
+    "unsigned_training_rows": 0,
+    "verifier_missing_training_rows": 0,
+    "license_missing_training_rows": 0,
+    "duplicate_training_trace_hashes": 0
+  },
+  "maturity_targets": {
+    "python": 100,
+    "rust": 100,
+    "go": 100,
+    "typescript": 50,
+    "c": 50,
+    "cpp": 50,
+    "java": 50,
+    "sql": 50
+  },
+  "policy": [
+    "Eval evidence does not count as training corpus maturity.",
+    "Training maturity is counted only from active_training_eligible rows.",
+    "Balanced language progress matters more than raw row count.",
+    "Dashboard output must be refreshed before public corpus claims."
+  ],
+  "previous_lock": "EVIDENCE_INDEX_LOCK_001",
+  "next_lock": "NO_LOOSE_BENCH_ARTIFACTS_LOCK_001"
+}

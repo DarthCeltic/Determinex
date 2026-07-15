@@ -1,0 +1,48 @@
+{
+  "lock_id": "REAL_APPROVAL_DIFF_BODY_CONTENT_BINDING_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates CLAUDE-AUTH-001. Adds a canonical patch-body hash (scripts/repair/patch_body_hash.py) that hashes the actual plan_entries content. Extends RealHumanApprovalAdmissionRecord with a `canonical_patch_body_hash` field bound at admission. source_mutation_apply_after_approval recomputes the canonical hash from plan_entries IMMEDIATELY before applying and refuses on mismatch with SOURCE_MUTATION_BLOCKED_BODY_HASH_MISMATCH (or SOURCE_MUTATION_BLOCKED_MISSING_BODY_HASH when the approval lacks the field or the entries cannot produce a valid hash). The clean-diff-with-tampered-bodies attack scenario from the audit is now blocked.",
+  "purpose": "Rung 1 of the Claude authority leak remediation campaign.",
+  "depends_on_locks": [
+    "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+    "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001",
+    "REAL_PATCH_PLAN_QUARANTINE_LOCK_001"
+  ],
+  "tests": 13,
+  "passed_on_this_host": 13,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_patch_body_hash_lock.py",
+    "tests/repair/test_source_mutation_apply_after_approval_lock.py"
+  ],
+  "status_tokens": [
+    "APPROVAL_PATCH_BODY_BINDING_PASSED",
+    "APPROVAL_PATCH_BODY_BINDING_BLOCKED_HASH_MISMATCH",
+    "APPROVAL_PATCH_BODY_BINDING_BLOCKED_MISSING_PREIMAGE",
+    "SOURCE_MUTATION_BLOCKED_MISSING_BODY_HASH",
+    "SOURCE_MUTATION_BLOCKED_BODY_HASH_MISMATCH"
+  ],
+  "attack_scenario_covered": {
+    "name": "clean-diff-with-tampered-bodies (CLAUDE-AUTH-001)",
+    "description": "An adversary supplies observed_diff that matches the approval's diff_hash but plan_entries containing different new_content for the same accepted paths. Before this lock, the apply gate would have written the tampered content. The new canonical-body-hash binding recomputes from plan_entries and refuses with SOURCE_MUTATION_BLOCKED_BODY_HASH_MISMATCH.",
+    "test_reference": "tests/repair/test_source_mutation_apply_after_approval_lock.py::test_claude_auth_001_attack_scenario_blocked"
+  },
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "training_row_written": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_approval_diff_body_content_binding/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-001",
+  "next_recommended_lock": "APPLY_GATE_FIXTURE_REFUSAL_LOCK_001"
+}

@@ -1,0 +1,73 @@
+{
+  "lock_id": "LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Consumes a QuarantinedPatchPlan and applies it only to a temp workspace via SafePatchWorkspace. Original repo remains immutable. Verifier runs on the temp workspace via an injected callable. Failed verifier rolls back. Passed verifier still emits PATCH_VERIFIED_TEMP_ONLY — human approval is still required to apply to the original repo.",
+  "purpose": "Rung 5 of the live-local-model campaign. Closes the loop from quarantined plan → temp-applied + verified. Sets up IDE_LIVE_MODEL_REPAIR_FLOW_STATE_LOCK_001 to expose this state to the frontend.",
+  "depends_on_locks": [
+    "MODEL_ROUTER_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+    "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+    "LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001",
+    "LIVE_MODEL_DIAGNOSE_ONLY_TRACE_LOCK_001",
+    "LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001",
+    "HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001"
+  ],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/repair/test_live_model_temp_patch_verifier_gate_lock.py"],
+  "status_tokens": [
+    "LIVE_PATCH_TEMP_APPLIED",
+    "LIVE_PATCH_VERIFIER_FAILED",
+    "LIVE_PATCH_VERIFIER_PASSED_TEMP_ONLY",
+    "LIVE_PATCH_BLOCKED_NO_QUARANTINED_PLAN",
+    "LIVE_PATCH_BLOCKED_SOURCE_MUTATION",
+    "LIVE_PATCH_BLOCKED_SAFE_PATCH_REJECTED",
+    "LIVE_PATCH_ROLLED_BACK",
+    "LIVE_PATCH_SOURCE_UNCHANGED_CONFIRMED",
+    "LIVE_PATCH_HUMAN_APPROVAL_REQUIRED",
+    "LIVE_PATCH_TRAINING_ELIGIBLE_FALSE"
+  ],
+  "invariants": [
+    "Consumes only PATCH_PLAN_QUARANTINED plans; non-quarantined plans block with LIVE_PATCH_BLOCKED_NO_QUARANTINED_PLAN.",
+    "Patches apply only to the SafePatchWorkspace temp; original repo sha256 tree before==after on every code path.",
+    "Verifier failure (with rollback_on_failure=True, the default) rolls back the temp tree.",
+    "Verifier pass yields LIVE_PATCH_VERIFIER_PASSED_TEMP_ONLY; human approval still required.",
+    "human_approval_required is True on EVERY result.",
+    "training_eligible is False on EVERY result.",
+    "scripts/repair/live_temp_patch_verifier_*.py contains no `import subprocess`, no `import urllib`."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "training_eligibility_opened": false,
+    "human_approval_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/repair/live_temp_patch_verifier_gate.py",
+      "scripts/repair/live_temp_patch_verifier_record.py"
+    ],
+    "tests": ["tests/repair/test_live_model_temp_patch_verifier_gate_lock.py"],
+    "lock": "locks/sentinel/LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001.json",
+    "evidence": "assurance/evidence/live_model_temp_patch_verifier_gate/run_20260527.json",
+    "docs": "docs/LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE.md"
+  },
+  "evidence": {"run_artifact": "assurance/evidence/live_model_temp_patch_verifier_gate/run_20260527.json"},
+  "next_recommended_lock": "IDE_LIVE_MODEL_REPAIR_FLOW_STATE_LOCK_001",
+  "files": [
+    "scripts/repair/live_temp_patch_verifier_gate.py",
+    "scripts/repair/live_temp_patch_verifier_record.py",
+    "tests/repair/test_live_model_temp_patch_verifier_gate_lock.py",
+    "locks/sentinel/LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001.json",
+    "assurance/evidence/live_model_temp_patch_verifier_gate/run_20260527.json",
+    "docs/LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE.md"
+  ]
+}

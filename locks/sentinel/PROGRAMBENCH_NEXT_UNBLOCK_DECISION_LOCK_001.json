@@ -1,0 +1,27 @@
+{
+  "lock_id": "PROGRAMBENCH_NEXT_UNBLOCK_DECISION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Choose the next ProgramBench unblock path without executing, importing, scanning, approving, or writing training rows.",
+  "depends_on_locks": [
+    "DETERMINEX_EVIDENCE_COUNT_DRIFT_GUARD_LOCK_001",
+    "DETERMINEX_PROGRAMBENCH_PER_TARGET_UNIFIED_GRAPH_EXPANSION_LOCK_001",
+    "PROGRAMBENCH_BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_LOCK_001"
+  ],
+  "status": "PROGRAMBENCH_NEXT_UNBLOCK_RECOMMENDS_BATCH001_ONE_TARGET",
+  "record": "assurance/evidence/programbench_next_unblock_decision/run_20260528.PROGRAMBENCH_NEXT_UNBLOCK_RECOMMENDS_BATCH001_ONE_TARGET.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_next_unblock_decision_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_next_unblock_decision_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "recommended_path": "batch001_one_target_artifact_import_scan_policy",
+  "execution_authorized": false,
+  "artifact_import_authorized": false,
+  "scan_authorized": false,
+  "training_eligible": false,
+  "training_rows_written": false
+}

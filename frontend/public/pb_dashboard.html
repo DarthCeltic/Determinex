@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProgramBench 200/200 — Remaining Tools Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0a0c12;
+    --surface: #111520;
+    --surface2: #171c2e;
+    --border: #1e2540;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --accent: #6366f1;
+    --accent2: #8b5cf6;
+    --green: #10b981;
+    --amber: #f59e0b;
+    --orange: #f97316;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --cyan: #06b6d4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1600px; margin: 0 auto; padding: 32px 24px; position: relative; z-index: 1; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  /* Stat cards */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .stat-card.green::before { background: var(--green); }
+  .stat-card.amber::before { background: var(--amber); }
+  .stat-card.orange::before { background: var(--orange); }
+  .stat-card.blue::before { background: var(--blue); }
+  .stat-card.purple::before { background: var(--accent); }
+
+  .stat-number { font-size: 2.4rem; font-weight: 800; margin-bottom: 4px; }
+  .stat-card.green .stat-number { color: var(--green); }
+  .stat-card.amber .stat-number { color: var(--amber); }
+  .stat-card.orange .stat-number { color: var(--orange); }
+  .stat-card.blue .stat-number { color: var(--blue); }
+  .stat-card.purple .stat-number { color: var(--accent); }
+  .stat-label { color: var(--muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* Section header */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
+  .section-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .badge-amber { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-blue { background: rgba(59,130,246,0.15); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+  .badge-green { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+  .badge-purple { background: rgba(99,102,241,0.15); color: var(--accent); border: 1px solid rgba(99,102,241,0.3); }
+
+  .section-title { font-size: 1.3rem; font-weight: 700; }
+  .section-desc { color: var(--muted); font-size: 0.85rem; margin-left: auto; }
+
+  /* Bar chart container */
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+  }
+
+  .chart-scroll { min-width: 900px; }
+
+  /* Bar chart rows */
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+    min-height: 28px;
+  }
+  .bar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    width: 280px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .bar-label:hover { color: var(--text); }
+  .bar-label .rank { color: var(--border); margin-right: 6px; width: 24px; display: inline-block; text-align: right; }
+  .bar-track {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px;
+    height: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    position: relative;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 2px;
+  }
+  .bar-fill.tier-a { background: linear-gradient(90deg, #f59e0b, #f97316); }
+  .bar-fill.tier-b-high { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+  .bar-fill.tier-b-mid { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+  .bar-fill.tier-b-low { background: linear-gradient(90deg, #64748b, #475569); }
+  .bar-fill.tier-locked { background: linear-gradient(90deg, #10b981, #059669); }
+
+  .bar-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text);
+    width: 70px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .bar-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    width: 120px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--muted); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .dot-amber { background: linear-gradient(90deg, #f59e0b, #f97316); }
+  .dot-blue { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+  .dot-purple { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+  .dot-gray { background: linear-gradient(90deg, #64748b, #475569); }
+  .dot-green { background: linear-gradient(90deg, #10b981, #059669); }
+
+  /* Filter tabs */
+  .filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 6px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  /* Table */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    background: var(--surface2);
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 16px;
+    font-size: 0.82rem;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(99,102,241,0.04); }
+
+  .slug-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--cyan);
+    font-weight: 500;
+  }
+  .score-bar-mini {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mini-bar-track {
+    width: 100px;
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .mini-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .score-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    min-width: 50px;
+  }
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+  .pill-yes { background: rgba(16,185,129,0.15); color: var(--green); }
+  .pill-no { background: rgba(239,68,68,0.12); color: var(--red); }
+  .pill-none { background: rgba(100,116,139,0.1); color: var(--muted); }
+  .pill-warning { background: rgba(245,158,11,0.15); color: var(--amber); }
+
+  .changes-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Progress summary bar */
+  .progress-mega {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .progress-label span:first-child { font-weight: 700; font-size: 1rem; }
+  .progress-label span:last-child { font-family: 'JetBrains Mono', monospace; color: var(--muted); font-size: 0.85rem; }
+  .progress-track {
+    height: 24px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+  }
+  .progress-seg { height: 100%; transition: width 0.8s; }
+  .seg-locked { background: linear-gradient(90deg, #10b981, #059669); }
+  .seg-pending { background: linear-gradient(90deg, #f59e0b, #f97316); }
+  .seg-remaining { background: transparent; }
+  .progress-legend {
+    display: flex;
+    gap: 20px;
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .progress-legend span { display: flex; align-items: center; gap: 6px; }
+  .prog-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>🏆 ProgramBench 200/200 Dashboard</h1>
+    <p>Remaining tools ranked by score · Run readiness · Base slugs verified · Generated 2026-06-08</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card green">
+      <div class="stat-number">27</div>
+      <div class="stat-label">Strict Locks</div>
+    </div>
+    <div class="stat-card amber">
+      <div class="stat-number">56</div>
+      <div class="stat-label">Pending Unlock</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-number">117</div>
+      <div class="stat-label">Board Cache (uneval'd)</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-number">173</div>
+      <div class="stat-label">Total Remaining</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-number">200</div>
+      <div class="stat-label">Target Goal</div>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-mega">
+    <div class="progress-label">
+      <span>Campaign Progress</span>
+      <span>27 / 200 strict locks · 173 remaining</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-seg seg-locked" style="width: 13.5%"></div>
+      <div class="progress-seg seg-pending" style="width: 28%"></div>
+    </div>
+    <div class="progress-legend">
+      <span><div class="prog-dot" style="background:#10b981"></div>Strict lock (27)</span>
+      <span><div class="prog-dot" style="background:#f59e0b"></div>Pending unlock (56)</span>
+      <span><div class="prog-dot" style="background:#1e2540"></div>Not yet run (117)</span>
+    </div>
+  </div>
+
+  <!-- MAIN CHART: All 173 remaining tools ranked -->
+  <div class="section-header">
+    <span class="section-badge badge-purple">📊 Ranked Chart</span>
+    <span class="section-title">All 173 Remaining Tools by Score</span>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-amber"></div> Pending Unlock (ready to run)</div>
+      <div class="legend-item"><div class="legend-dot dot-blue"></div> Board Cache ≥40%</div>
+      <div class="legend-item"><div class="legend-dot dot-purple"></div> Board Cache 15–39%</div>
+      <div class="legend-item"><div class="legend-dot dot-gray"></div> Board Cache &lt;15%</div>
+    </div>
+    <div class="chart-scroll" id="main-chart">
+      <!-- JS populated -->
+    </div>
+  </div>
+
+  <!-- TIER A TABLE: Pending Unlock -->
+  <div class="section-header">
+    <span class="section-badge badge-amber">🔥 Tier A — Run NOW</span>
+    <span class="section-title">Pending Unlock (56 tools)</span>
+    <span class="section-desc">All have: ✅ base_slug ✅ uncapped tarball ✅ manifest ✅ extracted test dir</span>
+  </div>
+
+  <div class="table-wrap">
+    <table id="tier-a-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Slug (base_slug)</th>
+          <th>Score</th>
+          <th>Passed / Total</th>
+          <th>Not Run</th>
+          <th>Uncap Changes</th>
+          <th>Ready?</th>
+        </tr>
+      </thead>
+      <tbody id="tier-a-body">
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TIER B TABLE: Board Cache -->
+  <div class="section-header">
+    <span class="section-badge badge-blue">📦 Tier B — Board Cache</span>
+    <span class="section-title">Board Cache Only (117 tools)</span>
+    <span class="section-desc">All have extracted test dirs. Need: pb_convert_to_native.py → eval</span>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="tab-btn active" onclick="filterBoard('all')">All (117)</button>
+    <button class="tab-btn" onclick="filterBoard('high')">≥40% (7)</button>
+    <button class="tab-btn" onclick="filterBoard('mid')">15–39% (28)</button>
+    <button class="tab-btn" onclick="filterBoard('low')">&lt;15% (82)</button>
+  </div>
+
+  <div class="table-wrap">
+    <table id="tier-b-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Slug</th>
+          <th>Score</th>
+          <th>Passed / Total</th>
+          <th>Extracted Dir (base commit)</th>
+          <th>Band</th>
+        </tr>
+      </thead>
+      <tbody id="tier-b-body">
+      </tbody>
+    </table>
+  </div>
+
+  <footer>Generated by Antigravity · Determinex ProgramBench 200/200 Campaign · 2026-06-08</footer>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const PENDING = [
+  {slug:"entr",score:95.13,passed:684,total:719,not_run:34,changes:["no_changes_needed"],ready:true},
+  {slug:"rnr",score:92.73,passed:740,total:798,not_run:58,changes:["no_changes_needed"],ready:true},
+  {slug:"git-trim",score:91.43,passed:704,total:770,not_run:66,changes:["no_changes_needed"],ready:true},
+  {slug:"elfcat",score:90.20,passed:644,total:714,not_run:69,changes:["no_changes_needed"],ready:true},
+  {slug:"dupl",score:88.76,passed:450,total:507,not_run:57,changes:["no_changes_needed"],ready:true},
+  {slug:"code-minimap",score:87.03,passed:369,total:424,not_run:55,changes:["no_changes_needed"],ready:true},
+  {slug:"oha",score:86.56,passed:1063,total:1228,not_run:161,changes:["no_changes_needed"],ready:true},
+  {slug:"muffet",score:85.38,passed:432,total:506,not_run:74,changes:["no_changes_needed"],ready:true},
+  {slug:"tparse",score:84.89,passed:556,total:655,not_run:99,changes:["no_changes_needed"],ready:true},
+  {slug:"tex-fmt",score:84.04,passed:495,total:589,not_run:94,changes:["no_changes_needed"],ready:true},
+  {slug:"nomino",score:83.87,passed:338,total:403,not_run:65,changes:["no_changes_needed"],ready:true},
+  {slug:"pingu",score:80.93,passed:416,total:514,not_run:95,changes:["no_changes_needed"],ready:true},
+  {slug:"rhit",score:79.35,passed:1045,total:1317,not_run:272,changes:["no_changes_needed"],ready:true},
+  {slug:"xsv",score:78.16,passed:1199,total:1534,not_run:335,changes:["no_changes_needed"],ready:true},
+  {slug:"i3-style",score:78.04,passed:750,total:961,not_run:211,changes:["no_changes_needed"],ready:true},
+  {slug:"hck",score:77.59,passed:883,total:1138,not_run:254,changes:["no_changes_needed"],ready:true},
+  {slug:"chroma",score:76.92,passed:400,total:520,not_run:120,changes:["no_changes_needed"],ready:true},
+  {slug:"clog-cli",score:76.88,passed:778,total:1012,not_run:234,changes:["no_changes_needed"],ready:true},
+  {slug:"igrep",score:75.87,passed:547,total:721,not_run:174,changes:["no_changes_needed"],ready:true},
+  {slug:"dsq",score:75.46,passed:741,total:982,not_run:238,changes:["no_changes_needed"],ready:true},
+  {slug:"miniserve",score:75.09,passed:440,total:586,not_run:146,changes:["no_changes_needed"],ready:true},
+  {slug:"deadnix",score:74.55,passed:709,total:951,not_run:242,changes:["no_changes_needed"],ready:true},
+  {slug:"rustowl",score:74.03,passed:536,total:724,not_run:161,changes:["no_changes_needed"],ready:true},
+  {slug:"eva",score:73.51,passed:963,total:1310,not_run:347,changes:["no_changes_needed"],ready:true},
+  {slug:"seqtk",score:73.33,passed:440,total:600,not_run:160,changes:["no_changes_needed"],ready:true},
+  {slug:"jplot",score:72.45,passed:702,total:969,not_run:267,changes:["no_changes_needed"],ready:true},
+  {slug:"pier",score:72.30,passed:778,total:1076,not_run:298,changes:["no_changes_needed"],ready:true},
+  {slug:"tailspin",score:71.93,passed:738,total:1026,not_run:288,changes:["no_changes_needed"],ready:true},
+  {slug:"yj",score:70.63,passed:825,total:1168,not_run:343,changes:["no_changes_needed"],ready:true},
+  {slug:"hex",score:70.33,passed:877,total:1247,not_run:370,changes:["no_changes_needed"],ready:true},
+  {slug:"zip-password-finder",score:70.19,passed:791,total:1127,not_run:335,changes:["no_changes_needed"],ready:true},
+  {slug:"sd",score:69.62,passed:864,total:1241,not_run:372,changes:["no_changes_needed"],ready:true},
+  {slug:"ngrrram",score:69.60,passed:277,total:398,not_run:121,changes:["no_changes_needed"],ready:true},
+  {slug:"loop",score:69.50,passed:652,total:938,not_run:286,changes:["no_changes_needed"],ready:true},
+  {slug:"diffr",score:69.02,passed:472,total:684,not_run:212,changes:["no_changes_needed"],ready:true},
+  {slug:"fblog",score:68.90,passed:485,total:704,not_run:219,changes:["no_changes_needed"],ready:true},
+  {slug:"json-tui",score:65.88,passed:604,total:917,not_run:313,changes:["no_changes_needed"],ready:true},
+  {slug:"nsh",score:65.26,passed:1449,total:2220,not_run:771,changes:["no_changes_needed"],ready:true},
+  {slug:"keifu",score:63.25,passed:414,total:655,not_run:241,changes:["no_changes_needed"],ready:true},
+  {slug:"curlie",score:57.40,passed:521,total:908,not_run:387,changes:["no_changes_needed"],ready:true},
+  {slug:"fzf",score:57.26,passed:1048,total:1831,not_run:783,changes:["no_changes_needed"],ready:true},
+  {slug:"tuc",score:56.51,passed:695,total:1230,not_run:535,changes:["no_changes_needed"],ready:true},
+  {slug:"flamelens",score:55.94,passed:382,total:683,not_run:301,changes:["no_changes_needed"],ready:true},
+  {slug:"xz",score:55.27,passed:644,total:1165,not_run:521,changes:["no_changes_needed"],ready:true},
+  {slug:"bore",score:55.06,passed:449,total:815,not_run:366,changes:["no_changes_needed"],ready:true},
+  {slug:"thokr",score:53.85,passed:308,total:572,not_run:264,changes:["no_changes_needed"],ready:true},
+  {slug:"trdsql",score:51.54,passed:702,total:1362,not_run:660,changes:["no_changes_needed"],ready:true},
+  {slug:"eureka",score:49.04,passed:404,total:824,not_run:420,changes:["no_changes_needed"],ready:true},
+  {slug:"ov",score:48.86,passed:532,total:1089,not_run:557,changes:["no_changes_needed"],ready:true},
+  {slug:"monolith",score:47.00,passed:470,total:1000,not_run:530,changes:["no_changes_needed"],ready:true},
+  {slug:"parqeye",score:46.72,passed:401,total:858,not_run:457,changes:["no_changes_needed"],ready:true},
+  {slug:"fasttext",score:44.94,passed:397,total:883,not_run:486,changes:["no_changes_needed"],ready:true},
+  {slug:"grex",score:44.43,passed:573,total:1290,not_run:717,changes:["no_changes_needed"],ready:true},
+  {slug:"run",score:43.72,passed:693,total:1585,not_run:813,changes:["no_changes_needed"],ready:true},
+  {slug:"argc",score:29.09,passed:400,total:1375,not_run:975,changes:["no_changes_needed"],ready:true},
+  {slug:"rumdl",score:28.86,passed:1311,total:4542,not_run:3202,changes:["no_changes_needed"],ready:true},
+];
+
+const BOARD = [
+  {slug:"sayanarijit__xplr",score:83.25,passed:686,total:824,dir:"sayanarijit__xplr.b9b4b89"},
+  {slug:"rust-embedded__svd2rust",score:69.14,passed:746,total:1079,dir:"rust-embedded__svd2rust.7283adc"},
+  {slug:"tarka__xcp",score:60.49,passed:891,total:1473,dir:"tarka__xcp.5b21e87"},
+  {slug:"antonmedv__walk",score:59.92,passed:471,total:786,dir:"antonmedv__walk.9db7ea0"},
+  {slug:"nikoladucak__caps-log",score:55.89,passed:636,total:1138,dir:"nikoladucak__caps-log.52d1d73"},
+  {slug:"nachoparker__dutree",score:53.66,passed:579,total:1079,dir:"nachoparker__dutree.bbe79e3"},
+  {slug:"tinycc__tinycc",score:49.04,passed:1148,total:2341,dir:"tinycc__tinycc.c1ef7b6"},
+  {slug:"ggreer__the_silver_searcher",score:46.56,passed:555,total:1192,dir:"ggreer__the_silver_searcher.75ddc27"},
+  {slug:"isona__dirble",score:43.59,passed:483,total:1108,dir:"isona__dirble.1e47d6c"},
+  {slug:"skeema__skeema",score:41.86,passed:1036,total:2475,dir:"skeema__skeema.d71f2f3"},
+  {slug:"gabotechs__dep-tree",score:38.40,passed:563,total:1466,dir:"gabotechs__dep-tree.38a3eb3"},
+  {slug:"nikolassv__bartib",score:37.07,passed:367,total:990,dir:"nikolassv__bartib.3d4b823"},
+  {slug:"astaxie__bat",score:36.77,passed:645,total:1754,dir:"astaxie__bat.17d1080"},
+  {slug:"ninja-build__ninja",score:36.75,passed:746,total:2030,dir:"ninja-build__ninja.6ee5f04"},
+  {slug:"ksxgithub__parallel-disk-usage",score:34.44,passed:217,total:630,dir:"ksxgithub__parallel-disk-usage.1fb90b1"},
+  {slug:"chmln__handlr",score:32.97,passed:368,total:1116,dir:"chmln__handlr.c30c87e"},
+  {slug:"lfos__calcurse",score:31.59,passed:470,total:1488,dir:"lfos__calcurse.fde6c29"},
+  {slug:"madler__pigz",score:29.83,passed:321,total:1076,dir:"madler__pigz.73bc2e4"},
+  {slug:"blacknon__hwatch",score:29.36,passed:488,total:1662,dir:"blacknon__hwatch.08cc688"},
+  {slug:"ariga__atlas",score:29.11,passed:515,total:1769,dir:"ariga__atlas.49a2a3d"},
+  {slug:"bootandy__dust",score:29.10,passed:330,total:1134,dir:"bootandy__dust.e13b66d"},
+  {slug:"kisielk__errcheck",score:28.95,passed:154,total:532,dir:"kisielk__errcheck.b5d9bc9"},
+  {slug:"segmentio__chamber",score:28.25,passed:672,total:2379,dir:"segmentio__chamber.7cf8e37"},
+  {slug:"tree-sitter__tree-sitter",score:27.67,passed:445,total:1608,dir:"tree-sitter__tree-sitter.b2a9de8"},
+  {slug:"codesnap-rs__codesnap",score:27.43,passed:302,total:1101,dir:"codesnap-rs__codesnap.e342c44"},
+  {slug:"canop__broot",score:27.22,passed:236,total:867,dir:"canop__broot.afbe2a3"},
+  {slug:"tomarrell__wrapcheck",score:27.18,passed:184,total:677,dir:"tomarrell__wrapcheck.a5b41f0"},
+  {slug:"mkj__dropbear",score:26.71,passed:269,total:1007,dir:"mkj__dropbear.1b31427"},
+  {slug:"jarun__nnn",score:26.31,passed:377,total:1433,dir:"jarun__nnn.b8e5aaa"},
+  {slug:"jesseduffield__lazygit",score:26.25,passed:315,total:1200,dir:"jesseduffield__lazygit.ec55d5e"},
+  {slug:"oppiliappan__statix",score:24.16,passed:267,total:1105,dir:"oppiliappan__statix.ab1a327"},
+  {slug:"guumaster__hostctl",score:23.82,passed:407,total:1709,dir:"guumaster__hostctl.3b71ce2"},
+  {slug:"ammarabouzor__tui-journal",score:22.87,passed:518,total:2265,dir:"ammarabouzor__tui-journal.41d0dc9"},
+  {slug:"byron__dua-cli",score:22.16,passed:308,total:1390,dir:"byron__dua-cli.6b1cc41"},
+  {slug:"crowdagger__crowbook",score:21.46,passed:229,total:1067,dir:"crowdagger__crowbook.3cd5f0e"},
+  {slug:"hpjansson__chafa",score:21.40,passed:601,total:2808,dir:"hpjansson__chafa.c54c7a9"},
+  {slug:"zevv__duc",score:21.39,passed:219,total:1024,dir:"zevv__duc.e97f21a"},
+  {slug:"cmatsuoka__figlet",score:21.14,passed:279,total:1320,dir:"cmatsuoka__figlet.39f714d"},
+  {slug:"git-bahn__git-graph",score:20.92,passed:178,total:851,dir:"git-bahn__git-graph.d9e36b3"},
+  {slug:"stacked-git__stgit",score:20.63,passed:491,total:2380,dir:"stacked-git__stgit.18b0ab0"},
+  {slug:"axodotdev__oranda",score:20.51,passed:271,total:1321,dir:"axodotdev__oranda.27d60c7"},
+  {slug:"antonmedv__fx",score:20.02,passed:601,total:3002,dir:"antonmedv__fx.6a3b8a9"},
+  {slug:"eudoxia0__hashcards",score:19.61,passed:313,total:1596,dir:"eudoxia0__hashcards.48aa136"},
+  {slug:"robertdavidgraham__masscan",score:19.49,passed:599,total:3073,dir:"robertdavidgraham__masscan.b99d433"},
+  {slug:"jonas__tig",score:18.61,passed:440,total:2364,dir:"jonas__tig.8334123"},
+  {slug:"rust-ethereum__ethabi",score:18.08,passed:226,total:1250,dir:"rust-ethereum__ethabi.b1710ad"},
+  {slug:"alexpovel__srgn",score:17.68,passed:437,total:2472,dir:"alexpovel__srgn.89f943b"},
+  {slug:"yassinebridi__serpl",score:17.22,passed:88,total:511,dir:"yassinebridi__serpl.c48a9d7"},
+  {slug:"mgechev__revive",score:17.18,passed:161,total:937,dir:"mgechev__revive.201451e"},
+  {slug:"dundee__gdu",score:16.03,passed:263,total:1641,dir:"dundee__gdu.ede21d2"},
+  {slug:"ogham__dog",score:16.00,passed:290,total:1813,dir:"ogham__dog.721440b"},
+  {slug:"rust-lang__mdbook",score:15.68,passed:213,total:1358,dir:"rust-lang__mdbook.37273ba"},
+  {slug:"xampprocky__tokei",score:15.65,passed:139,total:888,dir:"xampprocky__tokei.505d648"},
+  {slug:"quinn-rs__quinn",score:15.26,passed:123,total:806,dir:"quinn-rs__quinn.bb359cc"},
+  {slug:"dandavison__delta",score:14.99,passed:183,total:1221,dir:"dandavison__delta.acd758f"},
+  {slug:"cheat__cheat",score:14.98,passed:46,total:307,dir:"cheat__cheat.b8098dc"},
+  {slug:"cslarsen__jp2a",score:14.95,passed:139,total:930,dir:"cslarsen__jp2a.61d205f"},
+  {slug:"shashwatah__jot",score:14.07,passed:119,total:846,dir:"shashwatah__jot.a92aad8"},
+  {slug:"parcel-bundler__lightningcss",score:13.91,passed:510,total:3666,dir:"parcel-bundler__lightningcss.aa2ed1e"},
+  {slug:"rochacbruno__marmite",score:13.50,passed:187,total:1385,dir:"rochacbruno__marmite.7d4bc2d"},
+  {slug:"filosottile__age",score:13.20,passed:137,total:1038,dir:"filosottile__age.706dfc1"},
+  {slug:"epistates__treemd",score:13.03,passed:263,total:2019,dir:"epistates__treemd.825c6dd"},
+  {slug:"go-critic__go-critic",score:12.96,passed:122,total:941,dir:"go-critic__go-critic.9aea378"},
+  {slug:"hooklift__gowsdl",score:12.95,passed:76,total:587,dir:"hooklift__gowsdl.2a06cec"},
+  {slug:"direnv__direnv",score:12.62,passed:127,total:1006,dir:"direnv__direnv.02040c7"},
+  {slug:"eliukblau__pixterm",score:12.52,passed:66,total:527,dir:"eliukblau__pixterm.1a93fd5"},
+  {slug:"lymphatus__caesium-clt",score:12.45,passed:94,total:755,dir:"lymphatus__caesium-clt.a529b2e"},
+  {slug:"cweill__gotests",score:12.37,passed:110,total:889,dir:"cweill__gotests.2a672c5"},
+  {slug:"kyoheiu__felix",score:12.30,passed:113,total:919,dir:"kyoheiu__felix.95df390"},
+  {slug:"ip7z__7zip",score:12.24,passed:151,total:1234,dir:"ip7z__7zip.839151e"},
+  {slug:"danmar__cppcheck",score:11.20,passed:285,total:2544,dir:"danmar__cppcheck.0a5b103"},
+  {slug:"naggie__dstask",score:10.84,passed:180,total:1661,dir:"naggie__dstask.ff57396"},
+  {slug:"paradigmxyz__solar",score:10.58,passed:285,total:2693,dir:"paradigmxyz__solar.5190d0e"},
+  {slug:"unhappychoice__gittype",score:10.39,passed:86,total:828,dir:"unhappychoice__gittype.34b72d0"},
+  {slug:"drew-alleman__datasurgeon",score:10.24,passed:68,total:664,dir:"drew-alleman__datasurgeon.d257cee"},
+  {slug:"ecumene__rust-sloth",score:10.03,passed:58,total:578,dir:"ecumene__rust-sloth.051c559"},
+  {slug:"samtools__samtools",score:9.60,passed:145,total:1511,dir:"samtools__samtools.aa823b5"},
+  {slug:"o2sh__onefetch",score:9.36,passed:124,total:1325,dir:"o2sh__onefetch.e5958ce"},
+  {slug:"pls-rs__pls",score:9.04,passed:32,total:354,dir:"pls-rs__pls.4e1ae50"},
+  {slug:"yoav-lavi__melody",score:8.15,passed:131,total:1607,dir:"yoav-lavi__melody.f4af9b4"},
+  {slug:"hairyhenderson__gomplate",score:8.10,passed:283,total:3496,dir:"hairyhenderson__gomplate.05eb3aa"},
+  {slug:"htop-dev__htop",score:8.04,passed:112,total:1393,dir:"htop-dev__htop.523600b"},
+  {slug:"ducaale__xh",score:7.99,passed:113,total:1415,dir:"ducaale__xh.4a6e44f"},
+  {slug:"halitechallenge__halite",score:7.42,passed:36,total:485,dir:"halitechallenge__halite.822cfb6"},
+  {slug:"stranger6667__jsonschema",score:7.32,passed:247,total:3373,dir:"stranger6667__jsonschema.d52e881"},
+  {slug:"osgeo__gdal",score:7.23,passed:74,total:1023,dir:"osgeo__gdal.0847f12"},
+  {slug:"facebook__zstd",score:6.85,passed:191,total:2788,dir:"facebook__zstd.1168da0"},
+  {slug:"lua__lua",score:6.82,passed:117,total:1715,dir:"lua__lua.c6b4848"},
+  {slug:"elkowar__pipr",score:6.74,passed:50,total:742,dir:"elkowar__pipr.fae0b17"},
+  {slug:"hush-shell__hush",score:6.63,passed:107,total:1615,dir:"hush-shell__hush.560c33a"},
+  {slug:"universal-ctags__ctags",score:6.56,passed:171,total:2606,dir:"universal-ctags__ctags.243595e"},
+  {slug:"xorg62__tty-clock",score:6.43,passed:22,total:342,dir:"xorg62__tty-clock.f2f847c"},
+  {slug:"lz4__lz4",score:5.83,passed:109,total:1869,dir:"lz4__lz4.1519f46"},
+  {slug:"luajit__luajit",score:5.58,passed:205,total:3674,dir:"luajit__luajit.a553b3d"},
+  {slug:"blake3-team__blake3",score:5.26,passed:36,total:685,dir:"blake3-team__blake3.15e83a5"},
+  {slug:"peco__peco",score:5.22,passed:89,total:1705,dir:"peco__peco.4e58dad"},
+  {slug:"incu6us__goimports-reviser",score:4.95,passed:37,total:747,dir:"incu6us__goimports-reviser.81bd549"},
+  {slug:"google__brotli",score:4.40,passed:42,total:955,dir:"google__brotli.b3dc9cc"},
+  {slug:"sharkdp__bat",score:2.55,passed:30,total:1178,dir:"sharkdp__bat.f822bd0"},
+  {slug:"johnkerl__miller",score:2.24,passed:353,total:15786,dir:"johnkerl__miller.8d85b46"},
+  {slug:"ffmpeg__ffmpeg",score:2.08,passed:68,total:3266,dir:"ffmpeg__ffmpeg.360a402"},
+  {slug:"zk-org__zk",score:2.03,passed:27,total:1331,dir:"zk-org__zk.10d93d5"},
+  {slug:"jhspetersson__fselect",score:1.72,passed:60,total:3480,dir:"jhspetersson__fselect.c3559ca"},
+  {slug:"nukesor__pueue",score:1.39,passed:14,total:1009,dir:"nukesor__pueue.8b9d6fe"},
+  {slug:"ast-grep__ast-grep",score:1.38,passed:17,total:1232,dir:"ast-grep__ast-grep.dde0fe0"},
+  {slug:"duckdb__duckdb",score:1.17,passed:70,total:5988,dir:"duckdb__duckdb.bdb65ec"},
+  {slug:"sqlite__sqlite",score:0.95,passed:135,total:14138,dir:"sqlite__sqlite.839433d"},
+  {slug:"typst__typst",score:0.79,passed:16,total:2027,dir:"typst__typst.88356d0"},
+  {slug:"ivanceras__svgbob",score:0.72,passed:4,total:554,dir:"ivanceras__svgbob.6d00ad9"},
+  {slug:"arq5x__bedtools2",score:0.66,passed:7,total:1060,dir:"arq5x__bedtools2.dd57059"},
+  {slug:"chirlu__sox",score:0.41,passed:6,total:1469,dir:"chirlu__sox.42b3557"},
+  {slug:"tstack__lnav",score:0.40,passed:4,total:1005,dir:"tstack__lnav.ee34494"},
+  {slug:"gromacs__gromacs",score:0.32,passed:4,total:1264,dir:"gromacs__gromacs.665ea4c"},
+  {slug:"php__php-src",score:0.18,passed:27,total:15054,dir:"php__php-src.c891263"},
+  {slug:"osgeo__proj",score:0.05,passed:3,total:5793,dir:"osgeo__proj.75d455c"},
+  {slug:"jgm__pandoc",score:0.02,passed:1,total:5482,dir:"jgm__pandoc.5caad90"},
+  {slug:"rhysd__kiro-editor",score:0.00,passed:0,total:0,dir:"rhysd__kiro-editor.4157485"},
+];
+
+// ============================================================
+// RENDER MAIN CHART
+// ============================================================
+function renderChart() {
+  const allTools = [
+    ...PENDING.map(t => ({...t, tier:'pending'})),
+    ...BOARD.map(t => ({...t, tier:'board'})),
+  ].sort((a, b) => b.score - a.score);
+
+  const chart = document.getElementById('main-chart');
+  chart.innerHTML = '';
+
+  allTools.forEach((t, i) => {
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+
+    let barClass = 'tier-b-low';
+    if (t.tier === 'pending') barClass = 'tier-a';
+    else if (t.score >= 40) barClass = 'tier-b-high';
+    else if (t.score >= 15) barClass = 'tier-b-mid';
+
+    const pctWidth = Math.max(t.score, 0.5).toFixed(2);
+    const label = t.slug.length > 38 ? t.slug.substring(0, 36) + '..' : t.slug;
+
+    row.innerHTML = `
+      <div class="bar-label"><span class="rank">${i+1}</span>${label}</div>
+      <div class="bar-track">
+        <div class="bar-fill ${barClass}" style="width:${pctWidth}%"></div>
+      </div>
+      <div class="bar-value">${t.score.toFixed(1)}%</div>
+      <div class="bar-meta">${t.passed}/${t.total}</div>
+    `;
+    chart.appendChild(row);
+  });
+}
+
+// ============================================================
+// RENDER TIER A TABLE
+// ============================================================
+function renderTierA() {
+  const tbody = document.getElementById('tier-a-body');
+  PENDING.forEach((t, i) => {
+    const pct = t.score;
+    let color = pct >= 90 ? '#10b981' : pct >= 75 ? '#f59e0b' : pct >= 50 ? '#3b82f6' : '#6366f1';
+    const changes = t.changes.join(', ');
+    tbody.innerHTML += `
+      <tr>
+        <td style="color:var(--muted);font-family:monospace">${i+1}</td>
+        <td class="slug-cell">${t.slug}</td>
+        <td>
+          <div class="score-bar-mini">
+            <div class="mini-bar-track">
+              <div class="mini-bar-fill" style="width:${pct}%;background:${color}"></div>
+            </div>
+            <span class="score-text" style="color:${color}">${pct.toFixed(1)}%</span>
+          </div>
+        </td>
+        <td style="font-family:monospace;font-size:0.78rem">${t.passed} / ${t.total}</td>
+        <td style="font-family:monospace;font-size:0.78rem;color:var(--muted)">${t.not_run}</td>
+        <td class="changes-cell">${changes}</td>
+        <td><span class="pill pill-yes">✅ Ready</span></td>
+      </tr>
+    `;
+  });
+}
+
+// ============================================================
+// RENDER TIER B TABLE
+// ============================================================
+let currentFilter = 'all';
+function filterBoard(band) {
+  currentFilter = band;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderTierB();
+}
+
+function renderTierB() {
+  const tbody = document.getElementById('tier-b-body');
+  tbody.innerHTML = '';
+  const filtered = BOARD.filter(t => {
+    if (currentFilter === 'high') return t.score >= 40;
+    if (currentFilter === 'mid') return t.score >= 15 && t.score < 40;
+    if (currentFilter === 'low') return t.score < 15;
+    return true;
+  });
+
+  filtered.forEach((t, i) => {
+    const pct = t.score;
+    let color = pct >= 40 ? '#06b6d4' : pct >= 15 ? '#8b5cf6' : '#475569';
+    let band = pct >= 40 ? '<span class="pill pill-yes">High ≥40%</span>' 
+             : pct >= 15 ? '<span class="pill pill-warning">Mid 15–39%</span>'
+             : '<span class="pill pill-none">Low &lt;15%</span>';
+    const dirShort = t.dir ? t.dir.substring(0, 35) + (t.dir.length > 35 ? '..' : '') : '—';
+    tbody.innerHTML += `
+      <tr>
+        <td style="color:var(--muted);font-family:monospace">${i+1}</td>
+        <td class="slug-cell">${t.slug}</td>
+        <td>
+          <div class="score-bar-mini">
+            <div class="mini-bar-track">
+              <div class="mini-bar-fill" style="width:${Math.max(pct,0.5)}%;background:${color}"></div>
+            </div>
+            <span class="score-text" style="color:${color}">${pct.toFixed(1)}%</span>
+          </div>
+        </td>
+        <td style="font-family:monospace;font-size:0.78rem">${t.passed} / ${t.total}</td>
+        <td style="font-family:monospace;font-size:0.65rem;color:var(--muted)">${dirShort}</td>
+        <td>${band}</td>
+      </tr>
+    `;
+  });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderChart();
+renderTierA();
+renderTierB();
+</script>
+</body>
+</html>

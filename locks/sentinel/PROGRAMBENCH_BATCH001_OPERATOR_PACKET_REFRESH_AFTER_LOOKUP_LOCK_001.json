@@ -1,0 +1,28 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_OPERATOR_PACKET_REFRESH_AFTER_LOOKUP_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Refresh operator packet needs after Batch001 live manifest lookup and metadata-only digest admission.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_IMPORT_SCAN_PLANNING_LOCK_001"
+  ],
+  "status": "BATCH001_OPERATOR_PACKET_REFRESH_AFTER_LOOKUP_WRITTEN",
+  "record": "assurance/evidence/programbench_batch001_operator_packet_refresh_after_lookup/programbench_batch001_operator_packet_refresh_after_lookup_run_20260528.BATCH001_OPERATOR_PACKET_REFRESH_AFTER_LOOKUP_WRITTEN.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py",
+    "passed": 8,
+    "failed": 0
+  },
+  "packet_summary": {
+    "artifact_import_provenance": 10,
+    "scanner_admission": 10,
+    "security_policy_admission": 1
+  },
+  "approvals_granted": 0,
+  "execution_authorized": false,
+  "training_eligible": false,
+  "does_not_prove": "Packet templates are not approvals and do not authorize import, scan, execution, or training rows."
+}

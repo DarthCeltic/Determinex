@@ -1,0 +1,51 @@
+{
+  "lock_id": "PROGRAMBENCH_ONLINE_PROVIDER_REGISTRY_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Constrain online artifact discovery to allowlisted providers and exact reference modes before any provider search can be wired.",
+  "focused_tests": {
+    "module": "tests/corpus/test_programbench_online_provider_registry_lock.py",
+    "passed": 7,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/artifact_discovery_provider_registry.py",
+    "assurance/config/online_discovery_providers.json",
+    "tests/corpus/test_programbench_online_provider_registry_lock.py"
+  ],
+  "providers": [
+    "docker_hub_official",
+    "ghcr_exact",
+    "github_release_metadata",
+    "huggingface_explicit"
+  ],
+  "acceptance": [
+    "Docker Hub official exact image reference is allowed",
+    "broad search is rejected",
+    "GHCR requires exact owner/repo",
+    "GHCR exact owner/repo is allowed",
+    "Hugging Face requires explicit repo reference",
+    "unknown provider is rejected",
+    "non-allowlisted query type is rejected"
+  ],
+  "blocked_behavior": [
+    "Do not pull latest.",
+    "Do not execute unpinned images.",
+    "Do not infer officialness from name similarity.",
+    "Do not let public_untrusted hydrate directly.",
+    "Do not use broad search engine scraping."
+  ],
+  "policy": [
+    "Discovery provider can return candidates.",
+    "Trust policy can admit metadata.",
+    "Hydrator can only use pinned, scanned, signed artifacts.",
+    "Verifier decides truth."
+  ],
+  "does_not_prove": "Does not prove any online provider has been queried; this lock only gates provider request shapes before discovery code is wired.",
+  "previous_lock": "PROGRAMBENCH_REPLAY_METADATA_RECOVERY_LOCK_001",
+  "next_lock": "PROGRAMBENCH_ROOT_CAUSE_PACKET_LOCK_001"
+}

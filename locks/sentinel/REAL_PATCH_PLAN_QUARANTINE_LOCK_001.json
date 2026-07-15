@@ -1,0 +1,39 @@
+{
+  "lock_id": "REAL_PATCH_PLAN_QUARANTINE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real patch-plan quarantine. Validates a model-supplied plan and records it as quarantined / untrusted. No patch is applied at this rung — not to the original source, not to a temp workspace. Path traversal, absolute paths, drive-anchored paths, '..' segments, NUL bytes, unsupported operations, oversize content and oversize totals are all rejected.",
+  "purpose": "Rung 4 of the real repair flow campaign.",
+  "depends_on_locks": [
+    "REAL_LOCAL_MODEL_ADMISSION_LOCK_001",
+    "LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001"
+  ],
+  "tests": 18,
+  "passed_on_this_host": 18,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_real_patch_plan_quarantine_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_PATCH_PLAN_QUARANTINED",
+    "REAL_PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
+    "REAL_PATCH_PLAN_BLOCKED_PATH_ESCAPE",
+    "REAL_PATCH_PLAN_BLOCKED_UNSUPPORTED_OPERATION",
+    "REAL_PATCH_PLAN_BLOCKED_NO_MODEL",
+    "REAL_PATCH_PLAN_BLOCKED_NOT_OPTED_IN"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "patch_applied": false,
+    "filesystem_write": false,
+    "network_called": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "release_workflow_added": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_patch_plan_quarantine/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_TEMP_PATCH_VERIFY_LOCK_001"
+}

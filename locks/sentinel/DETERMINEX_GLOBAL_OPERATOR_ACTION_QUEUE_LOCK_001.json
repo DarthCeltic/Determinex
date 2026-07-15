@@ -1,0 +1,37 @@
+{
+  "lock_id": "DETERMINEX_GLOBAL_OPERATOR_ACTION_QUEUE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Create a unified, prioritized operator action queue across Claude, Codex, and Proof Control Plane evidence without authorizing any action.",
+  "depends_on_locks": [
+    "DETERMINEX_UNIFIED_STATUS_SURFACE_AND_EVIDENCE_GRAPH_LOCK_001"
+  ],
+  "status": "GLOBAL_OPERATOR_ACTION_QUEUE_WRITTEN",
+  "integrity_status": "GLOBAL_OPERATOR_ACTION_QUEUE_INTEGRITY_PASSED",
+  "record": "assurance/evidence/global_operator_action_queue/run_20260528.GLOBAL_OPERATOR_ACTION_QUEUE_WRITTEN.json",
+  "test_modules": [
+    "tests/status/test_determinex_global_operator_action_queue_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/status/test_determinex_global_operator_action_queue_lock.py",
+    "passed": 6,
+    "failed": 0
+  },
+  "actions_total": 17,
+  "can_execute_any": false,
+  "can_mutate_source_any": false,
+  "can_write_training_row_any": false,
+  "approvals_granted": false,
+  "execution_authority_granted": false,
+  "source_mutation_authority_granted": false,
+  "artifact_import_authorized": false,
+  "programbench_execution_authorized": false,
+  "training_eligible": false,
+  "docker_run_performed": false,
+  "programbench_rerun_performed": false,
+  "artifact_import_performed": false,
+  "scan_performed": false,
+  "training_rows_written": false,
+  "release_workflow_created": false,
+  "does_not_prove": "Does not approve packets, execute anything, mutate source, import artifacts, scan artifacts, create training rows, or create release workflow."
+}

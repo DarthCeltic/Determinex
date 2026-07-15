@@ -1,0 +1,24 @@
+{
+  "lock_id": "FRONTEND_SOURCE_APPLY_DRY_RUN_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Source apply gate panel. Dry-run only. Renders the gate status + blocked reason explanation. NO real source apply button. Real write explicitly disabled note always visible.",
+  "purpose": "Rung 8 of the real frontend campaign.",
+  "depends_on_locks": ["FRONTEND_REPAIR_PANEL_SHELL_LOCK_001"],
+  "tests": 10,
+  "passed_on_this_host": 10,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide_frontend/test_frontend_source_apply_dry_run_panel_lock.py"],
+  "status_tokens": [
+    "SOURCE_APPLY_DRY_RUN_PANEL_READY",
+    "SOURCE_APPLY_BLOCKED_VISIBLE",
+    "SOURCE_APPLY_SOURCE_UNCHANGED_VISIBLE",
+    "SOURCE_APPLY_REAL_WRITE_DISABLED"
+  ],
+  "scope_discipline": {
+    "real_apply_button_added": false,
+    "user_source_mutated": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/frontend_source_apply_dry_run_panel/run_20260528.json"},
+  "next_recommended_lock": "FRONTEND_EVIDENCE_VIEWER_LOCK_001"
+}

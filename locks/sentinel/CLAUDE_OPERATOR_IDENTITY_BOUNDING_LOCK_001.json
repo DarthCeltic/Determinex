@@ -1,0 +1,42 @@
+{
+  "lock_id": "CLAUDE_OPERATOR_IDENTITY_BOUNDING_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Bounds operator_identity. Previously RealHumanApprovalAdmissionRecord.operator_identity was a free string — a free-string-only identity (without a signing-key reference or a payload-hash binding) was sufficient. This lock introduces BoundedOperatorIdentity (operator_id, display_name, signing_key_ref, timestamp, workspace_identity_hash, approval_payload_hash) and a check function that requires: (1) admission accepted, not fixture, signature_kind real_local_hmac; (2) bound is well-formed (bounded operator_id length, no NUL, 64-hex signing_key_ref/workspace_hash/payload_hash); (3) bound.operator_id matches admission.operator_identity; (4) bound.workspace_identity_hash matches sha256(admission.workspace_identity); (5) bound.approval_payload_hash matches the recomputed canonical payload hash. The lock NEVER opens source mutation — it only attests that a named operator is coupled to a specific admission packet. A free-string-only identity is refused with OPERATOR_IDENTITY_BLOCKED_FREE_STRING_ONLY.",
+  "purpose": "Rung 2 of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES.",
+  "depends_on_locks": [
+    "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001",
+    "APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001"
+  ],
+  "tests": 19,
+  "test_modules": [
+    "tests/ide/test_operator_identity_bounding_lock.py"
+  ],
+  "status_tokens": [
+    "OPERATOR_IDENTITY_BOUNDING_PASSED",
+    "OPERATOR_IDENTITY_BLOCKED_FREE_STRING_ONLY",
+    "OPERATOR_IDENTITY_BLOCKED_MISSING_SIGNING_REF",
+    "OPERATOR_IDENTITY_BLOCKED_PAYLOAD_MISMATCH",
+    "OPERATOR_IDENTITY_BLOCKED_WORKSPACE_MISMATCH",
+    "OPERATOR_IDENTITY_BLOCKED_STALE",
+    "OPERATOR_IDENTITY_BLOCKED_MALFORMED_IDENTITY"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "free_string_identity_accepted": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_operator_identity_bounding/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-014",
+  "next_recommended_lock": "CLAUDE_APPROVAL_REPLAY_AND_STALENESS_LOCK_001"
+}

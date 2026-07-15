@@ -1,0 +1,28 @@
+{
+  "lock_id": "IDE_DIAGNOSE_FLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "IDE-facing diagnose flow. dry_run and live_opt_in paths. Live requires explicit opt-in and admitted local provider. Advisory only; verifier remains source of truth.",
+  "purpose": "Rung 3 of the IDE frontend/approval campaign.",
+  "depends_on_locks": ["OPT_IN_LIVE_DIAGNOSE_COMMAND_LOCK_001"],
+  "tests": 10,
+  "passed_on_this_host": 10,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_diagnose_flow_lock.py"],
+  "status_tokens": [
+    "IDE_DIAGNOSE_DRY_RUN_READY",
+    "IDE_DIAGNOSE_LIVE_OPT_IN_READY",
+    "IDE_DIAGNOSE_BLOCKED_NO_MODEL",
+    "IDE_DIAGNOSE_BLOCKED_NOT_OPTED_IN",
+    "IDE_DIAGNOSE_ADVISORY_AVAILABLE",
+    "IDE_DIAGNOSE_SOURCE_UNCHANGED",
+    "IDE_DIAGNOSE_BLOCKED_UNSUPPORTED_TASK"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "patch_generated": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_diagnose_flow/run_20260528.json"},
+  "next_recommended_lock": "IDE_PATCH_PLAN_FLOW_LOCK_001"
+}

@@ -1,0 +1,116 @@
+{
+  "lock_id": "IDE_REPAIR_STATE_MODEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Backend state model the IDE/Tauri frontend (or any other consumer) can render directly. Assembles a flat IDERepairState dataclass from a VerifiedRepairTrace and an optional ApprovalGateDecision. Each dimension is a typed enum slot (intake / verifier / model_route / patch_plan / patch_temp / patch_verifier / source_approval). Carries pointers to lock + evidence files so the consumer can deep-link audit trails. The model is a pure function — no I/O, no model invocation, no source mutation.",
+  "purpose": "Rung 6 of the verified-repair campaign. Decouples the frontend from the internals of the four prior rungs: an IDE can consume a single JSON record and render the current state without touching trace internals. Sets up DETERMINEX_IDE_BACKEND_FINAL_STATE_LOCK_001 (the campaign-finale rung) to roll up the full backend state into a single packet.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LLM_MOCKED_INTAKE_REPAIR_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+    "VERIFIED_REPAIR_TRACE_LOCK_001",
+    "HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001"
+  ],
+  "tests": 17,
+  "passed_on_this_host": 17,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide/test_ide_repair_state_model_lock.py"
+  ],
+  "status_tokens": [
+    "INTAKE_READY",
+    "INTAKE_UNSUPPORTED",
+    "VERIFIER_AVAILABLE",
+    "VERIFIER_MISSING",
+    "MODEL_ROUTE_SELECTED",
+    "MODEL_ROUTE_BLOCKED",
+    "MODEL_ROUTE_NO_MODEL",
+    "PATCH_PLAN_AVAILABLE",
+    "PATCH_PLAN_UNAVAILABLE",
+    "PATCH_TEMP_APPLIED",
+    "PATCH_TEMP_FAILED",
+    "PATCH_VERIFIED_TEMP_ONLY",
+    "PATCH_VERIFIER_FAILED",
+    "SOURCE_APPROVAL_REQUIRED",
+    "SOURCE_APPROVAL_ACCEPTED_FIXTURE",
+    "SOURCE_MUTATION_BLOCKED",
+    "CORPUS_ELIGIBILITY_FALSE",
+    "EVIDENCE_AVAILABLE"
+  ],
+  "ide_state_dimensions": {
+    "intake": ["INTAKE_READY", "INTAKE_UNSUPPORTED"],
+    "verifier": ["VERIFIER_AVAILABLE", "VERIFIER_MISSING"],
+    "model_route": ["MODEL_ROUTE_SELECTED", "MODEL_ROUTE_BLOCKED", "MODEL_ROUTE_NO_MODEL"],
+    "patch_plan": ["PATCH_PLAN_AVAILABLE", "PATCH_PLAN_UNAVAILABLE"],
+    "patch_temp": ["PATCH_TEMP_APPLIED", "PATCH_TEMP_FAILED"],
+    "patch_verifier": ["PATCH_VERIFIED_TEMP_ONLY", "PATCH_VERIFIER_FAILED", "VERIFIER_MISSING"],
+    "source_approval": ["SOURCE_APPROVAL_REQUIRED", "SOURCE_APPROVAL_ACCEPTED_FIXTURE", "SOURCE_MUTATION_BLOCKED"],
+    "corpus_eligibility": ["CORPUS_ELIGIBILITY_FALSE"]
+  },
+  "invariants": [
+    "build_ide_state is a pure function of (trace, approval, lock_paths, evidence_paths).",
+    "Across pass/fail/unsupported traces, corpus_eligibility=CORPUS_ELIGIBILITY_FALSE and training_eligible=False.",
+    "Accepted ApprovalGateDecision flips source_mutation_authorized to True; blocked decisions flip source_approval to SOURCE_MUTATION_BLOCKED and source_mutation_authorized to False.",
+    "An ApprovalGateDecision with decision=SOURCE_MUTATION_APPROVAL_REQUIRED keeps source_approval=SOURCE_APPROVAL_REQUIRED (i.e. REQUIRED is not the same as BLOCKED).",
+    "When lock or evidence paths are supplied, the state's statuses_seen contains EVIDENCE_AVAILABLE.",
+    "scripts/ide/*.py contains no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "State assembly does not mutate the original workspace tree (sha256 before==after).",
+    "Audit path-rule for scripts/ide/ is LEGACY_EXEMPT_READ_ONLY.",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "ui_implementation_added": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/ide/__init__.py",
+      "scripts/ide/repair_state_model.py",
+      "scripts/ide/repair_state_record.py"
+    ],
+    "tests": [
+      "tests/ide/__init__.py",
+      "tests/ide/test_ide_repair_state_model_lock.py"
+    ],
+    "lock": "locks/sentinel/IDE_REPAIR_STATE_MODEL_LOCK_001.json",
+    "evidence": "assurance/evidence/ide_repair_state_model/run_20260527.json",
+    "docs": "docs/IDE_REPAIR_STATE_MODEL.md"
+  },
+  "files_modified": [
+    "scripts/dev/parallel_execution_layer_audit.py (added LEGACY_EXEMPT_READ_ONLY rule for scripts/ide/)"
+  ],
+  "evidence": {
+    "run_artifact": "assurance/evidence/ide_repair_state_model/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "No actual UI rendering. This rung exposes the state shape; the Tauri/web frontend is a downstream artifact (deferred).",
+    "Live ApprovalGateDecision admission is still gated by the FIXTURE-only acceptance from HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001.",
+    "Evidence pointers are a flat list of strings; future rungs may add structured pointers (line ranges, anchor URLs) once the IDE rendering is in place."
+  ],
+  "next_recommended_lock": "CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001",
+  "files": [
+    "scripts/ide/__init__.py",
+    "scripts/ide/repair_state_model.py",
+    "scripts/ide/repair_state_record.py",
+    "scripts/dev/parallel_execution_layer_audit.py",
+    "tests/ide/__init__.py",
+    "tests/ide/test_ide_repair_state_model_lock.py",
+    "locks/sentinel/IDE_REPAIR_STATE_MODEL_LOCK_001.json",
+    "assurance/evidence/ide_repair_state_model/run_20260527.json",
+    "docs/IDE_REPAIR_STATE_MODEL.md"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "lock_id": "PROGRAMBENCH_ROOT_DISAMBIGUATION_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Given multiple local roots for a ProgramBench tool, select the canonical runnable root using deterministic precedence and evidence-backed manual overrides.",
+  "focused_tests": {
+    "module": "tests/corpus/test_programbench_root_disambiguation_lock.py",
+    "passed": 9,
+    "failed": 0,
+    "skipped": 1
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/programbench_root_disambiguator.py",
+    "scripts/corpus/legacy_recovery/programbench_source_index.py",
+    "scripts/corpus/legacy_recovery/replay_hydration.py",
+    "assurance/config/programbench_root_overrides.json",
+    "tests/corpus/test_programbench_root_disambiguation_lock.py"
+  ],
+  "batch_001_disambiguation_report": {
+    "path": "assurance/evidence/programbench_root_disambiguation_batch_001.json",
+    "source_batch": "assurance/evidence/legacy_replay_promotion_batch_001.json",
+    "candidates": 10,
+    "selected": 10,
+    "ambiguous": 0,
+    "unsafe_rejected": 0,
+    "CANONICAL_ROOT_SELECTED": 10
+  },
+  "batch_001_hydration_after_disambiguation": {
+    "path": "assurance/evidence/programbench_replay_batch_001_hydration_report.json",
+    "HYDRATED_READY": 0,
+    "MISSING_DOCKER_IMAGE": 10
+  },
+  "precedence_order": [
+    "manual override",
+    "per_tool_overrides",
+    "locked",
+    "in_progress",
+    "T-drive run with matching shard/manifest",
+    "canonical ProgramBench source root",
+    "historical/staged root only if unambiguous"
+  ],
+  "statuses": [
+    "CANONICAL_ROOT_SELECTED",
+    "OVERRIDE_ROOT_SELECTED",
+    "LOCKED_ROOT_SELECTED",
+    "ACTIVE_RUN_ROOT_SELECTED",
+    "T_DRIVE_RUN_ROOT_SELECTED",
+    "AMBIGUOUS_NEEDS_OVERRIDE",
+    "NO_RUNNABLE_ROOT",
+    "UNSAFE_ROOT_REJECTED"
+  ],
+  "acceptance": [
+    "per_tool_overrides wins",
+    "locked root beats in_progress root",
+    "in_progress beats historical root",
+    "T-drive shard root selected only if manifest matches",
+    "newest root alone does not win",
+    "multiple equal roots produce AMBIGUOUS_NEEDS_OVERRIDE",
+    "override path must exist",
+    "override path must stay inside allowed roots",
+    "override must include reason and evidence",
+    "symlink escape roots are rejected or ignored",
+    "selected root exists",
+    "selected root is passed to hydration"
+  ],
+  "policy": [
+    "Do not manually pick roots without an auditable override.",
+    "Manual overrides must be evidence-backed.",
+    "Disambiguation does not run verifier or promote rows.",
+    "Hydration consumes only selected canonical roots."
+  ],
+  "does_not_prove": "Does not prove Batch 001 can replay yet; after canonical roots are selected, hydration is now blocked on missing Docker images/task images.",
+  "previous_lock": "PROGRAMBENCH_TASK_ROOT_RESOLUTION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_REPLAY_IMAGE_HYDRATION_LOCK_001"
+}

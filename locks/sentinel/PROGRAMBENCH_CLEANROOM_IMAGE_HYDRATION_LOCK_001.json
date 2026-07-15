@@ -1,0 +1,104 @@
+{
+  "lock_id": "PROGRAMBENCH_CLEANROOM_IMAGE_HYDRATION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "da82a95a826faac81efdb7b4fd681e7a0fd7ac8c",
+  "purpose": "Hydrate an admitted ProgramBench cleanroom image into quarantine/cache only after digest verification, scan pass, and policy admission, while still refusing execution and training promotion.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py",
+    "passed": 12,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+      "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_artifact_source_escalation_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py"
+    ],
+    "passed": 91,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1236,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/cleanroom_image_hydration.py",
+    "scripts/corpus/programbench/cleanroom_image_hydration_record.py",
+    "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py"
+  ],
+  "doxygen_hydration_preflight": {
+    "admission_record": "assurance/evidence/programbench_operator_artifact_admissions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.json",
+    "source_provenance_record": "assurance/evidence/programbench_dockerhub_manifest_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.EXACT_REMOTE_MANIFEST_FOUND.json",
+    "hydration_record": "assurance/evidence/programbench_cleanroom_image_hydration/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "source_url_or_registry": "docker.io/programbench/doxygen_1776_doxygen.966d98e@sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "expected_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "status": "CLEANROOM_IMAGE_SCAN_FAILED",
+    "reason": "security_scan_policy_failed",
+    "scan_result": {
+      "scanner": "trivy",
+      "critical": 38,
+      "high": 617,
+      "medium": 2729,
+      "low": 154,
+      "total": 3538,
+      "policy": "block"
+    },
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "CLEANROOM_IMAGE_HYDRATION_READY",
+    "CLEANROOM_IMAGE_HYDRATED_TO_QUARANTINE",
+    "CLEANROOM_IMAGE_DIGEST_VERIFIED",
+    "CLEANROOM_IMAGE_DIGEST_MISMATCH",
+    "CLEANROOM_IMAGE_SCAN_PASSED",
+    "CLEANROOM_IMAGE_SCAN_FAILED",
+    "CLEANROOM_IMAGE_POLICY_ADMITTED",
+    "CLEANROOM_IMAGE_POLICY_BLOCKED",
+    "CLEANROOM_IMAGE_CACHE_READY",
+    "CLEANROOM_IMAGE_NOT_EXECUTABLE",
+    "CLEANROOM_IMAGE_BLOCKED_FIXTURE_ADMISSION",
+    "CLEANROOM_IMAGE_BLOCKED_NO_REAL_ADMISSION",
+    "CLEANROOM_IMAGE_BLOCKED_NON_CANDIDATE",
+    "CLEANROOM_IMAGE_BLOCKED_ALREADY_EXECUTABLE",
+    "CLEANROOM_IMAGE_BLOCKED_TRAINING_ELIGIBLE",
+    "CLEANROOM_IMAGE_BLOCKED_NO_DIGEST",
+    "CLEANROOM_IMAGE_BLOCKED_NO_PROVENANCE",
+    "CLEANROOM_IMAGE_BLOCKED_NO_ARTIFACT"
+  ],
+  "acceptance": [
+    "fixture admission is blocked for real hydration",
+    "missing real admission blocks",
+    "non-hydration-candidate admission blocks",
+    "missing digest blocks",
+    "missing provenance blocks",
+    "missing artifact import path blocks",
+    "digest mismatch blocks",
+    "scan failure blocks policy admission",
+    "successful fixture import writes signed cache-ready record",
+    "successful fixture import records digest, scan, and policy pass",
+    "hydrated image remains not executable",
+    "hydrated image remains not training eligible"
+  ],
+  "policy": [
+    "Admission validates the artifact claim.",
+    "Hydration verifies the imported artifact against the admitted digest.",
+    "Hydration copies only to quarantine/cache.",
+    "A passed scan and policy check are required before cache readiness.",
+    "No Docker container execution.",
+    "No ProgramBench execution.",
+    "No Doxygen retry.",
+    "No automatic training promotion."
+  ],
+  "does_not_prove": "Does not execute or officially score ProgramBench. The live Doxygen image is still not hydrated because Trivy scan evidence failed policy with critical/high findings.",
+  "previous_lock": "PROGRAMBENCH_DOCKERHUB_MANIFEST_PROVENANCE_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_POLICY_EXCEPTION_OR_IMAGE_REMEDIATION_LOCK_001"
+}

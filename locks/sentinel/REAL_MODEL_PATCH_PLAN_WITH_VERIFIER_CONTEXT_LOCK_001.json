@@ -1,0 +1,47 @@
+{
+  "lock_id": "REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real model patch plan quarantined with verifier context. Composes healthcheck (PASSED) + verifier selection (SELECTED) + opt_in, then runs the model-supplied entries through the locked REAL_PATCH_PLAN_QUARANTINE_LOCK_001 validator. Records the verifier context (build_system_id, verifier argv) alongside the quarantine result. Model output is untrusted. No patch is applied.",
+  "purpose": "Rung 6 of the real-model + build-adapter-verifier campaign (subordinate to Codex audit repair).",
+  "depends_on_locks": [
+    "REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001",
+    "BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001",
+    "REAL_PATCH_PLAN_QUARANTINE_LOCK_001"
+  ],
+  "tests": 14,
+  "passed_on_this_host": 14,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_real_model_patch_plan_with_verifier_context_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_PATCH_PLAN_CONTEXT_QUARANTINED",
+    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NO_VERIFIER",
+    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_HEALTHCHECK",
+    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NOT_OPTED_IN",
+    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_SCHEMA_INVALID",
+    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_PATH_ESCAPE",
+    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_UNSUPPORTED_OPERATION",
+    "REAL_PATCH_PLAN_CONTEXT_OUTPUT_UNTRUSTED"
+  ],
+  "scope_discipline": {
+    "patch_applied": false,
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false
+  },
+  "subordinate_to": {
+    "campaign": "Codex proof-control audit repair",
+    "note": "This campaign does NOT claim full-suite clean until the Codex audit repair lands."
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_model_patch_plan_with_verifier_context/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_BUILD_ADAPTER_TEMP_VERIFY_TRACE_LOCK_001"
+}

@@ -1,0 +1,291 @@
+# ── Secrets (NEVER commit these) ─────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+id_rsa
+id_ed25519
+*_credentials.json
+
+# ── Node / Frontend ───────────────────────────────────────────────────────────
+node_modules/
+.next/
+frontend/.next/
+frontend/node_modules/
+dist/
+build/
+
+# ── Python environments and bytecode ─────────────────────────────────────────
+overbuild-env/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# ── Determinex runtime data (API keys in SQLite, encrypted vault) ────────────────
+/data/
+.determinex/
+.determinex_staging/
+.determinex_tmp/
+.determinex_tools/
+quarantine/
+logs/
+determinex_memory/
+sessions/
+
+# ── Python packaging build artifacts (egg-info, dist) ────────────────────────
+*.egg-info/
+*.egg
+dist/
+
+# ── ML training artifacts (26GB+ GGUF, checkpoints — use T: drive) ───────────
+scripts/fine_tuning/outputs/
+unsloth_compiled_cache/
+*.gguf
+*.pt
+*.safetensors
+*.bin
+
+# ── Rust compilation artifacts ────────────────────────────────────────────────
+frontend/src-tauri/target/
+target/
+
+# ── OS artifacts ──────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+backend/*.log
+
+# ── G36: Determinex training data and gap-gen scratch files ─────────────────────
+# These are runtime-generated and can be multi-GB; store on T: drive or S3.
+logs/retrain_queue.jsonl
+logs/human_review_queue.jsonl
+gap_gen_*.jsonl
+*.training.jsonl
+
+# ── Rust compiler artifacts (never in root) ───────────────────────────────────
+nul.*.rcgu.o
+nul.pdb
+nul.*
+*.rcgu.o
+*.d
+
+# ── Windows executables / test binaries ──────────────────────────────────────
+*.exe
+!frontend/src-tauri/target/**/*.exe
+
+# ── Sidecar binaries (extensionless on Linux -- *.exe above misses these) ────
+frontend/src-tauri/bin/*-unknown-linux-gnu
+
+# ── Eval and benchmark output files ──────────────────────────────────────────
+eval_fullbench_*.json
+eval_results_*.json
+eval_phase3_*.json
+determinex_lite_*.json
+determinex_hardware_profile.json
+determinex_limits_report.json
+gap_gen_*.jsonl
+evals/
+
+# ── ProgramBench: large tarballs (>100MB, GitHub limit) ─────────────────────
+# These live in per_tool_overrides/ as working artifacts; too large for git.
+# Store on T: drive or external storage.
+corpus/programbench/per_tool_overrides/isona__dirble.e2dea9f.tar.gz
+
+# ── ProgramBench: ephemeral working dirs ─────────────────────────────────────
+.work/
+corpus/programbench/tmp_downloads/
+benchmarks/outputs/
+
+# ── SWE-bench / gate-shakeout run artifacts (timestamped, root-level) ─────────
+determinex_202*.json
+gate_shakeout_*.json
+local_builder_*.json
+verify_*.json
+determinex_multilingual_*.json
+determinex_lite_python_*.json
+determinex_lite_D-*.json
+determinex_lite_B-*.json
+
+# ── Python caches ─────────────────────────────────────────────────────────────
+.pytest_cache/
+.mypy_cache/
+.tox/
+.coverage
+.ruff_cache/
+
+# ── fastembed / HuggingFace model caches ──────────────────────────────────────
+.fastembed_cache/
+.cache/
+
+# ── Claude / AI session files ─────────────────────────────────────────────────
+.claude/
+
+# ── Determinex runtime snapshots (ephemeral, not versioned) ─────────────────────
+determinex_lite_*.json
+determinex_hardware_profile.json
+determinex_limits_report.json
+scripts/session_config.json
+
+# ── Training corpora (large files — store on HuggingFace, not git) ───────────
+*.jsonl
+
+# ── Patent / legal drafts (private — keep local, never push) ─────────────────
+USPTO_PROVISIONAL_APPLICATION.md
+PATENT_NOVELTY_STATEMENT.md
+
+# ── Marketing website (deploy separately, never in repo) ─────────────────────
+landing/
+
+# ── Internal strategy / sprint docs (private branch / backup only) ───────────
+docs/WORLD_KILLER_PLAN.md
+docs/BENCHMARK_EXPANSION.md
+
+# ── Internal strategy docs (private branch / backup only) ────────────────────
+ENTERPRISE.md
+EXECUTIVE_SUMMARY.md
+HN_POST_DRAFT.md
+DETERMINEX_MASTER_PLAN.md
+WHITE_PAPER_SECTION4_DRAFT.md
+SPRINT.md
+BENCHMARK_HISTORY.md
+GEMINI_CORPUS_MISSION.md
+OPUS_CORPUS_MISSION.md
+SONNET_CORPUS_MISSION.md
+MISSION_*.md
+CONTRIBUTING_ROSETTA.md
+CORPUS_GEN_QUEUE.md
+DSL_NEGATIVES_MISSION.md
+
+# ── Session/AI review artifacts ───────────────────────────────────────────────
+*_review_summary.md
+*audit_findings.md
+AUDIT_RESULTS*.md
+*audit_report.md
+determinex_system_audit_report.md
+ux_dx_audit_report.md
+eval_engineer_v10.txt
+claude_fixes.diff
+
+# ── Operational chain scripts with hardcoded personal paths ──────────────────
+scripts/overnight*.sh
+
+# ── Personal ops / founder scripts (private only) ─────────────────────────────
+babysit_pod.ps1
+fix_scripts.py
+reqtrack.py
+validate_rosetta_submission.py
+test_trap1.py
+test_spec.md
+test_spec2.md
+
+# ── Compiler artifact directories ────────────────────────────────────────────
+rustc*/
+*.symbols.o
+
+# ── One-off repo-mapping utility scripts and their output ─────────────────────
+gen_md_structure.py
+map_script.py
+codebase_structure.md
+fast_tree.txt
+flat_structure.txt
+structure.txt
+
+# ── Branding assets (in assets/ when ready, not root) ─────────────────────────
+determinexlogo.jpg
+
+# ── Old UI archive ─────────────────────────────────────────────────────────────
+archive_streamlit/
+archive/
+
+# ── Bundler / PyInstaller build artifacts ─────────────────────────────────────
+bundler/_pyinstaller_work/
+
+# ── Benchmark run directories ─────────────────────────────────────────────────
+eval_fullbench_mistral
+eval_fullbench_qwen2.5-coder
+
+# PB training corpus - aggregate raw is 401MB; ship compressed
+corpus/programbench/training_corpus/pb_corpus.jsonl
+corpus/programbench/training_corpus/by_tool/
+# Runtime dedup seen-set (regenerated on each factory run)
+corpus/programbench/training_corpus/.pb_verdict_corpus_seen.txt
+
+# ── ProgramBench factory runtime artifacts (ephemeral, per-session) ──────────
+# hint_audit_* are timestamped snapshots the agent writes while iterating;
+# they are useful locally but not part of the review record.
+hint_audit_*.md
+
+# ── Assurance replay corpus bodies (subdirs are empty placeholders) ──────────
+# Actual JSONL in assurance/ is excluded by the *.jsonl rule above
+assurance/evidence/programbench_replay_corpus/
+
+# ── Codex agent local stash (per-session scratch) ──────────────────────────
+.codex_stash/
+corpus/programbench/best_known_state.json
+.determinex_ratelimits.json
+
+# Secrets hardening (2026-06-17) — leading-tab rule above did not match
+secrets/
+secrets/**
+**/hf_token*
+
+# IDE-glitch junk dumps (2026-06-17) — subdir/ held a copy of .env with a live key
+subdir/
+cloudflare/
+
+# Stripped >100MB blobs (2026-06-17) — exceed GitHub limit; live on T:/Hetzner, rebuild for public repo
+corpus/programbench/locked/isona__dirble.e2dea9f/submission.tar.gz
+corpus/programbench/per_tool_overrides/duckdb__duckdb.bdb65ec.tar.gz
+corpus/programbench/per_tool_overrides/duckdb__duckdb.bdb65ec/submission.tar.gz
+corpus/programbench/per_tool_overrides/rcoh__angle-grinder.9c2fc88.tar.gz
+corpus/programbench/per_tool_overrides/rust-embedded__svd2rust.1760b5e.tar.gz
+
+# Corpus tarballs moved off-repo to T: (2026-06-17) — too large for GitHub push; on T:/determinex-backups bundle + disk
+corpus/programbench/**/*.tar.gz
+**/submission.tar.gz
+*.tar.gz
+
+# Ephemeral scratch space (2026-06-17) — never part of the repo / public release
+scratch/
+.tmp/
+
+# Release-build working directory (cargo target dirs, download bundles) — regenerable,
+# large (thousands of build objects), never part of repo history or public release.
+release_build_work/
+
+# Pytest tmp_path fixture leftovers from release-gate test runs (should self-clean;
+# ignored defensively so a leaked tmp dir never becomes a candidate for `git add`).
+.pytest_tmp_*/
+
+# VS Code extension build artifact (rebuilt via vsce package)
+*.vsix
+
+# PB build-artifact tarballs (regenerable; keep them out of history — they bloat pushes).
+# NOTE: locked/**/submission.tar.gz is intentionally NOT ignored (it is lock evidence).
+corpus/programbench/per_tool_overrides/*.tar.gz
+corpus/programbench/per_tool_overrides/**/submission.tar.gz
+corpus/programbench/pending_unlock/**/submission.tar.gz
+
+# autofix backups (regenerable)
+*.autofix.bak
+*.compile.sh.autofix.bak
+
+# code-RAG index + drive-scan sidecar: machine-specific generated artifacts (root path differs per
+# host; the box builds its own). Regenerable via determinex_code_rag --index / determinex_pb_absorb --scan-drive.
+corpus/programbench/code_rag_index.json
+corpus/programbench/ingest/_drive_sources.txt

@@ -1,0 +1,13 @@
+{
+  "lock_id": "PROGRAMBENCH_TRAINING_ELIGIBILITY_NEGATIVE_GUARD_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "87eff7703940f1c0da19d0819be5970f4667325e",
+  "purpose": "Harden the rule that metadata-only, scan-failed, policy-required, skipped, and partial-provenance Doxygen records cannot become training rows.",
+  "focused_tests": {"module": "tests/corpus/programbench/test_programbench_codex_completion_campaign_lock.py", "passed": 11, "failed": 0},
+  "full_suite": {"passed": 322, "failed": 0},
+  "implementation": ["scripts/corpus/programbench/codex_completion_campaign.py", "scripts/corpus/programbench/codex_completion_campaign_record.py", "tests/corpus/programbench/test_programbench_codex_completion_campaign_lock.py"],
+  "record": "assurance/evidence/programbench_training_eligibility_negative_guards/programbench_training_eligibility_negative_guard.TRAINING_ELIGIBILITY_NEGATIVE_GUARD_WRITTEN.json",
+  "training_eligible": false,
+  "does_not_prove": "Does not create training rows; it records negative eligibility rules for blocked evidence.",
+  "next_lock": "PROGRAMBENCH_RERUN_READINESS_MATRIX_LOCK_001"
+}

@@ -1,0 +1,47 @@
+{
+  "lock_id": "DETERMINEX_PROOF_OPERATOR_CENTER_VIEWMODEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Proof / Operator Center view-model. 10 required sections (evidence_ledger, current_workspace_status, source_mutation_gates, verifier_status, rollback_status, operator_actions, programbench_provenance_status_read_only, training_eligibility_status, claim_safety_status, blocked_actions). build() refuses: (1) training_eligible_now=True -> BLOCKED_TRAINING_CONFUSION; (2) training_status_text not stating false / remains false -> BLOCKED_TRAINING_CONFUSION; (3) blocked_actions_visible=False or empty blocked_actions_text -> BLOCKED_ACTION_HIDDEN; (4) any operator_action.kind=='grant' OR any visible action without routes_to -> BLOCKED_AUTHORITY_CONFUSION (queue request is not a grant); (5) source_mutation_authorized_now=True on this view-model -> BLOCKED_AUTHORITY_CONFUSION (apply gate is authoritative); (6) programbench_provenance_read_only=False -> BLOCKED_AUTHORITY_CONFUSION.",
+  "purpose": "Rung 6 of DETERMINEX_UNIFIED_PRODUCT_UX_SHELL_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001"
+  ],
+  "tests": 16,
+  "test_modules": ["tests/ide/test_proof_operator_center_viewmodel_lock.py"],
+  "status_tokens": [
+    "PROOF_OPERATOR_CENTER_VIEWMODEL_WRITTEN",
+    "PROOF_OPERATOR_CENTER_VIEWMODEL_BLOCKED_ACTION_HIDDEN",
+    "PROOF_OPERATOR_CENTER_VIEWMODEL_BLOCKED_AUTHORITY_CONFUSION",
+    "PROOF_OPERATOR_CENTER_VIEWMODEL_BLOCKED_TRAINING_CONFUSION"
+  ],
+  "required_sections": [
+    "evidence_ledger", "current_workspace_status",
+    "source_mutation_gates", "verifier_status", "rollback_status",
+    "operator_actions",
+    "programbench_provenance_status_read_only",
+    "training_eligibility_status", "claim_safety_status",
+    "blocked_actions"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "operator_queue_treated_as_grant": false,
+    "programbench_mutable_from_claude_lane": false,
+    "blocked_state_hidden": false,
+    "training_status_hidden": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_proof_operator_center_viewmodel/run_20260528.json"
+  },
+  "remediates_finding": "product-shell-proof-operator-center",
+  "next_recommended_lock": "DETERMINEX_UNIFIED_USER_LEVELS_AND_TEACHING_WINDOWS_LOCK_001"
+}

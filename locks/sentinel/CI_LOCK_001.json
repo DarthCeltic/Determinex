@@ -1,0 +1,44 @@
+{
+  "lock_id": "CI_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "ci_file": ".github/workflows/test.yml",
+  "triggers": [
+    "push to main",
+    "push to clean-main",
+    "pull_request to main",
+    "workflow_dispatch"
+  ],
+  "jobs": [
+    {
+      "name": "python-tests",
+      "runs_on": "ubuntu-latest",
+      "python_version": "3.11",
+      "steps": [
+        "pip install -r requirements.txt",
+        "pip install -e .[dev]",
+        "pytest tests/ -v --tb=short",
+        "python scripts/determinex_limits_test.py",
+        "cargo check --all-targets (frontend/src-tauri)"
+      ]
+    }
+  ],
+  "path_filters": [
+    "scripts/**",
+    "determinex_trainer/**",
+    "tests/**",
+    "locks/**",
+    "pyproject.toml",
+    "requirements*.txt"
+  ],
+  "previous_gap": "CI only triggered on pull_request and workflow_dispatch — push to main was unguarded",
+  "fix": "Added push trigger for main + clean-main branches; added locks/** to path filters so lock manifest changes are verified",
+  "future_splits": [
+    "ci-fast.yml — smoke tests only (~30s)",
+    "security.yml — redteam + sentinelbench suite",
+    "corpus.yml — schema maturity + license gate tests"
+  ],
+  "implementations": [
+    ".github/workflows/test.yml"
+  ]
+}

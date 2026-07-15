@@ -1,0 +1,36 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Write final state for the Batch001 import/scan planning campaign.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_ARTIFACT_IMPORT_REQUEST_PACKET_LOCK_001",
+    "PROGRAMBENCH_BATCH001_ARTIFACT_IMPORT_PREFLIGHT_LOCK_001",
+    "PROGRAMBENCH_BATCH001_OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_LOCK_001",
+    "PROGRAMBENCH_BATCH001_EXACT_ARTIFACT_IMPORT_GATE_LOCK_001",
+    "PROGRAMBENCH_BATCH001_SCAN_QUEUE_LOCK_001",
+    "PROGRAMBENCH_BATCH001_SCAN_POLICY_PRECHECK_LOCK_001"
+  ],
+  "status": "BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_WRITTEN",
+  "record": "assurance/evidence/programbench_batch001_import_scan_campaign_final_state/programbench_batch001_import_scan_campaign_final_state_run_20260528.BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_WRITTEN.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_batch001_import_scan_pipeline_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "metadata_admitted_targets": 10,
+  "import_requests_written": 10,
+  "import_preflight_ready": 0,
+  "import_preflight_blocked": 10,
+  "operator_import_packets_written": 10,
+  "artifact_import_gate_ready": true,
+  "scan_queue_entries": 10,
+  "artifacts_imported": 0,
+  "scans_performed": 0,
+  "execution_performed": false,
+  "training_rows_written": false,
+  "does_not_prove": "Does not import artifacts, scan artifacts, authorize execution, run ProgramBench, or create training data."
+}

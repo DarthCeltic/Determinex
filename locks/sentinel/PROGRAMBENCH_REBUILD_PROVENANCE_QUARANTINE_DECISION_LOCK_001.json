@@ -1,0 +1,99 @@
+{
+  "lock_id": "PROGRAMBENCH_REBUILD_PROVENANCE_QUARANTINE_DECISION_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "607665753ec96355e6e8badb4ac80a83bc61968c",
+  "purpose": "Convert partial Doxygen cleanroom recipe provenance recovery into a signed quarantine decision that distinguishes technical remediation possibility from benchmark-faithful rebuild authority.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_rebuild_provenance_quarantine_decision_lock.py",
+    "passed": 18,
+    "failed": 0
+  },
+  "related_programbench_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench\\test_programbench_rebuild_provenance_quarantine_decision_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_recipe_provenance_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_provenance_gap_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_remediation_plan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_triage_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_hydration_lock.py tests\\corpus\\programbench\\test_programbench_approved_scanner_setup_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scanner_admission_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_import_lock.py tests\\corpus\\programbench\\test_programbench_dockerhub_manifest_provenance_lock.py tests\\corpus\\programbench\\test_programbench_operator_artifact_admission_lock.py -q --tb=short",
+    "passed": 197,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench -q --tb=short",
+    "passed": 252,
+    "failed": 0
+  },
+  "evidence_validation": {
+    "evidence_index_entries": 82,
+    "validation_errors": []
+  },
+  "implementation": [
+    "scripts/corpus/programbench/rebuild_provenance_quarantine_decision.py",
+    "scripts/corpus/programbench/rebuild_provenance_quarantine_decision_record.py",
+    "tests/corpus/programbench/test_programbench_rebuild_provenance_quarantine_decision_lock.py"
+  ],
+  "doxygen_rebuild_quarantine_decision": {
+    "recipe_provenance_recovery": "assurance/evidence/programbench_cleanroom_recipe_provenance_recovery/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.RECIPE_PROVENANCE_RECOVERED_PARTIAL.json",
+    "decision_record": "assurance/evidence/programbench_rebuild_provenance_quarantine_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.json",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "image_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "decision": "REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY",
+    "remediation_technically_possible": true,
+    "go_runtime_current": "1.21.0",
+    "go_runtime_target": "1.24.13",
+    "original_recipe_gap_open": true,
+    "pinned_base_image_digest_gap_open": true,
+    "rebuild_provenance_authorized": false,
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "REBUILD_QUARANTINE_DECISION_READY",
+    "REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY",
+    "REBUILD_QUARANTINE_DECISION_BLOCKED",
+    "REBUILD_QUARANTINE_DECISION_BLOCKED_NO_RECOVERY",
+    "REBUILD_QUARANTINE_DECISION_BLOCKED_IMAGE_MISMATCH",
+    "REBUILD_QUARANTINE_DECISION_BLOCKED_DIGEST_MISMATCH",
+    "REBUILD_QUARANTINE_DECISION_BLOCKED_CHAIN_INVALID",
+    "REMEDIATION_TECHNICALLY_AVAILABLE",
+    "REBUILD_PROVENANCE_AUTHORIZED",
+    "REBUILD_PROVENANCE_NOT_AUTHORIZED",
+    "ORIGINAL_RECIPE_GAP_OPEN",
+    "PINNED_BASE_IMAGE_DIGEST_GAP_OPEN",
+    "MATERIAL_FIDELITY_CHANGE_CANDIDATE",
+    "HYDRATION_NOT_AUTHORIZED",
+    "PROGRAMBENCH_RERUN_NOT_AUTHORIZED",
+    "DOCKER_EXECUTION_NOT_AUTHORIZED",
+    "CACHE_READY_FALSE",
+    "EXECUTABLE_FALSE",
+    "TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "consumes signed recipe provenance recovery evidence",
+    "verifies target image and digest match",
+    "verifies referenced remediation plan, recipe recovery, and provenance gap records",
+    "distinguishes remediation technically possible from rebuild provenance authorized",
+    "records original recipe gap status",
+    "records pinned base image digest gap status",
+    "records Go 1.24.13 remediation availability",
+    "writes signed quarantine decision evidence",
+    "keeps image rebuild unauthorized for partial provenance",
+    "keeps hydration unauthorized",
+    "keeps ProgramBench rerun unauthorized",
+    "keeps cache_ready false",
+    "keeps executable false",
+    "keeps training_eligible false"
+  ],
+  "policy": [
+    "Partial provenance is not rebuild authority.",
+    "Technical remediation possibility is not benchmark-faithful rebuild authority.",
+    "No image rebuild.",
+    "No Docker pull.",
+    "No Docker run.",
+    "No hydration.",
+    "No ProgramBench rerun.",
+    "No policy exception.",
+    "No cache_ready.",
+    "No executable.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not recover missing original recipe or pinned base image digest. Does not rebuild, pull, hydrate, execute Docker, rerun ProgramBench, grant cache readiness, or create training eligibility.",
+  "previous_lock": "PROGRAMBENCH_CLEANROOM_RECIPE_PROVENANCE_RECOVERY_LOCK_001",
+  "next_lock": "PROGRAMBENCH_OPERATOR_PROVENANCE_REQUEST_PACKET_LOCK_001"
+}

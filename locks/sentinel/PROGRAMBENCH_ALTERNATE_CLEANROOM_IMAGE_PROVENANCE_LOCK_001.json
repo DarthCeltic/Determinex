@@ -1,0 +1,117 @@
+{
+  "lock_id": "PROGRAMBENCH_ALTERNATE_CLEANROOM_IMAGE_PROVENANCE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "607665753ec96355e6e8badb4ac80a83bc61968c",
+  "purpose": "Determine whether a safer provenance-admissible alternate Doxygen cleanroom image path exists without pulling, hydrating, rebuilding, executing Docker, or running ProgramBench.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_alternate_cleanroom_image_provenance_lock.py",
+    "passed": 18,
+    "failed": 0
+  },
+  "related_programbench_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench\\test_programbench_alternate_cleanroom_image_provenance_lock.py tests\\corpus\\programbench\\test_programbench_operator_provenance_request_packet_lock.py tests\\corpus\\programbench\\test_programbench_rebuild_provenance_quarantine_decision_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_recipe_provenance_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_provenance_gap_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_build_recipe_recovery_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_remediation_plan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_triage_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scan_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_hydration_lock.py tests\\corpus\\programbench\\test_programbench_approved_scanner_setup_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_scanner_admission_lock.py tests\\corpus\\programbench\\test_programbench_cleanroom_image_import_lock.py tests\\corpus\\programbench\\test_programbench_dockerhub_manifest_provenance_lock.py tests\\corpus\\programbench\\test_programbench_operator_artifact_admission_lock.py -q --tb=short",
+    "passed": 234,
+    "failed": 0
+  },
+  "programbench_gate_stack": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests\\corpus\\programbench -q --tb=short",
+    "passed": 289,
+    "failed": 0
+  },
+  "evidence_validation": {
+    "evidence_index_entries": 84,
+    "validation_errors": []
+  },
+  "implementation": [
+    "scripts/corpus/programbench/alternate_cleanroom_image_provenance.py",
+    "scripts/corpus/programbench/alternate_cleanroom_image_provenance_record.py",
+    "tests/corpus/programbench/test_programbench_alternate_cleanroom_image_provenance_lock.py"
+  ],
+  "doxygen_alternate_cleanroom_provenance": {
+    "operator_provenance_request": "assurance/evidence/programbench_operator_provenance_requests/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.json",
+    "alternate_provenance_record": "assurance/evidence/programbench_alternate_cleanroom_image_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.json",
+    "original_image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "original_image_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "status": "ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND",
+    "decision": "NO_ALTERNATE_IMAGE_CANDIDATE_FOUND",
+    "exact_candidates": 0,
+    "partial_candidates": 0,
+    "blocked_candidates": 0,
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "searched_sources": [
+    "assurance/evidence/programbench_operator_provenance_requests",
+    "assurance/evidence/programbench_operator_artifact_admissions",
+    "assurance/evidence/programbench_dockerhub_manifest_provenance",
+    "assurance/evidence/programbench_cleanroom_image_hydration",
+    "assurance/evidence/programbench_alternate_cleanroom_image_provenance_candidates",
+    "assurance/config",
+    "locks/sentinel"
+  ],
+  "statuses": [
+    "ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT",
+    "ALTERNATE_CLEANROOM_PROVENANCE_FOUND_PARTIAL",
+    "ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND",
+    "ALTERNATE_CLEANROOM_PROVENANCE_BLOCKED",
+    "ALTERNATE_CLEANROOM_FIDELITY_CHANGE_REQUIRED",
+    "ALTERNATE_IMAGE_CANDIDATE_ADMISSIBLE",
+    "ALTERNATE_IMAGE_CANDIDATE_QUARANTINE_ONLY",
+    "ALTERNATE_IMAGE_CANDIDATE_BLOCKED",
+    "NO_ALTERNATE_IMAGE_CANDIDATE_FOUND",
+    "ALTERNATE_IMAGE_BLOCKED_NO_REQUEST",
+    "ALTERNATE_IMAGE_BLOCKED_IMAGE_MISMATCH",
+    "ALTERNATE_IMAGE_BLOCKED_DIGEST_MISMATCH",
+    "ALTERNATE_IMAGE_BLOCKED_CHAIN_INVALID",
+    "LATEST_TAG_REJECTED",
+    "NAME_ONLY_IMAGE_REJECTED",
+    "INFERRED_OFFICIALNESS_REJECTED",
+    "DOCKER_PULL_NOT_AUTHORIZED",
+    "DOCKER_EXECUTION_NOT_AUTHORIZED",
+    "HYDRATION_NOT_AUTHORIZED",
+    "PROGRAMBENCH_RERUN_NOT_AUTHORIZED",
+    "CACHE_READY_FALSE",
+    "EXECUTABLE_FALSE",
+    "TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "consumes signed operator provenance request packet",
+    "verifies original image and digest match",
+    "verifies upstream remediation, recovery, gap, recipe provenance, and quarantine decision chain",
+    "records all alternate sources searched",
+    "requires explicit alternate_cleanroom_candidate records before considering candidates",
+    "requires exact digest/source/provenance for any admissible alternate candidate",
+    "rejects latest tags and name-only image references",
+    "rejects inferred officialness",
+    "marks benchmark fidelity impact explicitly",
+    "writes signed alternate provenance evidence",
+    "keeps Docker pull and execution unauthorized",
+    "keeps hydration unauthorized",
+    "keeps ProgramBench rerun unauthorized",
+    "keeps cache_ready false",
+    "keeps executable false",
+    "keeps training_eligible false"
+  ],
+  "policy": [
+    "Alternate discovery is not alternate admission.",
+    "No broad web search.",
+    "No inferred official images.",
+    "No latest tags.",
+    "No name-only image references.",
+    "No blind Docker pull.",
+    "No Docker run.",
+    "No hydration.",
+    "No image rebuild.",
+    "No ProgramBench rerun.",
+    "No policy exception.",
+    "No cache_ready.",
+    "No executable.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not prove no alternate exists globally. It proves no explicit alternate cleanroom candidate exists in the allowed local/admitted sources searched by this lock.",
+  "previous_lock": "PROGRAMBENCH_OPERATOR_PROVENANCE_REQUEST_PACKET_LOCK_001",
+  "next_lock_if_exact_alternate_found": "PROGRAMBENCH_ALTERNATE_CLEANROOM_IMAGE_ADMISSION_LOCK_001",
+  "next_lock_if_partial_alternate_found": "PROGRAMBENCH_ALTERNATE_CLEANROOM_QUARANTINE_DECISION_LOCK_001",
+  "next_lock_if_no_alternate_found": "PROGRAMBENCH_CLEANROOM_PROVENANCE_DEAD_END_PACKET_LOCK_001"
+}

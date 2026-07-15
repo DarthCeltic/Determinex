@@ -1,0 +1,72 @@
+{
+  "lock_id": "LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Compatibility harness exercising the live-model interface against deterministic fixture providers (DeterministicProvider, TimeoutProvider, UnavailableProvider, MalformedProvider, OversizedProvider, EmptyProvider). The harness validates response shape, size cap (64 kB), JSON encodability, schema overlap, and non-empty body. Every emitted LiveModelResponse carries trusted=False — downstream rungs apply the trust gates. No real model is called.",
+  "purpose": "Rung 2 of the live-local-model campaign. Proves the model-call interface is structurally compatible with the repair apparatus without trusting any real provider.",
+  "depends_on_locks": [
+    "MODEL_ROUTER_LOCK_001",
+    "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001"
+  ],
+  "tests": 17,
+  "passed_on_this_host": 17,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/models/test_live_model_mock_compatibility_harness_lock.py"],
+  "status_tokens": [
+    "MODEL_COMPAT_HARNESS_PASSED",
+    "MODEL_COMPAT_HARNESS_BLOCKED_PROVIDER_UNAVAILABLE",
+    "MODEL_COMPAT_HARNESS_BLOCKED_BAD_RESPONSE",
+    "MODEL_COMPAT_HARNESS_BLOCKED_TIMEOUT",
+    "MODEL_COMPAT_HARNESS_BLOCKED_SCHEMA_INVALID",
+    "MODEL_COMPAT_HARNESS_BLOCKED_OVERSIZED",
+    "MODEL_COMPAT_HARNESS_BLOCKED_EMPTY"
+  ],
+  "schemas": {
+    "diagnose_v1":   {"required": ["summary"]},
+    "patch_plan_v1": {"required": ["kind", "steps"]},
+    "verifier_v1":   {"required": ["status"]}
+  },
+  "invariants": [
+    "Every LiveModelResponse carries trusted=False, including PASSED responses.",
+    "Provider unavailability blocks with MODEL_COMPAT_HARNESS_BLOCKED_PROVIDER_UNAVAILABLE.",
+    "Timeout exception blocks with MODEL_COMPAT_HARNESS_BLOCKED_TIMEOUT.",
+    "Non-dict / unencodable response blocks with MODEL_COMPAT_HARNESS_BLOCKED_BAD_RESPONSE.",
+    "Response over 64 kB blocks with MODEL_COMPAT_HARNESS_BLOCKED_OVERSIZED.",
+    "Empty dict response blocks with MODEL_COMPAT_HARNESS_BLOCKED_EMPTY.",
+    "Schema missing required keys blocks with MODEL_COMPAT_HARNESS_BLOCKED_SCHEMA_INVALID.",
+    "scripts/models/live_model_compat_harness.py and live_model_response_record.py contain no `import subprocess`, no `import urllib`, no `import socket`, no `import http`."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "response_trusted_anywhere": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/models/live_model_compat_harness.py",
+      "scripts/models/live_model_response_record.py"
+    ],
+    "tests": ["tests/models/test_live_model_mock_compatibility_harness_lock.py"],
+    "lock": "locks/sentinel/LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001.json",
+    "evidence": "assurance/evidence/live_model_mock_compatibility_harness/run_20260527.json",
+    "docs": "docs/LIVE_MODEL_COMPATIBILITY_HARNESS.md"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/live_model_mock_compatibility_harness/run_20260527.json"
+  },
+  "next_recommended_lock": "LIVE_MODEL_DIAGNOSE_ONLY_TRACE_LOCK_001",
+  "files": [
+    "scripts/models/live_model_compat_harness.py",
+    "scripts/models/live_model_response_record.py",
+    "tests/models/test_live_model_mock_compatibility_harness_lock.py",
+    "locks/sentinel/LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001.json",
+    "assurance/evidence/live_model_mock_compatibility_harness/run_20260527.json",
+    "docs/LIVE_MODEL_COMPATIBILITY_HARNESS.md"
+  ]
+}

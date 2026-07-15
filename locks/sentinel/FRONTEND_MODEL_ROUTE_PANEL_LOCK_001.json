@@ -1,0 +1,26 @@
+{
+  "lock_id": "FRONTEND_MODEL_ROUTE_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Model route panel TSX. Shows decision, route, model id, dry-run default, live opt-in availability, no-model block, network blocked note.",
+  "purpose": "Rung 4 of the real frontend campaign.",
+  "depends_on_locks": ["FRONTEND_REPAIR_PANEL_SHELL_LOCK_001"],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide_frontend/test_frontend_model_route_panel_lock.py"],
+  "status_tokens": [
+    "MODEL_ROUTE_PANEL_READY",
+    "MODEL_ROUTE_DRY_RUN_VISIBLE",
+    "MODEL_ROUTE_LIVE_OPT_IN_VISIBLE",
+    "MODEL_ROUTE_BLOCKED_NO_MODEL_VISIBLE",
+    "MODEL_ROUTE_NETWORK_BLOCKED_VISIBLE"
+  ],
+  "scope_discipline": {
+    "live_model_call_made": false,
+    "user_source_mutated": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/frontend_model_route_panel/run_20260528.json"},
+  "next_recommended_lock": "FRONTEND_DIAGNOSE_AND_PATCH_PLAN_FLOW_LOCK_001"
+}

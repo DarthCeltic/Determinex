@@ -1,0 +1,99 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: detect-private-key
+      - id: no-commit-to-branch
+        args: ["--branch", "main"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.12
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: no-shell-true
+        name: Reject subprocess shell=True
+        language: pygrep
+        entry: 'subprocess.*shell\s*=\s*True'
+        types: [python]
+        exclude: ^(tests/|docs/|dataset_generation/)
+
+      - id: no-hardcoded-paths
+        name: Reject hardcoded personal paths
+        language: pygrep
+        entry: '(C:\\\\Dev|C:/Dev|/Users/ryang|C:\\\\Users\\\\ryang)'
+        types: [python]
+        exclude: ^(tests/|docs/|dataset_generation/)
+
+      - id: no-overclaim
+        name: Reject authority-anchor overclaims (governance)
+        language: system
+        entry: python scripts/governance/overclaim_guard.py
+        pass_filenames: false
+        always_run: true
+
+      # ── PB lock integrity (2026-06-15) — the structural 'never again' gate ──
+      # A registered verified-lock whose archive tarball sha drifted = a lying
+      # lock (the bulk-edit/bidir-strip degradation that made the board lie).
+      # Block the commit until it is re-verified.
+      - id: pb-lock-integrity
+        name: Reject drifted PB verified-locks (sha must match the verified artifact)
+        language: system
+        entry: python scripts/determinex_pb_lock_registry.py check-integrity --guard
+        pass_filenames: false
+        files: '^corpus/programbench/(verified_locks\.json|locked/.*submission\.tar\.gz)$'
+
+      # ── Anti-test-gaming (2026-06-16) — a lock must EARN its passes ────────
+      # Reject any locked binary that DETECTS the test (reads PYTEST_CURRENT_TEST,
+      # embeds goldens, branches on a literal test name) instead of implementing
+      # the tool. yj was caught + demoted by this. Justify legit hits or fix.
+      - id: pb-anti-gaming
+        name: Reject test-gaming on locked tools (must implement, not detect the test)
+        language: system
+        entry: python scripts/determinex_pb_provenance_guard.py --guard
+        pass_filenames: false
+        files: '^corpus/programbench/(verified_locks\.json|provenance_justifications\.json|locked/.*)$'
+
+      # ── Mojibake / CRLF / BOM (2026-06-16) — Windows/encoding issues ───────
+      # CRLF in a shell script killed dash ('set -e\r') and lied for hours.
+      # Reject CRLF/BOM/U+FFFD/mojibake in source + dash-critical .sh at commit.
+      - id: no-mojibake-crlf
+        name: Reject CRLF / BOM / mojibake (Windows + encoding corruption)
+        language: system
+        entry: python scripts/determinex_pb_mojibake_guard.py
+        types_or: [shell, python]
+        exclude: '(fix_mojibake|mojibake_guard|fine_tuning|tokenizer)'
+
+      # ── Single-source-of-truth (2026-06-16) — adapt, don't duplicate ───────
+      # A canonical definition (FAMILY_PATTERNS, MECHANISMS, ...) may live in
+      # exactly ONE module; others must import it. Caught the taxonomy dup.
+      - id: no-duplicate-canonical
+        name: Reject re-defining a canonical taxonomy/registry (adapt, don't add-on)
+        language: system
+        entry: python scripts/determinex_pb_dup_guard.py
+        pass_filenames: false
+        files: '^scripts/.*\.py$'
+
+      # ── Secret hygiene (2026-06-14) — keep API keys / .env out of git ──────
+      - id: no-env-file
+        name: Reject committing .env (secrets stay on disk, never in git)
+        language: fail
+        entry: ".env must never be committed — it holds live API keys. It is gitignored; do not force-add it."
+        files: '(^|/)\.env$'
+
+      - id: no-api-keys
+        name: Reject API-key-shaped strings (Anthropic / Google / OpenAI / generic)
+        language: pygrep
+        entry: '(sk-ant-api[0-9]{2}-[A-Za-z0-9_-]{20}|AIzaSy[A-Za-z0-9_-]{30}|sk-[a-zA-Z0-9]{40,}|sk-proj-[A-Za-z0-9_-]{20})'
+        exclude: '(^|/)(\.env\.example|.*\.lock|package-lock\.json|.*\.bak)$'

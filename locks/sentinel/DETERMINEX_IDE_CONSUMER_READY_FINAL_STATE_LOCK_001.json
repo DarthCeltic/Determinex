@@ -1,0 +1,63 @@
+{
+  "lock_id": "DETERMINEX_IDE_CONSUMER_READY_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Final state for the IDE consumer-ready backend. Consolidates the 11 upstream locks (9 IDE consumer + 2 prior-campaign foundations) into a single DeterminexIDEConsumerReadyFinalState.",
+  "purpose": "Campaign finale for the IDE consumer-ready work.",
+  "depends_on_locks": [
+    "LOCAL_MODEL_CONFIG_WIZARD_LOCK_001",
+    "LOCAL_PROVIDER_SMOKE_TEST_LOCK_001",
+    "OPT_IN_LIVE_DIAGNOSE_COMMAND_LOCK_001",
+    "OPT_IN_PATCH_PLAN_COMMAND_LOCK_001",
+    "TEMP_PATCH_VERIFY_COMMAND_LOCK_001",
+    "HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001",
+    "IDE_BACKEND_COMMAND_SURFACE_LOCK_001",
+    "SOURCE_MUTATION_APPLY_DRY_RUN_LOCK_001",
+    "IDE_CONSUMER_FLOW_TRACE_LOCK_001",
+    "CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001",
+    "DETERMINEX_IDE_BACKEND_FINAL_STATE_LOCK_001"
+  ],
+  "tests": 19,
+  "passed_on_this_host": 19,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/dev/test_determinex_ide_consumer_ready_final_state_lock.py"],
+  "status_tokens": [
+    "DETERMINEX_IDE_CONSUMER_READY_FINAL_STATE_WRITTEN",
+    "LOCAL_MODEL_CONFIG_READY_OPT_IN",
+    "LOCAL_PROVIDER_SMOKE_READY",
+    "LIVE_DIAGNOSE_COMMAND_READY_OPT_IN",
+    "PATCH_PLAN_COMMAND_READY_QUARANTINE",
+    "TEMP_PATCH_VERIFY_COMMAND_READY_TEMP_ONLY",
+    "HUMAN_APPROVAL_UI_MODEL_READY",
+    "IDE_BACKEND_COMMAND_SURFACE_READY",
+    "SOURCE_APPLY_DRY_RUN_READY_NO_MUTATION",
+    "IDE_CONSUMER_FLOW_TRACE_READY",
+    "SOURCE_MUTATION_BLOCKED_PENDING_REAL_HUMAN_APPROVAL",
+    "TRAINING_ELIGIBILITY_BLOCKED_BY_DEFAULT",
+    "RELEASE_READINESS_NOT_RELEASED",
+    "NEXT_UNBLOCKER_DECLARED"
+  ],
+  "final_dimensions": {
+    "local_model_config": "READY_OPT_IN",
+    "local_provider_smoke": "READY",
+    "live_diagnose_command": "READY_OPT_IN",
+    "patch_plan_command": "READY_QUARANTINE",
+    "temp_patch_verify_command": "READY_TEMP_ONLY",
+    "human_approval_ui_model": "READY",
+    "ide_backend_command_surface": "READY",
+    "source_apply_dry_run": "READY_NO_MUTATION",
+    "ide_consumer_flow_trace": "READY",
+    "source_mutation": "BLOCKED_PENDING_REAL_HUMAN_APPROVAL",
+    "training_eligibility": "BLOCKED_BY_DEFAULT",
+    "release_readiness": "NOT_RELEASED",
+    "next_unblocker": "FRONTEND_UI_AND_REAL_USER_APPROVAL_FLOW"
+  },
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "live_model_call_made": false,
+    "training_eligibility_opened": false,
+    "release_workflow_added": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/determinex_ide_consumer_ready_final_state/run_20260527.json"},
+  "next_recommended_lock": "FRONTEND_UI_AND_REAL_USER_APPROVAL_FLOW"
+}

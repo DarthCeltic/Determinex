@@ -1,0 +1,65 @@
+{
+  "lock_id": "DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_LOCK_001",
+  "date": "2026-05-29",
+  "commit": "clean-main",
+  "description": "Rung 5 (finale) of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES. Asserts all four prior dimensions are closed (browser snapshot, verified demo binding, happy/blocked path navigation, release readiness blocker panel) AND none of them opens source_mutation_authorized or training_eligible AND none of them opens unsupported-claim keys (all_apps_claim, all_languages_claim, all_codebases_claim, no_followup_claim, production_ready_arbitrary_apps_claim, training_enabled_in_demo, readiness_treated_as_authorization, broad_public_claims_granted, release_ready_set_true). Evaluator at scripts/repair/live_react_product_shell_demo_readiness_final_state.evaluate is read-only on disk; never runs a runtime gate. release_ready stays False (install/demo/repo scrub workflow remain a future rung). Next recommended rung is DETERMINEX_REPO_CLINIC_FIXTURE_REPAIR_SPLASH_DEMO_LOCK_001.",
+  "purpose": "Rung 5 (finale) of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001",
+    "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001",
+    "DETERMINEX_REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_LOCK_001",
+    "DETERMINEX_REACT_RELEASE_READINESS_BLOCKER_PANEL_LOCK_001"
+  ],
+  "tests": 13,
+  "test_modules": ["tests/repair/test_live_react_product_shell_demo_readiness_final_state_lock.py"],
+  "status_tokens": [
+    "LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_PASSED",
+    "LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_BLOCKED_MISSING_RUNG",
+    "LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
+  ],
+  "demo_readiness_dimensions": {
+    "browser_snapshot": "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001",
+    "verified_demo_binding": "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001",
+    "happy_blocked_path": "DETERMINEX_REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_LOCK_001",
+    "release_blocker_panel": "DETERMINEX_REACT_RELEASE_READINESS_BLOCKER_PANEL_LOCK_001"
+  },
+  "campaign_terminal_state": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "release_ready": false,
+    "shell_browser_demoable": true,
+    "verified_demo_bound_read_only": true,
+    "happy_path_visible": true,
+    "blocked_path_visible": true,
+    "release_blockers_visible": true,
+    "unsupported_claims_blocked": true,
+    "dimensions_closed": 4,
+    "rungs_completed": 5
+  },
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false,
+    "all_codebases_claim": false,
+    "no_followup_claim": false,
+    "production_ready_arbitrary_apps_claim": false,
+    "training_enabled_in_demo": false,
+    "readiness_treated_as_authorization": false,
+    "broad_public_claims_granted": false,
+    "release_ready_set_true": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_live_react_product_shell_demo_readiness_final_state/run_20260529.json"
+  },
+  "remediates_finding": "DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES_FINAL_STATE",
+  "next_recommended_lock": "DETERMINEX_REPO_CLINIC_FIXTURE_REPAIR_SPLASH_DEMO_LOCK_001"
+}

@@ -1,0 +1,73 @@
+{
+  "lock_id": "BENCH_TO_CORPUS_ELIGIBILITY_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Require new benchmark traces to be schema-complete before they can become training-eligible corpus rows.",
+  "focused_tests": {
+    "module": "tests/corpus/test_bench_to_corpus_eligibility_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/test_bench_to_corpus_eligibility_lock.py",
+      "tests/corpus/test_corpus_schema_maturity_lock.py",
+      "tests/corpus/test_corpus_coverage_gate.py",
+      "tests/test_verified_task_harness.py"
+    ],
+    "passed": 29,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 750,
+    "failed": 0
+  },
+  "implementation": [
+    "scripts/verified_task/bench_to_corpus_eligibility.py",
+    "scripts/verified_task/benchmark_trace_contract.py",
+    "scripts/verified_task/corpus_writer.py",
+    "scripts/verified_task/__init__.py"
+  ],
+  "required_new_row_fields": [
+    "schema_version",
+    "record_status",
+    "corpus_type",
+    "language_or_environment_type",
+    "source_kind",
+    "source_benchmark",
+    "license_provenance_or_license_bucket",
+    "verifier_command",
+    "verifier_result",
+    "failure_class",
+    "failure_type",
+    "repair_outcome",
+    "trace_hash_schema_version",
+    "trace_hash",
+    "signature_key_scope",
+    "_sig"
+  ],
+  "covered_trace_kinds": [
+    "ProgramBench reject trace",
+    "ProgramBench accept trace",
+    "Aider Polyglot trace",
+    "Terminal-Bench trace",
+    "SWE-bench Pro trace",
+    "SQL/BIRD trace",
+    "Browser trace",
+    "unsigned rejection",
+    "missing verifier non-training classification"
+  ],
+  "default_training_status": {
+    "complete_new_benchmark_row": "active_training_eligible",
+    "incomplete_new_benchmark_row": "legacy_backfill_needed",
+    "unsigned_row": "not eligible"
+  },
+  "trace_hash_schema_version": "canonical-v2",
+  "policy": [
+    "Old migrated rows remain active_eval_evidence unless separately qualified.",
+    "New benchmark rows become active_training_eligible only when schema-complete and signed.",
+    "Missing verifier rows are explicitly non-training-eligible.",
+    "Benchmark adapters must not finish without signed success, reject, infra-failure, or repair-task traces."
+  ],
+  "previous_lock": "CORPUS_SCHEMA_MATURITY_LOCK_001",
+  "next_lock": "PROGRAMBENCH_DRAIN_PROMOTION_LOCK_001"
+}

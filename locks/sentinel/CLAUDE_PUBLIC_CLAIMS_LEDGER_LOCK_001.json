@@ -1,0 +1,65 @@
+{
+  "lock_id": "CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Public claims ledger for the Claude IDE lane. Every Claude/IDE-lane claim classifies into one of five disjoint states (implemented, implemented_but_gated_or_blocked, planned, research_track, not_claimed). Hard rules enforced by tests: (1) training_eligibility is NEVER 'implemented' or 'implemented_but_gated_or_blocked'; (2) release_readiness and public_packaging are NEVER 'implemented'; (3) no claim key may contain 'benchmark', 'programbench', or 'swebench' — benchmark execution belongs to the Codex/ProgramBench lane; (4) source_mutation must declare its gates (approval, verifier, snapshot, body_hash, symlink). Synthetic violation tests confirm each rule fires.",
+  "purpose": "Rung 7 of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES.",
+  "depends_on_locks": [
+    "CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001"
+  ],
+  "tests": 21,
+  "test_modules": [
+    "tests/repair/test_public_claims_ledger_lock.py"
+  ],
+  "status_tokens": [
+    "PUBLIC_CLAIMS_LEDGER_WRITTEN",
+    "PUBLIC_CLAIMS_LEDGER_BLOCKED_OVERCLAIM",
+    "PUBLIC_CLAIMS_LEDGER_BLOCKED_IMPLEMENTATION_AMBIGUITY"
+  ],
+  "classifications": [
+    "implemented",
+    "implemented_but_gated_or_blocked",
+    "planned",
+    "research_track",
+    "not_claimed"
+  ],
+  "required_claim_keys": [
+    "local_model_detection_admission",
+    "local_model_healthcheck",
+    "diagnose_with_verifier_context",
+    "quarantined_patch_plan",
+    "temp_patch_verifier",
+    "human_approval_source_mutation_gate",
+    "canonical_patch_body_binding",
+    "cryptographic_local_approval_binding",
+    "rollback_snapshot",
+    "post_apply_verifier",
+    "frontend_repair_panel",
+    "source_mutation",
+    "training_eligibility",
+    "release_readiness",
+    "public_packaging",
+    "federated_forge",
+    "mobile_console"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "training_implemented_claim_accepted": false,
+    "release_ready_claim_accepted": false,
+    "benchmark_claim_in_claude_lane_accepted": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_public_claims_ledger/run_20260528.json"
+  },
+  "remediates_finding": "publication-language-hygiene",
+  "next_recommended_lock": "CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001"
+}

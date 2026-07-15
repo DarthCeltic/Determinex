@@ -1,0 +1,61 @@
+{
+  "lock_id": "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Defines Determinex's top-level product shell: five surfaces (idea_lab, repo_clinic, maintenance_bay, learning_studio, proof_operator_center), one shared authority vocabulary (the 8-class vocab from CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001), and a per-surface declaration of purpose, target_users, beginner_view, professional_view, inputs, outputs, status_states, blocked_states, proof_evidence_requirements, source_mutation_boundary, training_eligibility_boundary, and claim_caveats. build_record() refuses any model that: (1) is missing one of the five required surfaces; (2) has a surface with no visible blocked_states; (3) declares source_mutation_boundary using 'authorized by default', 'open by default', 'auto-apply', or 'no approval required'; (4) Learning Studio's boundary not 'non-mutating' or 'routes to repo_clinic/idea_lab gates'; (5) Proof Operator Center boundary not 'read-only' or 'non-authorizing'; (6) any surface's training_eligibility_boundary opens training or fails to explicitly state training stays False / does not open.",
+  "purpose": "Rung 1 of DETERMINEX_UNIFIED_PRODUCT_UX_SHELL_SERIES.",
+  "depends_on_locks": [
+    "CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001"
+  ],
+  "tests": 21,
+  "test_modules": [
+    "tests/ide/test_unified_product_navigation_model_lock.py"
+  ],
+  "status_tokens": [
+    "UNIFIED_PRODUCT_NAVIGATION_MODEL_WRITTEN",
+    "UNIFIED_PRODUCT_NAVIGATION_MODEL_VALIDATED",
+    "UNIFIED_PRODUCT_NAVIGATION_MODEL_BLOCKED_AUTHORITY_CONFUSION",
+    "UNIFIED_PRODUCT_NAVIGATION_MODEL_BLOCKED_MISSING_SURFACE"
+  ],
+  "surfaces": [
+    "idea_lab",
+    "repo_clinic",
+    "maintenance_bay",
+    "learning_studio",
+    "proof_operator_center"
+  ],
+  "shared_authority_vocabulary": [
+    "capability_available",
+    "evidence_present",
+    "request_pending",
+    "admission_present",
+    "approval_present",
+    "execution_authorized",
+    "source_mutation_authorized",
+    "training_eligible"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "readiness_treated_as_authorization": false,
+    "surface_implies_authorization": false,
+    "learning_studio_mutating": false,
+    "proof_center_authorizing": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false,
+    "no_followup_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_unified_product_navigation_model/run_20260528.json"
+  },
+  "remediates_finding": "product-shell-completeness",
+  "next_recommended_lock": "DETERMINEX_IDEA_LAB_WORKFLOW_LOCK_001"
+}

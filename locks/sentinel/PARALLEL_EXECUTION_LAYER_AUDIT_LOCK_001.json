@@ -1,0 +1,139 @@
+{
+  "lock_id": "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Read-only static AST audit of every subprocess / shell-out / direct-process call site under scripts/. Classifies 308 sites across 8 closed-set buckets: HARDENED_COMPILER_PATH, HIVE_SANDBOXED_PATH, LEGACY_EXEMPT_READ_ONLY, LEGACY_EXEMPT_TEST_FIXTURE, MUST_MIGRATE_TO_HARDENED_RUNNER, BLOCKED_UNSAFE, PROGRAMBENCH_OUT_OF_SCOPE, UNKNOWN_REQUIRES_REVIEW. Inventory only — this rung does NOT migrate any execution path.",
+  "purpose": "Rung 4 of the post-audit Claude-lane sequence. Closes the gap-to-100 audit's hidden-assumption #3 ('parallel execution layers; only one hardened'). The output is the target list for HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001 (the next rung). Audit is intentionally read-only: never executes a discovered command, never mutates source or signed evidence, never imports the scanned modules.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001"
+  ],
+  "tests": 27,
+  "passed_on_this_host": 27,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/dev/test_parallel_execution_layer_audit_lock.py"
+  ],
+  "audit_module": "scripts/dev/parallel_execution_layer_audit.py",
+  "audit_doc": "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md",
+  "audit_scope_root": "scripts/",
+  "audit_method": {
+    "static": true,
+    "ast_based": true,
+    "executes_no_commands": true,
+    "imports_no_audited_modules": true,
+    "detection_kinds": [
+      "subprocess.run",
+      "subprocess.Popen",
+      "subprocess.call",
+      "subprocess.check_call",
+      "subprocess.check_output",
+      "subprocess.getoutput",
+      "subprocess.getstatusoutput",
+      "os.system",
+      "os.popen",
+      "os.spawn*",
+      "os.exec*",
+      "shell=True (kwarg on any call)"
+    ]
+  },
+  "status_tokens": [
+    "PARALLEL_EXECUTION_AUDIT_READY",
+    "EXECUTION_SITE_FOUND",
+    "HARDENED_COMPILER_PATH",
+    "HIVE_SANDBOXED_PATH",
+    "LEGACY_EXEMPT_READ_ONLY",
+    "LEGACY_EXEMPT_TEST_FIXTURE",
+    "MUST_MIGRATE_TO_HARDENED_RUNNER",
+    "BLOCKED_UNSAFE",
+    "PROGRAMBENCH_OUT_OF_SCOPE",
+    "UNKNOWN_REQUIRES_REVIEW",
+    "AUDIT_READ_ONLY",
+    "SAFETY_DEFAULTS_RESPECTED"
+  ],
+  "classifications": [
+    "HARDENED_COMPILER_PATH",
+    "HIVE_SANDBOXED_PATH",
+    "LEGACY_EXEMPT_READ_ONLY",
+    "LEGACY_EXEMPT_TEST_FIXTURE",
+    "MUST_MIGRATE_TO_HARDENED_RUNNER",
+    "BLOCKED_UNSAFE",
+    "PROGRAMBENCH_OUT_OF_SCOPE",
+    "UNKNOWN_REQUIRES_REVIEW"
+  ],
+  "counts_snapshot": {
+    "HARDENED_COMPILER_PATH": 10,
+    "HIVE_SANDBOXED_PATH": 70,
+    "LEGACY_EXEMPT_READ_ONLY": 37,
+    "LEGACY_EXEMPT_TEST_FIXTURE": 4,
+    "MUST_MIGRATE_TO_HARDENED_RUNNER": 10,
+    "BLOCKED_UNSAFE": 0,
+    "PROGRAMBENCH_OUT_OF_SCOPE": 56,
+    "UNKNOWN_REQUIRES_REVIEW": 121
+  },
+  "total_sites": 308,
+  "headline_findings": [
+    "BLOCKED_UNSAFE: 0 — no shell=True or raw os.system call survived the scan inside Claude-lane code paths.",
+    "HARDENED_COMPILER_PATH: 10 — every subprocess inside hive/compiler.py is part of the documented sandboxed oracle (Job Object + Docker backend + WSL2 backend).",
+    "MUST_MIGRATE_TO_HARDENED_RUNNER: 10 sites across scripts/codebase_explorer.py (ShadowCompiler), scripts/intake/build_adapters.py (BuildAdapter._run + per-adapter shadow builds), and scripts/repair/. These are the explicit target list for the next rung.",
+    "UNKNOWN_REQUIRES_REVIEW: 121 — top-level scripts/ helpers (determinex_benchmark, determinex_fullbench, micro_eval, swe_run/repo.py, hardware_profiler, etc.). Each needs a human triage decision; the audit deliberately does not silently classify them.",
+    "PROGRAMBENCH_OUT_OF_SCOPE: 56 — Codex-trail files (scripts/corpus/programbench/, scripts/pb_*, scripts/determinex_programbench*, scripts/corpus/legacy_recovery/) explicitly bypassed per directive.",
+    "LEGACY_EXEMPT_READ_ONLY: 37 — validators (DATA ENGINE ONLY), dev tools, agent helpers, CLI dispatcher, doctor/status/setup/settings.",
+    "LEGACY_EXEMPT_TEST_FIXTURE: 4 — scripts/testing/ test driver."
+  ],
+  "top_must_migrate_targets": [
+    "scripts/codebase_explorer.py — ShadowCompiler subprocess calls + per-file py_compile loop",
+    "scripts/intake/build_adapters.py — BuildAdapter._run + per-adapter shadow build (cargo check, go build, npm run build, mvn compile, gradle compileJava, py_compile)",
+    "scripts/repair/*.py — repair-pipeline executors (PYTHON_REPAIR_LOCK_001, RUST_REPAIR_LOCK_001, GO_REPAIR_LOCK_001, TYPESCRIPT_REPAIR_LOCK_001, JAVA_REPAIR_LOCK_001, NATIVE_C_CPP_REPAIR_LOCK_001)"
+  ],
+  "blocked_unsafe_sites": [],
+  "invariants": [
+    "Audit is read-only — verified by test_audit_does_not_call_subprocess_during_scan (monkeypatches subprocess.run/Popen to raise; audit completes without invoking them).",
+    "Audit does not mutate scripts/ tree — verified by hash-tree before/after.",
+    "Audit does not mutate signed evidence (evidence_index.json + locks/sentinel/*.json) — verified by SHA-256 before/after.",
+    "Audit does not write corpus rows (DETERMINEX_NO_CORPUS_WRITE active during tests; CorpusWriteBlockedError raised on attempted write).",
+    "BLOCKED_UNSAFE count is pinned at 0; any future change introducing a shell=True / os.system call in Claude-lane code flips test_lock_manifest_pins_zero_blocked_unsafe red.",
+    "All execution sites in scripts/hive/compiler.py classify as HARDENED_COMPILER_PATH.",
+    "All execution sites in scripts/codebase_explorer.py classify as MUST_MIGRATE_TO_HARDENED_RUNNER (legacy ShadowCompiler path).",
+    "All execution sites in scripts/intake/build_adapters.py classify as MUST_MIGRATE_TO_HARDENED_RUNNER (new BuildAdapter._run path).",
+    "All ProgramBench-trail files (scripts/corpus/programbench/, scripts/pb_*, scripts/determinex_programbench*, scripts/programbench_*) classify as PROGRAMBENCH_OUT_OF_SCOPE; Claude does not touch them.",
+    "Unknown sites (no classification rule matched) classify as UNKNOWN_REQUIRES_REVIEW — never silently accepted as backed or hardened.",
+    "Doc counts table contains '| <CLS> | <N> |' rows that match the runtime audit's counts_by_classification dict.",
+    "No DETERMINEX_*/HF_HOME/OLLAMA_* env var required for the audit to run.",
+    "Safety defaults remain fail-closed after the audit runs."
+  ],
+  "evidence": {
+    "run_artifact": "assurance/evidence/parallel_execution_layer_audit/run_20260527.json",
+    "doc_artifact": "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md",
+    "run_command": "python scripts/dev/parallel_execution_layer_audit.py --json assurance/evidence/parallel_execution_layer_audit/run_20260527.json --md docs/PARALLEL_EXECUTION_LAYER_AUDIT.md"
+  },
+  "deliberately_out_of_scope": [
+    "tests/ tree — only scripts/ scanned this rung. tests/ shell-out is generally LEGACY_EXEMPT_TEST_FIXTURE; will be added when needed.",
+    "Bash (.sh) and PowerShell (.ps1) scripts — Python-only AST audit this rung; shell-language scanning is a future extension.",
+    "Dockerfile RUN directives — out of scope; CI evidence-validation job handles those.",
+    "Tauri Rust IPC handlers (frontend/src-tauri/src/*.rs) — Rust audit is a separate effort.",
+    "No execution-path migration — this rung is inventory only. HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001 (rung 5) consumes the must-migrate list."
+  ],
+  "remaining_gaps": [
+    "121 UNKNOWN_REQUIRES_REVIEW sites are unclassified by design — they need human triage. Top files: scripts/swe_run/repo.py (12), scripts/hardware_profiler.py (7), scripts/determinex_fullbench.py (6), scripts/micro_eval.py (6), scripts/setup_swebench.py (6). Triage results will inform whether each file becomes LEGACY_EXEMPT_READ_ONLY, MUST_MIGRATE, or moves to a separate Claude-lane / Codex-lane partition.",
+    "Bare imported call sites (`from subprocess import Popen; Popen(...)`) detect Popen but the audit conservatively does NOT flag bare `run(...)` because the identifier is too ambiguous without import-tracking. This is a known coverage gap; very few files do this.",
+    "shell=True is flagged on ANY call, not just subprocess.* — that is intentional (precision-over-recall), but could produce false positives on user-defined functions named `shell=True`. Currently zero false positives observed (BLOCKED_UNSAFE count is 0).",
+    "Validators classification is path-based; if a validator file ever invokes user payload, the path-based exemption would be wrong. Future work: add a content-based check (e.g., 'this validator never calls subprocess on user-provided argv').",
+    "PROGRAMBENCH_OUT_OF_SCOPE is path-based; if a non-PB script imports a PB module that itself shells out, the audit reports the PB module's sites, not the importer. Acceptable for this rung."
+  ],
+  "next_recommended_lock": "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+  "next_rung_consumes": "top_must_migrate_targets",
+  "files": [
+    "scripts/dev/parallel_execution_layer_audit.py",
+    "tests/dev/test_parallel_execution_layer_audit_lock.py",
+    "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md",
+    "locks/sentinel/PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001.json",
+    "assurance/evidence/parallel_execution_layer_audit/run_20260527.json"
+  ]
+}

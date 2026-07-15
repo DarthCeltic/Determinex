@@ -1,0 +1,72 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_010_five_field_score_claude_review_001/claim_boundary_20260608.json",
+    "codex_deltas": "assurance/evidence/wave_010_five_field_score_claude_review_001/codex_deltas_20260608.json",
+    "quoting_linter_audit": "assurance/evidence/wave_010_five_field_score_claude_review_001/quoting_linter_audit_20260608.json",
+    "risks": "assurance/evidence/wave_010_five_field_score_claude_review_001/risks_20260608.json",
+    "score_fields_audit": "assurance/evidence/wave_010_five_field_score_claude_review_001/score_fields_audit_20260608.json",
+    "score_overstatement_summary": "assurance/evidence/wave_010_five_field_score_claude_review_001/score_overstatement_summary_20260608.json",
+    "verdict": "assurance/evidence/wave_010_five_field_score_claude_review_001/verdict_20260608.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "Schema complete; 3 of 5 fields still overstated relative to evidence",
+  "claim_boundary": [
+    "Wave 010 Claude reviews are RUNTIME-SPEND attack audits and parallel critique.",
+    "Central question: did Wave 010 SPEND real runtime authority, or produce the first real install moment?",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Installer, driver, GUI, SBOM, training, and network actions remain gated on REAL signed operator approval consumed at executor entry.",
+    "Release-supported cells remain 10 (9 user-visible / 1 internal / 0 install-packaging).",
+    "Release-supported families remain 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-08",
+  "doc": "docs/DETERMINEX_WAVE010_FIVE_FIELD_SCORE_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_010_claude_lane_O4",
+  "gulp_wave_id": "010",
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_runtime_spend_review": true,
+  "lane": "O4",
+  "lock_id": "DETERMINEX_WAVE010_FIVE_FIELD_SCORE_CLAUDE_REVIEW_001",
+  "purpose": "Wave 010 Claude Lane O4. Packet/proof-backed/user-executable/investor-demo/public-reveal scores; user_executable improvement from 27→29 audit; proof-backed still counts packets?; score linter held?",
+  "record": "assurance/evidence/wave_010_five_field_score_claude_review_001/run_20260608.WAVE010_FIVE_FIELD_SCORE_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE010_FIVE_FIELD_SCORE_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_010_five_field_score_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant": true,
+      "release_supported_families_invariant": true
+    },
+    "passed": true
+  },
+  "verdict": "FIVE_FIELD_SCHEMA_COMPLETE_THREE_FIELDS_STILL_OVERSTATED — 2/5 fields honest by definition. proof_backed=76 (0 admissions; should be ≤30), user_executable=29 (counts dry-runs; should be 0), investor_demo=58 (HTML not investor-ready; should be ~35). Linter active but forbidden-phrase set is narrow."
+}

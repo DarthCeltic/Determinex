@@ -1,0 +1,31 @@
+{
+  "lock_id": "FRONTEND_HUMAN_APPROVAL_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Human approval panel TSX. Renders the locked UX copy (11 sections), diff summary, files changed, verifier result, trace id, stale-after. Operator-id input required to enable Approve. Approve button labeled 'Approve (fixture only)' — source mutation remains gated regardless of click. Forbidden hype phrases test-blocked.",
+  "purpose": "Rung 7 of the real frontend campaign.",
+  "depends_on_locks": [
+    "FRONTEND_REPAIR_PANEL_SHELL_LOCK_001",
+    "IDE_APPROVAL_UX_COPY_LOCK_001",
+    "HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001"
+  ],
+  "tests": 13,
+  "passed_on_this_host": 13,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide_frontend/test_frontend_human_approval_panel_lock.py"],
+  "status_tokens": [
+    "HUMAN_APPROVAL_PANEL_READY",
+    "HUMAN_APPROVAL_RISK_COPY_VISIBLE",
+    "HUMAN_APPROVAL_REJECT_AVAILABLE",
+    "HUMAN_APPROVAL_SOURCE_MUTATION_STILL_GATED",
+    "HUMAN_APPROVAL_BLOCKERS_VISIBLE"
+  ],
+  "scope_discipline": {
+    "live_operator_admitted": false,
+    "source_mutation_authorized_by_panel": false,
+    "training_eligibility_opened": false,
+    "forbidden_hype_present": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/frontend_human_approval_panel/run_20260528.json"},
+  "next_recommended_lock": "FRONTEND_SOURCE_APPLY_DRY_RUN_PANEL_LOCK_001"
+}

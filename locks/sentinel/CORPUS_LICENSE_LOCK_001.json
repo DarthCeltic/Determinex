@@ -1,0 +1,42 @@
+{
+  "lock_id": "CORPUS_LICENSE_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 53,
+  "passed": 53,
+  "failed": 0,
+  "test_modules": [
+    "tests/corpus/test_license_gate.py",
+    "tests/corpus/test_gpl_requires_review.py",
+    "tests/corpus/test_no_unlicensed_code_ingest.py"
+  ],
+  "coverage": [
+    "spdx_normalization_unit",
+    "bucket_classification",
+    "license_detector_integration",
+    "gpl_family_red_bucket",
+    "lgpl_red_bucket",
+    "agpl_red_bucket",
+    "sspl_red_bucket",
+    "busl_red_bucket",
+    "mpl_yellow_bucket",
+    "mit_green_bucket",
+    "apache_green_bucket",
+    "unknown_license_blocked",
+    "gpl_source_header_rejection",
+    "no_unlicensed_ingest",
+    "deduplication_integration"
+  ],
+  "policy": {
+    "fail_closed_on_unknown": true,
+    "lgpl_treated_as_red": true,
+    "lgpl_rationale": "Library copyleft obligations under AI training use are legally uncertain; conservative red classification pending explicit legal review"
+  },
+  "implementations": [
+    "scripts/corpus/code_ingest/license_detector.py",
+    "scripts/corpus/code_ingest/spdx_normalizer.py",
+    "scripts/corpus/code_ingest/deduper.py"
+  ],
+  "previous_lock": "SUPPLY_CHAIN_LOCK_001",
+  "next_lock": "JAVA_CORPUS_LOCK_001"
+}

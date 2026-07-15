@@ -1,0 +1,48 @@
+{
+  "lock_id": "DETERMINEX_IDEA_LAB_WORKFLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Idea Lab new-project workflow. 14 canonical flow steps (idea_intake, structured_spec, beginner_summary, support_matrix_check, blueprint, scaffold_request, acceptance_tests, implementation_plan, build_test_verifier, smoke_plan, bounded_repair_plan, final_report, evidence, training_remains_blocked) and 11 UI states. evaluate() refuses any state where: (1) unsupported features are hidden -> BLOCKED_UNSUPPORTED_CLAIM; (2) external setup caveats are hidden -> BLOCKED_UNSUPPORTED_CLAIM; (3) Build It is enabled before the support matrix check passes -> BLOCKED_MISSING_SUPPORT_CHECK; (4) the 'Working' label is enabled before build_verifier + tests + smoke have ALL passed -> BLOCKED_FALSE_SUCCESS. training_eligible stays False; record never opens source mutation.",
+  "purpose": "Rung 2 of DETERMINEX_UNIFIED_PRODUCT_UX_SHELL_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001",
+    "CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001"
+  ],
+  "tests": 16,
+  "test_modules": ["tests/ide/test_idea_lab_workflow_lock.py"],
+  "status_tokens": [
+    "IDEA_LAB_WORKFLOW_WRITTEN",
+    "IDEA_LAB_WORKFLOW_BLOCKED_UNSUPPORTED_CLAIM",
+    "IDEA_LAB_WORKFLOW_BLOCKED_FALSE_SUCCESS",
+    "IDEA_LAB_WORKFLOW_BLOCKED_MISSING_SUPPORT_CHECK"
+  ],
+  "ui_states": [
+    "IDEA_CAPTURED", "SPEC_WRITTEN", "SUPPORT_CHECK_REQUIRED",
+    "UNSUPPORTED_REQUEST", "BLUEPRINT_READY", "SCAFFOLD_READY",
+    "GENERATED_UNVERIFIED", "TESTS_PASSED", "SMOKE_PASSED",
+    "VERIFIED_WORKING_LOCAL_APP", "HONEST_FAILURE"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "build_it_before_support_check": false,
+    "working_label_without_evidence": false,
+    "unsupported_features_hidden": false,
+    "external_caveats_hidden": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_idea_lab_workflow/run_20260528.json"
+  },
+  "remediates_finding": "product-shell-idea-lab",
+  "next_recommended_lock": "DETERMINEX_REPO_CLINIC_WORKFLOW_LOCK_001"
+}

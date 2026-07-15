@@ -1,0 +1,71 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/wave_010_nsis_installer_runtime_claude_review_001/claim_boundary_20260608.json",
+    "codex_deltas": "assurance/evidence/wave_010_nsis_installer_runtime_claude_review_001/codex_deltas_20260608.json",
+    "nsis_axes_audit": "assurance/evidence/wave_010_nsis_installer_runtime_claude_review_001/nsis_axes_audit_20260608.json",
+    "nsis_chain_state": "assurance/evidence/wave_010_nsis_installer_runtime_claude_review_001/nsis_chain_state_20260608.json",
+    "risks": "assurance/evidence/wave_010_nsis_installer_runtime_claude_review_001/risks_20260608.json",
+    "verdict": "assurance/evidence/wave_010_nsis_installer_runtime_claude_review_001/verdict_20260608.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "NSIS approval unsigned; no install executed; signing/MSI/wording-linter all incomplete",
+  "claim_boundary": [
+    "Wave 010 Claude reviews are RUNTIME-SPEND attack audits and parallel critique.",
+    "Central question: did Wave 010 SPEND real runtime authority, or produce the first real install moment?",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Installer, driver, GUI, SBOM, training, and network actions remain gated on REAL signed operator approval consumed at executor entry.",
+    "Release-supported cells remain 10 (9 user-visible / 1 internal / 0 install-packaging).",
+    "Release-supported families remain 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-08",
+  "doc": "docs/DETERMINEX_WAVE010_NSIS_INSTALLER_RUNTIME_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_010_claude_lane_N4",
+  "gulp_wave_id": "010",
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_runtime_spend_review": true,
+  "lane": "N4",
+  "lock_id": "DETERMINEX_WAVE010_NSIS_INSTALLER_RUNTIME_CLAUDE_REVIEW_001",
+  "purpose": "Wave 010 Claude Lane N4. Signed-valid NSIS approval, install/launch/uninstall transcripts, cleanup diff, public installer wording, SmartScreen/signing trust gaps.",
+  "record": "assurance/evidence/wave_010_nsis_installer_runtime_claude_review_001/run_20260608.WAVE010_NSIS_INSTALLER_RUNTIME_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE010_NSIS_INSTALLER_RUNTIME_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_010_nsis_installer_runtime_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant": true,
+      "release_supported_families_invariant": true
+    },
+    "passed": true
+  },
+  "verdict": "NSIS_PACKET_READY_FOR_SIGNATURE_NO_INSTALL_EXECUTED — Artifact hash recorded; packet shape correct; state=UNSIGNED; install transcript = denial. Code signing route undecided; installer wording linter CI not confirmed; MSI path undecided."
+}

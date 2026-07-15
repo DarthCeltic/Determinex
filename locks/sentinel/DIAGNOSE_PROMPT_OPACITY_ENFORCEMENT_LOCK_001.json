@@ -1,0 +1,37 @@
+{
+  "lock_id": "DIAGNOSE_PROMPT_OPACITY_ENFORCEMENT_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates CLAUDE-AUTH-007. The diagnose-with-verifier prompt previously embedded the caller-supplied workspace_identity verbatim, relying on caller convention to keep it opaque. A new `_opacify_workspace_identity` helper at the function boundary now sha256-truncates the value to `ws-<16hex>` BEFORE embedding it, regardless of what the caller supplied. Secrets, code-like content, PII, and multi-line identities are stripped before reaching the model.",
+  "purpose": "Rung 6 of the Claude authority leak remediation campaign.",
+  "depends_on_locks": [
+    "REAL_MODEL_DIAGNOSE_WITH_BUILD_VERIFIER_LOCK_001"
+  ],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_diagnose_prompt_opacity_enforcement_lock.py"
+  ],
+  "status_tokens": [
+    "DIAGNOSE_PROMPT_OPACITY_ENFORCED",
+    "DIAGNOSE_PROMPT_BLOCKED_RAW_IDENTIFIER"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "raw_workspace_identity_in_prompt": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/diagnose_prompt_opacity_enforcement/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-007",
+  "next_recommended_lock": "APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001"
+}

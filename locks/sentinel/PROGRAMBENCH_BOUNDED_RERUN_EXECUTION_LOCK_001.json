@@ -1,0 +1,82 @@
+{
+  "lock_id": "PROGRAMBENCH_BOUNDED_RERUN_EXECUTION_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Only execute ProgramBench reruns authorized by a ROOT_CAUSE_PACKET_READY packet, and only within the exact bounded rerun_scope.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+      "tests/corpus/test_programbench_replay_verifier_lock.py",
+      "tests/corpus/test_programbench_replay_hydration_lock.py",
+      "tests/corpus/test_programbench_replay_image_hydration_lock.py",
+      "tests/corpus/test_programbench_online_provider_registry_lock.py"
+    ],
+    "passed": 54,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/bounded_rerun_gate.py",
+    "scripts/corpus/programbench/bounded_rerun_record.py",
+    "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py"
+  ],
+  "sample_authorization_record": {
+    "path": "assurance/evidence/programbench_bounded_reruns/doxygen_root_cause_sample_20260527.bounded_rerun_authorization.json",
+    "status": "BOUNDED_RERUN_AUTHORIZED",
+    "packet_id": "doxygen_root_cause_sample_20260527",
+    "target": {
+      "tool": "doxygen__doxygen.966d98e",
+      "candidate_id": "close_lock_v7_doxygen_richgo_20260527"
+    },
+    "rerun_scope": {
+      "tool": "doxygen__doxygen.966d98e",
+      "candidate_id": "close_lock_v7_doxygen_richgo_20260527",
+      "max_attempts": 1,
+      "timeout_seconds": 3600
+    }
+  },
+  "statuses": [
+    "BOUNDED_RERUN_READY",
+    "BOUNDED_RERUN_AUTHORIZED",
+    "BOUNDED_RERUN_BLOCKED_NO_PACKET",
+    "BOUNDED_RERUN_BLOCKED_STALE_PACKET",
+    "BOUNDED_RERUN_BLOCKED_SCOPE_MISMATCH",
+    "BOUNDED_RERUN_BLOCKED_ATTEMPT_LIMIT",
+    "BOUNDED_RERUN_BLOCKED_QUARANTINE_ONLY",
+    "BOUNDED_RERUN_BLOCKED_CONFLICT",
+    "BOUNDED_RERUN_OUTCOME_RECORDED"
+  ],
+  "acceptance": [
+    "authorized Doxygen packet permits exactly its bounded scope",
+    "scope mismatch blocks",
+    "missing packet blocks",
+    "stale packet blocks",
+    "attempt count above max_attempts blocks",
+    "quarantine-only replay manifest blocks",
+    "Richgo cannot run from a Doxygen packet",
+    "authorized packet produces deterministic authorization record",
+    "mock rerun outcome produces signed evidence-compatible outcome record",
+    "no unauthorized execution path exists"
+  ],
+  "policy": [
+    "Packet authorizes scope.",
+    "Verifier authorizes outcome.",
+    "Corpus policy authorizes training.",
+    "This lock does not run real ProgramBench in tests.",
+    "This lock does not execute Docker images.",
+    "This lock does not execute quarantine-only replay manifests.",
+    "Rerun improvements are active_eval_evidence by default, not active_training_eligible."
+  ],
+  "does_not_prove": "Does not prove any real ProgramBench candidate improved; it proves rerun execution is governed by signed root-cause packets, exact target scope, and attempt limits.",
+  "previous_lock": "PROGRAMBENCH_ROOT_CAUSE_PACKET_LOCK_001",
+  "next_lock": "PROGRAMBENCH_BOUNDED_DRAIN_PACKET_RUN_001"
+}

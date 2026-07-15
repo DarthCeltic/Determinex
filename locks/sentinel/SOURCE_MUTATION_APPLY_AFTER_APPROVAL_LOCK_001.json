@@ -1,0 +1,43 @@
+{
+  "lock_id": "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "FIRST place in the apparatus that actually mutates the user's original workspace. Re-checks every upstream gate before writing: approval ACCEPTED, temp verify PASSED, rollback snapshot WRITTEN, pre-apply hash matches snapshot's pre_apply hash, observed diff hash matches approval diff hash, paths normalize inside workspace, plan bodies present. PASS records post_apply_verifier_required=True. training_eligible remains False — no training row.",
+  "purpose": "Rung 8 of the real repair flow campaign.",
+  "depends_on_locks": [
+    "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001",
+    "REAL_TEMP_PATCH_VERIFY_LOCK_001",
+    "SOURCE_MUTATION_ROLLBACK_SNAPSHOT_LOCK_001",
+    "REAL_PATCH_PLAN_QUARANTINE_LOCK_001"
+  ],
+  "tests": 14,
+  "passed_on_this_host": 14,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_source_mutation_apply_after_approval_lock.py"
+  ],
+  "status_tokens": [
+    "SOURCE_MUTATION_APPLIED_AFTER_APPROVAL",
+    "SOURCE_MUTATION_BLOCKED_NO_APPROVAL",
+    "SOURCE_MUTATION_BLOCKED_NO_ROLLBACK",
+    "SOURCE_MUTATION_BLOCKED_SOURCE_HASH_MISMATCH",
+    "SOURCE_MUTATION_BLOCKED_DIFF_MISMATCH",
+    "SOURCE_MUTATION_BLOCKED_VERIFIER_NOT_PASSED",
+    "SOURCE_MUTATION_BLOCKED_PLAN_BODY_MISSING",
+    "SOURCE_MUTATION_BLOCKED_PATH_ESCAPE"
+  ],
+  "scope_discipline": {
+    "training_eligibility_opened": false,
+    "training_row_written": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "release_workflow_added": false,
+    "post_apply_verifier_run": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/source_mutation_apply_after_approval/run_20260528.json"
+  },
+  "next_recommended_lock": "POST_APPLY_VERIFIER_LOCK_001"
+}

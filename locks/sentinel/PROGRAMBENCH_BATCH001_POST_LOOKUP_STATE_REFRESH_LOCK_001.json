@@ -1,0 +1,26 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_POST_LOOKUP_STATE_REFRESH_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Refresh Batch001 state after live manifest lookup and metadata-only digest admission.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_METADATA_DIGEST_ADMISSION_FROM_LIVE_LOOKUP_LOCK_001"
+  ],
+  "status": "BATCH001_POST_LOOKUP_STATE_REFRESH_WRITTEN",
+  "record": "assurance/evidence/programbench_batch001_post_lookup_state_refresh/programbench_batch001_post_lookup_state_refresh_run_20260528.BATCH001_POST_LOOKUP_STATE_REFRESH_WRITTEN.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py",
+    "passed": 8,
+    "failed": 0
+  },
+  "metadata_only_digest_admitted": 10,
+  "next_unblocker": "ARTIFACT_IMPORT_AND_SCAN_REQUIRED",
+  "doxygen_preserved": true,
+  "cache_ready": false,
+  "executable": false,
+  "training_eligible": false,
+  "does_not_prove": "Does not run import, scan, Docker, ProgramBench, or any execution gate."
+}

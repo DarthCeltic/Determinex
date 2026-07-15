@@ -1,0 +1,71 @@
+{
+  "artifact_paths": {
+    "backfill_status": "assurance/evidence/wave_018_legacy_signoff_backfill_claude_review_001/backfill_status_20260616.json",
+    "claim_boundary": "assurance/evidence/wave_018_legacy_signoff_backfill_claude_review_001/claim_boundary_20260616.json",
+    "codex_deltas": "assurance/evidence/wave_018_legacy_signoff_backfill_claude_review_001/codex_deltas_20260616.json",
+    "risks": "assurance/evidence/wave_018_legacy_signoff_backfill_claude_review_001/risks_20260616.json",
+    "verdict": "assurance/evidence/wave_018_legacy_signoff_backfill_claude_review_001/verdict_20260616.json"
+  },
+  "audit_pass": true,
+  "blocked": true,
+  "blocked_reason": "Backfill partial; 0/10 fully backfilled",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "Wave 018 Claude reviews are CANONICAL-WIRING + LEGACY-BACKFILL + FIRST-FAMILY attack audits.",
+    "Two headline questions: (1) did Codex move from 'registry exists' to 'registry cannot be bypassed'? (2) did Codex move from 'Tier-1 families are mapped' to 'at least one Tier-1 family has safe build/test/smoke execution transcript'?",
+    "Claude rejects: registry exists as 'cannot be bypassed' / drift detector exists as 'workflow live' / hardcoded stale constants as harmless / proof anchor existing as resolving / signoff schema as backfilled-and-classified / promotion gate as real without negative tests / proof report narrative as registry binding / local-preview package as release-supported / Tier-1 fixture transcript as family support / packet as signed authority / signed authority as spent authority / SBOM packet as artifact / GUI packet as visual proof / local simulation as clean host / score rise without evidence-delta.",
+    "Standard: every reader binds; drift CI workflow-live; signoffs backfilled with evidence; negative fixtures block; proof report registry-bound; Tier-1 transcript ≠ family support; signed spend beats packets; visual proof beats GUI build.",
+    "No authority granted. No support promotion. No source-truth mutation.",
+    "Canonical release-supported cells = 10 (registry-bound). Release-supported families = 0.",
+    "Codex source truth is not mutated."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-06-16",
+  "doc": "docs/DETERMINEX_WAVE018_LEGACY_SIGNOFF_BACKFILL_CLAUDE_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "wave_018_claude_lane_D12",
+  "gulp_wave_id": "018",
+  "is_canonical_wiring_and_first_family_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "lane": "D12",
+  "lock_id": "DETERMINEX_WAVE018_LEGACY_SIGNOFF_BACKFILL_CLAUDE_REVIEW_001",
+  "purpose": "Wave 018 Claude Lane D12. All 10 canonical cells: detector/fixture/build/test/smoke/install signoff; proof-report anchor signoff; claim-boundary signoff; fake-transcript rejection coverage; missing-rung classification. Per-cell verdict.",
+  "record": "assurance/evidence/wave_018_legacy_signoff_backfill_claude_review_001/run_20260616.WAVE018_LEGACY_SIGNOFF_BACKFILL_CLAUDE_REVIEW_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "WAVE018_LEGACY_SIGNOFF_BACKFILL_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_wave_018_legacy_signoff_backfill_claude_review_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true
+    },
+    "passed": true
+  },
+  "verdict": "LEGACY_SIGNOFF_BACKFILL_PARTIAL — 0/10 SIGNOFF_BACKFILLED; 10/10 GRANDFATHERED_NEEDS_BACKFILL. Codex packet status is PARTIAL not PASSED."
+}

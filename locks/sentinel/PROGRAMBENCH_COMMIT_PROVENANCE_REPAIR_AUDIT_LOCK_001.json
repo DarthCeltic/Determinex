@@ -1,0 +1,36 @@
+{
+  "lock_id": "PROGRAMBENCH_COMMIT_PROVENANCE_REPAIR_AUDIT_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Audit the mixed frontend-labeled commit that contains ProgramBench Batch001 import/scan planning artifacts and confirm the ProgramBench evidence chain remains self-contained and non-authorizing.",
+  "audited_commit": "bc86cb57e",
+  "audited_commit_subject": "FRONTEND_REPAIR_PANEL_SHELL_LOCK_001: 9-section shell",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_ARTIFACT_IMPORT_REQUEST_PACKET_LOCK_001",
+    "PROGRAMBENCH_BATCH001_ARTIFACT_IMPORT_PREFLIGHT_LOCK_001",
+    "PROGRAMBENCH_BATCH001_OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_LOCK_001",
+    "PROGRAMBENCH_BATCH001_EXACT_ARTIFACT_IMPORT_GATE_LOCK_001",
+    "PROGRAMBENCH_BATCH001_SCAN_QUEUE_LOCK_001",
+    "PROGRAMBENCH_BATCH001_SCAN_POLICY_PRECHECK_LOCK_001",
+    "PROGRAMBENCH_BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_LOCK_001"
+  ],
+  "status": "PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED_WITH_LABEL_WARNING",
+  "record": "assurance/evidence/programbench_commit_provenance_repair_audit/programbench_commit_provenance_repair_audit_run_20260528.PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED_WITH_LABEL_WARNING.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_commit_provenance_repair_audit_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_commit_provenance_repair_audit_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "programbench_evidence_valid": true,
+  "programbench_locks_valid": true,
+  "cross_lane_imports_found": false,
+  "cross_lane_mutations_found": false,
+  "execution_performed": false,
+  "training_rows_written": false,
+  "repair_required": false,
+  "label_warning": true,
+  "does_not_prove": "Does not rewrite history, approve artifact import, approve execution, run ProgramBench, scan artifacts, or create training data."
+}

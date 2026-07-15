@@ -1,0 +1,102 @@
+{
+  "lock_id": "LOCAL_MODEL_ADMISSION_POLICY_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Metadata-only admission policy for local models. Defines provider types (ollama, local_hf, executable_adapter, no_model), capability and task-class declarations, and the rules under which a candidate may *eventually* be admitted live. This rung admits metadata only; no model is called, no subprocess runs, no network is consulted. Even the LOCAL_MODEL_METADATA_ADMITTED decision sets execution_authorized=False — live execution requires a separate, later admission step.",
+  "purpose": "Rung 8 of the verified-repair campaign. Closes the policy-shape gap for the BLOCKED_NO_LIVE_MODEL_CALL reason in CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001 — by spelling out exactly what a candidate would have to declare to be admissible, without yet doing the admission. The metadata-only admission is a precursor: a future LOCAL_MODEL_LIVE_ADMISSION rung would consume METADATA_ADMITTED decisions and attempt a probe.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001"
+  ],
+  "tests": 19,
+  "passed_on_this_host": 19,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_local_model_admission_policy_lock.py"
+  ],
+  "status_tokens": [
+    "LOCAL_MODEL_ADMISSION_POLICY_WRITTEN",
+    "LOCAL_MODEL_ADMISSION_REQUIRED",
+    "LOCAL_MODEL_BLOCKED_STALE_ID",
+    "LOCAL_MODEL_BLOCKED_UNKNOWN_PROVIDER",
+    "LOCAL_MODEL_BLOCKED_NETWORK_MODEL",
+    "LOCAL_MODEL_BLOCKED_UNSUPPORTED_TASK_CLASS",
+    "LOCAL_MODEL_BLOCKED_MISSING_CAPABILITIES",
+    "LOCAL_MODEL_BLOCKED_UNVERIFIED_ID",
+    "LOCAL_MODEL_METADATA_ADMITTED"
+  ],
+  "model_providers": [
+    "ollama",
+    "local_hf",
+    "executable_adapter",
+    "no_model"
+  ],
+  "admission_checks": [
+    "provider is a known ModelProvider enum value",
+    "model_id is not in STALE_MODEL_IDS",
+    "requires_network=False (unless allow_network_models=True)",
+    "model_id in CURRENT_MODEL_IDS (unless allow_unverified_ids=True)",
+    "at least one capability_tag declared (NO_MODEL provider exempt)",
+    "supported_task_classes overlaps with allowed_task_classes (NO_MODEL provider exempt)"
+  ],
+  "invariants": [
+    "LocalModelAdmissionPolicy.evaluate is a pure function — no I/O.",
+    "Default config: allow_network_models=False, allow_unverified_ids=False.",
+    "Even LOCAL_MODEL_METADATA_ADMITTED keeps execution_authorized=False and training_eligible=False.",
+    "Unknown provider blocks with LOCAL_MODEL_BLOCKED_UNKNOWN_PROVIDER.",
+    "Stale model_id (CURRENT vs STALE set from MODEL_ROUTER_LOCK_001) blocks with LOCAL_MODEL_BLOCKED_STALE_ID.",
+    "requires_network=True blocks under default policy with LOCAL_MODEL_BLOCKED_NETWORK_MODEL; only allow_network_models=True opens it.",
+    "Unverified id (not in CURRENT_MODEL_IDS) blocks under default policy with LOCAL_MODEL_BLOCKED_UNVERIFIED_ID; only allow_unverified_ids=True opens it.",
+    "Missing capability_tags blocks with LOCAL_MODEL_BLOCKED_MISSING_CAPABILITIES (except for NO_MODEL provider).",
+    "Empty intersection with allowed_task_classes blocks with LOCAL_MODEL_BLOCKED_UNSUPPORTED_TASK_CLASS (except NO_MODEL).",
+    "NO_MODEL provider bypasses capability + task-class requirements — admits cleanly.",
+    "scripts/models/local_model_admission_*.py contains no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "execution_authorized_opened": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/models/local_model_admission_policy.py",
+      "scripts/models/local_model_admission_record.py"
+    ],
+    "tests": [
+      "tests/models/test_local_model_admission_policy_lock.py"
+    ],
+    "lock": "locks/sentinel/LOCAL_MODEL_ADMISSION_POLICY_LOCK_001.json",
+    "evidence": "assurance/evidence/local_model_admission_policy/run_20260527.json",
+    "docs": "docs/LOCAL_MODEL_ADMISSION_POLICY.md"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/local_model_admission_policy/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "Metadata-only admission. Live admission (actually probing the provider, validating capabilities, opening execution_authorized) requires a follow-up LOCAL_MODEL_LIVE_ADMISSION rung.",
+    "Provider 'executable_adapter' is enumerated but no concrete adapter contract is defined yet; future rungs may add capability schemas per provider.",
+    "Capability tags are free strings today — a future rung may pin them to a closed set (code_generation / diagnosis / planning / review / summary)."
+  ],
+  "next_recommended_lock": "ARBITRARY_REPO_READINESS_MATRIX_LOCK_001",
+  "files": [
+    "scripts/models/local_model_admission_policy.py",
+    "scripts/models/local_model_admission_record.py",
+    "tests/models/test_local_model_admission_policy_lock.py",
+    "locks/sentinel/LOCAL_MODEL_ADMISSION_POLICY_LOCK_001.json",
+    "assurance/evidence/local_model_admission_policy/run_20260527.json",
+    "docs/LOCAL_MODEL_ADMISSION_POLICY.md"
+  ]
+}

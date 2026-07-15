@@ -1,0 +1,68 @@
+{
+  "lock_id": "HIVE_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "tests": 12,
+  "passed": 12,
+  "failed": 0,
+  "full_suite": {
+    "tests": 862,
+    "passed": 862,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/test_hive_core.py"
+  ],
+  "test_classes": [
+    "HiveDagTests",
+    "HiveWalTests",
+    "HiveCompilerSanitizationTests",
+    "HiveBudgetTests"
+  ],
+  "coverage": [
+    "topo_sort_linear",
+    "topo_sort_parallel",
+    "topo_sort_detects_cycle",
+    "build_execution_waves",
+    "wal_write_is_atomic",
+    "wal_read_back_complete",
+    "wal_concurrent_sessions_isolated",
+    "compiler_output_sanitized",
+    "compiler_unicode_normalized",
+    "budget_enforcement_blocks_overrun",
+    "budget_tracking_per_session",
+    "session_resume_detects_manual_edit"
+  ],
+  "hive_spec": {
+    "class": "HiveMind",
+    "orchestrator_script": "scripts/determinex_hive.py",
+    "sub_modules": [
+      "scripts/hive/dag.py",
+      "scripts/hive/manifest.py",
+      "scripts/hive/workspace.py",
+      "scripts/hive/compiler.py",
+      "scripts/hive/concurrent_guard.py",
+      "scripts/hive/rag_guard.py"
+    ],
+    "wal_guarantee": "atomic fsync writes — no write-cache races with Compiler Oracle",
+    "compiler_oracle": "rustc / go build / python / tsc — deterministic, zero hallucination",
+    "dag_guarantees": [
+      "topological sort produces correct ordering",
+      "parallel steps grouped into execution waves",
+      "cycle detection surfaces explicitly (not silent hang)"
+    ],
+    "workspace_safety": [
+      "resolve_workspace_path() blocks symlink escapes",
+      "secret name denylist blocks .env / .pem / API key files",
+      "snapshot excludes target/, node_modules/, .venv/ (inode exhaustion fix)"
+    ]
+  },
+  "implementations": [
+    "scripts/determinex_hive.py",
+    "scripts/hive/dag.py",
+    "scripts/hive/manifest.py",
+    "scripts/hive/workspace.py",
+    "scripts/hive/compiler.py",
+    "tests/test_hive_core.py"
+  ]
+}

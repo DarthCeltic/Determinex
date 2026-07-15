@@ -1,0 +1,31 @@
+{
+  "lock_id": "DETERMINEX_CROSS_LANE_AUTHORITY_BOUNDARY_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Confirm Claude and Codex lanes can join under a non-authorizing cross-lane authority boundary.",
+  "depends_on_locks": [
+    "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_LOCK_001",
+    "DETERMINEX_GLOBAL_OPERATOR_ACTION_QUEUE_DEDUP_RECONCILIATION_LOCK_001",
+    "DETERMINEX_PROGRAMBENCH_PER_TARGET_UNIFIED_GRAPH_EXPANSION_LOCK_001",
+    "DETERMINEX_GLOBAL_TRAINING_ELIGIBILITY_GUARD_LOCK_001"
+  ],
+  "status": "CROSS_LANE_AUTHORITY_BOUNDARY_PASSED",
+  "record": "assurance/evidence/cross_lane_authority_boundary/run_20260528.CROSS_LANE_AUTHORITY_BOUNDARY_PASSED.json",
+  "test_modules": [
+    "tests/status/test_determinex_cross_lane_authority_boundary_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/status/test_determinex_cross_lane_authority_boundary_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "source_mutation_authorized": false,
+  "artifact_import_authorized": false,
+  "programbench_execution_authorized": false,
+  "proof_execution_authorized": false,
+  "approval_authority_granted": false,
+  "training_eligible": false,
+  "can_write_training_row_any": false,
+  "can_execute_any": false,
+  "can_mutate_source_any": false
+}

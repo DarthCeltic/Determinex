@@ -1,0 +1,15 @@
+{
+  "artifacts": {
+    "hardened_sbom_packet": "assurance/evidence/sbom_packet_hardening/hardened_sbom_packet_20260629.json",
+    "protected_execution_performed": "assurance/evidence/sbom_packet_hardening/protected_execution_performed_20260629.json",
+    "run_record": "assurance/evidence/sbom_packet_hardening/run_20260629.SBOM_PACKET_HARDENED_UNSIGNED.json",
+    "validator_fixtures": "assurance/evidence/sbom_packet_hardening/validator_fixtures_20260629.json"
+  },
+  "lock_id": "DETERMINEX_SBOM_PACKET_HARDENING_LOCK_001",
+  "protected_external_action_executed": false,
+  "release_supported_exact_cells": 10,
+  "release_supported_families": 0,
+  "reproduction_command": ".\\.venv\\Scripts\\python.exe -m pytest tests/status/test_conditional_signature_release_substrate.py -q --tb=short",
+  "status": "SBOM_PACKET_HARDENED_UNSIGNED",
+  "test_module": "tests/status/test_conditional_signature_release_substrate.py"
+}

@@ -1,0 +1,56 @@
+{
+  "lock_id": "REAL_BUILD_ADAPTER_TEMP_VERIFY_TRACE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real build-adapter temp verify trace. Composes SafePatchWorkspace + REAL_TEMP_PATCH_VERIFY_LOCK_001 + a hardened-runner-backed verifier callable derived from the build-adapter selection. Applies a quarantined plan to a temp workspace, runs the real verifier (e.g. `pytest -q`) via intake.hardened_runner.run, and records the trace. Original source is NEVER written; pre/post sha256 are captured by the inner module.",
+  "purpose": "Rung 7 of the real-model + build-adapter-verifier campaign (subordinate to Codex audit repair).",
+  "depends_on_locks": [
+    "REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_LOCK_001",
+    "REAL_TEMP_PATCH_VERIFY_LOCK_001",
+    "BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001"
+  ],
+  "tests": 10,
+  "passed_on_this_host": 10,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_real_build_adapter_temp_verify_trace_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_BUILD_ADAPTER_TEMP_VERIFY_PASSED_APPROVAL_REQUIRED",
+    "REAL_BUILD_ADAPTER_TEMP_VERIFY_FAILED",
+    "REAL_BUILD_ADAPTER_TEMP_VERIFY_SOURCE_UNCHANGED",
+    "REAL_BUILD_ADAPTER_TEMP_VERIFY_BLOCKED_NO_VERIFIER",
+    "REAL_BUILD_ADAPTER_TEMP_VERIFY_BLOCKED_NOT_QUARANTINED",
+    "REAL_BUILD_ADAPTER_TEMP_VERIFY_BLOCKED_HARDENED_RUNNER",
+    "REAL_BUILD_ADAPTER_TEMP_VERIFY_BLOCKED_APPLY_REJECTED"
+  ],
+  "this_host_result": {
+    "decision": "REAL_BUILD_ADAPTER_TEMP_VERIFY_PASSED_APPROVAL_REQUIRED",
+    "notes": [
+      "real `pytest -q` invoked through intake.hardened_runner.run on a temp workspace",
+      "original source SHA unchanged before and after",
+      "human approval still required before any source apply"
+    ]
+  },
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "docker_used": false,
+    "subprocess_spawned_outside_hardened_runner": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false
+  },
+  "subordinate_to": {
+    "campaign": "Codex proof-control audit repair",
+    "note": "This campaign does NOT claim full-suite clean until the Codex audit repair lands."
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_build_adapter_temp_verify_trace/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_APPROVAL_APPLY_POST_VERIFY_TRACE_LOCK_001"
+}

@@ -1,0 +1,136 @@
+{
+  "lock_id": "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Migrates the 5 _default_executor implementations across scripts/repair/ (go, native_c_cpp, python, rust, typescript) from raw subprocess.run to intake.hardened_runner.run. Preserves the existing (returncode, stdout, stderr) Executor tuple contract, including the historical -1/-2 negative-rc convention; adds a -3 code for hardened-runner BLOCKED outcomes. Drops the parallel execution audit's MUST_MIGRATE_TO_HARDENED_RUNNER count from 5 to 0 — the last remaining intake-side execution surface in the Claude lane is now hardened.",
+  "purpose": "Rung 6 of the post-audit Claude-lane sequence. Consumes the deferred-by-design 5 sites from HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001 so the next rung (ARCH_GAUNTLET_CI_LOCK_001) can wire the architecture gauntlet into CI with a clean must-migrate=0 / blocked-unsafe=0 baseline.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "PYTHON_REPAIR_LOCK_001",
+    "RUST_REPAIR_LOCK_001",
+    "GO_REPAIR_LOCK_001",
+    "TYPESCRIPT_REPAIR_LOCK_001",
+    "NATIVE_C_CPP_REPAIR_LOCK_001"
+  ],
+  "tests": 73,
+  "passed_on_this_host": 73,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_hardened_repair_pipeline_executors_lock.py"
+  ],
+  "pipelines_migrated": [
+    "scripts/repair/go_repair_pipeline.py",
+    "scripts/repair/native_c_cpp_repair_pipeline.py",
+    "scripts/repair/python_repair_pipeline.py",
+    "scripts/repair/rust_repair_pipeline.py",
+    "scripts/repair/typescript_repair_pipeline.py"
+  ],
+  "runner_or_wrapper_used": "intake.hardened_runner.run (introduced in HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001)",
+  "executor_contract_preserved": {
+    "signature": "_default_executor(cmd: list[str], cwd: Path, timeout: int) -> tuple[int, str, str]",
+    "rc_conventions": {
+      "0 / >0": "actual process return code (unchanged)",
+      "-1": "TIMEOUT — stderr exactly 'TIMEOUT' (preserved)",
+      "-2": "tool missing — stderr describes the missing tool (preserved)",
+      "-3": "BLOCKED by hardened runner — stderr starts with 'BLOCKED: ' (new this rung)"
+    },
+    "callers_unaffected": "Every caller checks rc != 0; no caller switches on specific negative codes. Adding -3 is forward-compatible."
+  },
+  "audit_delta": {
+    "must_migrate_before": 5,
+    "must_migrate_after": 0,
+    "hardened_compiler_path_before": 11,
+    "hardened_compiler_path_after": 11,
+    "blocked_unsafe_before": 0,
+    "blocked_unsafe_after": 0,
+    "programbench_out_of_scope_before": 56,
+    "programbench_out_of_scope_after": 56,
+    "unknown_requires_review_before": 121,
+    "unknown_requires_review_after": 121,
+    "total_sites_before": 304,
+    "total_sites_after": 299,
+    "evidence_run_artifact": "assurance/evidence/parallel_execution_layer_audit/run_20260527.json"
+  },
+  "status_tokens": [
+    "HARDENED_REPAIR_EXECUTORS_READY",
+    "REPAIR_PIPELINE_MIGRATED",
+    "REPAIR_PIPELINE_COMPAT_PRESERVED",
+    "MUST_MIGRATE_COUNT_ZERO",
+    "BLOCKED_UNSAFE_ZERO",
+    "PROGRAMBENCH_UNTOUCHED",
+    "COMMAND_TIMEOUT_STRUCTURED",
+    "COMMAND_TOOL_MISSING_STRUCTURED",
+    "COMMAND_BLOCKED_PATH_ESCAPE",
+    "COMMAND_BLOCKED_DOCKER",
+    "ENVIRONMENT_SCRUBBED",
+    "SOURCE_TREE_UNMUTATED_EXCEPT_TARGETS",
+    "CORPUS_UNMUTATED",
+    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+    "SAFETY_DEFAULTS_RESPECTED"
+  ],
+  "invariants": [
+    "All 5 repair pipelines import intake.hardened_runner (source-grep test_repair_pipeline_imports_hardened_runner).",
+    "None of the 5 repair pipelines call subprocess.run directly anymore (source-grep test).",
+    "None of the 5 repair pipelines `import subprocess` anymore (source-grep test).",
+    "Each _default_executor returns a 3-tuple (rc, stdout, stderr) for every input — never raises (test_default_executor_never_raises).",
+    "Timeout produces (-1, '', 'TIMEOUT') exactly (preserved contract).",
+    "Missing tool produces (-2, '', '<not found message>') (preserved contract).",
+    "Docker invocation from any repair pipeline produces (-3, '', 'BLOCKED: ...') — verified for all 5 pipelines.",
+    "Network invocation (curl) from any repair pipeline produces (-3, '', 'BLOCKED: ...') — verified for all 5 pipelines.",
+    "Non-existent workspace produces (-3, '', 'BLOCKED: ...').",
+    "shell=True is never used by any _default_executor (monkeypatch test asserts captured kwargs).",
+    "LD_PRELOAD set in parent env does NOT reach the child process — end-to-end verified.",
+    "Parallel execution audit MUST_MIGRATE_TO_HARDENED_RUNNER count is exactly 0.",
+    "Parallel execution audit BLOCKED_UNSAFE count remains 0.",
+    "Parallel execution audit PROGRAMBENCH_OUT_OF_SCOPE count >= 56 (Claude did not remove any PB file).",
+    "All prior per-language repair lock test suites (PYTHON_REPAIR_LOCK_001 / RUST_REPAIR_LOCK_001 / GO_REPAIR_LOCK_001 / TYPESCRIPT_REPAIR_LOCK_001 / NATIVE_C_CPP_REPAIR_LOCK_001) still pass: 160/160 verified on this host.",
+    "Signed evidence stays unmutated during runner exercise.",
+    "Corpus write guard remains active.",
+    "Safety defaults remain fail-closed.",
+    "No DETERMINEX_*/HF_HOME/OLLAMA_* env var required."
+  ],
+  "files_changed": {
+    "modified": [
+      "scripts/repair/go_repair_pipeline.py",
+      "scripts/repair/native_c_cpp_repair_pipeline.py",
+      "scripts/repair/python_repair_pipeline.py",
+      "scripts/repair/rust_repair_pipeline.py",
+      "scripts/repair/typescript_repair_pipeline.py",
+      "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md (regenerated, must-migrate=0)",
+      "assurance/evidence/parallel_execution_layer_audit/run_20260527.json (regenerated)"
+    ],
+    "new": [
+      "tests/repair/__init__.py",
+      "tests/repair/test_hardened_repair_pipeline_executors_lock.py",
+      "locks/sentinel/HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001.json",
+      "assurance/evidence/hardened_repair_pipeline_executors/run_20260527.json"
+    ]
+  },
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "online_discovery_enabled": false,
+    "safety_defaults_weakened": false,
+    "model_router_started": false,
+    "ci_gauntlet_started": false,
+    "readme_polished": false
+  },
+  "remaining_gaps": [
+    "121 UNKNOWN_REQUIRES_REVIEW sites unchanged. Top files: scripts/swe_run/repo.py (12), scripts/hardware_profiler.py (7), scripts/determinex_fullbench.py (6), scripts/micro_eval.py (6), scripts/setup_swebench.py (6). Each needs human triage; not in this rung's scope.",
+    "Hardened runner remains policy-layer hardening, not OS-level sandboxing. For inference-side oracle work, hive/compiler.py provides the OS-level sandbox.",
+    "Repair pipelines now have a -3 BLOCKED code that downstream callers do not yet branch on. If a caller wants to distinguish 'tool refused by policy' from 'tool genuinely missing', they can; today none do.",
+    "java_repair_pipeline.py (under scripts/corpus/code_ingest/) was already classified LEGACY_EXEMPT_READ_ONLY under the corpus/ rule and does not need migration in this rung. If a future audit finds it executes payload, a follow-up lock would address it."
+  ],
+  "next_recommended_lock": "ARCH_GAUNTLET_CI_LOCK_001",
+  "next_rung_baseline": "must_migrate=0, blocked_unsafe=0 — the cleanest possible state to wire the architecture gauntlet into CI."
+}

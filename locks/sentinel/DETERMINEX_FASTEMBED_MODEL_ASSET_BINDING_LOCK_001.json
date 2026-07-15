@@ -1,0 +1,58 @@
+{
+  "artifact_paths": {
+    "binding": "assurance/evidence/fastembed_model_asset_binding/vector_engine_local_model_binding_status_20260529.json",
+    "boundary": "assurance/evidence/fastembed_model_asset_binding/fastembed_model_asset_claim_boundary_20260529.json",
+    "env": "assurance/evidence/fastembed_model_asset_binding/fastembed_runtime_env_contract_20260529.json",
+    "inventory": "assurance/evidence/fastembed_model_asset_binding/fastembed_model_asset_inventory_20260529.json",
+    "review": "assurance/evidence/fastembed_model_asset_binding/model_asset_license_security_review_queue_20260529.json",
+    "route": "assurance/evidence/fastembed_model_asset_binding/smoke_retry_route_after_fastembed_binding_20260529.json",
+    "status": "assurance/evidence/fastembed_model_asset_binding/fastembed_model_asset_binding_status_20260529.json"
+  },
+  "authority": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "launch_readiness_granted": false,
+    "production_readiness_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_readiness_granted": false,
+    "release_ready": false,
+    "release_supported": false,
+    "source_mutation_authorized": false,
+    "support_depth_promotion_granted": false,
+    "training_eligible": false,
+    "training_rows_written": false,
+    "universal_support_claimed": false
+  },
+  "doc_path": "docs/DETERMINEX_FASTEMBED_MODEL_ASSET_BINDING_001.md",
+  "focused_tests": {
+    "module": "tests/status/test_fastembed_model_asset_binding_001.py",
+    "passed": 12
+  },
+  "full_suite": {
+    "module": "tests/status",
+    "passed": 880
+  },
+  "lock_id": "DETERMINEX_FASTEMBED_MODEL_ASSET_BINDING_LOCK_001",
+  "next_recommended_codex_lock": "DETERMINEX_LOCAL_SMOKE_AFTER_FASTEMBED_BINDING_RETRY_LOCK_001",
+  "purpose": "Bind a pre-existing local fastembed all-MiniLM-L6-v2 model asset into source truth and add a local env-var loading path for the Tauri vector engine.",
+  "related_tests": {
+    "modules": [
+      "tests/status/test_local_smoke_after_build_artifact_001.py",
+      "tests/status/test_tauri_desktop_build_retry_with_local_ort_link_001.py",
+      "tests/status/test_onnxruntime_local_import_lib_generation_001.py"
+    ],
+    "passed": 38
+  },
+  "release_supported_cells": 0,
+  "release_supported_families": 0,
+  "run_record": "assurance/evidence/fastembed_model_asset_binding/run_20260529.FASTEMBED_MODEL_ASSET_BINDING_PASSED.json",
+  "status": "FASTEMBED_MODEL_ASSET_BINDING_PASSED",
+  "test_modules": [
+    "tests/status/test_fastembed_model_asset_binding_001.py"
+  ]
+}

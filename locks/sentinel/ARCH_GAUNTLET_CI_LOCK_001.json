@@ -1,0 +1,122 @@
+{
+  "lock_id": "ARCH_GAUNTLET_CI_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Wires the architecture regression gauntlet + the 7 focused architecture/intake/repair safety test files into .github/workflows/test.yml as a new `arch-gauntlet` job. The job runs on ubuntu-latest with Python 3.11, Rust stable, Go 1.21, and just installed. It invokes the gauntlet in --strict mode, runs the focused test files, re-validates the evidence index, and uploads the gauntlet JSON as a 30-day artifact. Closes the gap-to-100 audit's hidden-assumption #9 (Linux/macOS witness data missing for the portability + safety invariants).",
+  "purpose": "Rung 7 of the post-audit Claude-lane sequence. With MUST_MIGRATE=0 and BLOCKED_UNSAFE=0 from rung 6, the architecture lane is at the cleanest possible baseline for CI witness wiring. Going forward, every push/PR that touches scripts/, tests/, locks/, or the workflow itself runs the gauntlet on Ubuntu and proves the invariants survive an environment Ryan has never personally observed.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "CI_QUALITY_GATE_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001"
+  ],
+  "tests": 35,
+  "passed_on_this_host": 35,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/dev/test_arch_gauntlet_ci_lock.py"
+  ],
+  "workflow_file": ".github/workflows/test.yml",
+  "workflow_sha256_at_seal": "7dbcc0a6052d730c4110af031985da4a66a1731994f4b97243f26a4861e8878e",
+  "job_name": "arch-gauntlet",
+  "runs_on": "ubuntu-latest",
+  "python_version": "3.11",
+  "toolchains": [
+    "actions/setup-python@v5 (3.11, cache pip)",
+    "dtolnay/rust-toolchain@stable",
+    "actions/setup-go@v5 (1.21)",
+    "extractions/setup-just@v2"
+  ],
+  "gauntlet_command": "python scripts/dev/architecture_regression_gauntlet.py --strict --json _ci_artifacts/architecture_regression_gauntlet.json",
+  "evidence_command": "determinex evidence validate",
+  "focused_tests_invoked": [
+    "tests/dev/test_architecture_regression_gauntlet_lock.py",
+    "tests/dev/test_parallel_execution_layer_audit_lock.py",
+    "tests/intake/test_codebase_explorer_smoke_lock.py",
+    "tests/intake/test_build_adapter_registry_lock.py",
+    "tests/intake/test_verifier_coverage_matrix_lock.py",
+    "tests/intake/test_hardened_intake_execution_runner_lock.py",
+    "tests/repair/test_hardened_repair_pipeline_executors_lock.py"
+  ],
+  "ci_env_settings": {
+    "DETERMINEX_ROOT": "${{ github.workspace }}",
+    "DETERMINEX_NO_CORPUS_WRITE": "1"
+  },
+  "ci_artifact": {
+    "name": "architecture-regression-gauntlet",
+    "path": "_ci_artifacts/architecture_regression_gauntlet.json",
+    "retention_days": 30,
+    "upload_if_always": true
+  },
+  "status_tokens": [
+    "ARCH_GAUNTLET_CI_WIRED",
+    "WORKFLOW_PRESENT",
+    "JOB_RUNS_ON_UBUNTU",
+    "PYTHON_VERSION_PINNED",
+    "GAUNTLET_INVOKED_STRICT",
+    "EVIDENCE_VALIDATED_IN_CI",
+    "FOCUSED_TESTS_INVOKED",
+    "NO_DOCKER_PULLS",
+    "NO_T_DRIVE_DEPENDENCY",
+    "CORPUS_WRITE_GUARD_ACTIVE_IN_CI",
+    "GAUNTLET_ARTIFACT_UPLOADED",
+    "PROGRAMBENCH_UNTOUCHED",
+    "SAFETY_DEFAULTS_RESPECTED"
+  ],
+  "invariants": [
+    "The arch-gauntlet job is present in .github/workflows/test.yml (workflow_present asserted by test_workflow_defines_arch_gauntlet_job).",
+    "The job pins python-version: \"3.11\" so it runs against the same interpreter version the locks were issued against.",
+    "The job runs on ubuntu-latest — Linux witness for portability and safety invariants.",
+    "The gauntlet is invoked with --strict so any non-PASSED rollup fails CI (exit 1).",
+    "The job invokes `determinex evidence validate` so evidence integrity is re-verified in CI on every run.",
+    "The job invokes every required focused test file (7 total — pinned in REQUIRED_FOCUSED_TESTS and tested per file).",
+    "DETERMINEX_NO_CORPUS_WRITE=1 set in job env — any corpus write attempt during the gauntlet raises rather than silently mutating CI state.",
+    "DETERMINEX_ROOT is set to github.workspace.",
+    "The gauntlet JSON report is uploaded as an artifact (retention 30 days, if: always).",
+    "No `docker pull` / `docker run` / `podman pull` / `podman run` in the job — strictly per directive.",
+    "No T:/ drive letter reference in the job — environment portability is the whole point.",
+    "No ProgramBench invocations in the job (no pb_*, determinex_programbench*, programbench eval, tests/corpus/programbench/).",
+    "No unpinned `pip install` lines — only `pip install -r requirements.txt`, `pip install -e .[dev]`, or `pip install -e .` permitted.",
+    "The lock manifest's pinned focused_tests_invoked list matches REQUIRED_FOCUSED_TESTS in the test module AND the workflow file (three-way drift caught by test_lock_manifest_lists_all_required_focused_tests).",
+    "The lock manifest's pinned python_version is exactly '3.11'.",
+    "The lock manifest's pinned runs_on is exactly 'ubuntu-latest'.",
+    "Workflow read does not mutate signed evidence."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "online_discovery_enabled": false,
+    "safety_defaults_weakened": false,
+    "model_router_started": false,
+    "demo_workflow_created": false,
+    "readme_polished": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/arch_gauntlet_ci/run_20260527.json",
+    "ci_run_artifact_uploaded_by_job": "_ci_artifacts/architecture_regression_gauntlet.json (per-CI-run, retention 30 days)"
+  },
+  "remaining_gaps": [
+    "121 UNKNOWN_REQUIRES_REVIEW sites in the parallel execution audit remain unchanged. The next Claude rung (SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001) is the right venue to triage them.",
+    "CI does not yet run macOS — only ubuntu-latest. Adding a matrix on (windows-latest, macos-latest) would be a follow-up but is not load-bearing because the gauntlet's PATH_PORTABILITY check already proves no drive-letter dependency.",
+    "The arch-gauntlet job duplicates a few install steps (pip + cargo + go + just) that the existing per-language jobs also do. Sharing setup via a composite action is a future cleanup, not a correctness issue.",
+    "The focused-test list is pinned in three places (REQUIRED_FOCUSED_TESTS in the test module, focused_tests_invoked in this lock manifest, and the YAML pytest invocation in the workflow). Drift between any two is caught by tests; consolidating to a single source of truth is a future cleanup.",
+    "CI does not pin the gauntlet's check count (currently 17). If a future rung adds a check, the gauntlet's own STATUS_TOKENS test catches it, but adding a count assertion in this lock would tighten the contract further."
+  ],
+  "next_recommended_lock": "SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001",
+  "alternative_next_recommended": "MODEL_ROUTER_LOCK_001 (after CI lands cleanly)",
+  "files": [
+    ".github/workflows/test.yml",
+    "tests/dev/test_arch_gauntlet_ci_lock.py",
+    "locks/sentinel/ARCH_GAUNTLET_CI_LOCK_001.json",
+    "assurance/evidence/arch_gauntlet_ci/run_20260527.json"
+  ]
+}

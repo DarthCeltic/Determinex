@@ -1,0 +1,39 @@
+# promtail config — ships logs to Loki
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: determinex_eval
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: determinex_eval
+          __path__: /eval_logs/*.log
+
+  - job_name: determinex_queue
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: determinex_queue
+          __path__: /queue/_*.log
+
+  - job_name: determinex_hetz_workers
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: determinex_hetz_workers
+          __path__: /queue/hetz-*.out
+
+  - job_name: syslog
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: syslog
+          __path__: /var/log/syslog*

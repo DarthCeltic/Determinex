@@ -1,0 +1,160 @@
+{
+  "lock_id": "TYPESCRIPT_REPAIR_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "0a3d1150e9d720cf205a30f2e85a18c823f43d1e",
+  "tests": 23,
+  "passed": 23,
+  "failed": 0,
+  "full_suite": {
+    "tests": 664,
+    "passed": 664,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/locks/test_typescript_repair_lock.py"
+  ],
+  "test_classes": [
+    "TestNpmProjectIndexer",
+    "TestTypeScriptPackageSafety",
+    "TestTypeScriptLicenseGate",
+    "TestTypeScriptBaselineAndExtraction",
+    "TestTypeScriptCorpusSigning"
+  ],
+  "coverage": [
+    "detects_package_json_and_name",
+    "detects_typescript_and_tsconfig",
+    "detects_package_manager",
+    "detects_source_components_tests_framework",
+    "non_npm_project_returns_none",
+    "postinstall_curl_pipe_rejected",
+    "env_exfiltration_script_rejected",
+    "prompt_injection_description_rejected",
+    "tsc_dirty_rejected",
+    "no_license_file_rejected",
+    "gpl_license_rejected",
+    "mit_license_passes_gate",
+    "extractor_empty_when_baseline_fails",
+    "optional_chain_sites_found",
+    "node_modules_excluded",
+    "pipeline_zero_tasks_when_baseline_fails",
+    "pipeline_extracts_task_when_mutation_fails",
+    "file_restored_after_mutation",
+    "corpus_record_is_signed",
+    "tampered_record_fails_verification",
+    "record_has_typescript_fields",
+    "pipeline_writes_task_to_corpus",
+    "multiple_typescript_mutation_types_sign"
+  ],
+  "pipeline_spec": {
+    "class": "TypeScriptRepairPipeline",
+    "module": "scripts/repair/typescript_repair_pipeline.py",
+    "executor_signature": "Callable[[list[str], Path, int], tuple[int, str, str]]",
+    "stages": [
+      "npm_project_index",
+      "license_gate",
+      "secret_scan",
+      "package_script_safety_gate",
+      "tsc_typecheck",
+      "baseline_verification",
+      "optional_chain_mutation",
+      "failure_confirmation",
+      "file_restore",
+      "corpus_write"
+    ],
+    "rejection_codes": [
+      "not_npm_project",
+      "license_not_green",
+      "secret_detected",
+      "malicious_package",
+      "tsc_not_clean"
+    ],
+    "oracles": [
+      "npx tsc --noEmit",
+      "npm test",
+      "pnpm test",
+      "yarn test"
+    ]
+  },
+  "indexer_spec": {
+    "class": "NpmProject",
+    "module": "scripts/corpus/code_ingest/npm_project_indexer.py",
+    "detects": [
+      "package.json",
+      "package-lock.json",
+      "pnpm-lock.yaml",
+      "yarn.lock",
+      "tsconfig.json",
+      "scripts",
+      "dependencies",
+      "devDependencies",
+      "src/",
+      "components/",
+      "test tools",
+      "framework hints",
+      "license expression"
+    ]
+  },
+  "extractor_spec": {
+    "class": "TypeScriptTaskExtractor",
+    "module": "scripts/corpus/code_ingest/typescript_task_extractor.py",
+    "mutation_types": [
+      "optional_chain_removal"
+    ],
+    "excluded_dirs": [
+      "node_modules",
+      "dist",
+      "build",
+      ".git",
+      "coverage"
+    ],
+    "file_restore_guarantee": "finally block always restores original",
+    "max_mutations_per_file": 3
+  },
+  "source_safety_gate_spec": {
+    "scan_method": "prompt_injection_detector.scan plus package script checks",
+    "block_on_risk": [
+      "HIGH",
+      "CRITICAL"
+    ],
+    "scans": [
+      "package.json scripts",
+      "package.json metadata"
+    ],
+    "patterns_covered": [
+      "postinstall_curl_pipe_shell",
+      "script_env_exfiltration",
+      "prompt_injection_description",
+      "unsafe_lifecycle_script"
+    ]
+  },
+  "corpus_record_spec": {
+    "schema_version": "determinex-agent-trace-v1",
+    "signing_algorithm": "BLAKE2b-256 HMAC",
+    "canonical_form": "sorted-key JSON",
+    "signature_field": "_sig",
+    "minimum_sig_length": 32
+  },
+  "typescript_metadata_fields": [
+    "language",
+    "build_system",
+    "mutation_type",
+    "failure_type",
+    "source_file",
+    "original_snippet",
+    "mutated_snippet",
+    "line_number",
+    "failure_output",
+    "repair_patch",
+    "validator",
+    "verdict"
+  ],
+  "factory_claim": {
+    "note": "TypeScript links repo repair to browser/UI repair and SWE-bench Pro frontend work while preserving native npm/tsc validators and signed corpus traces.",
+    "contract": "indexer -> task extractor -> safe source gate -> baseline verifier -> controlled failure generator -> repair pipeline -> oracle verifier -> signed corpus writer -> lock manifest"
+  },
+  "programbench_leverage": {
+    "note": "TypeScript repair traces feed UI repair, browser trace work, SWE-bench Pro, and frontend benchmark adapters."
+  },
+  "previous_lock": "NATIVE_C_CPP_REPAIR_LOCK_001",
+  "next_lock": "SQL_ORACLE_LOCK_001"
+}

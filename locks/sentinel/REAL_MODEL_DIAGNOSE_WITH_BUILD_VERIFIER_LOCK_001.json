@@ -1,0 +1,55 @@
+{
+  "lock_id": "REAL_MODEL_DIAGNOSE_WITH_BUILD_VERIFIER_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real-model advisory diagnose with build-adapter verifier context. Composes a healthcheck-passed record and a verifier-selected record into a prompt that carries the workspace identity (opaque), build system id, and verifier argv — but NEVER any source content. Output is recorded as advisory only; the verifier remains the source of truth. No patch is generated.",
+  "purpose": "Rung 5 of the real-model + build-adapter-verifier campaign (subordinate to Codex audit repair).",
+  "depends_on_locks": [
+    "REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001",
+    "BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001",
+    "REAL_LIVE_DIAGNOSE_ONLY_LOCK_001"
+  ],
+  "tests": 15,
+  "passed_on_this_host": 15,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_real_model_diagnose_with_build_verifier_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_MODEL_DIAGNOSE_WITH_VERIFIER_WRITTEN",
+    "REAL_MODEL_DIAGNOSE_BLOCKED_NO_MODEL",
+    "REAL_MODEL_DIAGNOSE_BLOCKED_HEALTHCHECK_FAILED",
+    "REAL_MODEL_DIAGNOSE_BLOCKED_NO_VERIFIER",
+    "REAL_MODEL_DIAGNOSE_BLOCKED_NOT_OPTED_IN",
+    "REAL_MODEL_DIAGNOSE_BLOCKED_TIMEOUT",
+    "REAL_MODEL_DIAGNOSE_BLOCKED_PROVIDER_ERROR",
+    "REAL_MODEL_DIAGNOSE_ADVISORY_ONLY"
+  ],
+  "this_host_result": {
+    "decision": "REAL_MODEL_DIAGNOSE_WITH_VERIFIER_WRITTEN",
+    "notes": [
+      "real-model responded; response was empty text but the model accepted the prompt",
+      "advisory_only=true; verifier_remains_source_of_truth=true",
+      "no source content was included in the prompt"
+    ]
+  },
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "patch_generated": false,
+    "network_provider_admitted": false,
+    "repo_source_inputted_in_prompt": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false
+  },
+  "subordinate_to": {
+    "campaign": "Codex proof-control audit repair",
+    "note": "This campaign does NOT claim full-suite clean until the Codex audit repair lands."
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_model_diagnose_with_build_verifier/run_20260528.json"
+  },
+  "next_recommended_lock": "REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_LOCK_001"
+}

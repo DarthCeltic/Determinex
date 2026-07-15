@@ -1,0 +1,108 @@
+{
+  "lock_id": "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Adds the safe temp-workspace patch applier under scripts/repair/. SafePatchWorkspace stages a copy of the original repo under a caller-supplied temp_root, applies a list of FilePatch records (validated for path traversal, symlink escape, binary content, and per-file/total size), generates a unified diff between baseline and temp, and runs an injected verifier callable. On verifier failure (with rollback_on_failure=True) the temp tree is deleted. The original repo is treated as immutable: sha256 trees are taken before and after every call, and any divergence flips the status to SOURCE_MUTATION_BLOCKED. No subprocess. No network. No real toolchain invocation in this rung — the verifier is a callable; the real BuildAdapter-backed verifier is wired in VERIFIED_REPAIR_TRACE_LOCK_001.",
+  "purpose": "Rung 3 of the verified-repair campaign. Gives the apparatus a bounded surface for *applying* a candidate patch without ever touching the user's repo. Sets up VERIFIED_REPAIR_TRACE_LOCK_001 to compose a real verifier on top, and HUMAN_APPROVAL_SOURCE_MUTATION_GATE_LOCK_001 to gate the eventual original-repo write.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LLM_MOCKED_INTAKE_REPAIR_LOCK_001"
+  ],
+  "tests": 22,
+  "passed_on_this_host": 22,
+  "skipped_on_this_host": 2,
+  "skip_rationale": "Two symlink-escape tests skip on hosts where os.symlink is unavailable (Windows without Developer Mode / admin). Same skip pattern as workspace-escape tests under tests/security/.",
+  "test_modules": [
+    "tests/repair/test_safe_patch_diff_rollback_lock.py"
+  ],
+  "status_tokens": [
+    "PATCH_APPLIED_TO_TEMP_WORKSPACE",
+    "PATCH_REJECTED",
+    "PATCH_BLOCKED_PATH_ESCAPE",
+    "PATCH_BLOCKED_SYMLINK_ESCAPE",
+    "PATCH_BLOCKED_BINARY_CONTENT",
+    "PATCH_VERIFIER_FAILED",
+    "PATCH_VERIFIER_PASSED_TEMP_ONLY",
+    "PATCH_VERIFIER_SKIPPED",
+    "PATCH_ROLLED_BACK",
+    "SOURCE_MUTATION_BLOCKED"
+  ],
+  "guards": {
+    "path_traversal": "Rejected: '../*', absolute paths ('/etc/*'), drive-anchored paths ('C:/*'), empty, and '..'-containing segments.",
+    "symlink_target_blocked": "If the target file exists as a symlink, refuse with PATCH_BLOCKED_SYMLINK_ESCAPE.",
+    "symlink_escape_via_parent": "If the resolved target path falls outside the temp workspace, refuse.",
+    "binary_content": "Content containing NUL bytes is rejected with PATCH_BLOCKED_BINARY_CONTENT.",
+    "per_file_size_cap": "2_000_000 bytes per FilePatch; over → PATCH_REJECTED.",
+    "total_size_cap": "16_000_000 bytes across all patches; over → PATCH_REJECTED."
+  },
+  "invariants": [
+    "SafePatchWorkspace.apply_and_verify NEVER writes to the original repo. The original's sha256 tree before == after on every code path; SOURCE_MUTATION_BLOCKED is set if not.",
+    "All writes go to ``<temp_root>/safe_patch_<workspace_id>/``; the resolve check refuses any path that escapes the temp dir.",
+    "A baseline snapshot under ``<temp_root>/safe_patch_<workspace_id>__BASELINE_/`` is created at stage time and used to compute the unified diff after apply.",
+    "rollback() deletes both temp and baseline; it is idempotent.",
+    "Path traversal segments ('..', empty), absolute paths, and drive-anchored paths are rejected with PATCH_BLOCKED_PATH_ESCAPE.",
+    "A patch whose target is a symlink (or whose target resolves outside the temp workspace) is rejected with PATCH_BLOCKED_SYMLINK_ESCAPE.",
+    "Patches whose new_content contains a NUL byte are rejected with PATCH_BLOCKED_BINARY_CONTENT.",
+    "The injected verifier callable receives only the temp workspace path; it cannot reach the original.",
+    "Verifier failure with rollback_on_failure=True deletes the temp tree and sets status=PATCH_ROLLED_BACK.",
+    "training_eligible is False on every SafePatchResult.",
+    "scripts/repair/safe_patch_workspace.py and scripts/repair/safe_patch_record.py contain no `import subprocess`, no `import urllib`, no `import socket`, no `import http`.",
+    "Audit path-rule for safe_patch_* is LEGACY_EXEMPT_READ_ONLY (overrides the generic scripts/repair/ MUST_MIGRATE classification).",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "existing_lock_removed": false,
+    "real_verifier_wired": false,
+    "evidence_validation_bypassed": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/repair/safe_patch_workspace.py",
+      "scripts/repair/safe_patch_record.py"
+    ],
+    "tests": [
+      "tests/repair/test_safe_patch_diff_rollback_lock.py"
+    ],
+    "lock": "locks/sentinel/SAFE_PATCH_DIFF_ROLLBACK_LOCK_001.json",
+    "evidence": "assurance/evidence/safe_patch_diff_rollback/run_20260527.json",
+    "docs": "docs/SAFE_PATCH_DIFF_ROLLBACK.md"
+  },
+  "files_modified": [
+    "scripts/dev/parallel_execution_layer_audit.py (added LEGACY_EXEMPT_READ_ONLY rule for scripts/repair/safe_patch_*; placed before the generic repair-pipeline rule)"
+  ],
+  "evidence": {
+    "run_artifact": "assurance/evidence/safe_patch_diff_rollback/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "No real toolchain verifier is wired in this rung. VERIFIED_REPAIR_TRACE_LOCK_001 composes a BuildAdapter-backed verifier through intake.hardened_runner.",
+    "The unified diff is computed by file replacement (not hunk-level patch application). Future rungs may add a hunk-level applier if needed.",
+    "Per-file (2 MB) and total (16 MB) byte caps are reasonable defaults; a future rung may surface them through determinex_settings."
+  ],
+  "next_recommended_lock": "VERIFIED_REPAIR_TRACE_LOCK_001",
+  "files": [
+    "scripts/repair/safe_patch_workspace.py",
+    "scripts/repair/safe_patch_record.py",
+    "scripts/dev/parallel_execution_layer_audit.py",
+    "tests/repair/test_safe_patch_diff_rollback_lock.py",
+    "locks/sentinel/SAFE_PATCH_DIFF_ROLLBACK_LOCK_001.json",
+    "assurance/evidence/safe_patch_diff_rollback/run_20260527.json",
+    "docs/SAFE_PATCH_DIFF_ROLLBACK.md"
+  ]
+}

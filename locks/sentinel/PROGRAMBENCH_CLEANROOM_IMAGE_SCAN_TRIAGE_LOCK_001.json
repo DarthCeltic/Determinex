@@ -1,0 +1,144 @@
+{
+  "lock_id": "PROGRAMBENCH_CLEANROOM_IMAGE_SCAN_TRIAGE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "d390e5c8810aedaaa6a46158295756bfca2eb98d",
+  "purpose": "Triage signed Trivy scan findings for the Doxygen cleanroom image into actionable remediation, alternate-source, or review categories before any policy exception or rerun.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_cleanroom_image_scan_triage_lock.py",
+    "passed": 15,
+    "failed": 0
+  },
+  "related_tests": {
+    "passed": 108,
+    "failed": 0,
+    "modules": [
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py",
+      "tests/corpus/programbench/test_programbench_approved_scanner_setup_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scanner_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_import_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py"
+    ]
+  },
+  "programbench_gate_stack": {
+    "passed": 163,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1358,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/cleanroom_image_scan_triage.py",
+    "scripts/corpus/programbench/cleanroom_image_scan_triage_record.py",
+    "tests/corpus/programbench/test_programbench_cleanroom_image_scan_triage_lock.py"
+  ],
+  "doxygen_live_scan_triage": {
+    "scan_record": "assurance/evidence/programbench_cleanroom_image_scans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json",
+    "hydration_record": "assurance/evidence/programbench_cleanroom_image_hydration/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json",
+    "triage_record": "assurance/evidence/programbench_cleanroom_image_scan_triage/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_TRIAGED.json",
+    "status": "CLEANROOM_IMAGE_SCAN_TRIAGED",
+    "recommendation": "REMEDIATE_IMAGE_REQUIRED",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "expected_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "observed_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "severity_counts": {
+      "critical": 38,
+      "high": 617,
+      "medium": 2729,
+      "low": 154,
+      "unknown": 0,
+      "total": 3538
+    },
+    "fixed_version_summary": {
+      "critical_with_fix": 38,
+      "critical_without_fix": 0,
+      "high_with_fix": 612,
+      "high_without_fix": 5,
+      "critical_high_with_fix": 650,
+      "critical_high_without_fix": 5,
+      "no_fixed_version_total": 2266
+    },
+    "category_summary": {
+      "all_findings": {
+        "language_runtime": 1197,
+        "os_base": 2341
+      },
+      "critical_high": {
+        "language_runtime": 646,
+        "os_base": 9
+      },
+      "dominant_category": "language_runtime"
+    },
+    "top_critical": [
+      {
+        "id": "CVE-2024-24790",
+        "package": "stdlib",
+        "installed_version": "v1.21.0",
+        "fixed_version": "1.21.11, 1.22.4",
+        "count": 19,
+        "category": "language_runtime"
+      },
+      {
+        "id": "CVE-2025-68121",
+        "package": "stdlib",
+        "installed_version": "v1.21.0",
+        "fixed_version": "1.24.13, 1.25.7, 1.26.0-rc.3",
+        "count": 19,
+        "category": "language_runtime"
+      }
+    ],
+    "policy_blocked": true,
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "statuses": [
+    "CLEANROOM_IMAGE_SCAN_TRIAGED",
+    "CLEANROOM_IMAGE_REMEDIATE_REQUIRED",
+    "CLEANROOM_IMAGE_ALTERNATE_SOURCE_REQUIRED",
+    "CLEANROOM_IMAGE_POLICY_EXCEPTION_REVIEW_REQUIRED",
+    "CLEANROOM_IMAGE_SCAN_DATA_INSUFFICIENT",
+    "CLEANROOM_IMAGE_CRITICALS_WITH_FIXES",
+    "CLEANROOM_IMAGE_CRITICALS_WITHOUT_FIXES",
+    "CLEANROOM_IMAGE_OS_VULNERABILITY_DOMINANT",
+    "CLEANROOM_IMAGE_APP_VULNERABILITY_DOMINANT",
+    "CLEANROOM_IMAGE_POLICY_STILL_BLOCKED",
+    "CLEANROOM_IMAGE_NOT_EXECUTABLE",
+    "CLEANROOM_IMAGE_TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "missing scan evidence blocks triage",
+    "missing hydration policy-block evidence blocks triage",
+    "wrong artifact digest blocks triage",
+    "empty findings with failed scan produces SCAN_DATA_INSUFFICIENT",
+    "critical/high findings are grouped deterministically",
+    "fixed-version availability is summarized",
+    "no-fixed-version findings are summarized",
+    "OS/base-image packages are classified separately from application packages where possible",
+    "triage recommends remediation when critical/high findings exceed policy",
+    "triage does not suppress vulnerabilities",
+    "triage does not mark scan passed",
+    "triage does not mark cache_ready",
+    "triage does not mark executable true",
+    "triage does not mark training_eligible true",
+    "signed triage record is produced"
+  ],
+  "policy": [
+    "Scan failure is not execution permission.",
+    "Policy exception is not the default next step.",
+    "Remediation must preserve benchmark reproducibility or explicitly mark it changed.",
+    "Alternate image selection requires provenance.",
+    "No Docker container execution.",
+    "No ProgramBench execution.",
+    "No Doxygen retry.",
+    "No cache_ready.",
+    "No training eligibility."
+  ],
+  "does_not_prove": "Does not remediate, select an alternate image, create a policy exception, hydrate, execute, or score ProgramBench.",
+  "previous_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_HYDRATION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_REMEDIATION_PLAN_LOCK_001"
+}

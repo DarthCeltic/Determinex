@@ -1,0 +1,43 @@
+{
+  "lock_id": "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Rung 6 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES. Live React LearningStudioPanel at frontend/src/components/ide-product-shell/LearningStudioPanel.tsx. Renders 9 required learning modes (explain_this_repo, explain_this_file, explain_this_error, explain_this_test_failure, teach_me_the_concept, compare_possible_fixes, walk_me_through_the_patch, show_beginner_vs_professional_version, generate_learning_checklist). Captions enforced: 'Learning explains. Learning does NOT approve, apply, or authorize source mutation', 'Learning cannot approve a patch', 'Learning cannot mark repair success', 'Learning cannot mutate source'. Route links: 'Open in Repo Clinic' (data-routes-to=repo_clinic) for fix suggestions; 'Open in Idea Lab' (data-routes-to=idea_lab) for new-project suggestions. Teaching-window explains blocked reasons by naming the gate. Tests forbid mutating Tauri verbs and forbidden phrases ('patch applied', 'now fixed', 'source mutation authorized', 'training row written').",
+  "purpose": "Rung 6 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001",
+    "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001"
+  ],
+  "tests": 16,
+  "test_modules": ["tests/ide/test_react_learning_studio_panel_lock.py"],
+  "status_tokens": [
+    "REACT_LEARNING_STUDIO_PANEL_PASSED",
+    "REACT_LEARNING_STUDIO_PANEL_BLOCKED_MUTATION_CONFUSION",
+    "REACT_LEARNING_STUDIO_PANEL_BLOCKED_FALSE_SUCCESS",
+    "REACT_LEARNING_STUDIO_PANEL_BLOCKED_MISSING_TEACHING_LEVELS"
+  ],
+  "panel_path": "frontend/src/components/ide-product-shell/LearningStudioPanel.tsx",
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "learning_mutates_source": false,
+    "learning_approves_patch": false,
+    "learning_marks_repair_success": false,
+    "no_followup_claim": false,
+    "all_languages_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_react_learning_studio_panel/run_20260528.json"
+  },
+  "remediates_finding": "live-react-learning-studio-panel",
+  "next_recommended_lock": "DETERMINEX_REACT_PROOF_OPERATOR_CENTER_PANEL_LOCK_001"
+}

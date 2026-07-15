@@ -1,0 +1,76 @@
+{
+  "artifact_paths": {
+    "certification_decision": "assurance/evidence/user_facing_proof_report_export_cell_certification/certification_decision_20260531.json",
+    "claim_boundary": "assurance/evidence/user_facing_proof_report_export_cell_certification/claim_boundary_20260531.json",
+    "evidence_packet": "assurance/evidence/user_facing_proof_report_export_cell_certification/evidence_packet_20260531.json",
+    "operator_approval": "assurance/evidence/user_facing_proof_report_export_cell_certification/operator_approval_20260531.json",
+    "proof_packet_markdown": "assurance/evidence/user_facing_proof_report_export_cell_certification/proof_packet_export_20260531.md",
+    "release_supported_delta": "assurance/evidence/user_facing_proof_report_export_cell_certification/release_supported_delta_20260531.json",
+    "report_sample": "assurance/evidence/user_facing_proof_report_export_cell_certification/report_sample_20260531.json"
+  },
+  "authority": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "launch_readiness_granted": false,
+    "production_readiness_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_readiness_granted": false,
+    "release_ready": false,
+    "release_supported": false,
+    "source_mutation_authorized": false,
+    "support_depth_promotion_granted": false,
+    "training_eligible": false,
+    "training_rows_written": false,
+    "universal_support_claimed": false
+  },
+  "claim_boundary": {
+    "authority": {
+      "approval_authority_granted": false,
+      "artifact_import_authorized": false,
+      "benchmark_execution_authorized": false,
+      "broad_claims_granted": false,
+      "launch_readiness_granted": false,
+      "production_readiness_granted": false,
+      "programbench_execution_authorized": false,
+      "proof_execution_authority_granted": false,
+      "real_user_source_mutation_authorized": false,
+      "release_deploy_workflow_created": false,
+      "release_readiness_granted": false,
+      "release_ready": false,
+      "release_supported": false,
+      "source_mutation_authorized": false,
+      "support_depth_promotion_granted": false,
+      "training_eligible": false,
+      "training_rows_written": false,
+      "universal_support_claimed": false
+    },
+    "boundaries": [
+      "Wave 006 records exact-cell proof only.",
+      "No launch, release, production, open availability, source mutation, proof execution, training, or universal support authority is granted.",
+      "Installer, driver, GUI, SBOM, and network actions require exact signed approval before execution.",
+      "Blocked lanes emit executable next packets instead of pretending success."
+    ]
+  },
+  "doc_path": "docs/DETERMINEX_USER_FACING_PROOF_REPORT_EXPORT_CELL_CERTIFICATION_001.md",
+  "lane": "I",
+  "lock_id": "DETERMINEX_USER_FACING_PROOF_REPORT_EXPORT_CELL_CERTIFICATION_LOCK_001",
+  "run_record": "assurance/evidence/user_facing_proof_report_export_cell_certification/run_20260531.USER_FACING_PROOF_REPORT_EXPORT_CELL_CERTIFICATION_PASSED.json",
+  "status": "USER_FACING_PROOF_REPORT_EXPORT_CELL_CERTIFICATION_PASSED",
+  "test_modules": [
+    "tests/status/test_user_facing_proof_report_export_cell_certification_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "no_broad_claims": true,
+      "no_training_rows": true
+    },
+    "passed": true
+  }
+}

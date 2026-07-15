@@ -1,0 +1,45 @@
+{
+  "lock_id": "MODEL_ADMISSION_NO_BYPASS_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates CLAUDE-AUTH-004. real_model_patch_plan_with_verifier_context.quarantine_with_verifier_context no longer synthesizes a RealLocalModelAdmissionRecord from healthcheck-passed; it now REQUIRES the caller to supply a real admission record from REAL_LOCAL_MODEL_ADMISSION_LOCK_001.admit() (which itself checks stale, unpinned, task class, detection, opt-in). Additionally, the admission's model_id/provider must match the healthcheck's model_id/provider, so admissions cannot be reused across disjoint sessions.",
+  "purpose": "Rung 4 of the Claude authority leak remediation campaign.",
+  "depends_on_locks": [
+    "REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_LOCK_001",
+    "REAL_LOCAL_MODEL_ADMISSION_LOCK_001",
+    "REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001"
+  ],
+  "tests": 17,
+  "passed_on_this_host": 17,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_real_model_patch_plan_with_verifier_context_lock.py"
+  ],
+  "status_tokens": [
+    "MODEL_ADMISSION_CHAIN_VALIDATED",
+    "MODEL_ADMISSION_BLOCKED_MISSING_RECORD",
+    "MODEL_ADMISSION_BLOCKED_STALE",
+    "MODEL_ADMISSION_BLOCKED_UNPINNED",
+    "MODEL_ADMISSION_BLOCKED_TASK_CLASS",
+    "MODEL_ADMISSION_BLOCKED_HEALTHCHECK_MISSING",
+    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_MODEL_ADMISSION_REQUIRED"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "training_row_written": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "admission_synthesized": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/model_admission_no_bypass/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-004",
+  "next_recommended_lock": "TAURI_COMMAND_VERB_ALIGNMENT_LOCK_001"
+}

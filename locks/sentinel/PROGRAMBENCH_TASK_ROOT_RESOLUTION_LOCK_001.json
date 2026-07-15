@@ -1,0 +1,63 @@
+{
+  "lock_id": "PROGRAMBENCH_TASK_ROOT_RESOLUTION_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Map legacy candidate/tool/cluster metadata to concrete ProgramBench task roots, source roots, or benchmark fixture roots before hydration and replay execution.",
+  "focused_tests": {
+    "module": "tests/corpus/test_programbench_task_root_resolution_lock.py",
+    "passed": 9,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/programbench_task_root_resolver.py",
+    "scripts/corpus/legacy_recovery/programbench_source_index.py",
+    "scripts/corpus/legacy_recovery/programbench_tool_alias_index.py",
+    "scripts/corpus/legacy_recovery/replay_hydration.py",
+    "tests/corpus/test_programbench_task_root_resolution_lock.py"
+  ],
+  "batch_001_resolution_report": {
+    "path": "assurance/evidence/programbench_task_root_resolution_batch_001.json",
+    "source_batch": "assurance/evidence/legacy_replay_promotion_batch_001.json",
+    "candidates": 10,
+    "resolved": 0,
+    "ambiguous": 10,
+    "missing": 0,
+    "MULTIPLE_MATCHES": 10
+  },
+  "resolution_statuses": [
+    "TASK_ROOT_RESOLVED",
+    "SOURCE_ROOT_RESOLVED",
+    "TASK_AND_SOURCE_RESOLVED",
+    "AMBIGUOUS_TOOL_MATCH",
+    "NO_MATCH",
+    "MULTIPLE_MATCHES",
+    "ALIAS_ONLY_MATCH",
+    "BINARY_ONLY_MATCH",
+    "METADATA_ONLY_MATCH"
+  ],
+  "acceptance": [
+    "exact name resolves to task and source roots",
+    "alias table matches are marked alias-only",
+    "multiple exact matches are not treated as resolved",
+    "binary-only matches do not become hydrated-ready roots",
+    "missing tools produce NO_MATCH",
+    "resolved paths must exist",
+    "resolved paths must stay inside allowed ProgramBench roots",
+    "symlink escape candidates are excluded by the source index",
+    "resolution artifact is written",
+    "hydration consumes only TASK_AND_SOURCE_RESOLVED entries"
+  ],
+  "policy": [
+    "Resolution is identity evidence only.",
+    "Alias-only and binary-only matches require confirmation before hydration.",
+    "Fuzzy or multiple matches cannot become HYDRATED_READY.",
+    "Hydration may consume only confirmed task/source root resolutions."
+  ],
+  "does_not_prove": "Does not prove Batch 001 can replay yet; current result shows all 10 candidates are blocked by multiple local matches that require root disambiguation.",
+  "previous_lock": "PROGRAMBENCH_REPLAY_HYDRATION_LOCK_001",
+  "next_lock": "PROGRAMBENCH_ROOT_DISAMBIGUATION_LOCK_001"
+}

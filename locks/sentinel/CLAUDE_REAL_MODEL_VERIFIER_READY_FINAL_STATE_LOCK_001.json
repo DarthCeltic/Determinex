@@ -1,0 +1,71 @@
+{
+  "lock_id": "CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Final-state assembly for the Claude real-model + build-adapter-verifier campaign. Consolidates 8 upstream rungs. The path moves from 'model detected/blocked timeout' to 'real local model + real build-adapter verifier are READY or honestly blocked' without widening unsafe mutation authority. Source mutation requires real human approval + temp verifier + rollback snapshot + build-adapter post-apply verifier + rollback-on-fail. Training eligibility BLOCKED. SUBORDINATE to Codex's proof-control audit repair: this lock does NOT claim full-suite clean.",
+  "purpose": "Campaign finale for REAL_LOCAL_MODEL_AVAILABLE_AND_BUILD_ADAPTER_VERIFIER_LOCK_SERIES.",
+  "depends_on_locks": [
+    "CANONICAL_LOCAL_MODEL_ID_SELECTION_LOCK_001",
+    "OLLAMA_MODEL_PULL_OPERATOR_GUIDE_LOCK_001",
+    "REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001",
+    "BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001",
+    "REAL_MODEL_DIAGNOSE_WITH_BUILD_VERIFIER_LOCK_001",
+    "REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_LOCK_001",
+    "REAL_BUILD_ADAPTER_TEMP_VERIFY_TRACE_LOCK_001",
+    "REAL_APPROVAL_APPLY_POST_VERIFY_TRACE_LOCK_001"
+  ],
+  "tests": 16,
+  "passed_on_this_host": 16,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/dev/test_claude_real_model_verifier_ready_final_state_lock.py"
+  ],
+  "status_tokens": [
+    "CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_WRITTEN",
+    "CANONICAL_MODEL_ID_READY",
+    "MODEL_AVAILABLE_OR_BLOCKED_WITH_REASON",
+    "MODEL_HEALTHCHECK_READY",
+    "BUILD_ADAPTER_VERIFIER_READY",
+    "REAL_MODEL_DIAGNOSE_READY_ADVISORY_ONLY",
+    "REAL_PATCH_PLAN_QUARANTINE_READY",
+    "TEMP_VERIFY_TRACE_READY_HUMAN_APPROVAL_REQUIRED",
+    "REAL_APPROVAL_APPLY_READY_GATED",
+    "POST_APPLY_VERIFIER_READY",
+    "SOURCE_MUTATION_GATED_BY_REAL_APPROVAL",
+    "TRAINING_ELIGIBILITY_BLOCKED_BY_DEFAULT",
+    "SUBORDINATE_TO_CODEX_AUDIT_REPAIR",
+    "NEXT_UNBLOCKER_DECLARED"
+  ],
+  "final_dimensions": {
+    "canonical_model_id": "READY",
+    "model_available": "READY_OR_BLOCKED_WITH_REASON",
+    "model_healthcheck": "READY_OR_BLOCKED_WITH_REASON",
+    "build_adapter_verifier": "READY",
+    "real_model_diagnose": "READY_ADVISORY_ONLY",
+    "real_patch_plan_quarantine": "READY",
+    "temp_verify_trace": "READY_HUMAN_APPROVAL_REQUIRED",
+    "real_approval_apply": "READY_GATED",
+    "post_apply_verifier": "READY",
+    "source_mutation": "GATED_BY_REAL_APPROVAL",
+    "training_eligibility": "BLOCKED_BY_DEFAULT",
+    "next_unblocker": "CODEX_AUDIT_REPAIR_THEN_PROGRAMBENCH_REGRESSION_PARITY"
+  },
+  "scope_discipline": {
+    "training_eligibility_opened": false,
+    "training_row_written": false,
+    "network_provider_admitted": false,
+    "docker_used": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "model_pulled_by_this_lock": false
+  },
+  "subordinate_to": {
+    "campaign": "Codex proof-control audit repair",
+    "note": "Full-suite clean is NOT claimed by this finale. Three pre-existing audit failures remain from the unrelated PB lane proof-control commit (22d0087c6)."
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_real_model_verifier_ready_final_state/run_20260528.json"
+  },
+  "next_recommended_lock": "CODEX_AUDIT_REPAIR_THEN_PROGRAMBENCH_REGRESSION_PARITY"
+}

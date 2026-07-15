@@ -1,0 +1,63 @@
+{
+  "lock_id": "CORPUS_MIGRATION_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "tests": 20,
+  "passed": 20,
+  "failed": 0,
+  "full_suite": {
+    "tests": 862,
+    "passed": 862,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/corpus/test_schema_registry.py"
+  ],
+  "test_classes": [
+    "SchemaRegistryValidationTests",
+    "SchemaRegistryMigrationTests",
+    "SchemaRegistrySingletonTests"
+  ],
+  "coverage": [
+    "current_version_is_accepted",
+    "none_version_is_rejected",
+    "empty_string_version_is_rejected",
+    "unknown_version_is_rejected",
+    "future_version_string_is_rejected",
+    "arbitrary_string_is_rejected",
+    "is_current_true_for_current_version",
+    "is_current_false_for_unknown",
+    "is_current_false_for_empty",
+    "migrate_current_version_returns_equivalent_dict",
+    "migrate_does_not_mutate_original",
+    "migrate_unknown_version_raises",
+    "migrate_missing_version_raises",
+    "require_migration_false_for_current_version",
+    "require_migration_false_for_missing_version",
+    "require_migration_false_for_unknown_version",
+    "version_history_is_a_list",
+    "current_version_in_history",
+    "version_history_is_ordered_oldest_first",
+    "get_registry_returns_same_instance",
+    "get_registry_has_correct_current_version"
+  ],
+  "schema_spec": {
+    "current_version": "determinex-agent-trace-v1",
+    "class": "SchemaRegistry",
+    "module": "scripts/corpus/schema_registry.py",
+    "exception_class": "SchemaVersionError",
+    "fail_closed": true,
+    "unknown_version_behaviour": "raise SchemaVersionError (not silent accept)",
+    "migration_pattern": "append-only version history, one function per version hop",
+    "migrate_returns_new_dict": true,
+    "original_not_mutated": true
+  },
+  "migration_status": {
+    "v1_to_v2": "not_yet_defined — migration skeleton in _MIGRATIONS dict",
+    "note": "Add migration function and uncomment version in _VERSION_HISTORY when v2 ships"
+  },
+  "implementations": [
+    "scripts/corpus/schema_registry.py",
+    "tests/corpus/test_schema_registry.py"
+  ]
+}

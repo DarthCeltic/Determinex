@@ -1,0 +1,40 @@
+{
+  "lock_id": "LOCAL_LEGACY_CORPUS_QUARANTINE_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Prevent unsigned/malformed local ProgramBench legacy rows from being confused with the active signed T: corpus or future training-eligible data.",
+  "audit": {
+    "path": "corpus/programbench/training_corpus",
+    "rows_scanned": 1403315,
+    "unsigned_rows": 1403315,
+    "missing_required_field_rows": 1403315,
+    "parse_errors": 39194,
+    "record_status": "quarantined",
+    "training_eligible": false
+  },
+  "active_replacement": {
+    "path": "T:/determinex_corpus",
+    "rows_after_7zip_v5_backfill": 13478,
+    "record_status": "active_eval_evidence",
+    "unsigned_rows": 0,
+    "invalid_signatures": 0,
+    "missing_required_fields": 0
+  },
+  "full_suite": {
+    "passed": 772,
+    "failed": 0
+  },
+  "implementation": [
+    "corpus/programbench/training_corpus/TRAINING_EXCLUSION.json",
+    "scripts/corpus/corpus_schema_maturity.py",
+    "scripts/corpus/corpus_coverage_report.py"
+  ],
+  "policy": [
+    "Local legacy ProgramBench JSONL is excluded from training by default.",
+    "T:/determinex_corpus is the canonical signed corpus root.",
+    "Future benchmark rows must be written through the schema-complete signed writer.",
+    "Legacy rows require parse repair, schema backfill, provenance recovery, verifier labeling, dedupe, and durable re-signing before promotion."
+  ],
+  "does_not_prove": "Does not repair every old local legacy row; it prevents dirty legacy rows from being mislabeled as training fuel.",
+  "previous_lock": "AIDER_POLYGLOT_TRACE_HARNESS_LOCK_001",
+  "next_lock": "AIDER_POLYGLOT_SAMPLE_RUN_LOCK_001"
+}

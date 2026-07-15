@@ -1,0 +1,54 @@
+{
+  "lock_id": "CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Canonical Proof Before Mutation demo script. Backend-declared 11-step happy path (open fixture, detect issue, local model diagnose, quarantine, temp verifier, user approval required, patch body hash bound, source mutation applies only after approval, post-apply verifier, signed evidence, training remains blocked) + 3-step blocked path (missing approval, changed patch body, missing verifier). build_record() refuses any script that (1) requires network/Docker/ProgramBench; (2) writes training rows; (3) references real user repos instead of fixture; (4) has non-contiguous step numbers or unmarked blocked-path steps; (5) is missing the marketing phrase 'Proof Before Mutation'. Demo fixture path is under tests/fixtures/.",
+  "purpose": "Rung 8 of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES.",
+  "depends_on_locks": [
+    "REAL_APPROVAL_DIFF_BODY_CONTENT_BINDING_LOCK_001",
+    "APPLY_GATE_FIXTURE_REFUSAL_LOCK_001",
+    "POST_APPLY_VERIFIER_NO_DEFAULT_PASS_LOCK_001",
+    "APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001",
+    "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+    "CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001"
+  ],
+  "tests": 22,
+  "test_modules": [
+    "tests/repair/test_proof_before_mutation_demo_script_lock.py"
+  ],
+  "status_tokens": [
+    "PROOF_BEFORE_MUTATION_DEMO_SCRIPT_WRITTEN",
+    "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_PATH_INCLUDED",
+    "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_NETWORK_REQUIRED",
+    "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_AUTHORITY_AMBIGUITY",
+    "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_MISSING_BLOCKED_PATH",
+    "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_MISSING_PHRASE"
+  ],
+  "demo_constraints": {
+    "fixture_repo_only": true,
+    "no_network_models": true,
+    "no_docker": true,
+    "no_programbench": true,
+    "no_training_rows": true,
+    "marketing_phrase_required": "Proof Before Mutation"
+  },
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "real_user_repo_referenced": false,
+    "training_writes_in_demo": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_proof_before_mutation_demo_script/run_20260528.json"
+  },
+  "remediates_finding": "external-review-demo-readiness",
+  "next_recommended_lock": "CLAUDE_IDE_HYGIENE_FINAL_STATE_LOCK_001"
+}

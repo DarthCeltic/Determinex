@@ -1,0 +1,110 @@
+{
+  "lock_id": "PROGRAMBENCH_CLEANROOM_IMAGE_SCAN_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "da82a95a826faac81efdb7b4fd681e7a0fd7ac8c",
+  "purpose": "Produce signed scan evidence for quarantined ProgramBench cleanroom image artifacts, or fail closed with signed scanner-unavailable evidence when no approved scanner exists.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+    "passed": 14,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+      "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py",
+      "tests/corpus/programbench/test_programbench_dockerhub_manifest_provenance_lock.py",
+      "tests/corpus/programbench/test_programbench_operator_artifact_admission_lock.py",
+      "tests/corpus/programbench/test_programbench_artifact_source_escalation_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_import_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py",
+      "tests/corpus/programbench/test_programbench_cleanroom_image_hydration_lock.py"
+    ],
+    "passed": 117,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1236,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/cleanroom_image_scan.py",
+    "scripts/corpus/programbench/cleanroom_image_scan_record.py",
+    "tests/corpus/programbench/test_programbench_cleanroom_image_scan_lock.py"
+  ],
+  "doxygen_live_scan": {
+    "import_record": "assurance/evidence/programbench_cleanroom_image_import/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_IMPORT_SCAN_UNAVAILABLE.json",
+    "scan_record": "assurance/evidence/programbench_cleanroom_image_scans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json",
+    "image_reference": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "artifact_path": "T:/determinex_artifacts/quarantine/programbench/sha256_cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72.tar",
+    "expected_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "observed_digest": "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72",
+    "file_sha256": "sha256:7eba6daa485e518cea068e847ead2236a633d6f50c1606896dd0eb4cfe12534b",
+    "file_size": 703348224,
+    "status": "CLEANROOM_IMAGE_SCAN_FAILED",
+    "scanner": "trivy",
+    "scanner_version": "Version: 0.70.0",
+    "findings_summary": {
+      "critical": 38,
+      "high": 617,
+      "medium": 2729,
+      "low": 154,
+      "unknown": 0,
+      "total": 3538
+    },
+    "reason": "critical_or_high_findings_present",
+    "cache_ready": false,
+    "executable": false,
+    "training_eligible": false
+  },
+  "approved_scanners": [
+    "trivy",
+    "grype",
+    "docker scout when usable without executing the image"
+  ],
+  "statuses": [
+    "CLEANROOM_IMAGE_SCAN_READY",
+    "CLEANROOM_IMAGE_SCAN_UNAVAILABLE",
+    "CLEANROOM_IMAGE_SCAN_STARTED",
+    "CLEANROOM_IMAGE_SCAN_PASSED",
+    "CLEANROOM_IMAGE_SCAN_FAILED",
+    "CLEANROOM_IMAGE_SCAN_ERROR",
+    "CLEANROOM_IMAGE_SCAN_TIMEOUT",
+    "CLEANROOM_IMAGE_SCAN_BLOCKED_DIGEST_MISMATCH",
+    "CLEANROOM_IMAGE_SCAN_BLOCKED_MISSING_ARTIFACT",
+    "CLEANROOM_IMAGE_SCAN_BLOCKED_NO_IMPORT_RECORD",
+    "CLEANROOM_IMAGE_SCAN_RECORD_SIGNED",
+    "CLEANROOM_IMAGE_NOT_EXECUTABLE",
+    "CLEANROOM_IMAGE_TRAINING_INELIGIBLE"
+  ],
+  "acceptance": [
+    "missing import record blocks scan",
+    "missing artifact path blocks scan",
+    "digest mismatch blocks scan",
+    "no scanner available produces CLEANROOM_IMAGE_SCAN_UNAVAILABLE",
+    "scanner unavailable keeps cache_ready false",
+    "mock trivy scan pass produces signed scan evidence",
+    "mock grype scan pass produces signed scan evidence",
+    "scanner failure produces scan error",
+    "scanner timeout fails closed",
+    "scan findings normalize deterministically",
+    "scan record includes artifact digest and scanner version",
+    "scan record marks executable false",
+    "scan record marks training_eligible false",
+    "high findings fail scan"
+  ],
+  "policy": [
+    "Scan evidence is required before hydration policy admission.",
+    "Scanner unavailable fails closed.",
+    "No scanner means no cache_ready.",
+    "No Docker container execution.",
+    "No ProgramBench execution.",
+    "No Doxygen retry.",
+    "No training promotion."
+  ],
+  "does_not_prove": "Does not hydrate, execute, or score ProgramBench. The real Doxygen artifact remains policy-blocked because Trivy found critical/high vulnerabilities.",
+  "previous_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_IMPORT_LOCK_001",
+  "next_lock": "PROGRAMBENCH_CLEANROOM_IMAGE_HYDRATION_LOCK_001 policy block"
+}

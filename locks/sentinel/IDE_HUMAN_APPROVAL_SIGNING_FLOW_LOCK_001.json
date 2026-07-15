@@ -1,0 +1,30 @@
+{
+  "lock_id": "IDE_HUMAN_APPROVAL_SIGNING_FLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "IDE human approval signing flow. Accepts approve/reject action on a packet, validates stale/diff/verifier. Empty operator blocked. Accepted today is FIXTURE_ONLY. source_mutation_authorized=False on every decision.",
+  "purpose": "Rung 6 of the IDE frontend/approval campaign.",
+  "depends_on_locks": ["HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001"],
+  "tests": 12,
+  "passed_on_this_host": 12,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_human_approval_signing_flow_lock.py"],
+  "status_tokens": [
+    "IDE_APPROVAL_PACKET_READY",
+    "IDE_APPROVAL_REQUIRED",
+    "IDE_APPROVAL_REJECTED",
+    "IDE_APPROVAL_BLOCKED_STALE_PACKET",
+    "IDE_APPROVAL_BLOCKED_DIFF_MISMATCH",
+    "IDE_APPROVAL_BLOCKED_VERIFIER_NOT_PASSED",
+    "IDE_APPROVAL_FIXTURE_ONLY",
+    "IDE_APPROVAL_BLOCKED_OPERATOR_EMPTY"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "human_approval_bypassed": false,
+    "training_eligibility_opened": false,
+    "live_operator_admitted": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_human_approval_signing_flow/run_20260528.json"},
+  "next_recommended_lock": "IDE_SOURCE_APPLY_GATE_FLOW_LOCK_001"
+}

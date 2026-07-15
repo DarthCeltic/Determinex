@@ -1,0 +1,22 @@
+{
+  "lock_id": "DETERMINEX_EVIDENCE_COUNT_DRIFT_GUARD_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Prevent evidence count drift and validation ambiguity by reconciling the evidence index with the append-only ledger snapshot.",
+  "depends_on_locks": [
+    "DETERMINEX_APPEND_ONLY_EVIDENCE_LEDGER_LOCK_001"
+  ],
+  "status": "EVIDENCE_COUNT_DRIFT_GUARD_PASSED",
+  "record": "assurance/evidence/evidence_count_drift_guard/run_20260528.EVIDENCE_COUNT_DRIFT_GUARD_PASSED.json",
+  "test_modules": [
+    "tests/proof/test_determinex_evidence_count_drift_guard_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/proof/test_determinex_evidence_count_drift_guard_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "count_drift_guard": "passed",
+  "dirty_state_recorded": true,
+  "does_not_prove": "Does not require a clean workspace; it requires dirty state to be visible in evidence health records."
+}

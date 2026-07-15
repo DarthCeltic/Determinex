@@ -1,0 +1,73 @@
+{
+  "lock_id": "LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Allows an admitted live/local model to produce a patch *plan* only. The plan is validated, quarantined, and stored as evidence — never trusted. No patch is applied at this rung (not even to a temp workspace). Validated entry shape: {operation: 'replace_file', path: <relative>, new_content: <utf-8 text>}. Only replace_file is supported. Path traversal, NUL-byte content, and oversized entries are rejected with specific status tokens.",
+  "purpose": "Rung 4 of the live-local-model campaign. Extends the live-model surface to patch plans while keeping the actual application gated. Sets up LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001 to consume quarantined plans and apply them to temp workspaces only.",
+  "depends_on_locks": [
+    "MODEL_ROUTER_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001",
+    "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+    "LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001",
+    "LIVE_MODEL_DIAGNOSE_ONLY_TRACE_LOCK_001"
+  ],
+  "tests": 19,
+  "passed_on_this_host": 19,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/repair/test_live_model_patch_plan_quarantine_lock.py"],
+  "status_tokens": [
+    "PATCH_PLAN_QUARANTINED",
+    "PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
+    "PATCH_PLAN_BLOCKED_PATH_ESCAPE",
+    "PATCH_PLAN_BLOCKED_UNSUPPORTED_OPERATION",
+    "PATCH_PLAN_BLOCKED_MODEL_NOT_ADMITTED",
+    "PATCH_PLAN_BLOCKED_BINARY_CONTENT",
+    "PATCH_PLAN_BLOCKED_OVERSIZED"
+  ],
+  "supported_operations": ["replace_file"],
+  "size_caps": {"per_entry_bytes": 2000000, "total_bytes": 16000000},
+  "invariants": [
+    "Every QuarantinedPatchPlan carries trusted=False, applied_to_source=False, applied_to_temp_workspace=False.",
+    "source_mutation_authorized, corpus_write_authorized, training_eligible are False on every plan.",
+    "Unadmitted model blocks with PATCH_PLAN_BLOCKED_MODEL_NOT_ADMITTED.",
+    "Unsupported operation (anything other than replace_file) blocks with PATCH_PLAN_BLOCKED_UNSUPPORTED_OPERATION.",
+    "Path traversal blocks with PATCH_PLAN_BLOCKED_PATH_ESCAPE.",
+    "NUL-byte content blocks with PATCH_PLAN_BLOCKED_BINARY_CONTENT.",
+    "Per-entry > 2 MB or cumulative > 16 MB blocks with PATCH_PLAN_BLOCKED_OVERSIZED.",
+    "Empty plan or non-dict entries block with PATCH_PLAN_BLOCKED_SCHEMA_INVALID.",
+    "Workspace sha256 tree before==after for every run.",
+    "scripts/repair/live_patch_plan_*.py contains no `import subprocess`, no `import urllib`, no `import socket`."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "plan_trusted": false,
+    "plan_applied": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/repair/live_patch_plan_quarantine.py",
+      "scripts/repair/live_patch_plan_record.py"
+    ],
+    "tests": ["tests/repair/test_live_model_patch_plan_quarantine_lock.py"],
+    "lock": "locks/sentinel/LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001.json",
+    "evidence": "assurance/evidence/live_model_patch_plan_quarantine/run_20260527.json",
+    "docs": "docs/LIVE_MODEL_PATCH_PLAN_QUARANTINE.md"
+  },
+  "evidence": {"run_artifact": "assurance/evidence/live_model_patch_plan_quarantine/run_20260527.json"},
+  "next_recommended_lock": "LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001",
+  "files": [
+    "scripts/repair/live_patch_plan_quarantine.py",
+    "scripts/repair/live_patch_plan_record.py",
+    "tests/repair/test_live_model_patch_plan_quarantine_lock.py",
+    "locks/sentinel/LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001.json",
+    "assurance/evidence/live_model_patch_plan_quarantine/run_20260527.json",
+    "docs/LIVE_MODEL_PATCH_PLAN_QUARANTINE.md"
+  ]
+}

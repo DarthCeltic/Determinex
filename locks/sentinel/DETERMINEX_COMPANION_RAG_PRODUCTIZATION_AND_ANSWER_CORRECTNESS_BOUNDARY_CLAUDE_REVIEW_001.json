@@ -1,0 +1,50 @@
+{
+  "audit_pass": true,
+  "claim_boundary": [
+    "5 fixtures (4 known-good + 1 known-bad) cannot generalize.",
+    "Citation provenance != answer correctness.",
+    "Non-GUI RAG cell, if certified, classifies internal_observability_only.",
+    "Desktop GUI e2e remains FALSE after any RAG cell cert.",
+    "RAG triples MUST NOT enter training corpus while training_eligible = false.",
+    "RAG export MUST NOT be cited in open-availability messaging.",
+    "Minimum 50 fixtures for public mention; 200 for user-visible cert; 500 for beta.",
+    "Operator approval generalization MUST land before non-GUI RAG cell approval.",
+    "No Codex source truth mutated by this Claude lane."
+  ],
+  "commit": "unrecorded",
+  "creates_source_truth": false,
+  "date": "2026-05-31",
+  "doc": "docs/DETERMINEX_COMPANION_RAG_PRODUCTIZATION_AND_ANSWER_CORRECTNESS_BOUNDARY_CLAUDE_REVIEW_001.md",
+  "first_recommended_codex_lock": "DETERMINEX_OPERATOR_APPROVAL_SIGNATURE_LEDGER_GENERALIZATION_LOCK_001",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "claude_r",
+  "gulp_wave_id": "004",
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "lock_id": "DETERMINEX_COMPANION_RAG_PRODUCTIZATION_AND_ANSWER_CORRECTNESS_BOUNDARY_CLAUDE_REVIEW_001",
+  "purpose": "Gulp Wave 004 Claude Lane R. Companion RAG productization + answer correctness boundary. Reviews 5-layer product surface; fixture expansion thresholds (50/200/500); non-GUI cell classification = internal_observability_only; training boundary; sanitization.",
+  "rag_fixture_count_current": 5,
+  "rag_fixture_count_minimum_for_beta": 500,
+  "rag_fixture_count_minimum_for_public_mention": 50,
+  "rag_fixture_count_minimum_for_user_visible_cell": 200,
+  "record": "assurance/evidence/companion_rag_productization_and_answer_correctness_boundary_claude_review/run_20260531.COMPANION_RAG_PRODUCTIZATION_AND_ANSWER_CORRECTNESS_BOUNDARY_CLAUDE_REVIEW_PASSED.json",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "status": "COMPANION_RAG_PRODUCTIZATION_AND_ANSWER_CORRECTNESS_BOUNDARY_CLAUDE_REVIEW_PASSED",
+  "test_modules": [
+    "tests/status/test_companion_rag_productization_and_answer_correctness_boundary_claude_review_001.py"
+  ]
+}

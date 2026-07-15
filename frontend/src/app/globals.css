@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #010409;
+  --foreground: #e6edf3;
+  --determinex-bg: #020604;
+  --determinex-panel: #07100b;
+  --determinex-panel-strong: #0a1710;
+  --determinex-panel-glass: rgba(7, 16, 11, 0.88);
+  --determinex-border: rgba(42, 255, 129, 0.2);
+  --determinex-accent: #35ff8a;
+  --determinex-accent-2: #00e5ff;
+  --determinex-accent-3: #9cffcb;
+  --determinex-text: #e9fff3;
+  --determinex-muted: #6b8978;
+  --determinex-danger: #ff3f5f;
+  --determinex-accent-glow: rgba(53, 255, 138, 0.48);
+  --determinex-font-sans: var(
+    --font-inter,
+    "Inter",
+    "Segoe UI",
+    "Helvetica Neue",
+    system-ui,
+    -apple-system,
+    sans-serif
+  );
+  --determinex-font-mono: var(
+    --font-jetbrains-mono,
+    "JetBrains Mono",
+    "SFMono-Regular",
+    "Cascadia Code",
+    "Fira Code",
+    ui-monospace,
+    monospace
+  );
+  --determinex-font-display: var(--font-outfit, "Outfit", var(--determinex-font-sans));
+  --determinex-radius: 12px;
+  --determinex-shell-shadow: 0 0 38px rgba(53, 255, 138, 0.18), 0 18px 80px rgba(0, 0, 0, 0.72);
+  --determinex-rain-bg:
+    linear-gradient(180deg, transparent 0, rgba(53, 255, 138, 0.08) 50%, transparent 100%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(53, 255, 138, 0.045) 0,
+      rgba(53, 255, 138, 0.045) 1px,
+      transparent 1px,
+      transparent 18px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.028) 0,
+      rgba(255, 255, 255, 0.028) 1px,
+      transparent 1px,
+      transparent 86px
+    );
+  --determinex-rain-opacity: 0.52;
+  --determinex-rain-blend: screen;
+  --determinex-logo-filter: saturate(1.2) hue-rotate(40deg) contrast(1.05);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--determinex-font-sans);
+  --font-mono: var(--determinex-font-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--determinex-font-sans);
+}
+
+/* Utility: Hide scrollbars cross-browser */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+@keyframes ghost-scroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes determinex-hub-orbit {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.08);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes determinex-hub-pulse {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.78;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@keyframes determinex-hub-drift {
+  0%,
+  100% {
+    transform: translateX(-4%) rotate(-12deg);
+  }
+  50% {
+    transform: translateX(8%) rotate(-8deg);
+  }
+}
+
+.matrix-rain {
+  background: var(--determinex-rain-bg);
+  opacity: var(--determinex-rain-opacity);
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  mix-blend-mode: var(--determinex-rain-blend);
+}

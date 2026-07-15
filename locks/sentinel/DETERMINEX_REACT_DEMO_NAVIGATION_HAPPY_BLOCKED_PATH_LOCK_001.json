@@ -1,0 +1,50 @@
+{
+  "lock_id": "DETERMINEX_REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_LOCK_001",
+  "date": "2026-05-29",
+  "commit": "clean-main",
+  "description": "Rung 3 of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES. Cross-panel coverage of the live shell. Asserts that the happy path (Idea Lab verified Python CLI demo when evidence is available; AWAITING_EVIDENCE otherwise) AND the blocked path (broad-claim refusal, pre-smoke working-claim refusal, missing-verifier refusal) are BOTH visible in the React shell. Asserts: Idea Lab verified-demo-status component renders both happy (verified ONLY for fixture demo path) and awaiting (Awaiting Codex reconciliation banner) modes; the splash demo panel marks 5 steps with happy/blocked/teaching/proof markers and enumerates the four broad-claim caveats; the Idea Lab workflow panel surfaces VERIFIED_WORKING_LOCAL_APP for the happy path and WORKING_DISABLED_NO_VERIFIER_EVIDENCE for the blocked path; the Repo Clinic panel surfaces VERIFIER_MISSING; the Maintenance Bay panel surfaces UPDATED_LABEL_DISABLED_NO_VERIFIER; the Learning Studio teaching-window-blocked-reason testid explains why blocked paths are blocked and carries the cannot-approve / cannot-mark-success / cannot-mutate captions; the Proof / Operator Center surfaces evidence ledger, training-false badge (data-training-eligible='false'), operator-actions data-kind='request' (never grant), and blocked-actions list. Driver tests confirm the loader blocks broad-claim insertions ANYWHERE in evidence (not just inside known fields) and blocks pre-smoke verified-working-local-app claims.",
+  "purpose": "Rung 3 of DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_SERIES.",
+  "depends_on_locks": [
+    "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001",
+    "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001",
+    "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001",
+    "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001",
+    "DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001",
+    "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001",
+    "DETERMINEX_REACT_PROOF_OPERATOR_CENTER_PANEL_LOCK_001",
+    "DETERMINEX_REACT_SPLASH_DEMO_PANEL_LOCK_001"
+  ],
+  "tests": 20,
+  "test_modules": ["tests/ide/test_react_demo_navigation_happy_blocked_path_lock.py"],
+  "status_tokens": [
+    "REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_PASSED",
+    "REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_BLOCKED_MISSING_HAPPY_PATH",
+    "REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_BLOCKED_MISSING_BLOCKED_PATH",
+    "REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_BLOCKED_MISSING_PROOF_VIEW"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "happy_path_hidden": false,
+    "blocked_path_hidden": false,
+    "teaching_note_hidden": false,
+    "proof_view_hidden": false,
+    "broad_claims_granted": false,
+    "all_apps_claim": false,
+    "all_languages_claim": false,
+    "all_codebases_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_react_demo_navigation_happy_blocked_path/run_20260529.json"
+  },
+  "remediates_finding": "live-react-demo-navigation-happy-blocked-path",
+  "next_recommended_lock": "DETERMINEX_REACT_RELEASE_READINESS_BLOCKER_PANEL_LOCK_001"
+}

@@ -1,0 +1,80 @@
+{
+  "lock_id": "CLAUDE_IDE_HYGIENE_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Finale of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES. Asserts that all eight prior dimensions (ready_authorized_language, operator_identity_bounding, approval_replay_staleness, pre_apply_confirmation, config_root_allowlist, frontend_authority_visuals, public_claims_ledger, demo_script) are closed AND the campaign opens neither source_mutation_authorized nor training_eligible. release_ready stays False — public_release_scrub_required. demo_ready is True iff the rung-8 demo script lock is present. Forge and mobile console remain planned/research_track. Evaluator at scripts/repair/claude_ide_hygiene_final_state.evaluate is read-only on disk; never runs a runtime gate, never touches workspace, never calls network. Deferred findings (CLAUDE-AUTH-010, CLAUDE-AUTH-017) are announced.",
+  "purpose": "Rung 9 (finale) of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES.",
+  "depends_on_locks": [
+    "CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001",
+    "CLAUDE_OPERATOR_IDENTITY_BOUNDING_LOCK_001",
+    "CLAUDE_APPROVAL_REPLAY_AND_STALENESS_LOCK_001",
+    "CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001",
+    "CLAUDE_CONFIG_ROOT_ALLOWLIST_LOCK_001",
+    "CLAUDE_FRONTEND_AUTHORITY_VISUAL_AUDIT_LOCK_001",
+    "CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001",
+    "CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001"
+  ],
+  "tests": 13,
+  "test_modules": [
+    "tests/repair/test_claude_ide_hygiene_final_state_lock.py"
+  ],
+  "status_tokens": [
+    "CLAUDE_IDE_HYGIENE_FINAL_STATE_PASSED",
+    "CLAUDE_IDE_HYGIENE_FINAL_STATE_BLOCKED_MISSING_RUNG",
+    "CLAUDE_IDE_HYGIENE_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED",
+    "CLAUDE_IDE_HYGIENE_FINAL_STATE_BLOCKED_AGGREGATE_INVARIANT_VIOLATED"
+  ],
+  "remediation_dimensions": {
+    "ready_authorized_language": "CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001",
+    "operator_identity_bounding": "CLAUDE_OPERATOR_IDENTITY_BOUNDING_LOCK_001",
+    "approval_replay_staleness": "CLAUDE_APPROVAL_REPLAY_AND_STALENESS_LOCK_001",
+    "pre_apply_confirmation": "CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001",
+    "config_root_allowlist": "CLAUDE_CONFIG_ROOT_ALLOWLIST_LOCK_001",
+    "frontend_authority_visuals": "CLAUDE_FRONTEND_AUTHORITY_VISUAL_AUDIT_LOCK_001",
+    "public_claims_ledger": "CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001",
+    "demo_script": "CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001"
+  },
+  "deferred_findings": [
+    "CLAUDE-AUTH-010",
+    "CLAUDE-AUTH-017"
+  ],
+  "next_recommended_rung": "release_readiness_install_demo_scrub",
+  "campaign_terminal_state": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "release_ready": false,
+    "demo_ready": true,
+    "forge_status": "planned_research_track",
+    "mobile_console_status": "planned_research_track",
+    "rungs_completed": 9,
+    "dimensions_closed": 8
+  },
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "ready_treated_as_authorized": false,
+    "free_string_identity_accepted": false,
+    "replay_accepted": false,
+    "stale_packet_accepted": false,
+    "panel_can_open_training": false,
+    "dangerous_root_accepted": false,
+    "ambiguous_visual_state_accepted": false,
+    "training_implemented_claim_accepted": false,
+    "release_ready_claim_accepted": false,
+    "benchmark_claim_in_claude_lane_accepted": false,
+    "training_writes_in_demo": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_ide_hygiene_final_state/run_20260528.json"
+  },
+  "remediates_finding": "DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES_FINAL_STATE",
+  "next_recommended_lock": null
+}

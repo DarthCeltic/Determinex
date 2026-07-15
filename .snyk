@@ -1,0 +1,34 @@
+# Snyk Code ignore policy for Determinex
+# Generated: 2026-04-13
+#
+# These two SSRF findings are false positives:
+#   - The target URL is assembled from OLLAMA_CHAT_URL / OLLAMA_ALIVE_URL,
+#     which are module-level constants hardcoded to http://localhost:11434.
+#   - _validate_localhost_url() asserts the prefix before every call.
+#   - The --model CLI arg is regex-validated by _sanitize_model().
+#   - The prompt content is length-bounded before entering json.dumps.
+#   - No external server is ever contacted; this is a local-only training tool.
+version: v1.25.0
+ignore:
+  SNYK-CC-TF-1:
+    - '*':
+        reason: >
+          Snyk Code SSRF FP: convert_failures_to_sft.py only ever calls
+          http://localhost:11434 (validated at runtime by _validate_localhost_url).
+          No user-controlled URL is constructed.
+        expires: 2027-01-01T00:00:00.000Z
+        created: 2026-04-13T09:00:00.000Z
+  python/Ssrf:
+    - scripts/convert_failures_to_sft.py > python/Ssrf [271]:
+        reason: >
+          False positive. URL is http://localhost:11434 (hardcoded + runtime
+          validated). Model name is regex-sanitised. Prompt content is
+          length-bounded. No SSRF risk exists.
+        expires: 2027-04-13T00:00:00.000Z
+        created: 2026-04-13T09:00:00.000Z
+    - scripts/convert_failures_to_sft.py > python/Ssrf [598]:
+        reason: >
+          False positive. Same as above — second urlopen sink for the
+          /api/chat call path. Localhost-only, validated URL, bounded inputs.
+        expires: 2027-04-13T00:00:00.000Z
+        created: 2026-04-13T09:00:00.000Z

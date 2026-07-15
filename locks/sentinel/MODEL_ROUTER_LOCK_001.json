@@ -1,0 +1,197 @@
+{
+  "lock_id": "MODEL_ROUTER_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Promotes scripts/model_advisor.py (prose-only advisory helper) into a typed runtime routing surface under scripts/models/. Adds TaskClass, ModelRole, RouteDecision, RouterMode enums; a frozen RouteRecord dataclass; a passive LocalModelInventory; and the ModelRouter itself. The router is a pure function of (task_class, mode, config, inventory) — it never invokes a model, never calls a subprocess, never calls the network, and never reads from T:/. Dry-run is the default mode and never sets execution_authorized=True. Unsupported task classes (including UNKNOWN) fail closed with ROUTE_BLOCKED_UNSUPPORTED_TASK_CLASS. Stale model ids (engineer-v10-dsl, observer-v5-dsl, sentinel-v3, etc.) fail closed with ROUTE_BLOCKED_STALE_MODEL_ID. Missing local model availability falls back along a deterministic chain whose terminus is ModelRole.NO_MODEL. Corpus eligibility and training eligibility are NEVER flipped to True by routing alone.",
+  "purpose": "Rung 10 of the post-audit Claude-lane sequence. With BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH=56 preserved, and the architecture gauntlet wired into CI, the apparatus is at the cleanest possible state to start *deciding* when a model is allowed to participate. The router is the gatekeeper that the next rungs (LLM_MOCKED_INTAKE_REPAIR_LOCK_001, SAFE_PATCH_DIFF_ROLLBACK_LOCK_001, VERIFIED_REPAIR_TRACE_LOCK_001) will compose against. Also cleans up the stale v10/v5 default ids in scripts/codebase_explorer.py lines 58-59 surfaced during the gap-to-100 audit.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001",
+    "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+    "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001",
+    "ARCH_GAUNTLET_CI_LOCK_001",
+    "SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001",
+    "HARDENED_VERIFIED_TASK_AND_CODECLASH_LOCK_001"
+  ],
+  "tests": 78,
+  "passed_on_this_host": 78,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_model_router_lock.py"
+  ],
+  "task_classes": [
+    "REPO_TRIAGE",
+    "BUILD_DIAGNOSIS",
+    "TEST_FAILURE_LOCALIZATION",
+    "PATCH_PLANNING",
+    "PATCH_GENERATION",
+    "PATCH_REVIEW",
+    "VERIFIER_SUMMARY",
+    "CORPUS_ELIGIBILITY_REVIEW",
+    "GENERAL_EXPLANATION",
+    "UNKNOWN"
+  ],
+  "model_roles": [
+    "FAST_LOCAL",
+    "STRONG_LOCAL",
+    "CODE_SPECIALIST",
+    "REASONING_SPECIALIST",
+    "NO_MODEL"
+  ],
+  "route_decisions": [
+    "ROUTE_SELECTED",
+    "ROUTE_DRY_RUN_SELECTED",
+    "ROUTE_BLOCKED_NO_AVAILABLE_MODEL",
+    "ROUTE_BLOCKED_STALE_MODEL_ID",
+    "ROUTE_BLOCKED_UNSUPPORTED_TASK_CLASS",
+    "ROUTE_FALLBACK_SELECTED",
+    "ROUTE_NO_MODEL_REQUIRED"
+  ],
+  "router_modes": ["dry_run", "live"],
+  "default_routes": {
+    "REPO_TRIAGE":               {"preferred": "FAST_LOCAL",            "fallback": ["STRONG_LOCAL", "NO_MODEL"]},
+    "BUILD_DIAGNOSIS":           {"preferred": "CODE_SPECIALIST",       "fallback": ["STRONG_LOCAL", "FAST_LOCAL", "NO_MODEL"]},
+    "TEST_FAILURE_LOCALIZATION": {"preferred": "CODE_SPECIALIST",       "fallback": ["STRONG_LOCAL", "NO_MODEL"]},
+    "PATCH_PLANNING":            {"preferred": "REASONING_SPECIALIST",  "fallback": ["CODE_SPECIALIST", "NO_MODEL"]},
+    "PATCH_GENERATION":          {"preferred": "CODE_SPECIALIST",       "fallback": ["NO_MODEL"]},
+    "PATCH_REVIEW":              {"preferred": "REASONING_SPECIALIST",  "fallback": ["CODE_SPECIALIST", "NO_MODEL"]},
+    "VERIFIER_SUMMARY":          {"preferred": "FAST_LOCAL",            "fallback": ["NO_MODEL"]},
+    "CORPUS_ELIGIBILITY_REVIEW": {"preferred": "REASONING_SPECIALIST",  "fallback": ["CODE_SPECIALIST", "NO_MODEL"]},
+    "GENERAL_EXPLANATION":       {"preferred": "FAST_LOCAL",            "fallback": ["NO_MODEL"]}
+  },
+  "current_model_ids": [
+    "determinex-engineer-v11-dsl",
+    "determinex-observer-v6-dsl",
+    "determinex-sentinel-v5-dsl"
+  ],
+  "stale_model_ids_blocked": [
+    "determinex-engineer-v10-dsl",
+    "determinex-engineer-v9-dsl",
+    "determinex-engineer-v8",
+    "determinex-observer-v5-dsl",
+    "determinex-observer-v5",
+    "determinex-observer-v4",
+    "determinex-observer-v3",
+    "determinex-sentinel-v4",
+    "determinex-sentinel-v3",
+    "determinex-sentinel-v2"
+  ],
+  "files_added": {
+    "code": [
+      "scripts/models/__init__.py",
+      "scripts/models/model_router.py",
+      "scripts/models/model_router_record.py",
+      "scripts/models/model_inventory.py"
+    ],
+    "tests": [
+      "tests/models/__init__.py",
+      "tests/models/test_model_router_lock.py"
+    ],
+    "lock": "locks/sentinel/MODEL_ROUTER_LOCK_001.json",
+    "evidence": "assurance/evidence/model_router/run_20260527.json",
+    "docs": "docs/MODEL_ROUTER.md"
+  },
+  "files_modified": [
+    "scripts/codebase_explorer.py (lines 58-59: stale v10/v5 defaults replaced with current v11/v6)",
+    "scripts/dev/parallel_execution_layer_audit.py (added LEGACY_EXEMPT_READ_ONLY rule for scripts/models/)"
+  ],
+  "audit_delta": {
+    "blocked_unsafe_before": 0,
+    "blocked_unsafe_after": 0,
+    "must_migrate_before": 0,
+    "must_migrate_after": 0,
+    "unknown_before": 0,
+    "unknown_after": 0,
+    "programbench_before": 56,
+    "programbench_after": 56,
+    "router_files_classified_legacy_exempt_read_only": 4
+  },
+  "status_tokens": [
+    "MODEL_ROUTER_READY",
+    "ROUTER_DRY_RUN_DEFAULT",
+    "ROUTER_FAILS_CLOSED_ON_UNKNOWN",
+    "ROUTER_DETECTS_STALE_MODEL_ID",
+    "ROUTER_FALLBACK_CHAIN_DETERMINISTIC",
+    "ROUTER_NO_NETWORK",
+    "ROUTER_NO_SUBPROCESS",
+    "ROUTER_NO_T_DRIVE",
+    "ROUTER_NO_CORPUS_MUTATION",
+    "ROUTER_NO_SOURCE_MUTATION",
+    "ROUTER_TRAINING_ELIGIBILITY_FALSE",
+    "ROUTER_CORPUS_WRITE_FALSE",
+    "ROUTER_EXECUTION_AUTHORIZED_ONLY_LIVE",
+    "ROUTER_INVENTORY_PASSIVE",
+    "ROUTER_RECORD_SERIALIZABLE",
+    "STALE_DEFAULT_REPLACED_IN_CODEBASE_EXPLORER",
+    "AUDIT_PATH_RULE_REGISTERED",
+    "PROGRAMBENCH_PRESERVED",
+    "SAFETY_DEFAULTS_RESPECTED"
+  ],
+  "invariants": [
+    "ModelRouter.route() is a pure function of (task_class, mode, config, inventory) — identical inputs produce byte-identical RouteRecord dicts.",
+    "DEFAULT_ROUTES covers every TaskClass except UNKNOWN; UNKNOWN is intentionally absent and fails closed with ROUTE_BLOCKED_UNSUPPORTED_TASK_CLASS.",
+    "STALE_MODEL_IDS and CURRENT_MODEL_IDS are disjoint frozensets.",
+    "STALE_MODEL_IDS contains the two ids that previously appeared as defaults in scripts/codebase_explorer.py lines 58-59 (engineer-v10-dsl, observer-v5-dsl).",
+    "RouterConfig() defaults: default_mode=DRY_RUN, allow_network_models=False, allow_unverified_model_ids=False.",
+    "Dry-run mode never sets execution_authorized=True for any task class.",
+    "corpus_write_authorized and training_eligible are False for ALL RouteRecords produced by the router, in either mode, for any TaskClass.",
+    "VERIFIER_SUMMARY (and any task with NO_MODEL terminus) returns ROUTE_NO_MODEL_REQUIRED when inventory is empty — never blocked.",
+    "Stale ids short-circuit BEFORE availability check and BEFORE mode dispatch.",
+    "scripts/models/*.py contains no `import subprocess`, no `from subprocess`, no `import urllib`, no `from urllib`, no `import socket`, no `import http`.",
+    "scripts/models/*.py contains no `T:/` or `T:\\\\` references.",
+    "Router exercise (route every TaskClass in both modes) leaves all locks/sentinel/*.json and assurance/evidence/evidence_index.json hash-unchanged.",
+    "scripts/codebase_explorer.py no longer carries `determinex-engineer-v10-dsl` or `determinex-observer-v5-dsl` as positional defaults.",
+    "scripts/dev/parallel_execution_layer_audit.py registers a LEGACY_EXEMPT_READ_ONLY rule for `^scripts/models/`.",
+    "Audit counts: BLOCKED_UNSAFE=0, MUST_MIGRATE=0, UNKNOWN=0, PROGRAMBENCH>=56.",
+    "Safety defaults remain fail-closed.",
+    "Signed evidence is unmutated by router exercise."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "pb_factory_worker_loop_modified": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "online_discovery_enabled": false,
+    "safety_defaults_weakened": false,
+    "model_advisor_deleted": false,
+    "live_model_call_made": false,
+    "subprocess_introduced_in_router": false,
+    "network_introduced_in_router": false,
+    "t_drive_dependency_introduced": false,
+    "corpus_row_written": false,
+    "user_source_mutated": false,
+    "existing_lock_removed": false,
+    "evidence_validation_bypassed": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/model_router/run_20260527.json"
+  },
+  "remaining_gaps": [
+    "Router does NOT perform live availability probing of Ollama or any local engine. A future rung (MODEL_ROUTER_LIVE_LOCAL_MODEL_ADMISSION_LOCK_001) may add an opt-in probe routed through intake.hardened_runner.",
+    "Router does NOT yet enforce allow_network_models against actual network-bound model ids — that gate belongs to the caller in LLM_MOCKED_INTAKE_REPAIR_LOCK_001 once the live providers are integrated.",
+    "scripts/model_advisor.py remains as a separate advisory helper. A later rung may wrap its recommendations as one signal into the router's role-to-model mapping; this rung does NOT delete it.",
+    "Other scripts still carrying stale ids as defaults (determinex_benchmark_5run.py, determinex_codeclash_agent.py role-tag fallbacks, determinex_setup.py wizard defaults, fine_tuning calibration JSON) are out of scope for this rung — they are read-only orchestrators (LEGACY_EXEMPT_READ_ONLY) and a future MODEL_ID_DRIFT_SWEEP_LOCK could consolidate them.",
+    "Configuration is via constructor + env vars only. A YAML config layer was suggested in the directive; deferred — env-var + DEFAULT_ROUTES dict is reproducible and testable today, and a YAML wrapper can be added without breaking the lock invariants."
+  ],
+  "next_recommended_lock": "LLM_MOCKED_INTAKE_REPAIR_LOCK_001",
+  "files": [
+    "scripts/models/__init__.py",
+    "scripts/models/model_router.py",
+    "scripts/models/model_router_record.py",
+    "scripts/models/model_inventory.py",
+    "scripts/codebase_explorer.py",
+    "scripts/dev/parallel_execution_layer_audit.py",
+    "tests/models/__init__.py",
+    "tests/models/test_model_router_lock.py",
+    "locks/sentinel/MODEL_ROUTER_LOCK_001.json",
+    "assurance/evidence/model_router/run_20260527.json",
+    "docs/MODEL_ROUTER.md"
+  ]
+}

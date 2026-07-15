@@ -1,0 +1,62 @@
+{
+  "lock_id": "ROSETTA_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "tests": 13,
+  "passed": 13,
+  "failed": 0,
+  "full_suite": {
+    "tests": 862,
+    "passed": 862,
+    "failed": 0
+  },
+  "test_modules": [
+    "tests/test_rosetta_smoke.py"
+  ],
+  "test_classes": [
+    "RosettaConstantTests",
+    "RosettaRegistryTests",
+    "RosettaLayerOneTests"
+  ],
+  "coverage": [
+    "d_rosetta_is_4096",
+    "base_arch_info_covers_five_families",
+    "base_arch_info_required_keys",
+    "base_arch_info_families",
+    "encoder_decoder_keys_are_strings",
+    "default_dims_are_positive_integers",
+    "list_models_returns_list",
+    "get_model_returns_none_for_unknown",
+    "best_for_role_returns_none_when_no_models_match",
+    "probe_gguf_raises_on_missing_file",
+    "rosetta_dsl_imports_do_not_crash",
+    "rosetta_stone_class_exists",
+    "rosetta_layer_1_load_raises_on_missing_checkpoint"
+  ],
+  "rosetta_spec": {
+    "d_rosetta": 4096,
+    "active_layer": 1,
+    "layer_1_name": "Semantic DSL",
+    "layer_1_status": "active",
+    "layer_2_name": "Soft prefix injection",
+    "layer_2_status": "partial — requires rosetta_v1.pt",
+    "layer_3_name": "KV cache broadcast",
+    "layer_3_status": "designed — requires custom inference engine",
+    "supported_architectures": ["llama", "mistral", "qwen2", "phi3", "deepseek2"],
+    "checkpoint_format": "rosetta_vN.pt (PyTorch state dict)",
+    "projection": "two MLP matrix ops, microseconds on CPU",
+    "token_efficiency": "6x more efficient than prose inter-model communication"
+  },
+  "training_artifacts": {
+    "checkpoint": "rosetta_v1.pt",
+    "sha256": "verified at runtime via _verify_sha256()",
+    "training_log": "logs/rosetta_healthcheck_latest.json",
+    "softprefix_smoke": "logs/rosetta_softprefix_smoke_latest.json"
+  },
+  "test_scope_note": "Smoke tests cover pure-Python layer (no PyTorch required). Projection accuracy and roundtrip semantic preservation tests require rosetta_v1.pt and are deferred to integration suite.",
+  "implementations": [
+    "scripts/determinex_rosetta.py",
+    "rosetta/",
+    "tests/test_rosetta_smoke.py"
+  ]
+}

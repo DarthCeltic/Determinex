@@ -1,0 +1,42 @@
+{
+  "lock_id": "APPLY_GATE_FIXTURE_REFUSAL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates CLAUDE-AUTH-002. Lifts the is_fixture / signature_kind refusal into source_mutation_apply_after_approval itself, so a direct caller cannot bypass the rung-8 orchestrator. New decisions SOURCE_MUTATION_BLOCKED_FIXTURE_APPROVAL and SOURCE_MUTATION_BLOCKED_INVALID_SIGNATURE_KIND fire fail-closed before any write. signature_kind must be in {real_local_signed, real_local_hmac} (the latter is reserved for rung 7's crypto binding).",
+  "purpose": "Rung 2 of the Claude authority leak remediation campaign.",
+  "depends_on_locks": [
+    "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+    "REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001",
+    "REAL_APPROVAL_DIFF_BODY_CONTENT_BINDING_LOCK_001"
+  ],
+  "tests": 18,
+  "passed_on_this_host": 18,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_source_mutation_apply_after_approval_lock.py"
+  ],
+  "status_tokens": [
+    "APPLY_GATE_FIXTURE_REFUSAL_PASSED",
+    "APPLY_GATE_BLOCKED_FIXTURE_APPROVAL",
+    "APPLY_GATE_BLOCKED_INVALID_SIGNATURE_KIND",
+    "SOURCE_MUTATION_BLOCKED_FIXTURE_APPROVAL",
+    "SOURCE_MUTATION_BLOCKED_INVALID_SIGNATURE_KIND"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligibility_opened": false,
+    "training_row_written": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/apply_gate_fixture_refusal/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-002",
+  "next_recommended_lock": "POST_APPLY_VERIFIER_NO_DEFAULT_PASS_LOCK_001"
+}

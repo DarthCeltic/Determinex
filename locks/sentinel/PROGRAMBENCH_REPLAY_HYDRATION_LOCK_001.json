@@ -1,0 +1,67 @@
+{
+  "lock_id": "PROGRAMBENCH_REPLAY_HYDRATION_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Preflight selected legacy ProgramBench replay candidates by locating task root, candidate root, task image, eval harness, baseline artifact, eval command, expected result path, language guess, and workspace checksum before replay execution.",
+  "focused_tests": {
+    "module": "tests/corpus/test_programbench_replay_hydration_lock.py",
+    "passed": 10,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1025,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/legacy_recovery/replay_hydration.py",
+    "scripts/corpus/legacy_recovery/programbench_task_locator.py",
+    "scripts/corpus/legacy_recovery/programbench_image_locator.py",
+    "tests/corpus/test_programbench_replay_hydration_lock.py"
+  ],
+  "batch_001_hydration_report": {
+    "path": "assurance/evidence/programbench_replay_batch_001_hydration_report.json",
+    "source_batch": "assurance/evidence/legacy_replay_promotion_batch_001.json",
+    "candidates": 10,
+    "HYDRATED_READY": 0,
+    "MISSING_TASK_ROOT": 0,
+    "MISSING_CANDIDATE_ROOT": 0,
+    "MISSING_DOCKER_IMAGE": 10,
+    "MISSING_EVAL_HARNESS": 0,
+    "MISSING_BASELINE": 0,
+    "AMBIGUOUS_TOOL_MATCH": 0,
+    "CHECKSUM_MISMATCH": 0,
+    "UNSUPPORTED_LEGACY_FORMAT": 0
+  },
+  "hydration_statuses": [
+    "HYDRATED_READY",
+    "MISSING_TASK_ROOT",
+    "MISSING_CANDIDATE_ROOT",
+    "MISSING_DOCKER_IMAGE",
+    "MISSING_EVAL_HARNESS",
+    "MISSING_BASELINE",
+    "AMBIGUOUS_TOOL_MATCH",
+    "CHECKSUM_MISMATCH",
+    "UNSUPPORTED_LEGACY_FORMAT"
+  ],
+  "acceptance": [
+    "tool name is required",
+    "legacy_row_hash or cluster lineage is required",
+    "task root location is checked before replay",
+    "candidate workspace location is checked before replay",
+    "eval harness location is checked before replay",
+    "Docker image/Dockerfile availability can be required",
+    "baseline artifact availability can be required",
+    "workspace checksum is computed for hydrated candidates",
+    "ambiguous matches are surfaced explicitly",
+    "hydration writes a report and does not run verifier or promote rows"
+  ],
+  "policy": [
+    "Hydration is preflight only.",
+    "Hydration does not create corpus rows.",
+    "Hydration does not imply training eligibility.",
+    "Replay execution may start only from HYDRATED_READY candidates."
+  ],
+  "does_not_prove": "Does not prove Batch 001 can be replayed yet; after root disambiguation, current hydration report shows all 10 candidates are blocked on missing Docker images/task images.",
+  "previous_lock": "PROGRAMBENCH_REPLAY_VERIFIER_LOCK_001",
+  "next_lock": "PROGRAMBENCH_REPLAY_IMAGE_HYDRATION_LOCK_001"
+}

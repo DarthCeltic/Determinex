@@ -1,0 +1,51 @@
+{
+  "artifact_paths": {
+    "boundary": "assurance/evidence/onnxruntime_runtime_api_alignment/vector_rag_claim_boundary_20260529.json",
+    "build": "assurance/evidence/onnxruntime_runtime_api_alignment/tauri_rebuild_with_aligned_ort_runtime_attempt_20260529.json",
+    "co_location": "assurance/evidence/onnxruntime_runtime_api_alignment/runtime_dll_co_location_manifest_20260529.json",
+    "dll_search": "assurance/evidence/onnxruntime_runtime_api_alignment/windows_dll_search_order_blocker_resolution_20260529.json",
+    "route": "assurance/evidence/onnxruntime_runtime_api_alignment/next_route_after_onnxruntime_alignment_20260529.json",
+    "smoke": "assurance/evidence/onnxruntime_runtime_api_alignment/vector_enabled_smoke_attempt_20260529.json",
+    "source": "assurance/evidence/onnxruntime_runtime_api_alignment/local_onnxruntime_runtime_source_manifest_20260529.json",
+    "status": "assurance/evidence/onnxruntime_runtime_api_alignment/onnxruntime_runtime_api_alignment_status_20260529.json"
+  },
+  "authority": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "launch_readiness_granted": false,
+    "production_readiness_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_readiness_granted": false,
+    "release_ready": false,
+    "release_supported": false,
+    "source_mutation_authorized": false,
+    "support_depth_promotion_granted": false,
+    "training_eligible": false,
+    "training_rows_written": false,
+    "universal_support_claimed": false
+  },
+  "doc_path": "docs/DETERMINEX_ONNXRUNTIME_RUNTIME_API_ALIGNMENT_001.md",
+  "focused_tests": {
+    "module": "tests/status/test_onnxruntime_runtime_api_alignment_001.py",
+    "passed": 14
+  },
+  "full_suite": {
+    "module": "tests/status",
+    "passed": 917
+  },
+  "lock_id": "DETERMINEX_ONNXRUNTIME_RUNTIME_API_ALIGNMENT_LOCK_001",
+  "next_recommended_codex_lock": "DETERMINEX_COMPANION_SEEDER_RESOURCE_PATH_ALIGNMENT_LOCK_001",
+  "purpose": "Align the runtime ONNX Runtime API used by fastembed with the ort crate API 23 requirement through local DLL co-location.",
+  "release_supported_cells": 0,
+  "release_supported_families": 0,
+  "run_record": "assurance/evidence/onnxruntime_runtime_api_alignment/run_20260529.ONNXRUNTIME_RUNTIME_API_ALIGNMENT_PASSED.json",
+  "status": "ONNXRUNTIME_RUNTIME_API_ALIGNMENT_PASSED",
+  "test_modules": [
+    "tests/status/test_onnxruntime_runtime_api_alignment_001.py"
+  ]
+}

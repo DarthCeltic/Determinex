@@ -1,0 +1,158 @@
+{
+  "lock_id": "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "Introduces scripts/intake/hardened_runner.py — a bounded execution path for arbitrary-repo intake. Migrates BuildAdapter._run (scripts/intake/build_adapters.py) and ShadowCompiler.{compile,run_tests,_shadow_compile_python} (scripts/codebase_explorer.py) to route through it. The 5 repair-pipeline sites under scripts/repair/ are explicitly deferred per directive ('Do not rewrite the entire repair pipeline in this rung unless it is low-risk').",
+  "purpose": "Rung 5 of the post-audit Claude-lane sequence. Consumes the MUST_MIGRATE target list from PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001 (rung 4). After this rung, arbitrary-repo intake CANNOT accidentally invoke shell=True, escape the workspace, invoke Docker, or run with code-injection env vars present. The repair-pipeline migration is the explicit target of a follow-up rung.",
+  "depends_on_locks": [
+    "CONFIG_SPINE_LOCK_001",
+    "PATH_PORTABILITY_LOCK_001",
+    "EVIDENCE_IMMUTABILITY_GUARD_LOCK_001",
+    "CORPUS_WRITE_GUARD_LOCK_001",
+    "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001"
+  ],
+  "tests": 47,
+  "passed_on_this_host": 47,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/intake/test_hardened_intake_execution_runner_lock.py"
+  ],
+  "runner_api": {
+    "module": "scripts/intake/hardened_runner.py",
+    "entry_point": "run(cmd, *, workspace, timeout, extra_env=None, cwd=None, allow_docker=False, allow_network=False) -> RunResult",
+    "result_dataclass": "RunResult(command, cwd, exit_code, stdout, stderr, timed_out, tool_missing, blocked, reason, scrubbed_env_vars)",
+    "helpers": [
+      "scrub_env(extra_env) -> (env_dict, stripped_keys)",
+      "BlockReason (constants)"
+    ],
+    "never_raises": true,
+    "max_timeout_s": 600
+  },
+  "guards_enforced": {
+    "COMMAND_BLOCKED_SHELL": "Shell strings rejected; argv must be list[str] of str only; subprocess.run always called with shell=False (defensive monkeypatch test asserts this).",
+    "COMMAND_BLOCKED_PATH_ESCAPE": "cwd must resolve inside workspace via Path.is_relative_to; ../.. escape, sibling dirs, and absolute paths outside workspace all blocked.",
+    "COMMAND_BLOCKED_DOCKER": "First-argv check refuses docker / docker-compose / podman / buildah / kubectl / helm (and .exe variants). allow_docker=True opts in; Claude lane never sets it.",
+    "COMMAND_NETWORK_REFUSED": "First-argv check refuses curl / wget / ncat / netcat / nc. allow_network=True opts in.",
+    "COMMAND_TIMEOUT_STRUCTURED": "Zero/negative/non-int timeouts blocked. Caller timeout clamped to MAX_TIMEOUT_S=600. TimeoutExpired translated to timed_out=True (never raises).",
+    "COMMAND_TOOL_MISSING_STRUCTURED": "FileNotFoundError translated to tool_missing=True (never raises).",
+    "ENVIRONMENT_SCRUBBED": "16 known code-injection / shell-startup vars stripped from child env unconditionally (LD_PRELOAD, LD_LIBRARY_PATH, LD_AUDIT, DYLD_*, PYTHONSTARTUP, PYTHONHOME, PYTHONUSERBASE, IFS, PS4, BASH_ENV, ENV, FCEDIT, TMPPREFIX, PROMPT_COMMAND). extra_env cannot smuggle them in.",
+    "BAD_WORKSPACE": "Workspace must exist as a directory."
+  },
+  "blocklists": {
+    "BLOCKED_ENV_VARS_count": 16,
+    "REFUSED_PROGRAMS": ["buildah", "buildah.exe", "docker", "docker-compose", "docker-compose.exe", "docker.exe", "helm", "helm.exe", "kubectl", "kubectl.exe", "podman", "podman.exe"],
+    "NETWORK_PROGRAMS": ["curl", "curl.exe", "nc", "nc.exe", "ncat", "ncat.exe", "netcat", "netcat.exe", "wget", "wget.exe"]
+  },
+  "status_tokens": [
+    "HARDENED_INTAKE_RUNNER_READY",
+    "COMMAND_EXECUTED_BOUNDED",
+    "COMMAND_BLOCKED_SHELL",
+    "COMMAND_BLOCKED_PATH_ESCAPE",
+    "COMMAND_BLOCKED_DOCKER",
+    "COMMAND_TIMEOUT_STRUCTURED",
+    "COMMAND_TOOL_MISSING_STRUCTURED",
+    "ENVIRONMENT_SCRUBBED",
+    "CODEBASE_EXPLORER_COMPAT_PRESERVED",
+    "BUILD_ADAPTER_COMPAT_PRESERVED",
+    "MUST_MIGRATE_COUNT_REDUCED",
+    "REPAIR_PIPELINES_DEFERRED",
+    "SOURCE_TREE_UNMUTATED",
+    "CORPUS_UNMUTATED",
+    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+    "SAFETY_DEFAULTS_RESPECTED"
+  ],
+  "migration": {
+    "scripts/intake/build_adapters.py": {
+      "before_sites": 2,
+      "after_sites": 0,
+      "what_changed": "_run() now delegates to hardened_runner.run; PythonAdapter.run_shadow_build per-file py_compile loop also routes through hardened_runner.run",
+      "compat_preserved": "BUILD_ADAPTER_REGISTRY_LOCK_001 tests (36) all still pass"
+    },
+    "scripts/codebase_explorer.py": {
+      "before_sites": 3,
+      "after_sites": 0,
+      "what_changed": "ShadowCompiler.compile, ShadowCompiler.run_tests, and ShadowCompiler._shadow_compile_python all now route through hardened_runner.run with extra_env={'PYTHONWARNINGS': 'ignore'}",
+      "compat_preserved": "CODEBASE_EXPLORER_SMOKE_LOCK_001 tests (12) all still pass; explore() against python_broken fixture still produces pip/pytest/test_failure finding"
+    },
+    "scripts/repair/*.py": {
+      "before_sites": 5,
+      "after_sites": 5,
+      "status": "DEFERRED",
+      "files": [
+        "scripts/repair/go_repair_pipeline.py",
+        "scripts/repair/native_c_cpp_repair_pipeline.py",
+        "scripts/repair/python_repair_pipeline.py",
+        "scripts/repair/rust_repair_pipeline.py",
+        "scripts/repair/typescript_repair_pipeline.py"
+      ],
+      "rationale": "Per directive: 'Do not rewrite the entire repair pipeline in this rung unless it is low-risk.' Each repair pipeline owns its own _default_executor (Executor protocol) plus per-language test coverage; coordinated migration belongs in HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001."
+    }
+  },
+  "audit_delta": {
+    "must_migrate_before": 10,
+    "must_migrate_after": 5,
+    "must_migrate_reduction": 5,
+    "hardened_compiler_path_before": 10,
+    "hardened_compiler_path_after": 11,
+    "total_sites_before": 308,
+    "total_sites_after": 304,
+    "blocked_unsafe_before": 0,
+    "blocked_unsafe_after": 0,
+    "all_remaining_must_migrate_in_repair": true,
+    "evidence_run_artifact": "assurance/evidence/parallel_execution_layer_audit/run_20260527.json"
+  },
+  "invariants": [
+    "hardened_runner.run never raises into the caller; every failure mode is a RunResult field.",
+    "Shell strings (str cmd) are blocked; argv must be list[str] of str only.",
+    "subprocess.run is always called with shell=False (defensive monkeypatch test asserts this).",
+    "cwd MUST resolve inside workspace; absolute paths outside, ../.. traversal, and sibling-dir cwd are all blocked.",
+    "Docker/container runtimes (docker, podman, buildah, kubectl, helm + .exe variants) blocked by default; opt-in via allow_docker=True.",
+    "Network programs (curl, wget, nc, ncat, netcat) blocked by default; opt-in via allow_network=True.",
+    "16 env vars (LD_PRELOAD, DYLD_INSERT_LIBRARIES, PYTHONSTARTUP, BASH_ENV, ...) stripped from child env unconditionally; cannot be smuggled via extra_env.",
+    "Timeout must be positive int; clamped to MAX_TIMEOUT_S=600; TimeoutExpired -> timed_out=True.",
+    "FileNotFoundError -> tool_missing=True (never raises).",
+    "BuildAdapter._run is wired to hardened_runner.run (source-level import test verifies this).",
+    "ShadowCompiler {compile, run_tests, _shadow_compile_python} are all wired to hardened_runner.run (source-level import test verifies all three migration sites).",
+    "All remaining MUST_MIGRATE sites are in scripts/repair/ — verified by test_parallel_audit_must_migrate_reduced_to_repair_pipelines_only.",
+    "hardened_runner.py classifies as HARDENED_COMPILER_PATH in the parallel execution audit.",
+    "Source tree, signed evidence, and corpus stay unmutated during runner exercise.",
+    "No DETERMINEX_*/HF_HOME/OLLAMA_* env var required.",
+    "Safety defaults remain fail-closed."
+  ],
+  "compat_preserved": {
+    "CODEBASE_EXPLORER_SMOKE_LOCK_001": "12/12 pass after migration",
+    "BUILD_ADAPTER_REGISTRY_LOCK_001": "36/36 pass after migration",
+    "VERIFIER_COVERAGE_MATRIX_LOCK_001": "39/39 pass (matrix unchanged)",
+    "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001": "27/27 pass (rung-4 lock's BLOCKED_UNSAFE=0 still pinned; doc regenerated to match new counts)"
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/hardened_intake_execution_runner/run_20260527.json",
+    "audit_after_artifact_refreshed": "assurance/evidence/parallel_execution_layer_audit/run_20260527.json",
+    "audit_after_doc_refreshed": "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md"
+  },
+  "remaining_gaps": [
+    "5 MUST_MIGRATE sites remain in scripts/repair/ (one per language pipeline). Targeted by the next-but-one rung HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001.",
+    "121 UNKNOWN_REQUIRES_REVIEW sites unchanged by this rung — they need triage independently (top-level scripts/ helpers like determinex_fullbench, micro_eval, swe_run/repo.py).",
+    "Hardened runner uses raw subprocess.run under the hood. The hardening is at the policy layer (argv validation, cwd, env scrub, blocklists), not at the OS layer (no seccomp / no AppArmor / no Job Object). For inference-side oracle work, hive/compiler.py provides the OS-level sandbox; the hardened runner provides intake-side policy enforcement.",
+    "Network blocklist is first-argv based; a custom HTTP client invoked via python -c '...' is not blocked. Acceptable for intake; the cloak/sentinel layer handles cloud-egress policy.",
+    "Env scrub uses a hard-coded denylist of 16 vars. Future work: add DETERMINEX_HARDENED_RUNNER_EXTRA_BLOCKLIST env var so operators can extend the list without code change.",
+    "Repair pipelines accept an Executor callable; the cleanest migration is to set the default Executor to a hardened-runner-backed implementation in each pipeline. Each pipeline has its own lock (PYTHON_REPAIR_LOCK_001, RUST_REPAIR_LOCK_001, GO_REPAIR_LOCK_001, TYPESCRIPT_REPAIR_LOCK_001, NATIVE_C_CPP_REPAIR_LOCK_001) so the migration must preserve each one's existing test contracts."
+  ],
+  "next_recommended_lock": "ARCH_GAUNTLET_CI_LOCK_001",
+  "alternative_next_recommended": "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001",
+  "files": [
+    "scripts/intake/hardened_runner.py",
+    "scripts/intake/build_adapters.py",
+    "scripts/codebase_explorer.py",
+    "scripts/dev/parallel_execution_layer_audit.py",
+    "tests/intake/test_hardened_intake_execution_runner_lock.py",
+    "locks/sentinel/HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001.json",
+    "assurance/evidence/hardened_intake_execution_runner/run_20260527.json",
+    "assurance/evidence/parallel_execution_layer_audit/run_20260527.json (regenerated)",
+    "docs/PARALLEL_EXECUTION_LAYER_AUDIT.md (regenerated)"
+  ]
+}

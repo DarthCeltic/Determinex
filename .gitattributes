@@ -1,0 +1,46 @@
+# Auto-detect text files and normalize line endings
+* text=auto
+.gitattributes text eol=lf
+
+# Shell scripts must always use LF (Linux/macOS CI will break on CRLF)
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Windows-only scripts — allow CRLF
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Source files — LF everywhere
+*.py text eol=lf
+*.rs text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+
+# Binary files — never mangle
+*.gguf binary
+*.pt binary
+*.bin binary
+*.safetensors binary
+*.onnx binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.icns binary
+*.exe binary
+
+# Generated SBOM artifacts carry byte-exact SHA-256 values over checked-out
+# bytes. Keep these out of text conversion so clean-runner hashes remain stable.
+assurance/sbom/*.json -text -eol
+assurance/sbom/historical/*.json -text -eol
+
+# ProgramBench override fixtures are byte-exact golden outputs.
+corpus/programbench/per_tool_overrides/*/help*.txt text eol=lf
+corpus/programbench/per_tool_overrides/*/version.txt text eol=lf
+corpus/programbench/per_tool_overrides/*/err_*.txt text eol=lf

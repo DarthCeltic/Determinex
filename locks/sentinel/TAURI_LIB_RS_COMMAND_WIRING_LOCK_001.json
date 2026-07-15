@@ -1,0 +1,47 @@
+{
+  "lock_id": "TAURI_LIB_RS_COMMAND_WIRING_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Wire the standalone Tauri Rust bridge (ide_repair_bridge) into frontend/src-tauri/src/lib.rs. Adds `mod ide_repair_bridge;` and appends the 10 bridge commands to tauri::generate_handler!. cargo check passes (2 dead-code warnings on intentional defensive helpers).",
+  "purpose": "Rung 1 of the Tauri-integrated frontend campaign.",
+  "depends_on_locks": [
+    "TAURI_RUST_COMMAND_BRIDGE_LOCK_001",
+    "DETERMINEX_IDE_FRONTEND_READY_FINAL_STATE_LOCK_001"
+  ],
+  "tests": 10,
+  "passed_on_this_host": 10,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide_frontend/test_tauri_lib_rs_command_wiring_lock.py"
+  ],
+  "status_tokens": [
+    "TAURI_LIB_RS_COMMAND_WIRING_READY",
+    "TAURI_LIB_RS_COMMAND_WIRING_BLOCKED_NO_ENTRYPOINT",
+    "TAURI_LIB_RS_COMMAND_WIRING_BLOCKED_COMMAND_MISMATCH",
+    "TAURI_LIB_RS_SOURCE_MUTATION_BLOCKED"
+  ],
+  "wired_commands": [
+    "open_workspace",
+    "get_workspace_status",
+    "get_model_route_status",
+    "diagnose_dry_run",
+    "diagnose_live_opt_in",
+    "generate_patch_plan",
+    "verify_temp_patch",
+    "get_human_approval_packet",
+    "source_apply_dry_run",
+    "get_repair_flow_state"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_called": false,
+    "network_provider_admitted": false,
+    "codex_lane_files_touched": false,
+    "release_workflow_added": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/tauri_lib_rs_command_wiring/run_20260528.json"
+  },
+  "next_recommended_lock": "FRONTEND_COMMAND_INVOKE_CLIENT_LOCK_001"
+}

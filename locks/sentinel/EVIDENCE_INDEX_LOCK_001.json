@@ -1,0 +1,53 @@
+{
+  "lock_id": "EVIDENCE_INDEX_LOCK_001",
+  "date": "2026-05-27",
+  "purpose": "Generate a reproducible evidence index for every named lock and drain artifact before external preview packaging.",
+  "focused_tests": {
+    "module": "tests/locks/test_evidence_index_lock.py",
+    "passed": 5,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 772,
+    "failed": 0
+  },
+  "implementation": [
+    "scripts/evidence_index.py",
+    "tests/locks/test_evidence_index_lock.py",
+    "assurance/evidence/evidence_index.json"
+  ],
+  "required_entry_fields": [
+    "evidence_id",
+    "kind",
+    "manifest_path",
+    "test_count",
+    "full_suite_count",
+    "reproduction_command",
+    "commit",
+    "proves",
+    "does_not_prove"
+  ],
+  "coverage": [
+    "includes_all_sentinel_lock_manifests",
+    "includes_all_drain_result_manifests",
+    "manifest_paths_exist",
+    "required_release_fields_present",
+    "validation_catches_missing_fields",
+    "json_serializable"
+  ],
+  "evidence_index_path": "assurance/evidence/evidence_index.json",
+  "reproduction_commands": [
+    ".\\.venv\\Scripts\\python.exe scripts\\evidence_index.py",
+    ".\\.venv\\Scripts\\python.exe scripts\\evidence_index.py --check",
+    ".\\.venv\\Scripts\\python.exe -m pytest tests/locks/test_evidence_index_lock.py -q --tb=short"
+  ],
+  "policy": [
+    "No claim without lock.",
+    "No lock without manifest.",
+    "No manifest without reproduction command.",
+    "No evidence entry without what-it-proves and what-it-does-not-prove."
+  ],
+  "does_not_prove": "Does not prove benchmark dominance or training effectiveness; it proves evidence discoverability and claim boundary coverage.",
+  "previous_lock": "BENCH_TO_CORPUS_ELIGIBILITY_LOCK_001",
+  "next_lock": "PROGRAMBENCH_DRAIN_PROMOTION_LOCK_001"
+}

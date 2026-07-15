@@ -1,0 +1,25 @@
+{
+  "lock_id": "DETERMINEX_MERGE_POINT_FINAL_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Write the non-authorizing merge-point final state after Claude remediation and Codex queue/graph remediation.",
+  "depends_on_locks": [
+    "DETERMINEX_CROSS_LANE_AUTHORITY_BOUNDARY_LOCK_001"
+  ],
+  "status": "MERGE_POINT_FINAL_STATE_WRITTEN",
+  "record": "assurance/evidence/merge_point_final_state/run_20260528.MERGE_POINT_FINAL_STATE_WRITTEN.json",
+  "test_modules": [
+    "tests/status/test_determinex_merge_point_final_state_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/status/test_determinex_merge_point_final_state_lock.py",
+    "passed": 4,
+    "failed": 0
+  },
+  "source_mutation_authorized": false,
+  "artifact_import_authorized": false,
+  "programbench_execution_authorized": false,
+  "proof_execution_authorized": false,
+  "training_eligible": false,
+  "can_write_training_row_any": false
+}

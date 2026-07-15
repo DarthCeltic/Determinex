@@ -1,0 +1,24 @@
+{
+  "lock_id": "PROGRAMBENCH_BATCH001_METADATA_DIGEST_ADMISSION_FROM_LIVE_LOOKUP_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "purpose": "Admit exact manifest digests found by live lookup as metadata-only ProgramBench artifact authority.",
+  "depends_on_locks": [
+    "PROGRAMBENCH_BATCH001_LIVE_MANIFEST_METADATA_LOOKUP_LOCK_001"
+  ],
+  "status": "BATCH001_METADATA_DIGEST_ADMITTED",
+  "record": "assurance/evidence/programbench_batch001_metadata_digest_admission/programbench_batch001_metadata_digest_admission_run_20260528.BATCH001_METADATA_DIGEST_ADMITTED.json",
+  "test_modules": [
+    "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py"
+  ],
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_safe_manifest_lookup_campaign_lock.py",
+    "passed": 8,
+    "failed": 0
+  },
+  "digests_admitted_metadata_only": 10,
+  "cache_ready": false,
+  "executable": false,
+  "training_eligible": false,
+  "does_not_prove": "Metadata-only digest admission does not authorize image import, scan, execution, cache readiness, or training rows."
+}

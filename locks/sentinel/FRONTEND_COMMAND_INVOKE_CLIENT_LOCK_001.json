@@ -1,0 +1,35 @@
+{
+  "lock_id": "FRONTEND_COMMAND_INVOKE_CLIENT_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Typed frontend invoke client layered on the locked ide-repair-api.ts wrapper. Discriminated-union per-command request/response shapes, pluggable transport (real Tauri vs mock), Tauri-unavailable surfaced as a typed status, unknown commands rejected with a safe response. Errors visible via the notes channel.",
+  "purpose": "Rung 2 of the Tauri-integrated frontend campaign.",
+  "depends_on_locks": [
+    "TAURI_RUST_COMMAND_BRIDGE_LOCK_001",
+    "TAURI_LIB_RS_COMMAND_WIRING_LOCK_001",
+    "FRONTEND_REPAIR_PANEL_SHELL_LOCK_001"
+  ],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide_frontend/test_frontend_command_invoke_client_lock.py"
+  ],
+  "status_tokens": [
+    "FRONTEND_COMMAND_INVOKE_CLIENT_READY",
+    "FRONTEND_COMMAND_INVOKE_CLIENT_BLOCKED_TAURI_UNAVAILABLE",
+    "FRONTEND_COMMAND_ERROR_VISIBLE"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_called": false,
+    "network_provider_admitted": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/frontend_command_invoke_client/run_20260528.json"
+  },
+  "next_recommended_lock": "FRONTEND_PANEL_COMMAND_WIRING_LOCK_001"
+}

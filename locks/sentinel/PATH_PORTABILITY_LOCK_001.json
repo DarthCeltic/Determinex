@@ -1,0 +1,38 @@
+{
+  "lock_id": "PATH_PORTABILITY_LOCK_001",
+  "date": "2026-05-27",
+  "commit": "clean-main",
+  "description": "No Windows drive letter required for correctness. All T:/ defaults have portable fallbacks active when the drive is absent. Paths override-able via env vars. Tests run against temp dirs.",
+  "tests": 31,
+  "passed": 31,
+  "failed": 0,
+  "skipped": 0,
+  "test_modules": [
+    "tests/test_settings.py"
+  ],
+  "coverage": [
+    "audit_dir_local_fallback_when_drive_absent",
+    "path_with_env_override_never_needs_drive",
+    "env_var_override_path"
+  ],
+  "invariants": [
+    "No T:/ or any other drive letter is required for determinex_settings to import",
+    "DETERMINEX_AUDIT_DIR fallback: T:/determinex_audit/events → <repo_root>/logs/events",
+    "DETERMINEX_CORPUS_ROOT fallback: T:/determinex_corpus → <repo_root>/corpus",
+    "DETERMINEX_MODELS_DIR fallback: T:/determinex-models → <repo_root>/data/models",
+    "DETERMINEX_PB_STAGING_ROOT fallback: T:/determinex-staging → <repo_root>/data/pb_staging",
+    "HF_HOME fallback: T:/huggingface_cache → ~/.cache/huggingface",
+    "Paths with no local fallback (swebench_repos, programbench_dir, pb_tasks_root) remain as-is — these tools require external data and document that requirement",
+    "All path defaults overrideable by env var regardless of drive letter presence",
+    "Tests inject paths via env vars into temp dirs — no T:/ access required to run test suite"
+  ],
+  "drive_letter_audit": {
+    "with_local_fallback": ["audit_dir", "corpus_root", "models_dir", "pb_staging_root", "hf_home", "artifact_quarantine", "artifact_cache"],
+    "no_fallback_by_design": ["swebench_repos", "programbench_dir", "pb_tasks_root"],
+    "no_fallback_reason": "These require external benchmark data; absence is expected on dev machines without benchmarks installed"
+  },
+  "files": [
+    "scripts/determinex_settings.py",
+    "tests/test_settings.py"
+  ]
+}

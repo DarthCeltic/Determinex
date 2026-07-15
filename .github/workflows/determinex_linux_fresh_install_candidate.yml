@@ -1,0 +1,79 @@
+name: Determinex Linux Fresh Install Candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      execution_approval_id:
+        description: "Single-event operator approval ID for dependency/network execution"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: determinex-linux-fresh-install-candidate
+  cancel-in-progress: false
+
+jobs:
+  linux-fresh-install-candidate:
+    name: Linux fresh install candidate
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    env:
+      DETERMINEX_NO_CORPUS_WRITE: "1"
+      DETERMINEX_FRESH_INSTALL_CANDIDATE: "1"
+    steps:
+      - name: Require operator approval ID
+        run: |
+          test -n "${{ inputs.execution_approval_id }}"
+          echo "approval_id=${{ inputs.execution_approval_id }}"
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Record checkout
+        run: |
+          mkdir -p _ci_artifacts
+          git rev-parse HEAD | tee _ci_artifacts/checkout_sha.txt
+          git status --short | tee _ci_artifacts/git_status_initial.txt
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Python bootstrap and source truth
+        run: |
+          python -m pip install -r requirements.txt 2>&1 | tee _ci_artifacts/python_requirements.txt
+          python -m pip install -e .[dev] 2>&1 | tee _ci_artifacts/python_editable_dev.txt
+          python scripts/evidence_index.py --check 2>&1 | tee _ci_artifacts/evidence_index_check.txt
+          python scripts/determinex_cli.py evidence validate 2>&1 | tee _ci_artifacts/evidence_validate.txt
+      - name: Fresh install status tests
+        run: |
+          python -m pytest tests/status/test_fresh_install_proof_path_split_001.py tests/status/test_linux_ci_fresh_install_candidate_proof_001.py tests/status/test_linux_ci_fresh_install_execution_001.py -q 2>&1 | tee _ci_artifacts/fresh_install_status_tests.txt
+      - name: Frontend bootstrap and tests
+        working-directory: frontend
+        run: |
+          npm ci 2>&1 | tee ../_ci_artifacts/npm_ci.txt
+          npm test 2>&1 | tee ../_ci_artifacts/npm_test.txt
+      - name: Tauri Linux system packages
+        run: |
+          sudo apt-get update 2>&1 | tee _ci_artifacts/apt_update.txt
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf pkg-config 2>&1 | tee _ci_artifacts/apt_tauri_packages.txt
+      - name: Tauri cargo check
+        working-directory: frontend/src-tauri
+        run: cargo check --all-targets 2>&1 | tee ../../_ci_artifacts/cargo_check.txt
+      - name: First-run source smoke
+        run: |
+          python scripts/determinex_cli.py --help 2>&1 | tee _ci_artifacts/determinex_cli_help.txt
+          echo "clean-host teardown complete" | tee _ci_artifacts/teardown_statement.txt
+      - name: Upload transcript artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: determinex-linux-fresh-install-candidate
+          path: _ci_artifacts/
+          retention-days: 30

@@ -1,0 +1,99 @@
+{
+  "lock_id": "PROGRAMBENCH_INFRA_FAILURE_TRIAGE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "1891191f9faa2b3ae88e4589ec4bc1990420581a",
+  "purpose": "Convert ProgramBench real bounded rerun infrastructure failures into deterministic recovery records without unsafe pulls, guessed execution, or broad online search.",
+  "focused_tests": {
+    "module": "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py",
+    "passed": 13,
+    "failed": 0
+  },
+  "related_tests": {
+    "modules": [
+      "tests/corpus/programbench/test_programbench_root_cause_packet_lock.py",
+      "tests/corpus/programbench/test_programbench_bounded_rerun_execution_lock.py",
+      "tests/corpus/programbench/test_programbench_real_bounded_rerun_lock.py",
+      "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py"
+    ],
+    "passed": 44,
+    "failed": 0
+  },
+  "full_suite": {
+    "passed": 1058,
+    "failed": 0,
+    "skipped": 5
+  },
+  "implementation": [
+    "scripts/corpus/programbench/infra_failure_triage.py",
+    "scripts/corpus/programbench/infra_failure_triage_record.py",
+    "tests/corpus/programbench/test_programbench_infra_failure_triage_lock.py"
+  ],
+  "doxygen_triage": {
+    "source_record": "assurance/evidence/programbench_real_bounded_reruns/doxygen_real_bounded_rerun_20260527.REAL_BOUNDED_RERUN_INFRA_FAILURE.json",
+    "triage_record": "assurance/evidence/programbench_infra_failure_triage/doxygen_real_bounded_rerun_20260527.MISSING_CLEANROOM_IMAGE.triage.json",
+    "status": "INFRA_FAILURE_TRIAGED",
+    "failure_type": "MISSING_CLEANROOM_IMAGE",
+    "missing_image": "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom",
+    "local_image_status": "IMAGE_MISSING_LOCAL",
+    "source_status": "IMAGE_RECOVERY_REQUIRES_OPERATOR",
+    "provenance_status": "IMAGE_HYDRATION_BLOCKED_NO_PROVENANCE",
+    "record_status": "active_eval_evidence",
+    "training_eligible": false
+  },
+  "statuses": [
+    "INFRA_FAILURE_TRIAGED",
+    "INFRA_FAILURE_UNRECOGNIZED",
+    "MISSING_CLEANROOM_IMAGE",
+    "IMAGE_PRESENT_LOCAL",
+    "IMAGE_MISSING_LOCAL",
+    "IMAGE_SOURCE_EXACT_REFERENCE_FOUND",
+    "IMAGE_SOURCE_AMBIGUOUS",
+    "IMAGE_SOURCE_BLOCKED",
+    "IMAGE_RECOVERY_REQUIRES_OPERATOR",
+    "IMAGE_HYDRATION_READY_QUARANTINE_ONLY",
+    "IMAGE_HYDRATION_BLOCKED_NO_DIGEST",
+    "IMAGE_HYDRATION_BLOCKED_NO_PROVENANCE",
+    "IMAGE_HYDRATION_BLOCKED_POLICY"
+  ],
+  "acceptance": [
+    "real bounded rerun infra failure loads successfully",
+    "missing cleanroom Docker image classified as MISSING_CLEANROOM_IMAGE",
+    "missing image reference extracted exactly",
+    "missing image linked to authorized Doxygen scope",
+    "local image inspection is read-only and injectable",
+    "existing exact pinned provenance is detected",
+    "missing provenance requires operator recovery or blocks hydration",
+    "ambiguous source produces IMAGE_SOURCE_AMBIGUOUS",
+    "floating/latest source is blocked",
+    "public-untrusted source cannot hydrate directly",
+    "quarantine-only artifact cannot execute",
+    "signed triage record is produced",
+    "allowed and blocked recovery actions are encoded"
+  ],
+  "allowed_actions": [
+    "local inventory check",
+    "exact provider lookup if configured",
+    "operator-supplied digest/provenance"
+  ],
+  "blocked_actions": [
+    "docker pull latest",
+    "broad web search",
+    "inferred official image",
+    "execution from quarantine",
+    "public_untrusted direct hydration"
+  ],
+  "policy": [
+    "No blind Docker pulls.",
+    "No guessed image execution.",
+    "No latest/floating tags.",
+    "No inferred officialness.",
+    "No broad search.",
+    "No execution from quarantine.",
+    "Online can suggest.",
+    "Provenance can admit.",
+    "Verifier can trust."
+  ],
+  "does_not_prove": "Does not hydrate or execute the missing cleanroom image. The lock proves deterministic triage and recovery gating for the missing-image infra failure.",
+  "previous_lock": "PROGRAMBENCH_REAL_BOUNDED_RERUN_LOCK_001",
+  "next_lock": "PROGRAMBENCH_OPERATOR_ARTIFACT_ADMISSION_LOCK_001"
+}

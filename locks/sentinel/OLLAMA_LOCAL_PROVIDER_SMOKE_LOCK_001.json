@@ -1,0 +1,42 @@
+{
+  "lock_id": "OLLAMA_LOCAL_PROVIDER_SMOKE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Bounded Ollama localhost availability smoke. Defaults to BLOCKED_NOT_CONFIGURED so callers must explicitly opt in. Only localhost / 127.0.0.1 / ::1 hosts are probed; anything else is refused. Stdlib urllib only (no requests/httpx). Strict timeout. Output is always recorded as untrusted. No repo source input. No patch generation. No corpus write. No training-eligibility change.",
+  "purpose": "Rung 5 of the Tauri-integrated frontend campaign.",
+  "depends_on_locks": [
+    "REAL_LOCAL_MODEL_PROVIDER_CONFIG_LOCK_001",
+    "LOCAL_PROVIDER_SMOKE_TEST_LOCK_001"
+  ],
+  "tests": 12,
+  "passed_on_this_host": 12,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_ollama_local_provider_smoke_lock.py"
+  ],
+  "status_tokens": [
+    "OLLAMA_PROVIDER_SMOKE_PASSED",
+    "OLLAMA_PROVIDER_SMOKE_BLOCKED_NOT_CONFIGURED",
+    "OLLAMA_PROVIDER_SMOKE_BLOCKED_UNAVAILABLE",
+    "OLLAMA_PROVIDER_SMOKE_BLOCKED_TIMEOUT",
+    "OLLAMA_PROVIDER_OUTPUT_UNTRUSTED"
+  ],
+  "scope_discipline": {
+    "network_provider_admitted": false,
+    "repo_source_inputted": false,
+    "patch_generated": false,
+    "training_eligibility_opened": false,
+    "corpus_written": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false
+  },
+  "this_host_result": {
+    "decision": "OLLAMA_PROVIDER_SMOKE_BLOCKED_NOT_CONFIGURED",
+    "endpoint": "",
+    "notes": ["Ollama not configured on this host run; not configured is the clean default"]
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/ollama_local_provider_smoke/run_20260528.json"
+  },
+  "next_recommended_lock": "FRONTEND_LIVE_DIAGNOSE_OPT_IN_SMOKE_LOCK_001"
+}

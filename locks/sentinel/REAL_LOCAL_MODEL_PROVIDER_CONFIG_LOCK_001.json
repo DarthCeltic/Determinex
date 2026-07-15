@@ -1,0 +1,47 @@
+{
+  "lock_id": "REAL_LOCAL_MODEL_PROVIDER_CONFIG_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Real local-model provider-config save path. Wraps the locked LocalModelConfigWizard with the rung's exact status tokens and a deterministic on-disk root (assurance/runtime/local_model_configs/). Supports no_model / ollama / local_hf / executable_adapter. Network providers blocked. Stale + unpinned model ids blocked. Save NEVER calls a live model.",
+  "purpose": "Rung 4 of the Tauri-integrated frontend campaign.",
+  "depends_on_locks": [
+    "LOCAL_MODEL_CONFIG_WIZARD_LOCK_001",
+    "MODEL_ROUTER_LOCK_001",
+    "LOCAL_MODEL_ADMISSION_POLICY_LOCK_001",
+    "LOCAL_MODEL_SETTINGS_PANEL_LOCK_001"
+  ],
+  "tests": 13,
+  "passed_on_this_host": 13,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/models/test_real_local_model_provider_config_lock.py"
+  ],
+  "status_tokens": [
+    "REAL_LOCAL_MODEL_CONFIG_READY",
+    "REAL_LOCAL_MODEL_CONFIG_DRY_RUN_DEFAULT",
+    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_NETWORK_PROVIDER",
+    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNPINNED_MODEL",
+    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER",
+    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_STALE_MODEL_ID",
+    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_INVALID_LOCATION",
+    "REAL_LOCAL_MODEL_CONFIG_SAVE_NO_LIVE_CALL"
+  ],
+  "supported_providers": [
+    "no_model",
+    "ollama",
+    "local_hf",
+    "executable_adapter"
+  ],
+  "scope_discipline": {
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_called_on_save": false,
+    "network_provider_admitted": false,
+    "release_workflow_added": false,
+    "codex_lane_files_touched": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/real_local_model_provider_config/run_20260528.json"
+  },
+  "next_recommended_lock": "OLLAMA_LOCAL_PROVIDER_SMOKE_LOCK_001"
+}

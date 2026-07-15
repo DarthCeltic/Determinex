@@ -1,0 +1,81 @@
+{
+  "artifact_paths": {
+    "claim_boundary": "assurance/evidence/msfg_claude_forbidden_actions_avoided_review_001/claim_boundary_20260601P.json",
+    "verdict": "assurance/evidence/msfg_claude_forbidden_actions_avoided_review_001/verdict_20260601P.json"
+  },
+  "audit_pass": true,
+  "blocked": false,
+  "blocked_reason": "verified",
+  "canonical_release_supported_cells_from_registry": 10,
+  "claim_boundary": [
+    "MSFG Claude review = TIMER+STABILITY GATED MAX SAFE FAMILY + SBOM RUNTIME GATE review.",
+    "Reviewed commit: 20f0d41887f0c7b841cdd761e5621720828e7f20. Marker (successor): 37ac1587a7e480e4cdc4e20ec43226c98ca40fbb.",
+    "Claude rejects: family-support claim / universal support claim / unauthorized install / unauthorized authority / test/verifier/binary/lockfile mutation / SBOM fake output / scope widening / spend reuse / clean-host/GUI/installer/public upload execution / release-ready / score inflation / tests disabled.",
+    "Standard: 5 families newly LOCAL_VERIFIED; LV 8→13; SM 8→3; 2nd signed spend (SBOM); SBOM execution TOOL_MISSING_BLOCKER (honest); queue/spend 1→2; cells/families 10/0; scores moved per evidence; 16 forbidden actions avoided.",
+    "Canonical cells = 10; families = 0."
+  ],
+  "commit": "20f0d41887f0c7b841cdd761e5621720828e7f20",
+  "creates_source_truth": false,
+  "date": "2026-06-01",
+  "doc": "docs/DETERMINEX_MSFG_CLAUDE_FORBIDDEN_ACTIONS_AVOIDED_REVIEW_001.md",
+  "grants_authority": false,
+  "grants_support": false,
+  "gulp_lane_id": "msfg_claude_lane_AG",
+  "gulp_wave_id": "msfg_v1",
+  "head_recheck_protocol_applied": true,
+  "head_stability_check_applied": true,
+  "is_msfg_review": true,
+  "is_parallel_critique": true,
+  "is_planning_audit": true,
+  "is_post_execution_review": true,
+  "is_stability_checked_review": true,
+  "is_timer_protocol_gated_review": true,
+  "lane": "AG",
+  "lock_id": "DETERMINEX_MSFG_CLAUDE_FORBIDDEN_ACTIONS_AVOIDED_REVIEW_001",
+  "marker_validated_before_review": true,
+  "purpose": "MSFG Claude Lane AG. 16 forbidden actions avoided.",
+  "record": "assurance/evidence/msfg_claude_forbidden_actions_avoided_review_001/run_20260601P.MSFG_CLAUDE_FORBIDDEN_ACTIONS_AVOIDED_REVIEW_001_PASSED.json",
+  "release_supported_cells": 10,
+  "release_supported_families": 0,
+  "reviewed_commit": "20f0d41887f0c7b841cdd761e5621720828e7f20",
+  "scope_discipline": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_ready": false,
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_rows_written": false
+  },
+  "stale_review_avoided": true,
+  "state_classification": "FIVE_FAMILIES_PROMOTED_SBOM_BLOCKED_TOOL_MISSING",
+  "status": "MSFG_CLAUDE_FORBIDDEN_ACTIONS_AVOIDED_REVIEW_001_PASSED",
+  "test_modules": [
+    "tests/status/test_msfg_claude_forbidden_actions_avoided_review_001.py"
+  ],
+  "timer_protocol_applied": true,
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "evidence_index_validation_clean": true,
+      "head_recheck_protocol_applied": true,
+      "head_stability_check_applied": true,
+      "marker_validated_before_review": true,
+      "no_broad_claims": true,
+      "no_training_rows": true,
+      "release_supported_cells_invariant_bound_to_registry": true,
+      "release_supported_families_invariant_bound_to_registry": true,
+      "reviewed_commit_set": true,
+      "stale_review_avoided": true,
+      "timer_protocol_applied": true
+    },
+    "passed": true
+  },
+  "verdict": "FORBIDDEN_ACTIONS_AVOIDED_VERIFIED — marker declared 16 categories."
+}

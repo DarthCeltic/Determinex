@@ -1,0 +1,75 @@
+{
+  "artifact_paths": {
+    "license_posture": "assurance/evidence/license_security_signing_posture_decision/license_posture_20260531.json",
+    "public_wording_boundary": "assurance/evidence/license_security_signing_posture_decision/public_wording_boundary_20260531.json",
+    "release_hygiene_blocker_map": "assurance/evidence/license_security_signing_posture_decision/release_hygiene_blocker_map_20260531.json",
+    "security_posture": "assurance/evidence/license_security_signing_posture_decision/security_posture_20260531.json",
+    "signing_posture": "assurance/evidence/license_security_signing_posture_decision/signing_posture_20260531.json",
+    "smartscreen_guidance": "assurance/evidence/license_security_signing_posture_decision/smartscreen_guidance_20260531.json"
+  },
+  "authority": {
+    "approval_authority_granted": false,
+    "artifact_import_authorized": false,
+    "benchmark_execution_authorized": false,
+    "broad_claims_granted": false,
+    "launch_readiness_granted": false,
+    "production_readiness_granted": false,
+    "programbench_execution_authorized": false,
+    "proof_execution_authority_granted": false,
+    "real_user_source_mutation_authorized": false,
+    "release_deploy_workflow_created": false,
+    "release_readiness_granted": false,
+    "release_ready": false,
+    "release_supported": false,
+    "source_mutation_authorized": false,
+    "support_depth_promotion_granted": false,
+    "training_eligible": false,
+    "training_rows_written": false,
+    "universal_support_claimed": false
+  },
+  "claim_boundary": {
+    "authority": {
+      "approval_authority_granted": false,
+      "artifact_import_authorized": false,
+      "benchmark_execution_authorized": false,
+      "broad_claims_granted": false,
+      "launch_readiness_granted": false,
+      "production_readiness_granted": false,
+      "programbench_execution_authorized": false,
+      "proof_execution_authority_granted": false,
+      "real_user_source_mutation_authorized": false,
+      "release_deploy_workflow_created": false,
+      "release_readiness_granted": false,
+      "release_ready": false,
+      "release_supported": false,
+      "source_mutation_authorized": false,
+      "support_depth_promotion_granted": false,
+      "training_eligible": false,
+      "training_rows_written": false,
+      "universal_support_claimed": false
+    },
+    "boundaries": [
+      "Wave 006 records exact-cell proof only.",
+      "No launch, release, production, open availability, source mutation, proof execution, training, or universal support authority is granted.",
+      "Installer, driver, GUI, SBOM, and network actions require exact signed approval before execution.",
+      "Blocked lanes emit executable next packets instead of pretending success."
+    ]
+  },
+  "doc_path": "docs/DETERMINEX_LICENSE_SECURITY_SIGNING_POSTURE_DECISION_001.md",
+  "lane": "G",
+  "lock_id": "DETERMINEX_LICENSE_SECURITY_SIGNING_POSTURE_DECISION_LOCK_001",
+  "run_record": "assurance/evidence/license_security_signing_posture_decision/run_20260531.LICENSE_SECURITY_SIGNING_POSTURE_DECISION_PASSED.json",
+  "status": "LICENSE_SECURITY_SIGNING_POSTURE_DECISION_PASSED",
+  "test_modules": [
+    "tests/status/test_license_security_signing_posture_decision_001.py"
+  ],
+  "validation": {
+    "checks": {
+      "artifact_payloads_present": true,
+      "authority_closed": true,
+      "no_broad_claims": true,
+      "no_training_rows": true
+    },
+    "passed": true
+  }
+}

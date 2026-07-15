@@ -1,0 +1,90 @@
+[package]
+name = "determinex"
+version = "0.1.0"
+description = "Determinex - proof-governed local-first AI coding workbench."
+authors = ["Determinex Contributors"]
+license = "AGPL-3.0-or-later"
+repository = "https://github.com/determinex/determinex"
+edition = "2021"
+rust-version = "1.77.2"
+default-run = "determinex"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.5.6", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+tauri = { version = "2.10.3", features = [] }
+tauri-plugin-log = "2"
+tauri-plugin-shell = "2"
+opener = "0.7"
+rusqlite = { version = "0.39.0", features = ["bundled"] }
+sqlite-vec = "0.1.9"
+tokio = { version = "1.51.1", features = ["full"] }
+chrono = "0.4.44"
+fastembed = "5.13.2"
+bytemuck = { version = "1.25.0", features = ["derive"] }
+reqwest = { version = "0.13.2", features = ["json"] }
+regex = "1.11.0"
+sha2 = "0.10"
+tree-sitter = "0.26"
+tree-sitter-rust = "0.20"
+ignore = "0.4"
+# portable-pty: real cross-platform PTY (ConPTY on Windows, termios PTY on
+# Unix) for the interactive terminal panel -- replaces one-shot,
+# 30-second-timeout subprocess spawns with a real persistent shell.
+portable-pty = "0.9"
+# ── Vanguard Vault: local-symmetric encryption for telemetry outbox ─────────
+# aes-gcm: AEAD authenticated encryption. The nonce + MAC guarantee both
+#          confidentiality and integrity — truncated or tampered payloads
+#          are rejected at decrypt time, not silently accepted.
+aes-gcm = "0.10"
+# rand: cryptographically secure random nonce generation (OsRng).
+rand = "0.8"
+# base64: encode the (nonce || ciphertext) blob to a portable ASCII string.
+base64 = "0.22"
+dotenvy = "0.15.7"
+
+
+# ── Production Release Profile ───────────────────────────────────────────────
+# Applied exclusively to `cargo build --release` / `tauri build`.
+# Development builds (cargo check, cargo build) still use the fast default profile.
+[profile.release]
+# Link-Time Optimisation: the linker sees the full crate graph and can inline
+# across crate boundaries, dead-strip unreachable symbols, and vectorise loops
+# that span multiple crates. "fat" LTO is slower to link but produces the
+# smallest and fastest binary.
+lto = true
+# Force a single backend code-generation unit. Without this, LLVM splits the
+# crate into parallel chunks for incremental speed — useful in dev, but it
+# prevents cross-chunk inlining and produces a larger binary.
+codegen-units = 1
+# Size-optimize: "z" is one step beyond "s" (which is one step beyond "3").
+# Eliminates loop unrolling and other bloat-for-speed trades. Correct choice
+# for a desktop app where startup latency matters more than throughput.
+opt-level = "z"
+# Replace the Rust unwinding runtime with an immediate OS abort signal.
+# Saves ~300 KB of binary size by removing the unwinder and stack demanglers.
+# Safe for our use-case — Tauri/tokio do not rely on cross-language unwinding.
+panic = "abort"
+# Strip DWARF debug symbols from the final binary.
+# Do NOT strip in a debug build or the profiler/crash reporter loses line info.
+strip = true
+
+# ── Test-only dependencies ────────────────────────────────────────────────────
+# These crates are compiled only for `cargo test` and never included in the
+# production binary (tauri build --release).
+[dev-dependencies]
+dirs = "6.0.0"
+# tempfile: creates isolated temporary directories for per-task sandboxing in
+# the benchmark ingestor. Each BenchmarkTask gets its own throwaway dir so
+# rustc/tsc invocations don't interfere with each other or the live workspace.
+tempfile = "3"

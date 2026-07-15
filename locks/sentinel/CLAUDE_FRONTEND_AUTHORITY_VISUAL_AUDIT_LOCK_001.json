@@ -1,0 +1,51 @@
+{
+  "lock_id": "CLAUDE_FRONTEND_AUTHORITY_VISUAL_AUDIT_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Remediates deferred CLAUDE-AUTH-012 risk: panels mixed authority signals. Defines the 8 distinct visual sections the frontend must separate (diagnosis, patch_preview, verifier_result, approval_request, source_mutation_status, rollback_status, evidence_status, training_eligibility_status) and an audit() function that refuses any layout that (1) merges sections (compound section names with +, /, &); (2) is missing any required section; (3) shows a success/green state for any non-output section without a 'does NOT authorize X' caption; (4) hides a blocked state or leaves blocked_text empty. source_mutation_status and rollback_status are exempted from the negative-authority caption rule because their green state IS the answer; training_eligibility_status remains in the required-caption set because the training answer is always negative in this lane.",
+  "purpose": "Rung 6 of DETERMINEX_CLAUDE_IDE_AUTHORITY_AND_CLAIMS_HYGIENE_SERIES.",
+  "depends_on_locks": [
+    "CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001",
+    "CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001"
+  ],
+  "tests": 19,
+  "test_modules": [
+    "tests/ide/test_frontend_authority_visual_audit_lock.py"
+  ],
+  "status_tokens": [
+    "FRONTEND_AUTHORITY_VISUAL_AUDIT_PASSED",
+    "FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_AMBIGUOUS_STATE",
+    "FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_MISSING_NEGATIVE_AUTHORITY",
+    "FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_SECTION_MERGE",
+    "FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_BLOCKED_STATE_HIDDEN"
+  ],
+  "required_sections": [
+    "diagnosis",
+    "patch_preview",
+    "verifier_result",
+    "approval_request",
+    "source_mutation_status",
+    "rollback_status",
+    "evidence_status",
+    "training_eligibility_status"
+  ],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "ambiguous_visual_state_accepted": false,
+    "blocked_state_hidden_accepted": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/claude_frontend_authority_visual_audit/run_20260528.json"
+  },
+  "remediates_finding": "CLAUDE-AUTH-012",
+  "next_recommended_lock": "CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001"
+}

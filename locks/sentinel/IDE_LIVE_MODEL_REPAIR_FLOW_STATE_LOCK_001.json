@@ -1,0 +1,72 @@
+{
+  "lock_id": "IDE_LIVE_MODEL_REPAIR_FLOW_STATE_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Backend state model for the live-model repair flow. Composes LiveModelAdmissionRecord + LiveDiagnoseTrace + QuarantinedPatchPlan + LiveTempPatchVerifierResult into a flat IDELiveModelRepairFlowState. Pure function; no I/O. human_approval is always HUMAN_APPROVAL_REQUIRED; source_mutation is always SOURCE_MUTATION_BLOCKED; training_eligibility is always TRAINING_ELIGIBLE_FALSE — even when temp_patch_verifier shows TEMP_PATCH_VERIFIER_PASSED.",
+  "purpose": "Rung 6 of the live-local-model campaign. Exposes the live-model repair flow state to the IDE backend without building UI. Sets up CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001 (the campaign finale).",
+  "depends_on_locks": [
+    "MODEL_ROUTER_LOCK_001",
+    "IDE_REPAIR_STATE_MODEL_LOCK_001",
+    "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+    "LIVE_MODEL_DIAGNOSE_ONLY_TRACE_LOCK_001",
+    "LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001",
+    "LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001"
+  ],
+  "tests": 13,
+  "passed_on_this_host": 13,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide/test_ide_live_model_repair_flow_state_lock.py"],
+  "status_tokens": [
+    "LIVE_MODEL_NOT_ADMITTED",
+    "LIVE_MODEL_ADMITTED",
+    "DIAGNOSIS_ADVISORY_AVAILABLE",
+    "PATCH_PLAN_QUARANTINED",
+    "TEMP_PATCH_VERIFIER_FAILED",
+    "TEMP_PATCH_VERIFIER_PASSED",
+    "HUMAN_APPROVAL_REQUIRED",
+    "SOURCE_MUTATION_BLOCKED",
+    "TRAINING_ELIGIBLE_FALSE",
+    "EVIDENCE_AVAILABLE"
+  ],
+  "invariants": [
+    "build_live_flow_state is a pure function over its inputs; no I/O.",
+    "human_approval is always HUMAN_APPROVAL_REQUIRED on every state.",
+    "source_mutation is always SOURCE_MUTATION_BLOCKED on every state.",
+    "training_eligibility is always TRAINING_ELIGIBLE_FALSE on every state.",
+    "Admission record with is_ready=True flips live_admission to LIVE_MODEL_ADMITTED; otherwise LIVE_MODEL_NOT_ADMITTED.",
+    "TEMP_PATCH_VERIFIER_PASSED does NOT open source_mutation — it stays BLOCKED.",
+    "scripts/ide/live_model_repair_flow_*.py contains no `import subprocess`, no `import urllib`."
+  ],
+  "scope_discipline": {
+    "programbench_touched": false,
+    "frontend_touched": false,
+    "docker_pulls": false,
+    "live_model_call_made": false,
+    "subprocess_introduced": false,
+    "network_introduced": false,
+    "user_source_mutated": false,
+    "corpus_row_written": false,
+    "ui_implemented": false,
+    "source_mutation_opened": false
+  },
+  "files_added": {
+    "code": [
+      "scripts/ide/live_model_repair_flow_state.py",
+      "scripts/ide/live_model_repair_flow_record.py"
+    ],
+    "tests": ["tests/ide/test_ide_live_model_repair_flow_state_lock.py"],
+    "lock": "locks/sentinel/IDE_LIVE_MODEL_REPAIR_FLOW_STATE_LOCK_001.json",
+    "evidence": "assurance/evidence/ide_live_model_repair_flow_state/run_20260527.json",
+    "docs": "docs/IDE_LIVE_MODEL_REPAIR_FLOW_STATE.md"
+  },
+  "evidence": {"run_artifact": "assurance/evidence/ide_live_model_repair_flow_state/run_20260527.json"},
+  "next_recommended_lock": "CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001",
+  "files": [
+    "scripts/ide/live_model_repair_flow_state.py",
+    "scripts/ide/live_model_repair_flow_record.py",
+    "tests/ide/test_ide_live_model_repair_flow_state_lock.py",
+    "locks/sentinel/IDE_LIVE_MODEL_REPAIR_FLOW_STATE_LOCK_001.json",
+    "assurance/evidence/ide_live_model_repair_flow_state/run_20260527.json",
+    "docs/IDE_LIVE_MODEL_REPAIR_FLOW_STATE.md"
+  ]
+}

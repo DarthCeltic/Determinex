@@ -1,0 +1,37 @@
+{
+  "lock_id": "LOCAL_MODEL_SETTINGS_PANEL_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Local model settings TSX panel. Provider selection (no_model/ollama/local_hf/executable_adapter), model id, digest, capabilities, task classes, dry_run_default toggle (default true), live opt-in warning checkbox. Network providers blocked, stale model ids warned. Save button posts metadata only; no live model call.",
+  "purpose": "Rung 10 of the real frontend campaign.",
+  "depends_on_locks": [
+    "FRONTEND_REPAIR_PANEL_SHELL_LOCK_001",
+    "LOCAL_MODEL_CONFIG_WIZARD_LOCK_001",
+    "LOCAL_MODEL_LIVE_ADMISSION_LOCK_001",
+    "MODEL_ROUTER_LOCK_001"
+  ],
+  "tests": 14,
+  "passed_on_this_host": 14,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/ide_frontend/test_local_model_settings_panel_lock.py"
+  ],
+  "status_tokens": [
+    "LOCAL_MODEL_SETTINGS_PANEL_READY",
+    "LOCAL_MODEL_CONFIG_DRY_RUN_DEFAULT",
+    "LOCAL_MODEL_NETWORK_PROVIDER_BLOCKED",
+    "LOCAL_MODEL_SAVE_NO_LIVE_CALL",
+    "LOCAL_MODEL_STALE_ID_WARNING_VISIBLE"
+  ],
+  "scope_discipline": {
+    "source_apply_control_added": false,
+    "user_source_mutated": false,
+    "training_eligibility_opened": false,
+    "live_model_called_on_save": false,
+    "network_provider_admitted": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/local_model_settings_panel/run_20260528.json"
+  },
+  "next_recommended_lock": "FRONTEND_END_TO_END_REPAIR_FLOW_SMOKE_LOCK_001"
+}

@@ -1,0 +1,26 @@
+{
+  "lock_id": "FRONTEND_DIAGNOSE_AND_PATCH_PLAN_FLOW_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Diagnose + patch plan flow panel. Dry-run button (no model call), live opt-in checkbox + button, patch-plan opt-in checkbox + button. Buttons disabled until checkbox checked. Plan quarantined; never applied.",
+  "purpose": "Rung 5 of the real frontend campaign.",
+  "depends_on_locks": ["FRONTEND_REPAIR_PANEL_SHELL_LOCK_001"],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": ["tests/ide_frontend/test_frontend_diagnose_and_patch_plan_flow_lock.py"],
+  "status_tokens": [
+    "FRONTEND_DIAGNOSE_DRY_RUN_READY",
+    "FRONTEND_LIVE_DIAGNOSE_OPT_IN_REQUIRED",
+    "FRONTEND_PATCH_PLAN_QUARANTINED",
+    "FRONTEND_PATCH_PLAN_SOURCE_UNCHANGED"
+  ],
+  "scope_discipline": {
+    "live_button_default_enabled": false,
+    "patch_apply_control_added": false,
+    "user_source_mutated": false,
+    "training_eligibility_opened": false
+  },
+  "evidence": {"run_artifact": "assurance/evidence/frontend_diagnose_and_patch_plan_flow/run_20260528.json"},
+  "next_recommended_lock": "FRONTEND_TEMP_VERIFY_PANEL_LOCK_001"
+}

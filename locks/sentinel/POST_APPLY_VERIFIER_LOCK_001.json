@@ -1,0 +1,36 @@
+{
+  "lock_id": "POST_APPLY_VERIFIER_LOCK_001",
+  "date": "2026-05-28",
+  "commit": "clean-main",
+  "description": "Post-apply verifier runner. Runs a hardened verifier callable on the user's workspace after a real source-apply has completed. PASS records POST_APPLY_VERIFIER_PASSED with training_eligible=False; FAIL records POST_APPLY_VERIFIER_FAILED + POST_APPLY_ROLLBACK_RECOMMENDED. No training row is created automatically on success.",
+  "purpose": "Rung 9 of the real repair flow campaign.",
+  "depends_on_locks": [
+    "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001",
+    "SAFE_PATCH_DIFF_ROLLBACK_LOCK_001"
+  ],
+  "tests": 11,
+  "passed_on_this_host": 11,
+  "skipped_on_this_host": 0,
+  "test_modules": [
+    "tests/repair/test_post_apply_verifier_lock.py"
+  ],
+  "status_tokens": [
+    "POST_APPLY_VERIFIER_PASSED",
+    "POST_APPLY_VERIFIER_FAILED",
+    "POST_APPLY_ROLLBACK_RECOMMENDED",
+    "POST_APPLY_VERIFIER_BLOCKED_NO_APPLY"
+  ],
+  "scope_discipline": {
+    "training_eligibility_opened": false,
+    "training_row_written": false,
+    "corpus_written": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "codex_lane_files_touched": false,
+    "release_workflow_added": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/post_apply_verifier/run_20260528.json"
+  },
+  "next_recommended_lock": "SOURCE_MUTATION_ROLLBACK_EXECUTION_LOCK_001"
+}
