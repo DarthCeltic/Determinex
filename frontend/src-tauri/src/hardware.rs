@@ -273,15 +273,25 @@ pub fn poll_hardware() -> Result<HardwareProbe, String> {
 
 /// Map a VRAM / unified-memory budget to the appropriate `DeterminexConfig`.
 ///
-/// | Budget (MB)   | Engineer model       | num_ctx | Notes                              |
-/// |---------------|----------------------|---------|------------------------------------|
-/// | < 4 000       | —                    | —       | Hard reject — minimum not met      |
-/// | 4 000 - 7 999 | qwen2.5-coder:3b-instruct | 4 096 | Fits 4-6 GB. 7B models lag here. |
-/// | 8 000 - 11 999| qwen2.5-coder:7b-instruct | 4 096 | Fits 8-11 GB with context growth |
-/// | >= 12 000     | qwen2.5-coder:7b-instruct | 8 192 | Headroom for extended context    |
+/// | Budget (MB)     | Engineer model             | num_ctx | Notes                         |
+/// |-----------------|-----------------------------|---------|--------------------------------|
+/// | < 4 000         | —                           | —       | Hard reject — minimum not met |
+/// | 4 000 - 7 999   | qwen2.5-coder:3b-instruct   | 4 096   | Fits 4-6 GB. 7B models lag.   |
+/// | 8 000 - 11 999  | qwen2.5-coder:7b-instruct   | 4 096   | Fits 8-11 GB with growth      |
+/// | 12 000 - 23 999 | qwen2.5-coder:7b-instruct   | 8 192   | Headroom for extended context |
+/// | 24 000 - 47 999 | qwen2.5-coder:14b-instruct  | 8 192   | Room for a genuinely bigger model |
+/// | >= 48 000       | qwen2.5-coder:32b-instruct  | 16 384  | High-end workstation / server GPU |
+///
+/// This is the *default recommendation*, not a ceiling -- `available_tiers_for_budget`
+/// below lists every tier a machine could realistically run so the Setup Wizard
+/// can offer real choices instead of forcing everyone through the small path,
+/// and `pull_custom_model`/`register_custom_gguf` in model_puller.rs let anyone
+/// go further still (their own GGUF, their own Ollama tag, whatever's current).
 ///
 /// Derived from Crucible benchmark runs on 6 GB GPU (6 GB dedicated)
-/// and validated against Apple M2 Pro (16 GB unified).
+/// and validated against Apple M2 Pro (16 GB unified). The >=24GB tiers are
+/// not yet benchmarked on real hardware -- treat as a reasonable default,
+/// not a validated claim, until someone with that hardware reports back.
 pub fn calculate_tier(budget_mb: u64) -> Result<DeterminexConfig, String> {
     if budget_mb < 4000 {
         return Err(format!(
@@ -301,10 +311,20 @@ pub fn calculate_tier(budget_mb: u64) -> Result<DeterminexConfig, String> {
             engineer_model: "qwen2.5-coder:7b-instruct".to_string(),
             num_ctx: 4096,
         }
-    } else {
+    } else if budget_mb < 24000 {
         DeterminexConfig {
             engineer_model: "qwen2.5-coder:7b-instruct".to_string(),
             num_ctx: 8192,
+        }
+    } else if budget_mb < 48000 {
+        DeterminexConfig {
+            engineer_model: "qwen2.5-coder:14b-instruct".to_string(),
+            num_ctx: 8192,
+        }
+    } else {
+        DeterminexConfig {
+            engineer_model: "qwen2.5-coder:32b-instruct".to_string(),
+            num_ctx: 16384,
         }
     };
 
@@ -316,6 +336,100 @@ pub fn calculate_tier(budget_mb: u64) -> Result<DeterminexConfig, String> {
     );
 
     Ok(config)
+}
+
+/// One selectable option in the Setup Wizard's model picker: a size tier with
+/// its expected download and a plain-language description. Distinct from
+/// `DeterminexConfig` (the *chosen* config) -- this is the full menu.
+#[derive(Debug, Clone, Serialize)]
+pub struct ModelTierOption {
+    pub id: String,
+    pub label: String,
+    pub engineer_model: String,
+    pub num_ctx: u32,
+    pub min_budget_mb: u64,
+    pub approx_download_gb: f32,
+    pub description: String,
+    pub recommended: bool,
+}
+
+/// Every tier a machine with `budget_mb` could realistically run, smallest
+/// first, with the auto-detected default flagged. Lets the wizard show
+/// "here's what fits, here's what's recommended" instead of a single locked
+/// choice -- a 24GB+ card should be able to deliberately pick the 7B tier for
+/// speed, or the 32B tier for quality, not just get whatever calculate_tier
+/// silently picked.
+pub fn available_tiers_for_budget(budget_mb: u64) -> Vec<ModelTierOption> {
+    let all = [
+        (
+            "tiny",
+            "Tiny (1.5B) — fastest, fits nearly anywhere",
+            "qwen2.5-coder:1.5b-instruct",
+            4096u32,
+            4000u64,
+            1.0f32,
+        ),
+        (
+            "small",
+            "Small (3B) — good balance on modest hardware",
+            "qwen2.5-coder:3b-instruct",
+            4096,
+            4000,
+            2.0,
+        ),
+        (
+            "medium",
+            "Medium (7B) — the default sweet spot",
+            "qwen2.5-coder:7b-instruct",
+            8192u32,
+            8000u64,
+            4.5f32,
+        ),
+        (
+            "large",
+            "Large (14B) — noticeably stronger reasoning, slower",
+            "qwen2.5-coder:14b-instruct",
+            8192,
+            24000,
+            9.0,
+        ),
+        (
+            "xlarge",
+            "Extra Large (32B) — for high-VRAM workstations/servers",
+            "qwen2.5-coder:32b-instruct",
+            16384,
+            48000,
+            20.0,
+        ),
+    ];
+
+    let recommended = calculate_tier(budget_mb)
+        .map(|c| c.engineer_model)
+        .unwrap_or_default();
+
+    all.iter()
+        .filter(|(_, _, _, _, min_budget, _)| budget_mb >= *min_budget)
+        .map(|(id, label, model, ctx, min_budget, gb)| ModelTierOption {
+            id: id.to_string(),
+            label: label.to_string(),
+            engineer_model: model.to_string(),
+            num_ctx: *ctx,
+            min_budget_mb: *min_budget,
+            approx_download_gb: *gb,
+            description: format!(
+                "Needs ~{} GB VRAM/RAM budget. Roughly {:.1} GB download.",
+                min_budget / 1000,
+                gb
+            ),
+            recommended: *model == recommended,
+        })
+        .collect()
+}
+
+#[tauri::command]
+pub fn list_model_tiers() -> Result<Vec<ModelTierOption>, String> {
+    let budget_mb = poll_vram_budget()?;
+    Ok(available_tiers_for_budget(budget_mb))
 }
 
 #[cfg(test)]

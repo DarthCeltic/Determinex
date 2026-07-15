@@ -75,7 +75,7 @@ const MODEL_SPECS: &[ModelSpec] = &[
 /// as they arrive rather than buffering the whole response in memory -- the
 /// Sentinel GGUF alone is 7+ GB, which a buffer-then-write approach would hold
 /// entirely in RAM before touching disk.
-async fn stream_download(url: &str, dest: &std::path::Path) -> Result<(), String> {
+pub(crate) async fn stream_download(url: &str, dest: &std::path::Path) -> Result<(), String> {
     if let Some(parent) = dest.parent() {
         tokio::fs::create_dir_all(parent)
             .await
