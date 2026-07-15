@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { invokeSafe } from "../lib/api";
 import { DiffEditor } from "@monaco-editor/react";
-import { Check, X, GitCompare, Save, Trash2, Loader2 } from "lucide-react";
+import { Check, X, GitCompare, Save, Trash2, Loader2, ShieldCheck, ShieldAlert, ShieldQuestion } from "lucide-react";
+
+interface StagedDiff {
+  id: string;
+  path: string;
+  originalContent: string;
+  proposedContent: string;
+  verified: boolean | null;
+  verificationTool: string | null;
+  verificationOutput: string | null;
+}
 
 export function DiffReviewPanel() {
-  const [stagedDiffs, setStagedDiffs] = useState<any[]>([]);
+  const [stagedDiffs, setStagedDiffs] = useState<StagedDiff[]>([]);
   const [selectedDiffId, setSelectedDiffId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionInProgress, setActionInProgress] = useState(false);
@@ -90,26 +100,58 @@ export function DiffReviewPanel() {
         {selectedDiff ? (
           <>
             <div className="h-14 border-b border-[#30363d] bg-[#0d1117] px-4 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <span className="text-sm font-mono text-[#8b949e]">{selectedDiff.path}</span>
+                {selectedDiff.verified === true && (
+                  <span className="flex items-center gap-1.5 text-xs font-semibold text-green-400 bg-green-500/10 border border-green-500/20 rounded-full px-2.5 py-1">
+                    <ShieldCheck className="w-3.5 h-3.5" /> Verified — {selectedDiff.verificationTool} passed
+                  </span>
+                )}
+                {selectedDiff.verified === false && (
+                  <span className="flex items-center gap-1.5 text-xs font-semibold text-red-400 bg-red-500/10 border border-red-500/20 rounded-full px-2.5 py-1">
+                    <ShieldAlert className="w-3.5 h-3.5" /> {selectedDiff.verificationTool} FAILED
+                  </span>
+                )}
+                {selectedDiff.verified === null && (
+                  <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 bg-slate-500/10 border border-slate-500/20 rounded-full px-2.5 py-1">
+                    <ShieldQuestion className="w-3.5 h-3.5" /> No oracle for this file type — not verified
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-2">
-                <button 
+                <button
                   onClick={() => handleReject(selectedDiff.id)}
                   disabled={actionInProgress}
                   className="px-3 py-1.5 flex items-center gap-1.5 text-sm font-medium text-red-400 hover:bg-red-500/10 border border-red-500/20 rounded transition-colors disabled:opacity-50"
                 >
                   <Trash2 className="w-4 h-4" /> Reject
                 </button>
-                <button 
-                  onClick={() => handleApply(selectedDiff.id)}
+                <button
+                  onClick={() => {
+                    if (selectedDiff.verified === false && !window.confirm(
+                      `${selectedDiff.verificationTool ?? "The oracle"} reported this change FAILS to compile. Apply it anyway?`
+                    )) return;
+                    handleApply(selectedDiff.id);
+                  }}
                   disabled={actionInProgress}
-                  className="px-3 py-1.5 flex items-center gap-1.5 text-sm font-medium text-green-400 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 rounded transition-colors disabled:opacity-50"
+                  className={`px-3 py-1.5 flex items-center gap-1.5 text-sm font-medium border rounded transition-colors disabled:opacity-50 ${
+                    selectedDiff.verified === false
+                      ? "text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30"
+                      : "text-green-400 bg-green-500/10 hover:bg-green-500/20 border-green-500/20"
+                  }`}
                 >
-                  <Save className="w-4 h-4" /> Apply Change
+                  <Save className="w-4 h-4" /> {selectedDiff.verified === false ? "Apply Anyway" : "Apply Change"}
                 </button>
               </div>
             </div>
+            {selectedDiff.verified === false && selectedDiff.verificationOutput && (
+              <div className="border-b border-red-900/40 bg-red-950/20 px-4 py-3 shrink-0 max-h-40 overflow-y-auto">
+                <div className="text-xs font-semibold text-red-300 mb-1">
+                  {selectedDiff.verificationTool} output — this is why it's marked failed, not a guess:
+                </div>
+                <pre className="text-xs font-mono text-red-200/80 whitespace-pre-wrap">{selectedDiff.verificationOutput}</pre>
+              </div>
+            )}
             <div className="flex-1 min-h-0">
               <DiffEditor
                 theme="vs-dark"
