@@ -135,6 +135,45 @@ export async function getThreads(): Promise<ThreadsResponse> {
   }
 }
 
+export interface ModelTierOption {
+  id: string;
+  label: string;
+  engineer_model: string;
+  num_ctx: number;
+  min_budget_mb: number;
+  approx_download_gb: number;
+  description: string;
+  recommended: boolean;
+}
+
+export async function listModelTiers(): Promise<ModelTierOption[]> {
+  try {
+    if (isTauri()) return await invoke<ModelTierOption[]>("list_model_tiers");
+    return [];
+  } catch (error) {
+    console.error("Failed to list model tiers:", error);
+    return [];
+  }
+}
+
+export interface PullSummary {
+  models_pulled: string[];
+  models_existing: string[];
+  models_failed: string[];
+  tier_resolved: string;
+  vram_budget_mb: number;
+}
+
+export async function pullCustomModel(tag: string): Promise<PullSummary> {
+  if (!isTauri()) throw new Error("Model pulling requires the desktop app.");
+  return await invoke<PullSummary>("pull_custom_model", { tag });
+}
+
+export async function registerCustomGguf(url: string, tag: string, numCtx: number): Promise<string> {
+  if (!isTauri()) throw new Error("Model registration requires the desktop app.");
+  return await invoke<string>("register_custom_gguf", { url, tag, numCtx });
+}
+
 export async function getApiKeyStatus(): Promise<KeyStatusResponse> {
   try {
     if (isTauri()) return await invoke<KeyStatusResponse>("get_api_key_status");

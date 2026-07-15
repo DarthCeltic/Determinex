@@ -2,7 +2,7 @@
 
 import { useCallback, useState, useEffect } from "react";
 import { invoke as tauriInvoke } from "@tauri-apps/api/core";
-import { isTauri, invokeSafe, saveApiKeys, getApiKeyStatus } from "@/lib/api";
+import { isTauri, invokeSafe, saveApiKeys, getApiKeyStatus, listModelTiers, pullCustomModel, registerCustomGguf, type ModelTierOption } from "@/lib/api";
 import {
   NETWORK_POLICY_COPY,
   type NetworkPolicyMode,
@@ -13,7 +13,7 @@ import {
   readStoredNetworkPolicy
 } from "@/lib/networkPolicy";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Zap, Cloud, Cpu, Server, Check, ArrowRight, Loader2, HardDrive, AlertTriangle, X, KeyRound } from "lucide-react";
+import { Shield, Zap, Cloud, Cpu, Server, Check, ArrowRight, Loader2, HardDrive, AlertTriangle, X, KeyRound, Download, ChevronDown } from "lucide-react";
 
 const invoke = async (cmd: string, args?: Record<string, unknown>) => {
   if (isTauri()) {
@@ -79,6 +79,79 @@ export function SetupWizard() {
   useEffect(() => {
     getApiKeyStatus().then((status) => setOpenrouterConfigured(status.openrouter));
   }, []);
+
+  // ── Advanced model selection: real tiers, custom Ollama tags, custom GGUFs ──
+  const [modelTiers, setModelTiers] = useState<ModelTierOption[]>([]);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [customTag, setCustomTag] = useState("");
+  const [customTagStatus, setCustomTagStatus] = useState<string | null>(null);
+  const [customTagBusy, setCustomTagBusy] = useState(false);
+  const [ggufUrl, setGgufUrl] = useState("");
+  const [ggufTag, setGgufTag] = useState("");
+  const [ggufCtx, setGgufCtx] = useState("4096");
+  const [ggufStatus, setGgufStatus] = useState<string | null>(null);
+  const [ggufBusy, setGgufBusy] = useState(false);
+  const [tierPullStatus, setTierPullStatus] = useState<string | null>(null);
+  const [tierPullBusy, setTierPullBusy] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (step === "hardware") {
+      listModelTiers().then(setModelTiers);
+    }
+  }, [step]);
+
+  const handlePullTier = async (tier: ModelTierOption) => {
+    setTierPullBusy(tier.id);
+    setTierPullStatus(null);
+    try {
+      const result = await pullCustomModel(tier.engineer_model);
+      if (result.models_failed.length > 0) {
+        setTierPullStatus(`Failed: ${result.models_failed.join(", ")}`);
+      } else if (result.models_existing.length > 0) {
+        setTierPullStatus(`${tier.engineer_model} is already installed.`);
+      } else {
+        setTierPullStatus(`Pulled ${tier.engineer_model}. It's available in Ollama now.`);
+      }
+    } catch (err) {
+      setTierPullStatus(err instanceof Error ? err.message : String(err));
+    } finally {
+      setTierPullBusy(null);
+    }
+  };
+
+  const handlePullCustomTag = async () => {
+    if (!customTag.trim()) return;
+    setCustomTagBusy(true);
+    setCustomTagStatus(null);
+    try {
+      const result = await pullCustomModel(customTag.trim());
+      if (result.models_failed.length > 0) {
+        setCustomTagStatus(`Failed: ${result.models_failed.join(", ")}`);
+      } else if (result.models_existing.length > 0) {
+        setCustomTagStatus(`${customTag} is already installed.`);
+      } else {
+        setCustomTagStatus(`Pulled ${customTag}. It's available in Ollama now.`);
+      }
+    } catch (err) {
+      setCustomTagStatus(err instanceof Error ? err.message : String(err));
+    } finally {
+      setCustomTagBusy(false);
+    }
+  };
+
+  const handleRegisterGguf = async () => {
+    if (!ggufUrl.trim() || !ggufTag.trim()) return;
+    setGgufBusy(true);
+    setGgufStatus(null);
+    try {
+      const msg = await registerCustomGguf(ggufUrl.trim(), ggufTag.trim(), parseInt(ggufCtx, 10) || 4096);
+      setGgufStatus(msg);
+    } catch (err) {
+      setGgufStatus(err instanceof Error ? err.message : String(err));
+    } finally {
+      setGgufBusy(false);
+    }
+  };
 
   const isNative = isTauri();
 
@@ -400,6 +473,144 @@ export function SetupWizard() {
                       </div>
                     </div>
                   )}
+
+                  {modelTiers.length > 0 && (
+                    <div className="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4 flex flex-col gap-3">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+                        Every tier your hardware can run
+                      </div>
+                      <p className="text-xs text-slate-500 -mt-2">
+                        The recommended tier is used automatically. Got more VRAM than you need, or want to
+                        try something bigger? Pull an alternate tier directly — it doesn't replace anything,
+                        it just becomes available in Ollama for you to select elsewhere.
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {modelTiers.map((tier) => (
+                          <div
+                            key={tier.id}
+                            className={`rounded-lg border p-3 flex flex-col gap-2 ${
+                              tier.recommended
+                                ? "border-indigo-500/60 bg-indigo-900/20"
+                                : "border-slate-700/50 bg-slate-900/30"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-sm font-semibold text-white">{tier.label}</span>
+                              {tier.recommended && (
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded-full">
+                                  Recommended
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-xs text-slate-500">{tier.description}</span>
+                            <button
+                              onClick={() => handlePullTier(tier)}
+                              disabled={tierPullBusy !== null || tier.recommended}
+                              className="mt-1 self-start text-xs font-medium px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-40 flex items-center gap-1.5 transition-colors"
+                            >
+                              {tierPullBusy === tier.id ? (
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                              ) : (
+                                <Download className="w-3 h-3" />
+                              )}
+                              {tier.recommended ? "Used automatically" : "Pull this tier"}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      {tierPullStatus && (
+                        <p className="text-xs text-slate-400 border-t border-slate-700/50 pt-2">{tierPullStatus}</p>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="rounded-xl border border-slate-700/50 bg-slate-800/30">
+                    <button
+                      onClick={() => setAdvancedOpen((v) => !v)}
+                      className="w-full flex items-center justify-between p-4 text-left"
+                    >
+                      <div>
+                        <div className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+                          Advanced: bring your own model
+                        </div>
+                        <p className="text-xs text-slate-500 mt-1">
+                          Have a specific Ollama tag or a GGUF from HuggingFace (or anywhere else)? Use it directly.
+                        </p>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${advancedOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {advancedOpen && (
+                      <div className="px-4 pb-4 flex flex-col gap-4">
+                        <div className="flex flex-col gap-2">
+                          <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Any Ollama tag
+                          </label>
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              value={customTag}
+                              onChange={(e) => setCustomTag(e.target.value)}
+                              placeholder="e.g. llama3.3:70b, deepseek-coder-v2:236b, mistral-nemo:latest"
+                              className="flex-1 rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500"
+                            />
+                            <button
+                              onClick={handlePullCustomTag}
+                              disabled={customTagBusy || !customTag.trim()}
+                              className="px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white disabled:opacity-40 flex items-center gap-2 transition-colors"
+                            >
+                              {customTagBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                              Pull
+                            </button>
+                          </div>
+                          <p className="text-xs text-slate-500">
+                            Anything on <span className="font-mono">ollama.com/library</span> works — no allowlist.
+                          </p>
+                          {customTagStatus && <p className="text-xs text-slate-400">{customTagStatus}</p>}
+                        </div>
+
+                        <div className="flex flex-col gap-2 border-t border-slate-700/50 pt-4">
+                          <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Custom GGUF URL
+                          </label>
+                          <input
+                            type="text"
+                            value={ggufUrl}
+                            onChange={(e) => setGgufUrl(e.target.value)}
+                            placeholder="https://huggingface.co/.../resolve/main/model.gguf"
+                            className="rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500"
+                          />
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              value={ggufTag}
+                              onChange={(e) => setGgufTag(e.target.value)}
+                              placeholder="Name it (e.g. my-finetune)"
+                              className="flex-1 rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500"
+                            />
+                            <input
+                              type="number"
+                              value={ggufCtx}
+                              onChange={(e) => setGgufCtx(e.target.value)}
+                              placeholder="Context"
+                              className="w-28 rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500"
+                            />
+                            <button
+                              onClick={handleRegisterGguf}
+                              disabled={ggufBusy || !ggufUrl.trim() || !ggufTag.trim()}
+                              className="px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white disabled:opacity-40 flex items-center gap-2 transition-colors"
+                            >
+                              {ggufBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                              Register
+                            </button>
+                          </div>
+                          <p className="text-xs text-slate-500">
+                            Downloads once, then registers it as an Ollama model under the name you choose.
+                          </p>
+                          {ggufStatus && <p className="text-xs text-slate-400">{ggufStatus}</p>}
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
                   <div className="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4">
                     <div className="text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Setup will run</div>
