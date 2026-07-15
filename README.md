@@ -9,7 +9,6 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org)
 [![Rust](https://img.shields.io/badge/Rust-1.75%2B-orange)](https://rustup.rs)
-[![White Paper](https://img.shields.io/badge/Paper-WHITE__PAPER.md-green)](docs/papers/WHITE_PAPER.md)
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-♥-pink)](https://github.com/sponsors/DarthCeltic)
 
 *Built by [Ryan Gurganious](https://github.com/DarthCeltic)*
@@ -85,27 +84,16 @@ All three run locally via Ollama. No subscription. No cloud required for the cor
 | C7 · Sentinel v3 | **87%** | 39/45 | — (pre-dates DSL fine-tune; v5-dsl re-eval queued) |
 | **System combined** | **86%** | 116/135 | +3pp |
 
-### SWE-bench Lite (300 instances, post-hardening ablation)
+### SWE-bench Lite
 
-Real software engineering tasks from production repositories. Patches verified by each repo's own test suite in Docker.
+Real software engineering tasks from production repositories. Patches verified by each repo's own test suite in Docker. Three configurations (Cloak-on region-mode, Cloak-on, and a hybrid-architect variant) were run on disk-pressured Docker workers that produced per-instance image-export errors on roughly 40% of instances — those runs are not reported here; a clean rerun is required before any real number is published for them.
 
 | Config | Architect | Builder | Cloak | Resolved | Status |
 |--------|-----------|---------|-------|----------|--------|
 | B-Uncloaked | DeepSeek V4 | DeepSeek V4 | off | **14.0%** (42/300) | Audited May snapshot; fresh rerun required for publication |
-| E-RegionControl | DeepSeek V4 | DeepSeek V4 | off, region forced | **>=6.0%** | Lower bound, disk-export errors |
-| B-Cloaked RosettaOFF | DeepSeek V4 | DeepSeek V4 | on | **>=2.3%** | Lower bound, disk-export errors |
-| D-Cloaked | Claude Sonnet 4.6 | DeepSeek V4 | on | **>=3.3%** | Lower bound, disk-export errors |
 | D-Cloaked (pre-hardening historical) | Claude Sonnet 4.6 | DeepSeek V3 | on | **11.7%** | Historical, pre-hardening |
 
-**What the delta framework measures:**
-```
-B-Uncloaked 14.0%      -> audited May snapshot; final baseline pending fresh rerun
-E-RegionControl >=6.0% -> lower-bound region-mode control
-B-Cloaked >=2.3%       -> lower-bound sovereignty result
-D-Cloaked >=3.3%       -> lower-bound hybrid Architect result
-```
-
-*Privacy audit: B-Cloaked run verified 1,813,760 identifiers across 300 instances - 0 restoration failures, 0 privacy leaks. Cryptographic proof artifact via `DETERMINEX_CLOAK_AUDIT=1`. TinyCorpusReplay, when referenced, is an answer-key corpus replay diagnostic for eval-path mechanics only; it is not a clean benchmark score, not a model score, and not training-eligible.*
+*Privacy audit: a Cloak-on run verified 1,813,760 identifiers across 300 instances - 0 restoration failures, 0 privacy leaks. Cryptographic proof artifact via `DETERMINEX_CLOAK_AUDIT=1`.*
 
 ---
 
@@ -299,7 +287,7 @@ rosetta/                     # Rosetta Stone training artifacts
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Read [docs/papers/WHITE_PAPER.md](docs/papers/WHITE_PAPER.md) and [docs/papers/ARCHITECTURE.md](docs/papers/ARCHITECTURE.md) before submitting a PR — the design philosophy (the oracle is the only judge) is non-negotiable.
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/papers/ARCHITECTURE.md](docs/papers/ARCHITECTURE.md) before submitting a PR — the design philosophy (the oracle is the only judge) is non-negotiable. A formal white paper is on hold until there's real community-driven ProgramBench/SWE-bench data to publish alongside it; `docs/papers/WHITE_PAPER.md` exists but should be read as an evolving draft, not a finished publication.
 
 **Priority contributions:**
 - Additional language validators (`scripts/validators/`)

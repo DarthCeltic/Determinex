@@ -19,6 +19,16 @@ use std::path::PathBuf;
 use std::time::Duration;
 use tokio::process::Command;
 
+/// Windows allocates a visible console window for any spawned console-subsystem
+/// process (where.exe, the installer, ollama.exe) unless told not to -- this is
+/// the flashing command-prompt box users see. No-op on other platforms.
+#[cfg(target_os = "windows")]
+fn no_window(cmd: &mut Command) -> &mut Command {
+    use std::os::windows::process::CommandExt;
+    const CREATE_NO_WINDOW: u32 = 0x0800_0000;
+    cmd.creation_flags(CREATE_NO_WINDOW)
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
 // ─────────────────────────────────────────────────────────────────────────────
@@ -105,7 +115,7 @@ async fn get_ollama_version() -> String {
 /// Check if `ollama` binary exists on PATH.
 async fn is_ollama_on_path() -> bool {
     #[cfg(target_os = "windows")]
-    let check = Command::new("where").arg("ollama").output().await;
+    let check = no_window(Command::new("where").arg("ollama")).output().await;
 
     #[cfg(not(target_os = "windows"))]
     let check = Command::new("which").arg("ollama").output().await;
@@ -200,8 +210,7 @@ async fn install_ollama() -> Result<(), String> {
 
     log::info!("[OLLAMA-INSTALLER] Running silent install...");
 
-    let output = Command::new(&installer_path)
-        .args(["/VERYSILENT", "/NORESTART", "/SUPPRESSMSGBOXES"])
+    let output = no_window(Command::new(&installer_path).args(["/VERYSILENT", "/NORESTART", "/SUPPRESSMSGBOXES"]))
         .output()
         .await
         .map_err(|e| format!("Failed to run OllamaSetup.exe: {}", e))?;
@@ -301,10 +310,10 @@ async fn start_ollama_service() -> Result<(), String> {
 
         if ollama_app.exists() {
             // Launch the Ollama app (which starts the server)
-            let _ = Command::new(&ollama_app).spawn();
+            let _ = no_window(&mut Command::new(&ollama_app)).spawn();
         } else {
             // Fallback: try `ollama serve` in the background
-            let _ = Command::new("ollama").arg("serve").spawn();
+            let _ = no_window(Command::new("ollama").arg("serve")).spawn();
         }
     }
 

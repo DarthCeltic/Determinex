@@ -213,6 +213,10 @@ export function SetupWizard() {
               <h2 className="text-lg font-semibold text-slate-200">Step 1: Network & Privacy Policy</h2>
               <p className="text-sm text-slate-400">How would you like Determinex to operate? This controls what data leaves your machine.</p>
 
+              <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-xs text-slate-400 leading-relaxed">
+                <strong className="text-slate-300">What this setup does:</strong> if <a href="https://ollama.ai" target="_blank" rel="noreferrer" className="text-indigo-400 hover:underline">Ollama</a> isn&apos;t already installed, Determinex downloads and silently installs it for you (no prompts, no terminal), then pulls the model(s) it needs for your hardware. This step needs an internet connection and can take several minutes depending on model size and your connection speed.
+              </div>
+
               {recommendedPolicy && hardware && (
                 <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 flex gap-3 text-indigo-200">
                   <Zap className="w-5 h-5 shrink-0 text-indigo-400 mt-0.5" />
