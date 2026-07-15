@@ -62,13 +62,13 @@ Full grounded account, including the honest safety/unsafe surface and the teachi
 
 | Model | Params | Role | HuggingFace | Ollama Tag |
 |-------|--------|------|-------------|-----------|
-| **C1 · Engineer v11-dsl** | 1.5B (Qwen2.5-Coder) | Builder — fast code generation, DSL-tuned | Not yet published — see [Option A](#option-a--bring-your-own-models) | `determinex-engineer-v11-dsl` |
-| **C3 · Observer v6-dsl** | 3B (Qwen2.5) | Monitor — error diagnosis, adjudication | Not yet published — see [Option A](#option-a--bring-your-own-models) | `determinex-observer-v6-dsl` |
-| **C7 · Sentinel v5-dsl** | 7B (Mistral) | Architect / Oracle — DAG planning, escalation | Not yet published — see [Option A](#option-a--bring-your-own-models) | `determinex-sentinel-v5-dsl` |
+| **C1 · Engineer v11-dsl** | 1.5B (Qwen2.5-Coder) | Builder — fast code generation, DSL-tuned | [🤗 Download](https://huggingface.co/darthceltic85/determinex-engineer) | `determinex-engineer-v11-dsl` |
+| **C3 · Observer v6-dsl** | 3B (Llama-3.2) | Monitor — error diagnosis, adjudication | [🤗 Download](https://huggingface.co/darthceltic85/determinex-observer-llama-3.2) | `determinex-observer-v6-dsl` |
+| **C7 · Sentinel v5-dsl** | 7B (Mistral) | Architect / Oracle — DAG planning, escalation | [🤗 Download](https://huggingface.co/darthceltic85/determinex-sentinel) | `determinex-sentinel-v5-dsl` |
 
 All three run locally via Ollama. No subscription. No cloud required for the core build loop.
 
-> The fine-tuned GGUFs aren't published yet. You don't need them to get started — any Ollama-hosted model in the same tier works. See [Option A](#option-a--bring-your-own-models) below.
+> You don't need the fine-tuned GGUFs to get started — any Ollama-hosted model in the same tier works. See [Option A](#option-a--bring-your-own-models) below. Note: `determinex-observer` is a Llama-3.2 derivative and ships under the Llama 3.2 Community License, not Apache 2.0 — see [Model Notices](docs/release/MODEL_NOTICES.md).
 
 ---
 
@@ -203,7 +203,7 @@ cp .env.example .env
 bash register_models.sh
 ```
 
-Fine-tuned GGUFs are not yet published — use Option A above until they are.
+GGUFs available at [huggingface.co/darthceltic85](https://huggingface.co/darthceltic85).
 
 ### Run a Build Session
 
