@@ -801,6 +801,73 @@ class RosettaStone:
         """Architectures with at least an encoder trained."""
         return sorted(self._encoders.keys())
 
+    def load_family_extension(self, path: Path | str, *, verify: bool = True) -> str:
+        """
+        Load one architecture's encoder/decoder from a standalone `family_<arch>.pt`
+        file (produced by scripts/export_rosetta_families.py) and register it into
+        this already-loaded RosettaStone, without needing to re-load the full
+        rosetta_vN.pt. This is what determinex_registry.py's dynamic registry
+        client calls after downloading a new/updated family delta.
+
+        Family file format (see export_rosetta_families.py):
+          {
+            "arch": "<arch_key>",
+            "dim":  <int>,
+            "<arch>_encoder": state_dict,   # MLP: dim -> d_rosetta
+            "<arch>_decoder": state_dict,   # MLP: d_rosetta -> dim
+            "d_rosetta": <int>,             # must match this stone's d_rosetta
+            "version": "<str>",
+            "sha256": "<hex, tensor-content hash excluding this key>",
+          }
+
+        Returns the arch key that was activated.
+        """
+        import torch
+
+        path = Path(path).expanduser()
+        ckpt = torch.load(str(path), map_location="cpu", weights_only=True)
+
+        arch = ckpt.get("arch")
+        if not arch or not isinstance(arch, str):
+            raise ValueError(f"family extension {path} is missing a valid 'arch' key")
+
+        if verify:
+            expected = ckpt.get("sha256", "")
+            actual = _compute_weights_sha256(ckpt)
+            if not expected or actual != expected:
+                raise ValueError(
+                    f"family extension {path} failed integrity check "
+                    f"(expected {expected!r}, computed {actual!r}) -- corrupted or tampered."
+                )
+
+        family_d_rosetta = int(ckpt.get("d_rosetta", self.d_rosetta))
+        if family_d_rosetta != self.d_rosetta:
+            raise ValueError(
+                f"family extension '{arch}' was trained with d_rosetta={family_d_rosetta}, "
+                f"but this stone uses d_rosetta={self.d_rosetta} -- incompatible hub dimension."
+            )
+
+        dim = ckpt.get("dim")
+        if not isinstance(dim, int) or dim <= 0:
+            raise ValueError(f"family extension {path} is missing a valid 'dim' key")
+
+        enc_key, dec_key = f"{arch}_encoder", f"{arch}_decoder"
+        if enc_key not in ckpt or dec_key not in ckpt:
+            raise ValueError(f"family extension {path} is missing '{enc_key}' or '{dec_key}'")
+
+        enc = build_mlp(dim, self.d_rosetta)
+        enc.load_state_dict(ckpt[enc_key])
+        enc.eval()
+        self._encoders[arch] = enc
+
+        dec = build_mlp(self.d_rosetta, dim)
+        dec.load_state_dict(ckpt[dec_key])
+        dec.eval()
+        self._decoders[arch] = dec
+
+        self.dims[arch] = dim
+        return arch
+
     def __repr__(self) -> str:
         return (
             f"RosettaStone(version={self.version!r}, "
