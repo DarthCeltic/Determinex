@@ -121,6 +121,22 @@ def _apply_search_replace_blocks(
     failed: list[str] = []
 
     for search, replace in blocks:
+        # 0. Empty SEARCH -- only ever legal as "create this new file".
+        # `"" in anything` is ALWAYS True, so without this guard an empty
+        # SEARCH fell into pass 1 and did result.replace("", replace, 1),
+        # splicing the replacement in at offset 0 with no separator and
+        # silently corrupting the file (observed live: a local-agent turn
+        # turned `def add(a,b):` into `return a - bdef add(a,b):`, a syntax
+        # error written straight to disk). Fail closed on a non-empty file
+        # rather than emit garbage -- the caller reports it as a skipped
+        # block, which is honest and visible, instead of a broken source file.
+        if not search.strip():
+            if not result.strip():
+                result = replace
+            else:
+                failed.append("<empty SEARCH against non-empty file>")
+            continue
+
         # 1. Exact match
         if search in result:
             new_result = result.replace(search, replace, 1)
