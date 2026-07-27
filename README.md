@@ -21,11 +21,11 @@ Determinex is a **local-first, privacy-sovereign, self-improving multi-agent AI 
 
 **The core idea (2026-06 architecture):** correctness is bounded by a deterministic **oracle** (real compilers/tests), not by trusting the model. The model proposes; the oracle disposes. This makes Determinex **un-hallucinatable wherever ground truth exists** and lets *any* AI — a 1.5B local model, a frontier cloud model, an agent CLI, or a future one — plug in and be made correct. The **Correctness Amplifier** turns a model with per-attempt success `p` into a system that succeeds with `1−(1−p)^K` by sampling against the oracle: any `p > 0` is driven toward correct. On top of the build loop, Determinex can now **build a verified program from a plain-language idea** (synthesizes a sound test-oracle first), **diagnose and repair any repo** (honest CODE / ENVIRONMENT / TEST blame), and **host any AI model or coding agent** (Claude / Codex / Gemini / local / addons) — each verified through the same oracle, so a hallucinating model or agent is *rejected*. A reproducible 40-case meta-bench (`tests/test_autofix_pipeline.py`) scores the system's own reasoning. See [`docs/DETERMINEX_DEEP_AUDIT.md`](docs/DETERMINEX_DEEP_AUDIT.md) for the grounded end-to-end account.
 
-Current readiness boundary: the release-cell registry contains 13 exact release-supported cells and 0 release-supported families. These are proof cells, not broad support. Batch 003 verifies the rebuilt staged installed-app Proof Center route at `/proof-center` with screenshot/transcript evidence. Batch 004 archives `trasta298__keifu` as a strict ProgramBench lock and promotes exactly one narrow all-gap row: the deterministic day-one claim scanner guard. Full monolithic `tests/status`, all gaps closed, family support, and ProgramBench total-100 remain open; open availability remains false.
+Current readiness boundary: the release-cell registry contains 13 exact release-supported cells and 0 release-supported families. These are proof cells, not broad support. Batch 003 verifies the rebuilt staged installed-app Proof Center route at `/proof-center` with screenshot/transcript evidence. Batch 004 promotes exactly one narrow all-gap row: the deterministic day-one claim scanner guard. (Batch 004 also archived `trasta298__keifu` under the pre-2026-06-30 lock methodology; the provenance audit below invalidated that methodology, so it is not counted as a legitimate ProgramBench lock — see the ProgramBench paragraph for the current, corrected count.) Full monolithic `tests/status`, all gaps closed, family support, and ProgramBench total-100 remain open; open availability remains false.
 
 **The current SWE-bench boundary**: The May 2026 B-Uncloaked run resolved **14.0% of SWE-bench Lite** (42/300, zero errored), but it is an audited snapshot, not the final publication baseline. The Cloak-on / region-mode configurations are currently reported as lower bounds because disk-pressured Docker workers produced per-instance image-export errors: E-RegionControl **>=6.0%**, B-Cloaked RosettaOFF **>=2.3%**, D-Cloaked **>=3.3%**. Fresh B-Uncloaked and E-RegionControl reruns are required before publishing privacy-cost claims.
 
-**Plus, on [ProgramBench](docs/papers/PROGRAMBENCH.md)** — the 200-tool benchmark where every frontier model currently scores 0–0.5% fully resolved — Determinex's honest headline (corrected 2026-06-30) is **0/200 legitimate locks**, matching public leaderboard reality. A full provenance audit found the historical, prior "65 confirmed full-suite locks / 32.5%" claim counted upstream source builds (`go.mod`/`Cargo.toml` identity matching the real project verbatim), not native reimplementations. The 62 archived builds under `corpus/programbench/locked/<tool>/` are retained as reference corpus for the Native Reimplementation Loop — the legitimate path to a real lock — not counted as solves. Source of truth: `corpus/programbench/eval_index.json`. Benchmark results are not product support, not release support, and not product readiness.
+**Plus, on [ProgramBench](docs/papers/PROGRAMBENCH.md)** — the 200-tool benchmark where every frontier model currently scores 0–0.5% fully resolved — Determinex's honest headline (corrected 2026-06-30) is **0/200 legitimate locks**, matching public leaderboard reality. A full provenance audit found the historical, prior "65 confirmed full-suite locks / 32.5%" claim counted upstream source builds (`go.mod`/`Cargo.toml` identity matching the real project verbatim), not native reimplementations. The 62 archived builds are retained internally as reference corpus for the Native Reimplementation Loop — the legitimate path to a real lock — not counted as solves; the multi-gigabyte corpus/ data behind this claim is dev-only tooling output and isn't part of this repository (see Project Structure below for what does ship). Benchmark results are not product support, not release support, and not product readiness.
 
 ---
 
@@ -147,6 +147,14 @@ The cloud model never sees `authenticate_user`, `validate_payment`, or any other
 - At least one compiler: `rustc`, `go`, or `python` (for the Compiler Oracle)
 - 6GB+ VRAM **or** 16GB+ RAM (CPU inference supported)
 
+**Docker is optional, not required.** The Compiler Oracle runs your code in one of three
+isolation tiers, strongest first: **Docker** (ephemeral container, no network, 512MB cap) →
+**WSL2** (clean environment, restricted PATH) → **direct execution** (credential-stripped
+subprocess + a Windows Job Object). By default the oracle requires Docker and fails loudly
+rather than silently dropping to a weaker tier — for real machines that don't have room for
+Docker Desktop, set `DETERMINEX_REQUIRE_DOCKER=0` in `.env` to allow the WSL2/direct fallback.
+Both are complete, working implementations, not degraded stubs.
+
 ### Install
 
 ```bash
@@ -180,6 +188,10 @@ DETERMINEX_OBSERVER_MODEL=ollama/qwen2.5-coder:3b-instruct
 
 ### Option B — Use the Fine-Tuned Models
 
+The fine-tuned GGUFs are being published to [huggingface.co/darthceltic85](https://huggingface.co/darthceltic85) —
+if the model pages aren't live yet when you read this, use Option A above (any Ollama model in
+the same size tier works with the same architecture; no fine-tuning required to get started).
+
 ```bash
 cp .env.example .env
 # Set DETERMINEX_MODELS_DIR to wherever your GGUFs are
@@ -190,8 +202,6 @@ cp .env.example .env
 # Linux / macOS
 bash register_models.sh
 ```
-
-GGUFs available at [huggingface.co/darthceltic85](https://huggingface.co/darthceltic85).
 
 ### Run a Build Session
 
