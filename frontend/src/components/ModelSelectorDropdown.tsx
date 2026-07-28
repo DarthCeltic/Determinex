@@ -1,5 +1,6 @@
 "use client";
 import { memo, useMemo, useState } from "react";
+import { AddCustomModel } from "./AddCustomModel";
 
 interface ModelEntry {
   id: string;
@@ -36,6 +37,8 @@ interface ModelSelectorDropdownProps {
     topology: { sentinel: string; engineer: string; observer: string },
     name: string
   ) => void;
+  /** Refetch the registry after a user adds a model, so it appears immediately. */
+  onModelAdded?: (modelId: string) => void;
 }
 
 export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
@@ -44,6 +47,7 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
   tandemPresets,
   onSelectModel,
   onSelectTopology,
+  onModelAdded,
 }: ModelSelectorDropdownProps) {
   const [modelMenuOpen, setModelMenuOpen] = useState(false);
 
@@ -60,9 +64,9 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
     <div className="relative">
       <button
         onClick={() => setModelMenuOpen(!modelMenuOpen)}
-        className={`border ${modelMenuOpen ? "border-cyan-500 bg-cyan-950/30" : "bg-[#010409] border-cyan-500/30"} hover:border-cyan-500 text-[10px] uppercase tracking-wider font-bold text-cyan-400 rounded-full px-3 py-1.5 outline-none cursor-pointer flex items-center gap-2 shadow-md transition-all`}
+        className={`border ${modelMenuOpen ? "border-cyan-500 bg-cyan-950/30" : "bg-[#010409] border-cyan-500/30"} hover:border-cyan-500 text-meta uppercase tracking-wider font-bold text-cyan-400 rounded-full px-3 py-1.5 outline-none cursor-pointer flex items-center gap-2 shadow-md transition-all`}
       >
-        {activeName} <span className="opacity-50 text-[8px]">{modelMenuOpen ? "▲" : "▼"}</span>
+        {activeName} <span className="opacity-50 text-meta">{modelMenuOpen ? "▲" : "▼"}</span>
       </button>
 
       {modelMenuOpen && (
@@ -72,7 +76,7 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
             <div className="max-h-[60vh] overflow-y-auto no-scrollbar pb-2">
               {tandemPresets.length > 0 && (
                 <div className="flex flex-col">
-                  <div className="px-4 py-2 mt-1 text-[9px] uppercase tracking-widest font-black bg-emerald-950/40 border-y border-[#30363d] text-emerald-400">
+                  <div className="px-4 py-2 mt-1 text-eyebrow uppercase tracking-widest font-black bg-emerald-950/40 border-y border-[#30363d] text-emerald-400">
                     Pack Topologies
                   </div>
                   {tandemPresets.map((preset, idx) => (
@@ -89,7 +93,7 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
                           {preset.name}
                         </div>
                       </div>
-                      <div className="text-[10px] mt-1.5 leading-snug text-gray-500">
+                      <div className="text-label mt-1.5 leading-snug text-gray-500">
                         Sentinel: {preset.topology.sentinel.split("/").pop()} <br />
                         Engineer: {preset.topology.engineer.split("/").pop()} <br />
                         Observer: {preset.topology.observer.split("/").pop()}
@@ -102,7 +106,7 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
               {modelTiers.map((tier, idx) => (
                 <div key={idx} className="flex flex-col">
                   <div
-                    className={`px-4 py-2 mt-1 text-[9px] uppercase tracking-widest font-black bg-[#161b22] border-y border-[#30363d] ${tier.color}`}
+                    className={`px-4 py-2 mt-1 text-eyebrow uppercase tracking-widest font-black bg-[#161b22] border-y border-[#30363d] ${tier.color}`}
                   >
                     {tier.title}
                   </div>
@@ -121,12 +125,14 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
                         >
                           {model.name}
                         </div>
-                        <span className="text-[9px] text-cyan-400/50 font-mono">
-                          {model.elo_rating ? `ELO: ${model.elo_rating}` : formatContextWindow(model.context_window)}
+                        <span className="text-meta text-cyan-400/50 font-mono">
+                          {model.elo_rating
+                            ? `ELO: ${model.elo_rating}`
+                            : formatContextWindow(model.context_window)}
                         </span>
                       </div>
                       <div
-                        className={`text-[10px] mt-1.5 leading-snug ${selectedModel === model.id ? "text-cyan-200/70" : "text-gray-500"}`}
+                        className={`text-label mt-1.5 leading-snug ${selectedModel === model.id ? "text-cyan-200/70" : "text-gray-500"}`}
                       >
                         {model.desc}
                       </div>
@@ -135,6 +141,10 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
                 </div>
               ))}
             </div>
+            {/* The only way to add a model. The backend command for this shipped
+                long ago and no UI ever called it, so the app was silently limited
+                to whatever the registry already contained. */}
+            <AddCustomModel onAdded={onModelAdded} />
           </div>
         </>
       )}

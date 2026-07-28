@@ -29,4 +29,3 @@ describe("add-on storage", () => {
     expect(JSON.parse(window.localStorage.getItem(ADDON_STORAGE_KEY) || "[]")).toEqual(["gemini"]);
   });
 });
-

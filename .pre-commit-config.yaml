@@ -65,6 +65,21 @@ repos:
         pass_filenames: false
         files: '^corpus/programbench/(verified_locks\.json|provenance_justifications\.json|locked/.*)$'
 
+      # ── Corpus wiring census (2026-07-18, widened 2026-07-19) — built-but-invisible guard ──
+      # Every corpus artifact (in ANY corpus/<subcorpus>/ top level, not just
+      # programbench -- widened 2026-07-19 after finding swebench/terminal_bench
+      # orphans the old PB-only trigger pattern below would have missed
+      # entirely) must have a code consumer (or an allowlisted reason), and
+      # every declared data-root pointer must resolve NON-EMPTY. Guards the
+      # July failure modes: canonical_tasks invisibility and the T: corpus
+      # split-brain (defaults pointing at an empty skeleton).
+      - id: corpus-wiring-census
+        name: Reject unwired corpus artifacts / empty data-root pointers
+        language: system
+        entry: python scripts/corpus/corpus_wiring_census.py --guard
+        pass_filenames: false
+        files: '^(corpus/[^/]+/[^/]+\.(json|jsonl|tsv|gz|npy)|corpus/programbench/training_corpus/TRAINING_EXCLUSION\.json|scripts/corpus/corpus_wiring_census\.py|scripts/determinex_settings\.py|scripts/determinex_corpus_api\.py)$'
+
       # ── Mojibake / CRLF / BOM (2026-06-16) — Windows/encoding issues ───────
       # CRLF in a shell script killed dash ('set -e\r') and lied for hours.
       # Reject CRLF/BOM/U+FFFD/mojibake in source + dash-critical .sh at commit.

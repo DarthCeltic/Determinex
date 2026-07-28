@@ -93,12 +93,12 @@ export function VanguardToggle({ onStateChange, className = "" }: VanguardToggle
         {/* Label block */}
         <div className="flex-1 text-left">
           <p
-            className="text-[11px] font-black tracking-widest uppercase font-mono transition-colors duration-300"
+            className="text-meta font-black tracking-widest uppercase font-mono transition-colors duration-300"
             style={{ color: enabled ? "#22c55e" : "#6b7280" }}
           >
             Vanguard Telemetry
           </p>
-          <p className="text-[9px] text-gray-500 font-mono mt-0.5 leading-relaxed">
+          <p className="text-meta text-gray-500 font-mono mt-0.5 leading-relaxed">
             {enabled
               ? "Local AES-256-GCM · Data never leaves device"
               : "Off — no training data captured"}
@@ -134,15 +134,15 @@ export function VanguardToggle({ onStateChange, className = "" }: VanguardToggle
 
       {/* Error feedback */}
       {error && (
-        <p className="text-[9px] text-red-400/80 font-mono px-1 leading-relaxed">⚠ {error}</p>
+        <p className="text-meta text-red-400/80 font-mono px-1 leading-relaxed">⚠ {error}</p>
       )}
 
       {/* Consent notice — only visible when enabled */}
       {enabled && !error && (
-        <p className="text-[8px] text-green-500/40 font-mono px-1 leading-relaxed">
+        <p className="text-meta text-green-500/40 font-mono px-1 leading-relaxed">
           Encrypted pairs are written to{" "}
-          <span className="text-green-500/60">.determinex_staging/outbox/</span>. Your vault key lives
-          at <span className="text-green-500/60">.determinex_staging/vault/vault.key</span>.
+          <span className="text-green-500/60">.determinex_staging/outbox/</span>. Your vault key
+          lives at <span className="text-green-500/60">.determinex_staging/vault/vault.key</span>.
         </p>
       )}
     </div>

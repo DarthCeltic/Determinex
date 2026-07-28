@@ -124,8 +124,8 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-3 px-6 text-center">
         <Activity size={24} className="text-gray-700 opacity-40" />
-        <p className="text-[11px] font-bold text-gray-600">No Active Build</p>
-        <p className="text-[10px] text-gray-700 leading-relaxed">
+        <p className="text-label font-bold text-gray-600">No Active Build</p>
+        <p className="text-label text-gray-700 leading-relaxed">
           Start a build from the Concept Lab — live session data will appear here.
         </p>
       </div>
@@ -165,7 +165,7 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
       <div className="px-4 py-3 border-b border-[#30363d] flex-shrink-0 bg-[#0d1117]/60">
         <div className="flex items-center gap-2">
           <Activity size={11} className={phaseColor} />
-          <span className={`text-[9px] font-bold uppercase tracking-widest ${phaseColor}`}>
+          <span className={`text-eyebrow font-bold uppercase tracking-widest ${phaseColor}`}>
             {phaseLabel}
           </span>
           {(phase === "dag" || phase === "building") && (
@@ -187,7 +187,7 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
                 }}
               />
             </div>
-            <p className="text-[10px] text-gray-600 mt-1">
+            <p className="text-label text-gray-600 mt-1">
               {complete}/{total} steps
               {failed > 0 && <span className="text-red-400 ml-2">{failed} failed</span>}
             </p>
@@ -195,7 +195,7 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
         )}
 
         {status && status.api_cost_usd > 0 && (
-          <p className="text-[9px] text-amber-400/70 mt-1.5">
+          <p className="text-meta text-amber-400/70 mt-1.5">
             ${status.api_cost_usd.toFixed(4)} API cost
           </p>
         )}
@@ -204,16 +204,16 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
       {/* Active step callout */}
       {inProgress && (
         <div className="px-4 py-2.5 border-b border-[#30363d] flex-shrink-0 bg-cyan-950/10">
-          <p className="text-[9px] text-gray-600 uppercase font-bold tracking-widest mb-1">
+          <p className="text-eyebrow text-gray-600 uppercase font-bold tracking-widest mb-1">
             Active Step
           </p>
           <div className="flex items-center gap-1.5 mb-0.5">
             <div className="w-2 h-2 border border-cyan-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
-            <span className="text-[10px] font-mono text-cyan-400 truncate">
+            <span className="text-label font-mono text-cyan-400 truncate">
               {inProgress.target_file}
             </span>
           </div>
-          <p className="text-[10px] text-gray-400 leading-snug line-clamp-2">
+          <p className="text-label text-gray-400 leading-snug line-clamp-2">
             {inProgress.instruction}
           </p>
         </div>
@@ -224,7 +224,7 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
         {total === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-2">
             <div className="w-5 h-5 border border-purple-500/60 border-t-purple-400 rounded-full animate-spin" />
-            <p className="text-[10px] text-gray-600">Parsing spec…</p>
+            <p className="text-label text-gray-600">Parsing spec…</p>
           </div>
         ) : (
           <div className="p-3 space-y-0.5">
@@ -236,21 +236,21 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
                 {s.status === "complete" ? (
                   <Check size={10} className="text-emerald-400 flex-shrink-0" />
                 ) : s.status === "failed" ? (
-                  <span className="text-[8px] text-red-400 flex-shrink-0 font-bold">✕</span>
+                  <span className="text-meta text-red-400 flex-shrink-0 font-bold">✕</span>
                 ) : s.status === "in_progress" ? (
                   <div className="w-2.5 h-2.5 border border-cyan-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
                 ) : (
                   <div className="w-2.5 h-2.5 rounded-full border border-gray-700 flex-shrink-0" />
                 )}
-                <span className="text-[9px] font-mono text-gray-700 flex-shrink-0">#{s.id}</span>
-                <span className="text-[9px] font-mono text-gray-500 truncate min-w-0 flex-1">
+                <span className="text-meta font-mono text-gray-700 flex-shrink-0">#{s.id}</span>
+                <span className="text-meta font-mono text-gray-500 truncate min-w-0 flex-1">
                   {s.target_file}
                 </span>
                 {s.compiler_result === "PASS" && (
-                  <span className="text-[7px] font-bold text-emerald-600 flex-shrink-0">PASS</span>
+                  <span className="text-meta font-bold text-emerald-600 flex-shrink-0">PASS</span>
                 )}
                 {s.compiler_result === "FAIL" && (
-                  <span className="text-[7px] font-bold text-red-600 flex-shrink-0">FAIL</span>
+                  <span className="text-meta font-bold text-red-600 flex-shrink-0">FAIL</span>
                 )}
               </div>
             ))}
@@ -261,8 +261,8 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
       {/* Footer */}
       <div className="px-4 py-2.5 border-t border-[#30363d] flex-shrink-0 flex items-center gap-2">
         <FileCode2 size={9} className="text-gray-700 flex-shrink-0" />
-        <p className="text-[9px] text-gray-700 font-mono truncate">{sessionId.slice(0, 20)}…</p>
-        <p className="text-[9px] text-gray-700 ml-auto flex-shrink-0">Full view in center →</p>
+        <p className="text-meta text-gray-700 font-mono truncate">{sessionId.slice(0, 20)}…</p>
+        <p className="text-meta text-gray-700 ml-auto flex-shrink-0">Full view in center →</p>
       </div>
     </div>
   );
@@ -322,13 +322,13 @@ export const PipelineDashboard = ({
           <div className="flex items-center gap-4">
             <span
               onClick={() => setShowWarRoom(false)}
-              className={`text-[10px] font-black tracking-widest uppercase cursor-pointer transition-colors flex items-center gap-1 ${!showWarRoom ? "text-amber-500 drop-shadow-[0_0_5px_rgba(245,158,11,0.8)]" : "text-gray-500 hover:text-amber-500"}`}
+              className={`text-meta font-black tracking-widest uppercase cursor-pointer transition-colors flex items-center gap-1 ${!showWarRoom ? "text-amber-500 drop-shadow-[0_0_5px_rgba(245,158,11,0.8)]" : "text-gray-500 hover:text-amber-500"}`}
             >
               <Target size={12} /> Book of Operations
             </span>
             <span
               onClick={() => setShowWarRoom(true)}
-              className={`text-[10px] font-black tracking-widest uppercase cursor-pointer transition-colors flex items-center gap-1 ${showWarRoom ? "text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]" : "text-gray-500 hover:text-red-500"}`}
+              className={`text-meta font-black tracking-widest uppercase cursor-pointer transition-colors flex items-center gap-1 ${showWarRoom ? "text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]" : "text-gray-500 hover:text-red-500"}`}
             >
               <Activity size={12} />
               WAR ROOM
@@ -342,7 +342,7 @@ export const PipelineDashboard = ({
               className={`flex items-center gap-1.5 px-2 py-1 rounded border ${colors.border}/30 ${colors.bg} ${colors.accent}`}
             >
               {icon}
-              <span className="text-[8px] font-black uppercase tracking-widest">
+              <span className="text-eyebrow font-black uppercase tracking-widest">
                 {topology.label}
               </span>
             </div>
@@ -370,11 +370,11 @@ export const PipelineDashboard = ({
               >
                 <div className="w-1/2 pr-8 text-right flex flex-col justify-center">
                   <h4
-                    className={`${phaseColor} font-black uppercase text-[11px] tracking-widest mb-2 ${isFirst ? "drop-shadow-sm" : ""}`}
+                    className={`${phaseColor} font-black uppercase text-meta tracking-widest mb-2 ${isFirst ? "drop-shadow-sm" : ""}`}
                   >
                     {phase.name}
                   </h4>
-                  <p className="text-gray-400 text-[10px] leading-relaxed">{phase.desc}</p>
+                  <p className="text-gray-400 text-label leading-relaxed">{phase.desc}</p>
                 </div>
                 <div
                   className={`absolute left-1/2 top-0 ${isLast ? "h-full" : "bottom-[-2.5rem]"} w-[2px] bg-gradient-to-b ${isFirst ? "from-cyan-500 via-[#30363d] to-[#30363d]" : "from-[#30363d] to-transparent"} -translate-x-1/2 ${isFirst ? colors.glow : ""}`}
@@ -406,14 +406,14 @@ export const PipelineDashboard = ({
                               <Edit2 size={10} className="text-gray-500" />
                             )}
                             <span
-                              className={`text-[9px] uppercase font-bold ${isActiveTask ? colors.accent : "text-gray-500"} tracking-wider`}
+                              className={`text-eyebrow uppercase font-bold ${isActiveTask ? colors.accent : "text-gray-500"} tracking-wider`}
                             >
                               {task}
                             </span>
                           </div>
                           {isActiveTask && (
                             <span
-                              className={`text-[8px] border ${colors.border}/50 ${colors.accent} px-1 rounded animate-pulse uppercase`}
+                              className={`text-eyebrow border ${colors.border}/50 ${colors.accent} px-1 rounded animate-pulse uppercase`}
                             >
                               Active
                             </span>

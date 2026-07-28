@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from determinex_crucible import _BUNDLED_MARKERS, _has_real_build_cmd, resolve_base_image  # reuse
 
 HETZNER_IP = os.environ.get("DETERMINEX_HETZNER_IP", "5.78.192.163")
-SSH_KEY = str(Path.home() / ".ssh" / "id_determinex")
+SSH_KEY = str(Path.home() / ".ssh" / "id_citadel")
 SSH = ["ssh", "-i", SSH_KEY, "-o", "StrictHostKeyChecking=no"]
 SCP = ["scp", "-i", SSH_KEY, "-o", "StrictHostKeyChecking=no"]
 

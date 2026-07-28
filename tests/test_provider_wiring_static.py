@@ -30,8 +30,18 @@ def test_setup_and_config_vault_expose_all_advertised_cloud_key_providers():
 
 
 def test_role_assignment_cloud_options_match_litellm_model_names():
+    # 2026-07 refactor moved the cloud route catalog out of RoleAssignmentPanel.tsx's own
+    # body into a shared frontend/src/lib/aiRouting.ts module (CLOUD_ROUTE_OPTIONS /
+    # FREE_CLOUD_ROUTE_OPTIONS), imported rather than inlined -- the test previously only
+    # checked the panel file directly and went stale the moment that refactor landed
+    # (every model name legitimately moved, none were dropped). Check both: aiRouting.ts
+    # for the actual IDs, RoleAssignmentPanel.tsx for genuinely importing that module
+    # (not just that some unrelated string happens to match).
     roles = (ROOT / "frontend/src/components/RoleAssignmentPanel.tsx").read_text(encoding="utf-8")
+    routing = (ROOT / "frontend/src/lib/aiRouting.ts").read_text(encoding="utf-8")
     config = (ROOT / "litellm_config.yaml").read_text(encoding="utf-8")
+
+    assert "CLOUD_ROUTE_OPTIONS" in roles and "aiRouting" in roles
 
     for model_name in [
         "cloud/claude-best",
@@ -43,7 +53,7 @@ def test_role_assignment_cloud_options_match_litellm_model_names():
         "cloud/mistral-large",
         "cloud/groq-llama",
     ]:
-        assert model_name in roles
+        assert model_name in routing
         assert f"model_name: {model_name}" in config
 
 

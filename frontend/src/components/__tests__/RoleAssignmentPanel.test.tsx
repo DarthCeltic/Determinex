@@ -40,7 +40,7 @@ describe("RoleAssignmentPanel", () => {
 
     await waitFor(() => expect(screen.getByText("Hybrid Slot Stack")).toBeInTheDocument());
 
-    fireEvent.click(screen.getByText("Claude Opus"));
+    fireEvent.click(screen.getByText("Claude Opus 4.8"));
 
     expect(screen.getAllByText("Connected").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Needs key").length).toBeGreaterThan(0);
@@ -51,13 +51,13 @@ describe("RoleAssignmentPanel", () => {
     render(<RoleAssignmentPanel keyStatus={{ anthropic: true, openrouter: true }} />);
 
     await waitFor(() => expect(screen.getByText("Hybrid Slot Stack")).toBeInTheDocument());
-    fireEvent.click(screen.getByText("Claude Opus"));
+    fireEvent.click(screen.getByText("Claude Opus 4.8"));
     fireEvent.click(screen.getByText("Qwen3 Coder 480B"));
     fireEvent.click(screen.getByText("Save Slots"));
 
     await waitFor(() => {
       expect(setRoleAssignmentsMock).toHaveBeenCalledWith(
-        expect.objectContaining({ architect: "free/qwen3-coder" }),
+        expect.objectContaining({ architect: "free/qwen3-coder" })
       );
     });
   });

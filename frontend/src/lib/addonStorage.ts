@@ -5,7 +5,9 @@ export const LEGACY_ADDON_STORAGE_KEY = "determinex-ext-installed";
 export const ADDONS_UPDATED_EVENT = "addons-updated";
 
 export function defaultInstalledAddonIds(): Set<string> {
-  return new Set(ADDONS.filter((a) => a.status === "installed" || a.status === "builtin").map((a) => a.id));
+  return new Set(
+    ADDONS.filter((a) => a.status === "installed" || a.status === "builtin").map((a) => a.id)
+  );
 }
 
 function parseAddonIds(raw: string | null): string[] {
@@ -35,4 +37,3 @@ export function writeInstalledAddonIds(storage: Storage, installed: Set<string>)
   storage.setItem(ADDON_STORAGE_KEY, JSON.stringify(userInstalled));
   return userInstalled;
 }
-

@@ -14,7 +14,7 @@ It pulls from a Hetzner pool laid out by the eval driver:
   <remote_base>/pilot/<slug>/submission.tar.gz     # the exact artifact that produced it
 
 Usage:
-  python scripts/pb_autoregister.py <remote_base> [--host root@5.78.192.163] [--key ~/.ssh/id_determinex]
+  python scripts/pb_autoregister.py <remote_base> [--host root@5.78.192.163] [--key ~/.ssh/id_citadel]
                                     [--commit] [--dry-run]
   e.g. python scripts/pb_autoregister.py /root/capfix9 --commit
 """
@@ -48,7 +48,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("remote_base", help="e.g. /root/capfix9")
     ap.add_argument("--host", default="root@5.78.192.163")
-    ap.add_argument("--key", default=str(Path.home() / ".ssh" / "id_determinex"))
+    ap.add_argument("--key", default=str(Path.home() / ".ssh" / "id_citadel"))
     ap.add_argument("--commit", action="store_true", help="git commit the batch")
     ap.add_argument("--dry-run", action="store_true", help="report only, no registration")
     args = ap.parse_args()

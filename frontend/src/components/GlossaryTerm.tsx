@@ -138,14 +138,14 @@ export function GlossaryTerm({ term, definition, children, className = "" }: Glo
           className={`
             absolute z-50 left-0 w-64 p-3
             bg-[#0d1117] border border-cyan-500/30 rounded-xl
-            text-[10px] text-gray-300 leading-relaxed
+            text-label text-gray-300 leading-relaxed
             shadow-[0_0_24px_rgba(0,0,0,0.9)]
             pointer-events-none
             ${flipUp ? "bottom-full mb-1.5" : "top-full mt-1.5"}
           `}
           style={{ whiteSpace: "normal", minWidth: "220px" }}
         >
-          <span className="text-cyan-400 font-black text-[11px] block mb-1">{term}</span>
+          <span className="text-cyan-400 font-black text-label block mb-1">{term}</span>
           {definition}
         </span>
       )}

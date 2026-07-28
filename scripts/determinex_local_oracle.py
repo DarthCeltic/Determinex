@@ -178,6 +178,11 @@ def _check(ex: Example, rc, out, err):
     if ex.expect_rc is not None and rc != ex.expect_rc:
         return False, "rc", f"expected rc={ex.expect_rc}, got rc={rc}" + (
             f"  stderr={err.strip()[:80]!r}" if err.strip() else "")
+    if getattr(ex, "expect_rc_nonzero", False) and rc == 0:
+        return False, "rc_nonzero", "expected a nonzero (failure) rc, got rc=0"
+    rc_in = getattr(ex, "expect_rc_in", None)
+    if rc_in and rc not in rc_in:
+        return False, "rc_in", f"expected rc in {rc_in}, got rc={rc}"
     if ex.expect_stdout is not None and out != ex.expect_stdout:
         diff = "\n".join(difflib.unified_diff(
             ex.expect_stdout.splitlines(), out.splitlines(),
@@ -198,6 +203,34 @@ def _check(ex: Example, rc, out, err):
             hay, needle = hay.lower(), snip.lower()
         if needle not in hay:
             return False, "contains", f"missing {snip!r}; got stdout={out.strip()[:80]!r} stderr={err.strip()[:80]!r}"
+    # OR-GROUPS (2026-07-16): `assert A in out or B in out` -- captured in expect_in_any as
+    # a list of OR-groups, each an "at least one of these" alternative set. Wired here so a
+    # captured OR-group is actually ENFORCED, not just recorded and silently ignored -- a
+    # candidate satisfying none of a group's alternatives must fail, the same way it would
+    # against the real reference test.
+    for group in getattr(ex, "expect_in_any", None) or []:
+        hay = out + "\n" + err
+        needles = group
+        if getattr(ex, "ci", False):
+            hay = hay.lower()
+            needles = [n.lower() for n in group]
+        if not any(n in hay for n in needles):
+            return False, "contains_any", (
+                f"missing all of {group!r} (need at least one); "
+                f"got stdout={out.strip()[:80]!r} stderr={err.strip()[:80]!r}")
+    # NEGATIVE ASSERTIONS (2026-07-16): `assert "unexpected argument" not in output` -- the
+    # semantic mirror of expect_in. Enforced the same way: a candidate whose output DOES
+    # contain a forbidden snippet must fail, or expect_not_in would be captured correctly
+    # and then silently ignored, same class of gap as the OR-groups above.
+    for snip in getattr(ex, "expect_not_in", None) or []:
+        hay = out + "\n" + err
+        needle = snip
+        if getattr(ex, "ci", False):
+            hay, needle = hay.lower(), snip.lower()
+        if needle in hay:
+            return False, "not_contains", (
+                f"forbidden snippet {snip!r} present; "
+                f"got stdout={out.strip()[:80]!r} stderr={err.strip()[:80]!r}")
     return True, "", ""
 
 

@@ -13,13 +13,21 @@ Usage::
     determinex evidence validate
     determinex evidence render
 
-The subcommands are thin wrappers that call the existing script main()
-functions, so all behaviour is identical to running the scripts directly.
+Built on click's Group/Command structure (real subcommand dispatch, not a
+hand-rolled if/elif chain) but main()'s public contract -- an int return
+value, "Unknown command"/"Unknown config subcommand"/"Unknown evidence
+subcommand" text on stdout, exit code 1 -- is preserved exactly rather than
+adopting click's own error format (exit code 2, "No such command" on
+stderr): this is a shipped, installed console script, and anything already
+scripting against `determinex <bad-cmd>; echo $?` shouldn't silently start
+seeing a different exit code because of an internal refactor.
 """
 from __future__ import annotations
 
 import sys
 from pathlib import Path
+
+import click
 
 # Ensure scripts/ is importable however the CLI was invoked
 _SCRIPTS = Path(__file__).resolve().parent
@@ -29,10 +37,6 @@ for _p in (_ROOT, _SCRIPTS):
         sys.path.insert(0, str(_p))
 
 __version__ = "1.0.0"
-
-# ---------------------------------------------------------------------------
-# Sub-command dispatch
-# ---------------------------------------------------------------------------
 
 _USAGE = """\
 determinex <command> [options]
@@ -52,6 +56,10 @@ Options:
 Run `determinex <command> --help` for command-specific options.
 """
 
+
+# ---------------------------------------------------------------------------
+# Command implementations (unchanged from the pre-click dispatcher)
+# ---------------------------------------------------------------------------
 
 def _cmd_doctor(argv: list[str]) -> int:
     from determinex_doctor import main as doctor_main
@@ -140,12 +148,89 @@ def _cmd_evidence_render(argv: list[str]) -> int:
 
 
 # ---------------------------------------------------------------------------
-# Argument routing
+# Click command tree — real subcommand dispatch, help text, option parsing
+# infrastructure. doctor/status forward all extra args to the wrapped
+# legacy script's own argparse main() unparsed (click.UNPROCESSED).
+# ---------------------------------------------------------------------------
+
+@click.group(
+    invoke_without_command=True,
+    context_settings={"help_option_names": ["-h", "--help"]},
+)
+@click.version_option(__version__, "--version", "-V", prog_name="determinex")
+@click.pass_context
+def _cli(ctx: click.Context) -> None:
+    if ctx.invoked_subcommand is None:
+        click.echo(_USAGE)
+
+
+_PASSTHROUGH = {"ignore_unknown_options": True, "help_option_names": []}
+
+
+@_cli.command(context_settings=_PASSTHROUGH, add_help_option=False)
+@click.argument("extra", nargs=-1, type=click.UNPROCESSED)
+@click.pass_context
+def doctor(ctx: click.Context, extra: tuple[str, ...]) -> None:
+    """Check local environment setup."""
+    ctx.exit(_cmd_doctor(list(extra)))
+
+
+@_cli.command(context_settings=_PASSTHROUGH, add_help_option=False)
+@click.argument("extra", nargs=-1, type=click.UNPROCESSED)
+@click.pass_context
+def status(ctx: click.Context, extra: tuple[str, ...]) -> None:
+    """View pipeline event log."""
+    ctx.exit(_cmd_status(list(extra)))
+
+
+@_cli.group()
+def config() -> None:
+    """Config subcommands."""
+
+
+@config.command("show")
+@click.pass_context
+def config_show(ctx: click.Context) -> None:
+    """Print all resolved config settings."""
+    ctx.exit(_cmd_config_show([]))
+
+
+@config.command("doctor")
+@click.pass_context
+def config_doctor(ctx: click.Context) -> None:
+    """Check config/safety defaults."""
+    ctx.exit(_cmd_config_doctor([]))
+
+
+@_cli.group()
+def evidence() -> None:
+    """Evidence subcommands."""
+
+
+@evidence.command("validate")
+@click.pass_context
+def evidence_validate(ctx: click.Context) -> None:
+    """Validate evidence index integrity."""
+    ctx.exit(_cmd_evidence_validate([]))
+
+
+@evidence.command("render")
+@click.pass_context
+def evidence_render(ctx: click.Context) -> None:
+    """Re-render docs/EVIDENCE_INDEX.md."""
+    ctx.exit(_cmd_evidence_render([]))
+
+
+# ---------------------------------------------------------------------------
+# main() — preserves the pre-click int-return / exit-code / message contract
 # ---------------------------------------------------------------------------
 
 def main() -> int:
     args = sys.argv[1:]
 
+    # -h/--help and bare invocation keep the original hand-written _USAGE
+    # text exactly (tests assert its exact substrings) rather than click's
+    # auto-generated help.
     if not args or args[0] in ("-h", "--help"):
         print(_USAGE)
         return 0
@@ -157,37 +242,30 @@ def main() -> int:
     cmd = args[0]
     rest = args[1:]
 
-    if cmd == "doctor":
-        return _cmd_doctor(rest)
-
-    if cmd == "status":
-        return _cmd_status(rest)
-
     if cmd == "config":
         sub = rest[0] if rest else ""
-        rest2 = rest[1:]
-        if sub == "show":
-            return _cmd_config_show(rest2)
-        if sub == "doctor":
-            return _cmd_config_doctor(rest2)
-        print(f"Unknown config subcommand: {sub!r}")
-        print("Available: determinex config show | determinex config doctor")
-        return 1
-
-    if cmd == "evidence":
+        if sub not in ("show", "doctor"):
+            print(f"Unknown config subcommand: {sub!r}")
+            print("Available: determinex config show | determinex config doctor")
+            return 1
+    elif cmd == "evidence":
         sub = rest[0] if rest else ""
-        rest2 = rest[1:]
-        if sub == "validate":
-            return _cmd_evidence_validate(rest2)
-        if sub == "render":
-            return _cmd_evidence_render(rest2)
-        print(f"Unknown evidence subcommand: {sub!r}")
-        print("Available: determinex evidence validate | determinex evidence render")
+        if sub not in ("validate", "render"):
+            print(f"Unknown evidence subcommand: {sub!r}")
+            print("Available: determinex evidence validate | determinex evidence render")
+            return 1
+    elif cmd not in ("doctor", "status"):
+        print(f"Unknown command: {cmd!r}\n")
+        print(_USAGE)
         return 1
 
-    print(f"Unknown command: {cmd!r}\n")
-    print(_USAGE)
-    return 1
+    try:
+        return _cli.main(args=args, prog_name="determinex", standalone_mode=False)
+    except click.exceptions.Exit as e:
+        return e.exit_code
+    except click.ClickException as e:
+        e.show()
+        return e.exit_code
 
 
 if __name__ == "__main__":

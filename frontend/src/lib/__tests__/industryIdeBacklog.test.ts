@@ -13,8 +13,8 @@ describe("industry IDE backlog", () => {
   it("tracks the full industry checklist without granting blanket completion", () => {
     const summary = getIndustryIdeBacklogSummary();
 
-    expect(DETERMINEX_INDUSTRY_IDE_BACKLOG).toHaveLength(80);
-    expect(summary.total).toBe(80);
+    expect(DETERMINEX_INDUSTRY_IDE_BACKLOG).toHaveLength(82);
+    expect(summary.total).toBe(82);
     expect(summary.checked).toBeLessThan(summary.total);
     expect(summary.blocked).toBeGreaterThan(0);
     expect(summary.partial).toBeGreaterThan(0);
@@ -52,4 +52,3 @@ describe("industry IDE backlog", () => {
     expect(nextActions.every((item) => !isIndustryBacklogItemChecked(item))).toBe(true);
   });
 });
-

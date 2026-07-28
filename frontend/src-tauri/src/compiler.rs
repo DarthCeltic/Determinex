@@ -14,7 +14,7 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
-use crate::windows_process::no_window;
+use crate::win_process::HideConsoleExt;
 
 /// Maximum characters of compiler output forwarded to the Observer.
 /// Caps to avoid overflowing the 2048-token context budget.
@@ -159,13 +159,11 @@ fn run_rust_check(dir: &Path, filename: &str, code: &str) -> std::io::Result<Com
         "[package]\nname = \"determinex_check\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
     )?;
 
-    let out = no_window(
-        Command::new("cargo")
-            .args(["check", "--message-format=short", "--color=never"])
-            .current_dir(dir)
-            .env("CARGO_TERM_COLOR", "never"),
-    )
-    .output()?;
+    let out = Command::new("cargo").hide_console()
+        .args(["check", "--message-format=short", "--color=never"])
+        .current_dir(dir)
+        .env("CARGO_TERM_COLOR", "never")
+        .output()?;
 
     let combined = merge_output(&out.stdout, &out.stderr);
     let missing_deps = extract_missing_deps(&combined);
@@ -220,25 +218,23 @@ fn run_tsc_check(dir: &Path, filename: &str, code: &str) -> std::io::Result<Comp
     let current_path = std::env::var("PATH").unwrap_or_default();
     let patched_path = format!("{};{}", npm_bin, current_path);
 
-    let out = no_window(
-        Command::new("npx")
-            .args([
-                "--yes",
-                "tsc",
-                "--noEmit",
-                "--strict",
-                "--target",
-                "esnext",
-                "--module",
-                "esnext",
-                "--moduleResolution",
-                "node",
-                &ts_name,
-            ])
-            .env("PATH", &patched_path)
-            .current_dir(dir),
-    )
-    .output()?;
+    let out = Command::new("npx").hide_console()
+        .args([
+            "--yes",
+            "tsc",
+            "--noEmit",
+            "--strict",
+            "--target",
+            "esnext",
+            "--module",
+            "esnext",
+            "--moduleResolution",
+            "node",
+            &ts_name,
+        ])
+        .env("PATH", &patched_path)
+        .current_dir(dir)
+        .output()?;
 
     let combined = merge_output(&out.stdout, &out.stderr);
     let missing_deps = extract_missing_deps(&combined);

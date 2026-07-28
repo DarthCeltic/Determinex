@@ -26,7 +26,8 @@ export function TestChamberTheme({
     });
     if (canvas.parentElement) ro.observe(canvas.parentElement);
 
-    let raf: number, t = 0;
+    let raf: number,
+      t = 0;
     const draw = () => {
       ctx.fillStyle = "rgba(245,245,245,0.18)";
       ctx.fillRect(0, 0, w, h);
@@ -35,10 +36,16 @@ export function TestChamberTheme({
       ctx.lineWidth = 1;
       const tile = 28;
       for (let x = 0; x <= w; x += tile) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
       }
       for (let y = 0; y <= h; y += tile) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
       }
       // Two portal swirls (blue + orange)
       const drawPortal = (cx: number, cy: number, color: string) => {
@@ -64,25 +71,42 @@ export function TestChamberTheme({
       raf = requestAnimationFrame(draw);
     };
     draw();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, [active]);
   if (!active) return null;
-  const primary = "#1a1a1a", dim = "rgba(60,60,60,0.6)";
+  const primary = "#1a1a1a",
+    dim = "rgba(60,60,60,0.6)";
   if (fullPanel) {
     return (
       <div className="absolute inset-0 z-20 overflow-hidden" style={{ background: "#f0f0f0" }}>
         <canvas ref={canvasRef} className="absolute inset-0" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(240,240,240,0)_0%,rgba(220,220,220,0.55)_100%)]" />
-        <ThemeOverlay label={label} elapsedSeconds={elapsedSeconds} primary={primary} dim={dim}
-                      subLabel="test chamber loaded — proceed when ready"
-                      arrow="●"
-                      rolePalette={{ oracle: "#1a78c4", architect: "#d96b00", builder: "#1a78c4", compiler: "#d96b00" }}
-                      chipShape="ring" />
+        <ThemeOverlay
+          label={label}
+          elapsedSeconds={elapsedSeconds}
+          primary={primary}
+          dim={dim}
+          subLabel="test chamber loaded — proceed when ready"
+          arrow="●"
+          rolePalette={{
+            oracle: "#1a78c4",
+            architect: "#d96b00",
+            builder: "#1a78c4",
+            compiler: "#d96b00",
+          }}
+          chipShape="ring"
+        />
       </div>
     );
   }
   return (
-    <div className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none" style={{ background: "#f0f0f0" }}>
+    <div
+      className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none"
+      style={{ background: "#f0f0f0" }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 opacity-90" />
       <SmallPanel label={label} primary={primary} />
     </div>

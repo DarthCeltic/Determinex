@@ -7,7 +7,6 @@ def test_tauri_bundles_determinex_hive_sidecar():
     config = (ROOT / "frontend" / "src-tauri" / "tauri.conf.json").read_text(encoding="utf-8")
 
     assert "bin/determinex-hive" in config
-    assert "bin/determinex-hive" not in config
 
 
 def test_tauri_cargo_package_names_the_installed_executable():

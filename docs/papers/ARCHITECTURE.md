@@ -663,8 +663,8 @@ All 36 gaps with rationale, exact files, and line-level changes: commit `aa8294f
 
 | Model | Version | Base | micro_eval | Role | Notes |
 |---|---|---|---|---|---|
-| `determinex/observer` | v6-dsl | Qwen2.5 3B | **82%** (37/45) | Monitor/critique | DSL fine-tune +4pp |
-| `determinex/engineer` | v11-dsl | Qwen2.5-Coder 1.5B | **89%** (40/45) | Code generation | DSL fine-tune +5pp |
+| `determinex/observer` | v6-dsl | Qwen2.5 3B | **75.7%** (53/70) | Monitor/critique | 70-probe set; the old 82% (37/45) was v5-dsl |
+| `determinex/engineer` | v11-dsl | Qwen2.5-Coder 1.5B | **81.4%** (57/70) | Code generation | 70-probe set; the old 89% (40/45) was v10-dsl |
 | `determinex/sentinel` | v5-dsl | Mistral 7B | **87%** (39/45) | Planning/DAG | DSL rejected; v3 base retained |
 | `determinex/qwen7b` | — | Qwen2.5-Coder 7B | — | Oracle + Architect | API-weight role; never assigned to sentinel |
 | `determinex-leviathan` | v1 | DeepSeek-Coder-V2 | — | Escalation | CPU + RAM only |
@@ -1018,7 +1018,7 @@ correct behavior.
 
 ## Open Items (Genuine Gaps — April 28, 2026)
 
-1. **DSL fine-tune results** — ✅ Done. Observer v6-dsl 82% (+4pp), Engineer v11-dsl 89% (+5pp), Sentinel v5-dsl (rank-4 retry complete, pending micro_eval). arc_mutex fixed universally.
+1. **DSL fine-tune results** — ✅ Done. Corrected 2026-07-28: Observer v6-dsl 53/70 (75.7%), Engineer v11-dsl 57/70 (81.4%) on the expanded 70-probe set; the previously quoted 82%/89% were v5-dsl's and v10-dsl's 45-probe results. Sentinel v5-dsl still has no eval artifact. arc_mutex fixed universally.
 
 2. **SWE-bench ablation results** — ⚠️ AUDITED, NOT FINAL. The 2026-05 run produced useful lower bounds and pipeline findings, but B-Uncloaked is not a clean baseline and the privacy-cost delta is not publishable until re-evaluation. E-RegionControl: ≥6.0% (18/300, lower bound). B-Cloaked-RosettaOFF: ≥2.3% (7/300, lower bound). D-Cloaked: ≥3.3% (10/300, lower bound). See `docs/WHITE_PAPER.md` §3.13 and §9.9.
 

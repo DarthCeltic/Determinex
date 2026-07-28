@@ -27,7 +27,10 @@ export function TempVerifyPanel({ workspacePath }: Props) {
 
   const payload = (resp?.payload ?? {}) as Record<string, unknown>;
   const verifierStatus = String(payload.verifier_status ?? "");
-  const diffSummary = String(payload.unified_diff ?? "").split("\n").slice(0, 30).join("\n");
+  const diffSummary = String(payload.unified_diff ?? "")
+    .split("\n")
+    .slice(0, 30)
+    .join("\n");
   const passed = verifierStatus === "PATCH_VERIFIER_PASSED_TEMP_ONLY";
   const failed = verifierStatus === "PATCH_VERIFIER_FAILED";
 
@@ -68,29 +71,37 @@ export function TempVerifyPanel({ workspacePath }: Props) {
           </div>
 
           {failed && (
-            <div className="rounded border border-red-500/40 bg-red-500/5 px-3 py-2 text-xs"
-                 data-testid="temp-verify-failed-note">
+            <div
+              className="rounded border border-red-500/40 bg-red-500/5 px-3 py-2 text-xs"
+              data-testid="temp-verify-failed-note"
+            >
               Verifier failed on the temp workspace. The temp tree was rolled back.
             </div>
           )}
           {passed && (
-            <div className="rounded border border-emerald-500/40 bg-emerald-500/5 px-3 py-2 text-xs"
-                 data-testid="temp-verify-passed-note">
+            <div
+              className="rounded border border-emerald-500/40 bg-emerald-500/5 px-3 py-2 text-xs"
+              data-testid="temp-verify-passed-note"
+            >
               Verifier passed in the temp workspace only. The original repo is unchanged.
             </div>
           )}
 
           {diffSummary && (
-            <pre className="overflow-auto rounded bg-muted/40 p-2 text-xs"
-                 data-testid="temp-verify-diff-summary">
+            <pre
+              className="overflow-auto rounded bg-muted/40 p-2 text-xs"
+              data-testid="temp-verify-diff-summary"
+            >
               {diffSummary}
             </pre>
           )}
         </>
       )}
 
-      <div className="rounded border border-amber-500/40 bg-amber-500/5 px-3 py-2 text-xs"
-           data-testid="temp-verify-human-approval-required-note">
+      <div
+        className="rounded border border-amber-500/40 bg-amber-500/5 px-3 py-2 text-xs"
+        data-testid="temp-verify-human-approval-required-note"
+      >
         Human approval is required before any change leaves the temp workspace.
       </div>
     </section>

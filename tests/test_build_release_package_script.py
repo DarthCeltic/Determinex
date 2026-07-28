@@ -64,7 +64,15 @@ def test_release_build_script_can_package_download_bundle():
     assert "[switch]$PackageDownloadBundle" in text
     assert "[string]$TauriBundleTarget" in text
     assert '$EffectiveTauriBundleTarget = if ($TauriBundleTarget)' in text
-    assert 'elseif ($PackageDownloadBundle) { "all" }' in text
+    # 2026-07-19: "all" is not a valid --bundles value for tauri-cli on Windows
+    # (only an explicit msi,nsis list is) -- this assertion used to lock in
+    # that exact broken default, meaning the documented -PackageDownloadBundle
+    # runbook command had never actually succeeded on Windows. Fixed live: ran
+    # a full local release build end to end (MSI + NSIS + download bundle) to
+    # confirm the corrected default genuinely works, not just that the text
+    # changed.
+    assert 'elseif ($PackageDownloadBundle) { "msi,nsis" }' in text
+    assert 'elseif ($PackageDownloadBundle) { "all" }' not in text
     assert "& $NpmExe run tauri -- build --bundles $EffectiveTauriBundleTarget" in text
     assert "[string]$DownloadBundleOutputDir" in text
     assert "[string]$DownloadBundleEvidenceDir" in text

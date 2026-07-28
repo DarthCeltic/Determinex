@@ -29,9 +29,24 @@ DEFAULT_ROOTS = [
 ]
 
 
+def _training_excluded(root: Path) -> bool:
+    """A root whose TRAINING_EXCLUSION.json marks it training_eligible=false is LEGACY: its rows
+    are unsigned/untagged by declaration. Counting them in the coverage dashboard buries the
+    ACTIVE corpus's real coverage under ~600K 'unknown's (the 2026-07-18 audit finding: every
+    dimension read 100% unknown because only legacy rows were being scanned)."""
+    marker = root / "TRAINING_EXCLUSION.json"
+    if not marker.exists():
+        return False
+    try:
+        return json.loads(marker.read_text(encoding="utf-8")).get("training_eligible") is False
+    except (OSError, json.JSONDecodeError):
+        return False
+
+
 @dataclass
 class CoverageReport:
     roots: list[str]
+    excluded_legacy_roots: list[str] = field(default_factory=list)
     total_rows: int = 0
     unsigned_count: int = 0
     invalid_signature_count: int = 0
@@ -115,8 +130,12 @@ def generate_report(
     verify_signatures: bool = False,
     max_parse_errors: int = 50,
 ) -> CoverageReport:
-    root_list = [Path(r) for r in roots]
+    root_list = []
+    excluded_roots = []
+    for r in roots:
+        (excluded_roots if _training_excluded(Path(r)) else root_list).append(Path(r))
     report = CoverageReport(roots=[str(r) for r in root_list])
+    report.excluded_legacy_roots = [str(r) for r in excluded_roots]
     report.current_signature_key_scope = hmac_key_scope()
     counters = {
         "language": Counter(),
@@ -186,7 +205,14 @@ def _iter_jsonl_files(roots: Iterable[Path]) -> Iterable[Path]:
         if root.is_file() and root.suffix == ".jsonl":
             yield root
         elif root.is_dir():
-            yield from sorted(root.rglob("*.jsonl"))
+            # A SUBDIR carrying training_eligible=false (e.g. programbench_legacy_offload/) is
+            # legacy by declaration -- its untagged rows would bury the active corpus's coverage.
+            excluded_dirs = [m.parent for m in root.rglob("TRAINING_EXCLUSION.json")
+                             if _training_excluded(m.parent)]
+            for f in sorted(root.rglob("*.jsonl")):
+                if any(d in f.parents for d in excluded_dirs):
+                    continue
+                yield f
 
 
 def _record_parse_error(report: CoverageReport, message: str, max_parse_errors: int) -> None:

@@ -2,7 +2,7 @@
 
 import { useCallback, useState, useEffect } from "react";
 import { invoke as tauriInvoke } from "@tauri-apps/api/core";
-import { isTauri, invokeSafe, saveApiKeys, getApiKeyStatus, listModelTiers, pullCustomModel, registerCustomGguf, type ModelTierOption } from "@/lib/api";
+import { isTauri, invokeSafe, saveApiKeys } from "@/lib/api";
 import {
   NETWORK_POLICY_COPY,
   type NetworkPolicyMode,
@@ -10,10 +10,38 @@ import {
   markSetupCompleted,
   SETUP_RERUN_EVENT,
   storeNetworkPolicy,
-  readStoredNetworkPolicy
+  readStoredNetworkPolicy,
 } from "@/lib/networkPolicy";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Zap, Cloud, Cpu, Server, Check, ArrowRight, Loader2, HardDrive, AlertTriangle, X, KeyRound, Download, ChevronDown } from "lucide-react";
+import {
+  Shield,
+  Zap,
+  Cloud,
+  Cpu,
+  Server,
+  Check,
+  ArrowRight,
+  Loader2,
+  HardDrive,
+  AlertTriangle,
+  X,
+  KeyRound,
+  ExternalLink,
+} from "lucide-react";
+
+// Official console pages to obtain each provider's key -- Ryan: "links
+// provided... spelled out what they need to add." Previously the setup
+// wizard's key inputs were 7 blank password fields with nowhere to send a
+// first-time user to actually get a key.
+const PROVIDER_KEY_URLS: Record<string, string> = {
+  anthropic_key: "https://console.anthropic.com/settings/keys",
+  openai_key: "https://platform.openai.com/api-keys",
+  gemini_key: "https://aistudio.google.com/apikey",
+  groq_key: "https://console.groq.com/keys",
+  deepseek_key: "https://platform.deepseek.com/api_keys",
+  mistral_key: "https://console.mistral.ai/api-keys/",
+  kimi_key: "https://platform.moonshot.ai/console/api-keys",
+};
 
 const invoke = async (cmd: string, args?: Record<string, unknown>) => {
   if (isTauri()) {
@@ -22,10 +50,54 @@ const invoke = async (cmd: string, args?: Record<string, unknown>) => {
   const result = await invokeSafe(cmd, args);
   if (result !== null) return result;
   // Mocks for dev mode
-  if (cmd === "probe_hardware") return { total_vram_mb: 6144, vram_budget_mb: 4144, reserved_vram_mb: 2000, hardware_source: "mock", hardware_fallback: false, recommended_tier: "engineer=qwen2.5-coder:3b-instruct" };
+  if (cmd === "probe_hardware")
+    return {
+      total_vram_mb: 6144,
+      vram_budget_mb: 4144,
+      reserved_vram_mb: 2000,
+      hardware_source: "mock",
+      hardware_fallback: false,
+      recommended_tier: "engineer=qwen2.5-coder:3b-instruct",
+    };
   if (cmd === "ensure_ollama_installed") return { status: "installed (mock)", version: "0.1.27" };
   if (cmd === "pull_required_models") return { models_pulled: [], models_failed: [] };
+  if (cmd === "list_toolchains")
+    return { rust: true, go: false, python: true, java: false, dotnet: false };
+  if (cmd === "install_toolchain")
+    return {
+      language: args?.language,
+      alreadyAvailable: false,
+      attempted: true,
+      installer: "winget",
+      command: "(mock)",
+      succeeded: false,
+      output: "",
+      notes: ["browser preview mode -- open the desktop app to actually install a toolchain"],
+    };
   return {};
+};
+
+// The small, practically-relevant subset of determinex_oracle's ~40 language aliases worth
+// surfacing during setup -- the full alias list (c/cpp/cs/csharp/cxx/...) is one toolchain
+// shown under several names; showing all of them here would just be noise at the moment a
+// user is deciding whether to bother installing anything yet.
+const SETUP_TOOLCHAIN_LANGUAGES: { key: string; label: string }[] = [
+  { key: "rust", label: "Rust" },
+  { key: "go", label: "Go" },
+  { key: "python", label: "Python" },
+  { key: "java", label: "Java (JVM)" },
+  { key: "dotnet", label: "C# / .NET" },
+];
+
+type ToolchainInstallResult = {
+  language: string;
+  alreadyAvailable: boolean;
+  attempted: boolean;
+  installer: string;
+  command: string;
+  succeeded: boolean;
+  output: string;
+  notes: string[];
 };
 
 type SetupStep =
@@ -54,7 +126,7 @@ type SetupApiKeys = {
   groq_key: string;
   deepseek_key: string;
   mistral_key: string;
-  openrouter_key: string;
+  kimi_key: string;
 };
 
 export function SetupWizard() {
@@ -63,6 +135,9 @@ export function SetupWizard() {
   const [completed, setCompleted] = useState(false);
   const [policy, setPolicy] = useState<NetworkPolicyMode>("cloaked");
   const [hardware, setHardware] = useState<HardwareProbe | null>(null);
+  const [toolchains, setToolchains] = useState<Record<string, boolean> | null>(null);
+  const [installingToolchain, setInstallingToolchain] = useState<string | null>(null);
+  const [toolchainResult, setToolchainResult] = useState<ToolchainInstallResult | null>(null);
   const [recommendedPolicy, setRecommendedPolicy] = useState<NetworkPolicyMode | null>(null);
   const [installPhase, setInstallPhase] = useState<string>("");
   const [apiKeys, setApiKeys] = useState<SetupApiKeys>({
@@ -72,86 +147,8 @@ export function SetupWizard() {
     groq_key: "",
     deepseek_key: "",
     mistral_key: "",
-    openrouter_key: "",
+    kimi_key: "",
   });
-  const [openrouterConfigured, setOpenrouterConfigured] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    getApiKeyStatus().then((status) => setOpenrouterConfigured(status.openrouter));
-  }, []);
-
-  // ── Advanced model selection: real tiers, custom Ollama tags, custom GGUFs ──
-  const [modelTiers, setModelTiers] = useState<ModelTierOption[]>([]);
-  const [advancedOpen, setAdvancedOpen] = useState(false);
-  const [customTag, setCustomTag] = useState("");
-  const [customTagStatus, setCustomTagStatus] = useState<string | null>(null);
-  const [customTagBusy, setCustomTagBusy] = useState(false);
-  const [ggufUrl, setGgufUrl] = useState("");
-  const [ggufTag, setGgufTag] = useState("");
-  const [ggufCtx, setGgufCtx] = useState("4096");
-  const [ggufStatus, setGgufStatus] = useState<string | null>(null);
-  const [ggufBusy, setGgufBusy] = useState(false);
-  const [tierPullStatus, setTierPullStatus] = useState<string | null>(null);
-  const [tierPullBusy, setTierPullBusy] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (step === "hardware") {
-      listModelTiers().then(setModelTiers);
-    }
-  }, [step]);
-
-  const handlePullTier = async (tier: ModelTierOption) => {
-    setTierPullBusy(tier.id);
-    setTierPullStatus(null);
-    try {
-      const result = await pullCustomModel(tier.engineer_model);
-      if (result.models_failed.length > 0) {
-        setTierPullStatus(`Failed: ${result.models_failed.join(", ")}`);
-      } else if (result.models_existing.length > 0) {
-        setTierPullStatus(`${tier.engineer_model} is already installed.`);
-      } else {
-        setTierPullStatus(`Pulled ${tier.engineer_model}. It's available in Ollama now.`);
-      }
-    } catch (err) {
-      setTierPullStatus(err instanceof Error ? err.message : String(err));
-    } finally {
-      setTierPullBusy(null);
-    }
-  };
-
-  const handlePullCustomTag = async () => {
-    if (!customTag.trim()) return;
-    setCustomTagBusy(true);
-    setCustomTagStatus(null);
-    try {
-      const result = await pullCustomModel(customTag.trim());
-      if (result.models_failed.length > 0) {
-        setCustomTagStatus(`Failed: ${result.models_failed.join(", ")}`);
-      } else if (result.models_existing.length > 0) {
-        setCustomTagStatus(`${customTag} is already installed.`);
-      } else {
-        setCustomTagStatus(`Pulled ${customTag}. It's available in Ollama now.`);
-      }
-    } catch (err) {
-      setCustomTagStatus(err instanceof Error ? err.message : String(err));
-    } finally {
-      setCustomTagBusy(false);
-    }
-  };
-
-  const handleRegisterGguf = async () => {
-    if (!ggufUrl.trim() || !ggufTag.trim()) return;
-    setGgufBusy(true);
-    setGgufStatus(null);
-    try {
-      const msg = await registerCustomGguf(ggufUrl.trim(), ggufTag.trim(), parseInt(ggufCtx, 10) || 4096);
-      setGgufStatus(msg);
-    } catch (err) {
-      setGgufStatus(err instanceof Error ? err.message : String(err));
-    } finally {
-      setGgufBusy(false);
-    }
-  };
 
   const isNative = isTauri();
 
@@ -176,10 +173,52 @@ export function SetupWizard() {
       })
       .catch((err) => {
         console.error("Hardware probe failed:", err);
-        setHardware({ total_vram_mb: null, vram_budget_mb: 4000, reserved_vram_mb: 0, hardware_source: "fallback", hardware_fallback: true, recommended_tier: "Fallback inference budget (4GB)" });
+        setHardware({
+          total_vram_mb: null,
+          vram_budget_mb: 4000,
+          reserved_vram_mb: 0,
+          hardware_source: "fallback",
+          hardware_fallback: true,
+          recommended_tier: "Fallback inference budget (4GB)",
+        });
         setRecommendedPolicy("cloaked");
         setStep("welcome");
       });
+
+    // Toolchain visibility is best-effort and never blocks setup -- a slow/failed probe just
+    // means the card below shows nothing rather than failing the whole wizard over what is an
+    // optional convenience, not a requirement to use Determinex at all.
+    invoke("list_toolchains")
+      .then((res) => setToolchains(res as Record<string, boolean>))
+      .catch(() => setToolchains(null));
+  }, []);
+
+  const installToolchain = useCallback(async (language: string) => {
+    setInstallingToolchain(language);
+    setToolchainResult(null);
+    try {
+      const res = await invoke("install_toolchain", { language });
+      setToolchainResult(res as ToolchainInstallResult);
+      // Re-probe rather than trust this one result's own succeeded flag for the OTHER
+      // languages' displayed status -- but do fold this language's own outcome into the
+      // existing state immediately so the card reflects it without waiting on a full re-list.
+      setToolchains((prev) =>
+        prev ? { ...prev, [language]: (res as ToolchainInstallResult).succeeded } : prev
+      );
+    } catch (err) {
+      setToolchainResult({
+        language,
+        alreadyAvailable: false,
+        attempted: true,
+        installer: "",
+        command: "",
+        succeeded: false,
+        output: "",
+        notes: [String(err)],
+      });
+    } finally {
+      setInstallingToolchain(null);
+    }
   }, []);
 
   useEffect(() => {
@@ -215,7 +254,10 @@ export function SetupWizard() {
 
       if (policy === "online" || policy === "cloaked") {
         setInstallPhase("Checking for Ollama installation...");
-        const ollamaResult = (await invoke("ensure_ollama_installed")) as { status: string; version: string };
+        const ollamaResult = (await invoke("ensure_ollama_installed")) as {
+          status: string;
+          version: string;
+        };
         setInstallPhase(`Ollama v${ollamaResult.version} — ${ollamaResult.status}`);
 
         setInstallPhase("Determining required models for your hardware...");
@@ -269,32 +311,59 @@ export function SetupWizard() {
           </div>
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white">Determinex IDE Setup</h1>
-            <p className="text-sm text-slate-400">Configure your local workspace and intelligence engine</p>
+            <p className="text-sm text-slate-400">
+              Configure your local workspace and intelligence engine
+            </p>
           </div>
         </div>
 
         <AnimatePresence mode="wait">
           {step === "probing" && (
-            <motion.div key="probing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center justify-center py-12 gap-4">
+            <motion.div
+              key="probing"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex flex-col items-center justify-center py-12 gap-4"
+            >
               <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
               <p className="text-sm text-slate-400">Detecting system capabilities...</p>
             </motion.div>
           )}
 
           {step === "welcome" && (
-            <motion.div key="welcome" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
-              <h2 className="text-lg font-semibold text-slate-200">Step 1: Network & Privacy Policy</h2>
-              <p className="text-sm text-slate-400">How would you like Determinex to operate? This controls what data leaves your machine.</p>
-
-              <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-xs text-slate-400 leading-relaxed">
-                <strong className="text-slate-300">What this setup does:</strong> if <a href="https://ollama.ai" target="_blank" rel="noreferrer" className="text-indigo-400 hover:underline">Ollama</a> isn&apos;t already installed, Determinex downloads and silently installs it for you (no prompts, no terminal), then pulls the model(s) it needs for your hardware. This step needs an internet connection and can take several minutes depending on model size and your connection speed.
+            <motion.div
+              key="welcome"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="flex flex-col gap-6"
+            >
+              <div className="rounded-xl border border-white/10 bg-black/20 p-4 text-sm leading-relaxed text-slate-300">
+                <strong className="text-white">What Determinex does:</strong> it&apos;s a
+                local-first AI coding workbench -- an AI plans and writes code, then a real compiler
+                or test run (never the AI&apos;s own word) decides whether it actually worked.
+                Nothing below is required to get started; the defaults work out of the box.
+                You&apos;re just choosing whether any of it is allowed to leave this machine.
               </div>
+              <h2 className="text-lg font-semibold text-slate-200">
+                Step 1: Network & Privacy Policy
+              </h2>
+              <p className="text-sm text-slate-400">
+                How would you like Determinex to operate? This controls what data leaves your
+                machine.
+              </p>
 
               {recommendedPolicy && hardware && (
                 <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 flex gap-3 text-indigo-200">
                   <Zap className="w-5 h-5 shrink-0 text-indigo-400 mt-0.5" />
                   <div className="text-sm leading-relaxed">
-                    <strong>Recommendation:</strong> Based on a {hardware.total_vram_mb ? `${Math.round(hardware.total_vram_mb / 1024 * 10) / 10} GB physical VRAM` : `${Math.round(hardware.vram_budget_mb / 1024 * 10) / 10} GB fallback inference budget`} probe, we recommend <strong>{NETWORK_POLICY_COPY[recommendedPolicy].label}</strong>.
+                    <strong>Recommendation:</strong> Based on a{" "}
+                    {hardware.total_vram_mb
+                      ? `${Math.round((hardware.total_vram_mb / 1024) * 10) / 10} GB physical VRAM`
+                      : `${Math.round((hardware.vram_budget_mb / 1024) * 10) / 10} GB fallback inference budget`}{" "}
+                    probe, we recommend{" "}
+                    <strong>{NETWORK_POLICY_COPY[recommendedPolicy].label}</strong>.
                     {recommendedPolicy === "offline"
                       ? " Your hardware provides ample headroom to run advanced reasoning models locally without slowing down your computer."
                       : " Running advanced models entirely locally on this hardware may severely slow down your computer. We highly recommend Cloaked mode to offload heavy tasks to the cloud while protecting your privacy."}
@@ -303,7 +372,12 @@ export function SetupWizard() {
               )}
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-                {(Object.entries(NETWORK_POLICY_COPY) as [NetworkPolicyMode, typeof NETWORK_POLICY_COPY[NetworkPolicyMode]][]).map(([mode, info]) => {
+                {(
+                  Object.entries(NETWORK_POLICY_COPY) as [
+                    NetworkPolicyMode,
+                    (typeof NETWORK_POLICY_COPY)[NetworkPolicyMode],
+                  ][]
+                ).map(([mode, info]) => {
                   const isRecommended = mode === recommendedPolicy;
                   return (
                     <button
@@ -316,17 +390,37 @@ export function SetupWizard() {
                       }`}
                     >
                       {isRecommended && (
-                        <div className="absolute -top-3 left-4 bg-indigo-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                        <div className="absolute -top-3 left-4 bg-indigo-500 text-white text-meta font-bold px-2 py-1 rounded-full uppercase tracking-wider shadow-lg">
                           Recommended
                         </div>
                       )}
                       <div className="flex items-center gap-2 mb-3 mt-1">
-                        {mode === "offline" && <Shield className={`w-5 h-5 ${isRecommended ? "text-emerald-300" : "text-emerald-400"}`} />}
-                        {mode === "cloaked" && <Server className={`w-5 h-5 ${isRecommended ? "text-indigo-300" : "text-indigo-400"}`} />}
-                        {mode === "online" && <Cloud className={`w-5 h-5 ${isRecommended ? "text-sky-300" : "text-sky-400"}`} />}
-                        <span className={`font-semibold ${isRecommended ? "text-indigo-100" : "text-white"}`}>{info.label}</span>
+                        {mode === "offline" && (
+                          <Shield
+                            className={`w-5 h-5 ${isRecommended ? "text-emerald-300" : "text-emerald-400"}`}
+                          />
+                        )}
+                        {mode === "cloaked" && (
+                          <Server
+                            className={`w-5 h-5 ${isRecommended ? "text-indigo-300" : "text-indigo-400"}`}
+                          />
+                        )}
+                        {mode === "online" && (
+                          <Cloud
+                            className={`w-5 h-5 ${isRecommended ? "text-sky-300" : "text-sky-400"}`}
+                          />
+                        )}
+                        <span
+                          className={`font-semibold ${isRecommended ? "text-indigo-100" : "text-white"}`}
+                        >
+                          {info.label}
+                        </span>
                       </div>
-                      <p className={`text-sm mb-2 ${isRecommended ? "text-indigo-200/80" : "text-slate-300"}`}>{info.summary}</p>
+                      <p
+                        className={`text-sm mb-2 ${isRecommended ? "text-indigo-200/80" : "text-slate-300"}`}
+                      >
+                        {info.summary}
+                      </p>
                       <p className="text-xs text-slate-500 mt-auto">{info.detail}</p>
                     </button>
                   );
@@ -336,87 +430,111 @@ export function SetupWizard() {
           )}
 
           {step === "providers" && (
-            <motion.div key="providers" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
+            <motion.div
+              key="providers"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="flex flex-col gap-6"
+            >
               <div>
-                <h2 className="text-lg font-semibold text-slate-200">Step 2: API Keys & Model Providers</h2>
+                <h2 className="text-lg font-semibold text-slate-200">
+                  Step 2: API Keys & Model Providers
+                </h2>
                 <p className="text-sm text-slate-400 mt-1">
-                  Add cloud provider keys now, or leave them blank for local-only setup. Keys are stored by the native Config Vault and can be changed later.
+                  Add cloud provider keys now, or leave them blank for local-only setup. Keys are
+                  stored by the native Config Vault and can be changed later.
                 </p>
               </div>
 
-              {/* OpenRouter — real state, not assumed */}
-              {openrouterConfigured ? (
-                <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex gap-3">
-                  <Zap className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-semibold text-green-200 mb-1">
-                      OpenRouter — Already Configured ✓
-                    </p>
-                    <p className="text-xs text-green-300/80 leading-relaxed">
-                      An <code className="font-mono bg-black/30 px-1 rounded">openrouter</code> key is already saved.
-                      Roles can route through it via <code className="font-mono bg-black/30 px-1 rounded">litellm_config.yaml</code>.
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <label className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex flex-col gap-2">
-                  <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-green-200">
-                    <Zap className="w-3.5 h-3.5 text-green-400" /> OpenRouter (optional free tier)
-                  </span>
-                  <p className="text-xs text-green-300/80 leading-relaxed">
-                    Add an OpenRouter key to unlock a range of free-tier models with no credit card
-                    required. Get one at openrouter.ai/keys.
+              {/* OpenRouter — free tier highlight */}
+              <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex gap-3">
+                <Zap className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-semibold text-green-200 mb-1">
+                    OpenRouter Free Tier — Already Configured ✓
                   </p>
-                  <input
-                    type="password"
-                    value={apiKeys.openrouter_key}
-                    onChange={(event) => setApiKeys((current) => ({ ...current, openrouter_key: event.target.value }))}
-                    placeholder={policy === "offline" ? "Skipped in Offline / Local Only" : "Paste OpenRouter key, optional"}
-                    disabled={policy === "offline"}
-                    className="w-full rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-green-500 disabled:opacity-40"
-                  />
-                </label>
-              )}
+                  <p className="text-xs text-green-300/80 leading-relaxed">
+                    Your{" "}
+                    <code className="font-mono bg-black/30 px-1 rounded">OPENROUTER_API_KEY</code>{" "}
+                    is already in <code className="font-mono bg-black/30 px-1 rounded">.env</code>.
+                    This unlocks <strong>27 free LLMs</strong> with zero cost — including Qwen3
+                    Coder 480B (1M context), NVIDIA Nemotron Ultra 550B, and Llama 3.3 70B. No
+                    credit card required. Roles are pre-set to use these in{" "}
+                    <code className="font-mono bg-black/30 px-1 rounded">litellm_config.yaml</code>.
+                  </p>
+                </div>
+              </div>
 
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
                   Optional: Add Paid Provider Keys
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {[
-                  ["anthropic_key", "Anthropic / Claude"],
-                  ["openai_key", "OpenAI / ChatGPT"],
-                  ["gemini_key", "Google Gemini"],
-                  ["groq_key", "Groq"],
-                  ["deepseek_key", "DeepSeek"],
-                  ["mistral_key", "Mistral"],
-                ].map(([key, label]) => (
-                  <label key={key} className="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4 flex flex-col gap-2">
-                    <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-300">
-                      <KeyRound className="w-3.5 h-3.5 text-indigo-400" /> {label}
-                    </span>
-                    <input
-                      type="password"
-                      value={apiKeys[key as keyof SetupApiKeys]}
-                      onChange={(event) => setApiKeys((current) => ({ ...current, [key]: event.target.value }))}
-                      placeholder={policy === "offline" ? "Skipped in Offline / Local Only" : "Paste API key, optional"}
-                      disabled={policy === "offline"}
-                      className="w-full rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500 disabled:opacity-40"
-                    />
-                  </label>
-                ))}
+                  {[
+                    ["anthropic_key", "Anthropic / Claude"],
+                    ["openai_key", "OpenAI / ChatGPT"],
+                    ["gemini_key", "Google Gemini"],
+                    ["groq_key", "Groq"],
+                    ["deepseek_key", "DeepSeek"],
+                    ["mistral_key", "Mistral"],
+                    ["kimi_key", "Kimi (Moonshot AI)"],
+                  ].map(([key, label]) => (
+                    <label
+                      key={key}
+                      className="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4 flex flex-col gap-2"
+                    >
+                      <span className="flex items-center justify-between gap-2">
+                        <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-300">
+                          <KeyRound className="w-3.5 h-3.5 text-indigo-400" /> {label}
+                        </span>
+                        {PROVIDER_KEY_URLS[key] && (
+                          <a
+                            href={PROVIDER_KEY_URLS[key]}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center gap-1 text-meta font-bold uppercase tracking-wide text-indigo-400 hover:text-indigo-300"
+                          >
+                            Get a key <ExternalLink className="w-2.5 h-2.5" />
+                          </a>
+                        )}
+                      </span>
+                      <input
+                        type="password"
+                        value={apiKeys[key as keyof SetupApiKeys]}
+                        onChange={(event) =>
+                          setApiKeys((current) => ({ ...current, [key]: event.target.value }))
+                        }
+                        placeholder={
+                          policy === "offline"
+                            ? "Skipped in Offline / Local Only"
+                            : "Paste API key, optional"
+                        }
+                        disabled={policy === "offline"}
+                        className="w-full rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500 disabled:opacity-40"
+                      />
+                    </label>
+                  ))}
                 </div>
               </div>
 
               <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-sm leading-relaxed text-emerald-100/80">
-                <strong>Local</strong> means Ollama models run on this machine. <strong>Cloaked</strong> means cloud calls are allowed only through privacy gates that obfuscate identifiers and keep workspace boundaries explicit.
+                <strong>Local</strong> means Ollama models run on this machine.{" "}
+                <strong>Cloaked</strong> means cloud calls are allowed only through privacy gates
+                that obfuscate identifiers and keep workspace boundaries explicit.
               </div>
 
               <div className="flex justify-end gap-3 mt-2">
-                <button onClick={() => setStep("welcome")} className="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-colors">
+                <button
+                  onClick={() => setStep("welcome")}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-colors"
+                >
                   Back
                 </button>
-                <button onClick={() => setStep("hardware")} className="px-6 py-2 rounded-lg text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white transition-colors flex items-center gap-2">
+                <button
+                  onClick={() => setStep("hardware")}
+                  className="px-6 py-2 rounded-lg text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white transition-colors flex items-center gap-2"
+                >
                   Continue <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -424,8 +542,16 @@ export function SetupWizard() {
           )}
 
           {step === "hardware" && (
-            <motion.div key="hardware" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
-              <h2 className="text-lg font-semibold text-slate-200">Step 3: Hardware Diagnostics & Startup</h2>
+            <motion.div
+              key="hardware"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="flex flex-col gap-6"
+            >
+              <h2 className="text-lg font-semibold text-slate-200">
+                Step 3: Hardware Diagnostics & Startup
+              </h2>
 
               {!hardware ? (
                 <div className="flex flex-col items-center justify-center py-12 gap-4">
@@ -438,194 +564,164 @@ export function SetupWizard() {
                     <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 flex flex-col gap-1">
                       <div className="flex items-center gap-2 text-slate-400 mb-1">
                         <Cpu className="w-4 h-4" />
-                        <span className="text-xs font-semibold uppercase tracking-wider">Physical VRAM</span>
+                        <span className="text-xs font-semibold uppercase tracking-wider">
+                          Physical VRAM
+                        </span>
                       </div>
-                      <span className="text-2xl font-bold text-white">{hardware.total_vram_mb ? `${Math.round(hardware.total_vram_mb / 1024 * 10) / 10} GB` : "Unknown"}</span>
-                      <span className="text-xs text-slate-500">{hardware.hardware_fallback ? "Probe unavailable; using fallback budget" : `Detected by ${hardware.hardware_source ?? "hardware probe"}`}</span>
+                      <span className="text-2xl font-bold text-white">
+                        {hardware.total_vram_mb
+                          ? `${Math.round((hardware.total_vram_mb / 1024) * 10) / 10} GB`
+                          : "Unknown"}
+                      </span>
+                      <span className="text-xs text-slate-500">
+                        {hardware.hardware_fallback
+                          ? "Probe unavailable; using fallback budget"
+                          : `Detected by ${hardware.hardware_source ?? "hardware probe"}`}
+                      </span>
                     </div>
 
                     <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 flex flex-col gap-1">
                       <div className="flex items-center gap-2 text-slate-400 mb-1">
                         <Cpu className="w-4 h-4" />
-                        <span className="text-xs font-semibold uppercase tracking-wider">Inference Budget</span>
+                        <span className="text-xs font-semibold uppercase tracking-wider">
+                          Inference Budget
+                        </span>
                       </div>
-                      <span className="text-2xl font-bold text-white">{Math.round(hardware.vram_budget_mb / 1024 * 10) / 10} GB</span>
-                      <span className="text-xs text-slate-500">{hardware.reserved_vram_mb ? `${Math.round(hardware.reserved_vram_mb / 1024 * 10) / 10} GB reserved for OS/GPU overhead` : "Conservative usable budget"}</span>
+                      <span className="text-2xl font-bold text-white">
+                        {Math.round((hardware.vram_budget_mb / 1024) * 10) / 10} GB
+                      </span>
+                      <span className="text-xs text-slate-500">
+                        {hardware.reserved_vram_mb
+                          ? `${Math.round((hardware.reserved_vram_mb / 1024) * 10) / 10} GB reserved for OS/GPU overhead`
+                          : "Conservative usable budget"}
+                      </span>
                     </div>
 
                     <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 flex flex-col gap-1">
                       <div className="flex items-center gap-2 text-slate-400 mb-1">
                         <HardDrive className="w-4 h-4" />
-                        <span className="text-xs font-semibold uppercase tracking-wider">Recommended Tier</span>
+                        <span className="text-xs font-semibold uppercase tracking-wider">
+                          Recommended Tier
+                        </span>
                       </div>
-                      <span className="text-lg font-bold text-white truncate" title={hardware.recommended_tier}>
+                      <span
+                        className="text-lg font-bold text-white truncate"
+                        title={hardware.recommended_tier}
+                      >
                         {hardware.recommended_tier.split(" | ")[0].replace("engineer=", "")}
                       </span>
                       <span className="text-xs text-slate-500">Auto-selected loadout</span>
                     </div>
                   </div>
 
-                  {policy === "offline" && (
-                    <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 flex gap-3 text-amber-200/80">
-                      <AlertTriangle className="w-5 h-5 shrink-0 text-amber-500" />
-                      <div className="text-sm leading-relaxed">
-                        You selected <strong>Offline Mode</strong>. Determinex will rely entirely on the hardware shown above, and will skip downloading online models during this setup.
+                  {toolchains && (
+                    <div className="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                        Compiler toolchains
                       </div>
-                    </div>
-                  )}
-
-                  {modelTiers.length > 0 && (
-                    <div className="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4 flex flex-col gap-3">
-                      <div className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-                        Every tier your hardware can run
-                      </div>
-                      <p className="text-xs text-slate-500 -mt-2">
-                        The recommended tier is used automatically. Got more VRAM than you need, or want to
-                        try something bigger? Pull an alternate tier directly — it doesn't replace anything,
-                        it just becomes available in Ollama for you to select elsewhere.
+                      <p className="text-xs text-slate-500 mb-3">
+                        Determinex verifies every change with a real compiler or test run, never an
+                        LLM&apos;s own claim -- these are the toolchains that back that
+                        verification. Nothing here is required to finish setup; install only what
+                        you plan to build with.
                       </p>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {modelTiers.map((tier) => (
-                          <div
-                            key={tier.id}
-                            className={`rounded-lg border p-3 flex flex-col gap-2 ${
-                              tier.recommended
-                                ? "border-indigo-500/60 bg-indigo-900/20"
-                                : "border-slate-700/50 bg-slate-900/30"
-                            }`}
-                          >
-                            <div className="flex items-center justify-between gap-2">
-                              <span className="text-sm font-semibold text-white">{tier.label}</span>
-                              {tier.recommended && (
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded-full">
-                                  Recommended
-                                </span>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {SETUP_TOOLCHAIN_LANGUAGES.map(({ key, label }) => {
+                          const available = toolchains[key];
+                          const busy = installingToolchain === key;
+                          return (
+                            <div
+                              key={key}
+                              className="flex items-center justify-between rounded-lg bg-black/25 border border-white/5 px-3 py-2"
+                            >
+                              <div className="flex items-center gap-2">
+                                {available ? (
+                                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                ) : (
+                                  <X className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                                )}
+                                <span className="text-xs text-slate-300">{label}</span>
+                              </div>
+                              {!available && (
+                                <button
+                                  type="button"
+                                  onClick={() => void installToolchain(key)}
+                                  disabled={busy}
+                                  className="text-label font-medium text-indigo-400 hover:text-indigo-300 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+                                >
+                                  {busy && <Loader2 className="w-3 h-3 animate-spin" />}
+                                  {busy ? "Installing..." : "Install"}
+                                </button>
                               )}
                             </div>
-                            <span className="text-xs text-slate-500">{tier.description}</span>
-                            <button
-                              onClick={() => handlePullTier(tier)}
-                              disabled={tierPullBusy !== null || tier.recommended}
-                              className="mt-1 self-start text-xs font-medium px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-40 flex items-center gap-1.5 transition-colors"
-                            >
-                              {tierPullBusy === tier.id ? (
-                                <Loader2 className="w-3 h-3 animate-spin" />
-                              ) : (
-                                <Download className="w-3 h-3" />
-                              )}
-                              {tier.recommended ? "Used automatically" : "Pull this tier"}
-                            </button>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
-                      {tierPullStatus && (
-                        <p className="text-xs text-slate-400 border-t border-slate-700/50 pt-2">{tierPullStatus}</p>
+                      {toolchainResult && (
+                        <div
+                          className={`mt-3 rounded-lg border px-3 py-2 text-label leading-relaxed ${
+                            toolchainResult.succeeded
+                              ? "border-emerald-500/20 bg-emerald-950/20 text-emerald-300"
+                              : "border-amber-500/20 bg-amber-950/20 text-amber-300"
+                          }`}
+                        >
+                          {toolchainResult.succeeded
+                            ? `${toolchainResult.language}: installed and verified.`
+                            : `${toolchainResult.language}: ${toolchainResult.notes[0] ?? "install did not complete"}`}
+                        </div>
                       )}
                     </div>
                   )}
 
-                  <div className="rounded-xl border border-slate-700/50 bg-slate-800/30">
-                    <button
-                      onClick={() => setAdvancedOpen((v) => !v)}
-                      className="w-full flex items-center justify-between p-4 text-left"
-                    >
-                      <div>
-                        <div className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-                          Advanced: bring your own model
-                        </div>
-                        <p className="text-xs text-slate-500 mt-1">
-                          Have a specific Ollama tag or a GGUF from HuggingFace (or anywhere else)? Use it directly.
-                        </p>
+                  {policy === "offline" ? (
+                    <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 flex gap-3 text-amber-200/80">
+                      <AlertTriangle className="w-5 h-5 shrink-0 text-amber-500" />
+                      <div className="text-sm leading-relaxed">
+                        You selected <strong>Offline Mode</strong>. Determinex will rely entirely on
+                        the hardware shown above, and will skip downloading online models during
+                        this setup.
                       </div>
-                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${advancedOpen ? "rotate-180" : ""}`} />
-                    </button>
-                    {advancedOpen && (
-                      <div className="px-4 pb-4 flex flex-col gap-4">
-                        <div className="flex flex-col gap-2">
-                          <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                            Any Ollama tag
-                          </label>
-                          <div className="flex gap-2">
-                            <input
-                              type="text"
-                              value={customTag}
-                              onChange={(e) => setCustomTag(e.target.value)}
-                              placeholder="e.g. llama3.3:70b, deepseek-coder-v2:236b, mistral-nemo:latest"
-                              className="flex-1 rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500"
-                            />
-                            <button
-                              onClick={handlePullCustomTag}
-                              disabled={customTagBusy || !customTag.trim()}
-                              className="px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white disabled:opacity-40 flex items-center gap-2 transition-colors"
-                            >
-                              {customTagBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                              Pull
-                            </button>
-                          </div>
-                          <p className="text-xs text-slate-500">
-                            Anything on <span className="font-mono">ollama.com/library</span> works — no allowlist.
-                          </p>
-                          {customTagStatus && <p className="text-xs text-slate-400">{customTagStatus}</p>}
-                        </div>
-
-                        <div className="flex flex-col gap-2 border-t border-slate-700/50 pt-4">
-                          <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                            Custom GGUF URL
-                          </label>
-                          <input
-                            type="text"
-                            value={ggufUrl}
-                            onChange={(e) => setGgufUrl(e.target.value)}
-                            placeholder="https://huggingface.co/.../resolve/main/model.gguf"
-                            className="rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500"
-                          />
-                          <div className="flex gap-2">
-                            <input
-                              type="text"
-                              value={ggufTag}
-                              onChange={(e) => setGgufTag(e.target.value)}
-                              placeholder="Name it (e.g. my-finetune)"
-                              className="flex-1 rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500"
-                            />
-                            <input
-                              type="number"
-                              value={ggufCtx}
-                              onChange={(e) => setGgufCtx(e.target.value)}
-                              placeholder="Context"
-                              className="w-28 rounded-lg border border-slate-700 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500"
-                            />
-                            <button
-                              onClick={handleRegisterGguf}
-                              disabled={ggufBusy || !ggufUrl.trim() || !ggufTag.trim()}
-                              className="px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white disabled:opacity-40 flex items-center gap-2 transition-colors"
-                            >
-                              {ggufBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                              Register
-                            </button>
-                          </div>
-                          <p className="text-xs text-slate-500">
-                            Downloads once, then registers it as an Ollama model under the name you choose.
-                          </p>
-                          {ggufStatus && <p className="text-xs text-slate-400">{ggufStatus}</p>}
-                        </div>
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-xl bg-sky-500/10 border border-sky-500/20 flex gap-3 text-sky-200/80">
+                      <Cloud className="w-5 h-5 shrink-0 text-sky-400" />
+                      <div className="text-sm leading-relaxed">
+                        This will download local model weights over the network -- typically several
+                        GB depending on the tier above -- before Determinex can run its local
+                        builder/observer roles. It only happens once; nothing is uploaded, only
+                        downloaded. Close this window now if you&apos;d rather not do that yet.
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
                   <div className="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4">
-                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Setup will run</div>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                      Setup will run
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-slate-400">
-                      <div className="rounded-lg bg-black/25 border border-white/5 px-3 py-2">Ollama install/start check</div>
-                      <div className="rounded-lg bg-black/25 border border-white/5 px-3 py-2">Required local model pull/build</div>
-                      <div className="rounded-lg bg-black/25 border border-white/5 px-3 py-2">Role routing and startup validation</div>
+                      <div className="rounded-lg bg-black/25 border border-white/5 px-3 py-2">
+                        Ollama install/start check
+                      </div>
+                      <div className="rounded-lg bg-black/25 border border-white/5 px-3 py-2">
+                        Required local model pull/build
+                      </div>
+                      <div className="rounded-lg bg-black/25 border border-white/5 px-3 py-2">
+                        Role routing and startup validation
+                      </div>
                     </div>
                   </div>
 
                   <div className="flex justify-end gap-3 mt-4">
-                    <button onClick={() => setStep("welcome")} className="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-colors">
+                    <button
+                      onClick={() => setStep("welcome")}
+                      className="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-colors"
+                    >
                       Back
                     </button>
-                    <button onClick={handleStartInstall} className="px-6 py-2 rounded-lg text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white transition-colors flex items-center gap-2">
+                    <button
+                      onClick={handleStartInstall}
+                      className="px-6 py-2 rounded-lg text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white transition-colors flex items-center gap-2"
+                    >
                       Start Setup <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -635,7 +731,12 @@ export function SetupWizard() {
           )}
 
           {step === "installing" && (
-            <motion.div key="installing" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center justify-center py-16 gap-6 text-center">
+            <motion.div
+              key="installing"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex flex-col items-center justify-center py-16 gap-6 text-center"
+            >
               <div className="relative">
                 <div className="w-16 h-16 rounded-full border-2 border-indigo-500/20 border-t-indigo-500 animate-spin" />
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -646,14 +747,20 @@ export function SetupWizard() {
                 <h2 className="text-xl font-bold text-white">Configuring Environment</h2>
                 <p className="text-sm text-indigo-300 font-mono">{installPhase}</p>
                 <p className="text-xs text-slate-500 max-w-md mx-auto mt-2">
-                  This may take several minutes if large model weights are being downloaded. Do not close the window.
+                  This may take several minutes if large model weights are being downloaded. Do not
+                  close the window.
                 </p>
               </div>
             </motion.div>
           )}
 
           {step === "error" && (
-            <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-4 items-center text-center py-8">
+            <motion.div
+              key="error"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex flex-col gap-4 items-center text-center py-8"
+            >
               <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center mb-2">
                 <X className="w-8 h-8 text-red-500" />
               </div>
@@ -661,22 +768,35 @@ export function SetupWizard() {
               <p className="text-sm text-red-400 bg-red-950/50 border border-red-500/30 p-4 rounded-lg max-w-lg font-mono">
                 {error}
               </p>
-              <button onClick={() => setStep("welcome")} className="mt-6 px-6 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white">
+              <button
+                onClick={() => setStep("welcome")}
+                className="mt-6 px-6 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white"
+              >
                 Try Again
               </button>
             </motion.div>
           )}
 
           {step === "ready" && (
-            <motion.div key="ready" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center justify-center py-12 gap-6 text-center">
+            <motion.div
+              key="ready"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex flex-col items-center justify-center py-12 gap-6 text-center"
+            >
               <div className="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center mb-2">
                 <Check className="w-10 h-10 text-emerald-500" />
               </div>
               <div className="flex flex-col gap-2">
                 <h2 className="text-2xl font-bold text-white">System Ready</h2>
-                <p className="text-sm text-slate-400">Determinex is fully configured for your environment.</p>
+                <p className="text-sm text-slate-400">
+                  Determinex is fully configured for your environment.
+                </p>
               </div>
-              <button onClick={finishSetup} className="mt-4 px-8 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold tracking-wide flex items-center gap-2 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/20">
+              <button
+                onClick={finishSetup}
+                className="mt-4 px-8 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold tracking-wide flex items-center gap-2 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/20"
+              >
                 Launch IDE <ArrowRight className="w-5 h-5" />
               </button>
             </motion.div>

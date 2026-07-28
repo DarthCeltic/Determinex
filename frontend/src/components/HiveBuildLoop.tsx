@@ -13,7 +13,14 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { listen } from "@tauri-apps/api/event";
-import { invokeSafe, exploreWorkspace, diagnoseWorkspace, probeHardware, recommendedAmplifyK } from "@/lib/api";
+import {
+  invokeSafe,
+  invokeWrite,
+  exploreWorkspace,
+  diagnoseWorkspace,
+  probeHardware,
+  recommendedAmplifyK,
+} from "@/lib/api";
 import {
   CheckCircle2,
   XCircle,
@@ -259,11 +266,11 @@ function FailureBanner({
       <div className="flex items-center gap-2.5 px-3 py-2.5 border-b border-red-900/30">
         <XCircle size={14} className="text-red-400 flex-shrink-0" />
         <div className="flex-1 min-w-0">
-          <p className="text-[11px] font-bold text-red-300 leading-tight">
+          <p className="text-label font-bold text-red-300 leading-tight">
             Build failed on {failedSteps.length} step{failedSteps.length !== 1 ? "s" : ""}
           </p>
           {translation && (
-            <p className="text-[10px] text-red-200/70 leading-snug mt-0.5">{translation}</p>
+            <p className="text-label text-red-200/70 leading-snug mt-0.5">{translation}</p>
           )}
         </div>
       </div>
@@ -274,7 +281,7 @@ function FailureBanner({
           id="hive-failure-retry-btn"
           onClick={handleRetry}
           disabled={retrying}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-900/40 border border-emerald-600/50 hover:bg-emerald-900/70 text-emerald-300 rounded-lg text-[10px] font-bold transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-900/40 border border-emerald-600/50 hover:bg-emerald-900/70 text-emerald-300 rounded-lg text-label font-bold transition-colors disabled:opacity-50"
         >
           {retrying ? (
             <div className="w-3 h-3 border border-emerald-400 border-t-transparent rounded-full animate-spin" />
@@ -288,7 +295,7 @@ function FailureBanner({
           id="hive-failure-diagnose-btn"
           onClick={handleDiagnose}
           disabled={diagnosing}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-900/30 border border-cyan-700/40 hover:bg-cyan-900/60 text-cyan-300 rounded-lg text-[10px] font-bold transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-900/30 border border-cyan-700/40 hover:bg-cyan-900/60 text-cyan-300 rounded-lg text-label font-bold transition-colors disabled:opacity-50"
         >
           {diagnosing ? (
             <div className="w-3 h-3 border border-cyan-400 border-t-transparent rounded-full animate-spin" />
@@ -302,7 +309,7 @@ function FailureBanner({
           id="hive-failure-explore-btn"
           onClick={handleExplore}
           disabled={exploring}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-violet-900/30 border border-violet-700/40 hover:bg-violet-900/60 text-violet-300 rounded-lg text-[10px] font-bold transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-violet-900/30 border border-violet-700/40 hover:bg-violet-900/60 text-violet-300 rounded-lg text-label font-bold transition-colors disabled:opacity-50"
         >
           {exploring ? (
             <div className="w-3 h-3 border border-violet-400 border-t-transparent rounded-full animate-spin" />
@@ -316,7 +323,7 @@ function FailureBanner({
           <button
             id="hive-failure-newbuild-btn"
             onClick={onNewBuild}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#161b22] border border-[#30363d] hover:border-gray-500 text-gray-400 hover:text-gray-200 rounded-lg text-[10px] font-bold transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#161b22] border border-[#30363d] hover:border-gray-500 text-gray-400 hover:text-gray-200 rounded-lg text-label font-bold transition-colors"
           >
             <PlusCircle size={10} />
             New Build
@@ -327,10 +334,10 @@ function FailureBanner({
       {/* Explore result panel */}
       {exploreResult && (
         <div className="mx-3 mb-2.5 rounded-lg border border-violet-800/30 bg-violet-950/30 p-2.5">
-          <p className="text-[9px] font-bold uppercase tracking-wider mb-1 text-violet-400">
+          <p className="text-eyebrow font-bold uppercase tracking-wider mb-1 text-violet-400">
             Workspace Files
           </p>
-          <pre className="text-[10px] text-gray-300 leading-relaxed whitespace-pre-wrap font-mono">
+          <pre className="text-label text-gray-300 leading-relaxed whitespace-pre-wrap font-mono">
             {exploreResult}
           </pre>
         </div>
@@ -344,13 +351,13 @@ function FailureBanner({
           }`}
         >
           <p
-            className={`text-[9px] font-bold uppercase tracking-wider mb-1 ${
+            className={`text-eyebrow font-bold uppercase tracking-wider mb-1 ${
               diagError ? "text-red-400" : "text-cyan-400"
             }`}
           >
             {diagError ? "Diagnosis failed" : "Diagnosis"}
           </p>
-          <p className="text-[10px] text-gray-300 leading-relaxed whitespace-pre-wrap font-mono">
+          <p className="text-label text-gray-300 leading-relaxed whitespace-pre-wrap font-mono">
             {diagError ?? diagResult}
           </p>
         </div>
@@ -363,7 +370,7 @@ function FailureBanner({
 // TYPES
 // ─────────────────────────────────────────────────────────────────────────────
 
-interface StepStatus {
+export interface StepStatus {
   id: number;
   instruction: string;
   status: string;
@@ -465,20 +472,20 @@ const StepRow = React.memo(
           <StepIcon status={step.status} />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono text-gray-500">#{step.id}</span>
-              <span className="text-[10px] font-mono text-gray-500">{step.target_file}</span>
+              <span className="text-label font-mono text-gray-500">#{step.id}</span>
+              <span className="text-label font-mono text-gray-500">{step.target_file}</span>
               {step.compiler_result && (
                 <span
-                  className={`text-[9px] font-bold px-1 rounded ${passed ? "text-emerald-400 bg-emerald-900/30" : "text-red-400 bg-red-900/30"}`}
+                  className={`text-meta font-bold px-1 rounded ${passed ? "text-emerald-400 bg-emerald-900/30" : "text-red-400 bg-red-900/30"}`}
                 >
                   {passed ? "✓" : "✗"}
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-gray-400 leading-snug truncate">{step.instruction}</p>
+            <p className="text-label text-gray-400 leading-snug truncate">{step.instruction}</p>
           </div>
           {step.retries > 0 && (
-            <div className="flex items-center gap-0.5 text-[9px] text-amber-500 flex-shrink-0">
+            <div className="flex items-center gap-0.5 text-meta text-amber-500 flex-shrink-0">
               <RotateCcw size={9} />
               {step.retries}
             </div>
@@ -494,10 +501,10 @@ const StepRow = React.memo(
           <div className="border-t border-[#30363d]/60">
             {/* Full instruction — visible without truncation when expanded */}
             <div className="px-3 py-2 border-b border-[#30363d]/40">
-              <p className="text-[11px] text-gray-300 leading-relaxed">{step.instruction}</p>
+              <p className="text-label text-gray-300 leading-relaxed">{step.instruction}</p>
             </div>
             {/* Metadata row */}
-            <div className="flex flex-wrap gap-3 text-[10px] px-3 py-2">
+            <div className="flex flex-wrap gap-3 text-label px-3 py-2">
               <span className="text-gray-600">
                 Compiler:{" "}
                 <span className={passed ? "text-emerald-400" : "text-red-400"}>
@@ -521,7 +528,7 @@ const StepRow = React.memo(
               )}
               {step.quality && (
                 <span
-                  className={`text-[9px] font-bold px-1 rounded ${
+                  className={`text-meta font-bold px-1 rounded ${
                     step.quality === "good"
                       ? "text-emerald-400 bg-emerald-900/20"
                       : step.quality === "ok"
@@ -538,10 +545,10 @@ const StepRow = React.memo(
             {/* Compiler error */}
             {failed && step.compiler_output && (
               <div className="mx-3 mb-2 rounded-lg bg-red-950/30 border border-red-800/40 p-2">
-                <p className="text-[9px] font-bold text-red-400 uppercase tracking-wider mb-1">
+                <p className="text-eyebrow font-bold text-red-400 uppercase tracking-wider mb-1">
                   Compiler error
                 </p>
-                <pre className="text-[10px] text-red-300 font-mono whitespace-pre-wrap leading-relaxed overflow-x-auto max-h-32">
+                <pre className="text-label text-red-300 font-mono whitespace-pre-wrap leading-relaxed overflow-x-auto max-h-32">
                   {step.compiler_output.slice(0, 800)}
                 </pre>
               </div>
@@ -553,18 +560,18 @@ const StepRow = React.memo(
                 {loadingFile ? (
                   <div className="flex items-center gap-2 py-2">
                     <div className="w-3 h-3 border border-cyan-500 border-t-transparent rounded-full animate-spin" />
-                    <span className="text-[10px] text-gray-600">Loading file...</span>
+                    <span className="text-label text-gray-600">Loading file...</span>
                   </div>
                 ) : fileContent !== null ? (
                   <div className="rounded-lg border border-[#30363d] overflow-hidden">
                     <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[#161b22] border-b border-[#30363d]">
                       <FileCode2 size={10} className="text-cyan-400" />
-                      <span className="text-[9px] font-mono text-gray-500">{step.target_file}</span>
-                      <span className="text-[9px] text-gray-700 ml-auto">
+                      <span className="text-meta font-mono text-gray-500">{step.target_file}</span>
+                      <span className="text-meta text-gray-700 ml-auto">
                         {fileContent.split("\n").length} lines
                       </span>
                     </div>
-                    <pre className="text-[10px] font-mono text-gray-300 p-2.5 overflow-x-auto max-h-64 leading-relaxed whitespace-pre bg-[#0a0d13]">
+                    <pre className="text-label font-mono text-gray-300 p-2.5 overflow-x-auto max-h-64 leading-relaxed whitespace-pre bg-[#0a0d13]">
                       {fileContent.slice(0, 4000)}
                       {fileContent.length > 4000 ? "\n\n… (truncated)" : ""}
                     </pre>
@@ -642,10 +649,10 @@ function ActiveStepCard({ step, logLines }: { step: StepStatus; logLines: string
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className={`text-[9px] font-bold uppercase tracking-widest ${labelColor}`}>
+            <span className={`text-eyebrow font-bold uppercase tracking-widest ${labelColor}`}>
               {isStalled ? "⚠ Waiting for model..." : `Building step #${step.id}`}
             </span>
-            <span className={`text-[9px] font-mono truncate ${fileColor}`}>{step.target_file}</span>
+            <span className={`text-meta font-mono truncate ${fileColor}`}>{step.target_file}</span>
           </div>
         </div>
 
@@ -653,19 +660,19 @@ function ActiveStepCard({ step, logLines }: { step: StepStatus; logLines: string
         <div className="flex items-center gap-2 flex-shrink-0">
           {/* Total elapsed */}
           <div
-            className={`flex items-center gap-1 text-[9px] font-mono ${isStalled ? "text-amber-400" : "text-cyan-600"}`}
+            className={`flex items-center gap-1 text-meta font-mono ${isStalled ? "text-amber-400" : "text-cyan-600"}`}
           >
             <Clock size={8} />
             {formatElapsed(elapsed)}
           </div>
           {/* Last log activity — only shown when stalled */}
           {isStalled && (
-            <div className="text-[9px] font-mono text-amber-500 bg-amber-900/30 border border-amber-700/40 px-1.5 py-0.5 rounded">
+            <div className="text-meta font-mono text-amber-500 bg-amber-900/30 border border-amber-700/40 px-1.5 py-0.5 rounded">
               no output {formatElapsed(sinceActivity)}
             </div>
           )}
           {step.retries > 0 && (
-            <div className="flex items-center gap-0.5 text-[9px] text-amber-400">
+            <div className="flex items-center gap-0.5 text-meta text-amber-400">
               <RotateCcw size={9} /> {step.retries}
             </div>
           )}
@@ -674,7 +681,7 @@ function ActiveStepCard({ step, logLines }: { step: StepStatus; logLines: string
 
       {/* Instruction */}
       <div className="px-3 py-2 border-b border-[#30363d]/50">
-        <p className="text-[11px] text-gray-300 leading-relaxed">{step.instruction}</p>
+        <p className="text-label text-gray-300 leading-relaxed">{step.instruction}</p>
       </div>
 
       {/* Live log tail */}
@@ -683,7 +690,7 @@ function ActiveStepCard({ step, logLines }: { step: StepStatus; logLines: string
           {recentLines.map((line, i) => (
             <div
               key={i}
-              className={`text-[10px] leading-relaxed ${
+              className={`text-label leading-relaxed ${
                 i === 0 ? "text-gray-300" : "text-gray-600"
               } ${
                 line.includes("ERROR") || line.includes("FAIL")
@@ -701,7 +708,7 @@ function ActiveStepCard({ step, logLines }: { step: StepStatus; logLines: string
         </div>
       ) : (
         <div className="px-3 py-2">
-          <p className="text-[10px] text-gray-700 font-mono">Waiting for model output...</p>
+          <p className="text-label text-gray-700 font-mono">Waiting for model output...</p>
         </div>
       )}
 
@@ -709,7 +716,7 @@ function ActiveStepCard({ step, logLines }: { step: StepStatus; logLines: string
       {isStalled && (
         <div className="px-3 py-2 border-t border-amber-800/30 bg-amber-950/20 flex items-center gap-2">
           <AlertTriangle size={10} className="text-amber-500 flex-shrink-0" />
-          <p className="text-[9px] text-amber-400 font-mono">
+          <p className="text-meta text-amber-400 font-mono">
             Model is slow — still waiting. Check the Log tab for errors or kill the session if
             stuck.
           </p>
@@ -744,7 +751,7 @@ function CostMeter({
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="text-[10px] font-mono text-gray-400 flex-shrink-0">
+      <span className="text-label font-mono text-gray-400 flex-shrink-0">
         ${cost.toFixed(3)} / ${budget.toFixed(2)}
       </span>
       {exhausted && <AlertTriangle size={11} className="text-red-400 flex-shrink-0" />}
@@ -788,7 +795,14 @@ function parseCandidateLines(lines: string[]): CandidateEntry[] {
       : outcome.startsWith("duplicate")
         ? "duplicate"
         : "fail";
-    parsed.push({ round: Number(r), index: Number(i), k: Number(k), temp: Number(t), status, detail: outcome });
+    parsed.push({
+      round: Number(r),
+      index: Number(i),
+      k: Number(k),
+      temp: Number(t),
+      status,
+      detail: outcome,
+    });
   }
   if (parsed.length === 0) return [];
   const latestRound = parsed[parsed.length - 1].round;
@@ -799,7 +813,16 @@ function parseCandidateLines(lines: string[]): CandidateEntry[] {
   }
   return Array.from({ length: currentK }, (_, idx) => {
     const found = byIndex.get(idx + 1);
-    return found ?? { round: latestRound, index: idx + 1, k: currentK, temp: 0, status: "running" as const, detail: "sampling…" };
+    return (
+      found ?? {
+        round: latestRound,
+        index: idx + 1,
+        k: currentK,
+        temp: 0,
+        status: "running" as const,
+        detail: "sampling…",
+      }
+    );
   });
 }
 
@@ -809,18 +832,22 @@ function CandidateRaceStrip({ lines }: { lines: string[] }) {
   const winner = candidates.find((c) => c.status === "pass");
   return (
     <div className="flex-shrink-0 border-b border-[#30363d] bg-black/30 px-3 py-2">
-      <div className="mb-1.5 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-violet-400">
+      <div className="mb-1.5 flex items-center gap-1.5 text-eyebrow font-bold uppercase tracking-widest text-violet-400">
         <Layers size={11} />
         Correctness Amplifier — round {candidates[0].round}, {candidates.length} parallel candidate
         {candidates.length === 1 ? "" : "s"}
-        {winner && <span className="ml-auto text-emerald-400">winner: candidate {CANDIDATE_LETTERS[winner.index - 1] ?? winner.index}</span>}
+        {winner && (
+          <span className="ml-auto text-emerald-400">
+            winner: candidate {CANDIDATE_LETTERS[winner.index - 1] ?? winner.index}
+          </span>
+        )}
       </div>
       <div className="flex flex-wrap gap-1.5">
         {candidates.map((c) => (
           <div
             key={c.index}
             title={c.detail}
-            className={`flex items-center gap-1 rounded-md border px-2 py-1 text-[9px] font-mono transition-colors ${
+            className={`flex items-center gap-1 rounded-md border px-2 py-1 text-meta font-mono transition-colors ${
               c.status === "pass"
                 ? "border-emerald-500/50 bg-emerald-500/15 text-emerald-300"
                 : c.status === "fail"
@@ -860,27 +887,27 @@ function LogPanel({ lines }: { lines: string[] }) {
     <div className="flex flex-col h-full">
       <div className="px-3 py-1.5 border-b border-[#30363d] flex-shrink-0 flex items-center gap-1.5">
         <Terminal size={11} className="text-gray-500" />
-        <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500">
+        <span className="text-meta uppercase font-bold tracking-wider text-gray-500">
           Build Log
         </span>
         {lines.length > 0 && (
-          <span className="ml-auto text-[9px] font-mono text-gray-700">{lines.length} lines</span>
+          <span className="ml-auto text-meta font-mono text-gray-700">{lines.length} lines</span>
         )}
       </div>
       <div className="flex-1 overflow-y-auto p-2 font-mono">
         {lines.length === 0 ? (
-          <p className="text-[10px] text-gray-600 p-1">Waiting for output...</p>
+          <p className="text-label text-gray-600 p-1">Waiting for output...</p>
         ) : (
           <>
             {dropped > 0 && (
-              <div className="text-[9px] text-gray-700 font-mono px-1 py-1 mb-1 border-b border-[#30363d]/40">
+              <div className="text-meta text-gray-700 font-mono px-1 py-1 mb-1 border-b border-[#30363d]/40">
                 … {dropped} older lines (showing last {LOG_DISPLAY_CAP})
               </div>
             )}
             {displayLines.map((line, i) => (
               <div
                 key={i}
-                className={`text-[10px] leading-relaxed whitespace-pre-wrap ${
+                className={`text-label leading-relaxed whitespace-pre-wrap ${
                   line.includes("ERROR") || line.includes("FAIL")
                     ? "text-red-400"
                     : line.includes("PASS") || line.includes("complete")
@@ -959,7 +986,7 @@ function FilesPanel({ steps, sessionId }: { steps: StepStatus[]; sessionId: stri
     return (
       <div className="flex flex-col items-center justify-center h-full gap-2 text-gray-600">
         <FileCode2 size={22} className="opacity-25" />
-        <p className="text-[10px] font-mono">No files yet — build hasn&apos;t started</p>
+        <p className="text-label font-mono">No files yet — build hasn&apos;t started</p>
       </div>
     );
   }
@@ -970,7 +997,7 @@ function FilesPanel({ steps, sessionId }: { steps: StepStatus[]; sessionId: stri
     <div className="h-full flex flex-col">
       <div className="flex-shrink-0 border-b border-[#30363d] px-3 py-1.5 flex items-center gap-2 bg-[#0d1117]">
         <FileCode2 size={10} className="text-gray-600" />
-        <span className="text-[9px] uppercase font-bold tracking-wider text-gray-600">
+        <span className="text-eyebrow uppercase font-bold tracking-wider text-gray-600">
           {builtCount}/{files.length} files built
         </span>
       </div>
@@ -1002,11 +1029,11 @@ function FilesPanel({ steps, sessionId }: { steps: StepStatus[]; sessionId: stri
                           : "text-gray-600 flex-shrink-0"
                   }
                 />
-                <span className="flex-1 text-[10px] font-mono text-gray-300 truncate min-w-0">
+                <span className="flex-1 text-label font-mono text-gray-300 truncate min-w-0">
                   {step.target_file}
                 </span>
                 <span
-                  className={`text-[8px] uppercase font-bold px-1.5 py-0.5 rounded flex-shrink-0 ${
+                  className={`text-eyebrow uppercase font-bold px-1.5 py-0.5 rounded flex-shrink-0 ${
                     step.status === "complete"
                       ? "bg-emerald-950/60 text-emerald-400 border border-emerald-800/40"
                       : step.status === "failed"
@@ -1027,25 +1054,25 @@ function FilesPanel({ steps, sessionId }: { steps: StepStatus[]; sessionId: stri
               {isOpen && (
                 <div className="border-t border-[#30363d] bg-[#0a0d13]">
                   <div className="flex items-center justify-between px-3 py-1.5 border-b border-[#30363d]/50">
-                    <span className="text-[9px] font-mono text-gray-600">
+                    <span className="text-meta font-mono text-gray-600">
                       {ext} · {step.write_mode}
                     </span>
                     <button
                       onClick={(e) => refreshFile(step.target_file, e)}
-                      className="text-[9px] text-gray-600 hover:text-gray-400 flex items-center gap-1 transition-colors"
+                      className="text-meta text-gray-600 hover:text-gray-400 flex items-center gap-1 transition-colors"
                     >
                       <RefreshCw size={9} className={isLoading ? "animate-spin" : ""} />
                       {isLoading ? "Loading…" : "Refresh"}
                     </button>
                   </div>
                   {isLoading ? (
-                    <div className="p-3 text-[10px] text-gray-600 font-mono">Reading file…</div>
+                    <div className="p-3 text-label text-gray-600 font-mono">Reading file…</div>
                   ) : content !== null && content !== undefined ? (
-                    <pre className="p-3 text-[10px] font-mono text-gray-300 leading-relaxed overflow-x-auto max-h-80 whitespace-pre">
+                    <pre className="p-3 text-label font-mono text-gray-300 leading-relaxed overflow-x-auto max-h-80 whitespace-pre">
                       {content}
                     </pre>
                   ) : (
-                    <p className="p-3 text-[10px] text-gray-600 font-mono">
+                    <p className="p-3 text-label text-gray-600 font-mono">
                       {step.status === "complete" || step.status === "failed"
                         ? "File not readable — it may have been cleaned up"
                         : "File will appear here once this step completes"}
@@ -1109,9 +1136,9 @@ function PhaseHeader({
     <div className="flex items-center gap-3 px-3 py-2.5 border-b border-[#30363d] bg-[#0d1117]/50 flex-shrink-0">
       <Blocks size={14} className={color} />
       <div className="flex-1">
-        <div className={`text-[11px] font-bold ${color}`}>{label}</div>
+        <div className={`text-label font-bold ${color}`}>{label}</div>
         {stepCount > 0 && (
-          <div className="text-[10px] text-gray-500">
+          <div className="text-label text-gray-500">
             {completeCount}/{stepCount} steps complete
             {failedCount > 0 && <span className="text-red-400 ml-2">{failedCount} failed</span>}
           </div>
@@ -1121,7 +1148,7 @@ function PhaseHeader({
         <div className="flex flex-col items-end gap-0.5">
           <div className="flex items-center gap-2">
             <span
-              className={`text-[10px] font-mono font-bold tabular-nums ${isActive ? color : "text-gray-600"} opacity-70`}
+              className={`text-label font-mono font-bold tabular-nums ${isActive ? color : "text-gray-600"} opacity-70`}
             >
               {formatElapsed(elapsed)}
             </span>
@@ -1130,11 +1157,11 @@ function PhaseHeader({
             )}
           </div>
           {projectedRemaining !== null ? (
-            <span className="text-[9px] font-mono text-gray-600 tabular-nums">
+            <span className="text-meta font-mono text-gray-600 tabular-nums">
               ~{formatElapsed(projectedRemaining)} left
             </span>
           ) : phase === "building" && completeCount === 0 && stepCount > 0 ? (
-            <span className="text-[9px] font-mono text-gray-700 tabular-nums">estimating…</span>
+            <span className="text-meta font-mono text-gray-700 tabular-nums">estimating…</span>
           ) : null}
         </div>
       )}
@@ -1156,6 +1183,22 @@ interface HiveBuildLoopProps {
   /** Set to true when resuming a failed session — auto-fires retry once on first
    *  failed phase detection. Used by the Project Library resume flow. */
   autoRetry?: boolean;
+  /** Fires exactly once per session when the compiler-oracle-verified build reaches a
+   *  terminal state ("done" = every step compiled/passed, "failed" = at least one step
+   *  failed with nothing left in_progress). Never fires for the intermediate "dag"/"building"
+   *  phases -- this is the ONLY hook that lets a caller (e.g. the Proof rail) learn a REAL,
+   *  stable verdict from this component; firing on an intermediate phase would risk reporting
+   *  a false-positive/negative before the build has actually settled. */
+  onComplete?: (result: HiveBuildCompletionResult) => void;
+}
+
+export interface HiveBuildCompletionResult {
+  sessionId: string;
+  phase: "done" | "failed";
+  stepCount: number;
+  completeCount: number;
+  failedCount: number;
+  failedSteps: StepStatus[];
 }
 
 export function HiveBuildLoop({
@@ -1164,9 +1207,13 @@ export function HiveBuildLoop({
   onBack,
   autoRun = false,
   autoRetry = false,
+  onComplete,
 }: HiveBuildLoopProps) {
   const [status, setStatus] = useState<SessionStatus | null>(null);
   const [logLines, setLogLines] = useState<string[]>([]);
+  // reveal_session_output is void-returning, so its failure was invisible under
+  // invokeSafe; shown in place of "Build complete" in the success banner.
+  const [revealError, setRevealError] = useState<string | null>(null);
   const [amplifyEnabled, setAmplifyEnabled] = useState(false);
   const [amplifyKOverride, setAmplifyKOverride] = useState<number | null>(null);
   const [hardwareBudgetMb, setHardwareBudgetMb] = useState<number | null>(null);
@@ -1280,7 +1327,11 @@ export function HiveBuildLoop({
     setRunning(true);
     setRunError(null);
     try {
-      await runHiveSession(sessionId, amplifyEnabled, amplifyEnabled ? effectiveAmplifyK : undefined);
+      await runHiveSession(
+        sessionId,
+        amplifyEnabled,
+        amplifyEnabled ? effectiveAmplifyK : undefined
+      );
       setActiveTab("log");
     } catch (e) {
       setRunError(String(e));
@@ -1325,6 +1376,31 @@ export function HiveBuildLoop({
       runFiredRef.current = false;
     }
   }, [phase]);
+
+  // Report the REAL, stable, compiler-oracle-verified verdict to the caller exactly once per
+  // session per terminal transition -- never for "dag"/"building" (those aren't verdicts yet).
+  // Single ref/effect (not two separate effects) so there's no ordering race between "reset for
+  // new session" and "report for this session" within the same render pass.
+  const completionReportRef = useRef<{ sessionId: string; reported: boolean }>({
+    sessionId: "",
+    reported: false,
+  });
+  useEffect(() => {
+    if (completionReportRef.current.sessionId !== sessionId) {
+      completionReportRef.current = { sessionId, reported: false };
+    }
+    if (phase !== "done" && phase !== "failed") return;
+    if (completionReportRef.current.reported) return;
+    completionReportRef.current.reported = true;
+    onComplete?.({
+      sessionId,
+      phase,
+      stepCount,
+      completeCount,
+      failedCount,
+      failedSteps,
+    });
+  }, [phase, sessionId, stepCount, completeCount, failedCount, failedSteps, onComplete]);
 
   // Auto-retry with 3-second countdown when resuming a failed session from Project Library.
   // Delay lets the user see the failure state and cancel before the retry fires.
@@ -1384,7 +1460,7 @@ export function HiveBuildLoop({
         {onBack && !isActive && (
           <button
             onClick={onBack}
-            className="text-[10px] text-gray-500 hover:text-gray-300 transition-colors shrink-0 flex items-center gap-1"
+            className="text-label text-gray-500 hover:text-gray-300 transition-colors shrink-0 flex items-center gap-1"
           >
             ← New Build
           </button>
@@ -1392,7 +1468,7 @@ export function HiveBuildLoop({
         {isActive && (
           <button
             onClick={handleKillSession}
-            className="text-[10px] font-bold text-red-500 hover:text-red-300 border border-red-800/50 hover:border-red-500/60 px-2.5 py-1 rounded transition-all shrink-0 flex items-center gap-1.5"
+            className="text-label font-bold text-red-500 hover:text-red-300 border border-red-800/50 hover:border-red-500/60 px-2.5 py-1 rounded transition-all shrink-0 flex items-center gap-1.5"
           >
             <XCircle size={10} />
             Stop
@@ -1400,11 +1476,9 @@ export function HiveBuildLoop({
         )}
         <div className="flex-1 min-w-0">
           {projectName ? (
-            <span className="text-[13px] font-bold text-gray-200 truncate block">
-              {projectName}
-            </span>
+            <span className="text-body font-bold text-gray-200 truncate block">{projectName}</span>
           ) : (
-            <span className="text-[11px] font-mono text-gray-600 truncate block">
+            <span className="text-label font-mono text-gray-600 truncate block">
               {sessionId.slice(0, 18)}…
             </span>
           )}
@@ -1423,7 +1497,7 @@ export function HiveBuildLoop({
       {runError && (
         <div className="flex-shrink-0 border-b border-red-800/40 bg-red-950/20 px-3 py-1.5 flex items-center gap-2">
           <XCircle size={11} className="text-red-400 flex-shrink-0" />
-          <span className="text-[10px] text-red-300 flex-1 truncate">{runError}</span>
+          <span className="text-label text-red-300 flex-1 truncate">{runError}</span>
           <button
             onClick={() => setRunError(null)}
             className="text-gray-700 hover:text-gray-500 flex-shrink-0"
@@ -1448,11 +1522,20 @@ export function HiveBuildLoop({
       {phase === "done" && (
         <div className="flex-shrink-0 border-b border-emerald-800/40 bg-emerald-950/20 px-3 py-2 flex items-center gap-2">
           <CheckCircle2 size={13} className="text-emerald-400 flex-shrink-0" />
-          <span className="text-[11px] text-emerald-300 flex-1">Build complete</span>
+          <span className="text-label text-emerald-300 flex-1">
+            {revealError ?? "Build complete"}
+          </span>
           <button
             id="reveal-session-output-btn"
-            onClick={() => invokeSafe("reveal_session_output", { session_id: sessionId })}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-bold
+            onClick={() =>
+              void invokeWrite("reveal_session_output", { sessionId }).catch((e) =>
+                // reveal_session_output returns Result<(), String> and Errs when
+                // the session dir is missing. Under invokeSafe that rejection
+                // became null and the button did nothing, visibly.
+                setRevealError(`Could not open the output folder: ${e}`)
+              )
+            }
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded text-label font-bold
                        bg-emerald-600/20 border border-emerald-600/40 text-emerald-300
                        hover:bg-emerald-600/40 hover:text-emerald-100 transition-all"
           >
@@ -1466,17 +1549,17 @@ export function HiveBuildLoop({
         <div className="flex-shrink-0 border-b border-red-800/60 bg-red-950/40 px-3 py-2.5">
           <div className="flex items-start gap-2 mb-1.5">
             <XCircle size={13} className="text-red-400 flex-shrink-0 mt-0.5" />
-            <p className="text-[11px] font-bold text-red-400">Build process crashed</p>
+            <p className="text-label font-bold text-red-400">Build process crashed</p>
           </div>
           {status.crash_tail && (
-            <pre className="text-[9px] font-mono text-red-300/70 leading-relaxed whitespace-pre-wrap overflow-x-auto max-h-28 bg-red-950/40 rounded p-2 border border-red-900/40">
+            <pre className="text-meta font-mono text-red-300/70 leading-relaxed whitespace-pre-wrap overflow-x-auto max-h-28 bg-red-950/40 rounded p-2 border border-red-900/40">
               {status.crash_tail ?? ""}
             </pre>
           )}
           <div className="flex items-center gap-3 mt-2">
             <button
               onClick={handleRunSession}
-              className="flex items-center gap-1.5 text-[10px] text-emerald-400 hover:text-emerald-300 border border-emerald-800/50 hover:border-emerald-600/50 px-2.5 py-1 rounded transition-all"
+              className="flex items-center gap-1.5 text-label text-emerald-400 hover:text-emerald-300 border border-emerald-800/50 hover:border-emerald-600/50 px-2.5 py-1 rounded transition-all"
             >
               <RefreshCw size={9} />
               Retry
@@ -1484,7 +1567,7 @@ export function HiveBuildLoop({
             {onBack && (
               <button
                 onClick={onBack}
-                className="text-[10px] text-red-400 hover:text-red-300 underline underline-offset-2"
+                className="text-label text-red-400 hover:text-red-300 underline underline-offset-2"
               >
                 ← Start new build
               </button>
@@ -1497,12 +1580,12 @@ export function HiveBuildLoop({
       {autoRetryCountdown !== null && (
         <div className="flex-shrink-0 border-b border-amber-800/40 bg-amber-950/20 px-3 py-2 flex items-center gap-2">
           <RotateCcw size={11} className="text-amber-400 animate-spin flex-shrink-0" />
-          <span className="text-[11px] text-amber-300 flex-1">
+          <span className="text-label text-amber-300 flex-1">
             Auto-retrying in {autoRetryCountdown}s…
           </span>
           <button
             onClick={cancelAutoRetry}
-            className="text-[9px] text-gray-500 hover:text-gray-300 border border-[#30363d] hover:border-gray-500 px-2 py-0.5 rounded transition-colors"
+            className="text-meta text-gray-500 hover:text-gray-300 border border-[#30363d] hover:border-gray-500 px-2 py-0.5 rounded transition-colors"
           >
             Cancel
           </button>
@@ -1528,7 +1611,7 @@ export function HiveBuildLoop({
       <div className="flex border-b border-[#30363d] flex-shrink-0">
         <button
           onClick={() => setActiveTab("steps")}
-          className={`px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider border-b-2 transition-colors ${
+          className={`px-4 py-1.5 text-meta font-bold uppercase tracking-wider border-b-2 transition-colors ${
             activeTab === "steps"
               ? "border-cyan-500 text-cyan-300"
               : "border-transparent text-gray-500 hover:text-gray-300"
@@ -1538,7 +1621,7 @@ export function HiveBuildLoop({
         </button>
         <button
           onClick={() => setActiveTab("files")}
-          className={`px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider border-b-2 transition-colors ${
+          className={`px-4 py-1.5 text-meta font-bold uppercase tracking-wider border-b-2 transition-colors ${
             activeTab === "files"
               ? "border-emerald-500 text-emerald-300"
               : "border-transparent text-gray-500 hover:text-gray-300"
@@ -1548,7 +1631,7 @@ export function HiveBuildLoop({
         </button>
         <button
           onClick={() => setActiveTab("log")}
-          className={`px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider border-b-2 transition-colors ${
+          className={`px-4 py-1.5 text-meta font-bold uppercase tracking-wider border-b-2 transition-colors ${
             activeTab === "log"
               ? "border-cyan-500 text-cyan-300"
               : "border-transparent text-gray-500 hover:text-gray-300"
@@ -1569,11 +1652,11 @@ export function HiveBuildLoop({
                 /* ── Hard error state ── */
                 <div className="flex flex-col items-center justify-center h-full gap-3 px-4 py-8">
                   <AlertTriangle size={24} className="text-red-500" />
-                  <p className="text-[12px] text-red-400 font-bold text-center">
+                  <p className="text-body text-red-400 font-bold text-center">
                     Build process stopped
                   </p>
-                  <p className="text-[10px] text-gray-500 text-center break-all">{pollError}</p>
-                  <p className="text-[9px] text-gray-700 text-center">
+                  <p className="text-label text-gray-500 text-center break-all">{pollError}</p>
+                  <p className="text-meta text-gray-700 text-center">
                     Check that hive.py ran and the sessions directory is writable.
                   </p>
                 </div>
@@ -1584,10 +1667,10 @@ export function HiveBuildLoop({
                   <div className="flex items-center gap-3 py-4 px-2">
                     <div className="w-5 h-5 border border-purple-500/60 border-t-purple-400 rounded-full animate-spin flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-[11px] text-gray-300 font-bold">
+                      <p className="text-label text-gray-300 font-bold">
                         Architect mapping steps...
                       </p>
-                      <p className="text-[10px] text-gray-600">
+                      <p className="text-label text-gray-600">
                         Steps will appear here as the plan is written
                       </p>
                     </div>
@@ -1605,7 +1688,7 @@ export function HiveBuildLoop({
                     <div className="flex-1 min-h-0 overflow-hidden mx-2 rounded-xl border border-[#30363d] bg-[#0a0d13] flex flex-col">
                       <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-[#30363d] flex-shrink-0">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        <span className="text-[9px] uppercase font-bold tracking-wider text-gray-600">
+                        <span className="text-eyebrow uppercase font-bold tracking-wider text-gray-600">
                           Live output · {logLines.length} lines
                         </span>
                       </div>
@@ -1616,7 +1699,7 @@ export function HiveBuildLoop({
                           .map((line, i) => (
                             <div
                               key={i}
-                              className={`text-[10px] leading-relaxed whitespace-pre-wrap ${
+                              className={`text-label leading-relaxed whitespace-pre-wrap ${
                                 line.includes("ERROR") || line.includes("FAIL")
                                   ? "text-red-400"
                                   : line.includes("PASS") || line.includes("complete")
@@ -1635,14 +1718,14 @@ export function HiveBuildLoop({
                     </div>
                   ) : (
                     <div className="flex-1 mx-2 rounded-xl border border-[#30363d] bg-[#0a0d13] flex items-center justify-center">
-                      <p className="text-[10px] text-gray-700 font-mono">
+                      <p className="text-label text-gray-700 font-mono">
                         Waiting for process output...
                       </p>
                     </div>
                   )}
 
                   {/* Bottom hint */}
-                  <p className="text-[9px] text-gray-700 text-center py-3">
+                  <p className="text-meta text-gray-700 text-center py-3">
                     Switch to <span className="text-gray-500 font-bold">Log</span> tab for full
                     output
                   </p>
@@ -1670,12 +1753,12 @@ export function HiveBuildLoop({
       {dagReady && !buildStarted && (
         <div className="border-t border-[#30363d] p-3 flex-shrink-0">
           {runError && (
-            <div className="text-[10px] text-red-400 bg-red-900/20 border border-red-800/40 rounded-lg px-3 py-2 mb-2">
+            <div className="text-label text-red-400 bg-red-900/20 border border-red-800/40 rounded-lg px-3 py-2 mb-2">
               {runError}
             </div>
           )}
           <div className="mb-2 flex items-center justify-between rounded-lg border border-[#30363d] bg-black/20 px-3 py-2">
-            <label className="flex items-center gap-2 text-[10px] text-gray-400">
+            <label className="flex items-center gap-2 text-label text-gray-400">
               <input
                 type="checkbox"
                 checked={amplifyEnabled}
@@ -1683,29 +1766,33 @@ export function HiveBuildLoop({
                 className="accent-violet-500"
               />
               <Layers size={11} className="text-violet-400" />
-              Correctness Amplifier — sample multiple candidates per step, keep the first oracle-verified pass
+              Correctness Amplifier — sample multiple candidates per step, keep the first
+              oracle-verified pass
             </label>
             {amplifyEnabled && (
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setAmplifyKOverride(Math.max(1, effectiveAmplifyK - 1))}
-                  className="h-5 w-5 rounded border border-[#30363d] text-[10px] text-gray-400 hover:border-violet-500/50 hover:text-violet-300"
+                  className="h-5 w-5 rounded border border-[#30363d] text-label text-gray-400 hover:border-violet-500/50 hover:text-violet-300"
                 >
                   −
                 </button>
-                <span className="w-16 text-center text-[10px] font-mono text-violet-300">
+                <span className="w-16 text-center text-label font-mono text-violet-300">
                   {effectiveAmplifyK} candidate{effectiveAmplifyK === 1 ? "" : "s"}
                 </span>
                 <button
                   type="button"
                   onClick={() => setAmplifyKOverride(Math.min(10, effectiveAmplifyK + 1))}
-                  className="h-5 w-5 rounded border border-[#30363d] text-[10px] text-gray-400 hover:border-violet-500/50 hover:text-violet-300"
+                  className="h-5 w-5 rounded border border-[#30363d] text-label text-gray-400 hover:border-violet-500/50 hover:text-violet-300"
                 >
                   +
                 </button>
                 {amplifyKOverride === null && (
-                  <span className="text-[9px] text-gray-600" title={`Recommended for this machine (${hardwareBudgetMb ?? "?"}MB budget)`}>
+                  <span
+                    className="text-meta text-gray-600"
+                    title={`Recommended for this machine (${hardwareBudgetMb ?? "?"}MB budget)`}
+                  >
                     (recommended)
                   </span>
                 )}
@@ -1713,12 +1800,12 @@ export function HiveBuildLoop({
             )}
           </div>
           <div className="flex items-center justify-between">
-            <div className="text-[10px] text-gray-500">
+            <div className="text-label text-gray-500">
               {stepCount} steps ready — Compiler Oracle validates each step
             </div>
             <button
               onClick={handleRunSession}
-              className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 rounded-lg text-[11px] font-bold hover:bg-emerald-500/30 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 rounded-lg text-label font-bold hover:bg-emerald-500/30 transition-colors"
             >
               <Play size={11} />
               Start Build
@@ -1730,7 +1817,7 @@ export function HiveBuildLoop({
       {/* Running indicator */}
       {running && !dagReady && (
         <div className="border-t border-[#30363d] px-3 py-2.5 flex-shrink-0">
-          <div className="flex items-center gap-2 text-[10px] text-cyan-400">
+          <div className="flex items-center gap-2 text-label text-cyan-400">
             <div className="w-3 h-3 border border-cyan-400 border-t-transparent rounded-full animate-spin" />
             Build loop running —{" "}
             <GlossaryTerm

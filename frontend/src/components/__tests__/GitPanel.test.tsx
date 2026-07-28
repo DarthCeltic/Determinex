@@ -5,6 +5,7 @@ import GitPanel from "../GitPanel";
 const WORKSPACE = "C:\\Dev\\Determinex";
 
 vi.mock("../../lib/api", () => ({
+  isTauri: () => true,
   invokeSafe: vi.fn(async (cmd: string) => {
     if (cmd === "git_status") {
       return {
@@ -16,7 +17,7 @@ vi.mock("../../lib/api", () => ({
           { path: "EditorPanel.tsx", status: "modified", code: "M" },
           { path: "GitPanel.tsx", status: "modified", code: "M" },
           { path: "determinex_oracle.py", status: "staged", code: "A" },
-        ]
+        ],
       };
     }
     if (cmd === "git_list_branches") {
@@ -24,6 +25,10 @@ vi.mock("../../lib/api", () => ({
     }
     return null;
   }),
+  // gitService's writes go through invokeWrite (raw invoke, so a rejection
+  // propagates). Pointed at the same fake backend so these assertions keep
+  // describing one backend rather than two.
+  invokeWrite: vi.fn(async () => undefined),
 }));
 
 describe("GitPanel component", () => {

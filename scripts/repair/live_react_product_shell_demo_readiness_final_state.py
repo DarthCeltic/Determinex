@@ -1,7 +1,16 @@
 """DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_LOCK_001 evaluator.
 
-Rung 5 (finale). Reads the four prior rungs' lock manifests on
+Rung 5 (finale). Reads the two prior rungs' lock manifests on
 disk and asserts:
+
+NOTE (2026-07-20): originally four rungs. Two (verified_demo_binding,
+release_blocker_panel) were removed from this requirement set because
+their panels + locks + tests were deleted in commit 30b3ff570 ("chore:
+land pending IDE product shell archive"), which determined ~74
+ide-product-shell panels including these were a Claude<->Codex
+tandem-pipeline trail, not real durable features. This finale test kept
+requiring their (now-deleted) lock files, which is a stale check
+pointing at deliberately-removed work, not a real gap.
 
   * Each rung's lock manifest exists with the right lock_id.
   * Each rung's scope_discipline keeps source_mutation_authorized
@@ -28,9 +37,7 @@ from .live_react_product_shell_demo_readiness_final_state_record import (
 
 _RUNG_LOCKS: dict[str, str] = {
     "browser_snapshot": "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001",
-    "verified_demo_binding": "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001",
     "happy_blocked_path": "DETERMINEX_REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_LOCK_001",
-    "release_blocker_panel": "DETERMINEX_REACT_RELEASE_READINESS_BLOCKER_PANEL_LOCK_001",
 }
 
 
@@ -124,12 +131,15 @@ def evaluate(repo_root: Path | str) -> LiveReactProductShellDemoReadinessFinalSt
     else:
         decision = "LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_PASSED"
         notes = (
-            "all four demo-readiness dimensions closed",
+            "all two demo-readiness dimensions closed (was four; "
+            "verified_demo_binding and release_blocker_panel dropped "
+            "2026-07-20 -- their panels+locks+tests were deliberately "
+            "archived as a Claude<->Codex tandem-pipeline trail, not real "
+            "features, see commit 30b3ff570)",
             "aggregate invariants (source_mutation_authorized, "
             "training_eligible, release_ready) stay False",
             "unsupported_claims_blocked True",
-            "shell is browser-demoable; first-splash Codex evidence "
-            "bound read-only; release blockers visible",
+            "shell is browser-demoable",
         )
         next_rung = "DETERMINEX_REPO_CLINIC_FIXTURE_REPAIR_SPLASH_DEMO_LOCK_001"
 
@@ -138,9 +148,7 @@ def evaluate(repo_root: Path | str) -> LiveReactProductShellDemoReadinessFinalSt
     return LiveReactProductShellDemoReadinessFinalStateRecord(
         decision=decision,
         browser_snapshot_closed=closures["browser_snapshot"],
-        verified_demo_binding_closed=closures["verified_demo_binding"],
         happy_blocked_path_closed=closures["happy_blocked_path"],
-        release_blocker_panel_closed=closures["release_blocker_panel"],
         source_mutation_authorized=source_mutation_authorized,
         training_eligible=training_eligible,
         release_ready=release_ready,

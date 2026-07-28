@@ -13,9 +13,15 @@ export interface LspSymbol {
   line: number;
 }
 
-export async function getLspDiagnostics(fileName: string): Promise<LspDiagnostic[]> {
+export async function getLspDiagnostics(
+  fileName: string,
+  workspacePath?: string
+): Promise<LspDiagnostic[]> {
   try {
-    const res = await invokeSafe<LspDiagnostic[]>("get_lsp_diagnostics", { fileName });
+    const res = await invokeSafe<LspDiagnostic[]>("get_lsp_diagnostics", {
+      fileName,
+      workspacePath: workspacePath || undefined,
+    });
     return res || [];
   } catch {
     return [];

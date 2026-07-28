@@ -132,3 +132,29 @@ def test_make_targeted_patch_empty_on_no_change():
         pytest.skip(f"determinex_swebench_agent not importable in this env: {e}")
     same = "x = 1\ny = 2\n"
     assert make_targeted_patch("src/app.py", same, same) == ""
+
+
+def test_empty_search_block_never_corrupts_an_existing_file():
+    """An empty SEARCH block must not splice text into a non-empty file.
+
+    `"" in anything` is always True, so an empty SEARCH used to fall through
+    to the exact-match pass and do result.replace("", replace, 1) -- inserting
+    at offset 0 with no separator. Observed live: a local-agent turn wrote
+    `return a - bdef add(a,b):` (a syntax error) straight to disk. Per the
+    prompt contract an empty SEARCH means "create this new file", so it is
+    only legal against empty content; otherwise it must fail closed.
+    """
+    from swe_agent.patch import _apply_search_replace_blocks
+
+    src = "def add(a,b):\n    return a+b\n"
+    out, failed = _apply_search_replace_blocks(src, [("", "def sub(a,b):\n    return a-b\n")])
+    assert out == src, "empty SEARCH must not modify an existing file"
+    assert failed, "empty SEARCH against a non-empty file must be reported as failed"
+
+
+def test_empty_search_block_still_creates_a_new_file():
+    from swe_agent.patch import _apply_search_replace_blocks
+
+    out, failed = _apply_search_replace_blocks("", [("", "hello\n")])
+    assert out == "hello\n"
+    assert not failed

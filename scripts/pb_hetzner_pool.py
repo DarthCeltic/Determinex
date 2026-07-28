@@ -27,10 +27,10 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PY = Path(os.environ.get("DETERMINEX_PYTHON311", "python"))
+PY = Path(r"C:\Users\ryang\AppData\Local\Python\pythoncore-3.11-64\python.exe")
 SSH = Path(r"C:\Windows\System32\OpenSSH\ssh.exe")
 SCP = Path(r"C:\Windows\System32\OpenSSH\scp.exe")
-SSH_KEY = Path.home() / ".ssh" / "id_determinex"
+SSH_KEY = Path.home() / ".ssh" / "id_citadel"
 REMOTE = "root@5.78.192.163"
 REMOTE_BASE = "/root/determinex-native-shards"
 PB_STAGING_ROOT = Path(os.environ.get("DETERMINEX_PB_STAGING_ROOT", "T:/determinex-staging"))

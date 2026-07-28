@@ -28,9 +28,7 @@ export function AiRouteSelect({
 
   return (
     <label className="flex flex-col gap-2">
-      <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">
-        AI route
-      </span>
+      <span className="text-meta font-black uppercase tracking-widest text-gray-500">AI route</span>
       <select
         value={activeValue}
         onChange={(event) => activeOnChange(event.target.value)}
@@ -68,7 +66,13 @@ export function AiRouteSummary({
   const option = allowedOptions.find((candidate) => candidate.id === activeValue);
   const ready = routeKeyReady(activeValue, keyStatus);
   const Icon =
-    option?.kind === "free_cloud" ? Zap : option?.kind === "cloud" ? Cloud : option?.kind === "local" ? Cpu : Bot;
+    option?.kind === "free_cloud"
+      ? Zap
+      : option?.kind === "cloud"
+        ? Cloud
+        : option?.kind === "local"
+          ? Cpu
+          : Bot;
 
   return (
     <div
@@ -81,10 +85,10 @@ export function AiRouteSummary({
             <Icon size={15} />
           </div>
           <div className="min-w-0">
-            <div className="truncate text-[11px] font-black uppercase tracking-widest text-white">
+            <div className="truncate text-meta font-black uppercase tracking-widest text-white">
               {option?.label ?? activeValue}
             </div>
-            <div className="truncate text-[9px] font-mono text-gray-600">
+            <div className="truncate text-meta font-mono text-gray-600">
               {option?.providerLabel ?? "Custom"} · {option?.note ?? "custom route"}
             </div>
           </div>
@@ -92,7 +96,7 @@ export function AiRouteSummary({
         <button
           type="button"
           onClick={onOpenSettings}
-          className={`flex shrink-0 items-center gap-1 rounded-full border px-2 py-1 text-[8px] font-black uppercase tracking-widest ${
+          className={`flex shrink-0 items-center gap-1 rounded-full border px-2 py-1 text-eyebrow font-black uppercase tracking-widest ${
             ready
               ? "border-emerald-500/25 bg-emerald-950/30 text-emerald-400"
               : "border-amber-500/25 bg-amber-950/25 text-amber-300"
@@ -104,7 +108,7 @@ export function AiRouteSummary({
       </div>
 
       {router.routeWarnings.length > 0 && (
-        <div className="mt-2 text-[9px] text-amber-400/90 font-mono leading-relaxed bg-amber-950/20 border border-amber-500/10 rounded p-1.5 flex items-start gap-1">
+        <div className="mt-2 text-meta text-amber-400/90 font-mono leading-relaxed bg-amber-950/20 border border-amber-500/10 rounded p-1.5 flex items-start gap-1">
           <AlertTriangle className="h-3 w-3 shrink-0 mt-0.5" />
           <span>{router.routeWarnings[0]}</span>
         </div>
@@ -116,7 +120,7 @@ export function AiRouteSummary({
             value={activeValue}
             onChange={(event) => activeOnChange(event.target.value)}
             data-testid="ai-selection-block-select"
-            className="w-full rounded-lg border border-white/10 bg-black/60 px-2 py-1.5 text-[10px] text-gray-200 outline-none focus:border-cyan-400/60"
+            className="w-full rounded-lg border border-white/10 bg-black/60 px-2 py-1.5 text-label text-gray-200 outline-none focus:border-cyan-400/60"
           >
             {allowedOptions.map((route) => (
               <option key={route.id} value={route.id}>

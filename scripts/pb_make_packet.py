@@ -23,7 +23,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -37,7 +36,7 @@ INVENTORY_DIR = ROOT / "logs" / "programbench_failure_inventory"
 FACTORY_DIR = ROOT / "logs" / "programbench_factory"
 LOCKED_DIR = ROOT / "corpus" / "programbench" / "locked"
 
-PY311_DEFAULT = os.environ.get("DETERMINEX_PYTHON311", "python")
+PY311_DEFAULT = r"C:\Users\ryang\AppData\Local\Python\pythoncore-3.11-64\python.exe"
 
 
 def _load_board(board_path: Path) -> list[dict[str, Any]]:

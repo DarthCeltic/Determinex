@@ -1,0 +1,45 @@
+{
+  "lock_id": "DETERMINEX_CORPUS_DIRECT_QUERY_SURFACE_LOCK_001",
+  "date": "2026-07-16",
+  "commit": "clean-main",
+  "description": "Direct read-only query surface over the ONE canonical corpus API (scripts/determinex_corpus_api.py, built earlier the same session -- search/stats/maturity_report/related_entries/find_superseded_claims/ask/timeline). Before this rung, that API was reachable only indirectly, through the two Learning Studio modes (explain_this_error, teach_me_the_concept) that happen to call ask() internally. This rung is WIRING, not invention: no new search/ranking/maturity logic was written. New command query_corpus wired end-to-end: backend_command_surface.py (_query_corpus, dispatching to ask()/maturity_report()/timeline() by mode) -> _tauri_driver.py (corpus_query/corpus_mode args threaded through) -> ide_repair_bridge.rs #[tauri::command] -> lib.rs generate_handler! -> LearningStudioPanel.tsx (new 'Ask the corpus anything' free-text box, results + supersession warnings rendered inline). Deliberately excluded from UNIFIED_PRODUCT_READ_ONLY_COMMANDS (Python + Rust), same reasoning as generate_learning_studio_content and run_maintenance_bay_scan: real per-call computation (a fresh corpus load + token-overlap search), not a static view-model snapshot.",
+  "purpose": "Let a human (or a future script) ask the corpus a direct question from the IDE, without having to route through Learning Studio's two canned modes or hand-write a Python one-liner.",
+  "depends_on_locks": [
+    "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001",
+    "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "TAURI_LIB_RS_COMMAND_WIRING_LOCK_001"
+  ],
+  "tests": 18,
+  "test_modules": [
+    "tests/ide/test_corpus_direct_query_surface_lock.py",
+    "frontend/src/components/ide-product-shell/__tests__/LearningStudioPanel.corpus.test.tsx"
+  ],
+  "new_tauri_command": "query_corpus",
+  "wraps_corpus_api_functions": ["ask", "maturity_report", "timeline"],
+  "ui_modes_wired": {
+    "ask": "wired 2026-07-16 (initial rung) -- free-text box in LearningStudioPanel",
+    "maturity": "wired 2026-07-16 (same-day follow-up) -- 'What's missing?' toggle in LearningStudioPanel, shows open_items + corpus stats + flywheel status",
+    "timeline": "NOT yet wired to any UI -- reachable via the command (tested), no panel surface yet"
+  },
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "update_applied": false,
+    "compatibility_verifier_bypassed": false,
+    "no_followup_claim": false,
+    "all_languages_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_corpus_direct_query_surface/run_20260716.json"
+  },
+  "remediates_finding": "corpus-api-only-reachable-through-two-learning-studio-modes",
+  "next_recommended_lock": "DETERMINEX_CORPUS_TIMELINE_UI_LOCK_001"
+}

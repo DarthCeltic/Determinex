@@ -67,6 +67,20 @@ def test_wal_verify_empty_is_intact(_isolated_state):
     assert "no WAL" in detail
 
 
+def test_wal_detects_record_missing_required_fields(_isolated_state):
+    """A line that's valid JSON but missing record_hash/prev_hash entirely
+    (not just tampered-but-present) must fail with a clear, specific error
+    rather than silently defaulting to "" and producing an opaque
+    downstream hash-mismatch message."""
+    _isolated_state["wal"].write_text(
+        json.dumps({"category": "A"}) + "\n", encoding="utf-8"
+    )
+    ok, detail = safety.verify_wal_integrity(_isolated_state["wal"])
+    assert not ok
+    assert "line 1" in detail
+    assert "malformed" in detail.lower()
+
+
 # ── Escalation tiers ────────────────────────────────────────────────────────
 
 def test_escalation_tiers_progress_correctly():

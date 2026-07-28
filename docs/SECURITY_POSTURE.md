@@ -12,7 +12,7 @@
 | `.env` git-ignored? | ✅ Yes (`git check-ignore .env` confirms) |
 | `.env` currently tracked? | ✅ No |
 | API keys in any **tracked** file? | ✅ No real keys (the only key-*shaped* hits are the `ripsecrets` secret-detector's own test fixtures + secret-scanner code — by design, not leaks) |
-| API keys in **pushed / remote** history? | ✅ **No** — the remote (`github.com/DarthCeltic/determinex`) history starts from a single curated initial commit; `.env` was never tracked |
+| API keys in **pushed / remote** history? | ✅ **No** — the remote (`github.com/lunariandatasystems-cmd/determinex`) history is clean of `.env`; an `origin/clean-main` branch shows history was deliberately scrubbed before pushing |
 | API keys in **local** git history? | ⚠️ **Yes** — commits `7f8dacd3e` (initial) and `482f02f43` contain `.env` with keys. **Local only — not pushed.** |
 | Live keys in current `.env` on disk? | ⚠️ 3 (Anthropic, DeepSeek, Gemini), plaintext |
 | Did the secret-catching pre-commit hook cover API keys? | ⚠️ No — `detect-private-key` catches PEM keys only, not `sk-ant-`/`AIza` |

@@ -1,0 +1,27 @@
+# Determinex Tandem Post Claude Binding Reconciliation 007
+
+Status: `TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_007_PASSED`
+
+## Preserved Checkpoints
+
+- prior Codex source truth: `370`
+- Claude display checkpoint: `379 / 379 / 379`
+- evidence index validation errors: `[]`
+- ledger chain valid: `True`
+- mutation detected: `False`
+
+## Absorbed Claude Locks
+
+- `DETERMINEX_REACT_UNIVERSAL_100_CONVEYOR_BACKLOG_AND_DEPTH_QUEUE_BINDING_LOCK_001`
+- `DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_007_BINDING_LOCK_001`
+- `DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_007_VISUAL_BINDING_LOCK_001`
+- `DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_008_BINDING_LOCK_001`
+- `DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_008_VISUAL_BINDING_LOCK_001`
+- `DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_009_BINDING_LOCK_001`
+- `DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_009_VISUAL_BINDING_LOCK_001`
+- `DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_010_BINDING_LOCK_001`
+- `DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_010_VISUAL_BINDING_LOCK_001`
+
+## Boundary
+
+This reconciliation absorbs read-only display evidence for the conveyor backlog and Batch 007-010 wave only. It does not grant release, source mutation, training, proof execution, production, or broad support authority.

@@ -6,10 +6,11 @@ import argparse
 import json
 import subprocess
 import sys
-import tempfile
-import time
 from pathlib import Path
 from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from determinex_atomic_io import write_json_atomic, write_text_atomic  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,32 +28,6 @@ def load(path: Path, default: Any) -> Any:
     if not path.is_file():
         return default
     return json.loads(path.read_text(encoding="utf-8", errors="replace"))
-
-
-def write_text_atomic(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        "w",
-        encoding="utf-8",
-        dir=str(path.parent),
-        delete=False,
-        prefix=f".{path.name}.",
-        suffix=".tmp",
-    ) as f:
-        f.write(text)
-        tmp = Path(f.name)
-    for attempt in range(10):
-        try:
-            tmp.replace(path)
-            return
-        except PermissionError:
-            if attempt == 9:
-                raise
-            time.sleep(0.25)
-
-
-def write_json_atomic(path: Path, data: Any) -> None:
-    write_text_atomic(path, json.dumps(data, indent=2) + "\n")
 
 
 def run(cmd: list[Any], *, check: bool = True) -> subprocess.CompletedProcess[str]:

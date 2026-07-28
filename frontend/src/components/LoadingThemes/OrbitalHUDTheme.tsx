@@ -133,7 +133,7 @@ export function OrbitalHUDTheme({
           {Array.from({ length: 20 }, (_, i) => (
             <span
               key={i}
-              className="text-[8px] font-mono whitespace-nowrap"
+              className="text-meta font-mono whitespace-nowrap"
               style={{
                 color: accent,
                 opacity: 0.18 + (i % 4) * 0.04,
@@ -169,7 +169,7 @@ export function OrbitalHUDTheme({
             {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <span
-                  className="text-[8px] font-mono font-bold tabular-nums"
+                  className="text-meta font-mono font-bold tabular-nums"
                   style={{ color: accent }}
                 >
                   {elapsedSeconds}s
@@ -180,18 +180,18 @@ export function OrbitalHUDTheme({
 
           <div className="flex flex-col items-center gap-1.5">
             <p
-              className="text-[9px] font-mono tracking-[0.5em] uppercase"
+              className="text-eyebrow font-mono tracking-[0.5em] uppercase"
               style={{ color: `${accent}80` }}
             >
               ORBITAL PROCESSING UNIT
             </p>
             <p
-              className="text-[14px] font-mono tracking-widest uppercase font-bold"
+              className="text-title font-mono tracking-widest uppercase font-bold"
               style={{ color: accent, textShadow: `0 0 12px ${accent}80` }}
             >
               {label}
             </p>
-            <p className="text-[9px] font-mono" style={{ color: `${accent}50` }}>
+            <p className="text-meta font-mono" style={{ color: `${accent}50` }}>
               orbital uplink • signal active
             </p>
           </div>
@@ -220,14 +220,14 @@ export function OrbitalHUDTheme({
                     />
                   </div>
                   <span
-                    className="text-[7px] font-mono uppercase tracking-wider"
+                    className="text-eyebrow font-mono uppercase tracking-wider"
                     style={{ color: accent, opacity: nodeActive ? 1 : 0.3 }}
                   >
                     {role}
                   </span>
                 </div>
                 {i < arr.length - 1 && (
-                  <span className="text-[9px] mb-4" style={{ color: `${accent}40` }}>
+                  <span className="text-meta mb-4" style={{ color: `${accent}40` }}>
                     â–¶
                   </span>
                 )}
@@ -248,7 +248,7 @@ export function OrbitalHUDTheme({
           className="w-6 h-6 border-2 animate-spin rounded-sm"
           style={{ borderColor: `${accent}50`, borderTopColor: accent }}
         />
-        <p className="text-[10px] font-mono tracking-widest uppercase" style={{ color: accent }}>
+        <p className="text-meta font-mono tracking-widest uppercase" style={{ color: accent }}>
           {label}
         </p>
       </div>

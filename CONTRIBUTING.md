@@ -48,7 +48,7 @@ ollama pull qwen2.5-coder:7b  # minimum for Builder
 
 ```bash
 # Core limits test — 6 Rust levels, must all pass with 0 retries
-python determinex_limits_test.py
+python scripts/determinex_limits_test.py
 
 # Rust backend
 cd frontend/src-tauri && cargo test

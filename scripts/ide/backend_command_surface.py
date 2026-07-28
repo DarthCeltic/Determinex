@@ -88,6 +88,19 @@ _COMMANDS = frozenset({
     "get_repo_clinic_workflow_state",
     "get_maintenance_bay_workflow_state",
     "get_learning_studio_workflow_state",
+    # Rung 7 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES: content generation for
+    # Learning Studio. Read-only (grounds explanations in the verified corpus + real files),
+    # non-authorizing (every output is still gated through learning_studio_workflow.evaluate()).
+    # Never mutates source, never approves, never opens training eligibility. Deliberately NOT
+    # in UNIFIED_PRODUCT_READ_ONLY_COMMANDS below -- that set is capability-description-only
+    # (no args, no per-call computation), same reason preview_idea_oracle/repair_diagnose aren't.
+    "generate_learning_studio_content",
+    # Maintenance Bay live scan: composes the 5 existing security_gate.py scanners
+    # (secret_scan, dependency_scan, verify_lockfiles, license_scan, container_scan) into
+    # one read-only advisory result. Never applies an update, never authorizes anything --
+    # a "blocked" gate here is a finding to review, not source mutation. Same reasoning as
+    # generate_learning_studio_content for staying out of UNIFIED_PRODUCT_READ_ONLY_COMMANDS.
+    "run_maintenance_bay_scan",
     "get_proof_operator_center_state",
     "get_user_level_teaching_windows",
     "get_unified_splash_demo_spec",
@@ -128,6 +141,15 @@ _COMMANDS = frozenset({
     # Windows-first matrix) remain pending/draft; the binding refuses
     # to widen them into product truth.
     "get_proof_operator_center_milestone_dashboard_status",
+    # Direct corpus query surface (2026-07-16): exposes the ONE canonical read-only
+    # corpus API (scripts/determinex_corpus_api.py -- ask/maturity_report/timeline)
+    # as a live command, instead of leaving it reachable only through the two
+    # Learning Studio modes that happen to call ask() internally. No new query
+    # logic lives here; this is wiring, same reasoning as run_maintenance_bay_scan.
+    # Excluded from UNIFIED_PRODUCT_READ_ONLY_COMMANDS for the same reason as that
+    # command: real per-call computation (a fresh corpus load + search), not a
+    # static capability-description view-model.
+    "query_corpus",
 })
 
 
@@ -168,6 +190,10 @@ class IDEBackendCommandSurface:
         files_changed: tuple[str, ...] = (),
         idea_text: str = "",
         user_request: str = "",
+        learning_mode: str = "",
+        learning_context: str = "",
+        corpus_query: str = "",
+        corpus_mode: str = "ask",
     ) -> CommandResult:
         if command not in _COMMANDS:
             return self._result(command, "IDE_COMMAND_BLOCKED_UNKNOWN_COMMAND",
@@ -201,10 +227,10 @@ class IDEBackendCommandSurface:
             return self._diagnose_live(task_class, opt_in, config)
 
         if command == "generate_patch_plan_opt_in":
-            return self._patch_plan(opt_in, config)
+            return self._patch_plan(opt_in, config, workspace, user_request or idea_text)
 
         if command == "verify_temp_patch":
-            return self._verify_temp_patch()
+            return self._verify_temp_patch(workspace)
 
         if command == "get_repair_state":
             return self._repair_state()
@@ -226,6 +252,10 @@ class IDEBackendCommandSurface:
             return self._maintenance_bay_workflow_state()
         if command == "get_learning_studio_workflow_state":
             return self._learning_studio_workflow_state()
+        if command == "generate_learning_studio_content":
+            return self._learning_studio_generate(learning_mode, learning_context, workspace)
+        if command == "run_maintenance_bay_scan":
+            return self._maintenance_bay_run_scan()
         if command == "get_proof_operator_center_state":
             return self._proof_operator_center_state()
         if command == "get_user_level_teaching_windows":
@@ -242,6 +272,8 @@ class IDEBackendCommandSurface:
             return self._learning_studio_verified_demo_status()
         if command == "get_proof_operator_center_milestone_dashboard_status":
             return self._proof_operator_center_milestone_dashboard_status()
+        if command == "query_corpus":
+            return self._query_corpus(corpus_query, corpus_mode)
 
         return self._result(command, "IDE_COMMAND_BLOCKED_UNKNOWN_COMMAND")
 
@@ -403,17 +435,130 @@ class IDEBackendCommandSurface:
         return self._result("diagnose_live_opt_in", "IDE_COMMAND_TEMP_ONLY",
                             payload={"task_class": task_class, "mode": "opt_in_live"})
 
-    def _patch_plan(self, opt_in: bool, config: LocalModelConfigRecord | None) -> CommandResult:
+    def _patch_plan(self, opt_in: bool, config: LocalModelConfigRecord | None,
+                    workspace: Path | None = None, issue_text: str = "") -> CommandResult:
         if not opt_in:
             return self._result("generate_patch_plan_opt_in", "IDE_COMMAND_BLOCKED_NOT_OPTED_IN")
         if config is None:
             return self._result("generate_patch_plan_opt_in", "IDE_COMMAND_BLOCKED_NO_MODEL")
-        return self._result("generate_patch_plan_opt_in", "IDE_COMMAND_TEMP_ONLY",
-                            payload={"mode": "quarantine_only"})
+        # Real patch generation. This used to return {"mode": "quarantine_only"}
+        # -- no patch, no verification -- while the UI described it as
+        # BLOCKED_PENDING_HUMAN_APPROVAL, which read as a working capability
+        # held back for safety rather than as unbuilt. Ryan: "so unblock it. i
+        # dont understand why its gated?"
+        #
+        # PatchPipeline (codebase_explorer) genuinely locates the bug, generates
+        # a patch, validates it against the oracle, and reverts on failure. The
+        # one thing it does NOT do is leave your source alone on success -- it
+        # writes the fix in place. So here we snapshot the target files, let it
+        # run, capture what it produced, and restore the snapshot. The result is
+        # a PROPOSAL, and the only path to disk stays the Review queue's
+        # human-approved apply_staged_diff (which also enforces the workspace
+        # boundary). One source-mutation path, not two.
+        if workspace is None or not Path(workspace).is_dir():
+            return self._result("generate_patch_plan_opt_in", "IDE_COMMAND_OK",
+                                payload={"proposed": [], "note": "no workspace"})
+        try:
+            import sys as _sys
+            _scripts = str(Path(__file__).resolve().parent.parent)
+            if _scripts not in _sys.path:
+                _sys.path.insert(0, _scripts)
+            from codebase_explorer import CodebaseExplorer  # noqa: PLC0415
+        except Exception as e:
+            return self._result("generate_patch_plan_opt_in", "IDE_COMMAND_OK",
+                                payload={"proposed": [], "note": f"engine unavailable: {e}"})
 
-    def _verify_temp_patch(self) -> CommandResult:
-        return self._result("verify_temp_patch", "IDE_COMMAND_TEMP_ONLY",
-                            payload={"mode": "temp_only"})
+        ws = Path(workspace)
+        before: dict[Path, str] = {}
+
+        def _snapshot(paths):
+            for f in paths:
+                try:
+                    before[f] = f.read_text(encoding="utf-8", errors="replace")
+                except Exception:
+                    pass
+
+        try:
+            explorer = CodebaseExplorer(ws)
+            # Snapshot every tracked source file the pipeline could touch, so a
+            # write anywhere can be undone. Cheap next to running a model.
+            candidates = [f for f in ws.rglob("*")
+                          if f.is_file() and f.suffix in {".py", ".rs", ".go", ".ts", ".tsx", ".js"}
+                          and not any(part.startswith(".") or part in
+                                      {"node_modules", "__pycache__", "target", "dist"}
+                                      for part in f.parts)]
+            _snapshot(candidates)
+            result = explorer.fix(issue_text or "fix the failing tests")
+        except Exception as e:
+            return self._result("generate_patch_plan_opt_in", "IDE_COMMAND_OK",
+                                payload={"proposed": [], "note": f"patch error: {e}"})
+
+        proposed = []
+        try:
+            for f, original in before.items():
+                try:
+                    now = f.read_text(encoding="utf-8", errors="replace")
+                except Exception:
+                    continue
+                if now != original:
+                    proposed.append({
+                        "path": str(f),
+                        "original_content": original,
+                        "proposed_content": now,
+                    })
+        finally:
+            # Always restore. A proposal must never be a silent apply, and this
+            # runs even if the diff-collection above raises.
+            for f, original in before.items():
+                try:
+                    if f.read_text(encoding="utf-8", errors="replace") != original:
+                        f.write_text(original, encoding="utf-8")
+                except Exception:
+                    pass
+
+        return self._result("generate_patch_plan_opt_in", "IDE_COMMAND_TEMP_ONLY", payload={
+            "proposed": proposed,
+            "n_files": len(proposed),
+            "solved": bool(getattr(result, "success", False)),
+            "diff": getattr(result, "patch_diff", "") or "",
+            "source_mutation": False,
+            "note": ("no change produced" if not proposed else
+                     f"{len(proposed)} file(s) proposed -- approve in Review to apply"),
+        })
+
+    def _verify_temp_patch(self, workspace: Path | None = None) -> CommandResult:
+        """Real oracle verdict for the workspace, not a mode string.
+
+        This returned {"mode": "temp_only"} -- no verdict at all -- while the
+        UI presented the step as a verification gate. repair_workspace IS the
+        canonical oracle run and is already used by repair_diagnose, so this
+        reports what it actually finds.
+        """
+        if workspace is None or not Path(workspace).is_dir():
+            # Status stays TEMP_ONLY even with nothing to verify: the lock on
+            # this verb asserts it never implies source mutation, which is
+            # independent of whether a verdict was produced.
+            return self._result("verify_temp_patch", "IDE_COMMAND_TEMP_ONLY",
+                                payload={"verified": None, "note": "no workspace"})
+        try:
+            import sys as _sys
+            _scripts = str(Path(__file__).resolve().parent.parent)
+            if _scripts not in _sys.path:
+                _sys.path.insert(0, _scripts)
+            import determinex_repair as _r
+            res = _r.repair_workspace(Path(workspace))
+        except Exception as e:
+            return self._result("verify_temp_patch", "IDE_COMMAND_TEMP_ONLY",
+                                payload={"verified": None, "note": f"verify error: {e}"})
+        return self._result("verify_temp_patch", "IDE_COMMAND_TEMP_ONLY", payload={
+            "verified": bool(res.healthy),
+            "n_failures": res.n_failures,
+            "oracle": res.oracle,
+            "language": res.language,
+            "source_mutation": False,
+            "note": ("oracle passes" if res.healthy
+                     else f"{res.n_failures} failing check(s) remain"),
+        })
 
     def _repair_state(self) -> CommandResult:
         return self._result("get_repair_state", "IDE_COMMAND_OK",
@@ -535,6 +680,71 @@ class IDEBackendCommandSurface:
             ),
         )
 
+    def _maintenance_bay_run_scan(self) -> CommandResult:
+        """Live read-only security/maintenance advisory: composes the 5 EXISTING
+        scripts/security/*.py scanners (secret_scan, dependency_scan, verify_lockfiles,
+        license_scan, container_scan) via security_gate.run_all() -- the same canonical
+        entry point CI would use. A 'blocked' gate is a finding to review; this command
+        never applies an update, patches a dependency, or authorizes anything."""
+        try:
+            import sys as _sys
+            _sec_dir = str(Path(__file__).resolve().parent.parent / "security")
+            if _sec_dir not in _sys.path:
+                _sys.path.insert(0, _sec_dir)
+            import security_gate as _gate
+            result = _gate.run_all()
+        except Exception as e:
+            return self._result("run_maintenance_bay_scan", "IDE_COMMAND_OK",
+                                payload={"overall_passed": None, "gates": [], "scan_error": str(e)},
+                                notes=("scan crashed; treat as an unrun scan, not a pass",))
+        return self._result("run_maintenance_bay_scan", "IDE_COMMAND_OK",
+                            payload=result,
+                            notes=("advisory scan only; no update applied, no source mutation",
+                                   "a blocked gate is a finding to review, not an automatic action"))
+
+    def _query_corpus(self, query: str, mode: str) -> CommandResult:
+        """Live, read-only direct query surface over the ONE canonical corpus API
+        (scripts/determinex_corpus_api.py). No search/ranking/maturity logic lives
+        here -- this only calls ask()/maturity_report()/timeline() and shapes the
+        dataclass result into JSON. Never mutates build_knowledge.json, never
+        authorizes anything; a caller still has to route through Repo Clinic /
+        Idea Lab to act on anything this surfaces, same as Learning Studio."""
+        try:
+            import sys as _sys
+            _scripts = str(Path(__file__).resolve().parent.parent)
+            if _scripts not in _sys.path:
+                _sys.path.insert(0, _scripts)
+            import determinex_corpus_api as _corpus
+        except Exception as e:
+            return self._result("query_corpus", "IDE_COMMAND_OK",
+                                payload={"mode": mode, "query": query, "query_error": str(e)},
+                                notes=("corpus module failed to import; treat as unanswered, not empty",))
+
+        try:
+            if mode == "maturity":
+                report = _corpus.maturity_report(topic_filter=query or None)
+                payload = {"mode": mode, "query": query, **report.to_dict()}
+            elif mode == "timeline":
+                entries = _corpus.timeline(topic_filter=query or None)
+                payload = {"mode": mode, "query": query,
+                           "entries": [e.__dict__ for e in entries]}
+            else:
+                if not query.strip():
+                    payload = {"mode": "ask", "query": query, "hits": [],
+                               "top_hit_related": {"outbound": [], "inbound": []},
+                               "warnings": []}
+                else:
+                    result = _corpus.ask(query)
+                    payload = {"mode": "ask", **result.to_dict()}
+        except Exception as e:
+            return self._result("query_corpus", "IDE_COMMAND_OK",
+                                payload={"mode": mode, "query": query, "query_error": str(e)},
+                                notes=("corpus query crashed; treat as unanswered, not empty",))
+
+        return self._result("query_corpus", "IDE_COMMAND_OK", payload=payload,
+                            notes=("read-only corpus query; no mutation, no authorization",
+                                   "route anything actionable to Repo Clinic / Idea Lab"))
+
     def _learning_studio_workflow_state(self) -> CommandResult:
         from . import learning_studio_workflow as _mod
         return self._result(
@@ -554,6 +764,31 @@ class IDEBackendCommandSurface:
                 "learning explains; does not authorize",
             ),
         )
+
+    def _learning_studio_generate(self, mode: str, context_text: str,
+                                  workspace: Path | None) -> CommandResult:
+        """Rung 7: produce a REAL LearningStudioOutput grounded in the verified corpus (and, for
+        explain_this_repo/explain_this_file, the real workspace), then run it through the SAME
+        non-authorizing gate (learning_studio_workflow.evaluate()) the workflow-state command
+        already enforces. A generator bug that somehow produced a false-success claim would be
+        caught here, not trusted through."""
+        from . import learning_studio_content as _content
+        from . import learning_studio_workflow as _workflow
+        ctx: dict[str, str] = {"text": context_text}
+        if workspace is not None:
+            ctx["workspace"] = str(workspace)
+            ctx["path"] = str(workspace)
+        try:
+            output = _content.generate(mode, ctx)
+        except Exception as e:
+            return self._result("generate_learning_studio_content", "IDE_COMMAND_OK",
+                                payload={"decision": "LEARNING_STUDIO_GENERATION_ERROR",
+                                         "output": None, "error": str(e)})
+        record = _workflow.evaluate(output)
+        return self._result("generate_learning_studio_content", "IDE_COMMAND_OK",
+                            payload=record.to_dict(),
+                            notes=("teaching output only; non-authorizing gate enforced",
+                                   "grounded in the verified corpus / real files; no fabrication"))
 
     def _proof_operator_center_state(self) -> CommandResult:
         from . import proof_operator_center_viewmodel as _mod

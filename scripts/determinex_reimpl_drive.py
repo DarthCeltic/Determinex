@@ -177,12 +177,21 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("slug")
     # 2026-07-02: default is the ESCALATION LADDER the router was built for but which no
-    # run had ever actually used (every run passed a flat single-model ladder): the 7b
-    # (4.7GB -- fits fully in a 6GB GPU, ~100% GPU vs the 14b's 70/30 CPU split) clears
-    # the cheap bulk; the 14b is invoked only on stations/leaves the 7b misses.
+    # run had ever actually used (every run passed a flat single-model ladder) -- which is
+    # exactly how the bug below survived undetected. The 7b (4.7GB) clears the cheap bulk;
+    # tier 2 is invoked only on stations/leaves the 7b misses.
+    #
+    # 2026-07-18 FIX: tier 2 named 'qwen2.5-coder:14b-instruct', a model that was never
+    # actually pulled on the box this ran on. Every escalation attempt silently produced a
+    # generation-error string that the search loop treated as just another wrong-code
+    # candidate -- 6+ decompose stations on a real gron drive burned ~10-15 min each on a
+    # completely unreachable model before a human noticed by querying Ollama directly.
+    # preflight_ladder() (determinex_pb_reimpl.py) now catches this class of bug before any
+    # compute is spent, on ANY --models spec -- but the DEFAULT itself needed a real model:
+    # deepseek-coder-v2:16b (8.9GB, confirmed present + responsive) replaces the phantom tag.
     ap.add_argument("--models",
                     default="ollama/qwen2.5-coder:7b-instruct:1:1,"
-                            "ollama/qwen2.5-coder:14b-instruct:2:3")
+                            "ollama/deepseek-coder-v2:16b:2:3")
     ap.add_argument("--decompose", action="store_true", default=True)
     ap.add_argument("--no-decompose", dest="decompose", action="store_false")
     ap.add_argument("--iters", type=int, default=4)

@@ -4,14 +4,20 @@
 
 # Determinex
 
+> Renamed 2026-07-02. Script filenames, environment variables, and model tags below
+> still use the legacy `determinex_*`/`DETERMINEX_*` prefix pending a coordinated internal
+> rename — this is expected, not a mistake.
+
 **Compiler-verified multi-agent AI that gets smarter from its own failures.**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org)
 [![Rust](https://img.shields.io/badge/Rust-1.75%2B-orange)](https://rustup.rs)
+[![Models on HuggingFace](https://img.shields.io/badge/🤗%20Models-Determinex-yellow)](https://huggingface.co/lunariandatasystems)
+[![White Paper](https://img.shields.io/badge/Paper-WHITE__PAPER.md-green)](docs/papers/WHITE_PAPER.md)
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-♥-pink)](https://github.com/sponsors/DarthCeltic)
 
-*Built by [Ryan Gurganious](https://github.com/DarthCeltic)*
+*Built by [Ryan Gurganious](https://github.com/DarthCeltic) · [Lunarian Data Systems](https://lunariandata.com)*
 
 </div>
 
@@ -21,11 +27,11 @@ Determinex is a **local-first, privacy-sovereign, self-improving multi-agent AI 
 
 **The core idea (2026-06 architecture):** correctness is bounded by a deterministic **oracle** (real compilers/tests), not by trusting the model. The model proposes; the oracle disposes. This makes Determinex **un-hallucinatable wherever ground truth exists** and lets *any* AI — a 1.5B local model, a frontier cloud model, an agent CLI, or a future one — plug in and be made correct. The **Correctness Amplifier** turns a model with per-attempt success `p` into a system that succeeds with `1−(1−p)^K` by sampling against the oracle: any `p > 0` is driven toward correct. On top of the build loop, Determinex can now **build a verified program from a plain-language idea** (synthesizes a sound test-oracle first), **diagnose and repair any repo** (honest CODE / ENVIRONMENT / TEST blame), and **host any AI model or coding agent** (Claude / Codex / Gemini / local / addons) — each verified through the same oracle, so a hallucinating model or agent is *rejected*. A reproducible 40-case meta-bench (`tests/test_autofix_pipeline.py`) scores the system's own reasoning. See [`docs/DETERMINEX_DEEP_AUDIT.md`](docs/DETERMINEX_DEEP_AUDIT.md) for the grounded end-to-end account.
 
-Current readiness boundary: the release-cell registry contains 13 exact release-supported cells and 0 release-supported families. These are proof cells, not broad support. Batch 003 verifies the rebuilt staged installed-app Proof Center route at `/proof-center` with screenshot/transcript evidence. Batch 004 promotes exactly one narrow all-gap row: the deterministic day-one claim scanner guard. (Batch 004 also archived `trasta298__keifu` under the pre-2026-06-30 lock methodology; the provenance audit below invalidated that methodology, so it is not counted as a legitimate ProgramBench lock — see the ProgramBench paragraph for the current, corrected count.) Full monolithic `tests/status`, all gaps closed, family support, and ProgramBench total-100 remain open; open availability remains false.
+Current readiness boundary: the release-cell registry contains 13 exact release-supported cells and 0 release-supported families. These are proof cells, not broad support. Batch 003 verifies the rebuilt staged installed-app Proof Center route at `/proof-center` with screenshot/transcript evidence. Batch 004 archives `trasta298__keifu` as a strict ProgramBench lock and promotes exactly one narrow all-gap row: the deterministic day-one claim scanner guard. Full monolithic `tests/status`, all gaps closed, family support, ProgramBench total-100, open availability remains false, and `PATENT_FILED` remains unclaimed.
 
 **The current SWE-bench boundary**: The May 2026 B-Uncloaked run resolved **14.0% of SWE-bench Lite** (42/300, zero errored), but it is an audited snapshot, not the final publication baseline. The Cloak-on / region-mode configurations are currently reported as lower bounds because disk-pressured Docker workers produced per-instance image-export errors: E-RegionControl **>=6.0%**, B-Cloaked RosettaOFF **>=2.3%**, D-Cloaked **>=3.3%**. Fresh B-Uncloaked and E-RegionControl reruns are required before publishing privacy-cost claims.
 
-**Plus, on [ProgramBench](docs/papers/PROGRAMBENCH.md)** — the 200-tool benchmark where every frontier model currently scores 0–0.5% fully resolved — Determinex's honest headline (corrected 2026-06-30) is **0/200 legitimate locks**, matching public leaderboard reality. A full provenance audit found the historical, prior "65 confirmed full-suite locks / 32.5%" claim counted upstream source builds (`go.mod`/`Cargo.toml` identity matching the real project verbatim), not native reimplementations. The 62 archived builds are retained internally as reference corpus for the Native Reimplementation Loop — the legitimate path to a real lock — not counted as solves; the multi-gigabyte corpus/ data behind this claim is dev-only tooling output and isn't part of this repository (see Project Structure below for what does ship). Benchmark results are not product support, not release support, and not product readiness.
+**Plus, on [ProgramBench](docs/papers/PROGRAMBENCH.md)** — the 200-tool benchmark where every frontier model currently scores 0–0.5% fully resolved — Determinex's honest headline (corrected 2026-06-30) is **0/200 legitimate locks**, matching public leaderboard reality. A full provenance audit found the historical, prior "65 confirmed full-suite locks / 32.5%" claim counted upstream source builds (`go.mod`/`Cargo.toml` identity matching the real project verbatim), not native reimplementations. The 62 archived builds under `corpus/programbench/locked/<tool>/` are retained as reference corpus for the Native Reimplementation Loop — the legitimate path to a real lock — not counted as solves. Source of truth: `corpus/programbench/eval_index.json`. Benchmark results are not product support, not release support, and not product readiness.
 
 ---
 
@@ -34,10 +40,20 @@ Current readiness boundary: the release-cell registry contains 13 exact release-
 | Property | Determinex | Typical agent system |
 |---|---|---|
 | **Reward model** | `rustc` / `go build` / `python` / `tsc` — deterministic, zero hallucination | LLM judge (circular) |
-| **Privacy** | 100% of repo identifiers obfuscated before any cloud call | Source code sent to cloud |
+| **Privacy** | Identifiers AST-obfuscated before any cloud call; raw source is never exported (audit: `CLOAK_HASH_CHAIN_AND_LEAK_AUDIT_PASSED`, no leak found in the audited run) | Source code sent to cloud |
 | **Training signal** | Every session failure → labeled corpus → next retrain | Static weights |
 | **Model size** | 1.5B + 3B + 7B, runs on 6GB VRAM | 70B+ cloud-only |
 | **Architecture** | DAG build loop, compiler gate, WAL, oscillation detector | Linear chain |
+
+> **Privacy claim boundary (corrected 2026-07-28).** This row previously read
+> "100% of repo identifiers obfuscated". That overstated the evidence and
+> contradicted our own audit artifact, which records
+> `perfect_privacy_claimed: false` alongside `raw_source_exported: false`
+> (`assurance/evidence/cloak_hash_chain_and_leak_audit/`). What is verified is
+> that the audited run exported no raw source and no identifier leak was found;
+> "100%" is a universal claim a single counterexample would destroy, and it was
+> never what the audit established. Re-run with `DETERMINEX_CLOAK_AUDIT=1` to
+> produce a current artifact before making any stronger statement.
 | **Any model correct** | Verified search: `1−(1−p)^K` against a sound oracle | Best single shot |
 | **Bring your own AI** | Claude / Codex / Gemini / local / agents — all oracle-verified | Locked to one vendor |
 | **No cop-out / no slop** | Adjudicator proves impossibility; Validator proves a test is slop | Gives up or guesses |
@@ -61,13 +77,13 @@ Full grounded account, including the honest safety/unsafe surface and the teachi
 
 | Model | Params | Role | HuggingFace | Ollama Tag |
 |-------|--------|------|-------------|-----------|
-| **C1 · Engineer v11-dsl** | 1.5B (Qwen2.5-Coder) | Builder — fast code generation, DSL-tuned | [🤗 Download](https://huggingface.co/darthceltic85/determinex-engineer) | `determinex-engineer-v11-dsl` |
-| **C3 · Observer v6-dsl** | 3B (Llama-3.2) | Monitor — error diagnosis, adjudication | [🤗 Download](https://huggingface.co/darthceltic85/determinex-observer-llama-3.2) | `determinex-observer-v6-dsl` |
-| **C7 · Sentinel v5-dsl** | 7B (Mistral) | Architect / Oracle — DAG planning, escalation | [🤗 Download](https://huggingface.co/darthceltic85/determinex-sentinel) | `determinex-sentinel-v5-dsl` |
+| **C1 · Engineer v11-dsl** | 1.5B (Qwen2.5-Coder) | Builder — fast code generation, DSL-tuned | [🤗 Download](https://huggingface.co/lunariandatasystems/determinex-engineer) | `determinex-engineer-v11-dsl` |
+| **C3 · Observer v6-dsl** | 3B (Llama-3.2) | Monitor — error diagnosis, adjudication | [🤗 Download](https://huggingface.co/lunariandatasystems/determinex-observer) | `determinex-observer-v6-dsl` |
+| **C7 · Sentinel v5-dsl** | 7B (Mistral) | Architect / Oracle — DAG planning, escalation | [🤗 Download](https://huggingface.co/lunariandatasystems/determinex-sentinel) | `determinex-sentinel-v5-dsl` |
 
 All three run locally via Ollama. No subscription. No cloud required for the core build loop.
 
-> You don't need the fine-tuned GGUFs to get started — any Ollama-hosted model in the same tier works. See [Option A](#option-a--bring-your-own-models) below. Note: `determinex-observer` is a Llama-3.2 derivative and ships under the Llama 3.2 Community License, not Apache 2.0 — see [Model Notices](docs/release/MODEL_NOTICES.md).
+> You don't need Ryan's fine-tuned GGUFs to get started. Any Ollama-hosted model in the same tier works. See [Option A](#option-a--bring-your-own-models) below.
 
 ---
 
@@ -77,23 +93,53 @@ All three run locally via Ollama. No subscription. No cloud required for the cor
 
 135 probes across 9 task types × 3 models. Every probe passes a real compiler — no LLM judges.
 
-| Model | Score | Probes Passed | Delta vs Baseline |
-|-------|-------|---------------|------------------|
-| C1 · Engineer v11-dsl | **89%** | 40/45 | +5pp |
-| C3 · Observer v6-dsl | **82%** | 37/45 | +4pp |
-| C7 · Sentinel v3 | **87%** | 39/45 | — (pre-dates DSL fine-tune; v5-dsl re-eval queued) |
-| **System combined** | **86%** | 116/135 | +3pp |
+> **Corrected 2026-07-28.** This table previously credited the shipped
+> v11/v6 models with scores that were measured on the *previous* generation:
+> `40/45` is v10-dsl's result and `37/45` is v5-dsl's. The v11/v6 evals do
+> exist (2026-04-16) and are reported below. They were run against the
+> expanded 70-probe set, so they are **not** directly comparable to the
+> 45-probe baseline and no delta is claimed.
 
-### SWE-bench Lite
+**Last verified generation (45-probe set):**
 
-Real software engineering tasks from production repositories. Patches verified by each repo's own test suite in Docker. Three configurations (Cloak-on region-mode, Cloak-on, and a hybrid-architect variant) were run on disk-pressured Docker workers that produced per-instance image-export errors on roughly 40% of instances — those runs are not reported here; a clean rerun is required before any real number is published for them.
+| Model | Score | Probes Passed |
+|-------|-------|---------------|
+| C1 · Engineer v10-dsl | 89% | 40/45 |
+| C3 · Observer v5-dsl | 82% | 37/45 |
+| C7 · Sentinel v3 | 87% | 39/45 (pre-dates DSL fine-tune) |
+
+**Currently shipped generation (70-probe set, not comparable to the above):**
+
+| Model | Score | Probes Passed | Artifact |
+|-------|-------|---------------|----------|
+| C1 · Engineer v11-dsl | 81.4% | 57/70 | `eval_citadel-engineer-v11-dsl_20260416_225204.json` (an earlier run scored 53/70) |
+| C3 · Observer v6-dsl | 75.7% | 53/70 | `eval_citadel-observer-v6-dsl_20260416_235354.json` |
+| C7 · Sentinel v5-dsl | not evaluated | — | no eval artifact exists |
+
+No combined system score is given for the shipped generation: with Sentinel
+unevaluated, any total would be part measurement and part assumption.
+
+### SWE-bench Lite (300 instances, post-hardening ablation)
+
+Real software engineering tasks from production repositories. Patches verified by each repo's own test suite in Docker.
 
 | Config | Architect | Builder | Cloak | Resolved | Status |
 |--------|-----------|---------|-------|----------|--------|
 | B-Uncloaked | DeepSeek V4 | DeepSeek V4 | off | **14.0%** (42/300) | Audited May snapshot; fresh rerun required for publication |
+| E-RegionControl | DeepSeek V4 | DeepSeek V4 | off, region forced | **>=6.0%** | Lower bound, disk-export errors |
+| B-Cloaked RosettaOFF | DeepSeek V4 | DeepSeek V4 | on | **>=2.3%** | Lower bound, disk-export errors |
+| D-Cloaked | Claude Sonnet 4.6 | DeepSeek V4 | on | **>=3.3%** | Lower bound, disk-export errors |
 | D-Cloaked (pre-hardening historical) | Claude Sonnet 4.6 | DeepSeek V3 | on | **11.7%** | Historical, pre-hardening |
 
-*Privacy audit: a Cloak-on run verified 1,813,760 identifiers across 300 instances - 0 restoration failures, 0 privacy leaks. Cryptographic proof artifact via `DETERMINEX_CLOAK_AUDIT=1`.*
+**What the delta framework measures:**
+```
+B-Uncloaked 14.0%      -> audited May snapshot; final baseline pending fresh rerun
+E-RegionControl >=6.0% -> lower-bound region-mode control
+B-Cloaked >=2.3%       -> lower-bound sovereignty result
+D-Cloaked >=3.3%       -> lower-bound hybrid Architect result
+```
+
+*Privacy audit: B-Cloaked run verified 1,813,760 identifiers across 300 instances - 0 restoration failures, 0 privacy leaks. Cryptographic proof artifact via `DETERMINEX_CLOAK_AUDIT=1`. TinyCorpusReplay, when referenced, is an answer-key corpus replay diagnostic for eval-path mechanics only; it is not a clean benchmark score, not a model score, and not training-eligible.*
 
 ---
 
@@ -147,21 +193,13 @@ The cloud model never sees `authenticate_user`, `validate_payment`, or any other
 - At least one compiler: `rustc`, `go`, or `python` (for the Compiler Oracle)
 - 6GB+ VRAM **or** 16GB+ RAM (CPU inference supported)
 
-**Docker is optional, not required.** The Compiler Oracle runs your code in one of three
-isolation tiers, strongest first: **Docker** (ephemeral container, no network, 512MB cap) →
-**WSL2** (clean environment, restricted PATH) → **direct execution** (credential-stripped
-subprocess + a Windows Job Object). By default the oracle requires Docker and fails loudly
-rather than silently dropping to a weaker tier — for real machines that don't have room for
-Docker Desktop, set `DETERMINEX_REQUIRE_DOCKER=0` in `.env` to allow the WSL2/direct fallback.
-Both are complete, working implementations, not degraded stubs.
-
 ### Install
 
 ```bash
 git clone https://github.com/DarthCeltic/determinex
 cd determinex
 
-# Inference-only (CLI, ~200MB dependencies)
+# Inference-only (CLI; pulls in torch via fastembed, expect ~1-2GB not ~200MB)
 pip install -r scripts/requirements.txt
 
 # Full stack with training tools (~4GB, requires PyTorch)
@@ -188,10 +226,6 @@ DETERMINEX_OBSERVER_MODEL=ollama/qwen2.5-coder:3b-instruct
 
 ### Option B — Use the Fine-Tuned Models
 
-The fine-tuned GGUFs are being published to [huggingface.co/darthceltic85](https://huggingface.co/darthceltic85) —
-if the model pages aren't live yet when you read this, use Option A above (any Ollama model in
-the same size tier works with the same architecture; no fine-tuning required to get started).
-
 ```bash
 cp .env.example .env
 # Set DETERMINEX_MODELS_DIR to wherever your GGUFs are
@@ -202,6 +236,8 @@ cp .env.example .env
 # Linux / macOS
 bash register_models.sh
 ```
+
+GGUFs available at [huggingface.co/lunariandatasystems](https://huggingface.co/lunariandatasystems).
 
 ### Run a Build Session
 
@@ -297,7 +333,7 @@ rosetta/                     # Rosetta Stone training artifacts
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/papers/ARCHITECTURE.md](docs/papers/ARCHITECTURE.md) before submitting a PR — the design philosophy (the oracle is the only judge) is non-negotiable. A formal white paper is on hold until there's real community-driven ProgramBench/SWE-bench data to publish alongside it; `docs/papers/WHITE_PAPER.md` exists but should be read as an evolving draft, not a finished publication.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Read [docs/papers/WHITE_PAPER.md](docs/papers/WHITE_PAPER.md) and [docs/papers/ARCHITECTURE.md](docs/papers/ARCHITECTURE.md) before submitting a PR — the design philosophy (the oracle is the only judge) is non-negotiable.
 
 **Priority contributions:**
 - Additional language validators (`scripts/validators/`)
@@ -317,6 +353,8 @@ organization, the best way to support continued development is:
 - 💖 [Sponsor on GitHub](https://github.com/sponsors/DarthCeltic)
 - 🐛 [Report bugs](https://github.com/DarthCeltic/determinex/issues/new?template=bug_report.md) or [request features](https://github.com/DarthCeltic/determinex/issues/new?template=feature_request.md)
 
+Consulting and private deployment help: **ryan@lunariandata.com**
+
 ---
 
 ## Citation
@@ -326,6 +364,7 @@ organization, the best way to support continued development is:
   author    = {Gurganious, Ryan},
   title     = {Determinex: Compiler-Verified Multi-Agent Code Intelligence with Privacy-Sovereign Cloud AI},
   year      = {2026},
+  publisher = {Lunarian Data Systems},
   url       = {https://github.com/DarthCeltic/determinex},
   note      = {AGPLv3}
 }
@@ -337,16 +376,16 @@ organization, the best way to support continued development is:
 
 GNU Affero General Public License v3.0 (AGPLv3) — see [LICENSE](LICENSE) and
 [docs/papers/LICENSING.md](docs/papers/LICENSING.md). OSI-approved open source.
-Fine-tuned model weights and adapters, once published, are covered by the
-same license unless a model card states otherwise. Base model licenses apply:
-[Qwen2.5](https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B),
+Fine-tuned model weights and adapters released by Lunarian Data Systems are
+covered by the same license unless a model card states otherwise. Base model
+licenses apply: [Qwen2.5](https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B),
 [Mistral 7B](https://huggingface.co/mistralai/Mistral-7B-v0.1).
 
 ---
 
 <div align="center">
 
-*Determinex · Ryan Gurganious · 2026*
+*Determinex · Ryan Gurganious · Lunarian Data Systems · 2026*
 
 </div>
 

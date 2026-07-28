@@ -4,7 +4,7 @@ import type { LoadingThemeProps } from "./types";
 
 const ARCHIVE_BOOT = [
   "ARCHIVE CORE TERMINAL ONLINE",
-  "DETERMINEX",
+  "LUNARIAN DATA SYSTEMS",
   "DETERMINEX EVIDENCE VESSEL",
   "MANIFEST CODE: 180924609",
   "ANALYZING TRANSMISSION SOURCE...",
@@ -117,7 +117,7 @@ export function ArchiveCoreTheme({
           {/* Left: ARCHIVE CORE terminal log */}
           <div className="flex-1 flex flex-col justify-center px-8 gap-1">
             <p
-              className="text-[8px] font-mono tracking-widest uppercase mb-3"
+              className="text-eyebrow font-mono tracking-widest uppercase mb-3"
               style={{ color: amberDim }}
             >
               ◄ ARCHIVE CORE 6000 TERMINAL ►
@@ -125,7 +125,7 @@ export function ArchiveCoreTheme({
             {ARCHIVE_BOOT.slice(0, visibleLines).map((line, i) => (
               <p
                 key={i}
-                className="text-[9px] font-mono"
+                className="text-meta font-mono"
                 style={{ color: i === visibleLines - 1 ? amber : amberDim }}
               >
                 {i === visibleLines - 1 ? "â–º " : "  "}
@@ -145,18 +145,18 @@ export function ArchiveCoreTheme({
                 className="w-10 h-10 border-2 rounded-full flex items-center justify-center animate-pulse"
                 style={{ borderColor: amber, boxShadow: `0 0 12px ${amber}50` }}
               >
-                <span className="text-[9px] font-mono font-bold" style={{ color: amber }}>
+                <span className="text-meta font-mono font-bold" style={{ color: amber }}>
                   MU
                 </span>
               </div>
               <p
-                className="text-[11px] font-mono font-bold tracking-widest uppercase text-center"
+                className="text-meta font-mono font-bold tracking-widest uppercase text-center"
                 style={{ color: amber }}
               >
                 {label}
               </p>
               {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
-                <p className="text-[9px] font-mono tabular-nums" style={{ color: amberDim }}>
+                <p className="text-meta font-mono tabular-nums" style={{ color: amberDim }}>
                   ELAPSED: {elapsedSeconds}s
                 </p>
               )}
@@ -178,12 +178,12 @@ export function ArchiveCoreTheme({
                     }}
                   />
                   <span
-                    className="text-[8px] font-mono uppercase"
+                    className="text-eyebrow font-mono uppercase"
                     style={{ color: nodeActive ? amber : amberDim }}
                   >
                     {role}
                   </span>
-                  <span className="text-[7px] font-mono ml-auto" style={{ color: amberDim }}>
+                  <span className="text-meta font-mono ml-auto" style={{ color: amberDim }}>
                     {nodeActive ? "ACTIVE" : "STBY"}
                   </span>
                 </div>
@@ -200,10 +200,10 @@ export function ArchiveCoreTheme({
       <canvas ref={canvasRef} className="absolute inset-0 opacity-60" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0.85)_100%)]" />
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-        <span className="text-[11px] font-mono animate-pulse" style={{ color: amber }}>
+        <span className="text-label font-mono animate-pulse" style={{ color: amber }}>
           â–ˆ
         </span>
-        <p className="text-[9px] font-mono tracking-widest uppercase" style={{ color: amberDim }}>
+        <p className="text-eyebrow font-mono tracking-widest uppercase" style={{ color: amberDim }}>
           {label}
         </p>
       </div>

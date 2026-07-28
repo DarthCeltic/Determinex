@@ -16,14 +16,18 @@ import {
 } from "lucide-react";
 import { ModelSelectorDropdown } from "@/components/ModelSelectorDropdown";
 import { isTauri, getHealthTelemetry } from "@/lib/api";
+import { getRoleAssignments, type RoleAssignments } from "@/lib/api";
 
 interface BrainStageProps {
   selectedModel: string;
   modelTiers: any[];
+  /** Refetch the models registry after the user adds a model. */
+  onModelAdded?: (modelId: string) => void;
   tandemPresets: any[];
   onSelectModel: (id: string) => void;
   matrixLogs: string[];
   onOpenModelSlots?: () => void;
+  onOpenProof?: () => void;
 }
 
 function TelemetryGauge({
@@ -43,19 +47,28 @@ function TelemetryGauge({
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">{label}</span>
+        <span className="text-meta font-bold uppercase tracking-widest text-gray-500">{label}</span>
         {value === null ? (
-          <span className="font-mono text-[11px] text-gray-700">—</span>
+          <span className="font-mono text-label text-gray-700">—</span>
         ) : (
-          <span className="font-mono text-[11px]" style={{ color }}>
-            {value}{unit} <span className="text-gray-600">/ {max}{unit}</span>
+          <span className="font-mono text-label" style={{ color }}>
+            {value}
+            {unit}{" "}
+            <span className="text-gray-600">
+              / {max}
+              {unit}
+            </span>
           </span>
         )}
       </div>
       <div className="h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
         <div
           className="h-full rounded-full transition-all duration-700"
-          style={{ width: `${pct}%`, background: color, boxShadow: value !== null ? `0 0 8px ${color}` : "none" }}
+          style={{
+            width: `${pct}%`,
+            background: color,
+            boxShadow: value !== null ? `0 0 8px ${color}` : "none",
+          }}
         />
       </div>
     </div>
@@ -65,13 +78,16 @@ function TelemetryGauge({
 export function BrainStage({
   selectedModel,
   modelTiers,
+  onModelAdded,
   tandemPresets,
   onSelectModel,
   matrixLogs,
   onOpenModelSlots,
+  onOpenProof,
 }: BrainStageProps) {
   const [telemetry, setTelemetry] = useState<Record<string, any> | null>(null);
   const [tauriActive] = useState(() => isTauri());
+  const [roles, setRoles] = useState<RoleAssignments | null>(null);
 
   useEffect(() => {
     if (!tauriActive) return;
@@ -84,6 +100,12 @@ export function BrainStage({
     const id = setInterval(poll, 8000);
     return () => clearInterval(id);
   }, [tauriActive]);
+
+  useEffect(() => {
+    getRoleAssignments()
+      .then(setRoles)
+      .catch(() => setRoles(null));
+  }, []);
 
   const latestLogs = matrixLogs.slice(-16);
 
@@ -107,17 +129,18 @@ export function BrainStage({
         {/* Header */}
         <div className="flex flex-wrap items-start justify-between gap-4 border-b border-white/10 pb-4">
           <div>
-            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[var(--determinex-accent)]">
+            <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-[var(--determinex-accent)]">
               <Brain size={14} /> Engine Room
             </div>
             <h2
-              className="mt-2 text-[28px] font-black leading-tight text-[var(--determinex-text)]"
+              className="mt-2 text-hero font-black leading-tight text-[var(--determinex-text)]"
               style={{ fontFamily: "var(--determinex-font-display)" }}
             >
               Brain & Model Slots
             </h2>
-            <p className="mt-1 max-w-xl text-[11px] leading-relaxed text-[var(--determinex-muted)]">
-              Route Oracle, Architect, Builder, and Monitor through local models, API calls, or a hybrid stack.
+            <p className="mt-1 max-w-xl text-label leading-relaxed text-[var(--determinex-muted)]">
+              Route Oracle, Architect, Builder, and Monitor through local models, API calls, or a
+              hybrid stack.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -125,12 +148,12 @@ export function BrainStage({
               <button
                 type="button"
                 onClick={onOpenModelSlots}
-                className="flex items-center gap-1.5 rounded-full border border-orange-400/30 bg-orange-950/30 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-orange-300 transition-all hover:bg-orange-900/40"
+                className="flex items-center gap-1.5 rounded-full border border-orange-400/30 bg-orange-950/30 px-3 py-1.5 text-meta font-black uppercase tracking-widest text-orange-300 transition-all hover:bg-orange-900/40"
               >
                 <Settings size={11} /> Model Slots
               </button>
             )}
-            <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-3 py-1.5 text-[10px] font-mono text-emerald-400">
+            <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-3 py-1.5 text-label font-mono text-emerald-400">
               <Circle size={6} className="fill-emerald-400 animate-pulse" /> Brain Online
             </span>
           </div>
@@ -144,7 +167,7 @@ export function BrainStage({
           {/* Top Left: Model Topologies */}
           <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-black/30 p-5 shadow-xl backdrop-blur-md transition-all hover:border-white/20 overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h3 className="flex items-center gap-2 text-[12px] font-black uppercase tracking-widest text-[var(--determinex-text)]">
+              <h3 className="flex items-center gap-2 text-body font-black uppercase tracking-widest text-[var(--determinex-text)]">
                 <Database size={16} className="text-orange-400" /> Active Topologies
               </h3>
             </div>
@@ -155,6 +178,7 @@ export function BrainStage({
                 tandemPresets={tandemPresets}
                 onSelectModel={onSelectModel}
                 onSelectTopology={(_, name) => onSelectModel(name)}
+                onModelAdded={onModelAdded}
               />
             </div>
           </div>
@@ -162,81 +186,145 @@ export function BrainStage({
           {/* Top Right: System Telemetry */}
           <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-black/30 p-5 shadow-xl backdrop-blur-md transition-all hover:border-white/20 overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h3 className="flex items-center gap-2 text-[12px] font-black uppercase tracking-widest text-[var(--determinex-text)]">
+              <h3 className="flex items-center gap-2 text-body font-black uppercase tracking-widest text-[var(--determinex-text)]">
                 <Cpu size={16} className="text-cyan-400" /> System Telemetry
               </h3>
-              {tauriActive ? (
-                <span className="rounded-full border border-cyan-500/20 bg-cyan-950/30 px-2 py-0.5 font-mono text-[9px] text-cyan-400">
+              {tauriActive && cpuPct !== null ? (
+                <span className="rounded-full border border-cyan-500/20 bg-cyan-950/30 px-2 py-0.5 font-mono text-meta text-cyan-400">
                   LIVE
                 </span>
               ) : (
-                <span className="rounded-full border border-gray-700 bg-black/40 px-2 py-0.5 font-mono text-[9px] text-gray-600">
-                  BROWSER
+                <span className="rounded-full border border-gray-700 bg-black/40 px-2 py-0.5 font-mono text-meta text-gray-600">
+                  {tauriActive ? "NOT WIRED" : "BROWSER"}
                 </span>
               )}
             </div>
-            {tauriActive ? (
+            {tauriActive && cpuPct !== null ? (
               <div className="flex-1 flex flex-col gap-4 justify-center">
                 <TelemetryGauge label="CPU" value={cpuPct} max={100} color="#22d3ee" unit="%" />
-                <TelemetryGauge label="RAM" value={ramUsedGb} max={ramTotalGb} color="#a78bfa" unit="GB" />
+                <TelemetryGauge
+                  label="RAM"
+                  value={ramUsedGb}
+                  max={ramTotalGb}
+                  color="#a78bfa"
+                  unit="GB"
+                />
+              </div>
+            ) : tauriActive ? (
+              <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center opacity-50">
+                <AlertCircle size={22} className="text-gray-600" />
+                <p className="text-label font-mono text-gray-600 leading-relaxed">
+                  get_health_telemetry doesn&apos;t report CPU/RAM yet.
+                  <br />
+                  Not measured -- not a stalled &quot;0%&quot;.
+                </p>
               </div>
             ) : (
               <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center opacity-50">
                 <AlertCircle size={22} className="text-gray-600" />
-                <p className="text-[10px] font-mono text-gray-600 leading-relaxed">
-                  Telemetry requires the Tauri desktop app.<br />
+                <p className="text-label font-mono text-gray-600 leading-relaxed">
+                  Telemetry requires the Tauri desktop app.
+                  <br />
                   Running in browser — no hardware data.
                 </p>
               </div>
             )}
           </div>
 
-          {/* Bottom Left: Role routing */}
+          {/* Bottom Left: Role routing -- was 4 rows of static placeholder text
+              ("Intent + questions", "Plan + DAG"...) that never reflected what
+              model was actually assigned to each role. Now reads the real
+              litellm_config.yaml assignments via get_role_assignments. */}
           <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-black/30 p-5 shadow-xl backdrop-blur-md transition-all hover:border-white/20 overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h3 className="flex items-center gap-2 text-[12px] font-black uppercase tracking-widest text-[var(--determinex-text)]">
+              <h3 className="flex items-center gap-2 text-body font-black uppercase tracking-widest text-[var(--determinex-text)]">
                 <Zap size={16} className="text-emerald-400" /> Role Slots
               </h3>
+              {onOpenModelSlots && (
+                <button
+                  type="button"
+                  onClick={onOpenModelSlots}
+                  className="text-eyebrow font-black uppercase tracking-widest text-gray-600 hover:text-gray-300 transition-colors"
+                >
+                  Edit
+                </button>
+              )}
             </div>
             <div className="flex flex-col gap-3 flex-1">
               {[
-                { label: "Oracle", value: "Intent + questions", sub: "Turns the user request into a project direction and specification.", color: "text-emerald-400", bar: null },
-                { label: "Architect", value: "Plan + DAG", sub: "Breaks the spec into ordered work steps and verifier checkpoints.", color: "text-cyan-400", bar: null },
-                { label: "Builder", value: "Code changes", sub: "Writes files through the selected local, API, or hybrid model route.", color: "text-violet-400", bar: null },
-                { label: "Monitor", value: "Review + repair", sub: "Reads compiler/test output, retries failures, and explains blockers.", color: "text-amber-400", bar: null },
+                {
+                  label: "Oracle",
+                  value: roles?.oracle,
+                  sub: "Turns the user request into a project direction and specification.",
+                  color: "text-emerald-400",
+                },
+                {
+                  label: "Architect",
+                  value: roles?.architect,
+                  sub: "Breaks the spec into ordered work steps and verifier checkpoints.",
+                  color: "text-cyan-400",
+                },
+                {
+                  label: "Builder",
+                  value: roles?.builder,
+                  sub: "Writes files through the selected local, API, or hybrid model route.",
+                  color: "text-violet-400",
+                },
+                {
+                  label: "Monitor",
+                  value: roles?.monitor,
+                  sub: "Reads compiler/test output, retries failures, and explains blockers.",
+                  color: "text-amber-400",
+                },
               ].map((row) => (
-                <div key={row.label} className="rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2.5">
+                <div
+                  key={row.label}
+                  className="rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2.5"
+                >
                   <div className="flex items-center justify-between gap-2 mb-0.5">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">{row.label}</span>
-                    <span className={`font-mono text-[11px] font-black ${row.color}`}>{row.value}</span>
+                    <span className="text-meta font-bold uppercase tracking-widest text-gray-500">
+                      {row.label}
+                    </span>
+                    <span
+                      className={`font-mono text-label font-black truncate max-w-[160px] ${row.value ? row.color : "text-gray-700"}`}
+                    >
+                      {row.value ?? "loading..."}
+                    </span>
                   </div>
-                  <p className="text-[9px] text-gray-600 font-mono">{row.sub}</p>
-                  {row.bar !== null && (
-                    <div className="mt-2 h-1 w-full rounded-full bg-white/5 overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-emerald-400 transition-all duration-1000"
-                        style={{ width: `${row.bar * 100}%`, boxShadow: "0 0 6px rgba(52,211,153,0.5)" }}
-                      />
-                    </div>
-                  )}
+                  <p className="text-meta text-gray-600 font-mono">{row.sub}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Bottom Right: Live Log */}
+          {/* Bottom Right: Live Log -- the same matrixLogs array Proof shows in
+              full with real controls (session library, verdict, pipeline
+              state). This was a second, unstyled copy of the same data with
+              no way to act on it; a link there is more honest than a
+              duplicate. */}
           <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-black/30 p-5 shadow-xl backdrop-blur-md transition-all hover:border-white/20 overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h3 className="flex items-center gap-2 text-[12px] font-black uppercase tracking-widest text-[var(--determinex-text)]">
+              <h3 className="flex items-center gap-2 text-body font-black uppercase tracking-widest text-[var(--determinex-text)]">
                 <Terminal size={16} className="text-violet-400" /> Live Session Log
               </h3>
-              {latestLogs.length > 0 && (
-                <span className="rounded-full border border-violet-500/20 bg-violet-950/30 px-2 py-0.5 font-mono text-[9px] text-violet-400 animate-pulse">
-                  ACTIVE
-                </span>
-              )}
+              <div className="flex items-center gap-2">
+                {latestLogs.length > 0 && (
+                  <span className="rounded-full border border-violet-500/20 bg-violet-950/30 px-2 py-0.5 font-mono text-meta text-violet-400 animate-pulse">
+                    ACTIVE
+                  </span>
+                )}
+                {onOpenProof && (
+                  <button
+                    type="button"
+                    onClick={onOpenProof}
+                    className="text-eyebrow font-black uppercase tracking-widest text-gray-600 hover:text-gray-300 transition-colors"
+                  >
+                    Full log in Proof
+                  </button>
+                )}
+              </div>
             </div>
-            <div className="flex-1 overflow-y-auto no-scrollbar font-mono text-[9px] leading-relaxed">
+            <div className="flex-1 overflow-y-auto no-scrollbar font-mono text-meta leading-relaxed">
               {latestLogs.length > 0 ? (
                 latestLogs.map((log, i) => (
                   <div
@@ -259,7 +347,11 @@ export function BrainStage({
               ) : (
                 <div className="flex flex-col items-center justify-center h-full gap-2 text-center opacity-50">
                   <Activity size={18} className="text-gray-700" />
-                  <p className="text-gray-600">No active session.<br />Start a hive run in Work.</p>
+                  <p className="text-gray-600">
+                    No active session.
+                    <br />
+                    Start a hive run in Work.
+                  </p>
                 </div>
               )}
             </div>
@@ -276,11 +368,18 @@ export function BrainStage({
               <BarChart3 size={16} className="text-[var(--determinex-accent)]" />
             </div>
             <div>
-              <div className="text-[11px] font-black uppercase tracking-widest text-[var(--determinex-text)]">System Benchmarks</div>
-              <div className="text-[9px] text-gray-600 font-mono mt-0.5">ProgramBench · SWE-bench · Model scores · Campaign timeline</div>
+              <div className="text-meta font-black uppercase tracking-widest text-[var(--determinex-text)]">
+                System Benchmarks
+              </div>
+              <div className="text-meta text-gray-600 font-mono mt-0.5">
+                ProgramBench · SWE-bench · Model scores · Campaign timeline
+              </div>
             </div>
           </div>
-          <ExternalLink size={14} className="text-gray-600 group-hover:text-[var(--determinex-accent)] transition-colors shrink-0" />
+          <ExternalLink
+            size={14}
+            className="text-gray-600 group-hover:text-[var(--determinex-accent)] transition-colors shrink-0"
+          />
         </a>
       </div>
     </div>

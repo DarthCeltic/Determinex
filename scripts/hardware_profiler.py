@@ -218,7 +218,7 @@ class TierProfile:
                 tier=3, label="High-End",
                 vram_gb_detected=vram, gpu_vendor=vendor,
                 models=[
-                    ModelSpec("determinex-7-large-v1.1",  7.7, "DarthCeltic/determinex-7-large-v1.1-gguf",  -1),
+                    ModelSpec("determinex-7-large-v1.1",  7.7, "determinex-ai/determinex-7-large-v1.1-gguf",  -1),
                 ],
                 wheel_index_url=wheel_url, n_gpu_layers=-1, api_fallback=False,
             )
@@ -227,7 +227,7 @@ class TierProfile:
                 tier=2, label="Mid-Range",
                 vram_gb_detected=vram, gpu_vendor=vendor,
                 models=[
-                    ModelSpec("determinex-7-large-v1.1",  7.7, "DarthCeltic/determinex-7-large-v1.1-gguf",  -1),
+                    ModelSpec("determinex-7-large-v1.1",  7.7, "determinex-ai/determinex-7-large-v1.1-gguf",  -1),
                 ],
                 wheel_index_url=wheel_url, n_gpu_layers=-1, api_fallback=False,
             )
@@ -236,7 +236,7 @@ class TierProfile:
                 tier=1, label="Entry",
                 vram_gb_detected=vram, gpu_vendor=vendor,
                 models=[
-                    ModelSpec("determinex-3-medium-v1.1", 3.3, "DarthCeltic/determinex-3-medium-v1.1-gguf", 20),
+                    ModelSpec("determinex-3-medium-v1.1", 3.3, "determinex-ai/determinex-3-medium-v1.1-gguf", 20),
                 ],
                 wheel_index_url=wheel_url, n_gpu_layers=20, api_fallback=True,
             )
@@ -245,7 +245,7 @@ class TierProfile:
                 tier=0, label="Minimal (CPU/API)",
                 vram_gb_detected=vram, gpu_vendor="none" if vram == 0.0 else vendor,
                 models=[
-                    ModelSpec("determinex-1-tiny-v1.1",   1.6, "DarthCeltic/determinex-1-tiny-v1.1-gguf",    0),
+                    ModelSpec("determinex-1-tiny-v1.1",   1.6, "determinex-ai/determinex-1-tiny-v1.1-gguf",    0),
                 ],
                 wheel_index_url=_CPU_WHEEL_INDEX, n_gpu_layers=0, api_fallback=True,
             )

@@ -114,15 +114,23 @@ export const FREE_CLOUD_ROUTE_OPTIONS: AiRouteOption[] = [
 export const CLOUD_ROUTE_OPTIONS: AiRouteOption[] = [
   {
     id: "cloud/claude-best",
-    label: "Claude Opus",
+    label: "Claude Opus 4.8",
     provider: "anthropic",
     providerLabel: "Anthropic",
     kind: "cloud",
     note: "quality route",
   },
   {
+    id: "cloud/claude-mid",
+    label: "Claude Sonnet 5",
+    provider: "anthropic",
+    providerLabel: "Anthropic",
+    kind: "cloud",
+    note: "balanced route",
+  },
+  {
     id: "cloud/claude-fast",
-    label: "Claude Haiku",
+    label: "Claude Haiku 4.5",
     provider: "anthropic",
     providerLabel: "Anthropic",
     kind: "cloud",
@@ -175,6 +183,14 @@ export const CLOUD_ROUTE_OPTIONS: AiRouteOption[] = [
     providerLabel: "Google",
     kind: "cloud",
     note: "fast multimodal route",
+  },
+  {
+    id: "cloud/kimi-k2",
+    label: "Kimi K2",
+    provider: "kimi",
+    providerLabel: "Moonshot AI",
+    kind: "cloud",
+    note: "long-context route",
   },
 ];
 

@@ -137,6 +137,13 @@ jobs:
         run: npm run format-check
       - name: Vitest smoke tests (≥10 tests)
         run: npm test
+      # Shell smoke specs. @playwright/test was a dependency with zero specs for
+      # months, so every UI check was a manual screenshot; these cover boot,
+      # rail reachability, drawer navigation and content clipping.
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Playwright shell specs
+        run: npx playwright test
 
   rust-check:
     name: Rust (cargo check)

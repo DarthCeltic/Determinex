@@ -31,7 +31,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import determinex_observe as OBS
 import determinex_reimpl_corpus as CORPUS
-from determinex_contract import guard as contract_guard, native_code_contract, py_contract
+from determinex_contract import guard as contract_guard, native_code_contract, py_contract, trap_guard
 from determinex_router import ModelEntry, ModelRouter
 from determinex_case_memory import CaseMemory
 
@@ -395,6 +395,68 @@ def parse_model_ladder(spec: str) -> list[tuple[str, int, float]]:
     return ladder
 
 
+def preflight_ladder(ladder_names: list[str], host: str = "http://localhost:11434") -> list[str]:
+    """Verify every model in a --models ladder is ACTUALLY reachable before a drive spends
+    any real compute -- observe/decompose can run for hours, and a broken escalation tier
+    was previously indistinguishable from 'the model tried hard and failed' (see
+    _is_generation_error_text: the error text just became the failing candidate, silently,
+    for every single sample at that tier, for the whole run).
+
+    Found live 2026-07-18: the reimpl drive's default ladder named
+    'ollama/qwen2.5-coder:14b-instruct' as its escalation tier, but that model was never
+    pulled -- every escalation attempt across 6+ stations silently produced a generation
+    error masquerading as a wrong-code sample, and nobody could tell without querying
+    Ollama by hand. Mirrors the equivalent check already in scripts/hive/executor.py
+    ('Ollama model pre-flight') -- this is the same class of gap in a sibling subsystem.
+
+    Returns a list of human-readable problems (empty = every model in the ladder is ready
+    to actually generate). Never raises -- a network hiccup here shouldn't crash a caller
+    that hasn't decided how to react yet; the CALLER decides whether to abort."""
+    import json as _json
+    import urllib.request
+    problems: list[str] = []
+
+    installed_ollama: set[str] | None = None
+
+    def _ollama_installed() -> set[str]:
+        nonlocal installed_ollama
+        if installed_ollama is None:
+            try:
+                req = urllib.request.urlopen(host + "/api/tags", timeout=5)
+                data = _json.loads(req.read())
+                installed_ollama = {m.get("name") or m.get("model") or ""
+                                    for m in data.get("models", [])}
+                installed_ollama.discard("")
+            except Exception as e:
+                problems.append(f"could not reach Ollama at {host} ({e}) -- "
+                                f"any ollama/* ladder entry cannot be verified")
+                installed_ollama = set()
+        return installed_ollama
+
+    for raw in ladder_names:
+        name = raw.strip()
+        if not name:
+            continue
+        low = name.lower()
+        if low.startswith(("local/", "ollama/", "tiny/")):
+            bare = name.split("/", 1)[1]
+            tags = _ollama_installed()
+            if tags and bare not in tags and not any(t.startswith(bare + ":") for t in tags):
+                problems.append(f"'{name}' -> Ollama has no model '{bare}' registered "
+                                f"(run `ollama pull {bare}` or fix the --models spec; "
+                                f"`ollama list` for what's actually available)")
+        elif uses_raw_deepseek_api(name):
+            if not _api_key("DEEPSEEK_API_KEY"):
+                problems.append(f"'{name}' needs DEEPSEEK_API_KEY, not set")
+        elif uses_raw_gemini_api(name):
+            if not (_api_key("GEMINI_API_KEY") or _api_key("GOOGLE_API_KEY")):
+                problems.append(f"'{name}' needs GEMINI_API_KEY, not set")
+        elif low.startswith("claude"):
+            if not _api_key("ANTHROPIC_API_KEY"):
+                problems.append(f"'{name}' needs ANTHROPIC_API_KEY, not set")
+    return problems
+
+
 def _model_ctx_len(model: str, host: str, default: int = 32768) -> int:
     """Query the model's native context length via /api/show (rotating cap, not a fixed
     guess). Different models differ wildly (qwen2.5-coder 32k, qwen3moe 256k)."""
@@ -510,10 +572,83 @@ _TASK_INPUTS: dict[str, list[OBS.Probe]] = {
 
 # DETERMINEX RULE: native submissions. Set by main() from --lang; the prompt builders inject the
 # language directive so the model rebuilds the tool in ITS language, compiler-verified.
-_LANG = "python"
+_LANG: str = "python"
 _LANG_RUN = {"python": "python3 main.py", "go": "the compiled Go binary",
              "rust": "the compiled Rust binary", "c": "the compiled C binary",
              "cpp": "the compiled C++ binary", "haskell": "the compiled Haskell binary"}
+# Single shared source for the output filename per language -- build_prompt() and
+# build_incremental_prompt() both need this; a second hand-copied dict is exactly how
+# build_prompt()'s "Your task" trailer silently stayed hardcoded to Python long after
+# _lang_directive() was fixed to support native languages (found + fixed 2026-07-16).
+_FNAME_BY_LANG = {"python": "main.py", "rust": "main.rs", "go": "main.go", "c": "main.c",
+                  "cpp": "main.cpp", "haskell": "main.hs"}
+
+_LANG_REF_DIR = ROOT / "corpus" / "programbench" / "language_reference"
+_LANG_REF_FILE = {"rust": "rust.md", "go": "go.md", "c": "c.md", "cpp": "cpp.md"}
+_SYSTEMS_REF_FILE = _LANG_REF_DIR / "systems.md"
+
+# Non-language tool-CATEGORY families (file_renamers, search_grep, json_yaml_toml, ...) from
+# corpus/programbench/families/ -- real, hand-written convention knowledge (help/error/flag
+# shape per tool archetype) that predates the native-only rule and was orphaned: nothing in
+# the CURRENT native reimplementation driver read it (audited 2026-07-16, confirmed by Ryan's
+# "it might be orphaned"). The *_cli language families (rust_cli/go_cli/python_cli/node_cli)
+# are excluded here -- rust_cli/go_cli's genuinely useful convention content is already
+# absorbed into language_reference/{rust,go}.md; python_cli/node_cli aren't native-reimpl
+# targets. This wires the REMAINING, still-unused, still-accurate family knowledge back in
+# without duplicating anything -- zero new content-authoring cost.
+_EXCLUDED_LANGUAGE_FAMILIES = {"rust_cli", "go_cli", "python_cli", "node_cli"}
+
+
+def _language_reference_block(lang: str, max_chars: int = 8000) -> str:
+    """Curated, project-independent language grounding (grammar/stdlib/idioms for THIS
+    language) -- never the upstream project's own source, never another real benchmark
+    target's code (that's determinex_code_rag's job, and it's explicitly technique-only).
+    Empty for python (needs no native-build grounding) and for languages without a
+    reference file yet (haskell) -- absent, not fabricated."""
+    fname = _LANG_REF_FILE.get(lang)
+    if not fname:
+        return ""
+    path = _LANG_REF_DIR / fname
+    if not path.exists():
+        return ""
+    return path.read_text(encoding="utf-8")[:max_chars]
+
+
+def _systems_reference_block(max_chars: int = 8000) -> str:
+    """OS/runtime-environment grounding (exit codes, TTY/signal/locale/Docker-root
+    conventions) that applies regardless of implementation language -- distinct from
+    CROSS_TOOL_PITFALLS (observable OUTPUT conventions) and from per-language stdlib grounding
+    (language SYNTAX/API). Included for every language, not just native ones."""
+    if not _SYSTEMS_REF_FILE.exists():
+        return ""
+    return _SYSTEMS_REF_FILE.read_text(encoding="utf-8")[:max_chars]
+
+
+def _family_conventions_block(short: str, max_chars: int = 1800) -> str:
+    """Tool-CATEGORY convention knowledge (this tool's archetype -- file renamer, search/grep,
+    formatter, json/yaml tool, ...) mined from corpus/programbench/families/*/FAMILY.md.
+    Distinct axis from language grounding: this is 'what do file-renaming CLIs conventionally
+    do', not 'how does Rust work'. Best-effort: returns "" if the tool doesn't match a known
+    family, or the family has no FAMILY.md yet (several wave3 entries are still TODO stubs)."""
+    try:
+        import programbench_classify_family as CLASSIFY
+    except Exception:
+        return ""
+    try:
+        families = [f for f in CLASSIFY._classify_by_name(short) if f not in _EXCLUDED_LANGUAGE_FAMILIES]
+    except Exception:
+        return ""
+    if not families:
+        return ""
+    family = families[0]
+    matches = sorted((ROOT / "corpus" / "programbench" / "families").glob(f"wave*/{family}/FAMILY.md"))
+    if not matches:
+        return ""
+    try:
+        content = matches[0].read_text(encoding="utf-8")
+    except Exception:
+        return ""
+    return content[:max_chars]
 
 
 def _lang_directive() -> str:
@@ -582,6 +717,15 @@ def build_prompt(slug: str, docs: str, helptext: str, observations: list[OBS.Obs
     examples = OBS.observations_to_examples(observations)
     short = slug.split("__")[-1].split(".")[0]
     corpus = CORPUS.render_prompt_block(short, observations=observations)   # pitfalls + technique recipes + what Determinex knows
+    lang_ref = _language_reference_block(_LANG)
+    lang_ref_block = (f"## Language reference for `{_LANG}` (grounding, NOT this tool's source)\n"
+                       f"{lang_ref}\n\n") if lang_ref else ""
+    systems_ref = _systems_reference_block()
+    systems_ref_block = (f"## Systems/runtime conventions (apply regardless of language)\n"
+                          f"{systems_ref}\n\n") if systems_ref else ""
+    family_conv = _family_conventions_block(short)
+    family_conv_block = (f"## Tool-category conventions (this tool's archetype, not its own source)\n"
+                          f"{family_conv}\n\n") if family_conv else ""
     # CODE-RAG: idiomatic example code from OTHER real tools (NEVER this tool's own source -- excluded
     # by `short`). Technique reference for the builder. Best-effort -- skipped if not indexed yet.
     rag_block = ""
@@ -594,6 +738,27 @@ def build_prompt(slug: str, docs: str, helptext: str, observations: list[OBS.Obs
                          "tool you are building -- do not copy its logic):\n" + "\n".join(blocks) + "\n\n")
     except Exception:
         rag_block = ""
+    # DETERMINEX RULE: this trailer MUST stay _LANG-conditional. It previously hardcoded
+    # "Write a single self-contained Python 3 program" unconditionally for every language --
+    # a live contradiction with _lang_directive() above it (which correctly said "write Rust"
+    # etc.) on every native task. Found + fixed 2026-07-16; build_incremental_prompt() (the
+    # iterative fix-loop prompt) already got this right via fname/runcmd -- reuse the same
+    # _FNAME_BY_LANG source of truth so the two can't drift apart again.
+    fname = _FNAME_BY_LANG.get(_LANG, f"main.{_LANG}")
+    if _LANG == "python":
+        task_instruction = (
+            f"Write a single self-contained Python 3 program (`{fname}`) that, invoked as\n"
+            f"`python3 {fname} <args>` with the same stdin, reproduces the EXACT stdout and exit "
+            f"code\nshown above for EVERY case. Output ONLY the Python code in one ```python``` "
+            f"block, no prose.")
+    else:
+        names = {"go": "Go", "rust": "Rust", "c": "C", "cpp": "C++", "haskell": "Haskell"}
+        L = names.get(_LANG, _LANG)
+        task_instruction = (
+            f"Write a single self-contained {L} program (`{fname}`, standard library only) that, "
+            f"once compiled and run as the native binary with the same args/stdin, reproduces the "
+            f"EXACT stdout and exit code shown above for EVERY case. Output ONLY the {L} code in "
+            f"one ```{_LANG}``` code block, no prose.")
     return f"""You are reverse-engineering the CLI tool `{short}` to REIMPLEMENT it from scratch.
 {_lang_directive()}
 You may NOT use the original source, clone any repo, or wrap any binary. Write NEW code
@@ -604,7 +769,7 @@ that reproduces the tool's EXACT observable behavior (stdout and exit code) for 
 
 {corpus}
 
-{rag_block}## Tool docs (README)
+{lang_ref_block}{systems_ref_block}{family_conv_block}{rag_block}## Tool docs (README)
 {docs[:2200]}
 
 ## Tool --help
@@ -614,9 +779,7 @@ that reproduces the tool's EXACT observable behavior (stdout and exit code) for 
 {examples}
 
 ## Your task
-Write a single self-contained Python 3 program (`main.py`) that, invoked as
-`python3 main.py <args>` with the same stdin, reproduces the EXACT stdout and exit code
-shown above for EVERY case. Output ONLY the Python code in one ```python``` block, no prose.
+{task_instruction}
 
 CRITICAL rules derived from the observations — follow them exactly, even if counterintuitive:
 - INPUT SOURCE: if a non-flag ARGUMENT (e.g. a filename) is present, read THAT FILE as the
@@ -658,8 +821,7 @@ def build_incremental_prompt(current, new_obs, accepted, helptext, short):
     # among `accepted`. Found via cmatrix scoring 0.00 on 48/48 samples across both ladder
     # tiers with zero relevant guidance in the prompt.
     coach = CORPUS.render_prompt_block(short, max_chars=900, observations=accepted)
-    fname = {"python": "main.py", "rust": "main.rs", "go": "main.go", "c": "main.c",
-             "cpp": "main.cpp", "haskell": "main.hs"}.get(_LANG, f"main.{_LANG}")
+    fname = _FNAME_BY_LANG.get(_LANG, f"main.{_LANG}")
     runcmd = "python3 main.py <args>" if _LANG == "python" else "the COMPILED binary <args>"
     # STDERR (2026-07-02): make_verify requires an EXACT stderr match whenever the exit is
     # non-zero and stderr is non-empty (e.g. ncurses' "Error opening terminal: unknown." with
@@ -670,6 +832,35 @@ def build_incremental_prompt(current, new_obs, accepted, helptext, short):
     if o.returncode != 0 and o.stderr.strip():
         stderr_block = (f"  EXPECTED stderr (MUST MATCH EXACTLY -- part of the pass criteria):\n"
                         f"{o.stderr if len(o.stderr) <= 800 else o.stderr[:800] + '…'}\n")
+    # SIBLING ERROR EXAMPLES (2026-07-19, found live on gron's --ungron stations): when a
+    # behavior's pass criterion is an exact, non-obvious error-formatting rule (e.g. gron's
+    # "ungron failed for `<truncated-token>`: invalid statement" -- the shown token length
+    # varies per input in a way that encodes the tool's own tokenizer logic), keep_block's
+    # one-line "[+exact stderr]" flag tells the model a sibling case exists but not what it
+    # says. A model given exactly one such example per station has no way to infer the
+    # underlying rule; three isolated single-shot guesses is not the same signal as three
+    # examples seen together. Surface the FULL stderr for up to 3 prior siblings that share
+    # this behavior's first argv token (same flag) and also have an exact-stderr pass
+    # criterion, so the model can pattern-match the rule instead of memorizing one instance.
+    sibling_block = ""
+    if argv.split()[:1] and o.returncode != 0 and o.stderr.strip():
+        flag = argv.split()[0]
+        siblings = [
+            a for a in accepted[:-1]
+            if a.probe.argv[:1] and a.probe.argv[0] == flag
+            and a.returncode != 0 and a.stderr.strip()
+        ][-3:]
+        if siblings:
+            lines = "\n".join(
+                f"  - executable {' '.join(s.probe.argv)}{''.join(f' (file {fn}: {c})' for fn, c in s.probe.files.items())}"
+                f" -> exit {s.returncode}, stderr: {s.stderr.strip()[:200]}"
+                for s in siblings
+            )
+            sibling_block = (
+                f"\n## RELATED {flag} EXAMPLES ALREADY OBSERVED (same flag, different input --\n"
+                f"## study these together with the target above to find the SHARED formatting rule,\n"
+                f"## not just this one instance):\n{lines}\n"
+            )
     return f"""You are incrementally building a {_LANG} program `{fname}` that reimplements `{short}`,
 run as `{runcmd}`. Add ONE new behavior to the CURRENT program below.
 {coach}
@@ -683,7 +874,7 @@ run as `{runcmd}`. Add ONE new behavior to the CURRENT program below.
   invocation: executable {argv}{inp}
   EXPECTED exit={o.returncode}, stdout:
 {o.stdout if len(o.stdout)<=1200 else o.stdout[:1200]+'…'}
-{stderr_block}
+{stderr_block}{sibling_block}
 ## MUST ALSO STILL SATISFY (do not regress these)
 {keep_block}
 
@@ -850,6 +1041,19 @@ def incremental_solve(observations, ladder, helptext, short, k=4, rounds=2, case
         memo_failed = {getattr(f, "name", "") for f in (res.failures or [])}
         memo_cover = {x.probe.name for x in probes}
 
+    # ANOMALY GUARD (2026-07-18, found live on gron): a run of consecutive stations that
+    # ALL land at score 0.00 even after full ladder escalation is a distinct pattern from
+    # genuine incremental difficulty (which shows gradual partial credit). It usually means
+    # the PROBES feeding this station are malformed, not that the model is failing N
+    # equally hard problems in a row -- and each escalated attempt burns real compute (the
+    # gron case: 9 stations, ~10-15 min each on the biggest model in the ladder) before
+    # anyone notices. This is independent of _warn_if_probe_pool_poisoned (which catches
+    # the specific "identical reference stderr" signature up front) -- this one fires on
+    # ANY consecutive-zero run regardless of cause, and can re-fire per threshold crossing
+    # since a long autonomous run shouldn't go silent on a stuck pattern.
+    _consec_zero_stations = 0
+    _ZERO_STREAK_WARN_EVERY = 5
+
     for idx, o in enumerate(ordered):
         if o.probe.name in done:
             continue  # already handled in a prior (checkpointed) pass
@@ -934,6 +1138,17 @@ def incremental_solve(observations, ladder, helptext, short, k=4, rounds=2, case
         print(f"  [station {stations}] +{o.probe.name}: {fin.n_pass}/{len(accepted)} "
               f"(score {fin.score:.2f}) via {via}"
               f"{'' if o_solved else '  [UNSOLVED -- retried on next run]'}", flush=True)
+        if o_solved or fin.score > 1e-9:
+            _consec_zero_stations = 0
+        else:
+            _consec_zero_stations += 1
+            if _consec_zero_stations % _ZERO_STREAK_WARN_EVERY == 0:
+                print(f"  [decompose] ⚠ {_consec_zero_stations} CONSECUTIVE stations scored "
+                      f"0.00 even after full escalation (last: {o.probe.name}). This pattern "
+                      f"usually means the probes are malformed upstream, not that the model "
+                      f"is genuinely failing this many equally hard behaviors in a row -- "
+                      f"check the observation cache before spending more compute here.",
+                      flush=True)
         # Only a station whose OWN behavior actually passes is checkpointed as done.
         # An unsolved one stays out of `done` so a restart retries it (this pass keeps
         # moving -- later stations often add code that incidentally fixes it).
@@ -943,6 +1158,51 @@ def incremental_solve(observations, ladder, helptext, short, k=4, rounds=2, case
             _save_ckpt(checkpoint_path, sig, current, done, stations)
     print(f"  [decompose] {stations} stations, {escalated} needed escalation")
     return current, stations
+
+
+def _warn_if_probe_pool_poisoned(proposed: list, observations: list) -> bool:
+    """Sanity-check model-proposed exploration probes against their OBSERVED reference
+    behavior, before decompose ever spends a single station on them.
+
+    Found live 2026-07-18 driving gron: propose_probes() explicitly instructs the model to
+    return "flags only, after the program name", but the model echoed the program name
+    anyway ("gron -u" instead of "-u"). The parser only checked that the line contained a
+    flag token, so the whole ['gron', '-u'] survived into Probe.argv (which must exclude
+    the program name -- see Probe's own docstring). The reference binary then treated
+    'gron' as a bogus positional filename and errored identically ("open gron: no such
+    file or directory") on EVERY one of the 11 exploration probes. Nine consecutive
+    decompose stations then escalated all the way to the biggest model in the ladder
+    trying to byte-match that nonsense -- roughly two hours of real compute -- before a
+    human caught it by hand inspecting the raw observation cache.
+
+    That argv-echo bug is now fixed at the source (determinex_observe.propose_probes), but
+    this is a distinct, generalizable check: DIFFERENT invocations producing an IDENTICAL
+    reference error is itself a strong, cheap, automatable signal that something upstream
+    is malformed -- whatever the specific cause turns out to be next time. Prints a loud,
+    actionable warning and returns True if triggered; never raises, never blocks the run
+    (an autonomous loop should flag anomalies, not silently halt on them)."""
+    if len(proposed) < 5:
+        return False
+    proposed_names = {p.name for p in proposed}
+    by_name = {o.probe.name: o for o in observations if o.probe.name in proposed_names}
+    stderrs = [by_name[p.name].stderr.strip() for p in proposed if p.name in by_name]
+    if not stderrs:
+        return False
+    from collections import Counter
+    counts = Counter(s for s in stderrs if s)
+    if not counts:
+        return False
+    common_err, n = counts.most_common(1)[0]
+    if n >= max(3, int(len(stderrs) * 0.6)):
+        print(f"[observe] ⚠ SUSPECT PROBE POOL: {n}/{len(stderrs)} exploration probes "
+              f"produced the IDENTICAL reference stderr {common_err[:120]!r}. Distinct flag "
+              f"combinations genuinely erroring identically this often is unlikely -- this "
+              f"usually means the probes themselves are malformed upstream (e.g. a leaked "
+              f"token in argv), not that decompose is facing {n} equally hard behaviors. "
+              f"Inspect the observation cache before trusting these stations' results.",
+              flush=True)
+        return True
+    return False
 
 
 def _load_spec_assertion_observations(short: str, slug: str, image: str) -> list:
@@ -1058,6 +1318,7 @@ def main() -> int:
         # invocations from --help/docs -- FLAG VALUES (--style rounded) + combinations a fixed battery
         # misses. Cheap now that observe is exec-fast. This is what makes us coverage-comparable to a
         # bare agent, then the compiler oracle verifies (the half they lack).
+        proposed: list = []
         try:
             parsed_models = parse_model_ladder(args.models)
             primary_model = (parsed_models[0][0] if parsed_models else args.model)
@@ -1071,6 +1332,7 @@ def main() -> int:
         observations = OBS.observe_in_image(image, "/workspace/executable", probes)
         # keep only deterministic, non-empty-or-meaningful observations
         print(f"[observe] captured {len(observations)} observations")
+        _warn_if_probe_pool_poisoned(proposed, observations)
         # TUI GAP (found 2026-07-02 hand-driving tty-clock): observe_in_image's plain docker-exec
         # probes have no pty and never set TERM, so an ncurses/curses tool's reference behavior is
         # NEVER actually seen (every probe reads "Error opening terminal: unknown") -- the model
@@ -1135,14 +1397,29 @@ def main() -> int:
     def _entry(name: str, tier: int, cost: float) -> ModelEntry:
         raw = make_generator(name)
         gen = contract_guard(lambda p, t, _raw=raw: extract_code(_raw(p, t)), _candidate_contract)
+        # KNOWN-TRAPS TWO-STRIKE GATE (2026-07-16): a first occurrence of a documented
+        # language pitfall (see corpus/programbench/language_reference/*.md) passes through
+        # untouched -- the real oracle is still the only judge of a first attempt. Only if
+        # this SAME model-ladder entry repeats the SAME trap in a LATER candidate (meaning it
+        # was warned and ignored it) does this gate before the candidate reaches the
+        # compiler. Fresh instance per entry -> a router escalation to a stronger model tier
+        # starts with a clean slate, never inheriting a weaker model's warnings.
+        if args.lang != "python":
+            gen = trap_guard(gen, args.lang)
         return ModelEntry(name, tier=tier, cost=cost, generate=gen)
 
-    if args.models.strip():
-        ladder = []
-        for name, tier, cost in parse_model_ladder(args.models):
-            ladder.append(_entry(name, tier, cost))
-    else:
-        ladder = [_entry(args.model, 1, 1.0)]
+    ladder_specs = (parse_model_ladder(args.models) if args.models.strip()
+                    else [(args.model, 1, 1.0)])
+    _pf_problems = preflight_ladder([n for n, _t, _c in ladder_specs])
+    if _pf_problems:
+        print("\n[MODEL PREFLIGHT] FAIL -- the run has NOT started (would have silently "
+              "burned real compute treating these as 'the model tried and failed'):")
+        for p in _pf_problems:
+            print(f"  ✗ {p}")
+        print("Fix the --models spec (or the missing key/model) and re-run.\n")
+        return 1
+    print(f"[MODEL PREFLIGHT] OK -- {len(ladder_specs)} ladder tier(s) all reachable")
+    ladder = [_entry(name, tier, cost) for name, tier, cost in ladder_specs]
     primary_name = ladder[0].name
 
     if args.decompose:

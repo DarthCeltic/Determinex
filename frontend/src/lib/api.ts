@@ -35,6 +35,18 @@ export function isTauri(): boolean {
   );
 }
 
+// True only for `next dev` (what `tauri dev` runs under the hood) -- false for
+// `next build`'s static export, which is what actually ships to a real end
+// user. Next.js statically replaces process.env.NODE_ENV at build time, so
+// the `false` branch of anything gated on this is dead-code-eliminated from
+// the production bundle, not just hidden at runtime. Used to keep Determinex's
+// own internal release-tracking tooling (Mission Control, Roadmap) reachable
+// while building Determinex itself, without shipping it to end users working
+// on their own projects.
+export function isInternalBuild(): boolean {
+  return process.env.NODE_ENV !== "production";
+}
+
 // ── Shared response shapes ─────────────────────────────────────────────────────
 
 interface ThreadsResponse {
@@ -48,6 +60,7 @@ interface KeyStatusResponse {
   deepseek: boolean;
   mistral: boolean;
   openrouter: boolean;
+  kimi: boolean;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface FsTreeResponse {
@@ -119,7 +132,8 @@ export async function saveApiKeys(payload: {
   groq_key: string;
   deepseek_key: string;
   mistral_key: string;
-  openrouter_key: string;
+  openrouter_key?: string;
+  kimi_key?: string;
 }) {
   if (!isTauri()) return;
   return await invoke("save_api_keys", { keys: payload });
@@ -135,52 +149,31 @@ export async function getThreads(): Promise<ThreadsResponse> {
   }
 }
 
-export interface ModelTierOption {
-  id: string;
-  label: string;
-  engineer_model: string;
-  num_ctx: number;
-  min_budget_mb: number;
-  approx_download_gb: number;
-  description: string;
-  recommended: boolean;
-}
-
-export async function listModelTiers(): Promise<ModelTierOption[]> {
-  try {
-    if (isTauri()) return await invoke<ModelTierOption[]>("list_model_tiers");
-    return [];
-  } catch (error) {
-    console.error("Failed to list model tiers:", error);
-    return [];
-  }
-}
-
-export interface PullSummary {
-  models_pulled: string[];
-  models_existing: string[];
-  models_failed: string[];
-  tier_resolved: string;
-  vram_budget_mb: number;
-}
-
-export async function pullCustomModel(tag: string): Promise<PullSummary> {
-  if (!isTauri()) throw new Error("Model pulling requires the desktop app.");
-  return await invoke<PullSummary>("pull_custom_model", { tag });
-}
-
-export async function registerCustomGguf(url: string, tag: string, numCtx: number): Promise<string> {
-  if (!isTauri()) throw new Error("Model registration requires the desktop app.");
-  return await invoke<string>("register_custom_gguf", { url, tag, numCtx });
-}
-
 export async function getApiKeyStatus(): Promise<KeyStatusResponse> {
   try {
     if (isTauri()) return await invoke<KeyStatusResponse>("get_api_key_status");
-    return { openai: false, anthropic: false, gemini: false, groq: false, deepseek: false, mistral: false, openrouter: false };
+    return {
+      openai: false,
+      anthropic: false,
+      gemini: false,
+      groq: false,
+      deepseek: false,
+      mistral: false,
+      openrouter: false,
+      kimi: false,
+    };
   } catch (error) {
     console.error("Failed to get key status:", error);
-    return { openai: false, anthropic: false, gemini: false, groq: false, deepseek: false, mistral: false, openrouter: false };
+    return {
+      openai: false,
+      anthropic: false,
+      gemini: false,
+      groq: false,
+      deepseek: false,
+      mistral: false,
+      openrouter: false,
+      kimi: false,
+    };
   }
 }
 
@@ -409,13 +402,23 @@ export async function toggleVanguardTelemetry(enabled: boolean): Promise<boolean
   return invoke<boolean>("toggle_vanguard_telemetry", { enabled });
 }
 
-export async function getOllamaModels(baseUrl?: string): Promise<
+export async function getOllamaModels(
+  baseUrl?: string
+): Promise<
   { id: string; name: string; size_gb: number; param_size: string; is_determinex: boolean }[]
 > {
   try {
     const models = await invokeSafe<
       { id: string; name: string; size_gb: number; param_size: string; is_determinex: boolean }[]
-    >("get_ollama_models", { base_url: baseUrl });
+    >("get_ollama_models", {
+      // Tauri's command macro defaults to ArgumentCase::Camel and looks up each
+      // param as param_name.to_lower_camel_case(), so a snake_case JS key
+      // matches NOTHING (verified in tauri-macros-2.5.5 command/wrapper.rs).
+      // This sent `base_url` for a `base_url: Option<String>` param, so it
+      // silently arrived as None rather than erroring -- a custom Ollama base
+      // URL was ignored entirely. Caught by argContract.test.ts.
+      baseUrl,
+    });
     return Array.isArray(models) ? models : [];
   } catch {
     return [];
@@ -426,12 +429,27 @@ export async function checkOllamaStatus(baseUrl?: string) {
   try {
     const status = await invokeSafe<boolean | { ok: boolean; error?: string }>(
       "check_ollama_status",
-      { base_url: baseUrl }
+      { baseUrl }
     );
     if (typeof status === "boolean") return { ok: status };
     return status ?? { ok: false, error: "Tauri runtime not available" };
   } catch (error) {
     return { ok: false, error: String(error) };
+  }
+}
+
+export interface DockerStatus {
+  running: boolean;
+  version: string;
+  message: string;
+}
+
+export async function checkDockerStatus(): Promise<DockerStatus> {
+  try {
+    const status = await invokeSafe<DockerStatus>("check_docker_status", {});
+    return status ?? { running: false, version: "", message: "Native runtime not available." };
+  } catch (error) {
+    return { running: false, version: "", message: String(error) };
   }
 }
 
@@ -597,9 +615,7 @@ const DEFAULT_ROLES: RoleAssignments = {
 /** Read current role→model assignments from litellm_config.yaml. */
 export async function getRoleAssignments(): Promise<RoleAssignments> {
   const result = isTauri()
-    ? await invoke<{ ok: boolean; data?: RoleAssignments; error?: string }>(
-        "get_role_assignments"
-      )
+    ? await invoke<{ ok: boolean; data?: RoleAssignments; error?: string }>("get_role_assignments")
     : await invokeSafe<{ ok: boolean; data?: RoleAssignments; error?: string }>(
         "get_role_assignments"
       );
@@ -741,10 +757,34 @@ export async function runTerminalCommand(
 }
 
 /**
+ * The write path: for commands that return nothing, `invokeSafe` is unusable.
+ *
+ * A Tauri command declared `Result<(), String>` resolves to `null` on SUCCESS.
+ * `invokeSafe` returns `null` on FAILURE. For those 26 commands the two
+ * outcomes are the same value, so a caller cannot tell a failed commit from a
+ * successful one, and any `catch` around an `invokeSafe` write is unreachable
+ * code. That produced an editor save clearing its dirty flag on a write that
+ * never landed, a privacy toggle reporting enforcement the backend had refused,
+ * and a Review-queue apply that looked merely inert when it had been rejected.
+ *
+ * This throws on both counts — no runtime, or a rejected command — so the
+ * failure reaches the caller. **Callers must surface it to the user**; that half
+ * cannot be enforced mechanically, but using `invokeSafe` here now can be, and
+ * is: `determinex/no-invokesafe-on-void-command` (see
+ * `frontend/eslint-rules/voidCommands.mjs`).
+ */
+export async function invokeWrite(cmd: string, args?: Record<string, unknown>): Promise<void> {
+  if (!isTauri()) throw new Error(`${cmd} needs the desktop runtime.`);
+  await invoke(cmd, args);
+}
+
+/**
  * Escape hatch for invoke calls that don't yet have a typed wrapper.
  * Returns null in browser/mock environments (no Tauri runtime present).
  * Components should prefer this over importing invoke directly so the
  * isTauri guard is consistently applied.
+ *
+ * READS ONLY. For anything that mutates state, use `invokeWrite` above.
  */
 export async function invokeSafe<T>(
   cmd: string,
@@ -768,7 +808,21 @@ export async function invokeSafe<T>(
       return null;
     }
   }
-  return invoke<T>(cmd, args);
+  try {
+    return await invoke<T>(cmd, args);
+  } catch (e) {
+    // This function's whole contract (documented at the top of this file) is
+    // "returns null on error, never throws" -- but this branch used to call
+    // invoke() unguarded, so under real Tauri (unlike the browser/SSR
+    // fallback above) a rejected command propagated as an unhandled
+    // rejection to every caller instead. Surfaced live via Agent Chat Room:
+    // sending a message to a session that predated an app restart threw
+    // "unknown chat session", which reached the user only as a raw Next.js
+    // dev-overlay crash with the typed message silently gone -- in a
+    // production build there would have been no visible failure at all.
+    console.warn(`[invokeSafe] ${cmd} failed`, e);
+    return null;
+  }
 }
 
 export interface ProgramBenchSnapshot {
@@ -808,8 +862,8 @@ export async function getProgramBenchSnapshot(
   expectedTotal = 115
 ): Promise<ProgramBenchSnapshot | null> {
   return invokeSafe<ProgramBenchSnapshot>("get_programbench_snapshot", {
-    run_id: runId,
-    expected_total: expectedTotal,
+    runId,
+    expectedTotal,
     advise: true,
   });
 }
@@ -941,4 +995,62 @@ export async function diagnoseWorkspace(
       payload: { workspace_path: workspacePath, issue },
     })) ?? { ok: false, error: "Tauri runtime not available" }
   );
+}
+
+/**
+ * Opens an internal route (/ide-repair, /proof-center) in a real second window.
+ * `window.open(url, "_blank")` -- what every call site used before -- is a
+ * plain web-popup API; Tauri's WebView2 host has no popup permission for it
+ * by default, so it silently did nothing (found live 2026-07-19: clicking
+ * "Repair" produced zero visible effect, no new window, no error, nothing).
+ * Falls back to real window.open in browser-mode dev/testing.
+ */
+export async function openInternalWindow(
+  label: string,
+  path: string,
+  title: string
+): Promise<void> {
+  if (!isTauri()) {
+    window.open(path, "_blank");
+    return;
+  }
+  const { WebviewWindow } = await import("@tauri-apps/api/webviewWindow");
+  const existing = await WebviewWindow.getByLabel(label);
+  if (existing) {
+    await existing.setFocus();
+    return;
+  }
+  const webview = new WebviewWindow(label, {
+    url: path,
+    title,
+    width: 1200,
+    height: 860,
+    minWidth: 800,
+    minHeight: 500,
+  });
+  // Requires core:webview:allow-create-webview-window -- without it this call
+  // fails silently client-side unless a listener is attached. Surface it
+  // instead of repeating the exact "nothing happens, no error" bug this
+  // replaced.
+  webview.once("tauri://error", (e) => {
+    console.error(`Failed to open window "${label}":`, e);
+  });
+}
+
+/**
+ * Real native OS folder picker (Tauri's dialog plugin). Every "type a path by
+ * hand" input in the app (ProjectHub's Add Project Cover, onboarding, etc.)
+ * used to have no alternative -- this was a real, repeatedly-flagged gap, not
+ * a cosmetic one. Returns null in browser mode or if the user cancels.
+ */
+export async function pickFolder(title = "Choose a folder"): Promise<string | null> {
+  if (!isTauri()) return null;
+  try {
+    const { open } = await import("@tauri-apps/plugin-dialog");
+    const selected = await open({ directory: true, multiple: false, title });
+    return typeof selected === "string" ? selected : null;
+  } catch (error) {
+    console.error("Failed to open folder picker:", error);
+    return null;
+  }
 }

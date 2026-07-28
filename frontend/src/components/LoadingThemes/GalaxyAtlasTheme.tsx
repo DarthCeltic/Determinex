@@ -27,25 +27,30 @@ export function GalaxyAtlasTheme({
     if (canvas.parentElement) ro.observe(canvas.parentElement);
 
     const stars = Array.from({ length: 180 }, () => ({
-      x: Math.random() * w, y: Math.random() * h,
-      r: Math.random() * 1.2 + 0.2, p: Math.random() * Math.PI * 2,
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 1.2 + 0.2,
+      p: Math.random() * Math.PI * 2,
     }));
-    let raf: number, t = 0;
+    let raf: number,
+      t = 0;
     const draw = () => {
       ctx.fillStyle = "rgba(6,4,18,0.30)";
       ctx.fillRect(0, 0, w, h);
       // Spiral arms (parametric)
-      const cx = w / 2, cy = h / 2;
+      const cx = w / 2,
+        cy = h / 2;
       for (let arm = 0; arm < 3; arm++) {
         ctx.strokeStyle = `rgba(140,120,255,${0.18 - arm * 0.04})`;
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         for (let s = 0; s < 220; s++) {
-          const a = arm * (Math.PI * 2 / 3) + s * 0.03 + t * 0.0015;
+          const a = arm * ((Math.PI * 2) / 3) + s * 0.03 + t * 0.0015;
           const r = 6 + s * 0.7;
           const x = cx + Math.cos(a) * r;
           const y = cy + Math.sin(a) * r * 0.55;
-          if (s === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          if (s === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
         }
         ctx.stroke();
       }
@@ -64,8 +69,10 @@ export function GalaxyAtlasTheme({
         ctx.beginPath();
         for (let i = 0; i < 6; i++) {
           const a = (i / 6) * Math.PI * 2 + Math.PI / 6;
-          const px = x + Math.cos(a) * size, py = y + Math.sin(a) * size;
-          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          const px = x + Math.cos(a) * size,
+            py = y + Math.sin(a) * size;
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
         }
         ctx.closePath();
         ctx.stroke();
@@ -76,22 +83,36 @@ export function GalaxyAtlasTheme({
       raf = requestAnimationFrame(draw);
     };
     draw();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, [active]);
   if (!active) return null;
-  const primary = "#c4b5ff", dim = "rgba(196,181,255,0.5)";
+  const primary = "#c4b5ff",
+    dim = "rgba(196,181,255,0.5)";
   if (fullPanel) {
     return (
       <div className="absolute inset-0 z-20 overflow-hidden" style={{ background: "#060412" }}>
         <canvas ref={canvasRef} className="absolute inset-0" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(6,4,18,0)_0%,rgba(6,4,18,0.78)_100%)]" />
-        <ThemeOverlay label={label} elapsedSeconds={elapsedSeconds} primary={primary} dim={dim}
-                      subLabel="galactic atlas synchronized" arrow="◈" chipShape="ring" />
+        <ThemeOverlay
+          label={label}
+          elapsedSeconds={elapsedSeconds}
+          primary={primary}
+          dim={dim}
+          subLabel="galactic atlas synchronized"
+          arrow="◈"
+          chipShape="ring"
+        />
       </div>
     );
   }
   return (
-    <div className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none" style={{ background: "#060412" }}>
+    <div
+      className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none"
+      style={{ background: "#060412" }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 opacity-80" />
       <SmallPanel label={label} primary={primary} />
     </div>

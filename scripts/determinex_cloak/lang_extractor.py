@@ -15,7 +15,12 @@ from pathlib import Path
 
 from .symbol_map import SymbolMap
 from .context import CloakContext
-from ._treesitter_bridge import _TS_AVAILABLE, TS_SUPPORTED_LANGUAGES, extract_treesitter_identifiers
+from ._treesitter_bridge import (
+    _ALLOW_DEGRADED,
+    _TS_AVAILABLE,
+    TS_SUPPORTED_LANGUAGES,
+    extract_treesitter_identifiers,
+)
 from .classifier import build_private_identifier_set
 from .safe_list import _build_safe_list
 
@@ -268,6 +273,42 @@ def _build_cloak_context_nonpython(
         backend = f"tree-sitter({ts_hits})+regex({regex_hits})"
     log.info("Cloak(%s): scanned %d files via %s, found %d private identifiers",
              language, files_scanned, backend, len(all_private))
+
+    # FAIL-CLOSED: scanning real source files and extracting NOTHING means obfuscate_source()
+    # becomes an identity function -- the caller ships plaintext believing it is cloaked. That
+    # is the exact leak CloakObfuscationError exists to prevent, so it must be loud.
+    #
+    # This is reachable today, not hypothetical. TS_SUPPORTED_LANGUAGES is a hardcoded frozenset
+    # of 9 languages, but pyproject's [cloak] extra declares only 4 grammars, and
+    # _LANG_DEF_PATTERNS has regex for a different 6. TypeScript falls in the gap with NO
+    # extraction path at all: `ts_available` is True (the language IS in the advertised set),
+    # extract_treesitter_identifiers returns empty (grammar not installed), the regex fallback
+    # has no typescript entry, and a .ts file used to sail through untouched.
+    # Measured 2026-07-26; see tests/test_cloak_language_coverage.py.
+    if files_scanned and not all_private:
+        from . import CloakObfuscationError
+        if not _ALLOW_DEGRADED:
+            log.error(
+                "Cloak(%s): scanned %d file(s) via %s and extracted 0 identifiers — failing "
+                "closed rather than sending plaintext.", language, files_scanned, backend,
+            )
+            raise CloakObfuscationError(
+                path=str(repo_path),
+                cause=RuntimeError(
+                    f"no identifier-extraction path for language {language!r}: "
+                    f"tree-sitter grammar loaded={ts_available and bool(ts_hits)}, "
+                    f"regex patterns={'yes' if language in _LANG_DEF_PATTERNS else 'no'}. "
+                    f"Install the grammar (pip install tree-sitter-{language}) or set "
+                    f"DETERMINEX_CLOAK_ALLOW_DEGRADED=1 to accept reduced privacy."
+                ),
+                source_len=0,
+            )
+        log.warning(
+            "Cloak(%s): 0 identifiers extracted from %d file(s); "
+            "DETERMINEX_CLOAK_ALLOW_DEGRADED=1 set — proceeding with NO obfuscation.",
+            language, files_scanned,
+        )
+
     symbol_map = SymbolMap.build(frozenset(all_private))
     log.info("Cloak(%s): symbol map ready — %d identifiers mapped",
              language, len(symbol_map.forward))

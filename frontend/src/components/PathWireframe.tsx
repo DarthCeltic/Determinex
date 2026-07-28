@@ -8,7 +8,9 @@ import { AndroidBaselineMock } from "./wireframes/AndroidBaselineMock";
 // Detects the wireframe type from path name + stack
 // ─────────────────────────────────────────────────────────────────────────────
 
-function detectType(path: PathInfo): "crossPlatform" | "mobile" | "api" | "cli" | "dashboard" | "web" {
+function detectType(
+  path: PathInfo
+): "crossPlatform" | "mobile" | "api" | "cli" | "dashboard" | "web" {
   const sig = (path.name + " " + path.stack).toLowerCase();
   if (
     sig.includes("web + mobile") ||
@@ -216,8 +218,14 @@ function CrossPlatformWireframe({ color }: { color: string }) {
               />
             ))}
           </div>
-          <div className="rounded-xl border p-4" style={{ borderColor: `${color}25`, background: `${color}08` }}>
-            <div className="h-20 rounded-xl border" style={{ borderColor: `${color}35`, background: `${color}10` }} />
+          <div
+            className="rounded-xl border p-4"
+            style={{ borderColor: `${color}25`, background: `${color}08` }}
+          >
+            <div
+              className="h-20 rounded-xl border"
+              style={{ borderColor: `${color}35`, background: `${color}10` }}
+            />
             <div className="mt-4 grid grid-cols-3 gap-3">
               {[0, 1, 2].map((i) => (
                 <div key={i} className="h-16 rounded-lg border border-gray-800 bg-[#111827]" />
@@ -228,10 +236,16 @@ function CrossPlatformWireframe({ color }: { color: string }) {
           </div>
         </div>
       </div>
-      <div className="h-[76%] w-[132px] shrink-0 rounded-[26px] border-2 p-1" style={{ borderColor: `${color}45` }}>
+      <div
+        className="h-[76%] w-[132px] shrink-0 rounded-[26px] border-2 p-1"
+        style={{ borderColor: `${color}45` }}
+      >
         <div className="h-full overflow-hidden rounded-[21px] bg-[#050a10]">
           <div className="h-5 border-b border-gray-800/60" />
-          <div className="mx-2 mt-2 h-20 rounded-xl border" style={{ borderColor: `${color}35`, background: `${color}12` }} />
+          <div
+            className="mx-2 mt-2 h-20 rounded-xl border"
+            style={{ borderColor: `${color}35`, background: `${color}12` }}
+          />
           {[0, 1, 2].map((i) => (
             <div key={i} className="mx-2 mt-2 flex items-center gap-2">
               <div className="h-6 w-6 rounded-lg border" style={{ borderColor: `${color}30` }} />
@@ -272,7 +286,7 @@ function ApiWireframe({ color }: { color: string }) {
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full" style={{ background: color }} />
           <div className="h-1.5 w-20 rounded bg-gray-700" />
-          <div className="ml-auto text-[8px] font-mono" style={{ color: `${color}80` }}>
+          <div className="ml-auto text-meta font-mono" style={{ color: `${color}80` }}>
             v1.0
           </div>
         </div>
@@ -287,7 +301,7 @@ function ApiWireframe({ color }: { color: string }) {
               }}
             >
               <div
-                className="text-[8px] font-black font-mono w-10 shrink-0"
+                className="text-meta font-black font-mono w-10 shrink-0"
                 style={{ color: mc[ep.method] || color }}
               >
                 {ep.method}
@@ -296,7 +310,7 @@ function ApiWireframe({ color }: { color: string }) {
                 <div className="h-1.5 rounded bg-gray-700" style={{ width: widths[i] }} />
               </div>
               <div
-                className="text-[8px] font-mono"
+                className="text-meta font-mono"
                 style={{ color: ep.status < 300 ? "#34d399" : "#f87171", opacity: 0.7 }}
               >
                 {ep.status}
@@ -351,9 +365,9 @@ function CliWireframe({ color }: { color: string }) {
             {["#f87171", "#fbbf24", "#34d399"].map((c) => (
               <div key={c} className="w-2 h-2 rounded-full opacity-50" style={{ background: c }} />
             ))}
-            <div className="flex-1 text-center text-[8px] font-mono text-gray-600">zsh</div>
+            <div className="flex-1 text-center text-meta font-mono text-gray-600">zsh</div>
           </div>
-          <div className="bg-[#050a10] px-4 py-3 font-mono text-[9px] flex flex-col gap-1.5">
+          <div className="bg-[#050a10] px-4 py-3 font-mono text-meta flex flex-col gap-1.5">
             {lines.map((line, i) => (
               <div key={i} className="flex gap-2">
                 <span style={{ color: line.prompt ? `${color}90` : "#374151" }}>
@@ -454,13 +468,18 @@ export function PathWireframe({
 }) {
   const type = detectType(path);
   const color = colorOverride || path.color;
-  const isIceCream = path.name.toLowerCase().includes("ice") || path.stack.toLowerCase().includes("ice");
+  const isIceCream =
+    path.name.toLowerCase().includes("ice") || path.stack.toLowerCase().includes("ice");
 
   const inner =
     type === "crossPlatform" ? (
       <CrossPlatformWireframe color={color} />
     ) : type === "mobile" ? (
-      isIceCream ? <AndroidBaselineMock color={color} /> : <MobileWireframe color={color} />
+      isIceCream ? (
+        <AndroidBaselineMock color={color} />
+      ) : (
+        <MobileWireframe color={color} />
+      )
     ) : type === "api" ? (
       <ApiWireframe color={color} />
     ) : type === "cli" ? (

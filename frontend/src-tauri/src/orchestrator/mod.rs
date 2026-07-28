@@ -43,11 +43,13 @@ pub enum MoAMessage {
         plan: SentinelPlan,
         thread_id: String,
         retry_count: u32,
+        model_override: Option<String>,
         reply: oneshot::Sender<Result<MoAResult, OrchestratorError>>,
     },
     AuditRequest {
         code: EngineerCode,
         thread_id: String,
+        model_override: Option<String>,
         reply: oneshot::Sender<Result<ObserverVerdict, OrchestratorError>>,
     },
     Shutdown,
@@ -363,6 +365,19 @@ impl Orchestrator {
         }
     }
 
+    /// Load the config-assigned role models, then apply the request's
+    /// model_override (if any) on top -- shared by all three pipeline entry
+    /// points (full run, the plan-skip retry path, and the standalone audit
+    /// path) so a route picked in the UI takes effect the same way regardless
+    /// of which one a request hits.
+    fn resolve_models(model_override: Option<&str>) -> PipelineModels {
+        let models = PipelineModels::load();
+        match PipelineModels::read_config_text() {
+            Some(config_text) => models.with_override(&config_text, model_override),
+            None => models,
+        }
+    }
+
     pub async fn run(mut self) {
         log::info!("[ORCHESTRATOR] Actor loop online. Awaiting MoA dispatch.");
 
@@ -383,6 +398,7 @@ impl Orchestrator {
                     plan,
                     thread_id,
                     retry_count,
+                    model_override,
                     reply,
                 } => {
                     log::info!(
@@ -393,6 +409,7 @@ impl Orchestrator {
                         user_prompt: plan.title.clone(),
                         thread_id: thread_id.clone(),
                         retry_count,
+                        model_override,
                     };
                     let result = self.execute_from_engineer(plan, ctx).await;
                     if reply.send(result).is_err() {
@@ -403,6 +420,7 @@ impl Orchestrator {
                 MoAMessage::AuditRequest {
                     code,
                     thread_id,
+                    model_override,
                     reply,
                 } => {
                     log::info!(
@@ -417,6 +435,7 @@ impl Orchestrator {
                             "no hallucinated APIs".into(),
                         ],
                     };
+                    let models = Self::resolve_models(model_override.as_deref());
                     let result = run_observer(
                         &self.client,
                         &synthetic_plan,
@@ -424,7 +443,7 @@ impl Orchestrator {
                         None,
                         "",
                         &self.app_handle,
-                        &PipelineModels::load().observer,
+                        &models.observer,
                     )
                     .await;
                     if reply.send(result).is_err() {
@@ -449,7 +468,7 @@ impl Orchestrator {
         context: Context,
     ) -> Result<MoAResult, OrchestratorError> {
         let thread_id = context.thread_id.clone();
-        let models = PipelineModels::load();
+        let models = Self::resolve_models(context.model_override.as_deref());
 
         if context.retry_count > 3 {
             return Err(OrchestratorError::max_retries_exceeded(
@@ -827,7 +846,7 @@ impl Orchestrator {
         context: Context,
     ) -> Result<MoAResult, OrchestratorError> {
         let thread_id = context.thread_id.clone();
-        let models = PipelineModels::load();
+        let models = Self::resolve_models(context.model_override.as_deref());
 
         if context.retry_count > 3 {
             return Err(OrchestratorError::max_retries_exceeded(
@@ -1085,6 +1104,7 @@ impl OrchestratorHandle {
         plan: SentinelPlan,
         thread_id: String,
         retry_count: u32,
+        model_override: Option<String>,
     ) -> Result<MoAResult, OrchestratorError> {
         let (reply_tx, reply_rx) = oneshot::channel();
         self.tx
@@ -1092,6 +1112,7 @@ impl OrchestratorHandle {
                 plan,
                 thread_id,
                 retry_count,
+                model_override,
                 reply: reply_tx,
             })
             .await
@@ -1105,12 +1126,14 @@ impl OrchestratorHandle {
         &self,
         code: EngineerCode,
         thread_id: String,
+        model_override: Option<String>,
     ) -> Result<ObserverVerdict, OrchestratorError> {
         let (reply_tx, reply_rx) = oneshot::channel();
         self.tx
             .send(MoAMessage::AuditRequest {
                 code,
                 thread_id,
+                model_override,
                 reply: reply_tx,
             })
             .await

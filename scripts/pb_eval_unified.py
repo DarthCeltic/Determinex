@@ -60,7 +60,7 @@ PB_STAGING = _detect_pb_staging()
 # Hetzner config
 HETZNER_CONFIG = ROOT / "config" / "hetzner.json"
 HETZNER_IP = "5.78.192.163"
-HETZNER_SSH_KEY = Path.home() / ".ssh" / "id_determinex"
+HETZNER_SSH_KEY = Path.home() / ".ssh" / "id_citadel"
 HETZNER_REMOTE_DIR = "/root/determinex-pb-uncap"
 
 # Cap detection pattern

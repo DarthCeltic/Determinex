@@ -1,4 +1,28 @@
-import { invokeSafe } from "./api";
+import { invokeSafe, invokeWrite } from "./api";
+
+/**
+ * Write path for git commands, deliberately NOT invokeSafe.
+ *
+ * Every git mutation here returns Result<(), String> on the Rust side, so
+ * success resolves to null -- and invokeSafe returns null on failure too,
+ * after only a console.warn. The result was that a failed stage/commit/push
+ * was indistinguishable from a successful one: the wrapper returned void
+ * either way.
+ *
+ * That is not theoretical. GitPanel already wraps commit, branch-create and
+ * checkout in try/catch with setError("Commit failed") etc., but because
+ * invokeSafe never throws, those catch blocks were unreachable -- a commit
+ * rejected by a pre-commit hook (this repo has no-env-file and no-api-keys
+ * hooks) cleared the message box and looked like it worked. Two earlier
+ * casualties of the same swallow are documented in cloneRepo and
+ * resolveConflict below, both of which silently no-op'd for their whole
+ * lifetime.
+ *
+ * The implementation moved to `api.ts` as `invokeWrite` once the same guard was
+ * needed at a dozen more sites outside git; this alias is kept because the
+ * reasoning above is git-specific and worth reading where the git writes live.
+ */
+const invokeGitWrite = invokeWrite;
 
 export type GitFileStatus = "modified" | "untracked" | "staged" | "conflicted";
 
@@ -34,19 +58,19 @@ export async function getGitStatus(cwd: string): Promise<GitStatusResult> {
 }
 
 export async function stageFile(cwd: string, filePath: string): Promise<void> {
-  await invokeSafe("git_stage", { cwd, path: filePath });
+  await invokeGitWrite("git_stage", { cwd, path: filePath });
 }
 
 export async function unstageFile(cwd: string, filePath: string): Promise<void> {
-  await invokeSafe("git_unstage", { cwd, path: filePath });
+  await invokeGitWrite("git_unstage", { cwd, path: filePath });
 }
 
 export async function stageAll(cwd: string): Promise<void> {
-  await invokeSafe("git_stage_all", { cwd });
+  await invokeGitWrite("git_stage_all", { cwd });
 }
 
 export async function commitChanges(cwd: string, message: string): Promise<void> {
-  await invokeSafe("git_commit", { cwd, message });
+  await invokeGitWrite("git_commit", { cwd, message });
 }
 
 export async function getGitBranches(cwd: string): Promise<GitBranch[]> {
@@ -61,17 +85,61 @@ export async function getGitBranches(cwd: string): Promise<GitBranch[]> {
 }
 
 export async function createGitBranch(cwd: string, name: string): Promise<void> {
-  await invokeSafe("git_create_branch", { cwd, name });
+  await invokeGitWrite("git_create_branch", { cwd, name });
 }
 
 export async function checkoutBranch(cwd: string, name: string): Promise<void> {
-  await invokeSafe("git_checkout_branch", { cwd, name });
+  await invokeGitWrite("git_checkout_branch", { cwd, name });
 }
 
 export async function pushCommits(cwd: string): Promise<void> {
-  await invokeSafe("git_push", { cwd });
+  await invokeGitWrite("git_push", { cwd });
 }
 
 export async function pullCommits(cwd: string): Promise<void> {
-  await invokeSafe("git_pull", { cwd });
+  await invokeGitWrite("git_pull", { cwd });
+}
+
+/** Real `git clone`. Refuses (backend-side) to clone into a path that already exists. */
+export async function cloneRepo(remoteUrl: string, destination: string): Promise<void> {
+  // Was `remote_url` -- Tauri converts camelCase JS keys to the Rust
+  // command's snake_case parameter names, so the snake_case key here meant
+  // this never found a matching argument. Every "Git Clone" attempt from
+  // ProjectHub failed silently (invokeSafe swallows the rejection).
+  await invokeGitWrite("git_clone", { remoteUrl, destination });
+}
+
+export interface ConflictSides {
+  /** Common ancestor (merge-base), stage 1 in the index. Null if git never populated it
+   * (e.g. an add/add conflict has no shared ancestor). */
+  base: string | null;
+  /** "Our" side -- stage 2, the current branch's version. */
+  ours: string | null;
+  /** "Their" side -- stage 3, the incoming branch's version. */
+  theirs: string | null;
+  /** The raw working-tree file as git left it -- real conflict markers inline. */
+  current: string | null;
+}
+
+/** The three pre-merge blobs for one conflicted file, via `git show :N:<path>`. */
+export async function getConflictSides(cwd: string, path: string): Promise<ConflictSides> {
+  const res = await invokeSafe<ConflictSides>("git_conflict_sides", { cwd, path });
+  if (!res) {
+    throw new Error("Tauri git_conflict_sides returned null");
+  }
+  return res;
+}
+
+/** Writes the resolved content and `git add`s the file -- marks it resolved for the merge. */
+export async function resolveConflict(
+  cwd: string,
+  path: string,
+  resolvedContent: string
+): Promise<void> {
+  // The snake_case key this comment used to defend by pointing at cloneRepo's
+  // remote_url was the same bug, not a real convention -- Tauri converts
+  // camelCase JS keys to the Rust command's snake_case parameter names, so
+  // this call failed 100% of the time (every Merge Editor "resolve" was
+  // silently a no-op, invokeSafe swallowing the rejection).
+  await invokeGitWrite("git_resolve_conflict", { cwd, path, resolvedContent });
 }

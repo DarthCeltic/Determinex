@@ -1,120 +1,106 @@
 "use client";
-import { useState } from "react";
-import { Folder, FileCode, Download, TrendingUp, TrendingDown, Minus, ChevronDown, ChevronRight, Archive } from "lucide-react";
+import { useEffect, useState, useCallback } from "react";
+import { Folder, Archive, RefreshCw, Loader2 } from "lucide-react";
+import { invokeSafe, isTauri } from "@/lib/api";
 
-type ArtifactNode = {
-  name: string; type: "dir" | "file"; size?: string; delta?: number; modified?: string;
-  children?: ArtifactNode[]; expanded?: boolean;
+type ArtifactEntry = {
+  name: string;
+  path: string;
+  size_bytes: number;
+  file_count: number;
+  modified: string | null;
 };
 
-const ARTIFACT_TREE: ArtifactNode[] = [
-  {
-    name:"target/", type:"dir", expanded:true, children:[
-      {
-        name:"release/", type:"dir", expanded:true, children:[
-          { name:"determinex-core.exe",   type:"file", size:"12.4 MB", delta:0.2,  modified:"14:32:04" },
-          { name:"determinex-core.d",     type:"file", size:"0.1 MB",  delta:0,    modified:"14:32:04" },
-          { name:"determinex-core.pdb",   type:"file", size:"4.2 MB",  delta:0,    modified:"14:32:04" },
-        ],
-      },
-      {
-        name:"debug/", type:"dir", expanded:false, children:[
-          { name:"determinex-core.exe",   type:"file", size:"68.1 MB", delta:-1.2, modified:"13:15:22" },
-        ],
-      },
-    ],
-  },
-  {
-    name:"frontend/.next/", type:"dir", expanded:true, children:[
-      { name:"static/",               type:"dir",  size:"4.2 MB",  delta:0.3,  modified:"14:45:18" },
-      { name:"server/",               type:"dir",  size:"1.8 MB",  delta:0.1,  modified:"14:45:18" },
-      { name:"BUILD_ID",              type:"file", size:"0.0 KB",  delta:0,    modified:"14:45:18" },
-    ],
-  },
-  {
-    name:"dist/", type:"dir", expanded:false, children:[
-      { name:"determinex-0.1.0-setup.exe", type:"file", size:"98.4 MB", delta:1.2, modified:"yesterday" },
-      { name:"determinex-0.1.0.tar.gz",    type:"file", size:"44.1 MB", delta:0.8, modified:"yesterday" },
-    ],
-  },
-  {
-    name:"corpus/programbench/", type:"dir", expanded:false, children:[
-      { name:"locked/",               type:"dir",  size:"2.1 GB",  delta:45.2, modified:"today" },
-      { name:"training_corpus/",      type:"dir",  size:"380 MB",  delta:12.1, modified:"today" },
-    ],
-  },
-];
-
-function DeltaIcon({ delta }: { delta?: number }) {
-  if (!delta || delta === 0) return <Minus size={9} className="text-gray-700" />;
-  return delta > 0
-    ? <TrendingUp size={9} className="text-amber-400" />
-    : <TrendingDown size={9} className="text-emerald-400" />;
-}
-
-function TreeNode({ node, depth = 0, onToggle }: { node: ArtifactNode; depth?: number; onToggle: (n: ArtifactNode) => void }) {
-  const indent = depth * 16;
-  if (node.type === "dir") {
-    return (
-      <div>
-        <button onClick={() => onToggle(node)}
-          className="flex items-center gap-2 w-full px-4 py-1.5 hover:bg-white/[0.02] transition-colors text-left"
-          style={{ paddingLeft: `${16 + indent}px` }}>
-          {node.expanded ? <ChevronDown size={11} className="text-gray-600 shrink-0" /> : <ChevronRight size={11} className="text-gray-600 shrink-0" />}
-          <Folder size={12} className="text-amber-500/60 shrink-0" />
-          <span className="text-[10px] font-mono text-gray-400 flex-1">{node.name}</span>
-          {node.size && <span className="text-[9px] font-mono text-gray-600">{node.size}</span>}
-        </button>
-        {node.expanded && node.children?.map((child, i) => (
-          <TreeNode key={i} node={child} depth={depth + 1} onToggle={onToggle} />
-        ))}
-      </div>
-    );
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  const units = ["KB", "MB", "GB", "TB"];
+  let val = bytes / 1024;
+  let i = 0;
+  while (val >= 1024 && i < units.length - 1) {
+    val /= 1024;
+    i += 1;
   }
-  return (
-    <div className="group flex items-center gap-2 px-4 py-1.5 hover:bg-white/[0.02] transition-colors"
-      style={{ paddingLeft: `${16 + indent}px` }}>
-      <FileCode size={11} className="text-gray-600 shrink-0" />
-      <span className="text-[10px] font-mono text-gray-500 flex-1 truncate">{node.name}</span>
-      <div className="flex items-center gap-2 shrink-0">
-        <DeltaIcon delta={node.delta} />
-        {node.size && <span className="text-[9px] font-mono text-gray-600">{node.size}</span>}
-        <span className="text-[8px] text-gray-700">{node.modified}</span>
-        <button className="opacity-0 group-hover:opacity-100 text-gray-700 hover:text-gray-400 transition-all p-1">
-          <Download size={10} />
-        </button>
-      </div>
-    </div>
-  );
+  return `${val.toFixed(1)} ${units[i]}`;
 }
 
 export function ArtifactBrowser() {
-  const [tree, setTree] = useState(ARTIFACT_TREE);
+  const [entries, setEntries] = useState<ArtifactEntry[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const toggleNode = (target: ArtifactNode) => {
-    const toggle = (nodes: ArtifactNode[]): ArtifactNode[] =>
-      nodes.map((n) => n === target ? { ...n, expanded: !n.expanded } : { ...n, children: n.children ? toggle(n.children) : undefined });
-    setTree(toggle(tree));
-  };
+  const refresh = useCallback(async () => {
+    setLoading(true);
+    const workspacePath =
+      typeof window !== "undefined" ? window.localStorage.getItem("explorerRoot") || "" : "";
+    const result = await invokeSafe<ArtifactEntry[]>("get_build_artifacts", { workspacePath });
+    setEntries(result ?? []);
+    setLoading(false);
+  }, []);
 
-  const totalSize = "2.7 GB";
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
+
+  const totalBytes = (entries ?? []).reduce((sum, e) => sum + e.size_bytes, 0);
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <div className="shrink-0 flex items-center gap-3 border-b px-4 py-2.5" style={{ borderColor: "var(--determinex-border)", background: "rgba(0,0,0,0.2)" }}>
+      <div
+        className="shrink-0 flex items-center gap-3 border-b px-4 py-2.5"
+        style={{ borderColor: "var(--determinex-border)", background: "rgba(0,0,0,0.2)" }}
+      >
         <Archive size={12} className="text-gray-600" />
-        <span className="text-[9px] uppercase font-black tracking-widest text-gray-600">Build Artifacts</span>
-        <span className="ml-auto text-[9px] font-mono text-gray-700">{totalSize} total</span>
-        <div className="flex items-center gap-1 text-[8px] text-gray-700 ml-2">
-          <TrendingUp size={9} className="text-amber-400" /> = larger
-          <TrendingDown size={9} className="text-emerald-400 ml-2" /> = smaller
-        </div>
+        <span className="text-eyebrow uppercase font-black tracking-widest text-gray-600">
+          Build Artifacts
+        </span>
+        {entries && entries.length > 0 && (
+          <span className="ml-auto text-meta font-mono text-gray-700">
+            {formatBytes(totalBytes)} total
+          </span>
+        )}
+        <button
+          onClick={() => void refresh()}
+          className={`text-gray-600 hover:text-gray-400 transition-colors ${loading ? "animate-spin text-cyan-400" : ""}`}
+          title="Rescan real build-output directories"
+        >
+          <RefreshCw size={13} />
+        </button>
       </div>
 
+      {!isTauri() && (
+        <div className="shrink-0 px-4 pt-2 text-meta text-amber-500/70 italic">
+          Browser mode cannot scan real build-output directories.
+        </div>
+      )}
+
       <div className="flex-1 overflow-y-auto no-scrollbar py-2">
-        {tree.map((node, i) => (
-          <TreeNode key={i} node={node} onToggle={toggleNode} />
-        ))}
+        {loading && entries === null ? (
+          <div className="flex h-full items-center justify-center">
+            <Loader2 size={18} className="animate-spin text-gray-600" />
+          </div>
+        ) : entries && entries.length > 0 ? (
+          entries.map((e) => (
+            <div
+              key={e.path}
+              className="flex items-center gap-2 px-4 py-2 hover:bg-white/[0.02] transition-colors"
+              title={e.path}
+            >
+              <Folder size={12} className="text-amber-500/60 shrink-0" />
+              <span className="text-label font-mono text-gray-400 flex-1 truncate">{e.name}</span>
+              <span className="text-meta font-mono text-gray-600">
+                {e.file_count.toLocaleString()} files
+              </span>
+              <span className="text-meta font-mono text-gray-600">{formatBytes(e.size_bytes)}</span>
+              {e.modified && <span className="text-meta text-gray-700">{e.modified}</span>}
+            </div>
+          ))
+        ) : (
+          <div className="flex h-full min-h-[180px] flex-col items-center justify-center gap-1 opacity-40 px-6 text-center">
+            <p className="text-label text-gray-500">No build-output directories found yet.</p>
+            <p className="max-w-[320px] text-meta text-gray-700">
+              Run a real build (cargo build, npm run build) to populate target/, .next/, or dist/.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

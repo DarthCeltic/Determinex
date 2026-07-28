@@ -40,7 +40,13 @@ $PythonExe = if (Test-Path $VenvPython) { $VenvPython } else { "python" }
 $NpmExe = if ($env:OS -eq "Windows_NT") { "npm.cmd" } else { "npm" }
 $EffectiveSigningThumbprint = if ($SigningCertificateThumbprint) { $SigningCertificateThumbprint } else { $env:DETERMINEX_SIGNING_CERT_THUMBPRINT }
 $EffectiveTimestampUrl = if ($TimestampUrl) { $TimestampUrl } else { $env:DETERMINEX_TIMESTAMP_URL }
-$EffectiveTauriBundleTarget = if ($TauriBundleTarget) { $TauriBundleTarget } elseif ($PackageDownloadBundle) { "all" } else { "" }
+# "all" is not a valid --bundles value on Windows -- tauri-cli only accepts an
+# explicit comma-separated list here (msi,nsis); "all" is a Linux/macOS-only
+# convention. Found live 2026-07-19: the documented runbook command for
+# regenerating release evidence (-PackageDownloadBundle with no explicit
+# -TauriBundleTarget) has always defaulted to the invalid value on Windows,
+# so it had never actually succeeded here before.
+$EffectiveTauriBundleTarget = if ($TauriBundleTarget) { $TauriBundleTarget } elseif ($PackageDownloadBundle) { "msi,nsis" } else { "" }
 $EffectiveDownloadBundleOutputDir = if ($DownloadBundleOutputDir) { $DownloadBundleOutputDir } else { Join-Path $RepoRoot "dist\determinex-download-bundles" }
 $EffectiveDownloadBundleEvidenceDir = if ($DownloadBundleEvidenceDir) { $DownloadBundleEvidenceDir } else { Join-Path $RepoRoot "assurance\evidence\determinex_download_bundle_20260707" }
 $EffectiveWindowsMsiEvidenceDir = if ($WindowsMsiEvidenceDir) { $WindowsMsiEvidenceDir } else { Join-Path $RepoRoot "assurance\evidence\windows_msi" }
@@ -60,7 +66,24 @@ function Invoke-Checked {
     )
 
     Write-Host $Label -ForegroundColor Yellow
-    & $Command
+    # This function's own contract is "trust $LASTEXITCODE, not PowerShell's stderr heuristics" --
+    # the check three lines down. But the script-level $ErrorActionPreference = "Stop" still
+    # applies to native commands run inside $Command's scriptblock: PowerShell 5.1 wraps ANY
+    # stderr line from a native exe as a terminating NativeCommandError under Stop, even when
+    # the line is purely informational and the process's real exit code is 0. Found live
+    # 2026-07-26: `npm run tauri -- build` writes "Info: Looking up installed tauri packages..."
+    # to stderr, which killed the entire release build before cargo ever compiled a line --
+    # this script had never been able to complete a bundling run against a tauri-cli version
+    # that logs that (or any) informational line to stderr. Scoping ErrorActionPreference to
+    # Continue for just this native invocation restores the intended contract: only a real
+    # nonzero exit code fails the step.
+    $previousEap = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try {
+        & $Command
+    } finally {
+        $ErrorActionPreference = $previousEap
+    }
     if ($LASTEXITCODE -ne 0) {
         throw "$Label failed with exit code $LASTEXITCODE"
     }

@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { invokeSafe } from "../lib/api";
-import { PlayCircle, StopCircle, RefreshCw, Eye, FileText, CheckCircle, XCircle, Clock } from "lucide-react";
+import { invokeSafe, invokeWrite } from "../lib/api";
+import {
+  PlayCircle,
+  StopCircle,
+  RefreshCw,
+  Eye,
+  FileText,
+  CheckCircle,
+  XCircle,
+  Clock,
+} from "lucide-react";
 
 export function AgentTrace() {
   const [sessions, setSessions] = useState<any[]>([]);
@@ -9,8 +18,12 @@ export function AgentTrace() {
 
   const fetchSessions = async () => {
     try {
-      const res = await invokeSafe<any[]>("list_hive_sessions", {});
-      if (res) setSessions(res);
+      // list_hive_sessions (Rust) always returns { ok, data: [...] }, never a
+      // bare array -- setting `sessions` to the whole wrapper object made
+      // every visit to this panel crash on `sessions.map()` below (caught by
+      // the app's error boundary as a full "UI crash", not a soft failure).
+      const res = await invokeSafe<{ ok?: boolean; data?: any[] }>("list_hive_sessions", {});
+      if (res && Array.isArray(res.data)) setSessions(res.data);
     } catch (e) {
       console.error("Failed to list sessions", e);
     } finally {
@@ -23,6 +36,23 @@ export function AgentTrace() {
     const int = setInterval(fetchSessions, 10000);
     return () => clearInterval(int);
   }, []);
+
+  // Rust returns Err when the session directory does not exist yet, and
+  // invokeSafe swallows that into null -- so surface it instead of letting the
+  // click look like it silently did nothing.
+  //
+  // The comment above was written while this still called invokeSafe, which
+  // made the catch below unreachable and the comment a description of what the
+  // code did NOT do. Caught by determinex/no-invokesafe-on-void-command, which
+  // is the argument for having the rule: a comment cannot enforce itself.
+  const handleReveal = async (sessionId: string) => {
+    setActionError(null);
+    try {
+      await invokeWrite("reveal_session_output", { sessionId });
+    } catch (e) {
+      setActionError(`Could not open output for ${sessionId.substring(0, 8)}: ${e}`);
+    }
+  };
 
   const handleAction = async (action: string, sessionId: string) => {
     setActionError(null);
@@ -83,10 +113,20 @@ export function AgentTrace() {
                     {session.spec_path || "Anonymous Task"}
                   </td>
                   <td className="px-4 py-3 flex items-center justify-end gap-2">
+                    {/* Was disabled as "not implemented yet", but
+                        reveal_session_output is fully implemented in Rust
+                        (opens the session directory via the OS file manager)
+                        and HiveBuildLoop already ships an "Open Output Folder"
+                        button on exactly this command. Only this call site was
+                        missing. Note the sibling Replay button below stays
+                        disabled on purpose -- replay_session IS registered but
+                        its Rust body just returns "not implemented in native
+                        backend yet", so enabling it would surface an error as
+                        if it were a feature. */}
                     <button
-                      title="View Logs (not implemented yet)"
-                      disabled
-                      className="p-1.5 text-[#8b949e]/40 bg-[#21262d]/40 rounded cursor-not-allowed"
+                      title="Open this session's output folder"
+                      onClick={() => handleReveal(session.session_id)}
+                      className="p-1.5 text-[#8b949e] hover:text-white bg-[#21262d]/40 hover:bg-[#21262d] rounded transition-colors"
                     >
                       <FileText className="w-4 h-4" />
                     </button>
@@ -121,18 +161,47 @@ export function AgentTrace() {
 function StatusBadge({ status }: { status: string }) {
   switch (status.toLowerCase()) {
     case "active":
-      return <span className="flex items-center gap-1.5 text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full w-fit"><Clock className="w-3 h-3 animate-spin" /> In Progress</span>;
+      return (
+        <span className="flex items-center gap-1.5 text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full w-fit">
+          <Clock className="w-3 h-3 animate-spin" /> In Progress
+        </span>
+      );
     case "completed":
     case "success":
-      return <span className="flex items-center gap-1.5 text-xs text-green-400 bg-green-500/10 px-2 py-1 rounded-full w-fit"><CheckCircle className="w-3 h-3" /> Completed</span>;
+      return (
+        <span className="flex items-center gap-1.5 text-xs text-green-400 bg-green-500/10 px-2 py-1 rounded-full w-fit">
+          <CheckCircle className="w-3 h-3" /> Completed
+        </span>
+      );
     case "failed":
     case "error":
-      return <span className="flex items-center gap-1.5 text-xs text-red-400 bg-red-500/10 px-2 py-1 rounded-full w-fit"><XCircle className="w-3 h-3" /> Failed</span>;
+      return (
+        <span className="flex items-center gap-1.5 text-xs text-red-400 bg-red-500/10 px-2 py-1 rounded-full w-fit">
+          <XCircle className="w-3 h-3" /> Failed
+        </span>
+      );
     default:
-      return <span className="flex items-center gap-1.5 text-xs text-gray-400 bg-gray-500/10 px-2 py-1 rounded-full w-fit">{status}</span>;
+      return (
+        <span className="flex items-center gap-1.5 text-xs text-gray-400 bg-gray-500/10 px-2 py-1 rounded-full w-fit">
+          {status}
+        </span>
+      );
   }
 }
 
 function ActivityIcon(props: any) {
-  return <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>;
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+    </svg>
+  );
 }

@@ -1,7 +1,7 @@
 use std::io::{BufRead, BufReader};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
-use crate::windows_process::{no_window, no_window_tokio};
+use crate::win_process::HideConsoleExt;
 
 use tauri::{AppHandle, Emitter, State};
 
@@ -39,22 +39,20 @@ pub async fn create_session(payload: CreateSessionPayload) -> Result<serde_json:
 
     // Call new-session synchronously — it's fast (just writes manifest)
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = no_window(
-        Command::new(&python)
-            .args([
-                script.to_str().unwrap(),
-                "new-session",
-                "--spec",
-                &payload.spec_path,
-                "--lang",
-                &payload.lang,
-                "--budget",
-                &payload.budget.to_string(),
-            ])
-            .current_dir(&root),
-    )
-    .output()
-    .map_err(|e| format!("Failed to spawn determinex_hive.py new-session: {}", e))?;
+    let output = Command::new(&python).hide_console()
+        .args([
+            script.to_str().unwrap(),
+            "new-session",
+            "--spec",
+            &payload.spec_path,
+            "--lang",
+            &payload.lang,
+            "--budget",
+            &payload.budget.to_string(),
+        ])
+        .current_dir(&root)
+        .output()
+        .map_err(|e| format!("Failed to spawn determinex_hive.py new-session: {}", e))?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -540,7 +538,8 @@ pub async fn kill_session(
     #[cfg(target_os = "windows")]
     {
         let filter = format!("COMMANDLINE like %{}%", payload.session_id);
-        let _ = no_window_tokio(tokio::process::Command::new("taskkill").args(["/F", "/FI", &filter]))
+        let _ = tokio::process::Command::new("taskkill").hide_console()
+            .args(["/F", "/FI", &filter])
             .output()
             .await;
         log::info!("[IPC] kill_session: taskkill /FI \"{}\"", filter);
@@ -548,7 +547,8 @@ pub async fn kill_session(
     #[cfg(not(target_os = "windows"))]
     {
         // On Linux/macOS: pkill by session ID in command args
-        let _ = no_window_tokio(tokio::process::Command::new("pkill").args(["-f", &payload.session_id]))
+        let _ = tokio::process::Command::new("pkill").hide_console()
+            .args(["-f", &payload.session_id])
             .output()
             .await;
     }
@@ -576,22 +576,20 @@ pub async fn start_session(
 
     // 1. new-session (sync)
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = no_window(
-        Command::new(&python)
-            .args([
-                script.to_str().unwrap(),
-                "new-session",
-                "--spec",
-                &payload.spec_path,
-                "--lang",
-                &payload.lang,
-                "--budget",
-                &payload.budget.to_string(),
-            ])
-            .current_dir(&root),
-    )
-    .output()
-    .map_err(|e| format!("Failed to spawn determinex_hive.py new-session: {}", e))?;
+    let output = Command::new(&python).hide_console()
+        .args([
+            script.to_str().unwrap(),
+            "new-session",
+            "--spec",
+            &payload.spec_path,
+            "--lang",
+            &payload.lang,
+            "--budget",
+            &payload.budget.to_string(),
+        ])
+        .current_dir(&root)
+        .output()
+        .map_err(|e| format!("Failed to spawn determinex_hive.py new-session: {}", e))?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -665,19 +663,17 @@ pub async fn start_session(
         // resolve_python_exe already validated at the top of start_session;
         // inside the thread we fall back to the venv path directly.
         let py_in_thread = resolve_python_exe().unwrap_or_else(|_| PathBuf::from("python"));
-        let mut child1 = match no_window(
-            Command::new(&py_in_thread)
-                .args([
-                    script_clone.to_str().unwrap(),
-                    "generate-dag",
-                    "--session",
-                    &sid_clone,
-                ])
-                .current_dir(&root_clone)
-                .stdout(Stdio::from(stdout_file1))
-                .stderr(Stdio::from(stderr_file1)),
-        )
-        .spawn()
+        let mut child1 = match Command::new(&py_in_thread).hide_console()
+            .args([
+                script_clone.to_str().unwrap(),
+                "generate-dag",
+                "--session",
+                &sid_clone,
+            ])
+            .current_dir(&root_clone)
+            .stdout(Stdio::from(stdout_file1))
+            .stderr(Stdio::from(stderr_file1))
+            .spawn()
         {
             Ok(c) => c,
             Err(e) => {
@@ -791,19 +787,17 @@ pub async fn start_session(
                 return;
             }
         };
-        let mut child2 = match no_window(
-            Command::new(&py_in_thread)
-                .args([
-                    script_clone.to_str().unwrap(),
-                    "run-session",
-                    "--session",
-                    &sid_clone,
-                ])
-                .current_dir(&root_clone)
-                .stdout(Stdio::from(stdout_file2))
-                .stderr(Stdio::from(stderr_file2)),
-        )
-        .spawn()
+        let mut child2 = match Command::new(&py_in_thread).hide_console()
+            .args([
+                script_clone.to_str().unwrap(),
+                "run-session",
+                "--session",
+                &sid_clone,
+            ])
+            .current_dir(&root_clone)
+            .stdout(Stdio::from(stdout_file2))
+            .stderr(Stdio::from(stderr_file2))
+            .spawn()
         {
             Ok(c) => c,
             Err(e) => {

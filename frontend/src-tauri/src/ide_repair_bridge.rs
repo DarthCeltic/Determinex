@@ -21,6 +21,7 @@
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use std::process::Command;
+use crate::win_process::HideConsoleExt;
 
 const PYTHON_DRIVER: &str = "scripts/ide/_tauri_driver.py";
 
@@ -87,11 +88,11 @@ fn run_backend_command(command: &str, args_json: &str) -> IdeRepairResponse {
     // Spawn `python scripts/ide/_tauri_driver.py <command> <args_json>`.
     // No shell. argv only.
     let mut cmd = Command::new("python");
+    cmd.hide_console();
     cmd.arg(root.join(PYTHON_DRIVER));
     cmd.arg(command);
     cmd.arg(args_json);
     cmd.current_dir(&root);
-    crate::windows_process::no_window(&mut cmd);
 
     match cmd.output() {
         Ok(out) => {
@@ -271,6 +272,52 @@ pub fn get_learning_studio_workflow_state() -> IdeRepairResponse {
     run_unified_product_command("get_learning_studio_workflow_state")
 }
 
+// Rung 7 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES: Learning Studio content
+// generation. Read-only (grounds explanations in the verified corpus + real files);
+// non-authorizing (every output is gated through learning_studio_workflow.evaluate() before
+// this returns). `workspace` is optional and only used by explain_this_repo/explain_this_file.
+#[tauri::command]
+pub fn generate_learning_studio_content(
+    mode: String,
+    context: String,
+    workspace: Option<String>,
+) -> IdeRepairResponse {
+    let args = serde_json::json!({
+        "mode": mode,
+        "context": context,
+        "workspace": workspace.unwrap_or_default(),
+    })
+    .to_string();
+    run_backend_command("generate_learning_studio_content", &args)
+}
+
+// Maintenance Bay live scan: composes the 5 existing scripts/security/*.py scanners
+// (secret_scan, dependency_scan, verify_lockfiles, license_scan, container_scan) into one
+// read-only advisory result via security_gate.run_all(). Never applies an update, never
+// authorizes anything -- a "blocked" gate is a finding to review, not source mutation.
+// Can take several seconds (dependency_scan shells out to pip-audit over the whole
+// environment); intentionally NOT auto-fetched on panel mount, only on explicit request.
+#[tauri::command]
+pub fn run_maintenance_bay_scan() -> IdeRepairResponse {
+    run_backend_command("run_maintenance_bay_scan", "{}")
+}
+
+// Direct corpus query surface (2026-07-16): the ONE canonical read-only corpus API
+// (scripts/determinex_corpus_api.py -- ask/maturity_report/timeline) exposed as its own
+// command, instead of being reachable only through the two Learning Studio modes that
+// happen to call ask() internally. `query` is the free-text question (or a topic filter
+// for maturity/timeline modes); `mode` selects "ask" (default), "maturity", or "timeline".
+// No search/ranking logic lives here or in the Python handler -- pure wiring.
+#[tauri::command]
+pub fn query_corpus(query: String, mode: Option<String>) -> IdeRepairResponse {
+    let args = serde_json::json!({
+        "corpus_query": query,
+        "corpus_mode": mode.unwrap_or_else(|| "ask".to_string()),
+    })
+    .to_string();
+    run_backend_command("query_corpus", &args)
+}
+
 #[tauri::command]
 pub fn get_proof_operator_center_state() -> IdeRepairResponse {
     run_unified_product_command("get_proof_operator_center_state")
@@ -347,6 +394,12 @@ pub const UNIFIED_PRODUCT_READ_ONLY_COMMANDS: &[&str] = &[
     "get_learning_studio_verified_demo_status",
     "get_proof_operator_center_milestone_dashboard_status",
 ];
+// NOTE: generate_learning_studio_content (rung 7) is deliberately NOT in this frozen list --
+// it's real per-call computation (mode+context args), not a static view-model snapshot, same
+// reason preview_idea_oracle/repair_diagnose/build_idea live outside this set too. It's still
+// registered in tauri::generate_handler! in lib.rs and has its own #[tauri::command] above.
+// NOTE: query_corpus is deliberately NOT in this frozen list either -- same reasoning
+// (real per-call query+search, not a static view-model snapshot).
 
 #[cfg(test)]
 mod tests {

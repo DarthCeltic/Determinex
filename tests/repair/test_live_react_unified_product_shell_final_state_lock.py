@@ -27,17 +27,20 @@ def test_live_evaluation_passes():
     assert rec.is_passed, rec.notes
 
 
-def test_all_nine_dimensions_closed():
+def test_all_six_dimensions_closed():
+    # Was nine; idea_lab_panel, proof_operator_center_panel, and
+    # splash_demo_panel were dropped 2026-07-20 -- their panels+locks+tests
+    # were deliberately archived (commit 30b3ff570) as a Claude<->Codex
+    # tandem-pipeline trail, not real features. Requiring their (now-deleted)
+    # lock files here was a stale check pointing at intentionally-removed
+    # work, not a real gap.
     rec = final.evaluate(_REPO_ROOT)
     assert rec.tauri_command_surface_closed
     assert rec.unified_navigation_panel_closed
-    assert rec.idea_lab_panel_closed
     assert rec.repo_clinic_panel_closed
     assert rec.maintenance_bay_panel_closed
     assert rec.learning_studio_panel_closed
-    assert rec.proof_operator_center_panel_closed
     assert rec.user_level_teaching_mode_closed
-    assert rec.splash_demo_panel_closed
 
 
 def test_aggregate_invariants():
@@ -107,7 +110,7 @@ def test_lock_with_opened_source_mutation_blocks(tmp_path):
 def test_lock_with_unsupported_claim_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
     target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001.json")
+              / "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001.json")
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["all_apps_claim"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")

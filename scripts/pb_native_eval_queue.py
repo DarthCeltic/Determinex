@@ -19,11 +19,10 @@ import json
 import os
 import subprocess
 import sys
-import tempfile
-import time
 from pathlib import Path
 from typing import Any
 
+from determinex_atomic_io import write_json_atomic as _write_json_atomic
 from pb_native_source_guard import check_path
 
 
@@ -41,29 +40,6 @@ def _load_json(path: Path, default: Any) -> Any:
     if not path.is_file():
         return default
     return json.loads(path.read_text(encoding="utf-8", errors="replace"))
-
-
-def _write_json_atomic(path: Path, data: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        "w",
-        encoding="utf-8",
-        dir=str(path.parent),
-        delete=False,
-        prefix=f".{path.name}.",
-        suffix=".tmp",
-    ) as f:
-        json.dump(data, f, indent=2)
-        f.write("\n")
-        tmp = Path(f.name)
-    for attempt in range(10):
-        try:
-            tmp.replace(path)
-            return
-        except PermissionError:
-            if attempt == 9:
-                raise
-            time.sleep(0.25)
 
 
 def _short_name(slug: str) -> str:

@@ -45,22 +45,29 @@ export function ThemeOverlay({
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
       <div className="flex flex-col items-center gap-2">
         <div className="relative">
-          <div className="w-8 h-8 border-2 rounded-full animate-spin"
-               style={{ borderColor: primary, borderTopColor: "transparent" }} />
+          <div
+            className="w-8 h-8 border-2 rounded-full animate-spin"
+            style={{ borderColor: primary, borderTopColor: "transparent" }}
+          />
           {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[7px] font-mono font-bold tabular-nums leading-none" style={{ color: primary }}>
+              <span
+                className="text-meta font-mono font-bold tabular-nums leading-none"
+                style={{ color: primary }}
+              >
                 {elapsedSeconds}s
               </span>
             </div>
           )}
         </div>
-        <p className="text-[13px] font-mono tracking-widest uppercase font-bold"
-           style={{ color: primary, textShadow: `0 0 12px ${primary}55` }}>
+        <p
+          className="text-body font-mono tracking-widest uppercase font-bold"
+          style={{ color: primary, textShadow: `0 0 12px ${primary}55` }}
+        >
           {label}
         </p>
         {subLabel && (
-          <p className="text-[10px] font-mono tracking-wide" style={{ color: dim }}>
+          <p className="text-label font-mono tracking-wide" style={{ color: dim }}>
             {subLabel}
           </p>
         )}
@@ -70,9 +77,11 @@ export function ThemeOverlay({
           const color = palette[role.toLowerCase() as keyof RolePalette];
           const isActive = i === 0;
           const shape =
-            chipShape === "square" ? "rounded-none" :
-            chipShape === "diamond" ? "rounded-none rotate-45" :
-            "rounded-full";
+            chipShape === "square"
+              ? "rounded-none"
+              : chipShape === "diamond"
+                ? "rounded-none rotate-45"
+                : "rounded-full";
           return (
             <React.Fragment key={role}>
               <div className="flex flex-col items-center gap-1">
@@ -84,20 +93,31 @@ export function ThemeOverlay({
                     boxShadow: isActive ? `0 0 8px ${color}60` : "none",
                   }}
                 >
-                  <div className={`w-1.5 h-1.5 ${chipShape === "diamond" ? "-rotate-45" : "rounded-full"}`}
-                       style={{ background: color, opacity: isActive ? 1 : 0.3 }} />
+                  <div
+                    className={`w-1.5 h-1.5 ${chipShape === "diamond" ? "-rotate-45" : "rounded-full"}`}
+                    style={{ background: color, opacity: isActive ? 1 : 0.3 }}
+                  />
                 </div>
-                <span className={`text-[8px] font-mono uppercase tracking-wider ${chipShape === "diamond" ? "" : ""}`}
-                      style={{ color, opacity: isActive ? 1 : 0.35 }}>
+                <span
+                  className={`text-eyebrow font-mono uppercase tracking-wider ${chipShape === "diamond" ? "" : ""}`}
+                  style={{ color, opacity: isActive ? 1 : 0.35 }}
+                >
                   {role}
                 </span>
                 {isActive && elapsedSeconds !== undefined && elapsedSeconds > 0 && (
-                  <span className="text-[8px] font-mono font-bold tabular-nums" style={{ color, opacity: 0.9 }}>
+                  <span
+                    className="text-meta font-mono font-bold tabular-nums"
+                    style={{ color, opacity: 0.9 }}
+                  >
                     {elapsedSeconds}s
                   </span>
                 )}
               </div>
-              {i < arr.length - 1 && <span className="text-[9px] mb-4" style={{ color: dim }}>{arrow}</span>}
+              {i < arr.length - 1 && (
+                <span className="text-meta mb-4" style={{ color: dim }}>
+                  {arrow}
+                </span>
+              )}
             </React.Fragment>
           );
         })}
@@ -109,9 +129,13 @@ export function ThemeOverlay({
 export function SmallPanel({ label, primary }: { label: string; primary: string }) {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-      <div className="w-5 h-5 border-2 rounded-full animate-spin"
-           style={{ borderColor: primary, borderTopColor: "transparent" }} />
-      <p className="text-[10px] font-mono tracking-widest uppercase" style={{ color: primary }}>{label}</p>
+      <div
+        className="w-5 h-5 border-2 rounded-full animate-spin"
+        style={{ borderColor: primary, borderTopColor: "transparent" }}
+      />
+      <p className="text-meta font-mono tracking-widest uppercase" style={{ color: primary }}>
+        {label}
+      </p>
     </div>
   );
 }

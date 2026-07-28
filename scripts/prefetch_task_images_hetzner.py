@@ -9,7 +9,7 @@ import json
 import time
 
 REMOTE = "root@5.78.192.163"
-SSH_KEY = str(__import__("pathlib").Path.home() / ".ssh" / "id_determinex")
+SSH_KEY = str(__import__("pathlib").Path.home() / ".ssh" / "id_citadel")
 ROOT = __import__("pathlib").Path(__file__).resolve().parent.parent
 EVAL_INDEX = ROOT / "corpus" / "programbench" / "eval_index.json"
 

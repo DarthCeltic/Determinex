@@ -34,7 +34,8 @@ export function PlainLightTheme({
     });
     if (canvas.parentElement) ro.observe(canvas.parentElement);
 
-    let raf: number, t = 0;
+    let raf: number,
+      t = 0;
     const draw = () => {
       ctx.fillStyle = "rgba(245,247,250,0.22)";
       ctx.fillRect(0, 0, w, h);
@@ -46,7 +47,7 @@ export function PlainLightTheme({
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, w, h);
       // Slow horizontal scan
-      const sy = ((t * 0.5) % h);
+      const sy = (t * 0.5) % h;
       const sg = ctx.createLinearGradient(0, sy - 20, 0, sy + 20);
       sg.addColorStop(0, "rgba(120,130,150,0)");
       sg.addColorStop(0.5, "rgba(120,130,150,0.08)");
@@ -57,7 +58,7 @@ export function PlainLightTheme({
       const dotSpacing = 18;
       for (let x = dotSpacing; x < w; x += dotSpacing) {
         const phase = Math.sin((x + t * 2) * 0.02);
-        const a = 0.20 + Math.abs(phase) * 0.35;
+        const a = 0.2 + Math.abs(phase) * 0.35;
         ctx.fillStyle = `rgba(80,90,110,${a})`;
         ctx.beginPath();
         ctx.arc(x, h - 22, 1.5, 0, Math.PI * 2);
@@ -67,7 +68,10 @@ export function PlainLightTheme({
       raf = requestAnimationFrame(draw);
     };
     draw();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, [active]);
 
   if (!active) return null;
@@ -92,7 +96,10 @@ export function PlainLightTheme({
     );
   }
   return (
-    <div className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none" style={{ background: "#f5f7fa" }}>
+    <div
+      className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none"
+      style={{ background: "#f5f7fa" }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 opacity-95" />
       <SmallPanel label={label} primary={primary} />
     </div>

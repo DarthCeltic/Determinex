@@ -52,12 +52,14 @@ export const DETERMINEX_INDUSTRY_BACKLOG_CATEGORIES: IndustryBacklogCategory[] =
   {
     id: "release",
     title: "Release Trust",
-    objective: "Make install, launch, update, uninstall, signing, and public distribution provable.",
+    objective:
+      "Make install, launch, update, uninstall, signing, and public distribution provable.",
   },
   {
     id: "ide-parity",
     title: "Core IDE Parity",
-    objective: "Match the daily editing, navigation, terminal, git, task, and settings workflows users expect.",
+    objective:
+      "Match the daily editing, navigation, terminal, git, task, and settings workflows users expect.",
   },
   {
     id: "universal-code",
@@ -72,27 +74,32 @@ export const DETERMINEX_INDUSTRY_BACKLOG_CATEGORIES: IndustryBacklogCategory[] =
   {
     id: "guide",
     title: "Interactive Guide",
-    objective: "Turn setup, proof, privacy, repair, and release blockers into contextual next actions.",
+    objective:
+      "Turn setup, proof, privacy, repair, and release blockers into contextual next actions.",
   },
   {
     id: "extensions",
     title: "Extension Ecosystem",
-    objective: "Define how Determinex imports, trusts, runs, or bridges existing VS Code/Open VSX workflows.",
+    objective:
+      "Define how Determinex imports, trusts, runs, or bridges existing VS Code/Open VSX workflows.",
   },
   {
     id: "privacy",
     title: "Privacy And Governance",
-    objective: "Back every privacy and product claim with live policy, Cloak, audit, and evidence collectors.",
+    objective:
+      "Back every privacy and product claim with live policy, Cloak, audit, and evidence collectors.",
   },
   {
     id: "execution",
     title: "Execution Fabric",
-    objective: "Unify local shell, WSL, Docker, remote jobs, logs, reservations, and artifact pullback.",
+    objective:
+      "Unify local shell, WSL, Docker, remote jobs, logs, reservations, and artifact pullback.",
   },
   {
     id: "quality",
     title: "Quality Bar",
-    objective: "Prove UI, IPC, packaging, setup, hardware, performance, and accessibility behavior repeatedly.",
+    objective:
+      "Prove UI, IPC, packaging, setup, hardware, performance, and accessibility behavior repeatedly.",
   },
   {
     id: "differentiators",
@@ -113,7 +120,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
       "assurance/evidence/full_release_closure/clean_host_runner_preflight_20260708.json",
       "scripts/release/clean_host_install_transcript.py",
     ],
-    blocker: "Current runner cannot access Docker Desktop state; clean-host transcript must run outside this sandbox.",
+    blocker:
+      "Current runner cannot access Docker Desktop state; clean-host transcript must run outside this sandbox.",
     nextAction:
       "Generate the transcript template, then run install/launch/Proof Center/workspace smoke/uninstall on an unsandboxed clean Windows host.",
   },
@@ -123,9 +131,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P0",
     title: "Windows code signing and SmartScreen trust",
     status: "blocked",
-    evidence: ["frontend/src/lib/releaseGateStatus.ts:windows_trust", "docs/release/DETERMINEX_PROTECTED_RELEASE_PACKETS.md"],
+    evidence: [
+      "frontend/src/lib/releaseGateStatus.ts:windows_trust",
+      "docs/release/DETERMINEX_PROTECTED_RELEASE_PACKETS.md",
+    ],
     blocker: "No determinex-windows-trust-evidence-v1 packet has passed.",
-    nextAction: "Sign the installer, verify Authenticode and SmartScreen trust, then record the Windows trust packet.",
+    nextAction:
+      "Sign the installer, verify Authenticode and SmartScreen trust, then record the Windows trust packet.",
   },
   {
     id: "release-msi-or-nsis",
@@ -139,7 +151,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
       ".tmp/determinex-cargo-target-release/release/bundle/nsis/Determinex_0.1.0_x64-setup.exe",
     ],
     blocker: "NSIS bundle exists; MSI/WiX evidence packet is not proven.",
-    nextAction: "Build and smoke a WiX/MSI package or explicitly ship an NSIS-only release decision packet.",
+    nextAction:
+      "Build and smoke a WiX/MSI package or explicitly ship an NSIS-only release decision packet.",
   },
   {
     id: "release-updater-rollback",
@@ -149,7 +162,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "planned",
     evidence: ["frontend/src-tauri/tauri.conf.json"],
     blocker: "No audited updater and rollback transcript is attached to release gates.",
-    nextAction: "Define update manifest signing, update install, rollback, and failed-update recovery tests.",
+    nextAction:
+      "Define update manifest signing, update install, rollback, and failed-update recovery tests.",
   },
   {
     id: "release-public-scrub",
@@ -157,9 +171,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P0",
     title: "Public repository scrub",
     status: "partial",
-    evidence: ["scripts/claim_scanner/day_one_public_claim_scanner.py", "frontend/src/lib/successorRoadmap.ts"],
-    blocker: "Claim scanner passes for authority anchors, but public repo scrub and private path review are not complete.",
-    nextAction: "Run a release scrub for secrets, private paths, stale Determinex user copy, generated artifacts, and oversized files.",
+    evidence: [
+      "scripts/claim_scanner/day_one_public_claim_scanner.py",
+      "frontend/src/lib/successorRoadmap.ts",
+    ],
+    blocker:
+      "Claim scanner passes for authority anchors, but public repo scrub and private path review are not complete.",
+    nextAction:
+      "Run a release scrub for secrets, private paths, stale Determinex user copy, generated artifacts, and oversized files.",
   },
   {
     id: "release-legal-ip",
@@ -172,7 +191,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
       "docs/release/DETERMINEX_PROTECTED_RELEASE_PACKETS.md",
     ],
     blocker: "No determinex-legal-public-distribution-evidence-v1 packet has passed.",
-    nextAction: "Finalize license, notices, model disclosures, third-party attributions, secret scan, and public repo scrub.",
+    nextAction:
+      "Finalize license, notices, model disclosures, third-party attributions, secret scan, and public repo scrub.",
   },
   {
     id: "release-dashboard",
@@ -180,9 +200,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P0",
     title: "Single release dashboard tied to collectors",
     status: "partial",
-    evidence: ["frontend/src/components/SuccessorRoadmapPanel.tsx", "frontend/src/lib/releaseGateStatus.ts"],
-    blocker: "Dashboard is static snapshot data until every gate is refreshed by current collector output.",
-    nextAction: "Regenerate release gate status from collector and wire timestamp freshness into the UI.",
+    evidence: [
+      "frontend/src/components/SuccessorRoadmapPanel.tsx",
+      "frontend/src/lib/releaseGateStatus.ts",
+    ],
+    blocker:
+      "Dashboard is static snapshot data until every gate is refreshed by current collector output.",
+    nextAction:
+      "Regenerate release gate status from collector and wire timestamp freshness into the UI.",
   },
   {
     id: "release-go-command",
@@ -192,7 +217,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["scripts/release/determinex_release_gates.py"],
     blocker: "Full final release verification stack has not passed on this release commit.",
-    nextAction: "Run the full release verification stack and require machine-readable GO/BLOCKED output.",
+    nextAction:
+      "Run the full release verification stack and require machine-readable GO/BLOCKED output.",
   },
   {
     id: "ide-open-workspace",
@@ -212,7 +238,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/components/FileSystemNode.tsx", "frontend/src/app/page.tsx"],
     blocker: "Explorer reads files, but full file CRUD is not audited as a user workflow.",
-    nextAction: "Implement and test file create, rename, move, delete, reveal, and refresh commands.",
+    nextAction:
+      "Implement and test file create, rename, move, delete, reveal, and refresh commands.",
   },
   {
     id: "ide-editor-persistence",
@@ -222,7 +249,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/components/EditorPanel.tsx", "frontend/src/app/page.tsx"],
     blocker: "Monaco exists, but save/dirty/split persistence is not fully proven.",
-    nextAction: "Add editor persistence tests covering save, dirty indicators, tab restore, and split layout.",
+    nextAction:
+      "Add editor persistence tests covering save, dirty indicators, tab restore, and split layout.",
   },
   {
     id: "ide-global-search-replace",
@@ -232,7 +260,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/components/VerifiedSearch.tsx"],
     blocker: "Verified search exists; global replace is not proven as an IDE workflow.",
-    nextAction: "Add replace preview, diff review, apply, and rollback around verified search results.",
+    nextAction:
+      "Add replace preview, diff review, apply, and rollback around verified search results.",
   },
   {
     id: "ide-symbol-search-outline",
@@ -242,17 +271,25 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "planned",
     evidence: ["frontend/src/components/CommandPalette.tsx"],
     blocker: "No audited symbol index or outline provider is attached to workspace state.",
-    nextAction: "Add language-server-backed outline and symbol search for the first supported language.",
+    nextAction:
+      "Add language-server-backed outline and symbol search for the first supported language.",
   },
   {
     id: "ide-git-panel",
     category: "ide-parity",
     priority: "P1",
     title: "Git status, diff, stage, commit, branch, pull, push, and conflict view",
-    status: "planned",
-    evidence: ["frontend/src/app/page.tsx"],
-    blocker: "Git navigation exists in shell concepts, but full Git workbench is not implemented.",
-    nextAction: "Build a Git panel with status, diff, stage, commit, branch, pull, push, and conflict resolution.",
+    status: "partial",
+    evidence: [
+      "frontend/src/components/GitPanel.tsx",
+      "frontend/src/components/MergeEditor.tsx",
+      "frontend/src/components/__tests__/MergeEditor.test.tsx",
+      "frontend/src-tauri/src/git.rs:git_conflict_sides",
+    ],
+    blocker:
+      "Status, stage, commit, branch, pull, push, and a dedicated ours/theirs/result conflict editor are all implemented; not yet proven from a packaged clean install.",
+    nextAction:
+      "Add packaged-app smoke coverage that stages a real merge conflict and resolves it through the Merge panel end to end.",
   },
   {
     id: "ide-terminal-tasks",
@@ -260,9 +297,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Terminal task runner with persisted tasks",
     status: "partial",
-    evidence: ["frontend/src/components/TerminalPanel.tsx", "frontend/src/components/buildtools/TasksRunner.tsx"],
-    blocker: "Terminal and tasks exist, but packaged task persistence and error UX are not fully proven.",
-    nextAction: "Add task schema validation, packaged smoke coverage, and task output linking to proof records.",
+    evidence: [
+      "frontend/src/components/TerminalPanel.tsx",
+      "frontend/src/components/buildtools/TasksRunner.tsx",
+    ],
+    blocker:
+      "Terminal and tasks exist, but packaged task persistence and error UX are not fully proven.",
+    nextAction:
+      "Add task schema validation, packaged smoke coverage, and task output linking to proof records.",
   },
   {
     id: "ide-debugger-lsp",
@@ -280,7 +322,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Settings export, import, and sync",
     status: "partial",
-    evidence: ["frontend/src/contexts/SettingsContext.tsx", "frontend/src/components/modals/SettingsModal.tsx"],
+    evidence: [
+      "frontend/src/contexts/SettingsContext.tsx",
+      "frontend/src/components/modals/SettingsModal.tsx",
+    ],
     blocker: "Settings exist locally; export/import/sync is not proven.",
     nextAction: "Add settings export/import, redacted backup, and restore tests.",
   },
@@ -292,7 +337,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/app/page.tsx", "frontend/src/components/StatusBar.tsx"],
     blocker: "Several states persist, but full layout restoration across restart is not tested.",
-    nextAction: "Persist dock mode, dock size, active panels, splits, and reopened workspace in one schema.",
+    nextAction:
+      "Persist dock mode, dock size, active panels, splits, and reopened workspace in one schema.",
   },
   {
     id: "universal-toolchain-detector",
@@ -301,8 +347,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Toolchain detector for major languages",
     status: "partial",
     evidence: ["scripts/validators", "frontend/src/lib/work-readiness.ts"],
-    blocker: "Model readiness exists; language/toolchain readiness is not proven for every major stack.",
-    nextAction: "Add a detector matrix for Python, JS/TS, Rust, Go, Java, C/C++, C#, PHP, Ruby, Swift, Kotlin, and shell.",
+    blocker:
+      "Model readiness exists; language/toolchain readiness is not proven for every major stack.",
+    nextAction:
+      "Add a detector matrix for Python, JS/TS, Rust, Go, Java, C/C++, C#, PHP, Ruby, Swift, Kotlin, and shell.",
   },
   {
     id: "universal-run-test-build",
@@ -312,7 +360,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["scripts/validators", "frontend/src/components/BuildCenter.tsx"],
     blocker: "Build Center exists, but commands are not proven across the full language matrix.",
-    nextAction: "Wire per-language command recipes to workspace detection and add fixture projects for each stack.",
+    nextAction:
+      "Wire per-language command recipes to workspace detection and add fixture projects for each stack.",
   },
   {
     id: "universal-open-any-repo",
@@ -322,7 +371,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/components/ProjectHub.tsx", "frontend/src/lib/work-readiness.ts"],
     blocker: "Project readiness is not yet a full repository health scan.",
-    nextAction: "Create a repo scan that reports stack, commands, missing deps, tests, risks, and first verifier.",
+    nextAction:
+      "Create a repo scan that reports stack, commands, missing deps, tests, risks, and first verifier.",
   },
   {
     id: "universal-dependency-advisor",
@@ -342,7 +392,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "planned",
     evidence: ["docs/release"],
     blocker: "Current package proof is Windows-focused and clean-host blocked.",
-    nextAction: "Define OS matrix, test host requirements, and per-platform installer/workflow transcripts.",
+    nextAction:
+      "Define OS matrix, test host requirements, and per-platform installer/workflow transcripts.",
   },
   {
     id: "universal-project-templates",
@@ -350,9 +401,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Project templates for common application types",
     status: "partial",
-    evidence: ["frontend/src/components/ConceptLab.tsx", "frontend/src/components/ProjectArchitect.tsx"],
-    blocker: "Idea guidance exists, but template creation is not proven across all target project classes.",
-    nextAction: "Add templates for CLI, web app, desktop app, API, library, data/ML, and game projects.",
+    evidence: [
+      "frontend/src/components/ConceptLab.tsx",
+      "frontend/src/components/ProjectArchitect.tsx",
+    ],
+    blocker:
+      "Idea guidance exists, but template creation is not proven across all target project classes.",
+    nextAction:
+      "Add templates for CLI, web app, desktop app, API, library, data/ML, and game projects.",
   },
   {
     id: "universal-repair-loop",
@@ -361,8 +417,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Universal repair loop",
     status: "partial",
     evidence: ["scripts/determinex_hive.py", "frontend/src/components/HiveBuildLoop.tsx"],
-    blocker: "Hive repair primitives exist, but one clean user-facing repair loop for arbitrary repos is not fully proven.",
-    nextAction: "Prove detect failure, patch, verify, explain, and rollback on a clean fixture repo.",
+    blocker:
+      "Hive repair primitives exist, but one clean user-facing repair loop for arbitrary repos is not fully proven.",
+    nextAction:
+      "Prove detect failure, patch, verify, explain, and rollback on a clean fixture repo.",
   },
   {
     id: "agent-pause-resume-cancel",
@@ -370,9 +428,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Replayable agent lanes with pause, resume, cancel, and retry",
     status: "partial",
-    evidence: ["frontend/src/components/AgentTrace.tsx", "frontend/src/components/HiveBuildLoop.tsx"],
+    evidence: [
+      "frontend/src/components/AgentTrace.tsx",
+      "frontend/src/components/HiveBuildLoop.tsx",
+    ],
     blocker: "Agent trace exists; durable lane controls are not fully proven.",
-    nextAction: "Add lane state machine tests and UI controls for pause, resume, cancel, retry, and replay.",
+    nextAction:
+      "Add lane state machine tests and UI controls for pause, resume, cancel, retry, and replay.",
   },
   {
     id: "agent-diff-review",
@@ -383,6 +445,30 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     evidence: ["frontend/src/app/page.tsx", "frontend/src/components/EditorPanel.tsx"],
     blocker: "Diff editor exists, but review-before-apply is not enforced for agent patches.",
     nextAction: "Require agent patch previews with accept/reject and evidence record links.",
+  },
+  {
+    id: "agent-worktree-isolation-toggle",
+    category: "agentic",
+    priority: "P1",
+    title: "Git worktree isolation choice when starting an agent session",
+    status: "planned",
+    evidence: ["scripts/determinex_swebench_agent.py", "frontend/src/components/HiveBuildLoop.tsx"],
+    blocker:
+      "Isolated git worktrees are already used by the compile gate and SWE-bench agent at the script layer, but the IDE's session-start flow exposes no worktree/isolation choice at all -- parity gap vs. VS Code 1.129's worktree checkbox in the agent session picker.",
+    nextAction:
+      "Add a worktree-isolation toggle to the session-start flow, backed by a Tauri command that creates/cleans up the worktree and binds it to the session record.",
+  },
+  {
+    id: "agent-multi-window-session-view",
+    category: "agentic",
+    priority: "P2",
+    title: "Same agent session viewable from more than one window",
+    status: "planned",
+    evidence: ["frontend/src/components/AgentTrace.tsx"],
+    blocker:
+      "AgentTrace lists sessions in one table inside the single main window; there is no dedicated session-server process or second-window view of a running session, unlike VS Code 1.129's agent host process shared across windows.",
+    nextAction:
+      "Decide whether this needs a real multi-window Tauri architecture (new window + shared session state) before scoping further; this is a bigger architectural change than a single panel and needs an explicit go-ahead.",
   },
   {
     id: "agent-rollback",
@@ -402,7 +488,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/components/HiveBuildLoop.tsx", "scripts/determinex_hive.py"],
     blocker: "Some budget fields exist; user-facing controls and enforcement proof are incomplete.",
-    nextAction: "Expose budget caps, timeout caps, retry caps, and cost summaries in the agent lane UI.",
+    nextAction:
+      "Expose budget caps, timeout caps, retry caps, and cost summaries in the agent lane UI.",
   },
   {
     id: "agent-failure-recovery",
@@ -410,9 +497,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Failure recovery with exact next action",
     status: "partial",
-    evidence: ["frontend/src/lib/missionControl.ts", "frontend/src/components/MissionControlPanel.tsx"],
+    evidence: [
+      "frontend/src/lib/missionControl.ts",
+      "frontend/src/components/MissionControlPanel.tsx",
+    ],
     blocker: "Mission Control explains gates; agent-level failure recovery is not uniformly wired.",
-    nextAction: "Map each agent failure type to a recovery command, evidence path, and user-safe explanation.",
+    nextAction:
+      "Map each agent failure type to a recovery command, evidence path, and user-safe explanation.",
   },
   {
     id: "agent-background-queue",
@@ -422,7 +513,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/components/AgentTrace.tsx", "logs"],
     blocker: "Logs exist, but queued job orchestration is not a single IDE control plane.",
-    nextAction: "Add a jobs table with command, PID, status, log stream, artifacts, and cancellation.",
+    nextAction:
+      "Add a jobs table with command, PID, status, log stream, artifacts, and cancellation.",
   },
   {
     id: "agent-trace-proof-links",
@@ -430,9 +522,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Agent trace linked to files, commands, tests, and proof",
     status: "partial",
-    evidence: ["frontend/src/components/AgentTrace.tsx", "frontend/src/components/ProofOperatorCenterPanel.tsx"],
+    evidence: [
+      "frontend/src/components/AgentTrace.tsx",
+      "frontend/src/components/ProofOperatorCenterPanel.tsx",
+    ],
     blocker: "Trace and proof surfaces exist separately; cross-links are incomplete.",
-    nextAction: "Attach every trace step to touched files, command output, verifier result, and proof artifact.",
+    nextAction:
+      "Attach every trace step to touched files, command output, verifier result, and proof artifact.",
   },
   {
     id: "agent-repair-this-repo",
@@ -440,9 +536,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "One repair-this-repo flow from clean install",
     status: "partial",
-    evidence: ["frontend/src/lib/missionControl.ts", "frontend/src/lib/releaseGateStatus.ts:first_e2e"],
+    evidence: [
+      "frontend/src/lib/missionControl.ts",
+      "frontend/src/lib/releaseGateStatus.ts:first_e2e",
+    ],
     blocker: "First E2E is passed in snapshot, but clean-host install proof remains blocked.",
-    nextAction: "Run a packaged clean-host repair-this-repo transcript and bind it to release evidence.",
+    nextAction:
+      "Run a packaged clean-host repair-this-repo transcript and bind it to release evidence.",
   },
   {
     id: "guide-context-aware",
@@ -450,9 +550,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Context-aware guide",
     status: "partial",
-    evidence: ["frontend/src/components/TeacherOverlay.tsx", "frontend/src/components/MissionControlPanel.tsx"],
-    blocker: "Guide exists, but it does not yet fully inspect current screen, setup state, and failed gates.",
-    nextAction: "Feed active screen, setup state, release gates, and selected project into guide step resolution.",
+    evidence: [
+      "frontend/src/components/TeacherOverlay.tsx",
+      "frontend/src/components/MissionControlPanel.tsx",
+    ],
+    blocker:
+      "Guide exists, but it does not yet fully inspect current screen, setup state, and failed gates.",
+    nextAction:
+      "Feed active screen, setup state, release gates, and selected project into guide step resolution.",
   },
   {
     id: "guide-setup-walkthrough",
@@ -461,8 +566,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Setup walkthrough for APIs, local models, Local, Cloak, and Cloud",
     status: "partial",
     evidence: ["frontend/src/components/SetupWizard.tsx", "frontend/src/lib/networkPolicy.ts"],
-    blocker: "Setup wizard explains core options, but guide-driven setup completion is not fully tied to readiness.",
-    nextAction: "Add guide actions that open setup sections, validate keys/models, and explain privacy modes.",
+    blocker:
+      "Setup wizard explains core options, but guide-driven setup completion is not fully tied to readiness.",
+    nextAction:
+      "Add guide actions that open setup sections, validate keys/models, and explain privacy modes.",
   },
   {
     id: "guide-first-project",
@@ -472,7 +579,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/components/ConceptLab.tsx", "frontend/src/components/ProjectHub.tsx"],
     blocker: "Idea guidance exists, but a packaged first-project walkthrough is not proven.",
-    nextAction: "Create a guided first project path that ends with a verifier result and saved project.",
+    nextAction:
+      "Create a guided first project path that ends with a verifier result and saved project.",
   },
   {
     id: "guide-repair-walkthrough",
@@ -482,7 +590,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "planned",
     evidence: ["frontend/src/lib/missionControl.ts"],
     blocker: "No dedicated repair tutorial is wired to a real failing repository fixture.",
-    nextAction: "Add a repair tutorial using a known broken fixture and proof-backed success/failure states.",
+    nextAction:
+      "Add a repair tutorial using a known broken fixture and proof-backed success/failure states.",
   },
   {
     id: "guide-proof-center",
@@ -490,9 +599,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Proof Center walkthrough",
     status: "partial",
-    evidence: ["frontend/src/components/MissionControlPanel.tsx", "frontend/src/app/proof-center/page.tsx"],
+    evidence: [
+      "frontend/src/components/MissionControlPanel.tsx",
+      "frontend/src/app/proof-center/page.tsx",
+    ],
     blocker: "Proof guidance exists, but not all evidence links are live and refreshed.",
-    nextAction: "Add guide cards that open each proof surface and explain passed, partial, blocked, and planned.",
+    nextAction:
+      "Add guide cards that open each proof surface and explain passed, partial, blocked, and planned.",
   },
   {
     id: "guide-addons-providers",
@@ -502,7 +615,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/components/MarketplacePanel.tsx", "frontend/src/lib/addonStorage.ts"],
     blocker: "Add-on state is migrated, but guide actions for provider setup are not complete.",
-    nextAction: "Wire guide actions to provider install, API key setup, and model readiness checks.",
+    nextAction:
+      "Wire guide actions to provider install, API key setup, and model readiness checks.",
   },
   {
     id: "guide-release-gates",
@@ -510,9 +624,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Release gate walkthrough",
     status: "partial",
-    evidence: ["frontend/src/components/MissionControlPanel.tsx", "frontend/src/lib/releaseGateStatus.ts"],
-    blocker: "Mission Control lists gates; direct execution of runbook commands from the guide is not implemented.",
-    nextAction: "Add copy/run affordances for safe collector commands and refresh gate status after execution.",
+    evidence: [
+      "frontend/src/components/MissionControlPanel.tsx",
+      "frontend/src/lib/releaseGateStatus.ts",
+    ],
+    blocker:
+      "Mission Control lists gates; direct execution of runbook commands from the guide is not implemented.",
+    nextAction:
+      "Add copy/run affordances for safe collector commands and refresh gate status after execution.",
   },
   {
     id: "guide-clickable-actions",
@@ -520,9 +639,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Clickable next actions from guide cards",
     status: "partial",
-    evidence: ["frontend/src/components/TeacherOverlay.tsx", "frontend/src/components/MissionControlPanel.tsx"],
+    evidence: [
+      "frontend/src/components/TeacherOverlay.tsx",
+      "frontend/src/components/MissionControlPanel.tsx",
+    ],
     blocker: "Some navigation exists; guide cards are not universally actionable.",
-    nextAction: "Add typed guide actions for open panel, run collector, copy command, open evidence, and rerun setup.",
+    nextAction:
+      "Add typed guide actions for open panel, run collector, copy command, open evidence, and rerun setup.",
   },
   {
     id: "guide-blocker-explanations",
@@ -531,8 +654,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Why am I blocked explanations from real gate data",
     status: "partial",
     evidence: ["frontend/src/lib/releaseGateStatus.ts", "frontend/src/lib/missionControl.ts"],
-    blocker: "Gate blockers are displayed, but not translated into per-user remediation workflows everywhere.",
-    nextAction: "Attach blocker explanations, prerequisites, commands, and success criteria to every blocked gate.",
+    blocker:
+      "Gate blockers are displayed, but not translated into per-user remediation workflows everywhere.",
+    nextAction:
+      "Attach blocker explanations, prerequisites, commands, and success criteria to every blocked gate.",
   },
   {
     id: "extensions-api-contract",
@@ -546,7 +671,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
       "frontend/src/lib/releaseGateStatus.ts:extension_compat",
     ],
     blocker: "Extension API contract exists, but runtime compatibility evidence has not passed.",
-    nextAction: "Run VSIX import, Open VSX metadata, activation-event, and sandbox permission smokes.",
+    nextAction:
+      "Run VSIX import, Open VSX metadata, activation-event, and sandbox permission smokes.",
   },
   {
     id: "extensions-vscode-migration",
@@ -554,9 +680,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "VS Code settings and workspace migration plan",
     status: "partial",
-    evidence: ["frontend/vscode-extension/package.json", "frontend/vscode-extension/src/extension.ts"],
-    blocker: "VS Code extension surface is renamed, but workspace/settings migration is not implemented.",
-    nextAction: "Build migration import for workspace folders, settings, tasks, launch configs, and extensions inventory.",
+    evidence: [
+      "frontend/vscode-extension/package.json",
+      "frontend/vscode-extension/src/extension.ts",
+    ],
+    blocker:
+      "VS Code extension surface is renamed, but workspace/settings migration is not implemented.",
+    nextAction:
+      "Build migration import for workspace folders, settings, tasks, launch configs, and extensions inventory.",
   },
   {
     id: "extensions-open-vsx-prototype",
@@ -578,8 +709,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
       "frontend/src/components/MarketplacePanel.tsx",
       "docs/release/DETERMINEX_EXTENSION_COMPATIBILITY_CONTRACT.md",
     ],
-    blocker: "Trust boundary is defined in contract, but install/runtime enforcement evidence has not passed.",
-    nextAction: "Attach signed source, permission list, sandbox policy, install prompt, and uninstall cleanup evidence.",
+    blocker:
+      "Trust boundary is defined in contract, but install/runtime enforcement evidence has not passed.",
+    nextAction:
+      "Attach signed source, permission list, sandbox policy, install prompt, and uninstall cleanup evidence.",
   },
   {
     id: "extensions-install-state",
@@ -593,7 +726,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
       "commit 9d844aaf5",
     ],
     blocker: "",
-    nextAction: "Expand install state into real extension package lifecycle when the API contract exists.",
+    nextAction:
+      "Expand install state into real extension package lifecycle when the API contract exists.",
   },
   {
     id: "extensions-community-hub",
@@ -602,8 +736,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Local registry first, public registry later",
     status: "partial",
     evidence: ["frontend/src/components/MarketplacePanel.tsx", "frontend/src/lib/addons.ts"],
-    blocker: "Community hub is a local add-on manager; public publishing is intentionally not enabled.",
-    nextAction: "Implement local registry metadata, package import, trust review, and then plan public publishing.",
+    blocker:
+      "Community hub is a local add-on manager; public publishing is intentionally not enabled.",
+    nextAction:
+      "Implement local registry metadata, package import, trust review, and then plan public publishing.",
   },
   {
     id: "privacy-live-cloak-audit",
@@ -611,9 +747,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Live Cloak audit ingestion",
     status: "partial",
-    evidence: ["scripts/determinex_cloak.py", "scripts/verify_cloak.py", "frontend/src/components/PrivacyCockpit.tsx"],
+    evidence: [
+      "scripts/determinex_cloak.py",
+      "scripts/verify_cloak.py",
+      "frontend/src/components/PrivacyCockpit.tsx",
+    ],
     blocker: "Cloak tools exist, but live UI ingestion of fresh audit artifacts is incomplete.",
-    nextAction: "Ingest Cloak audit logs into Privacy Cockpit with timestamps, request counts, and leak verdicts.",
+    nextAction:
+      "Ingest Cloak audit logs into Privacy Cockpit with timestamps, request counts, and leak verdicts.",
   },
   {
     id: "privacy-redaction-preview",
@@ -623,7 +764,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "planned",
     evidence: ["frontend/src/components/PrivacyCockpit.tsx", "scripts/determinex_cloak.py"],
     blocker: "No universal preflight preview shows exactly what cloud providers will see.",
-    nextAction: "Add before/after preview, token counts, semantic glossary, and explicit approval for cloud routing.",
+    nextAction:
+      "Add before/after preview, token counts, semantic glossary, and explicit approval for cloud routing.",
   },
   {
     id: "privacy-policy-routing",
@@ -631,9 +773,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Provider routing by Offline, Cloaked, and Cloud policy",
     status: "partial",
-    evidence: ["frontend/src/lib/networkPolicy.ts", "frontend/playwright-tests/network_policy.spec.ts"],
+    evidence: [
+      "frontend/src/lib/networkPolicy.ts",
+      "frontend/playwright-tests/network_policy.spec.ts",
+    ],
     blocker: "Network policy exists; enforcement proof across all provider calls is incomplete.",
-    nextAction: "Route every provider call through a single policy gate and add tests for allowed/blocked calls.",
+    nextAction:
+      "Route every provider call through a single policy gate and add tests for allowed/blocked calls.",
   },
   {
     id: "privacy-leakage-detector",
@@ -642,7 +788,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Leakage detector with evidence artifact",
     status: "partial",
     evidence: ["scripts/verify_cloak.py", "docs/SECURITY_POSTURE.md"],
-    blocker: "Leakage verification exists for Cloak artifacts, but is not continuously collected in the app.",
+    blocker:
+      "Leakage verification exists for Cloak artifacts, but is not continuously collected in the app.",
     nextAction: "Generate a machine-readable leakage report for each cloud-assisted workflow.",
   },
   {
@@ -653,7 +800,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "blocked",
     evidence: ["AGENTS.md:SWE-bench Ablation", "docs/WHITE_PAPER.md"],
     blocker: "Fresh B/E and privacy-cost reruns are required before publication-grade claims.",
-    nextAction: "Rerun B-Uncloaked and RegionControl cleanly, then compare to fresh Cloaked results.",
+    nextAction:
+      "Rerun B-Uncloaked and RegionControl cleanly, then compare to fresh Cloaked results.",
   },
   {
     id: "privacy-collector-badges",
@@ -661,7 +809,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P1",
     title: "Privacy badges backed by collector output",
     status: "partial",
-    evidence: ["frontend/src/components/PrivacyCockpit.tsx", "frontend/src/lib/releaseGateStatus.ts"],
+    evidence: [
+      "frontend/src/components/PrivacyCockpit.tsx",
+      "frontend/src/lib/releaseGateStatus.ts",
+    ],
     blocker: "Some badges are static copy rather than fresh collector-backed status.",
     nextAction: "Bind every privacy badge to collector output, timestamp, and evidence path.",
   },
@@ -671,9 +822,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P2",
     title: "Unified runner UI for local shell, Docker, WSL, and remote hosts",
     status: "partial",
-    evidence: ["frontend/src/components/BuildCenter.tsx", "frontend/src/components/TerminalPanel.tsx"],
+    evidence: [
+      "frontend/src/components/BuildCenter.tsx",
+      "frontend/src/components/TerminalPanel.tsx",
+    ],
     blocker: "Execution surfaces exist, but no single runner spans all targets.",
-    nextAction: "Create runner target schema and one UI for local, WSL, Docker, and remote execution.",
+    nextAction:
+      "Create runner target schema and one UI for local, WSL, Docker, and remote execution.",
   },
   {
     id: "execution-remote-reservations",
@@ -703,7 +858,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "planned",
     evidence: ["docs/hetzner_docker_tooling.md", "scripts/pb_hetzner_pool.py"],
     blocker: "Remote host setup is documented and scripted, not guided in the app.",
-    nextAction: "Add remote host preflight for SSH, Docker, disk, memory, keys, and runner compatibility.",
+    nextAction:
+      "Add remote host preflight for SSH, Docker, disk, memory, keys, and runner compatibility.",
   },
   {
     id: "execution-disk-monitor",
@@ -712,8 +868,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Container health and disk-space monitor",
     status: "partial",
     evidence: ["frontend/src/components/HealthMap.tsx", "docs/hetzner_docker_tooling.md"],
-    blocker: "Health surfaces exist, but C/T/temp/build cleanup and remote disk monitors are not one flow.",
-    nextAction: "Add local and remote disk inventory with safe cleanup recommendations and proof logs.",
+    blocker:
+      "Health surfaces exist, but C/T/temp/build cleanup and remote disk monitors are not one flow.",
+    nextAction:
+      "Add local and remote disk inventory with safe cleanup recommendations and proof logs.",
   },
   {
     id: "execution-safe-cleanup",
@@ -723,7 +881,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "planned",
     evidence: ["scripts/release"],
     blocker: "No audited cleanup UI exists for user-visible storage recovery.",
-    nextAction: "Build a read-only inventory first, then explicit per-path cleanup with before/after byte counts.",
+    nextAction:
+      "Build a read-only inventory first, then explicit per-path cleanup with before/after byte counts.",
   },
   {
     id: "quality-playwright-primary",
@@ -733,7 +892,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/playwright-tests", "assurance/evidence/first_gui_hive_ipc"],
     blocker: "Rendered QA exists for selected flows, not every primary screen.",
-    nextAction: "Add Playwright coverage for hub, work, space, proof, tools, setup, guide, and release dashboard.",
+    nextAction:
+      "Add Playwright coverage for hub, work, space, proof, tools, setup, guide, and release dashboard.",
   },
   {
     id: "quality-packaged-smoke",
@@ -743,7 +903,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["assurance/evidence/determinex_download_bundle_20260707/download_manifest.json"],
     blocker: "Package exists, but clean-host packaged smoke remains blocked.",
-    nextAction: "Run packaged executable smoke on clean host and save screenshots, logs, and uninstall proof.",
+    nextAction:
+      "Run packaged executable smoke on clean host and save screenshots, logs, and uninstall proof.",
   },
   {
     id: "quality-tauri-ipc-contract",
@@ -753,7 +914,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src-tauri/src/ipc_hive", "frontend/src-tauri/tests"],
     blocker: "IPC tests exist, but every UI command is not covered by a stable contract test.",
-    nextAction: "Generate IPC command inventory and require request/response tests for each public command.",
+    nextAction:
+      "Generate IPC command inventory and require request/response tests for each public command.",
   },
   {
     id: "quality-installer-tests",
@@ -761,7 +923,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P2",
     title: "Installer tests",
     status: "partial",
-    evidence: ["scripts/release/build_release_package.ps1", "frontend/src/lib/releaseGateStatus.ts"],
+    evidence: [
+      "scripts/release/build_release_package.ps1",
+      "frontend/src/lib/releaseGateStatus.ts",
+    ],
     blocker: "Installer package exists; install/uninstall automation is not passed on clean host.",
     nextAction: "Automate installer launch, app start, setup, smoke, uninstall, and residue scan.",
   },
@@ -771,9 +936,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P2",
     title: "Add-on and provider tests",
     status: "partial",
-    evidence: ["frontend/src/lib/__tests__/addonStorage.test.ts", "frontend/src/components/MarketplacePanel.tsx"],
-    blocker: "Add-on storage is tested; provider install/auth/readiness flows are not fully covered.",
-    nextAction: "Add tests for install/uninstall, provider key validation, local model readiness, and guide integration.",
+    evidence: [
+      "frontend/src/lib/__tests__/addonStorage.test.ts",
+      "frontend/src/components/MarketplacePanel.tsx",
+    ],
+    blocker:
+      "Add-on storage is tested; provider install/auth/readiness flows are not fully covered.",
+    nextAction:
+      "Add tests for install/uninstall, provider key validation, local model readiness, and guide integration.",
   },
   {
     id: "quality-setup-rerun",
@@ -793,7 +963,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src-tauri/src/hardware.rs", "frontend/src/components/SetupWizard.tsx"],
     blocker: "VRAM bug was addressed earlier, but cross-device hardware fixtures are not complete.",
-    nextAction: "Add fixture tests for physical VRAM, inference budget, CPU-only, low-RAM, and multi-GPU hosts.",
+    nextAction:
+      "Add fixture tests for physical VRAM, inference budget, CPU-only, low-RAM, and multi-GPU hosts.",
   },
   {
     id: "quality-accessibility",
@@ -831,9 +1002,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P2",
     title: "Proof-native status on every AI action",
     status: "partial",
-    evidence: ["frontend/src/components/ProofOperatorCenterPanel.tsx", "scripts/claim_scanner/day_one_public_claim_scanner.py"],
-    blocker: "Proof surfaces exist, but every AI action does not yet display current verifier status.",
-    nextAction: "Require each AI action to show proposed, running, passed, failed, or blocked proof state.",
+    evidence: [
+      "frontend/src/components/ProofOperatorCenterPanel.tsx",
+      "scripts/claim_scanner/day_one_public_claim_scanner.py",
+    ],
+    blocker:
+      "Proof surfaces exist, but every AI action does not yet display current verifier status.",
+    nextAction:
+      "Require each AI action to show proposed, running, passed, failed, or blocked proof state.",
   },
   {
     id: "diff-teach-me",
@@ -841,9 +1017,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P2",
     title: "Teach me what changed after every fix",
     status: "partial",
-    evidence: ["frontend/src/components/TeacherOverlay.tsx", "frontend/src/components/AgentTrace.tsx"],
+    evidence: [
+      "frontend/src/components/TeacherOverlay.tsx",
+      "frontend/src/components/AgentTrace.tsx",
+    ],
     blocker: "Guide and trace exist; post-fix teaching is not automatic.",
-    nextAction: "Generate a short explanation from diff, verifier output, and changed files after each repair.",
+    nextAction:
+      "Generate a short explanation from diff, verifier output, and changed files after each repair.",
   },
   {
     id: "diff-repo-map",
@@ -851,9 +1031,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P2",
     title: "Automatic repository map and architecture summary",
     status: "partial",
-    evidence: ["frontend/src/components/ProjectArchitect.tsx", "frontend/src/components/BrainStage.tsx"],
-    blocker: "Architecture concepts exist, but automatic repo map output is not proven for arbitrary repos.",
-    nextAction: "Build a repo-map collector and render modules, commands, tests, risks, and ownership hints.",
+    evidence: [
+      "frontend/src/components/ProjectArchitect.tsx",
+      "frontend/src/components/BrainStage.tsx",
+    ],
+    blocker:
+      "Architecture concepts exist, but automatic repo map output is not proven for arbitrary repos.",
+    nextAction:
+      "Build a repo-map collector and render modules, commands, tests, risks, and ownership hints.",
   },
   {
     id: "diff-multi-agent-debate",
@@ -863,7 +1048,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     status: "partial",
     evidence: ["frontend/src/components/MatrixExecutionDisplay.tsx", "scripts/determinex_hive.py"],
     blocker: "Multi-agent primitives exist, but debate is not a polished user workflow.",
-    nextAction: "Add compare-proposals mode where candidates are scored by deterministic verifier output.",
+    nextAction:
+      "Add compare-proposals mode where candidates are scored by deterministic verifier output.",
   },
   {
     id: "diff-flywheel-view",
@@ -872,7 +1058,8 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Training flywheel view",
     status: "partial",
     evidence: ["frontend/src/components/FlywheelFeed.tsx", "scripts/determinex_flywheel.py"],
-    blocker: "Flywheel surface exists, but reusable failure-to-fix examples are not linked from every run.",
+    blocker:
+      "Flywheel surface exists, but reusable failure-to-fix examples are not linked from every run.",
     nextAction: "Attach failure, fix, verifier, and training row links to each completed workflow.",
   },
   {
@@ -881,9 +1068,13 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P2",
     title: "Benchmark cockpit for ProgramBench and SWE-bench validation",
     status: "partial",
-    evidence: ["frontend/src/components/BenchmarkRunner.tsx", "corpus/programbench/eval_index.json"],
+    evidence: [
+      "frontend/src/components/BenchmarkRunner.tsx",
+      "corpus/programbench/eval_index.json",
+    ],
     blocker: "Benchmark tooling exists, but public claims remain gated by fresh official evidence.",
-    nextAction: "Render current benchmark status from canonical indices and block stale or cached overclaims.",
+    nextAction:
+      "Render current benchmark status from canonical indices and block stale or cached overclaims.",
   },
   {
     id: "diff-shippable-audit",
@@ -891,9 +1082,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P2",
     title: "One-click make-this-project-shippable audit",
     status: "planned",
-    evidence: ["frontend/src/components/BuildCenter.tsx", "frontend/src/components/MissionControlPanel.tsx"],
-    blocker: "No single project shipping audit combines tests, security, dependencies, docs, packaging, and release gates.",
-    nextAction: "Create a shippability collector that emits exact blockers and proof paths for a selected repo.",
+    evidence: [
+      "frontend/src/components/BuildCenter.tsx",
+      "frontend/src/components/MissionControlPanel.tsx",
+    ],
+    blocker:
+      "No single project shipping audit combines tests, security, dependencies, docs, packaging, and release gates.",
+    nextAction:
+      "Create a shippability collector that emits exact blockers and proof paths for a selected repo.",
   },
   {
     id: "diff-project-memory",
@@ -901,9 +1097,14 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     priority: "P2",
     title: "Natural-language project memory that is searchable and bounded",
     status: "partial",
-    evidence: ["frontend/src-tauri/tests/companion_rag_natural_language_query_eval.rs", "docs/companions"],
-    blocker: "Memory/RAG tests exist, but project memory is not a polished user-facing control plane.",
-    nextAction: "Expose project memory sources, citations, freshness, scope, and delete/export controls.",
+    evidence: [
+      "frontend/src-tauri/tests/companion_rag_natural_language_query_eval.rs",
+      "docs/companions",
+    ],
+    blocker:
+      "Memory/RAG tests exist, but project memory is not a polished user-facing control plane.",
+    nextAction:
+      "Expose project memory sources, citations, freshness, scope, and delete/export controls.",
   },
   {
     id: "diff-local-first",
@@ -912,8 +1113,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Local-first mode that feels first-class",
     status: "partial",
     evidence: ["frontend/src/lib/networkPolicy.ts", "frontend/src/components/SetupWizard.tsx"],
-    blocker: "Offline/local mode exists, but missing model/toolchain flows still need better recovery.",
-    nextAction: "Make local model install, health, fallback, and repair guidance complete without cloud keys.",
+    blocker:
+      "Offline/local mode exists, but missing model/toolchain flows still need better recovery.",
+    nextAction:
+      "Make local model install, health, fallback, and repair guidance complete without cloud keys.",
   },
   {
     id: "diff-cloud-assisted-privacy",
@@ -922,8 +1125,10 @@ export const DETERMINEX_INDUSTRY_IDE_BACKLOG: IndustryIdeBacklogItem[] = [
     title: "Cloud-assisted mode with visible privacy guarantees",
     status: "partial",
     evidence: ["frontend/src/components/PrivacyCockpit.tsx", "scripts/determinex_cloak.py"],
-    blocker: "Cloak exists, but live cloud-call previews and fresh leakage evidence are incomplete.",
-    nextAction: "Show exactly what leaves the machine, why, through which provider, and with which audit verdict.",
+    blocker:
+      "Cloak exists, but live cloud-call previews and fresh leakage evidence are incomplete.",
+    nextAction:
+      "Show exactly what leaves the machine, why, through which provider, and with which audit verdict.",
   },
 ];
 
@@ -945,7 +1150,7 @@ export function isIndustryBacklogItemChecked(item: IndustryIdeBacklogItem): bool
 }
 
 export function getIndustryIdeBacklogSummary(
-  items: IndustryIdeBacklogItem[] = DETERMINEX_INDUSTRY_IDE_BACKLOG,
+  items: IndustryIdeBacklogItem[] = DETERMINEX_INDUSTRY_IDE_BACKLOG
 ): IndustryIdeBacklogSummary {
   const summary: IndustryIdeBacklogSummary = {
     done: 0,
@@ -964,17 +1169,18 @@ export function getIndustryIdeBacklogSummary(
 
 export function getIndustryIdeCategorySummary(categoryId: IndustryBacklogCategoryId) {
   return getIndustryIdeBacklogSummary(
-    DETERMINEX_INDUSTRY_IDE_BACKLOG.filter((item) => item.category === categoryId),
+    DETERMINEX_INDUSTRY_IDE_BACKLOG.filter((item) => item.category === categoryId)
   );
 }
 
 export function getTopIndustryIdeNextActions(limit = 12): IndustryIdeBacklogItem[] {
-  return DETERMINEX_INDUSTRY_IDE_BACKLOG
-    .filter((item) => !isIndustryBacklogItemChecked(item))
+  return DETERMINEX_INDUSTRY_IDE_BACKLOG.filter((item) => !isIndustryBacklogItemChecked(item))
     .sort((a, b) => {
-      const priorityDelta = INDUSTRY_BACKLOG_PRIORITY_ORDER[a.priority] - INDUSTRY_BACKLOG_PRIORITY_ORDER[b.priority];
+      const priorityDelta =
+        INDUSTRY_BACKLOG_PRIORITY_ORDER[a.priority] - INDUSTRY_BACKLOG_PRIORITY_ORDER[b.priority];
       if (priorityDelta !== 0) return priorityDelta;
-      const statusDelta = INDUSTRY_BACKLOG_STATUS_ORDER[a.status] - INDUSTRY_BACKLOG_STATUS_ORDER[b.status];
+      const statusDelta =
+        INDUSTRY_BACKLOG_STATUS_ORDER[a.status] - INDUSTRY_BACKLOG_STATUS_ORDER[b.status];
       if (statusDelta !== 0) return statusDelta;
       return a.id.localeCompare(b.id);
     })

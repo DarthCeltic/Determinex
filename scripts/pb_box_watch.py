@@ -16,9 +16,9 @@ import shutil
 import subprocess
 
 LOG = "/root/pb_watch.log"
-LEDGER = "/root/Determinex/logs/api_ledger/providers.jsonl"
-EVENTS = "/root/Determinex/logs/pb_churn_events.jsonl"
-REIMPL = "/root/Determinex/logs/reimpl"
+LEDGER = "/root/Citadel/logs/api_ledger/providers.jsonl"
+EVENTS = "/root/Citadel/logs/pb_churn_events.jsonl"
+REIMPL = "/root/Citadel/logs/reimpl"
 MEM_WARN_MB = 1500
 SPEND_WARN_USD_DAY = 5.0
 

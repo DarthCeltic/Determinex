@@ -120,25 +120,25 @@ export function SpecBreakdownView({
       <div className="shrink-0 px-6 py-4 border-b border-[#30363d] bg-[#161b22]/60 flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-[9px] uppercase font-bold tracking-widest text-emerald-400/70">
+            <span className="text-eyebrow uppercase font-bold tracking-widest text-emerald-400/70">
               Blueprint Ready
             </span>
-            <span className="text-[9px] text-gray-700">·</span>
+            <span className="text-meta text-gray-700">·</span>
             <span
-              className="text-[9px] font-mono px-1.5 py-0.5 rounded"
+              className="text-meta font-mono px-1.5 py-0.5 rounded"
               style={{ color: langColor, background: `${langColor}15` }}
             >
               {parsed.language}
             </span>
           </div>
-          <h2 className="text-[17px] font-black text-gray-100 leading-tight truncate">
+          <h2 className="text-title font-black text-gray-100 leading-tight truncate">
             {parsed.title}
           </h2>
         </div>
         {/* HIGH LEVEL notice */}
         <div className="shrink-0 flex items-center gap-1.5 bg-amber-950/40 border border-amber-500/25 rounded-xl px-3 py-1.5 max-w-[200px]">
           <AlertTriangle size={10} className="text-amber-400 shrink-0" />
-          <span className="text-[9px] text-amber-300/80 leading-tight">
+          <span className="text-meta text-amber-300/80 leading-tight">
             High-level plan. Small details refined in the build loop.
           </span>
         </div>
@@ -154,14 +154,14 @@ export function SpecBreakdownView({
           <div className="px-5 py-4 border-r border-[#30363d] flex flex-col gap-1">
             <div className="flex items-center gap-1.5 mb-1">
               <Clock size={10} className="text-gray-600" />
-              <span className="text-[9px] uppercase font-bold tracking-widest text-gray-600">
+              <span className="text-eyebrow uppercase font-bold tracking-widest text-gray-600">
                 Traditional Dev
               </span>
             </div>
-            <div className="text-[22px] font-black text-gray-500 leading-none">
+            <div className="text-display font-black text-gray-500 leading-none">
               {path?.buildTime ?? "4–8 wks"}
             </div>
-            <div className="text-[9px] text-gray-700 mt-0.5">
+            <div className="text-meta text-gray-700 mt-0.5">
               Design · Sprint planning · PR cycles · QA · Deploy
             </div>
           </div>
@@ -170,22 +170,22 @@ export function SpecBreakdownView({
             <div className="flex items-center gap-1.5 mb-1">
               <Zap size={10} style={{ color: pathColor }} />
               <span
-                className="text-[9px] uppercase font-bold tracking-widest"
+                className="text-eyebrow uppercase font-bold tracking-widest"
                 style={{ color: pathColor }}
               >
                 Determinex Hive Mind
               </span>
             </div>
-            <div className="text-[22px] font-black leading-none" style={{ color: pathColor }}>
+            <div className="text-display font-black leading-none" style={{ color: pathColor }}>
               {hiveTime}
             </div>
-            <div className="text-[9px] text-gray-600 mt-0.5">
+            <div className="text-meta text-gray-600 mt-0.5">
               {parsed.files.length} files · compiler-verified every step · no guessing
             </div>
           </div>
         </div>
         <div className="px-5 py-2 border-t border-[#30363d] bg-[#161b22]/40 flex items-center justify-center">
-          <span className="text-[9px] text-gray-600">
+          <span className="text-meta text-gray-600">
             Each step is a compiler-validated sprint — not a guess
           </span>
         </div>
@@ -198,12 +198,12 @@ export function SpecBreakdownView({
           <div>
             <div className="flex items-center gap-1.5 mb-2">
               <Target size={10} className="text-cyan-400" />
-              <span className="text-[9px] uppercase font-bold tracking-widest text-cyan-400/80">
+              <span className="text-eyebrow uppercase font-bold tracking-widest text-cyan-400/80">
                 What it does
               </span>
             </div>
             <p
-              className="text-[12px] text-gray-300 leading-relaxed pl-4 border-l-2"
+              className="text-body text-gray-300 leading-relaxed pl-4 border-l-2"
               style={{ borderColor: `${pathColor}40` }}
             >
               {parsed.goal}
@@ -216,7 +216,7 @@ export function SpecBreakdownView({
           <div>
             <div className="flex items-center gap-1.5 mb-2">
               <Shield size={10} className="text-purple-400" />
-              <span className="text-[9px] uppercase font-bold tracking-widest text-purple-400/80">
+              <span className="text-eyebrow uppercase font-bold tracking-widest text-purple-400/80">
                 Constraints & requirements
               </span>
             </div>
@@ -224,7 +224,7 @@ export function SpecBreakdownView({
               {parsed.constraints.map((c, i) => (
                 <div key={i} className="flex items-start gap-2">
                   <ChevronRight size={9} className="text-gray-600 shrink-0 mt-0.5" />
-                  <span className="text-[11px] text-gray-400 leading-relaxed">{c}</span>
+                  <span className="text-label text-gray-400 leading-relaxed">{c}</span>
                 </div>
               ))}
             </div>
@@ -237,7 +237,7 @@ export function SpecBreakdownView({
             <div className="flex items-center gap-1.5 mb-2">
               <FileCode2 size={10} style={{ color: langColor }} />
               <span
-                className="text-[9px] uppercase font-bold tracking-widest"
+                className="text-eyebrow uppercase font-bold tracking-widest"
                 style={{ color: `${langColor}cc` }}
               >
                 {parsed.files.length} files the Hive will build
@@ -250,13 +250,13 @@ export function SpecBreakdownView({
                   className="flex items-start gap-2 rounded-lg px-2.5 py-1.5 border border-[#30363d] bg-[#0d1117]"
                 >
                   <code
-                    className="text-[9px] font-mono shrink-0 mt-0.5"
+                    className="text-meta font-mono shrink-0 mt-0.5"
                     style={{ color: langColor }}
                   >
                     {f.name}
                   </code>
                   {f.purpose && (
-                    <span className="text-[9px] text-gray-600 leading-relaxed">— {f.purpose}</span>
+                    <span className="text-meta text-gray-600 leading-relaxed">— {f.purpose}</span>
                   )}
                 </div>
               ))}
@@ -269,7 +269,7 @@ export function SpecBreakdownView({
           <div>
             <div className="flex items-center gap-1.5 mb-2">
               <Package size={10} className="text-sky-400" />
-              <span className="text-[9px] uppercase font-bold tracking-widest text-sky-400/80">
+              <span className="text-eyebrow uppercase font-bold tracking-widest text-sky-400/80">
                 Dependencies
               </span>
             </div>
@@ -279,8 +279,8 @@ export function SpecBreakdownView({
                   key={i}
                   className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-[#30363d] bg-[#161b22]"
                 >
-                  <code className="text-[9px] font-mono text-sky-400">{d.name}</code>
-                  {d.why && <span className="text-[9px] text-gray-600">— {d.why}</span>}
+                  <code className="text-meta font-mono text-sky-400">{d.name}</code>
+                  {d.why && <span className="text-meta text-gray-600">— {d.why}</span>}
                 </div>
               ))}
             </div>
@@ -292,7 +292,7 @@ export function SpecBreakdownView({
           <div>
             <div className="flex items-center gap-1.5 mb-2">
               <Wrench size={10} className="text-amber-400" />
-              <span className="text-[9px] uppercase font-bold tracking-widest text-amber-400/80">
+              <span className="text-eyebrow uppercase font-bold tracking-widest text-amber-400/80">
                 Services to set up before deploying
               </span>
             </div>
@@ -302,7 +302,7 @@ export function SpecBreakdownView({
                 return (
                   <div key={i} className="flex items-start gap-2">
                     <div className="w-1 h-1 rounded-full bg-amber-400/50 shrink-0 mt-[5px]" />
-                    <span className="text-[10px]">
+                    <span className="text-label">
                       <span className="font-bold text-gray-300">{name.trim()}</span>
                       {rest.length > 0 && (
                         <span className="text-gray-600"> — {rest.join("—").trim()}</span>
@@ -325,7 +325,7 @@ export function SpecBreakdownView({
           <button
             onClick={onBuild}
             disabled={building}
-            className="w-full py-3.5 text-[13px] font-black uppercase tracking-widest rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3.5 text-body font-black uppercase tracking-widest rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
             style={{
               background: `${pathColor}18`,
               border: `1px solid ${pathColor}55`,
@@ -347,7 +347,7 @@ export function SpecBreakdownView({
               </>
             )}
           </button>
-          <p className="text-[9px] text-gray-700 text-center">
+          <p className="text-meta text-gray-700 text-center">
             This is the high-level plan · once built, small details can be refined in the build loop
           </p>
         </div>

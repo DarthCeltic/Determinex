@@ -1,0 +1,265 @@
+# Determinex — Release Readiness Audit (2026-07-28)
+
+Requested as a "user / tech / senior POV audit — make sure it's serious and
+legit" before release. Everything below was verified against the repo or a
+running app, not inferred. Where I could fix something safely I did, and it is
+marked FIXED with the commit reasoning.
+
+**Verification baseline at time of writing**
+
+| Gate | Result |
+|---|---|
+| Rust unit + integration | **60 passed** (was 27 at session start) |
+| Python IDE governance locks | **595 passed** |
+| Frontend (vitest) | **167 passed / 38 files** (was 86) |
+| `tsc --noEmit` | clean |
+| `next build` | **compiles clean**, 6/6 static pages (see E-1) |
+| Secret hygiene | `.env` ignored + untracked; no real credentials in tracked files |
+
+---
+
+## SENIOR POV — is this releasable?
+
+### S-1. Published benchmark numbers credited the wrong models — **FIXED**
+
+The most serious class of defect this project can have, because its entire
+thesis is that a claim must be earned.
+
+README and `docs/papers/ARCHITECTURE.md` both published:
+
+```
+C1 Engineer v11-dsl   89%   40/45
+C3 Observer  v6-dsl   82%   37/45
+```
+
+Those numbers belong to **v10-dsl** and **v5-dsl**. The shipped v11/v6 models
+*were* evaluated — 2026-04-16, artifacts on disk — and scored **lower**:
+
+| Model | Real result | Artifact |
+|---|---|---|
+| engineer-v11-dsl | 57/70 = **81.4%** (earlier run 53/70) | `eval_citadel-engineer-v11-dsl_20260416_225204.json` |
+| observer-v6-dsl | 53/70 = **75.7%** | `eval_citadel-observer-v6-dsl_20260416_235354.json` |
+| sentinel-v5-dsl | **no eval artifact exists** | — |
+
+No 45-probe v11 or v6 eval exists at all, so `40/45` was never that model's
+number in any form.
+
+`CLAUDE.md` compounded it by stating the v11/v6 re-eval was *"queued"* when it
+had already run three months earlier and come back lower — which is plausibly
+why nobody went looking.
+
+Both documents now separate the verified 45-probe generation (v10/v5/v3,
+correctly attributed) from the shipped 70-probe generation, state that the two
+probe sets are not comparable, and claim no delta. No combined system score is
+given for the shipped generation, because with Sentinel unevaluated any total
+would be part measurement and part assumption.
+
+**`WHITE_PAPER.md` needed no change** — it had this right all along, including
+the 70-probe caveat. The most rigorous document was the accurate one.
+
+### S-2. The rest of the public claim surface is genuinely strong — **no action**
+
+Verified by reading, not assumed. README states ProgramBench as **0/200
+legitimate locks** and explains the provenance correction that invalidated the
+old "65 locks / 32.5%". SWE-bench configurations are marked as **lower bounds**
+with the reason (disk-pressured Docker workers). It says outright that
+"Benchmark results are not product support, not release support, and not
+product readiness", and that open availability and `PATENT_FILED` remain false.
+
+That is unusually disciplined. S-1 is the exception, not the pattern.
+
+### S-3. The "100%" privacy claim contradicted our own audit — **FIXED**
+
+README claimed *"100% of repo identifiers obfuscated before any cloud call"* —
+the one absolute in a document that hedges everything else.
+
+Checking the evidence made it worse than a style problem. The audit artifact at
+`assurance/evidence/cloak_hash_chain_and_leak_audit/` records:
+
+```
+perfect_privacy_claimed: false
+raw_source_exported:     false
+```
+
+The audit **deliberately declines** to claim perfect privacy, while the README
+asserted it. That is the no-overclaim rule broken against the project's own
+artifact.
+
+Restated as what was established: identifiers are AST-obfuscated, raw source is
+never exported, the audit passed and found no leak **in the audited run**. Added
+a boundary note quoting the artifact and pointing at `DETERMINEX_CLOAK_AUDIT=1`
+for anyone wanting a stronger claim with fresh evidence. No other absolute
+privacy claim exists in WHITE_PAPER, ARCHITECTURE or CLAUDE.md.
+
+### S-4. External agent asserted the wrong license — **FIXED**
+
+The DataHub hackathon work produced by another agent states: *"Apache 2.0
+license is already included."* It is not. Verified: `LICENSE`,
+`frontend/package.json`, `Cargo.toml` and `pyproject.toml` all say
+**AGPL-3.0-or-later**, consistently.
+
+That is not a cosmetic error on a public submission — AGPL and Apache 2.0
+impose materially different obligations on anyone who uses the entry. Corrected
+in `docs/hackathon/DATAHUB_HACKATHON_2026.md` — both the license line and the
+demo-video script. Left the *correct* Apache references alone: dbt, Airflow and
+DataHub genuinely are Apache 2.0.
+
+Minor, for confirmation only: the manifests say `or-later` while an earlier
+decision was recorded as "AGPL-3.0-only". On-disk state is internally
+consistent, so this is a wording question, not a defect.
+
+---
+
+## TECH POV
+
+### T-1. `invokeSafe` on writes — the root cause behind most of this session
+
+Documented as Issue 1 in `IDE_SHELL_AUDIT_20260727.md`. A void Tauri command
+resolves to `null` on **success**, and `invokeSafe` returns `null` on
+**failure**, so for any write the two are the same value and `try/catch` around
+it is dead code. Direct consequences found and fixed: silent editor data loss,
+a false privacy assurance, ten swallowed git writes, an inert Apply button, and
+a "refused" message for a stage that had succeeded.
+
+**Now enforced in CI** by `commandContract.test.ts`, which cross-references
+every frontend `invoke` against the registered Rust handlers. Proven to fail:
+a temporary canary invoking a nonexistent command made it fail and name the
+call site.
+
+**The argument half is now enforced too** (`argContract.test.ts`), and it found
+**seven live bugs** on first run:
+
+| Command | Sent | Consequence |
+|---|---|---|
+| `get_ollama_models`, `check_ollama_status` | `base_url` | `Option<String>` → arrived `None`; **a custom Ollama base URL was ignored entirely** |
+| `get_programbench_snapshot` | `run_id`, `expected_total` | same silent-`None` |
+| `launch_benchmark_run`, `stop_benchmark_run` | `benchmark_id`, `script_name` | required `String` → command **rejects**; benchmark launch/stop never worked |
+| `reveal_session_output` ×3 | `session_id` | rejects; HiveBuildLoop's "Open Output Folder" was broken |
+
+Two of those three `reveal_session_output` sites were written *by me* earlier in
+the session, by copying the existing broken pattern — which is precisely why this
+had to become a test rather than a habit.
+
+The mechanism was settled from `tauri-macros-2.5.5` source, not from comments:
+the lookup key is `param_name.to_lower_camel_case()` and the default is
+`ArgumentCase::Camel`. That mattered because this repo's history contains **both**
+beliefs — the original `cloneRepo` shipped `remote_url` calling snake_case
+"convention", a later commit called it broken.
+
+### T-1b. Why full `tauri-specta` was NOT done — measured, not avoided
+
+| Migration cost | Count |
+|---|---|
+| Commands to annotate `#[specta::specta]` | 159 |
+| Structs needing `derive(specta::Type)` | 94 |
+| **Commands returning untyped `serde_json::Value`** | **38 (24%)** |
+
+Those 38 would generate `unknown` in TypeScript, so specta would deliver **zero
+shape safety on a quarter of the API** — including the hive commands — while
+costing ~250 annotation sites and multi-minute compile cycles per fix pass.
+
+The correct sequencing is therefore: (1) contract tests — **done**, and they
+caught 8 real bugs specta would also have caught; (2) replace those 38
+`serde_json::Value` returns with typed structs, which is the real prerequisite;
+(3) then specta, which at that point actually buys shape checking.
+
+### T-2. Two test suites were protecting the bugs they appeared to cover — **FIXED**
+
+- `gitService.test.ts` simulated git in memory, and its `vi.fn()` **threw**
+  where the real `invokeSafe` **swallowed** — so it passed while production did
+  the opposite.
+- `SettingsContext.test.tsx` asserted "syncs through invokeSafe", literally
+  pinning the swallow in place.
+
+Both rewritten. `git.rs` went from **zero tests to 9** running against real
+`git` in throwaway repos.
+
+**A green suite in this repo was weak evidence.** That is the single most
+important thing for the next person to know.
+
+### T-3. Security of the surfaces added this session — reviewed
+
+| Surface | Control |
+|---|---|
+| `reveal_env_var` | Workspace-boundary checked; returns **one** key per call; never logs values; reveals dropped on reload |
+| `list_env_vars` | Masked previews only — a listing carries no usable credential |
+| OAuth token | Never crosses IPC; stored server-side in the existing `GITHUB_TOKEN` row; scopes limited to `repo read:user` |
+| `github_open_verification` | Accepts only `https://github.com/...` — deliberately not a general URI launcher |
+| `list_ci_runs` | No shell; argv array; `limit` clamped 1–100; read-only (no re-run/cancel) |
+| Repair patch plan | Snapshot + restore in a `finally`; proposal only — the sole write path is Review's human-approved `apply_staged_diff` |
+
+`is_safe_path` canonicalizes both sides before `starts_with`, so `..` and
+symlinks are handled.
+
+### T-4. Dead surface — largely closed
+
+The 34 surfaces now map 1:1 into nine rail groups, enforced by a test that
+parses the real type unions, so a new panel with no home fails the build. That
+test immediately found and removed `ideation` — a 345-line surface nothing
+could activate. OutputPanel, CICDPanel and EnvManager were all permanently-empty
+shells and now read real data.
+
+---
+
+## USER POV
+
+### U-1. The first-run path works, with one hard dependency
+
+Setup Wizard → network policy → hardware probe → Ollama install → model pull →
+workspace onboarding. Verified end to end in a real session, including a
+genuinely fresh install.
+
+The hard dependency is a **local model**. Until this session the default router
+value (`"auto"`) was being passed as an Ollama tag, so `build_idea` was refused
+out of the box — **every** verified build failed on a clean install. Fixed and
+regression-tested.
+
+### U-2. The flagship loop runs end to end — verified live
+
+Verified Search → synthesize sound oracle → sample local model → oracle-verified
+program → **Stage for review** → Review shows the real diff with working
+Apply/Reject. Driven by hand in the running app, not inferred. That queue was
+structurally incapable of holding anything at the start of the session.
+
+### U-3. Navigation is no longer the obstacle
+
+18 rail icons + three overlapping menus (two of which silently clipped their own
+tails, which is why Review and Merge were unreachable) → nine groups with a
+drawer that names each surface and explains what it is and does before you spend
+screen space on it. Panels are resizable and closable.
+
+---
+
+## ENVIRONMENT
+
+### E-1. `next build` — compiles, packaging step blocked locally
+
+`✓ Compiled successfully` and `✓ Generating static pages (6/6)`. The build then
+fails on `EBUSY: rmdir 'frontend/out'`.
+
+Diagnosed rather than guessed at. The directory is **writable but not
+removable**, which is the specific signature of a process holding it as its
+**current working directory** — you can create files inside a CWD but cannot
+delete it. It survives killing the app, every `node` process and every `cargo`
+process, and `mv`/`Remove-Item` are both refused.
+
+`out` is genuinely required: `next.config` sets `distDir: "out"` for production
+and `tauri.conf.json` points `frontendDist` at `../out`. The most likely holder
+is a stale Next.js static-generation worker (the build spawns 7) that did not
+exit cleanly. It is not a code defect — the compile and page generation both
+succeed — and it clears on reboot.
+
+**Not a release blocker, but confirm one clean `next build` + Tauri package from
+a fresh boot before shipping an installer.**
+
+---
+
+## What I would not ship without
+
+1. **S-4** — correct the Apache/AGPL claim on the DataHub submission.
+2. **S-3** — restate or re-evidence the "100%" Cloak claim.
+3. **E-1** — one clean `next build` + Tauri package from a fresh boot.
+4. A decision on **pushing** — 68 commits are local only; nothing has left this
+   machine.
+
+Everything else on the shell audit's list is either DONE or explicitly scoped.

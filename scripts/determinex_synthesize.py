@@ -206,6 +206,116 @@ _PROPERTY_TEMPLATES = {
 }
 
 
+# ── Hypothesis-backed property test generation ───────────────────────────────
+# When Hypothesis is installed (pip install hypothesis), synthesized property
+# tests use @given strategies instead of hand-rolled random loops. Benefits:
+#   - Automatic input shrinking to minimal counterexamples
+#   - Failure case database persisted in .hypothesis/ (replay on next run)
+#   - Adversarial edge-case generation (empty strings, INT_MAX, NaN, etc.)
+#   - Stateful testing support (not wired yet, future extension)
+#
+# Falls back to the original static templates if Hypothesis is not installed.
+try:
+    import hypothesis as _hypothesis_present  # noqa: F401
+    _HYPOTHESIS_AVAILABLE = True
+except ImportError:
+    _HYPOTHESIS_AVAILABLE = False
+
+# Type-aware Hypothesis strategy per inferred input type -- mirrors _FUZZ
+# below. A template's {strategy} placeholder is filled with ONLY the one
+# strategy matching the spec's actually-inferred type, never a st.one_of(...)
+# union of every type the invariant could theoretically apply to: st.one_of
+# would happily generate ints/lists for a string-only function, which is
+# exactly the "int-fuzzed property test on a string function" slop this
+# module exists to prevent (caught live 2026-07-20 once Hypothesis was
+# actually installed and exercised for the first time -- test_synthesizer_
+# skips_wrongtyped_property_no_slop in tests/test_autofix_pipeline.py).
+_HYPOTHESIS_STRATEGY = {
+    "str": "st.text(max_size=20)",
+    "int": "st.integers(-50, 50)",
+    "list": "st.lists(st.integers(-9, 9), max_size=10)",
+}
+
+# invariant id → (applicable_input_types, test body using {fn} and {strategy})
+# Hypothesis variant: uses @given + hypothesis.strategies
+_PROPERTY_TEMPLATES_HYPOTHESIS = {
+    "idempotent": ((("str", "int", "list"),
+                    "from hypothesis import given, settings\n"
+                    "import hypothesis.strategies as st\n"
+                    "\n"
+                    "@given({strategy})\n"
+                    "@settings(max_examples=200, deadline=None)\n"
+                    "def test_invariant_idempotent(x):\n"
+                    "    assert {fn}({fn}(x)) == {fn}(x)\n")),
+    "sorted": ((("list",),
+                "from hypothesis import given, settings\n"
+                "import hypothesis.strategies as st\n"
+                "\n"
+                "@given(st.lists(st.integers(-100, 100), max_size=20))\n"
+                "@settings(max_examples=200, deadline=None)\n"
+                "def test_invariant_sorted(xs):\n"
+                "    out = {fn}(list(xs))\n"
+                "    assert list(out) == sorted(out)\n")),
+    "length-preserving": ((("list", "str"),
+                           "from hypothesis import given, settings\n"
+                           "import hypothesis.strategies as st\n"
+                           "\n"
+                           "@given({strategy})\n"
+                           "@settings(max_examples=200, deadline=None)\n"
+                           "def test_invariant_length_preserving(xs):\n"
+                           "    assert len({fn}(xs)) == len(xs)\n")),
+    "non-negative": ((("int",),
+                      "from hypothesis import given, settings\n"
+                      "import hypothesis.strategies as st\n"
+                      "\n"
+                      "@given(st.integers(-1000, 1000))\n"
+                      "@settings(max_examples=200, deadline=None)\n"
+                      "def test_invariant_non_negative(x):\n"
+                      "    assert {fn}(x) >= 0\n")),
+    "round-trip": ((("str", "int", "list"),
+                    "from hypothesis import given, settings\n"
+                    "import hypothesis.strategies as st\n"
+                    "\n"
+                    "@given({strategy})\n"
+                    "@settings(max_examples=200, deadline=None)\n"
+                    "def test_invariant_round_trip(x):\n"
+                    "    # round-trip: decode(encode(x)) == x (or encode(decode(x)) == x)\n"
+                    "    encoded = {fn}(x)\n"
+                    "    assert {fn}(encoded) == x or {fn}({fn}(x)) == {fn}(x)\n")),
+}
+
+# Static fallback templates (used when Hypothesis is not installed)
+_PROPERTY_TEMPLATES_STATIC = {
+    "idempotent": (("str", "int", "list"),
+                   "    import random\n"
+                   "    for _ in range(50):\n"
+                   "        x = {fuzz}\n"
+                   "        assert {fn}({fn}(x)) == {fn}(x)\n"),
+    "sorted": (("list",),
+               "    import random\n"
+               "    for _ in range(50):\n"
+               "        xs = {fuzz}\n"
+               "        out = {fn}(list(xs))\n"
+               "        assert list(out) == sorted(out)\n"),
+    "length-preserving": (("list", "str"),
+                          "    import random\n"
+                          "    for _ in range(50):\n"
+                          "        xs = {fuzz}\n"
+                          "        assert len({fn}(xs)) == len(xs)\n"),
+    "non-negative": (("int",),
+                     "    import random\n"
+                     "    for _ in range(50):\n"
+                     "        x = {fuzz}\n"
+                     "        assert {fn}(x) >= 0\n"),
+}
+
+# Active template set — Hypothesis-backed when available
+_PROPERTY_TEMPLATES = (
+    _PROPERTY_TEMPLATES_HYPOTHESIS if _HYPOTHESIS_AVAILABLE
+    else _PROPERTY_TEMPLATES_STATIC
+)
+
+
 def _infer_input_type(spec: "Spec") -> str | None:
     """Infer the first-argument type from the examples (e.g. rle('aaabb') -> str)."""
     for call, _ in spec.examples:
@@ -230,6 +340,7 @@ def synthesize_oracle_tests(spec: Spec) -> str:
     lines = [
         "# Auto-synthesized oracle (determinex_synthesize). The implementation under",
         f"# test must define `{spec.name}`. These tests ARE the ground truth.",
+        f"# Property tests: {'Hypothesis @given (shrinking enabled)' if _HYPOTHESIS_AVAILABLE else 'static random (install hypothesis for better coverage)'}",
         "from solution import *  # noqa: F401,F403",
         "",
     ]
@@ -238,22 +349,42 @@ def synthesize_oracle_tests(spec: Spec) -> str:
         lines.append(f"def test_example_{i}():")
         lines.append(f"    assert {call} == {exp}")
         lines.append("")
-    # property-based invariants -- only when input type matches (else SKIP:
-    # a wrong-typed property test would fail a correct impl = slop).
+
+    # property-based invariants
     in_type = _infer_input_type(spec)
     emitted_property = False
-    for inv in spec.invariants:
-        entry = _PROPERTY_TEMPLATES.get(inv)
-        if not entry:
-            continue
-        applicable, body = entry
-        if in_type is None or in_type not in applicable:
-            continue  # cannot type the fuzz soundly -> skip, don't emit slop
-        fuzz = _FUZZ[in_type]
-        lines.append(f"def test_invariant_{inv.replace('-', '_')}():")
-        lines.append(body.format(fn=spec.name, fuzz=fuzz).rstrip("\n"))
-        lines.append("")
-        emitted_property = True
+
+    if _HYPOTHESIS_AVAILABLE:
+        # Hypothesis variant: one @given function per invariant, type-narrowed
+        # to the inferred input type exactly like the static path below --
+        # Hypothesis strategies being type-parametric doesn't mean a union of
+        # every applicable type is safe to fuzz a specific typed function with.
+        for inv in spec.invariants:
+            entry = _PROPERTY_TEMPLATES_HYPOTHESIS.get(inv)
+            if not entry:
+                continue
+            applicable, body = entry
+            if in_type is None or in_type not in applicable:
+                continue  # cannot type the fuzz soundly -> skip, don't emit slop
+            strategy = _HYPOTHESIS_STRATEGY[in_type]
+            lines.append(body.format(fn=spec.name, strategy=strategy).rstrip("\n"))
+            lines.append("")
+            emitted_property = True
+    else:
+        # Static fallback: only emit when input type matches (prevents type errors)
+        for inv in spec.invariants:
+            entry = _PROPERTY_TEMPLATES_STATIC.get(inv)
+            if not entry:
+                continue
+            applicable, body = entry
+            if in_type is None or in_type not in applicable:
+                continue  # cannot type the fuzz soundly -> skip, don't emit slop
+            fuzz = _FUZZ[in_type]
+            lines.append(f"def test_invariant_{inv.replace('-', '_')}():")
+            lines.append(body.format(fn=spec.name, fuzz=fuzz).rstrip("\n"))
+            lines.append("")
+            emitted_property = True
+
     if not spec.examples and not emitted_property:
         # no deterministic ground truth extractable -> a smoke test that at least
         # pins that the symbol exists and is callable (honest minimum).
@@ -261,6 +392,7 @@ def synthesize_oracle_tests(spec: Spec) -> str:
         lines.append(f"    assert callable({spec.name})")
         lines.append("")
     return "\n".join(lines)
+
 
 
 def propose_examples(description: str, name: str, generate, k: int = 5,

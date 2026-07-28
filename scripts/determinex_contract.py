@@ -24,9 +24,11 @@ import ast
 import json
 import re
 import sys
+from dataclasses import dataclass
 from typing import Callable
 
 Contract = Callable[[str], "tuple[bool, str]"]
+GenerateFn = Callable[[str, float], str]
 
 
 def patch_contract(text: str) -> tuple[bool, str]:
@@ -146,6 +148,116 @@ def guard(generate, contract: Contract, max_retries: int = 5):
                 return last
         # return the last (malformed) -> the oracle will reject; never silently pass
         return last
+    return _wrapped
+
+
+# ---------------------------------------------------------------------------
+# Known-traps scan + two-strike gate (2026-07-16)
+# ---------------------------------------------------------------------------
+# A cheap PRE-ORACLE linter for the specific anti-patterns already documented in
+# corpus/programbench/language_reference/{rust,go,c,cpp}.md's "Known traps" sections --
+# keep these two in sync by hand (a regex can't be derived from prose; the .md files are
+# the human-readable explanation, this is the executable check for the same list).
+#
+# Design (Ryan, 2026-07-16): "it should warn, and if it still goes with it, it should gate
+# at compile and be like.. bro i told you not to, its gated try the hell again and actually
+# listen this time." -- i.e. NOT a hard reject on first sight (a heuristic pattern match is
+# not a sound oracle -- CLAUDE.md: "No LLM judges for code quality — compiler is the only
+# oracle"; forcing a genuinely oracle-passing candidate to fail on a heuristic would violate
+# that). First occurrence of a trap is a WARNING ONLY and the candidate still reaches the
+# real compiler/test oracle untouched. Only if the SAME trap recurs in a LATER candidate
+# from the same generation sequence (meaning the model was told and ignored it) does this
+# gate BEFORE the candidate ever reaches the oracle -- exactly where native_code_contract
+# already sits ("before any candidate reaches the (expensive) oracle").
+@dataclass
+class TrapHit:
+    trap_id: str
+    message: str
+    line: int
+
+
+_KNOWN_TRAPS: dict[str, list[tuple[str, "re.Pattern[str]", str]]] = {
+    "rust": [
+        ("rust_unwrap_expect", re.compile(r"\.(?:unwrap|expect)\s*\("),
+         "unwrap()/expect() turns a clean rc=1 error into a rc=101 panic backtrace -- handle "
+         "the Result/Option explicitly near user input or file I/O instead."),
+        ("rust_debug_error_print",
+         re.compile(r"(?:eprintln|println|print|format)!\([^)]*\{:\?\}[^)]*,\s*(?:e|err|error)\s*\)"),
+         "printing an error with {:?} (Debug) instead of {} (Display) looks nothing like a "
+         "real CLI's error wording -- tests check exact stderr text."),
+    ],
+    "go": [
+        ("go_ignored_error", re.compile(r"^\s*[A-Za-z_][A-Za-z0-9_.]*\s*,\s*_\s*:?=\s*[\w.]+\(", re.M),
+         "assigning an error result to _ discards it -- an unchecked error that later causes a "
+         "nil-pointer dereference panics with a raw Go stack trace, not the tool's real message."),
+        ("go_len_on_string", re.compile(r"\blen\((?:s|str|input|text|line)\)"),
+         "len() on a Go string counts UTF-8 BYTES, not characters -- wrong for any test with "
+         "multi-byte Unicode input; range over the string for rune-correct iteration."),
+    ],
+    "c": [
+        ("c_unbounded_strcpy", re.compile(r"\b(?:strcpy|strcat|gets)\s*\("),
+         "strcpy/strcat/gets on unbounded input is the classic buffer overflow -- use "
+         "snprintf or a length-checked copy with an explicit size limit."),
+        ("c_unchecked_malloc", re.compile(r"=\s*malloc\([^)]*\)\s*;(?!\s*(?:if|assert))"),
+         "malloc's return isn't checked for NULL before use -- a failed allocation followed "
+         "by a write through the pointer is undefined behavior."),
+    ],
+    "cpp": [
+        ("cpp_uncaught_stoi", re.compile(r"\bstd::sto[id]\s*\("),
+         "std::stoi/std::stod throws on bad input (std::invalid_argument/out_of_range) -- "
+         "uncaught, this calls std::terminate and prints an implementation-defined message, "
+         "not the tool's real error text. Wrap it in try/catch."),
+        ("cpp_raw_new_no_raii", re.compile(r"\bnew\s+[A-Za-z_]"),
+         "a raw `new` without RAII (std::unique_ptr/std::vector/std::string) leaks on any "
+         "early-return or exception path -- prefer an owning standard container."),
+    ],
+}
+
+
+def known_traps_scan(code: str, lang: str) -> list[TrapHit]:
+    """Scan generated candidate code for the specific anti-patterns documented in this
+    language's language_reference/*.md 'Known traps' section. Heuristic, not sound -- a hit
+    means 'this pattern is present', not 'this code is definitely wrong'. Empty list for a
+    language with no known-traps table (python needs none; unregistered languages return [])."""
+    traps = _KNOWN_TRAPS.get(lang, [])
+    if not traps:
+        return []
+    text = _strip_fence(code)
+    hits: list[TrapHit] = []
+    for trap_id, pattern, message in traps:
+        m = pattern.search(text)
+        if m:
+            line = text.count("\n", 0, m.start()) + 1
+            hits.append(TrapHit(trap_id=trap_id, message=message, line=line))
+    return hits
+
+
+def trap_guard(generate: GenerateFn, lang: str, max_retries: int = 3) -> GenerateFn:
+    """Two-strike wrapper around a generate(prompt,temp)->str: the FIRST time any given
+    known-trap appears in a candidate from this wrapped generator, it is allowed through
+    untouched (the real oracle is still the only judge of a first attempt) -- but the trap
+    is recorded. If that SAME trap appears again in a LATER candidate from this same wrapped
+    instance, this gates BEFORE the candidate is returned: it resamples (widening temperature,
+    up to max_retries) with an escalated correction note appended to the prompt. State is
+    scoped to one wrapped instance -- construct a fresh one per model/ladder entry so a
+    router escalation to a different model tier starts with a clean slate."""
+    warned: set[str] = set()
+
+    def _wrapped(prompt: str, temperature: float) -> str:
+        p = prompt
+        last = ""
+        for i in range(max_retries):
+            last = generate(p, temperature + 0.1 * i)
+            hits = known_traps_scan(last, lang)
+            hit_ids = {h.trap_id for h in hits}
+            repeated = hit_ids & warned
+            warned.update(hit_ids)
+            if not repeated:
+                return last
+            note = "\n".join(f"- {h.message}" for h in hits if h.trap_id in repeated)
+            p = (f"{prompt}\n\nYou were already warned about this exact issue and submitted "
+                 f"it again anyway. Fix it this time, before anything else:\n{note}")
+        return last  # exhausted retries -- return the last candidate; the oracle still judges it
     return _wrapped
 
 

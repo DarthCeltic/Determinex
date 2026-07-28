@@ -31,6 +31,26 @@ pub struct CustomModelPayload {
     pub context_window: i32,
     pub speed_ms_per_token: Option<i32>,
     pub tier_id: String,
+
+    // ── Reaching a provider this build has never heard of ────────────────────
+    //
+    // Ryan, live: "users should be able to add future llms that dont have access
+    // at the moment, we should make sure we are compatable with EVERYTHING."
+    //
+    // Without these, a custom entry could only ever NAME a model -- it could not
+    // say where to send the request, so anything outside the built-in provider
+    // table was unreachable no matter what you registered. Almost every vendor
+    // and every local server (vLLM, llama.cpp, LM Studio, Ollama, OpenRouter,
+    // Together, and whatever ships next) exposes an OpenAI-compatible /v1
+    // endpoint, so a base URL plus a model id is enough to reach a model that
+    // does not exist yet.
+    /// OpenAI-compatible base URL, e.g. "https://api.example.com/v1".
+    pub base_url: Option<String>,
+    /// NAME of the environment variable holding the key -- never the key itself.
+    /// The registry file is plain JSON on disk and is read by the Python engine;
+    /// putting a secret in it would violate this repo's secret-hygiene rules and
+    /// leak it into every backup of the app data directory.
+    pub api_key_env: Option<String>,
 }
 
 #[derive(Serialize)]
@@ -53,6 +73,34 @@ pub fn get_models_registry(app_data: tauri::State<'_, AppDataDir>) -> Result<Val
             "tandem_presets": []
         }))
     }
+}
+
+/// The persisted shape of a custom model. Built in one place so the
+/// existing-tier and new-tier paths below cannot drift: they previously wrote two
+/// separate inline literals, which is how a new field gets added to one and
+/// silently missed on the other.
+fn model_entry(payload: &CustomModelPayload) -> Value {
+    let mut entry = serde_json::json!({
+        "id": payload.id,
+        "provider": payload.provider,
+        "name": payload.name,
+        "desc": payload.desc,
+        "elo_rating": payload.elo_rating,
+        "context_window": payload.context_window,
+        "speed_ms_per_token": payload.speed_ms_per_token,
+        // Marks this as user-added, so the Python engine knows to register a
+        // provider for it and the UI can tell it apart from a shipped entry.
+        "custom": true,
+    });
+    // Only written when present -- an absent base_url means "a provider this
+    // build already knows", and an empty string would look like a real endpoint.
+    if let Some(url) = payload.base_url.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+        entry["base_url"] = Value::String(url.to_string());
+    }
+    if let Some(env) = payload.api_key_env.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+        entry["api_key_env"] = Value::String(env.to_string());
+    }
+    entry
 }
 
 #[command]
@@ -87,15 +135,7 @@ pub fn add_custom_registry_model(
                         });
                     }
 
-                    models_arr.push(serde_json::json!({
-                        "id": payload.id,
-                        "provider": payload.provider,
-                        "name": payload.name,
-                        "desc": payload.desc,
-                        "elo_rating": payload.elo_rating,
-                        "context_window": payload.context_window,
-                        "speed_ms_per_token": payload.speed_ms_per_token
-                    }));
+                    models_arr.push(model_entry(&payload));
                 }
                 found_tier = true;
                 break;
@@ -107,15 +147,7 @@ pub fn add_custom_registry_model(
                 "tier_id": payload.tier_id,
                 "title": "Custom / Experimental",
                 "color": "text-pink-400",
-                "models": [{
-                    "id": payload.id,
-                    "provider": payload.provider,
-                    "name": payload.name,
-                    "desc": payload.desc,
-                    "elo_rating": payload.elo_rating,
-                    "context_window": payload.context_window,
-                    "speed_ms_per_token": payload.speed_ms_per_token
-                }]
+                "models": [model_entry(&payload)]
             }));
         }
     }

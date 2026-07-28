@@ -235,7 +235,7 @@ export function NeonTerminalTheme({
             {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <span
-                  className="text-[8px] font-mono font-bold tabular-nums"
+                  className="text-meta font-mono font-bold tabular-nums"
                   style={{ color: purple }}
                 >
                   {elapsedSeconds}s
@@ -246,18 +246,18 @@ export function NeonTerminalTheme({
 
           <div className="flex flex-col items-center gap-1">
             <p
-              className="text-[9px] font-mono tracking-[0.5em] uppercase"
+              className="text-eyebrow font-mono tracking-[0.5em] uppercase"
               style={{ color: `${purple}60` }}
             >
               TRACE THE SYSTEM
             </p>
             <p
-              className="text-[14px] font-mono font-bold tracking-widest uppercase"
+              className="text-title font-mono font-bold tracking-widest uppercase"
               style={{ color: purple, textShadow: `0 0 16px ${purple}` }}
             >
               {label}
             </p>
-            <p className="text-[9px] font-mono" style={{ color: `${cyan}70` }}>
+            <p className="text-meta font-mono" style={{ color: `${cyan}70` }}>
               NEON TERMINAL TRACE ACTIVE
             </p>
           </div>
@@ -285,7 +285,7 @@ export function NeonTerminalTheme({
                     />
                   </div>
                   <span
-                    className="text-[7px] font-mono uppercase tracking-wider"
+                    className="text-eyebrow font-mono uppercase tracking-wider"
                     style={{ color, opacity: nodeActive ? 1 : 0.3 }}
                   >
                     {role}
@@ -314,7 +314,7 @@ export function NeonTerminalTheme({
           className="w-6 h-6 border-2 rounded-full animate-spin"
           style={{ borderColor: `${purple}40`, borderTopColor: purple }}
         />
-        <p className="text-[10px] font-mono tracking-widest uppercase" style={{ color: purple }}>
+        <p className="text-meta font-mono tracking-widest uppercase" style={{ color: purple }}>
           {label}
         </p>
       </div>

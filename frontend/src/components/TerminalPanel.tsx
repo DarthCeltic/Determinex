@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { listen } from "@tauri-apps/api/event";
-import { isTauri, invokeSafe } from "@/lib/api";
+import { isTauri, invokeSafe, invokeWrite } from "@/lib/api";
 import "@xterm/xterm/css/xterm.css";
 
 type Props = {
@@ -91,17 +91,34 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
         }
       });
 
-      sendCommandRef.current = (command: string) => {
-        void invokeSafe("pty_write", { id: TERMINAL_ID, data: `${command}\r` });
+      // pty_write / pty_resize are void-returning, so a rejected write was
+      // indistinguishable from an accepted one: if the shell had died, typing
+      // kept looking normal while nothing was delivered. The terminal itself is
+      // the right place to say so -- and it is reported once, not per keystroke,
+      // because a dead PTY would otherwise emit a line per character typed.
+      let ptyWriteFailed = false;
+      const writePty = (data: string) => {
+        void invokeWrite("pty_write", { id: TERMINAL_ID, data }).catch((e) => {
+          if (ptyWriteFailed) return;
+          ptyWriteFailed = true;
+          term.write(`\r\n\x1b[31m[terminal] input is not reaching the shell: ${e}\x1b[0m\r\n`);
+          setExited(true);
+        });
       };
 
-      term.onData((data) => {
-        void invokeSafe("pty_write", { id: TERMINAL_ID, data });
-      });
+      sendCommandRef.current = (command: string) => writePty(`${command}\r`);
+
+      term.onData(writePty);
 
       const doResize = () => {
         fitAddon.fit();
-        void invokeSafe("pty_resize", { id: TERMINAL_ID, rows: term.rows, cols: term.cols });
+        // A failed resize only means the remote size is stale; it is not worth
+        // interrupting the user over, and the next successful resize corrects it.
+        void invokeWrite("pty_resize", {
+          id: TERMINAL_ID,
+          rows: term.rows,
+          cols: term.cols,
+        }).catch((e) => console.warn("[terminal] resize not applied", e));
       };
       resizeObserver = new ResizeObserver(() => requestAnimationFrame(doResize));
       resizeObserver.observe(terminalRef.current);
@@ -125,12 +142,26 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
   }, [tauriMode]);
 
   const killTerminal = () => {
-    void invokeSafe("pty_kill", { id: TERMINAL_ID });
-    setExited(true);
+    // Marking it exited on a kill that was refused would leave a live shell
+    // behind a UI that says it is dead, so the flag is only set on success.
+    void invokeWrite("pty_kill", { id: TERMINAL_ID })
+      .then(() => setExited(true))
+      .catch((e) =>
+        termInstance.current?.write(`\r\n\x1b[31m[terminal] kill failed: ${e}\x1b[0m\r\n`)
+      );
   };
 
   const restartTerminal = async () => {
-    await invokeSafe("pty_kill", { id: TERMINAL_ID });
+    // A failed kill here is not fatal -- pty_spawn reconnects to an existing
+    // session for this id -- but it must not be silent, or a restart that
+    // actually reattached to the old shell looks like a fresh one.
+    try {
+      await invokeWrite("pty_kill", { id: TERMINAL_ID });
+    } catch (e) {
+      termInstance.current?.write(
+        `\r\n\x1b[33m[terminal] previous shell did not stop cleanly: ${e}\x1b[0m\r\n`
+      );
+    }
     setExited(false);
     const term = termInstance.current;
     if (term) {
@@ -153,7 +184,7 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
       style={{ background: "#010409", fontFamily: '"JetBrains Mono", monospace' }}
     >
       <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-white/8 bg-black/60 px-4 py-2">
-        <span className="text-[10px] font-mono text-gray-500">
+        <span className="text-label font-mono text-gray-500">
           terminal — {displayPath(workspacePath).split(/[\\/]/).pop() || "workspace"}
         </span>
         <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-1.5">
@@ -163,7 +194,7 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
                 key={command}
                 type="button"
                 onClick={() => sendCommandRef.current(command)}
-                className="rounded-md border border-white/8 bg-white/[0.03] px-2 py-1 text-[8px] font-bold text-gray-500 transition hover:border-emerald-400/30 hover:text-emerald-300"
+                className="rounded-md border border-white/8 bg-white/[0.03] px-2 py-1 text-meta font-bold text-gray-500 transition hover:border-emerald-400/30 hover:text-emerald-300"
               >
                 {command}
               </button>
@@ -173,13 +204,13 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
               type="button"
               onClick={exited ? restartTerminal : killTerminal}
               title={exited ? "Restart shell" : "Kill shell"}
-              className="rounded-md border border-white/8 bg-white/[0.03] px-2 py-1 text-[8px] font-bold text-gray-500 transition hover:border-red-400/30 hover:text-red-300"
+              className="rounded-md border border-white/8 bg-white/[0.03] px-2 py-1 text-meta font-bold text-gray-500 transition hover:border-red-400/30 hover:text-red-300"
             >
               {exited ? "Restart" : "Kill"}
             </button>
           )}
           {!tauriMode && (
-            <span className="rounded border border-amber-400/20 bg-amber-500/10 px-2 py-1 text-[8px] font-mono text-amber-300">
+            <span className="rounded border border-amber-400/20 bg-amber-500/10 px-2 py-1 text-meta font-mono text-amber-300">
               BROWSER VIEW
             </span>
           )}
@@ -188,7 +219,10 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
 
       {!tauriMode ? (
         <div className="flex flex-1 flex-col items-center justify-center gap-2 p-6 text-center text-xs text-gray-500">
-          <p>A real, interactive terminal (real PTY, streaming, persistent shell state) requires the desktop runtime.</p>
+          <p>
+            A real, interactive terminal (real PTY, streaming, persistent shell state) requires the
+            desktop runtime.
+          </p>
           <p className="text-gray-600">Open Determinex as the desktop app to use the terminal.</p>
         </div>
       ) : (
@@ -196,8 +230,8 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
           <div ref={terminalRef} className="absolute inset-0 pl-2 pt-2" />
           {exited && (
             <div className="absolute inset-x-0 bottom-2 flex justify-center">
-              <span className="rounded border border-amber-400/30 bg-black/80 px-3 py-1 text-[10px] font-mono text-amber-300">
-                Shell exited. Click "Restart" to start a new one.
+              <span className="rounded border border-amber-400/30 bg-black/80 px-3 py-1 text-label font-mono text-amber-300">
+                Shell exited. Click &quot;Restart&quot; to start a new one.
               </span>
             </div>
           )}

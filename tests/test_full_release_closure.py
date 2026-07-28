@@ -189,6 +189,30 @@ def test_full_release_closure_drops_clean_host_protected_blocker_after_valid_tra
         {"bomFormat": "CycloneDX", "metadata": {"component": {"name": "determinex-python"}}},
     )
     _write_json(tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json", {"bomFormat": "CycloneDX"})
+    # _clean_host_transcript_errors also requires runner.runner_id (non-mocked) and a
+    # bundle.installer_sha256 that cross-validates against a REAL artifact hash recorded
+    # in the current download bundle manifest (determinex_release_gates._latest_clean_host_
+    # transcript) -- both were missing from this fixture, causing the transcript to always
+    # be rejected regardless of the field this test actually means to exercise.
+    installer_bytes = b"fake determinex setup for closure test"
+    installer_sha256 = closure._sha256_bytes(installer_bytes)
+    installer_path = tmp_path / "dist/Determinex_0.1.0_x64-setup.exe"
+    installer_path.parent.mkdir(parents=True, exist_ok=True)
+    installer_path.write_bytes(installer_bytes)
+    _write_json(
+        tmp_path / "assurance/evidence/determinex_download_bundle_20260707/download_manifest.json",
+        {
+            "schema_version": "determinex-download-bundle-v1",
+            "artifacts": [
+                {
+                    "artifact_type": "windows_nsis_setup",
+                    "source_path": "dist/Determinex_0.1.0_x64-setup.exe",
+                    "sha256": installer_sha256,
+                    "size_bytes": len(installer_bytes),
+                }
+            ],
+        },
+    )
     _write_json(
         tmp_path / "assurance/evidence/full_release_closure/clean_host_install_transcript_20260708.json",
         {
@@ -199,10 +223,12 @@ def test_full_release_closure_drops_clean_host_protected_blocker_after_valid_tra
                 "is_clean_host": True,
                 "host_reused_from_developer_machine": False,
                 "os": "Windows 11",
+                "runner_id": "azure-clean-host-vm-20260708",
             },
             "bundle": {
                 "source_commit": "final-release-commit",
                 "installer_sha256_verified": True,
+                "installer_sha256": installer_sha256,
             },
             "dry_run": False,
             "installer_execution_performed": True,

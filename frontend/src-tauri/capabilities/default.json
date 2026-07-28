@@ -3,12 +3,16 @@
   "identifier": "default",
   "description": "enables the default permissions",
   "windows": [
-    "main"
+    "main",
+    "ide-repair",
+    "proof-center"
   ],
   "permissions": [
     "core:default",
+    "core:webview:allow-create-webview-window",
     "shell:allow-execute",
     "shell:allow-spawn",
-    "shell:allow-open"
+    "shell:allow-open",
+    "dialog:default"
   ]
 }

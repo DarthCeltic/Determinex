@@ -145,6 +145,7 @@ def main():
     else:
         dirs = sorted(d for d in OVERRIDES.iterdir() if d.is_dir())
 
+    realigned = []
     for d in dirs:
         sh = d / "compile.sh"
         if not sh.exists():
@@ -158,8 +159,19 @@ def main():
             already.append(d.name)
         else:
             no_match.append(d.name)
+        # DEPLOY step (was built-but-unwired until 2026-07-18, leaving 62 tools on the partial
+        # pattern that still filtered test_tmux*): re-align to keifu's proven RUN-the-tmux-tests
+        # form. Idempotent; runs on every invocation so the partial pattern can't reappear.
+        content = sh.read_text(encoding="utf-8", errors="replace")
+        new_content, changed = realign_tui_to_keifu(content)
+        if changed:
+            realigned.append(d.name)
+            if not dry_run:
+                sh.write_bytes(new_content.replace('\r\n', '\n').replace('\r', '\n').encode('utf-8'))
+                print(f"[REALIGN] {d.name}")
 
-    print(f"\nFixed: {len(fixed)}, Already fixed: {len(already)}, No match: {len(no_match)}")
+    print(f"\nFixed: {len(fixed)}, Realigned: {len(realigned)}, "
+          f"Already fixed: {len(already)}, No match: {len(no_match)}")
     if no_match:
         print("No match (non-standard pattern):")
         for n in no_match[:20]:

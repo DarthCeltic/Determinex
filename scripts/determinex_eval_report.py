@@ -25,8 +25,9 @@ from __future__ import annotations
 import json
 import re
 from collections import Counter
-from dataclasses import dataclass, field, asdict
 from pathlib import Path
+
+from pydantic import BaseModel, Field, ValidationError
 
 # Canonical status keywords as emitted by the programbench scorer. Never guess
 # these -- read them from here.
@@ -47,28 +48,46 @@ RE_ASSERT_IN = re.compile(r"assert\s+(b?(['\"]).*?\2)\s+in\b")
 RE_PARAM_ID = re.compile(r"\[([^\]]+)\]\s*$")
 
 
-@dataclass
-class FailRecord:
+class TestResult(BaseModel):
+    """One raw `test_results[]` entry -- the actual WAL/JSON boundary where an
+    external eval harness's output enters Determinex. Validated on the way
+    in instead of naked dict.get() so a malformed/unexpected shape from an
+    eval harness fails loudly at load() rather than silently producing a
+    wrong score somewhere downstream."""
+
+    model_config = {"extra": "allow"}  # eval JSON carries more fields than we use
+
+    name: str = ""
+    status: str = ""
+    # Deliberately Any, not dict | str: the original bare .get() stringified
+    # whatever it found here (isinstance(extra, dict) else str(extra or "")).
+    # name/status genuinely should always be strings and are worth validating
+    # strictly; extra's only consumer is "extract text for traceback parsing"
+    # and any type it might legitimately be still needs to flow through to
+    # that same fallback, not get rejected as a malformed entry.
+    extra: object = ""
+
+
+class FailRecord(BaseModel):
     name: str
     short: str                       # bare test_name (no namespace/param)
     status: str
-    argv: list = field(default_factory=list)   # reconstructed command argv
+    argv: list = Field(default_factory=list)   # reconstructed command argv
     returncode_actual: int | None = None
     expect_rc: int | None = None
-    expect_in: list = field(default_factory=list)  # snippets asserted present
+    expect_in: list = Field(default_factory=list)  # snippets asserted present
     param_id: str | None = None
     text: str = ""                   # raw traceback (trimmed)
 
 
-@dataclass
-class EvalReport:
+class EvalReport(BaseModel):
     path: str
     total: int
     passed: int
     counts: dict
     unique_total: int                # de-duplicated across bidir namespaces
     unique_passed: int
-    failures: list                   # list[FailRecord]
+    failures: list[FailRecord]
     is_lock: bool
     not_run: int
 
@@ -129,9 +148,19 @@ def load(path: str | Path) -> EvalReport:
     failures: list[FailRecord] = []
     uniq_status: dict[str, str] = {}   # bare name -> best status (passed wins)
 
-    for t in results:
-        name = t.get("name", "")
-        status = t.get("status", "")
+    for raw in results:
+        # Validated WAL/JSON boundary: a genuinely malformed entry (wrong
+        # type for name/status/extra) is logged and treated as an empty
+        # record rather than either silently corrupting the score (the old
+        # bare .get() behavior) or aborting the whole report over one bad
+        # entry out of possibly thousands.
+        try:
+            t = TestResult.model_validate(raw)
+        except ValidationError as exc:
+            print(f"[determinex_eval_report] malformed test_results entry in {p}: {exc}")
+            t = TestResult()
+        name = t.name
+        status = t.status
         counts[status] += 1
         pid_m = RE_PARAM_ID.search(name)
         bare = _bare(name) + "|" + (pid_m.group(1) if pid_m else "")
@@ -139,7 +168,7 @@ def load(path: str | Path) -> EvalReport:
         if prev != PASSED:
             uniq_status[bare] = status if (prev is None or status == PASSED) else prev
         if status not in (PASSED, SKIPPED):
-            extra = t.get("extra", "")
+            extra = t.extra
             text = extra.get("text", "") if isinstance(extra, dict) else str(extra or "")
             failures.append(_parse_traceback(name, text))
 
@@ -168,7 +197,7 @@ def main(argv=None):
         rep = load(ej)
         short = Path(ej).name.split("__")[-1].split(".")[0]
         if a.json:
-            out[short] = {**{k: v for k, v in asdict(rep).items() if k != "failures"},
+            out[short] = {**{k: v for k, v in rep.model_dump().items() if k != "failures"},
                           "score": rep.score}
         else:
             print(f"{short:18} {rep.summary()}")

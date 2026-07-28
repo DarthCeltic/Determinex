@@ -18,15 +18,7 @@ use serde::Serialize;
 use std::path::PathBuf;
 use std::time::Duration;
 use tokio::process::Command;
-
-/// Windows allocates a visible console window for any spawned console-subsystem
-/// process (where.exe, the installer, ollama.exe) unless told not to -- this is
-/// the flashing command-prompt box users see. No-op on other platforms.
-#[cfg(target_os = "windows")]
-fn no_window(cmd: &mut Command) -> &mut Command {
-    const CREATE_NO_WINDOW: u32 = 0x0800_0000;
-    cmd.creation_flags(CREATE_NO_WINDOW)
-}
+use crate::win_process::HideConsoleExt;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -114,10 +106,10 @@ async fn get_ollama_version() -> String {
 /// Check if `ollama` binary exists on PATH.
 async fn is_ollama_on_path() -> bool {
     #[cfg(target_os = "windows")]
-    let check = no_window(Command::new("where").arg("ollama")).output().await;
+    let check = Command::new("where").hide_console().arg("ollama").output().await;
 
     #[cfg(not(target_os = "windows"))]
-    let check = Command::new("which").arg("ollama").output().await;
+    let check = Command::new("which").hide_console().arg("ollama").output().await;
 
     matches!(check, Ok(output) if output.status.success())
 }
@@ -127,10 +119,6 @@ async fn is_ollama_on_path() -> bool {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Download a file from `url` to `dest`, returning the path on success.
-///
-/// Retries the final write a few times: on Windows, real-time antivirus
-/// scanning commonly grabs a brief exclusive lock on a just-written `.exe`
-/// (sharing violation, os error 32), which is transient, not a real failure.
 async fn download_file(url: &str, dest: &PathBuf) -> Result<(), String> {
     log::info!("[OLLAMA-INSTALLER] Downloading {} → {:?}", url, dest);
 
@@ -164,52 +152,28 @@ async fn download_file(url: &str, dest: &PathBuf) -> Result<(), String> {
             .map_err(|e| format!("Failed to create directory {:?}: {}", parent, e))?;
     }
 
-    const MAX_WRITE_ATTEMPTS: u32 = 5;
-    let mut last_err = String::new();
-    for attempt in 1..=MAX_WRITE_ATTEMPTS {
-        match std::fs::write(dest, &bytes) {
-            Ok(()) => {
-                log::info!(
-                    "[OLLAMA-INSTALLER] Downloaded {} bytes to {:?}",
-                    bytes.len(),
-                    dest
-                );
-                return Ok(());
-            }
-            Err(e) => {
-                last_err = format!("Failed to write {:?}: {}", dest, e);
-                log::warn!(
-                    "[OLLAMA-INSTALLER] Write attempt {}/{} failed: {}",
-                    attempt,
-                    MAX_WRITE_ATTEMPTS,
-                    last_err
-                );
-                if attempt < MAX_WRITE_ATTEMPTS {
-                    tokio::time::sleep(Duration::from_millis(500 * attempt as u64)).await;
-                }
-            }
-        }
-    }
-    Err(last_err)
+    std::fs::write(dest, &bytes).map_err(|e| format!("Failed to write {:?}: {}", dest, e))?;
+
+    log::info!(
+        "[OLLAMA-INSTALLER] Downloaded {} bytes to {:?}",
+        bytes.len(),
+        dest
+    );
+    Ok(())
 }
 
 /// Install Ollama on Windows via silent installer.
 #[cfg(target_os = "windows")]
 async fn install_ollama() -> Result<(), String> {
     let temp_dir = std::env::temp_dir();
-    // Unique filename per attempt so a stale/locked file from a prior run
-    // (e.g. still held by an antivirus scan) is never reused or collided with.
-    let unique = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .map(|d| d.as_millis())
-        .unwrap_or(0);
-    let installer_path = temp_dir.join(format!("OllamaSetup-{}.exe", unique));
+    let installer_path = temp_dir.join("OllamaSetup.exe");
 
     download_file(OLLAMA_DOWNLOAD_URL, &installer_path).await?;
 
     log::info!("[OLLAMA-INSTALLER] Running silent install...");
 
-    let output = no_window(Command::new(&installer_path).args(["/VERYSILENT", "/NORESTART", "/SUPPRESSMSGBOXES"]))
+    let output = Command::new(&installer_path).hide_console()
+        .args(["/VERYSILENT", "/NORESTART", "/SUPPRESSMSGBOXES"])
         .output()
         .await
         .map_err(|e| format!("Failed to run OllamaSetup.exe: {}", e))?;
@@ -241,7 +205,7 @@ async fn install_ollama() -> Result<(), String> {
     log::info!("[OLLAMA-INSTALLER] Extracting Ollama for macOS...");
 
     // Extract to /Applications (standard macOS location)
-    let output = Command::new("unzip")
+    let output = Command::new("unzip").hide_console()
         .args(["-o", zip_path.to_str().unwrap_or(""), "-d", "/Applications"])
         .output()
         .await
@@ -255,7 +219,7 @@ async fn install_ollama() -> Result<(), String> {
     }
 
     // Symlink the CLI binary
-    let _ = Command::new("ln")
+    let _ = Command::new("ln").hide_console()
         .args([
             "-sf",
             "/Applications/Ollama.app/Contents/Resources/ollama",
@@ -273,7 +237,7 @@ async fn install_ollama() -> Result<(), String> {
 async fn install_ollama() -> Result<(), String> {
     log::info!("[OLLAMA-INSTALLER] Running Linux install script...");
 
-    let output = Command::new("sh")
+    let output = Command::new("sh").hide_console()
         .args(["-c", &format!("curl -fsSL {} | sh", OLLAMA_INSTALL_SCRIPT)])
         .output()
         .await
@@ -309,30 +273,30 @@ async fn start_ollama_service() -> Result<(), String> {
 
         if ollama_app.exists() {
             // Launch the Ollama app (which starts the server)
-            let _ = no_window(&mut Command::new(&ollama_app)).spawn();
+            let _ = Command::new(&ollama_app).hide_console().spawn();
         } else {
             // Fallback: try `ollama serve` in the background
-            let _ = no_window(Command::new("ollama").arg("serve")).spawn();
+            let _ = Command::new("ollama").hide_console().arg("serve").spawn();
         }
     }
 
     #[cfg(target_os = "macos")]
     {
         // On macOS, launch the app which starts the server
-        let _ = Command::new("open").args(["-a", "Ollama"]).output().await;
+        let _ = Command::new("open").hide_console().args(["-a", "Ollama"]).output().await;
     }
 
     #[cfg(target_os = "linux")]
     {
         // On Linux, start via systemd or direct
-        let systemd = Command::new("systemctl")
+        let systemd = Command::new("systemctl").hide_console()
             .args(["start", "ollama"])
             .output()
             .await;
 
         if !matches!(systemd, Ok(ref o) if o.status.success()) {
             // Fallback: direct launch
-            let _ = Command::new("ollama").arg("serve").spawn();
+            let _ = Command::new("ollama").hide_console().arg("serve").spawn();
         }
     }
 

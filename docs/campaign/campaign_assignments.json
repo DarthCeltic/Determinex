@@ -1,0 +1,349 @@
+{
+  "_schema": "campaign_assignments_v3",
+  "_last_reconcile": "2026-06-11T21:00Z-codex-truth-sync",
+  "_hetzner_path": "/root/ProgramBench (NOT /root/Dev/ProgramBench — confirmed 2026-06-11). Binary: /root/ProgramBench/.venv/bin/programbench",
+  "_driver": "claude",
+  "_notes": "One slug = one owner. Codex touches ONLY slugs in its active batch OR claimed slugs from rolling_queue. Self-assignment outside rolling_queue is prohibited.",
+  "batches": [
+    {
+      "batch_id": "CODEX-001",
+      "owner": "codex",
+      "wave": "T3",
+      "issued": "2026-06-10",
+      "status": "reconciled",
+      "slugs": [
+        "fzf",
+        "ov",
+        "fasttext"
+      ],
+      "hetzner_results": {
+        "fzf": "Score 100 (1858 PB tests) — Section 5 FAIL: 89 bidir failures in tests.* prefix (branch 3cde1a7d975e, box-drawing char mismatches), 3 man-page skips. NOT archived. → bounce_record entry in rolling_queue.",
+        "ov": "Score 52 (1854 PB tests) — multiple branches with large JUnit XML gaps. → bounce_record entry in rolling_queue.",
+        "fasttext": "Score 17 — bidir prefix inversion (eval.tests.* generated / tests.* expected). → bounce_record entry in rolling_queue."
+      },
+      "dispatch_log": "2026-06-10: Assigned. 2026-06-11: Codex handback + Hetzner eval ran. 2026-06-11: All three bounced. RECONCILED."
+    },
+    {
+      "batch_id": "CODEX-002",
+      "owner": "codex",
+      "wave": "T1",
+      "issued": "2026-06-11",
+      "status": "hetzner_eval_running_v4",
+      "slugs": [
+        "argc",
+        "run"
+      ],
+      "handback_received": true,
+      "handback_notes": {
+        "argc": "TUI filter + 400-item cap removed. Score pre-Hetzner: 400/1375 (975 not_run). Tarball repacked.",
+        "run": "TUI filter + cap removed. Score pre-Hetzner: 693/1585 (813 not_run, 79 C-lang skips). GCC not installed."
+      },
+      "dispatch_log": "2026-06-11: v1/v2 failed (wrong path /root/Dev/ProgramBench + compile_failed from CRLF). v3: compile_failed (tarball path not a dir). v4 dispatched 2026-06-11 PID 2916337 — correct dir structure, LF-fixed tarballs. Log: /root/determinex-programbench/_logs/codex002_eval_v4.log. argc running (Docker container live)."
+    },
+    {
+      "batch_id": "CODEX-ROLLING-001",
+      "owner": "codex",
+      "wave": "T1",
+      "issued": "2026-06-11",
+      "status": "hetzner_eval_running",
+      "slugs": [
+        "jhspetersson__fselect",
+        "parcel-bundler__lightningcss",
+        "luajit__luajit",
+        "stranger6667__jsonschema"
+      ],
+      "handback_received": true,
+      "handback_notes": {
+        "jhspetersson__fselect": "board_cache_only. TUI filter removed. No local eval_report. Staged for Hetzner eval. Hash: 384112F208C59B9BCA26D0009349443BD43091E858F26B840ED2A77D415F2CA1",
+        "parcel-bundler__lightningcss": "board_cache_only. TUI filter removed. No local eval_report. Hash: 1B36B401CC29138A76B928877E5C6D34B07999020A9FCF619183D6AD0A027476",
+        "luajit__luajit": "board_cache_only. TUI filter removed. No local eval_report. Hash: 7D5669773011EA29597F9874C5BEBD965D2DD9CACF23BB16A4469C88C10D104B",
+        "stranger6667__jsonschema": "board_cache_only. TUI filter removed. No local eval_report. Hash: DCAFD5B5DDC7BD88FE54A86F67CFDEEB5372FFA1620D10EB9092DE95BBCB01AC"
+      },
+      "artifact_root": "corpus/programbench/in_progress/codex_rolling_001",
+      "dispatch_log": "2026-06-11: Codex claimed and staged. Tarballs SCP'd to Hetzner, run dir created at /root/determinex-programbench/determinex_pb_rolling001_v1/. Originally queued after CODEX-002 but argc hung on TUI branch (results_read_failed). 2026-06-11 03:49 UTC: Driver broke chain dependency and launched Chain-A (ROLLING-001 + ROLLING-002 sequential, PID 2978401) independently. Running now. Instance IDs: jhspetersson__fselect.c3559ca / parcel-bundler__lightningcss.aa2ed1e / luajit__luajit.a553b3d / stranger6667__jsonschema.d52e881. Log: /root/determinex-programbench/_logs/chain_a.log"
+    },
+    {
+      "batch_id": "CODEX-ROLLING-002",
+      "owner": "codex",
+      "wave": "T1",
+      "issued": "2026-06-11",
+      "status": "hetzner_eval_running",
+      "slugs": [
+        "hairyhenderson__gomplate",
+        "universal-ctags__ctags",
+        "robertdavidgraham__masscan",
+        "segmentio__chamber"
+      ],
+      "artifact_root": "corpus/programbench/in_progress/codex_rolling_002",
+      "dispatch_log": "2026-06-11: Codex claimed. Staging in progress. 2026-06-11 03:49 UTC: Chain-A launched (ROLLING-001 → ROLLING-002 sequential, PID 2978401). ROLLING-002 queued after ROLLING-001 finishes within Chain-A. Log: /root/determinex-programbench/_logs/chain_a.log"
+    },
+    {
+      "batch_id": "CODEX-OVERRIDE-001",
+      "owner": "codex",
+      "wave": "T2",
+      "issued": "2026-06-11",
+      "status": "reconciled_bounced",
+      "slugs": [
+        "bartib",
+        "age",
+        "bat",
+        "ast-grep"
+      ],
+      "user_authorization": "Ryan explicitly authorized. Ratified by driver 2026-06-11.",
+      "bounce_results": {
+        "bartib": "886/929, 41 real-fail. Class: behavioral — date-substitution (--at flag not respected; binary outputs current date instead of specified date). 3-bounce tracking: bounce 1. Bounce record in rolling_queue.",
+        "age": "292/1678, 1222 image-plumbing. Class: harness-class (Pattern 001 — /workspace/executable path error). Systematic: all branches affected. Driver investigation required before Codex retry. HOLD pending CHANGE REQUEST.",
+        "bat": "2286/2664, 138 image-plumbing + 212 real-fail. Class: mixed harness-class (Pattern 001) + behavioral. Image-plumbing is branch-selective. Real-fail needs root cause analysis. Bounce record in rolling_queue.",
+        "ast-grep": "804/1753, 376 image-plumbing + 536 real-fail + 37 collection. Class: mixed harness-class (Pattern 001) + behavioral + collection. Severe (45.9% pass). Bounce record in rolling_queue."
+      },
+      "dispatch_log": "2026-06-11: Emergency claim by Codex. Ratified. Staging evals run (local Docker). 2026-06-11: All 4 bounced. RECONCILED. Bounce records written."
+    },
+    {
+      "batch_id": "CODEX-ROLLING-003",
+      "owner": "codex",
+      "wave": "T1",
+      "issued": "2026-06-10",
+      "status": "fzf_v3_completed_bounced_driver_harvest_needed",
+      "slugs": [
+        "fzf",
+        "ov",
+        "fasttext",
+        "bartib"
+      ],
+      "handback_received": true,
+      "dispatch_log": "2026-06-11: Handbacks received (verdict: partial, board_cache_only). fzf/ov: high failure rate pre-eval. fasttext: xdist_group fix in v4. bartib: date-substitution pattern. Driver queuing Hetzner evals. 2026-06-11: fzf v3 completed; Codex parsed 4156/4272, 116 failures, all branch 3cde1a7d975e. Not lock-eligible.",
+      "handback_notes": {
+        "fzf_v3": "Remote eval completed at /root/determinex-programbench/determinex_pb_fzf_v3/junegunn__fzf.b56d614/junegunn__fzf.b56d614.eval.json. Codex parsed scratch copy: 4156/4272 passed, 116 failures, 0 not_run, 0 skipped; all failures on branch 3cde1a7d975e. NOT lock-eligible; driver classify/bounce."
+      }
+    },
+    {
+      "batch_id": "CODEX-ROLLING-004",
+      "owner": "codex",
+      "wave": "T1",
+      "issued": "2026-06-10",
+      "status": "hetzner_eval_queued",
+      "slugs": [
+        "lz4__lz4",
+        "danmar__cppcheck",
+        "hpjansson__chafa",
+        "antonmedv__fx"
+      ],
+      "handback_received": true,
+      "dispatch_log": "2026-06-11: Staged tarballs uploaded to Hetzner (lz4.1519f46, cppcheck.0a5b103, chafa.dd4d4c1, fx.86d0d34). Evals queued after current capacity clears (solar/walk/typst running)."
+    },
+    {
+      "batch_id": "CODEX-ROLLING-005",
+      "owner": "codex",
+      "wave": "T1",
+      "issued": "2026-06-10",
+      "status": "hetzner_eval_running",
+      "slugs": [
+        "antonmedv__walk",
+        "paradigmxyz__solar",
+        "typst__typst",
+        "facebook__zstd"
+      ],
+      "handback_received": true,
+      "dispatch_log": "2026-06-11: walk + solar running on Hetzner (PROGRAMBENCH_DOCKER_CPUS=8). typst queued as 4th slot. zstd queued after capacity opens."
+    },
+    {
+      "batch_id": "CODEX-ROLLING-006",
+      "owner": "codex",
+      "wave": "T1",
+      "issued": "2026-06-11",
+      "status": "hetzner_eval_running",
+      "slugs": [
+        "epistates__treemd",
+        "alexpovel__srgn",
+        "tree-sitter__tree-sitter",
+        "skeema__skeema"
+      ],
+      "handback_received": true,
+      "dispatch_log": "2026-06-11: Claimed and handed back by Codex; staged tarballs uploaded and launched by Codex override per Ryan authorization. Running in combined R006/R007/R008 Hetzner chain PID 1749078. Log: /root/determinex-programbench/_logs/codex_r006_r007_r008_20260611.log.",
+      "artifact_root": "corpus/programbench/in_progress/codex_rolling_006",
+      "remote_run_dir": "/root/determinex-programbench/determinex_pb_codex_r006_20260611"
+    },
+    {
+      "batch_id": "CODEX-ROLLING-007",
+      "owner": "codex",
+      "wave": "T1",
+      "issued": "2026-06-11",
+      "status": "hetzner_eval_running",
+      "slugs": [
+        "ogham__dog",
+        "samtools__samtools",
+        "stacked-git__stgit",
+        "yoav-lavi__melody"
+      ],
+      "handback_received": true,
+      "artifact_root": "corpus/programbench/in_progress/codex_rolling_007",
+      "remote_run_dir": "/root/determinex-programbench/determinex_pb_codex_r007_20260611",
+      "dispatch_log": "2026-06-11: Claimed and handed back by Codex; staged tarballs uploaded and launched by Codex override per Ryan authorization. Running in combined R006/R007/R008 Hetzner chain PID 1749078. Log: /root/determinex-programbench/_logs/codex_r006_r007_r008_20260611.log."
+    },
+    {
+      "batch_id": "CODEX-ROLLING-008",
+      "owner": "codex",
+      "wave": "T1",
+      "issued": "2026-06-11",
+      "status": "hetzner_eval_running",
+      "slugs": [
+        "ammarabouzor__tui-journal",
+        "tinycc__tinycc",
+        "arq5x__bedtools2",
+        "ip7z__7zip"
+      ],
+      "handback_received": true,
+      "artifact_root": "corpus/programbench/in_progress/codex_rolling_008",
+      "remote_run_dir": "/root/determinex-programbench/determinex_pb_codex_r008_20260611",
+      "dispatch_log": "2026-06-11: Claimed and handed back by Codex; staged tarballs uploaded and launched by Codex override per Ryan authorization. Running in combined R006/R007/R008 Hetzner chain PID 1749078. Log: /root/determinex-programbench/_logs/codex_r006_r007_r008_20260611.log. ducaale__xh was skipped because parked."
+    }
+  ],
+  "rolling_queue": {
+    "_generated": "2026-06-11",
+    "_note": "Pre-approved self-claim list. Order: pending_unlock → factory_accepted → board_cache_only. Codex claims ≤4 by CLAIM entry in CODEX_HANDBACK.md. Bounce-routed entries are PRIORITY claims — read the bounce_record before starting. T4-diagnostic only: gromacs/sox/ffmpeg (report findings, no tarballs). do_not_claim: pandoc.",
+    "in_flight": [
+      "argc",
+      "run",
+      "fzf",
+      "epistates__treemd",
+      "alexpovel__srgn",
+      "tree-sitter__tree-sitter",
+      "skeema__skeema",
+      "ogham__dog",
+      "samtools__samtools",
+      "stacked-git__stgit",
+      "yoav-lavi__melody",
+      "ammarabouzor__tui-journal",
+      "tinycc__tinycc",
+      "arq5x__bedtools2",
+      "ip7z__7zip"
+    ],
+    "bounce_records": {
+      "fzf": {
+        "bounce_class": "behavioral",
+        "bounce_count": 1,
+        "evidence_path": "corpus/programbench/locked/fzf/eval_report.json",
+        "specifics": "Branch 3cde1a7d975e: 89 tests.* prefix entries fail (box-drawing char assertion mismatches). 3 man-page skips (Tier B parity — need reference run). All other branches pass clean.",
+        "next_action": "Investigate branch 3cde1a7d975e output differences (box-drawing chars). Likely locale or terminal encoding issue in that branch's test setup. Also: confirm man tests require 'man' command — if so, install man-db in compile.sh."
+      },
+      "ov": {
+        "bounce_class": "collection",
+        "bounce_count": 1,
+        "evidence_path": "corpus/programbench/locked/ov/eval_report.json",
+        "specifics": "Hetzner Score 52 (1854 tests). 5 branches with JUnit XML gaps after TUI filter removal: f61aaa36db33 506/828 missing, c2f41c67393a 361/744, 696c9c97d748 1/172, 7561e50d3f64 20/20, 1b0eaae9a998 6/6.",
+        "next_action": "Run pb_senses.py on the Hetzner eval_report (need to download from Hetzner). The collection gaps after filter removal indicate a different root cause — likely module-collect error, not just filter. Use 'pb_senses.py deeper investigation' before retry."
+      },
+      "fasttext": {
+        "bounce_class": "behavioral",
+        "bounce_count": 2,
+        "evidence_path": "corpus/programbench/in_progress/codex_drivec_v1/fasttext/facebookresearch__fasttext.1142dc4.eval.json",
+        "score": "696/706 (98.6%) — 8 failures + 2 not_run",
+        "specifics": "Pattern 002 (prefix inversion) RESOLVED by driveC eval — bidir now covering both prefixes. Remaining: 4 unique behavioral failures (x2 bidir = 8 entries) + 2 not_run (@analogies_serial parametrize variant missing from JUnit). Failures: (1) test_dimension_zero_trains_without_crash: trailing newline mismatch in progress output. (2) test_learning_rate_zero_trains_without_crash: same trailing newline mismatch. (3) test_predict_prob_k_parameter: NameError: non_empty_count not defined (scoping bug in our impl). (4) test_supervised_with_learning_rate_variations: vectors too similar — LR flag not affecting training. Not_run: @analogies_serial parametrize variants of analogies_basic/default_k — parametrize setup not found in JUnit. All failures on branch 8ebac061b133 only; branch 2172e38aeb0e: 254/254 passed clean.",
+        "next_action": "Fix 4 behavioral failures in fasttext implementation: (1)/(2) strip trailing newline from progress output comparison OR match binary output format; (3) fix NameError by correctly scoping non_empty_count in prediction loop; (4) ensure --lr flag is passed through to training C++ layer. Then investigate @analogies_serial parametrize source in branch 8ebac061b133 tests.json. Path to lock: fix 8 failures + 2 not_run = 706/706."
+      },
+      "bartib": {
+        "bounce_class": "behavioral",
+        "bounce_count": 1,
+        "evidence_path": "corpus/programbench/in_progress/codex_override_001/bartib/eval_report.json",
+        "specifics": "41 failures in test_change_continue.* — all date-substitution: tests pass --at '2026-04-12 10:00' but binary outputs current date (2026-06-10). Passing rate 886/929 (95.4%). No image-plumbing. Pattern 003 in cross_tool_patterns.md.",
+        "next_action": "Implement --at / --time flag in bartib binary to use specified date. The flag is accepted but ignored — binary always uses current date. Once fixed, expect 41 failures → 0. Path to strict lock: 929/929."
+      },
+      "age": {
+        "bounce_class": "near_lock_pending_parity_verification",
+        "bounce_count": 1,
+        "evidence_path": "corpus/programbench/in_progress/codex_override_001/age/eval_report.json",
+        "specifics": "88 upstream environment-conditional skips (requires age-plugin-batchpass external plugin + PTY interactions). NOT unconditional @pytest.mark.skip decorators — requires reference binary run in same Docker env to confirm reference also skips (Tier B, not Tier A). Image-plumbing RESOLVED (./cmd/age fix worked). 1590/1678 passed, 0 failed.",
+        "next_action": "Tier B parity: run reference age binary in PB Docker container to document that it also hits the same 88 skips for the same reason. If confirmed, promote to Tier A and bank the artifact. Cheap one-liner: pull the programbench-compiled/filosottile__age.706dfc1 image, run the reference binary against the test suite, capture skip reasons."
+      },
+      "bat": {
+        "bounce_class": "harness_class_complex",
+        "bounce_count": 2,
+        "evidence_path": "corpus/programbench/in_progress/codex_override_001/bat/driveB_eval.json",
+        "score": "66/1958 (3.4%) Hetzner driveB — 1814 failures, 78 skipped",
+        "bidir_extras_ruling": "BENIGN — 327 extras on branch 0fcd4ac3ed40 are bidir mirrors (not in tests.json denominator). Score mechanics not affected.",
+        "root_cause": "Three-layer problem: (1) cargo not in PATH (/usr/local/cargo/bin/cargo exists but not in shell PATH — command -v cargo returns empty). (2) Compile.sh unconditionally overwrites ./executable with wrapper to /usr/local/bin/bat. (3) /usr/local/bin/bat does NOT exist in Hetzner eval container (confirmed). Result: returncode 127 on all binary invocations. The 66 passing tests are those that test error conditions (returncode != 0). The staging eval (2286/2664) used a LOCAL Docker image that had /usr/local/bin/bat cached from a prior run — not reproducible on Hetzner. Workspace: github.com/astaxie/bat (Go HTTP client) NOT sharkdp/bat (Rust syntax highlighter). Tests test sharkdp/bat syntax-highlighting behavior, so building Go source would also fail behavior tests.",
+        "next_action": "DRIVER_HOLD. Fix path: (1) add export PATH=/usr/local/cargo/bin:$PATH to compile.sh. (2) Include sharkdp/bat Rust source in tarball (from sharkdp/bat GitHub). (3) Build with cargo build --release -- output to /usr/local/bin/bat. (4) Remove unconditional wrapper overwrite — only create wrapper after binary installed. Estimated 178+ hours of work. Alternatively: write Python/shell wrapper implementing bat's syntax-highlighting API surface."
+      },
+      "ast-grep": {
+        "bounce_class": "mixed",
+        "bounce_count": 1,
+        "evidence_path": "corpus/programbench/in_progress/codex_override_001/ast-grep/eval_report.json",
+        "specifics": "804/1753 staging score (45.9%). 376 image-plumbing (Pattern 001) + 536 real-fail + 37 collection-gap. Severe.",
+        "next_action": "DRIVER_HOLD — harness-class group investigation. After /workspace/executable fix, 376 image-plumbing should clear. Then pb_senses on remaining. 536 real-fail + 37 collection will still need work."
+      }
+    },
+    "slugs": [
+      "fzf",
+      "ov",
+      "fasttext",
+      "bartib",
+      "age",
+      "bat",
+      "ast-grep",
+      "nikolassv__bartib",
+      "jhspetersson__fselect",
+      "parcel-bundler__lightningcss",
+      "luajit__luajit",
+      "stranger6667__jsonschema",
+      "hairyhenderson__gomplate",
+      "universal-ctags__ctags",
+      "robertdavidgraham__masscan",
+      "segmentio__chamber",
+      "lz4__lz4",
+      "danmar__cppcheck",
+      "hpjansson__chafa",
+      "antonmedv__fx",
+      "antonmedv__walk",
+      "paradigmxyz__solar",
+      "typst__typst",
+      "facebook__zstd",
+      "epistates__treemd",
+      "alexpovel__srgn",
+      "tree-sitter__tree-sitter",
+      "skeema__skeema",
+      "ogham__dog",
+      "samtools__samtools",
+      "stacked-git__stgit",
+      "yoav-lavi__melody",
+      "ammarabouzor__tui-journal",
+      "tinycc__tinycc",
+      "ducaale__xh",
+      "arq5x__bedtools2",
+      "ip7z__7zip",
+      "zk-org__zk",
+      "dundee__gdu",
+      "htop-dev__htop",
+      "ariga__atlas",
+      "agourlay__zip-password-finder",
+      "bootandy__dust",
+      "blake3-team__blake3",
+      "blacknon__hwatch",
+      "axodotdev__oranda",
+      "monolith",
+      "pingu",
+      "gromacs__gromacs",
+      "chirlu__sox",
+      "ffmpeg__ffmpeg",
+      "johnkerl__miller",
+      "php__php-src",
+      "sqlite__sqlite",
+      "duckdb__duckdb",
+      "osgeo__proj",
+      "jgm__pandoc"
+    ],
+    "driver_hold": [
+      "age",
+      "bat",
+      "ast-grep",
+      "monolith"
+    ],
+    "t4_diagnostic_only": [
+      "gromacs__gromacs",
+      "chirlu__sox",
+      "ffmpeg__ffmpeg"
+    ],
+    "do_not_claim": [
+      "jgm__pandoc"
+    ]
+  }
+}

@@ -118,7 +118,7 @@ for t in sorted(aliases, key=lambda x: x.get("slug", "")):
 lines += [
     "",
     "---",
-    "*Determinex · auto-generated from eval_index.json*",
+    "*Determinex · Lunarian Data Systems · auto-generated from eval_index.json*",
     "",
 ]
 

@@ -23,8 +23,8 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 OVR_REL = "corpus/programbench/per_tool_overrides"
 BOX = "root@5.78.192.163"
-KEY = str(Path.home() / ".ssh" / "id_determinex")
-BOX_ROOT = "/root/Determinex"
+KEY = str(Path.home() / ".ssh" / "id_citadel")
+BOX_ROOT = "/root/Citadel"
 
 # Per-tool CODE = anything the build consumes. We track ALL source (not just *_reimpl.*: the
 # walk/bat native builds were `reimpl.go`/`gron_claude.go` and the old glob missed them entirely).

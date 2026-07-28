@@ -214,25 +214,25 @@ export function TerrainNavigatorTheme({
 
         <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3">
           <p
-            className="text-[9px] font-mono tracking-[0.6em] uppercase"
+            className="text-eyebrow font-mono tracking-[0.6em] uppercase"
             style={{ color: `${green}50` }}
           >
             TERRAIN NAVIGATOR - UNIX FILESYSTEM v4.0.1
           </p>
           <p
-            className="text-[12px] font-mono font-bold"
+            className="text-body font-mono font-bold"
             style={{ color: green, textShadow: `0 0 12px ${green}80` }}
           >
             &quot;{quote}&quot;
           </p>
           <p
-            className="text-[13px] font-mono tracking-widest uppercase font-bold"
+            className="text-body font-mono tracking-widest uppercase font-bold"
             style={{ color: `${green}90` }}
           >
             {label}
           </p>
           {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
-            <p className="text-[9px] font-mono tabular-nums" style={{ color: `${green}50` }}>
+            <p className="text-meta font-mono tabular-nums" style={{ color: `${green}50` }}>
               ANALYZING — {elapsedSeconds}s
             </p>
           )}
@@ -258,7 +258,7 @@ export function TerrainNavigatorTheme({
                     {nodeActive && <div className="w-1.5 h-1.5" style={{ background: green }} />}
                   </div>
                   <span
-                    className="text-[7px] font-mono uppercase"
+                    className="text-eyebrow font-mono uppercase"
                     style={{ color: nodeActive ? green : `${green}30` }}
                   >
                     {role}
@@ -287,7 +287,7 @@ export function TerrainNavigatorTheme({
           className="w-6 h-6 border-2 animate-spin"
           style={{ borderColor: `${green}40`, borderTopColor: green, borderRadius: "2px" }}
         />
-        <p className="text-[10px] font-mono tracking-widest uppercase" style={{ color: green }}>
+        <p className="text-meta font-mono tracking-widest uppercase" style={{ color: green }}>
           {label}
         </p>
       </div>

@@ -19,12 +19,12 @@ use std::collections::HashMap;
 use std::io::{BufRead, BufReader};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
-use crate::windows_process::no_window;
 use std::sync::{Arc, Mutex};
 
 use tauri::{AppHandle, Emitter, State};
 
 use crate::ipc_hive::{project_root, resolve_python_exe};
+use crate::win_process::{HideConsoleExt, HideConsoleNewGroupExt};
 
 // ── Process registry ──────────────────────────────────────────────────────────
 
@@ -116,21 +116,13 @@ pub async fn launch_benchmark_run(
     }
 
     let mut cmd = Command::new(&python);
+    cmd.hide_console_new_group();
     cmd.arg(&script_path)
         .args(&args)
         .current_dir(project_root())
         .env("DETERMINEX_ROOT", project_root())
         .stdout(Stdio::from(log_file))
         .stderr(Stdio::from(log_file2));
-
-    #[cfg(target_os = "windows")]
-    {
-        use std::os::windows::process::CommandExt;
-        // CREATE_NEW_PROCESS_GROUP (Ctrl+Break cancellation) | CREATE_NO_WINDOW
-        // (no flashing console -- this is a GUI app, the child's output goes to
-        // the log file above, nobody should ever see a console for it).
-        cmd.creation_flags(0x00000200 | 0x0800_0000);
-    }
 
     let child = cmd
         .spawn()
@@ -346,6 +338,7 @@ pub async fn get_programbench_snapshot(
     }
 
     let mut cmd = Command::new(&python);
+    cmd.hide_console();
     cmd.arg(&script)
         .arg("--json")
         .arg("--run-id")
@@ -354,7 +347,6 @@ pub async fn get_programbench_snapshot(
         .arg(expected_total.unwrap_or(115).to_string())
         .current_dir(&root)
         .env("DETERMINEX_ROOT", &root);
-    no_window(&mut cmd);
 
     if advise.unwrap_or(true) {
         cmd.arg("--advise");
@@ -380,10 +372,13 @@ pub async fn get_programbench_snapshot(
 fn kill_process(pid: u32) {
     #[cfg(target_os = "windows")]
     {
-        let _ = no_window(Command::new("taskkill").args(["/F", "/PID", &pid.to_string()])).output();
+        let _ = Command::new("taskkill")
+            .hide_console()
+            .args(["/F", "/PID", &pid.to_string()])
+            .output();
     }
     #[cfg(not(target_os = "windows"))]
     {
-        let _ = Command::new("kill").args(["-9", &pid.to_string()]).output();
+        let _ = Command::new("kill").hide_console().args(["-9", &pid.to_string()]).output();
     }
 }

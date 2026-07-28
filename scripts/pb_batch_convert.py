@@ -23,6 +23,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from tqdm import tqdm
+
 ROOT = Path(__file__).resolve().parents[1]
 UPSTREAM = Path("T:/determinex-programbench/_extracted_tests")
 STAGING = ROOT / ".determinex_staging"
@@ -66,8 +68,7 @@ def main() -> int:
 
     py = sys.executable
     results = []
-    print(f"Converting + packing {len(targets)} tools...")
-    for i, r in enumerate(targets, 1):
+    for r in tqdm(targets, desc="Converting + packing", unit="tool"):
         slug = r["slug"]
         # Already-converted tools have no main.py and have compile.sh referencing
         # build commands. Skip them if conversion would be a no-op (we already did it).
@@ -75,7 +76,7 @@ def main() -> int:
         rc1, out1 = run([py, str(ROOT / "scripts" / "pb_convert_to_native.py"), slug])
         if rc1 != 0:
             results.append({"slug": slug, "stage": "convert", "rc": rc1, "tail": out1})
-            print(f"  [{i}/{len(targets)}] {slug}: CONVERT FAIL ({rc1})")
+            tqdm.write(f"  {slug}: CONVERT FAIL ({rc1})")
             continue
         tool_short = slug.replace("__", "_").split(".")[0]
         rundir = STAGING / f"pb_{tool_short}_native_v1"
@@ -87,7 +88,7 @@ def main() -> int:
                          slug, "--run-root", str(rundir)])
         if rc2 != 0:
             results.append({"slug": slug, "stage": "pack", "rc": rc2, "tail": out2})
-            print(f"  [{i}/{len(targets)}] {slug}: PACK FAIL ({rc2})")
+            tqdm.write(f"  {slug}: PACK FAIL ({rc2})")
             continue
         # Verify tar has reasonable count
         tar = rundir / slug / "submission.tar.gz"
@@ -98,8 +99,6 @@ def main() -> int:
                     n_files = sum(1 for _ in tarobj)
                 results.append({"slug": slug, "stage": "ok", "files": n_files,
                                 "rundir": str(rundir)})
-                if i % 10 == 0 or i == len(targets):
-                    print(f"  [{i}/{len(targets)}] {slug}: OK ({n_files} files)")
             except Exception as e:
                 results.append({"slug": slug, "stage": "tar_inspect_fail",
                                 "rc": 1, "tail": str(e)})

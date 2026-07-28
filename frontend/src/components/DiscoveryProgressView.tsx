@@ -42,13 +42,13 @@ export function DiscoveryProgressView({
       <div className="shrink-0 px-6 py-3 border-b border-[#30363d] bg-[#161b22]/60 flex items-center gap-3">
         <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: path.color }} />
         <div className="flex-1 min-w-0">
-          <span className="text-[12px] font-black truncate" style={{ color: path.color }}>
+          <span className="text-body font-black truncate" style={{ color: path.color }}>
             {path.name}
           </span>
-          <span className="text-[10px] text-gray-600 ml-2 font-mono">{path.stack}</span>
+          <span className="text-label text-gray-600 ml-2 font-mono">{path.stack}</span>
         </div>
         <span
-          className="text-[9px] px-2 py-0.5 rounded-full font-bold shrink-0"
+          className="text-meta px-2 py-0.5 rounded-full font-bold shrink-0"
           style={{
             color: complexityColor,
             background: `${complexityColor}15`,
@@ -57,7 +57,7 @@ export function DiscoveryProgressView({
         >
           {path.complexity}
         </span>
-        <span className="text-[9px] text-gray-600 flex items-center gap-1 shrink-0 font-mono">
+        <span className="text-meta text-gray-600 flex items-center gap-1 shrink-0 font-mono">
           <Clock size={9} /> {path.buildTime}
         </span>
       </div>
@@ -69,7 +69,7 @@ export function DiscoveryProgressView({
       >
         <PathWireframe path={path} colorOverride={colorOverride} />
         <div className="absolute bottom-2 inset-x-0 flex justify-center pointer-events-none">
-          <span className="text-[8px] uppercase tracking-[0.18em] text-gray-700 font-bold">
+          <span className="text-eyebrow uppercase tracking-[0.18em] text-gray-700 font-bold">
             Blueprint
           </span>
         </div>
@@ -82,11 +82,11 @@ export function DiscoveryProgressView({
           <div className="flex items-center justify-between mb-1.5">
             <div className="flex items-center gap-1.5">
               <MessageSquare size={10} className="text-cyan-500" />
-              <span className="text-[9px] uppercase font-bold tracking-widest text-cyan-500/80">
+              <span className="text-eyebrow uppercase font-bold tracking-widest text-cyan-500/80">
                 Oracle is building understanding
               </span>
             </div>
-            <span className="text-[9px] font-mono text-gray-600">{answeredCount}/5 answered</span>
+            <span className="text-meta font-mono text-gray-600">{answeredCount}/5 answered</span>
           </div>
           <div className="h-1 w-full rounded-full bg-gray-800 overflow-hidden">
             <div
@@ -139,12 +139,12 @@ export function DiscoveryProgressView({
                 {/* Label */}
                 <div className="flex-1 min-w-0">
                   <div
-                    className="text-[10px] font-bold"
+                    className="text-label font-bold"
                     style={{ color: answered ? path.color : active ? "#e2e8f0" : "#4b5563" }}
                   >
                     {item.label}
                   </div>
-                  <div className="text-[9px] text-gray-600 leading-relaxed">{item.hint}</div>
+                  <div className="text-meta text-gray-600 leading-relaxed">{item.hint}</div>
                 </div>
               </div>
             );
@@ -156,7 +156,7 @@ export function DiscoveryProgressView({
           <div className="rounded-xl border border-[#30363d] p-3.5 mt-1">
             <div className="flex items-center gap-1.5 mb-2">
               <Wrench size={9} className="text-amber-400/70" />
-              <span className="text-[9px] uppercase font-bold tracking-widest text-amber-400/60">
+              <span className="text-eyebrow uppercase font-bold tracking-widest text-amber-400/60">
                 Services you&apos;ll set up
               </span>
             </div>
@@ -166,7 +166,7 @@ export function DiscoveryProgressView({
                 return (
                   <div key={i} className="flex gap-2">
                     <div className="w-1 h-1 rounded-full bg-amber-400/40 shrink-0 mt-[5px]" />
-                    <span className="text-[9px]">
+                    <span className="text-meta">
                       <span className="text-gray-400 font-semibold">{name.trim()}</span>
                       {rest.length > 0 && (
                         <span className="text-gray-600"> — {rest.join("—").trim()}</span>
@@ -182,7 +182,7 @@ export function DiscoveryProgressView({
         {/* Stack note */}
         <div className="flex items-start gap-2 opacity-60">
           <Layers size={9} className="text-gray-600 shrink-0 mt-0.5" />
-          <span className="text-[9px] font-mono text-gray-600">{path.stack}</span>
+          <span className="text-meta font-mono text-gray-600">{path.stack}</span>
         </div>
       </div>
     </div>

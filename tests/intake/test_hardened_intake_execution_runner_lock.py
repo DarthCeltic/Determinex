@@ -180,6 +180,48 @@ def test_subprocess_run_never_invoked_with_shell_true(monkeypatch, tmp_path: Pat
     assert captured.get("shell", False) is False
 
 
+def test_bare_command_resolved_via_pathext_before_spawn(monkeypatch, tmp_path: Path):
+    """Regression found live 2026-07-22: a bare command name like "npx" is a
+    .cmd shim on Windows (npm-installed tools), not a .exe -- a raw
+    subprocess.run(shell=False) does NOT try PATHEXT extensions the way a
+    real shell does, so it raised FileNotFoundError even though `npx` genuinely
+    resolves fine from any shell. This silently made determinex_oracle.py's
+    _verify_typescript (which calls `npx tsc`/`npx jest` through this exact
+    runner) report a false PASS: tsc/jest never launched at all, but zero
+    parsed failures read as "0 errors". Same bug class already fixed twice
+    this session for spawning claude-code/codex/gemini-cli -- this was the
+    third, independent place it existed. Verified here without depending on
+    npx actually being installed on whatever machine runs this suite: fake a
+    PATHEXT-shimmed tool via shutil.which and confirm the RESOLVED absolute
+    path is what actually reaches subprocess.run, not the bare name."""
+    fake_tool = tmp_path / "fake_tool.cmd"
+    fake_tool.write_text("@echo off\necho fake output\n", encoding="utf-8")
+
+    real_which = shutil.which
+
+    def _fake_which(name, *a, **kw):
+        if name == "fake_tool":
+            return str(fake_tool)
+        return real_which(name, *a, **kw)
+
+    captured_argv: list = []
+    real_run = subprocess.run
+
+    def _capture(args, *a, **kw):
+        captured_argv.extend(args)
+        return real_run(args, *a, **kw)
+
+    monkeypatch.setattr(hr.shutil, "which", _fake_which)
+    monkeypatch.setattr(subprocess, "run", _capture)
+
+    r = hr.run(["fake_tool", "--flag"], workspace=tmp_path, timeout=10)
+
+    assert not r.tool_missing
+    assert captured_argv[0] == str(fake_tool)  # resolved, not the bare "fake_tool"
+    assert captured_argv[1:] == ["--flag"]  # only argv[0] touched, real args untouched
+    assert r.command[0] == "fake_tool"  # reported command stays the readable original
+
+
 # ---------------------------------------------------------------------------
 # COMMAND_BLOCKED_PATH_ESCAPE — cwd must stay inside workspace
 # ---------------------------------------------------------------------------

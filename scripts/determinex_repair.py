@@ -64,12 +64,24 @@ def _oracle_for(language: str):
 
 
 def repair_workspace(workspace: Path, generate: GenerateFn | None = None,
-                     opt_in: bool = False, k: int = 6) -> RepairResult:
-    """Diagnose (always) and, with opt-in + a model, attempt an amplified fix."""
+                     opt_in: bool = False, k: int = 6,
+                     forced_language: str | None = None) -> RepairResult:
+    """Diagnose (always) and, with opt-in + a model, attempt an amplified fix.
+
+    forced_language: skip re-deriving the language via a whole-tree census
+    -- used by repair_workspace_all, which already knows each discovered
+    subproject's real language from its own build marker (a nested
+    Cargo.toml IS rust, no census needed, and re-censusing at a small
+    subproject path can be ambiguous or simply wrong in a way the marker
+    itself never is)."""
     from determinex_ingest import ingest
-    u = ingest(workspace)
-    lang = u.language
-    notes: list[str] = list(u.notes)
+    if forced_language is not None:
+        lang = forced_language
+        notes: list[str] = []
+    else:
+        u = ingest(workspace)
+        lang = u.language
+        notes = list(u.notes)
 
     # 1. run the real oracle
     try:
@@ -127,6 +139,56 @@ def repair_workspace(workspace: Path, generate: GenerateFn | None = None,
     elif opt_in and generate is not None:
         res.notes.append(f"amplified fix path for '{lang}' not yet wired (python only)")
     return res
+
+
+@dataclass
+class WorkspaceHealth:
+    """Aggregate result of repair_workspace_all: every real subproject in a
+    polyglot workspace, verified at its own path, with no single verdict
+    silently standing in for the whole tree. Ryan: "it should be fixed to
+    where it all compiles and reports one way or the other" -- this IS
+    that "one way or the other", per subproject, not a guess."""
+    healthy: bool                       # ALL subprojects healthy
+    subprojects: list[RepairResult]      # one per discovered subproject, same order as discover_subprojects
+    paths: list[str]                    # parallel to subprojects -- where each was verified
+    languages: list[str]                # parallel to subprojects
+    notes: list[str] = field(default_factory=list)
+
+
+def repair_workspace_all(root: Path, generate: GenerateFn | None = None,
+                         opt_in: bool = False, k: int = 6) -> WorkspaceHealth:
+    """Verify EVERY real subproject in a polyglot workspace at its own
+    path, instead of one oracle for whichever language has the most files
+    repo-wide, run at the (possibly wrong) workspace root. Found live
+    2026-07-22: the old single-oracle model picked "rust" (or whatever
+    census's top language happened to be) and ran `cargo check` at
+    C:\\Dev\\Determinex itself, which has no Cargo.toml at all -- the real one
+    lives at frontend/src-tauri/. This is the fix: discover every real
+    build root (frontend, frontend/src-tauri, packages/*, the root
+    package, ...) and report each one's own real pass/fail.
+
+    Falls back to the single whole-tree repair_workspace() (unchanged
+    behavior) when no build markers are found at all -- e.g. a small,
+    single-language task directory with no nested subproject structure."""
+    from determinex_ingest import discover_subprojects
+    subprojects = discover_subprojects(root)
+    if not subprojects:
+        single = repair_workspace(root, generate=generate, opt_in=opt_in, k=k)
+        return WorkspaceHealth(
+            healthy=single.healthy, subprojects=[single],
+            paths=[str(root)], languages=[single.language],
+            notes=["no nested build markers found -- verified as a single workspace"],
+        )
+    results: list[RepairResult] = []
+    for sp in subprojects:
+        results.append(repair_workspace(sp.path, generate=generate, opt_in=opt_in, k=k,
+                                        forced_language=sp.language))
+    return WorkspaceHealth(
+        healthy=all(r.healthy for r in results),
+        subprojects=results,
+        paths=[str(sp.path) for sp in subprojects],
+        languages=[sp.language for sp in subprojects],
+    )
 
 
 def _failures_as_eval_report(failures: list[Failure]) -> Path:

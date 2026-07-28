@@ -35,7 +35,8 @@ export function DeepSpaceSignalTheme({
     });
     if (canvas.parentElement) ro.observe(canvas.parentElement);
 
-    let raf: number, t = 0;
+    let raf: number,
+      t = 0;
     const draw = () => {
       ctx.fillStyle = "rgba(0,4,10,0.22)";
       ctx.fillRect(0, 0, w, h);
@@ -50,35 +51,47 @@ export function DeepSpaceSignalTheme({
       // Horizon
       ctx.strokeStyle = "rgba(120,170,255,0.30)";
       ctx.beginPath();
-      ctx.moveTo(0, h * 0.62); ctx.lineTo(w, h * 0.62); ctx.stroke();
+      ctx.moveTo(0, h * 0.62);
+      ctx.lineTo(w, h * 0.62);
+      ctx.stroke();
       // Trajectory arc
       ctx.strokeStyle = "rgba(180,210,255,0.55)";
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       for (let x = 0; x < w; x++) {
-        const y = h * 0.62 - Math.sin(x / w * Math.PI) * (h * 0.35);
-        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        const y = h * 0.62 - Math.sin((x / w) * Math.PI) * (h * 0.35);
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
       }
       ctx.stroke();
       // Spacecraft pip
-      const px = ((t * 0.6) % w);
-      const py = h * 0.62 - Math.sin(px / w * Math.PI) * (h * 0.35);
+      const px = (t * 0.6) % w;
+      const py = h * 0.62 - Math.sin((px / w) * Math.PI) * (h * 0.35);
       ctx.fillStyle = "rgba(255,255,255,0.95)";
-      ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath();
+      ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+      ctx.fill();
       // Side ticks
       ctx.strokeStyle = "rgba(180,210,255,0.40)";
       for (let i = 0; i < 10; i++) {
         const y = (i / 10) * h;
-        ctx.beginPath(); ctx.moveTo(w - 18, y); ctx.lineTo(w - 8, y); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(w - 18, y);
+        ctx.lineTo(w - 8, y);
+        ctx.stroke();
       }
       t += 2;
       raf = requestAnimationFrame(draw);
     };
     draw();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, [active]);
   if (!active) return null;
-  const primary = "#b8d2ff", dim = "rgba(184,210,255,0.55)";
+  const primary = "#b8d2ff",
+    dim = "rgba(184,210,255,0.55)";
   if (fullPanel) {
     return (
       <div className="absolute inset-0 z-20 overflow-hidden" style={{ background: "#02060e" }}>
@@ -86,16 +99,28 @@ export function DeepSpaceSignalTheme({
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,6,14,0)_0%,rgba(2,6,14,0.72)_100%)]" />
         <div className="absolute top-6 left-6 flex flex-col gap-0.5">
           {TELEMETRY.map((l, i) => (
-            <p key={i} className="text-[9px] font-mono tracking-widest" style={{ color: dim }}>{l}</p>
+            <p key={i} className="text-meta font-mono tracking-widest" style={{ color: dim }}>
+              {l}
+            </p>
           ))}
         </div>
-        <ThemeOverlay label={label} elapsedSeconds={elapsedSeconds} primary={primary} dim={dim}
-                      subLabel="deep-space signal acquired" arrow="►" chipShape="square" />
+        <ThemeOverlay
+          label={label}
+          elapsedSeconds={elapsedSeconds}
+          primary={primary}
+          dim={dim}
+          subLabel="deep-space signal acquired"
+          arrow="►"
+          chipShape="square"
+        />
       </div>
     );
   }
   return (
-    <div className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none" style={{ background: "#02060e" }}>
+    <div
+      className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none"
+      style={{ background: "#02060e" }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 opacity-80" />
       <SmallPanel label={label} primary={primary} />
     </div>

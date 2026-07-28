@@ -195,6 +195,35 @@ def write_env_key(key, value):
 
 # ── Main setup flow ────────────────────────────────────────────────────────────
 
+def install_git_hooks() -> list[str]:
+    """Install the repo's tracked git hooks (scripts/git-hooks/) into
+    .git/hooks/ -- these previously only ever existed as local, untracked
+    files in whoever's .git/hooks/ happened to have them by hand, so they
+    silently never survived a fresh clone (found 2026-07-20 while wiring a
+    post-commit hook that keeps the corpus semantic embeddings cache in
+    sync: the pre-existing pre-commit integrity gate for
+    corpus/programbench/eval_index.json had the exact same problem and was
+    never noticed because whoever's machine had it already just kept working).
+    Safe to call repeatedly -- always overwrites with the tracked version,
+    never merges with anything a user hand-edited into their local hook."""
+    src_dir = _SCRIPTS_DIR / "git-hooks"
+    dst_dir = _ROOT / ".git" / "hooks"
+    installed = []
+    if not src_dir.is_dir() or not dst_dir.is_dir():
+        return installed
+    for src in sorted(src_dir.iterdir()):
+        if not src.is_file():
+            continue
+        dst = dst_dir / src.name
+        dst.write_bytes(src.read_bytes())
+        try:
+            os.chmod(dst, 0o755)
+        except OSError:
+            pass
+        installed.append(src.name)
+    return installed
+
+
 def run_setup(reconfigure=False):
     existing = {}
     if _CONFIG_FILE.exists() and not reconfigure:
@@ -207,6 +236,10 @@ def run_setup(reconfigure=False):
     print(f"  {bold('DETERMINEX — User Setup Wizard')}")
     print(f"  Configures training, models, APIs, and GPU safety for YOUR hardware.")
     print(f"{bold('═' * 60)}")
+
+    hooks = install_git_hooks()
+    if hooks:
+        print(f"  {green('✓')} Git hooks installed: {', '.join(hooks)}")
 
     # ── Section 1: Hardware ──────────────────────────────────────────────────
     section("1 / 5 — Detecting Hardware")
@@ -371,6 +404,11 @@ def run_setup(reconfigure=False):
     write_env_key("GEMINI_API_KEY",    gemini_key)
     write_env_key("OPENAI_API_KEY",    openai_key)
 
+    # DETERMINEX_ prefix, not CITADEL_ -- the real functional consumer
+    # (leaderboard_oracle.py's env_bool checks) reads DETERMINEX_API_*_ENABLED;
+    # writing CITADEL_ here meant a user's provider choice during setup was
+    # silently never picked up (found 2026-07-19 in a systematic rename-
+    # split-brain sweep).
     write_env_key("DETERMINEX_API_ANTHROPIC_ENABLED", "true" if use_anthropic else "false")
     write_env_key("DETERMINEX_API_GOOGLE_ENABLED",    "true" if use_gemini    else "false")
     write_env_key("DETERMINEX_API_OPENAI_ENABLED",    "true" if use_openai    else "false")

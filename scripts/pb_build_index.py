@@ -413,8 +413,27 @@ def print_leaderboard(index: list[dict]) -> None:
         "partial": "🔸 PART",
     }
 
-    print(f"{'#':>4}  {'Tool':<38} {'Score':>7}  {'P/T':>16}  {'NR':>5}  {'Status':<10}")
-    print("-" * 90)
+    from rich.console import Console
+    from rich.table import Table
+
+    # STATUS_ICON's emoji crash on Windows consoles whose codepage isn't
+    # UTF-8 (cp1252 etc.) -- both plain print() and rich hit the same
+    # UnicodeEncodeError there (pre-existing, not new; just never surfaced
+    # because most runs happen in a UTF-8-capable terminal). Reconfigure
+    # rather than assume the environment is already UTF-8.
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
+    table = Table(show_edge=False, header_style="bold")
+    table.add_column("#", justify="right")
+    table.add_column("Tool")
+    table.add_column("Score", justify="right")
+    table.add_column("P/T", justify="right")
+    table.add_column("NR", justify="right")
+    table.add_column("Status")
     for i, e in enumerate(index[:40], 1):
         slug = e["slug"][:38]
         pct = e["official_score_pct"]
@@ -423,7 +442,8 @@ def print_leaderboard(index: list[dict]) -> None:
         nr = e["official_not_run"]
         icon = STATUS_ICON.get(e["status"], e["status"])
         pt = f"{p}/{t}" if t else "—"
-        print(f"{i:>4}  {slug:<38} {pct:>6.1f}%  {pt:>16}  {nr:>5}  {icon}")
+        table.add_row(str(i), slug, f"{pct:.1f}%", pt, str(nr), icon)
+    Console().print(table)
 
     if len(index) > 40:
         print(f"  ... ({len(index)-40} more tools)")

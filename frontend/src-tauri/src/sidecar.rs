@@ -25,6 +25,7 @@ use serde_json::{json, Value};
 use std::io::{BufRead, BufReader, Write};
 use std::path::PathBuf;
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
+use crate::win_process::HideConsoleExt;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use tauri::{AppHandle, Manager};
@@ -111,15 +112,13 @@ impl SidecarManager {
 
         log::info!("[Sidecar] Spawning: {:?} {:?}", python_exe, script);
 
-        let mut child = crate::windows_process::no_window(
-            Command::new(&python_exe)
-                .arg(&script)
-                .stdin(Stdio::piped())
-                .stdout(Stdio::piped())
-                .stderr(Stdio::inherit()), // Sidecar logs → Tauri console
-        )
-        .spawn()
-        .map_err(|e| format!("Failed to spawn sidecar: {e}"))?;
+        let mut child = Command::new(&python_exe).hide_console()
+            .arg(&script)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::inherit()) // Sidecar logs → Tauri console
+            .spawn()
+            .map_err(|e| format!("Failed to spawn sidecar: {e}"))?;
 
         let stdin = child.stdin.take().ok_or("Could not open sidecar stdin")?;
         let stdout = BufReader::new(child.stdout.take().ok_or("Could not open sidecar stdout")?);

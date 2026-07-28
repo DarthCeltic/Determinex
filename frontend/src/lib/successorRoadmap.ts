@@ -16,8 +16,7 @@ export const DETERMINEX_SUCCESSOR_BRAND_BOUNDARY = {
   renamedOn: "2026-07-02",
   legacyNamespace:
     "Internal determinex_* scripts, DETERMINEX_* environment variables, model tags, repository paths, and historical docs remain until the coordinated internal rename.",
-  rule:
-    "User-facing product surfaces should say Determinex. Legacy implementation identifiers are allowed only when they name real files, commands, env vars, model tags, paths, or historical evidence.",
+  rule: "User-facing product surfaces should say Determinex. Legacy implementation identifiers are allowed only when they name real files, commands, env vars, model tags, paths, or historical evidence.",
 } as const;
 
 export const DETERMINEX_SUCCESSOR_PILLARS: SuccessorPillar[] = [
@@ -30,8 +29,7 @@ export const DETERMINEX_SUCCESSOR_PILLARS: SuccessorPillar[] = [
       "The Tauri/Next shell, Monaco editor, terminal dock, project hub, command palette, and attachable tools are present.",
     nextLock:
       "Make repository open, edit, diff, test, task, search, settings, and persisted layout flows work from a clean install.",
-    blocker:
-      "VS Code extension compatibility and workspace migration are not complete.",
+    blocker: "VS Code extension compatibility and workspace migration are not complete.",
   },
   {
     id: "proof-native",
@@ -42,8 +40,7 @@ export const DETERMINEX_SUCCESSOR_PILLARS: SuccessorPillar[] = [
       "Proof Center, oracle health, evidence files, claim guards, and benchmark surfaces exist as first-class workbench concepts.",
     nextLock:
       "Bind every product claim and user-visible readiness badge to a current collector, evidence path, and verifier.",
-    blocker:
-      "Several panels still expose status copy without live collector-backed proof.",
+    blocker: "Several panels still expose status copy without live collector-backed proof.",
   },
   {
     id: "agentic-workbench",

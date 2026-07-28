@@ -38,7 +38,13 @@ function drawGrid(ctx: CanvasRenderingContext2D, w: number, h: number, pack: Ski
   }
 }
 
-function drawCodefall(ctx: CanvasRenderingContext2D, w: number, h: number, pack: SkinPack, t: number) {
+function drawCodefall(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  pack: SkinPack,
+  t: number
+) {
   const colWidth = 28;
   ctx.font = `11px ${pack.fonts.mono}`;
   ctx.textBaseline = "top";
@@ -72,7 +78,13 @@ function drawLens(ctx: CanvasRenderingContext2D, w: number, h: number, pack: Ski
   ctx.fillRect(cx - 160, cy - 160, 320, 320);
 }
 
-function drawTerrain(ctx: CanvasRenderingContext2D, w: number, h: number, pack: SkinPack, t: number) {
+function drawTerrain(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  pack: SkinPack,
+  t: number
+) {
   ctx.lineWidth = 1.2;
   for (let row = 0; row < 8; row += 1) {
     ctx.beginPath();
@@ -80,9 +92,7 @@ function drawTerrain(ctx: CanvasRenderingContext2D, w: number, h: number, pack: 
     const base = h * 0.12 + row * 72;
     for (let x = -40; x <= w + 40; x += 24) {
       const y =
-        base +
-        Math.sin((x + t * 0.035) * 0.012 + row) * 18 +
-        Math.cos((x - t * 0.02) * 0.019) * 8;
+        base + Math.sin((x + t * 0.035) * 0.012 + row) * 18 + Math.cos((x - t * 0.02) * 0.019) * 8;
       if (x === -40) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
@@ -140,7 +150,13 @@ function drawMech(ctx: CanvasRenderingContext2D, w: number, h: number, pack: Ski
   ctx.fillRect(0, scanY, w, 18);
 }
 
-function drawSignals(ctx: CanvasRenderingContext2D, w: number, h: number, pack: SkinPack, t: number) {
+function drawSignals(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  pack: SkinPack,
+  t: number
+) {
   ctx.lineWidth = 1;
   for (let i = 0; i < 70; i += 1) {
     const x = (i * 137.5) % w;
@@ -233,7 +249,7 @@ export function SkinBackdrop() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       <div className="matrix-rain absolute inset-0" />
-      
+
       {/* Generated Artwork Backdrop */}
       {themePack.backdropImage && (
         <div
@@ -254,8 +270,6 @@ export function SkinBackdrop() {
           opacity: themePack.id === "plainlight" ? 0.52 : 0.82,
           mixBlendMode: themePack.rainBlend,
         }}
-
-
       />
     </div>
   );

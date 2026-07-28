@@ -4,11 +4,7 @@
 "use client";
 import * as React from "react";
 
-import {
-  IdeRepairResponse,
-  invokeIdeCommand,
-  isBlocked,
-} from "@/lib/ide-repair-api";
+import { IdeRepairResponse, invokeIdeCommand, isBlocked } from "@/lib/ide-repair-api";
 
 export const WORKSPACE_STATUS_PANEL_STATUS_TOKENS = [
   "WORKSPACE_STATUS_PANEL_READY",
@@ -37,10 +33,21 @@ export function WorkspaceStatusPanel({ workspacePath, initial = null }: Props) {
     }
   }, [workspacePath]);
 
-  React.useEffect(() => { void refresh(); }, [refresh]);
+  React.useEffect(() => {
+    void refresh();
+  }, [refresh]);
 
   const payload = (resp?.payload ?? {}) as Record<string, unknown>;
-  const adapter = String(payload.adapter ?? "Unknown");
+  // While the first request is still in flight (resp === null), payload.adapter
+  // is genuinely absent -- but showing that as "Unknown"/"no"/"MISSING" reads as
+  // a real negative detection result, not a loading placeholder. Found live
+  // 2026-07-19 (Ryan: "repair is odd") while confirming this repo itself
+  // detects correctly: it does (Python/pip, supported=yes) once the request
+  // resolves, but the misleading interim values were visible for the ~1-3s a
+  // cold python subprocess spin-up takes. Model Route (ModelRoutePanel) already
+  // shows a literal "loading..." for this same window; match that pattern here.
+  const stillLoading = !resp;
+  const adapter = stillLoading ? "…" : String(payload.adapter ?? "Unknown");
   const supported = Boolean(payload.supported);
   const verifierMissing = !supported;
   const blocked = !!resp && isBlocked(resp);
@@ -85,11 +92,13 @@ export function WorkspaceStatusPanel({ workspacePath, initial = null }: Props) {
         <dd data-testid="workspace-status-adapter">{adapter}</dd>
 
         <dt className="opacity-70">Supported</dt>
-        <dd data-testid="workspace-status-supported">{supported ? "yes" : "no"}</dd>
+        <dd data-testid="workspace-status-supported">
+          {stillLoading ? "…" : supported ? "yes" : "no"}
+        </dd>
 
         <dt className="opacity-70">Verifier</dt>
         <dd data-testid="workspace-status-verifier">
-          {verifierMissing ? "MISSING" : "available"}
+          {stillLoading ? "…" : verifierMissing ? "MISSING" : "available"}
         </dd>
       </dl>
 
@@ -103,12 +112,11 @@ export function WorkspaceStatusPanel({ workspacePath, initial = null }: Props) {
           </div>
         )}
         {evidenceRefs.length > 0 && (
-          <ul
-            className="mt-2 list-disc pl-5"
-            data-testid="workspace-status-evidence-refs"
-          >
+          <ul className="mt-2 list-disc pl-5" data-testid="workspace-status-evidence-refs">
             {evidenceRefs.map((r) => (
-              <li key={r} className="font-mono">{r}</li>
+              <li key={r} className="font-mono">
+                {r}
+              </li>
             ))}
           </ul>
         )}

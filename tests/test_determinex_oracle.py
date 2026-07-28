@@ -14,13 +14,16 @@ to external RL consumers.
 """
 from __future__ import annotations
 
+import subprocess
 import sys
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import pytest
 
+import determinex_oracle as oracle_mod
 from determinex_oracle import _junit_counts, _junit_failures, get_oracle
 
 
@@ -123,3 +126,537 @@ def test_python_oracle_never_silently_passes_on_collection_error(tmp_path):
     result = oracle.verify(tmp_path)
 
     assert result.passed is False
+
+
+# ---------------------------------------------------------------------------
+# Two more "silently lies" bugs found live 2026-07-22 while testing the
+# multi-subproject repair pipeline (determinex_ingest.discover_subprojects +
+# determinex_repair.repair_workspace_all) end to end against this repo's own
+# packages/*/frontend/vscode-extension subprojects:
+#
+# 1. _verify_typescript reported passed=True whenever tsc/jest failed to
+#    even LAUNCH (missing binary, bad --no-install resolution, config
+#    error) with a nonzero exit that didn't happen to contain a parseable
+#    "error TSxxxx" / JUnit failure line -- `failures` stayed empty, so the
+#    oracle claimed "0 errors" when it had never actually run a check.
+# 2. _verify_python reported passed=False with EMPTY failures and no
+#    explanation whenever pytest exited nonzero for a reason other than a
+#    parsed test failure (most commonly: exit code 5, "no tests were
+#    collected", for a small package whose tests live elsewhere) -- an
+#    unexplained, unactionable "fails for no stated reason".
+#
+# Both violate this file's own module docstring: "A stub raises
+# OracleUnavailable... rather than silently passing -- the oracle never
+# lies." Ryan, live: "it should be fixed to where it all compiles and
+# reports one way or the other."
+# ---------------------------------------------------------------------------
+
+def _cp(returncode: int, stdout: str = "", stderr: str = "") -> subprocess.CompletedProcess:
+    return subprocess.CompletedProcess(args=[], returncode=returncode, stdout=stdout, stderr=stderr)
+
+
+def test_verify_python_no_tests_collected_is_an_honest_pass(tmp_path):
+    """pytest exit code 5 ('no tests were collected') is NOT the same claim
+    as 'this package is broken' -- must pass, not fail with 0 explained
+    failures."""
+    with patch.object(oracle_mod, "_run", return_value=_cp(5, stdout="no tests ran\n")):
+        result = oracle_mod._verify_python(tmp_path)
+    assert result.passed is True
+    assert result.failures == []
+
+
+def test_verify_python_real_collection_error_is_a_visible_failure(tmp_path):
+    """A genuine crash/import error (nonzero exit, NOT code 5, no JUnit
+    failures parsed because the run never got that far) must surface as a
+    real, readable failure -- not silently 0 failures alongside passed=False."""
+    with patch.object(
+        oracle_mod, "_run",
+        return_value=_cp(2, stderr="ImportError: No module named 'determinex_missing_dep'\n"),
+    ):
+        result = oracle_mod._verify_python(tmp_path)
+    assert result.passed is False
+    assert len(result.failures) == 1
+    assert "ImportError" in result.failures[0].text
+
+
+def test_verify_typescript_tsc_failed_to_launch_is_not_a_silent_pass(tmp_path):
+    (tmp_path / "tsconfig.json").write_text("{}", encoding="utf-8")
+    with patch.object(
+        oracle_mod, "_run",
+        return_value=_cp(127, stderr="npm ERR! could not determine executable to run\n"),
+    ):
+        result = oracle_mod._verify_typescript(tmp_path)
+    assert result.passed is False
+    assert any("tsc exited" in f.text for f in result.failures)
+
+
+def test_verify_typescript_real_type_errors_still_reported_normally(tmp_path):
+    (tmp_path / "tsconfig.json").write_text("{}", encoding="utf-8")
+    with patch.object(
+        oracle_mod, "_run",
+        return_value=_cp(2, stdout="src/index.ts(10,5): error TS2322: Type 'string' is not assignable.\n"),
+    ):
+        result = oracle_mod._verify_typescript(tmp_path)
+    assert result.passed is False
+    assert len(result.failures) == 1
+    assert "TS2322" in result.failures[0].text
+
+
+def test_verify_typescript_jest_no_tests_found_is_not_a_failure(tmp_path):
+    # Must declare jest -- otherwise _has_test_framework skips the run
+    # entirely (see test_verify_typescript_no_test_framework_is_an_honest_pass),
+    # which would make this pass for the wrong reason.
+    (tmp_path / "package.json").write_text(
+        '{"devDependencies": {"jest": "^29.0.0"}}', encoding="utf-8"
+    )
+    with patch.object(oracle_mod, "_run", return_value=_cp(1, stdout="No tests found, exiting with code 1\n")):
+        result = oracle_mod._verify_typescript(tmp_path)
+    assert result.passed is True
+
+
+def test_verify_typescript_no_test_framework_is_an_honest_pass(tmp_path):
+    """Regression: this repo's own vscode-extension has a package.json with
+    NO jest/vitest dependency and no real "test" script (just compile/
+    package scripts) -- must be treated as "nothing to verify" (vacuous
+    pass), not silently attempt jest and read npx's refusal as a failure."""
+    (tmp_path / "package.json").write_text(
+        '{"scripts": {"compile": "tsc -p ./"}, "devDependencies": {"typescript": "^5.4.0"}}',
+        encoding="utf-8",
+    )
+    with patch.object(oracle_mod, "_run") as mock_run:
+        result = oracle_mod._verify_typescript(tmp_path)
+    mock_run.assert_not_called()
+    assert result.passed is True
+
+
+def test_verify_typescript_npm_init_placeholder_test_script_is_not_a_framework(tmp_path):
+    (tmp_path / "package.json").write_text(
+        '{"scripts": {"test": "echo \\"Error: no test specified\\" && exit 1"}}',
+        encoding="utf-8",
+    )
+    assert oracle_mod._has_test_framework(tmp_path) is False
+
+
+def test_verify_typescript_jest_failed_to_launch_is_not_a_silent_pass(tmp_path):
+    # Must actually declare jest -- a bare {} has no test framework configured
+    # at all, which is a DIFFERENT, correct "nothing to verify" pass (see
+    # test_verify_typescript_no_test_framework_is_an_honest_pass below).
+    (tmp_path / "package.json").write_text(
+        '{"devDependencies": {"jest": "^29.0.0"}}', encoding="utf-8"
+    )
+    with patch.object(
+        oracle_mod, "_run",
+        return_value=_cp(127, stderr="npx: command not found\n"),
+    ):
+        result = oracle_mod._verify_typescript(tmp_path)
+    assert result.passed is False
+    assert any("jest exited" in f.text for f in result.failures)
+
+
+# ---------------------------------------------------------------------------
+# vitest support -- found live 2026-07-22: this project's OWN frontend uses
+# vitest ("test": "vitest run" in package.json, no jest anywhere), but
+# _verify_typescript unconditionally ran jest, which npx (correctly,
+# per --no-install) refused to auto-install -- read as a real test failure
+# for a project whose real test suite (85 passing tests) was never actually
+# invoked.
+# ---------------------------------------------------------------------------
+
+def test_uses_vitest_detects_vitest_config_file(tmp_path):
+    (tmp_path / "vitest.config.ts").write_text("export default {}\n", encoding="utf-8")
+    assert oracle_mod._uses_vitest(tmp_path) is True
+
+
+def test_uses_vitest_detects_vitest_in_package_json_devdeps(tmp_path):
+    (tmp_path / "package.json").write_text(
+        '{"devDependencies": {"vitest": "^4.1.7"}}', encoding="utf-8"
+    )
+    assert oracle_mod._uses_vitest(tmp_path) is True
+
+
+def test_uses_vitest_false_for_plain_jest_project(tmp_path):
+    (tmp_path / "package.json").write_text(
+        '{"devDependencies": {"jest": "^29.0.0"}}', encoding="utf-8"
+    )
+    assert oracle_mod._uses_vitest(tmp_path) is False
+
+
+def test_verify_typescript_routes_to_vitest_when_detected(tmp_path):
+    (tmp_path / "package.json").write_text(
+        '{"devDependencies": {"vitest": "^4.1.7"}}', encoding="utf-8"
+    )
+    captured_cmd = {}
+
+    def _fake_run(cmd, cwd, timeout=600):
+        captured_cmd["cmd"] = cmd
+        return _cp(0, stdout="ok\n")
+
+    with patch.object(oracle_mod, "_run", side_effect=_fake_run):
+        oracle_mod._verify_typescript(tmp_path)
+    assert "vitest" in captured_cmd["cmd"]
+    assert "jest" not in captured_cmd["cmd"]
+
+
+# ---------------------------------------------------------------------------
+# Oracle pool expansion 2026-07-22 -- Ryan: "i need c, java, kotlin, swift,
+# etc oracles... as well as a legacy set of oracles which are cobol, basic,
+# etc... there should be a rust pure oracle, and a pure tauri one... there
+# should be oracles in this oracle pool that cover all languages and systems
+# and programs." java/kotlin/swift already existed (jvm/swift oracles); this
+# adds the ones that didn't: c, cpp, cobol, basic, tauri (composite). Same
+# "never silently lie" contract as every oracle above: a compiler/build
+# system that fails to even launch, with no parsed error line, must surface
+# as an explained failure, not an empty-failures pass or fail.
+# ---------------------------------------------------------------------------
+
+def test_verify_c_no_build_system_falls_back_to_syntax_only_per_file(tmp_path):
+    (tmp_path / "main.c").write_text("int main() { return 0; }\n", encoding="utf-8")
+    captured_cmd = {}
+
+    def _fake_run(cmd, cwd, timeout=600):
+        captured_cmd["cmd"] = cmd
+        return _cp(0)
+
+    with patch.object(oracle_mod, "_run", side_effect=_fake_run):
+        result = oracle_mod._verify_c(tmp_path)
+    assert result.passed is True
+    assert captured_cmd["cmd"][0] == "gcc"
+    assert "-fsyntax-only" in captured_cmd["cmd"]
+
+
+def test_verify_c_real_compile_error_is_parsed(tmp_path):
+    (tmp_path / "main.c").write_text("int main() { return x; }\n", encoding="utf-8")
+    err = "main.c:1:22: error: 'x' undeclared (first use in this function)\n"
+    with patch.object(oracle_mod, "_run", return_value=_cp(1, stderr=err)):
+        result = oracle_mod._verify_c(tmp_path)
+    assert result.passed is False
+    assert len(result.failures) == 1
+    assert "x" in result.failures[0].text
+
+
+def test_verify_c_no_sources_is_an_explained_failure_not_a_silent_pass(tmp_path):
+    result = oracle_mod._verify_c(tmp_path)
+    assert result.passed is False
+    assert result.failures[0].text == "no *.c found"
+
+
+def test_verify_c_launch_failure_with_no_parsed_errors_is_not_a_silent_pass(tmp_path):
+    """A compiler that fails to even launch (missing component, bad flags)
+    with a nonzero exit and no parseable 'file:line: error' text must never
+    read as passed=True/0-failures."""
+    (tmp_path / "main.c").write_text("int main() { return 0; }\n", encoding="utf-8")
+    with patch.object(oracle_mod, "_run", return_value=_cp(127, stderr="gcc: command not found\n")):
+        result = oracle_mod._verify_c(tmp_path)
+    assert result.passed is False
+    assert len(result.failures) == 1
+    assert "command not found" in result.failures[0].text
+
+
+def test_verify_c_prefers_cmake_when_shipped(tmp_path):
+    (tmp_path / "CMakeLists.txt").write_text("project(x)\n", encoding="utf-8")
+    captured_cmds = []
+
+    def _fake_run(cmd, cwd, timeout=600):
+        captured_cmds.append(cmd)
+        return _cp(0)
+
+    with patch.object(oracle_mod, "_run", side_effect=_fake_run):
+        result = oracle_mod._verify_c(tmp_path)
+    assert result.passed is True
+    assert captured_cmds[0][0] == "cmake"
+    assert captured_cmds[1][:2] == ["cmake", "--build"]
+
+
+def test_verify_cpp_real_compile_error_is_parsed(tmp_path):
+    (tmp_path / "main.cpp").write_text("int main() { return x; }\n", encoding="utf-8")
+    err = "main.cpp:1:22: error: 'x' was not declared in this scope\n"
+    with patch.object(oracle_mod, "_run", return_value=_cp(1, stderr=err)):
+        result = oracle_mod._verify_cpp(tmp_path)
+    assert result.passed is False
+    assert "x" in result.failures[0].text
+
+
+def test_verify_cobol_compiles_each_source_with_cobc(tmp_path):
+    (tmp_path / "hello.cob").write_text(
+        "IDENTIFICATION DIVISION.\nPROGRAM-ID. HELLO.\n", encoding="utf-8"
+    )
+    captured_cmd = {}
+
+    def _fake_run(cmd, cwd, timeout=120):
+        captured_cmd["cmd"] = cmd
+        return _cp(0)
+
+    with patch.object(oracle_mod, "_run", side_effect=_fake_run):
+        result = oracle_mod._verify_cobol(tmp_path)
+    assert result.passed is True
+    assert result.total == 1
+    assert captured_cmd["cmd"] == ["cobc", "-c", str(tmp_path / "hello.cob")]
+
+
+def test_verify_cobol_compile_failure_is_reported_per_file(tmp_path):
+    (tmp_path / "broken.cob").write_text("NOT VALID COBOL\n", encoding="utf-8")
+    with patch.object(oracle_mod, "_run", return_value=_cp(1, stderr="broken.cob: syntax error\n")):
+        result = oracle_mod._verify_cobol(tmp_path)
+    assert result.passed is False
+    assert len(result.failures) == 1
+
+
+def test_verify_cobol_no_sources_is_an_explained_failure(tmp_path):
+    result = oracle_mod._verify_cobol(tmp_path)
+    assert result.passed is False
+    assert "no .cob/.cbl" in result.failures[0].text
+
+
+def test_verify_basic_compiles_each_source_with_fbc(tmp_path):
+    (tmp_path / "hello.bas").write_text('PRINT "hello"\n', encoding="utf-8")
+    captured_cmd = {}
+
+    def _fake_run(cmd, cwd, timeout=120):
+        captured_cmd["cmd"] = cmd
+        return _cp(0)
+
+    with patch.object(oracle_mod, "_run", side_effect=_fake_run):
+        result = oracle_mod._verify_basic(tmp_path)
+    assert result.passed is True
+    assert captured_cmd["cmd"] == ["fbc", "-c", str(tmp_path / "hello.bas")]
+
+
+def test_verify_basic_no_sources_is_an_explained_failure(tmp_path):
+    result = oracle_mod._verify_basic(tmp_path)
+    assert result.passed is False
+    assert "no .bas" in result.failures[0].text
+
+
+def test_verify_tauri_requires_a_real_tauri_layout(tmp_path):
+    """A directory with no src-tauri/ (or Cargo.toml+tauri.conf.json) is not
+    a Tauri project -- must fail with an explanation, not silently attempt
+    a cargo build against a nonexistent path."""
+    result = oracle_mod._verify_tauri(tmp_path)
+    assert result.passed is False
+    assert "not a Tauri project" in result.failures[0].text
+
+
+def test_verify_tauri_passes_only_when_both_backend_and_frontend_pass(tmp_path):
+    src_tauri = tmp_path / "src-tauri"
+    src_tauri.mkdir()
+    (src_tauri / "Cargo.toml").write_text("[package]\nname='x'\n", encoding="utf-8")
+    (src_tauri / "tauri.conf.json").write_text("{}", encoding="utf-8")
+    (tmp_path / "package.json").write_text("{}", encoding="utf-8")
+
+    with patch.object(oracle_mod, "_verify_rust",
+                      return_value=oracle_mod.OracleResult(passed=True, oracle="rust")), \
+         patch.object(oracle_mod, "_verify_typescript",
+                      return_value=oracle_mod.OracleResult(passed=True, oracle="typescript")):
+        result = oracle_mod._verify_tauri(tmp_path)
+    assert result.passed is True
+
+
+def test_verify_tauri_fails_if_frontend_fails_even_when_backend_passes(tmp_path):
+    """The whole point of the composite oracle: a passing cargo check next
+    to a broken frontend build is NOT a real pass for the app."""
+    src_tauri = tmp_path / "src-tauri"
+    src_tauri.mkdir()
+    (src_tauri / "Cargo.toml").write_text("[package]\nname='x'\n", encoding="utf-8")
+    (src_tauri / "tauri.conf.json").write_text("{}", encoding="utf-8")
+    (tmp_path / "package.json").write_text("{}", encoding="utf-8")
+
+    frontend_fail = oracle_mod.OracleResult(
+        passed=False, oracle="typescript",
+        failures=[oracle_mod.Failure("tsc", "typecheck", "error TS2322", status="failure")])
+    with patch.object(oracle_mod, "_verify_rust",
+                      return_value=oracle_mod.OracleResult(passed=True, oracle="rust")), \
+         patch.object(oracle_mod, "_verify_typescript", return_value=frontend_fail):
+        result = oracle_mod._verify_tauri(tmp_path)
+    assert result.passed is False
+    assert len(result.failures) == 1
+
+
+# ---------------------------------------------------------------------------
+# System/database oracles added 2026-07-22 -- Ryan: "duckdb/mongodb/mariadb
+# all of it should be there... all languages, all systems, all programs."
+# duckdb is embedded (no server); mariadb/mongodb are Docker-backed ephemeral
+# (a native Windows service install for MariaDB was tried live and failed/
+# rolled back with a generic MSI 1603 -- exactly the fragile, elevation-
+# hungry path an ephemeral verification sandbox shouldn't depend on).
+# ---------------------------------------------------------------------------
+
+def test_verify_duckdb_no_sources_is_an_explained_failure(tmp_path):
+    result = oracle_mod._verify_duckdb(tmp_path)
+    assert result.passed is False
+    assert "no .sql found" in result.failures[0].text
+
+
+def test_verify_duckdb_passes_when_no_error_lines_and_zero_exit(tmp_path):
+    (tmp_path / "schema.sql").write_text("CREATE TABLE t(x INT);\n", encoding="utf-8")
+    with patch.object(oracle_mod, "_run", return_value=_cp(0, stdout="")):
+        result = oracle_mod._verify_duckdb(tmp_path)
+    assert result.passed is True
+    assert result.total == 1
+
+
+def test_verify_duckdb_catches_error_lines_even_with_bail_off_semantics(tmp_path):
+    """The CLI (sqlite3-style) keeps going after a failed statement and can
+    still exit 0 -- a parsed 'Error:' line must fail the oracle regardless
+    of the process exit code, or a real broken script would silently pass."""
+    (tmp_path / "bad.sql").write_text("SELEC 1;\n", encoding="utf-8")
+    with patch.object(oracle_mod, "_run",
+                      return_value=_cp(0, stdout="Error: Parser Error: syntax error\n")):
+        result = oracle_mod._verify_duckdb(tmp_path)
+    assert result.passed is False
+    assert len(result.failures) == 1
+
+
+def test_verify_duckdb_uses_bail_on_and_read_dot_commands(tmp_path):
+    sql = tmp_path / "x.sql"
+    sql.write_text("SELECT 1;\n", encoding="utf-8")
+    captured = {}
+
+    def _fake_run(cmd, cwd, timeout=120):
+        captured["cmd"] = cmd
+        return _cp(0)
+
+    with patch.object(oracle_mod, "_run", side_effect=_fake_run):
+        oracle_mod._verify_duckdb(tmp_path)
+    assert ".bail on" in captured["cmd"]
+    assert any(sql.as_posix() in c for c in captured["cmd"] if ".read" in c)
+
+
+def test_verify_mariadb_no_sources_is_an_explained_failure(tmp_path):
+    result = oracle_mod._verify_mariadb(tmp_path)
+    assert result.passed is False
+    assert "no .sql found" in result.failures[0].text
+
+
+def test_verify_mariadb_docker_start_failure_is_explained(tmp_path):
+    (tmp_path / "seed.sql").write_text("SELECT 1;\n", encoding="utf-8")
+    with patch.object(oracle_mod, "_docker",
+                      return_value=_cp(1, stderr="docker: Cannot connect to the Docker daemon\n")):
+        result = oracle_mod._verify_mariadb(tmp_path)
+    assert result.passed is False
+    assert "docker-start" in result.failures[0].name
+
+
+def test_verify_mariadb_startup_timeout_is_explained_not_a_silent_pass(tmp_path):
+    (tmp_path / "seed.sql").write_text("SELECT 1;\n", encoding="utf-8")
+
+    def _fake_docker(cmd, timeout=300):
+        if cmd[:2] == ["docker", "run"]:
+            return _cp(0, stdout="containerid\n")
+        return _cp(1, stderr="not ready\n")  # every readiness probe fails
+
+    with patch.object(oracle_mod, "_docker", side_effect=_fake_docker), \
+         patch.object(oracle_mod, "_wait_for_container_ready", return_value=False):
+        result = oracle_mod._verify_mariadb(tmp_path)
+    assert result.passed is False
+    assert "never became ready" in result.failures[0].text
+
+
+def test_verify_mariadb_runs_each_sql_file_and_tears_down_container(tmp_path):
+    (tmp_path / "seed.sql").write_text("SELECT 1;\n", encoding="utf-8")
+    calls = []
+
+    def _fake_docker(cmd, timeout=300):
+        calls.append(cmd)
+        return _cp(0, stdout="ok\n")
+
+    with patch.object(oracle_mod, "_docker", side_effect=_fake_docker), \
+         patch.object(oracle_mod, "_wait_for_container_ready", return_value=True):
+        result = oracle_mod._verify_mariadb(tmp_path)
+    assert result.passed is True
+    assert any(c[:2] == ["docker", "run"] for c in calls)
+    assert any(c[:2] == ["docker", "rm"] for c in calls)  # always torn down
+
+
+# ---------------------------------------------------------------------------
+# Live 2026-07-23: the official mariadb:11 image's entrypoint runs a
+# TEMPORARY bootstrap mysqld first (binds the port, answers ping) purely to
+# apply MARIADB_ROOT_PASSWORD, then stops it and starts the REAL server
+# ~10-15s later (confirmed via `docker logs`: two "ready for connections"
+# lines with "Temporary server stopped" between them). A readiness probe
+# landing in that temporary-server window reports ready, but the first real
+# exec right after can get a genuine `ERROR 1045 Access denied` with the
+# CORRECT password -- a startup race, not a bad credential. Reproduced live
+# against a real container before this fix existed.
+# ---------------------------------------------------------------------------
+
+def test_run_with_transient_retry_retries_on_access_denied_then_succeeds(tmp_path):
+    calls = []
+
+    def _fake_docker(cmd, timeout=300):
+        calls.append(cmd)
+        if len(calls) < 3:
+            return _cp(1, stderr="ERROR 1045 (28000): Access denied for user 'root'@'localhost'\n")
+        return _cp(0, stdout="ok\n")
+
+    with patch.object(oracle_mod, "_docker", side_effect=_fake_docker):
+        result = oracle_mod._run_with_transient_retry(["docker", "exec", "x"], timeout=60, delay=0)
+    assert result.returncode == 0
+    assert len(calls) == 3
+
+
+def test_run_with_transient_retry_does_not_mask_a_real_sql_error(tmp_path):
+    """A genuine syntax error must NOT be retried away -- only the specific
+    transient-auth signature triggers a retry."""
+    calls = []
+
+    def _fake_docker(cmd, timeout=300):
+        calls.append(cmd)
+        return _cp(1, stderr="ERROR 1064 (42000): You have an error in your SQL syntax\n")
+
+    with patch.object(oracle_mod, "_docker", side_effect=_fake_docker):
+        result = oracle_mod._run_with_transient_retry(["docker", "exec", "x"], timeout=60, delay=0)
+    assert result.returncode == 1
+    assert len(calls) == 1  # no retry -- this isn't the transient signature
+
+
+def test_run_with_transient_retry_gives_up_after_max_attempts(tmp_path):
+    calls = []
+
+    def _fake_docker(cmd, timeout=300):
+        calls.append(cmd)
+        return _cp(1, stderr="ERROR 1045 (28000): Access denied for user 'root'@'localhost'\n")
+
+    with patch.object(oracle_mod, "_docker", side_effect=_fake_docker):
+        result = oracle_mod._run_with_transient_retry(
+            ["docker", "exec", "x"], timeout=60, attempts=3, delay=0)
+    assert result.returncode == 1
+    assert len(calls) == 3
+
+
+def test_verify_mongodb_no_sources_is_an_explained_failure(tmp_path):
+    result = oracle_mod._verify_mongodb(tmp_path)
+    assert result.passed is False
+    assert "no .js found" in result.failures[0].text
+
+
+def test_verify_mongodb_runs_each_script_and_tears_down_container(tmp_path):
+    (tmp_path / "seed.js").write_text("db.x.insertOne({a:1});\n", encoding="utf-8")
+    calls = []
+
+    def _fake_docker(cmd, timeout=300):
+        calls.append(cmd)
+        return _cp(0, stdout="ok\n")
+
+    with patch.object(oracle_mod, "_docker", side_effect=_fake_docker), \
+         patch.object(oracle_mod, "_wait_for_container_ready", return_value=True):
+        result = oracle_mod._verify_mongodb(tmp_path)
+    assert result.passed is True
+    assert any(c[:2] == ["docker", "run"] for c in calls)
+    assert any(c[:2] == ["docker", "rm"] for c in calls)
+
+
+def test_verify_mongodb_script_failure_is_reported(tmp_path):
+    (tmp_path / "bad.js").write_text("throw new Error('boom');\n", encoding="utf-8")
+
+    def _fake_docker(cmd, timeout=300):
+        if cmd[:2] == ["docker", "run"]:
+            return _cp(0, stdout="containerid\n")
+        if "mongosh" in cmd and "--eval" not in cmd:
+            return _cp(1, stderr="Uncaught Error: boom\n")
+        return _cp(0)
+
+    with patch.object(oracle_mod, "_docker", side_effect=_fake_docker), \
+         patch.object(oracle_mod, "_wait_for_container_ready", return_value=True):
+        result = oracle_mod._verify_mongodb(tmp_path)
+    assert result.passed is False
+    assert len(result.failures) == 1

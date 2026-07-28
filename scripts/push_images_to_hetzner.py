@@ -9,7 +9,7 @@ import time
 from pathlib import Path
 
 REMOTE = "root@5.78.192.163"
-SSH_KEY = str(Path.home() / ".ssh" / "id_determinex")
+SSH_KEY = str(Path.home() / ".ssh" / "id_citadel")
 ROOT = Path(__file__).resolve().parent.parent
 EVAL_INDEX = ROOT / "corpus" / "programbench" / "eval_index.json"
 TERMINAL = {"strict_lock", "locked", "ceiling_certified", "ceiling_confirmed",

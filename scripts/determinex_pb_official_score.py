@@ -23,7 +23,7 @@ Requires the `programbench` package importable (its src on sys.path or pip-insta
 
 Usage:
   python scripts/determinex_pb_official_score.py <iid> <eval.json> [<iid> <eval.json> ...]
-  python scripts/determinex_pb_official_score.py --glob '/root/determinex-programbench/*/*/*.eval.json'
+  python scripts/determinex_pb_official_score.py --glob '/root/citadel-programbench/*/*/*.eval.json'
 """
 from __future__ import annotations
 

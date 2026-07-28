@@ -1,0 +1,107 @@
+# Determinex CI/CD — runs on push to clean-main
+# - Lints scaffolds (Python AST + bash -n)
+# - Smoke-tests each per_tool_overrides/<inst>/main.py
+# - On manual dispatch: triggers a pool eval run on Hetzner
+# - Posts results to Discord webhook + W&B
+
+name: determinex-eval
+
+on:
+  push:
+    branches: [clean-main]
+    paths:
+      - 'corpus/programbench/**'
+      - 'scripts/**'
+      - '.github/workflows/determinex-eval.yml'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Run mode'
+        required: true
+        default: 'smoke'
+        type: choice
+        options: [smoke, regen-only, full-eval]
+
+jobs:
+  lint-scaffolds:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: AST parse all generated scaffolds
+        run: |
+          python -c "
+          import ast, glob, sys
+          bad = []
+          for p in glob.glob('corpus/programbench/per_tool_overrides/*/main.py'):
+              try:
+                  ast.parse(open(p).read())
+              except SyntaxError as e:
+                  bad.append((p, e))
+          if bad:
+              for p, e in bad: print(f'FAIL {p}: {e}')
+              sys.exit(1)
+          print(f'parsed: {len(glob.glob(\"corpus/programbench/per_tool_overrides/*/main.py\"))}')
+          "
+      - name: bash -n on shell scripts
+        run: |
+          for f in scripts/*.sh scripts/*.bash; do
+            [ -f "$f" ] || continue
+            bash -n "$f" || (echo "FAIL: $f"; exit 1)
+          done
+
+  smoke-overrides:
+    runs-on: ubuntu-latest
+    needs: lint-scaffolds
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Run each override with --version
+        run: |
+          for d in corpus/programbench/per_tool_overrides/*/; do
+            main="$d/main.py"
+            [ -f "$main" ] || continue
+            echo "--- $main --version ---"
+            timeout 10 python3 "$main" --version || echo "FAIL: $main --version"
+          done
+
+  trigger-eval:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.mode == 'full-eval'
+    needs: [lint-scaffolds, smoke-overrides]
+    steps:
+      - name: SSH to Hetzner and trigger pool
+        env:
+          HETZNER_SSH_KEY: ${{ secrets.HETZNER_SSH_KEY }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          mkdir -p ~/.ssh && echo "$HETZNER_SSH_KEY" > ~/.ssh/id_determinex && chmod 600 ~/.ssh/id_determinex
+          ssh-keyscan -H 5.78.192.163 >> ~/.ssh/known_hosts
+          # Pull latest scaffold from this repo & deploy.
+          # NOTE (2026-07-26): the remote path/key were renamed here as part of
+          # retiring the Citadel name. The box is DOWN as of this change, so this
+          # is written against the convention a reprovisioned box MUST follow
+          # (/root/determinex-programbench, key id_determinex) -- see AGENTS.md.
+          # If the box is restored from an old image still using the Citadel
+          # paths, this job fails loudly rather than silently doing the wrong
+          # thing; fix the box to match, don't revert this.
+          ssh -i ~/.ssh/id_determinex root@5.78.192.163 'cd /root/determinex-programbench && git pull && bash /root/queue/relaunch_pool.sh'
+          # Notify Discord
+          curl -fsS -X POST -H 'Content-Type: application/json' \
+            -d "{\"content\":\"🚀 Determinex pool relaunched from CI (commit ${GITHUB_SHA::8})\"}" \
+            "$DISCORD_WEBHOOK" || true
+
+  publish-status:
+    runs-on: ubuntu-latest
+    needs: [lint-scaffolds, smoke-overrides]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build status badge
+        run: |
+          mkdir -p public
+          cat > public/status.json <<EOF
+          {"schemaVersion": 1, "label": "determinex", "message": "${{ job.status }}", "color": "${{ job.status == 'success' && 'green' || 'red' }}"}
+          EOF

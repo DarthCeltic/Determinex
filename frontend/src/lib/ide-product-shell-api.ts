@@ -23,6 +23,16 @@ export const UNIFIED_PRODUCT_COMMANDS = [
   "get_repo_clinic_workflow_state",
   "get_maintenance_bay_workflow_state",
   "get_learning_studio_workflow_state",
+  // Rung 7 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES: Learning Studio content
+  // generation. Takes {mode, context, workspace?} args (unlike the zero-arg view-model
+  // snapshots above); every response is still gated through learning_studio_workflow.evaluate()
+  // on the backend before it reaches this wrapper, and the wrapper's own
+  // source_mutation_authorized / training_eligible refusal still applies.
+  "generate_learning_studio_content",
+  // Maintenance Bay live scan: composes 5 existing security_gate.py scanners into one
+  // read-only advisory result. Explicit opt-in only (not auto-fetched) -- can take
+  // several seconds. Never applies an update, never authorizes anything.
+  "run_maintenance_bay_scan",
   "get_proof_operator_center_state",
   "get_user_level_teaching_windows",
   "get_unified_splash_demo_spec",
@@ -239,6 +249,12 @@ export const UNIFIED_PRODUCT_COMMANDS = [
   // chain_valid, mutation_detected, validation_errors, release_supported
   // = 0 / 0, universal support not claimed).
   "get_public_readiness_spine_dashboard_status",
+  // Direct corpus query surface (2026-07-16): the ONE canonical read-only corpus API
+  // (scripts/determinex_corpus_api.py -- ask/maturity_report/timeline) exposed as its
+  // own command. Takes {corpus_query, corpus_mode?} args (unlike the zero-arg view-model
+  // snapshots above); real per-call computation, not a static snapshot. Never mutates
+  // build_knowledge.json, never authorizes anything.
+  "query_corpus",
 ] as const;
 
 export type UnifiedProductCommand = (typeof UNIFIED_PRODUCT_COMMANDS)[number];
@@ -250,10 +266,7 @@ export const UNIFIED_PRODUCT_STATUS_TOKENS = [
   "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
 ] as const;
 
-function backendMissing(
-  command: UnifiedProductCommand,
-  reason: string,
-): UnifiedProductResponse {
+function backendMissing(command: UnifiedProductCommand, reason: string): UnifiedProductResponse {
   return {
     command,
     status: "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
@@ -264,17 +277,33 @@ function backendMissing(
   };
 }
 
+// Was checking window.__TAURI__ -- that global is only ever mounted when
+// `app.withGlobalTauri: true` is set in tauri.conf.json (a v1-era convenience
+// flag this app's config never sets), so it has never been populated in any
+// real run. This check was permanently false, meaning the ENTIRE ide-product-
+// shell command family (Repo Clinic, Maintenance Bay, Learning Studio,
+// Unified Navigation, User-Level Teaching, Proof Operator Center) has always
+// hit the immediate backendMissing() fallback in the real app, never the
+// actual backend -- the identical bug ide-repair-api.ts's tauriRuntimePresent
+// already had fixed (found live 2026-07-19, "repair doesnt work") but this
+// sibling file was never brought in line with. The real, always-present
+// Tauri v2 IPC marker is window.__TAURI_INTERNALS__, same as lib/api.ts's
+// isTauri() and ide-repair-api.ts's corrected check.
 export function tauriRuntimePresent(): boolean {
   if (typeof window === "undefined") return false;
-  const w = window as unknown as { __TAURI__?: unknown };
-  return Boolean(w.__TAURI__);
+  const w = window as unknown as { __TAURI_INTERNALS__?: { transformCallback?: unknown } };
+  return (
+    typeof w.__TAURI_INTERNALS__ === "object" &&
+    w.__TAURI_INTERNALS__ !== null &&
+    typeof w.__TAURI_INTERNALS__.transformCallback === "function"
+  );
 }
 
 // Hard frontend invariants: panels MUST refuse any backend response
 // that claims source_mutation_authorized or training_eligible.
 export async function invokeUnifiedProductCommand(
   command: UnifiedProductCommand,
-  args: Record<string, unknown> = {},
+  args: Record<string, unknown> = {}
 ): Promise<UnifiedProductResponse> {
   if (!tauriRuntimePresent()) {
     return backendMissing(command, "Tauri runtime not present (web preview / test)");
@@ -328,5 +357,4 @@ export const SHARED_AUTHORITY_VOCABULARY = [
 
 // Negative-authority caption the unified shell shows everywhere a
 // "ready" badge could be misread as "authorized".
-export const READY_DOES_NOT_MEAN_AUTHORIZED =
-  "Ready does NOT mean authorized.";
+export const READY_DOES_NOT_MEAN_AUTHORIZED = "Ready does NOT mean authorized.";

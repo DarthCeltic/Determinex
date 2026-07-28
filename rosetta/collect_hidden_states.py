@@ -29,6 +29,11 @@ from pathlib import Path
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
+_REPO_ROOT = str(Path(__file__).resolve().parents[1])
+if _REPO_ROOT not in sys.path:
+    sys.path.insert(0, _REPO_ROOT)
+from rosetta.shared_prompts import SHARED_PROMPTS  # noqa: E402
+
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
@@ -46,50 +51,9 @@ FAMILIES = [
     ("gemma",    "google/gemma-2-2b-it",                       2304),
 ]
 
-# ---------------------------------------------------------------------------
-# SHARED PROMPTS — same semantic content, run through every model
-# Mix of code, reasoning, and general tasks for broad geometric coverage
-# ---------------------------------------------------------------------------
-
-SHARED_PROMPTS = [
-    # Rust
-    "Write a Rust function that counts occurrences of a character in a string.",
-    "Write a Rust function using Arc<Mutex<i32>> to sum a vector across threads.",
-    "Write a Rust function using RefCell<Vec<i32>> to append items.",
-    "Write idiomatic Rust to find the first even number in a slice.",
-    "Write a Rust struct with impl block for a simple stack data structure.",
-    # Go
-    "Write a Go function that wraps an error using fmt.Errorf with %w.",
-    "Write a Go function using defer and recover to catch panics safely.",
-    "Write a Go function that reads from a channel with a timeout using select.",
-    "Write idiomatic Go error handling for a file read operation.",
-    "Write a Go function that uses goroutines to process items concurrently.",
-    # Python
-    "Write a Python function that divides two numbers, returning None on zero divisor.",
-    "Write a Python function with type annotations that filters even numbers.",
-    "Write a Python context manager for timing code execution.",
-    "Write a Python dataclass for representing a 2D point with distance method.",
-    "Write a Python async function that fetches URLs concurrently.",
-    # TypeScript
-    "Write a TypeScript function with a discriminated union for shape area calculation.",
-    "Write a TypeScript async function that retries a failed operation with backoff.",
-    "Write a TypeScript generic function that safely gets a nested object property.",
-    "Write TypeScript with proper error handling using Result-style types.",
-    "Write a TypeScript class implementing an observable event emitter.",
-    # General reasoning
-    "Explain the difference between stack and heap memory allocation.",
-    "What is the purpose of a mutex in concurrent programming?",
-    "Explain how LoRA fine-tuning modifies a language model.",
-    "What is the Platonic Representation Hypothesis in machine learning?",
-    "Explain the difference between synchronous and asynchronous programming.",
-    # Architecture
-    "Design a simple message queue system with producer and consumer.",
-    "Explain the actor model for concurrent computation.",
-    "What are the tradeoffs between microservices and monolithic architecture?",
-    "Design a rate limiter for an API endpoint.",
-    "Explain how vector databases enable semantic search.",
-]
-
+# SHARED_PROMPTS now lives in shared_prompts.py (zero dependencies) so the GGUF-based
+# collector (collect_hidden_states_gguf.py) can import the exact same prompt set without
+# pulling in torch/transformers/bitsandbytes.
 
 # ---------------------------------------------------------------------------
 # COLLECTION

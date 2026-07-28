@@ -64,8 +64,11 @@ def test_safety_flags_default_closed():
 def test_assert_safety_defaults_clean():
     """No violations when all flags are at defaults."""
     from determinex_settings import DeterminexSettings
-    s = DeterminexSettings()
-    # Clear any stray env vars that could open flags
+    # Clear any stray env vars that could open flags BEFORE constructing --
+    # pydantic-settings fields are populated once at __init__ (unlike the
+    # old dataclass's @property-per-access design, which re-read os.environ
+    # on every access), so constructing first and clearing env afterward no
+    # longer has any effect on an already-built instance.
     env_backup = {}
     open_flags = [
         "DETERMINEX_ONLINE_DISCOVERY",
@@ -76,6 +79,7 @@ def test_assert_safety_defaults_clean():
         if flag in os.environ:
             env_backup[flag] = os.environ.pop(flag)
     try:
+        s = DeterminexSettings()
         violations = s.assert_safety_defaults()
         assert violations == [], f"Expected no violations, got: {violations}"
     finally:
@@ -127,20 +131,24 @@ def test_api_key_resolution_alias(monkeypatch):
     assert s.anthropic_api_key == "sk-ant-test-alias"
 
 
-def test_hmac_key_fallback(monkeypatch):
+def test_hmac_key_primary_is_determinex_corpus_hmac_key(monkeypatch):
+    # 2026-07-19: hmac_key's real-world priority must match the actual signing code
+    # (determinex_safety.py, corpus/corpus_manager.py), which only ever reads
+    # DETERMINEX_CORPUS_HMAC_KEY -- DETERMINEX_HMAC_KEY is a settings-only alias nothing
+    # else honors, so it must be the fallback, not the primary.
     monkeypatch.delenv("DETERMINEX_HMAC_KEY", raising=False)
-    monkeypatch.setenv("DETERMINEX_CORPUS_HMAC_KEY", "fallback-key-32-bytes-xxxxxxxxxxxxxxx")
+    monkeypatch.setenv("DETERMINEX_CORPUS_HMAC_KEY", "primary-key-32-bytes-xxxxxxxxxxxxxxx")
     from determinex_settings import DeterminexSettings
     s = DeterminexSettings()
-    assert s.hmac_key == "fallback-key-32-bytes-xxxxxxxxxxxxxxx"
+    assert s.hmac_key == "primary-key-32-bytes-xxxxxxxxxxxxxxx"
 
 
-def test_hmac_key_primary_wins(monkeypatch):
-    monkeypatch.setenv("DETERMINEX_HMAC_KEY", "primary-key")
-    monkeypatch.setenv("DETERMINEX_CORPUS_HMAC_KEY", "should-not-be-used")
+def test_hmac_key_falls_back_to_legacy_alias(monkeypatch):
+    monkeypatch.delenv("DETERMINEX_CORPUS_HMAC_KEY", raising=False)
+    monkeypatch.setenv("DETERMINEX_HMAC_KEY", "legacy-alias-key")
     from determinex_settings import DeterminexSettings
     s = DeterminexSettings()
-    assert s.hmac_key == "primary-key"
+    assert s.hmac_key == "legacy-alias-key"
 
 
 # ---------------------------------------------------------------------------

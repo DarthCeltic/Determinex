@@ -45,8 +45,8 @@ for _s in (sys.stdout, sys.stderr):
         pass
 
 HOST = "root@5.78.192.163"
-KEY = str(Path.home() / ".ssh" / "id_determinex")
-HZ_ROOT = "/root/determinex-programbench"
+KEY = str(Path.home() / ".ssh" / "id_citadel")
+HZ_ROOT = "/root/citadel-programbench"
 LOCAL_ROOT = Path("T:/determinex-programbench")
 
 

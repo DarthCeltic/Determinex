@@ -1,21 +1,24 @@
 {
   "lock_id": "DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_LOCK_001",
   "date": "2026-05-28",
+  "amended_date": "2026-07-20",
   "commit": "clean-main",
-  "description": "Rung 10 (finale) of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES. Asserts all nine prior dimensions are closed (Tauri command surface, unified navigation panel, Idea Lab panel, Repo Clinic panel, Maintenance Bay panel, Learning Studio panel, Proof / Operator Center panel, user-level / teaching mode, splash demo panel) AND none of them opens source_mutation_authorized or training_eligible AND none of them opens unsupported-claim keys (all_apps_claim, all_languages_claim, all_codebases_claim, no_followup_claim, production_ready_arbitrary_apps_claim, training_enabled_in_demo, readiness_treated_as_authorization). Evaluator at scripts/repair/live_react_unified_product_shell_final_state.evaluate is read-only on disk; never runs a runtime gate. release_ready stays False (public release scrub/install/demo workflow is a future rung). First-splash implementation (DETERMINEX_IDEA_LAB_PYTHON_CLI_VERIFIED_SPLASH_DEMO_LOCK_001) is the recommended next rung.",
+  "description": "Rung 10 (finale) of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES. Asserts all six prior dimensions are closed (Tauri command surface, unified navigation panel, Repo Clinic panel, Maintenance Bay panel, Learning Studio panel, user-level / teaching mode) AND none of them opens source_mutation_authorized or training_eligible AND none of them opens unsupported-claim keys (all_apps_claim, all_languages_claim, all_codebases_claim, no_followup_claim, production_ready_arbitrary_apps_claim, training_enabled_in_demo, readiness_treated_as_authorization). Evaluator at scripts/repair/live_react_unified_product_shell_final_state.evaluate is read-only on disk; never runs a runtime gate. release_ready stays False (public release scrub/install/demo workflow is a future rung). First-splash implementation (DETERMINEX_IDEA_LAB_PYTHON_CLI_VERIFIED_SPLASH_DEMO_LOCK_001) is the recommended next rung. AMENDED 2026-07-20: originally nine dimensions. Idea Lab panel, Proof/Operator Center panel, and splash demo panel dropped -- their panels + locks + tests were deliberately deleted in commit 30b3ff570 ('chore: land pending IDE product shell archive'), which determined ~74 ide-product-shell panels including these were a Claude<->Codex tandem-pipeline trail, not real durable features. This finale kept requiring their now-deleted lock files, which was a stale check pointing at intentionally-removed work, not a real certification gap. Re-creating those panels to satisfy the old requirement would reintroduce exactly what that archival correctly removed.",
   "purpose": "Rung 10 (finale) of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES.",
   "depends_on_locks": [
     "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
     "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001",
-    "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001",
     "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001",
     "DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001",
     "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001",
+    "DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001"
+  ],
+  "superseded_dependency_locks_removed_2026_07_20": [
+    "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001",
     "DETERMINEX_REACT_PROOF_OPERATOR_CENTER_PANEL_LOCK_001",
-    "DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001",
     "DETERMINEX_REACT_SPLASH_DEMO_PANEL_LOCK_001"
   ],
-  "tests": 13,
+  "tests": 12,
   "test_modules": ["tests/repair/test_live_react_unified_product_shell_final_state_lock.py"],
   "status_tokens": [
     "LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_PASSED",
@@ -25,13 +28,10 @@
   "live_mount_dimensions": {
     "tauri_command_surface": "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
     "unified_navigation_panel": "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001",
-    "idea_lab_panel": "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001",
     "repo_clinic_panel": "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001",
     "maintenance_bay_panel": "DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001",
     "learning_studio_panel": "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001",
-    "proof_operator_center_panel": "DETERMINEX_REACT_PROOF_OPERATOR_CENTER_PANEL_LOCK_001",
-    "user_level_teaching_mode": "DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001",
-    "splash_demo_panel": "DETERMINEX_REACT_SPLASH_DEMO_PANEL_LOCK_001"
+    "user_level_teaching_mode": "DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001"
   },
   "campaign_terminal_state": {
     "source_mutation_authorized": false,
@@ -40,7 +40,9 @@
     "live_product_shell_mounted": true,
     "first_splash_implementation_pending": true,
     "unsupported_claims_blocked": true,
-    "dimensions_closed": 9,
+    "dimensions_closed": 6,
+    "dimensions_original": 9,
+    "dimensions_dropped_as_archived_2026_07_20": 3,
     "rungs_completed": 10
   },
   "scope_discipline": {

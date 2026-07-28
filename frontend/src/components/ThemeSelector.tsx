@@ -107,24 +107,25 @@ export function SkinPickerInline() {
   return (
     <div className="space-y-1">
       <div className="mb-3 rounded-xl border border-[var(--determinex-border)]/30 bg-black/30 p-3">
-        <div className="text-[9px] font-black uppercase tracking-widest text-[var(--determinex-accent)]">
+        <div className="text-eyebrow font-black uppercase tracking-widest text-[var(--determinex-accent)]">
           Preview mode
         </div>
-        <p className="mt-1 text-[10px] leading-relaxed text-white/45">
-          Pick a skin to preview it across the IDE. Apply keeps it; Cancel returns to the skin you opened this panel with.
+        <p className="mt-1 text-label leading-relaxed text-white/45">
+          Pick a skin to preview it across the IDE. Apply keeps it; Cancel returns to the skin you
+          opened this panel with.
         </p>
         <div className="mt-3 flex gap-2">
           <button
             type="button"
             onClick={() => setStartingTheme(theme)}
-            className="rounded-lg border border-emerald-400/25 bg-emerald-950/20 px-3 py-2 text-[9px] font-black uppercase tracking-widest text-emerald-300"
+            className="rounded-lg border border-emerald-400/25 bg-emerald-950/20 px-3 py-2 text-eyebrow font-black uppercase tracking-widest text-emerald-300"
           >
             Apply skin
           </button>
           <button
             type="button"
             onClick={() => setTheme(startingTheme)}
-            className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-[9px] font-black uppercase tracking-widest text-white/45"
+            className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-eyebrow font-black uppercase tracking-widest text-white/45"
           >
             Cancel preview
           </button>
@@ -136,7 +137,7 @@ export function SkinPickerInline() {
         return (
           <div key={group.label}>
             <div className="px-1 pb-1.5 pt-3">
-              <span className="font-mono text-[8px] uppercase tracking-[0.3em] text-white/30">
+              <span className="font-mono text-eyebrow uppercase tracking-[0.3em] text-white/30">
                 {group.label}
               </span>
             </div>
@@ -173,15 +174,22 @@ export function SkinPickerInline() {
                       <Icon size={14} strokeWidth={1.85} />
                     </span>
                     <span className="min-w-0 flex-1 overflow-hidden">
-                      <span className={`block truncate text-[10px] font-bold ${active ? "text-white" : "text-white/55 group-hover:text-white/80"}`}>
+                      <span
+                        className={`block truncate text-label font-bold ${active ? "text-white" : "text-white/55 group-hover:text-white/80"}`}
+                      >
                         {pack.label}
                       </span>
-                      <span className="block truncate text-[7px] uppercase tracking-wider text-white/20">
+                      <span className="block truncate text-eyebrow uppercase tracking-wider text-white/20">
                         {pack.cue}
                       </span>
                     </span>
                     {active && (
-                      <Check size={12} strokeWidth={2.5} className="shrink-0" style={{ color: pack.colors.accent }} />
+                      <Check
+                        size={12}
+                        strokeWidth={2.5}
+                        className="shrink-0"
+                        style={{ color: pack.colors.accent }}
+                      />
                     )}
                   </button>
                 );
@@ -256,7 +264,7 @@ export function ThemeSelector({ className }: { className?: string }) {
         >
           <ActiveIcon size={15} strokeWidth={1.8} />
         </span>
-        <span className="text-[7px] font-bold uppercase leading-none tracking-normal">Skin</span>
+        <span className="text-eyebrow font-bold uppercase leading-none tracking-normal">Skin</span>
       </button>
 
       {open &&
@@ -279,10 +287,10 @@ export function ThemeSelector({ className }: { className?: string }) {
           >
             {/* Header */}
             <div className="border-b border-white/10 px-4 py-3">
-              <p className="font-mono text-[8px] uppercase tracking-[0.34em] text-white/35">
+              <p className="font-mono text-eyebrow uppercase tracking-[0.34em] text-white/35">
                 Visual Skin Pack
               </p>
-              <p className="mt-0.5 text-[10px] text-white/50">
+              <p className="mt-0.5 text-label text-white/50">
                 {allThemes.length} skins · hover to preview
               </p>
             </div>
@@ -294,7 +302,7 @@ export function ThemeSelector({ className }: { className?: string }) {
                 return (
                   <div key={group.label}>
                     <div className="px-4 py-2 border-b border-white/5">
-                      <span className="font-mono text-[8px] uppercase tracking-[0.3em] text-white/25">
+                      <span className="font-mono text-eyebrow uppercase tracking-[0.3em] text-white/25">
                         {group.label}
                       </span>
                     </div>
@@ -322,12 +330,11 @@ export function ThemeSelector({ className }: { className?: string }) {
                           }}
                           className="group flex w-full items-center gap-3 px-4 py-2.5 text-left transition-all"
                           style={{
-                            background:
-                              active
-                                ? `linear-gradient(90deg, ${pack.colors.accentGlow}, transparent)`
-                                : hovered
-                                  ? `rgba(255,255,255,0.04)`
-                                  : undefined,
+                            background: active
+                              ? `linear-gradient(90deg, ${pack.colors.accentGlow}, transparent)`
+                              : hovered
+                                ? `rgba(255,255,255,0.04)`
+                                : undefined,
                           }}
                         >
                           {/* Icon swatch */}
@@ -337,7 +344,10 @@ export function ThemeSelector({ className }: { className?: string }) {
                               color: pack.colors.accent,
                               borderColor: pack.colors.border,
                               background: `linear-gradient(135deg, ${pack.colors.panelStrong}, ${pack.colors.bg})`,
-                              boxShadow: active || hovered ? `0 0 14px ${pack.colors.accentGlow}` : undefined,
+                              boxShadow:
+                                active || hovered
+                                  ? `0 0 14px ${pack.colors.accentGlow}`
+                                  : undefined,
                             }}
                           >
                             <Icon size={16} strokeWidth={1.85} />
@@ -346,13 +356,13 @@ export function ThemeSelector({ className }: { className?: string }) {
                           {/* Label + cue */}
                           <span className="min-w-0 flex-1">
                             <span
-                              className={`block truncate text-[10px] font-bold tracking-wide transition-colors ${
+                              className={`block truncate text-label font-bold tracking-wide transition-colors ${
                                 active ? "text-white" : "text-white/60 group-hover:text-white/85"
                               }`}
                             >
                               {pack.label}
                             </span>
-                            <span className="mt-0.5 block truncate text-[8px] uppercase tracking-[0.18em] text-white/25">
+                            <span className="mt-0.5 block truncate text-eyebrow uppercase tracking-[0.18em] text-white/25">
                               {pack.cue}
                             </span>
                             {pack.backdropImage ? (
@@ -429,10 +439,12 @@ export function ThemeSelector({ className }: { className?: string }) {
                         <Icon size={16} strokeWidth={1.85} />
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className={`block truncate text-[10px] font-bold ${active ? "text-white" : "text-white/55 group-hover:text-white/80"}`}>
+                        <span
+                          className={`block truncate text-label font-bold ${active ? "text-white" : "text-white/55 group-hover:text-white/80"}`}
+                        >
                           {pack.label}
                         </span>
-                        <span className="mt-0.5 block truncate text-[8px] uppercase tracking-[0.18em] text-white/25">
+                        <span className="mt-0.5 block truncate text-eyebrow uppercase tracking-[0.18em] text-white/25">
                           {pack.cue}
                         </span>
                         {pack.backdropImage ? (
@@ -453,7 +465,14 @@ export function ThemeSelector({ className }: { className?: string }) {
                           </div>
                         )}
                       </span>
-                      {active && <Check size={13} strokeWidth={2} className="shrink-0" style={{ color: pack.colors.accent }} />}
+                      {active && (
+                        <Check
+                          size={13}
+                          strokeWidth={2}
+                          className="shrink-0"
+                          style={{ color: pack.colors.accent }}
+                        />
+                      )}
                     </button>
                   );
                 })}

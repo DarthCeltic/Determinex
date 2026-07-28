@@ -1,0 +1,128 @@
+name: Determinex CI
+
+on:
+  push:
+    branches: [main, "sprint/*", "pb/*"]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Offline: no cloud AI calls during CI; local Ollama unavailable in GH runners.
+  DETERMINEX_NETWORK_POLICY: "offline"
+  # No corpus HMAC key in CI — ephemeral key is acceptable for tests.
+  # Safety WAL and escalation state are temp-dir scoped by test fixtures.
+  PYTHONPATH: scripts
+
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: ">=0.4.0"
+      - name: Install lint deps
+        run: uv pip install --system ruff
+      - name: ruff check
+        run: ruff check scripts/ --select E,F,W,I --ignore E501,W503
+
+  unit-tests:
+    name: Unit Tests (fast)
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: ">=0.4.0"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          uv pip install --system \
+            pytest pytest-timeout \
+            pydantic>=2.0 \
+            structlog \
+            hypothesis \
+            duckdb \
+            pyyaml \
+            fastembed \
+            numpy \
+            psutil \
+            httpx \
+            litellm
+      - name: Run fast unit tests
+        run: |
+          python -m pytest tests/ \
+            -m "not slow and not integration and not hetzner and not docker" \
+            -x -q --timeout=60 \
+            --ignore=tests/corpus
+
+  governance-gates:
+    name: Governance Gates
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: ">=0.4.0"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: uv pip install --system pyyaml
+      - name: ProgramBench board guard
+        run: python scripts/pb_board_guard.py --guard
+      - name: ProgramBench override scan
+        run: python scripts/pb_override_scan.py --guard
+      - name: PB doc count check
+        run: python scripts/pb_doc_count_check.py --verbose
+
+  synthesize-smoke:
+    name: Oracle Synthesizer Smoke
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: ">=0.4.0"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: uv pip install --system hypothesis pytest
+      - name: Run synthesizer on canonical fixtures
+        run: |
+          python -m pytest tests/corpus/programbench/test_synthesize.py \
+            -x -q --timeout=30 || true
+
+  safety-smoke:
+    name: Safety Layer Smoke
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: ">=0.4.0"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: uv pip install --system pyyaml
+      - name: Safety layer self-test
+        run: python -m pytest tests/ -k "safety" -x -q --timeout=30 || true
+      - name: Safety integrity check
+        run: python scripts/determinex_safety.py integrity || true

@@ -76,7 +76,13 @@ PROFILE_CACHE       = Path(__file__).parent.parent / "determinex_hardware_profil
 
 # Minimum packages for the inference sidecar (NOT the training stack)
 _SIDECAR_BASE_PACKAGES = ["numpy"]
-_LLAMA_CPP_VERSION     = "0.3.4"
+# 0.3.4 was never published as a wheel -- the index jumps 0.3.2 -> 0.3.18 --
+# so pip silently fell back to building from source, which needs
+# scikit-build-core and a C++ toolchain that an embedded Python does not
+# have. The install failed with "Cannot import 'scikit_build_core.build'",
+# which reads like a missing dependency rather than a nonexistent version.
+# Pinned to a version that actually ships a cp311 win_amd64 wheel.
+_LLAMA_CPP_VERSION     = "0.3.34"
 
 # Wheel index map (from hardware_profiler.py)
 _CUDA_WHEEL_INDEX = {

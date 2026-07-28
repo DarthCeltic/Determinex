@@ -162,13 +162,13 @@ export function RainCityTheme({
             }}
           >
             <p
-              className="text-[8px] font-mono tracking-[0.5em] uppercase mb-2"
+              className="text-eyebrow font-mono tracking-[0.5em] uppercase mb-2"
               style={{ color: `${blue}60` }}
             >
               RAIN CITY PATCH ANALYZER
             </p>
             <p
-              className="text-[11px] font-mono italic text-center leading-relaxed"
+              className="text-label font-mono italic text-center leading-relaxed"
               style={{ color: "rgba(200,220,255,0.7)" }}
             >
               &quot;{question}&quot;
@@ -191,7 +191,7 @@ export function RainCityTheme({
             />
             {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[8px] font-mono tabular-nums" style={{ color: blue }}>
+                <span className="text-meta font-mono tabular-nums" style={{ color: blue }}>
                   {elapsedSeconds}s
                 </span>
               </div>
@@ -200,12 +200,12 @@ export function RainCityTheme({
 
           <div className="flex flex-col items-center gap-1">
             <p
-              className="text-[13px] font-mono tracking-widest uppercase font-bold"
+              className="text-body font-mono tracking-widest uppercase font-bold"
               style={{ color: blue, textShadow: `0 0 14px ${blue}` }}
             >
               {label}
             </p>
-            <p className="text-[9px] font-mono" style={{ color: `${pink}60` }}>
+            <p className="text-meta font-mono" style={{ color: `${pink}60` }}>
               LOS ANGELES, 2019 · TYRRELL CORPORATION
             </p>
           </div>
@@ -233,7 +233,7 @@ export function RainCityTheme({
                     />
                   </div>
                   <span
-                    className="text-[7px] font-mono uppercase tracking-wider"
+                    className="text-eyebrow font-mono uppercase tracking-wider"
                     style={{ color, opacity: nodeActive ? 1 : 0.3 }}
                   >
                     {role}
@@ -262,7 +262,7 @@ export function RainCityTheme({
           className="w-6 h-6 border-2 rounded-full animate-spin"
           style={{ borderColor: `${blue}40`, borderTopColor: blue }}
         />
-        <p className="text-[10px] font-mono tracking-widest uppercase" style={{ color: blue }}>
+        <p className="text-meta font-mono tracking-widest uppercase" style={{ color: blue }}>
           {label}
         </p>
       </div>

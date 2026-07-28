@@ -1,5 +1,5 @@
 use std::process::Command;
-use crate::windows_process::no_window;
+use crate::win_process::HideConsoleExt;
 
 use serde::Deserialize;
 use tauri::State;
@@ -55,19 +55,17 @@ pub async fn explore_workspace(
     }
 
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = no_window(
-        Command::new(&python)
-            .args([
-                script.to_str().unwrap(),
-                "explore",
-                "--workspace",
-                &payload.workspace_path,
-                "--json",
-            ])
-            .current_dir(&root),
-    )
-    .output()
-    .map_err(|e| format!("Failed to spawn explore: {}", e))?;
+    let output = Command::new(&python).hide_console()
+        .args([
+            script.to_str().unwrap(),
+            "explore",
+            "--workspace",
+            &payload.workspace_path,
+            "--json",
+        ])
+        .current_dir(&root)
+        .output()
+        .map_err(|e| format!("Failed to spawn explore: {}", e))?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -78,7 +76,11 @@ pub async fn explore_workspace(
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
-    match serde_json::from_str::<serde_json::Value>(&stdout) {
+    // parse_python_json tolerates stray prints ahead of the payload. Without
+    // it, a single library print downgraded a perfectly good structured result
+    // to the "raw" branch below, and the UI silently lost explanation /
+    // relevant_files. Raw stays as the genuine last resort.
+    match crate::python_json::parse_python_json::<serde_json::Value>(&stdout, "hive") {
         Ok(data) => Ok(serde_json::json!({ "ok": true, "data": data })),
         Err(_) => Ok(serde_json::json!({
             "ok": true,
@@ -113,20 +115,18 @@ pub async fn diagnose_workspace(
     }
 
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = no_window(
-        Command::new(&python)
-            .args([
-                script.to_str().unwrap(),
-                "diagnose",
-                "--workspace",
-                &payload.workspace_path,
-                "--issue",
-                &payload.issue,
-            ])
-            .current_dir(&root),
-    )
-    .output()
-    .map_err(|e| format!("Failed to spawn diagnose: {}", e))?;
+    let output = Command::new(&python).hide_console()
+        .args([
+            script.to_str().unwrap(),
+            "diagnose",
+            "--workspace",
+            &payload.workspace_path,
+            "--issue",
+            &payload.issue,
+        ])
+        .current_dir(&root)
+        .output()
+        .map_err(|e| format!("Failed to spawn diagnose: {}", e))?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -137,7 +137,11 @@ pub async fn diagnose_workspace(
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
-    match serde_json::from_str::<serde_json::Value>(&stdout) {
+    // parse_python_json tolerates stray prints ahead of the payload. Without
+    // it, a single library print downgraded a perfectly good structured result
+    // to the "raw" branch below, and the UI silently lost explanation /
+    // relevant_files. Raw stays as the genuine last resort.
+    match crate::python_json::parse_python_json::<serde_json::Value>(&stdout, "hive") {
         Ok(data) => Ok(serde_json::json!({ "ok": true, "data": data })),
         Err(_) => Ok(serde_json::json!({
             "ok": true,
@@ -185,7 +189,9 @@ pub async fn fix_workspace(
     }
 
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = no_window(Command::new(&python).args(&args).current_dir(&root))
+    let output = Command::new(&python).hide_console()
+        .args(&args)
+        .current_dir(&root)
         .output()
         .map_err(|e| format!("Failed to spawn fix: {}", e))?;
 
@@ -199,7 +205,11 @@ pub async fn fix_workspace(
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
-    match serde_json::from_str::<serde_json::Value>(&stdout) {
+    // parse_python_json tolerates stray prints ahead of the payload. Without
+    // it, a single library print downgraded a perfectly good structured result
+    // to the "raw" branch below, and the UI silently lost explanation /
+    // relevant_files. Raw stays as the genuine last resort.
+    match crate::python_json::parse_python_json::<serde_json::Value>(&stdout, "hive") {
         Ok(data) => Ok(serde_json::json!({ "ok": true, "data": data })),
         Err(_) => Ok(serde_json::json!({
             "ok": true,

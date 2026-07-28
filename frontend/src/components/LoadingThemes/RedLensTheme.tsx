@@ -119,17 +119,17 @@ export function RedLensTheme({
 
         {/* White text overlaid below the diagnostic lens */}
         <div className="absolute bottom-12 left-0 right-0 flex flex-col items-center gap-3">
-          <p className="text-[9px] font-mono tracking-[0.8em] uppercase text-white/30">
+          <p className="text-eyebrow font-mono tracking-[0.8em] uppercase text-white/30">
             RED LENS · COMPILER VERIFICATION CORE
           </p>
-          <p className="text-[12px] font-mono italic text-white/60 text-center px-12">
+          <p className="text-body font-mono italic text-white/60 text-center px-12">
             &quot;{line}&quot;
           </p>
-          <p className="text-[12px] font-mono tracking-widest uppercase font-bold text-white/80">
+          <p className="text-body font-mono tracking-widest uppercase font-bold text-white/80">
             {label}
           </p>
           {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
-            <p className="text-[10px] font-mono text-white/40 tabular-nums">
+            <p className="text-label font-mono text-white/40 tabular-nums">
               MISSION ELAPSED: {elapsedSeconds}s
             </p>
           )}
@@ -158,7 +158,7 @@ export function RedLensTheme({
                     />
                   </div>
                   <span
-                    className="text-[7px] font-mono uppercase"
+                    className="text-eyebrow font-mono uppercase"
                     style={{ color: nodeActive ? accent : "rgba(255,255,255,0.25)" }}
                   >
                     {role}
@@ -178,7 +178,7 @@ export function RedLensTheme({
       <canvas ref={canvasRef} className="absolute inset-0" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(5,0,0,0.9)_100%)]" />
       <div className="absolute bottom-3 left-0 right-0 flex flex-col items-center gap-1">
-        <p className="text-[10px] font-mono uppercase" style={{ color: "rgba(255,255,255,0.6)" }}>
+        <p className="text-meta font-mono uppercase" style={{ color: "rgba(255,255,255,0.6)" }}>
           {label}
         </p>
       </div>

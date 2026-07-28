@@ -78,7 +78,7 @@ function modelLabel(id: string, models: InstalledModel[]): string {
   if (id.startsWith("determinex/")) {
     const suffix = id.replace("determinex/", "");
     const found = models.find(
-      (m) => m.id.includes(suffix) || m.name.toLowerCase().includes(suffix),
+      (m) => m.id.includes(suffix) || m.name.toLowerCase().includes(suffix)
     );
     if (found) return found.name;
     return id;
@@ -91,27 +91,49 @@ function modelLabel(id: string, models: InstalledModel[]): string {
 function tierLabel(roles: RoleAssignments): { label: string; color: string; desc: string } {
   const values = Object.values(roles);
   const freeCount = values.filter((value) => value.startsWith("free/")).length;
-  const cloudCount = values.filter((value) => /^(cloud|openai|anthropic|gemini|deepseek|mistral|groq)\//.test(value)).length;
+  const cloudCount = values.filter((value) =>
+    /^(cloud|openai|anthropic|gemini|deepseek|mistral|groq)\//.test(value)
+  ).length;
   if (freeCount === values.length) {
-    return { label: "Free Cloud Stack", color: "text-green-400", desc: "All roles use OpenRouter free-tier routes" };
+    return {
+      label: "Free Cloud Stack",
+      color: "text-green-400",
+      desc: "All roles use OpenRouter free-tier routes",
+    };
   }
   if (freeCount > 0 && cloudCount === 0) {
-    return { label: "Free + Local Stack", color: "text-teal-400", desc: "OpenRouter free routes mixed with local inference" };
+    return {
+      label: "Free + Local Stack",
+      color: "text-teal-400",
+      desc: "OpenRouter free routes mixed with local inference",
+    };
   }
   if (cloudCount === 0) {
-    return { label: "Local Slot Stack", color: "text-emerald-400", desc: "Fully local, no API provider required" };
+    return {
+      label: "Local Slot Stack",
+      color: "text-emerald-400",
+      desc: "Fully local, no API provider required",
+    };
   }
   if (cloudCount <= 2) {
-    return { label: "Hybrid Slot Stack", color: "text-amber-400", desc: "API and local models are mixed by role" };
+    return {
+      label: "Hybrid Slot Stack",
+      color: "text-amber-400",
+      desc: "API and local models are mixed by role",
+    };
   }
-  return { label: "API Slot Stack", color: "text-cyan-400", desc: "Cloud/API routes are selected for most roles" };
+  return {
+    label: "API Slot Stack",
+    color: "text-cyan-400",
+    desc: "Cloud/API routes are selected for most roles",
+  };
 }
 
 function ReadinessBadge({ id, keyStatus }: { id: string; keyStatus: ApiKeyStatus }) {
   const ready = routeKeyReady(id, keyStatus);
   return (
     <span
-      className={`rounded-full border px-2 py-0.5 text-[8px] font-black uppercase tracking-wider ${
+      className={`rounded-full border px-2 py-0.5 text-eyebrow font-black uppercase tracking-wider ${
         ready
           ? "border-emerald-500/25 bg-emerald-950/30 text-emerald-400"
           : "border-amber-500/25 bg-amber-950/25 text-amber-400"
@@ -147,10 +169,12 @@ function CloudRouteButton({
         ) : (
           <Cloud size={10} className="shrink-0 text-cyan-400" />
         )}
-        <span className={`truncate text-[11px] font-mono ${option.kind === "free_cloud" ? "text-green-200" : "text-gray-300"}`}>
+        <span
+          className={`truncate text-label font-mono ${option.kind === "free_cloud" ? "text-green-200" : "text-gray-300"}`}
+        >
           {option.label}
         </span>
-        <span className="shrink-0 text-[9px] text-gray-600">{option.providerLabel}</span>
+        <span className="shrink-0 text-meta text-gray-600">{option.providerLabel}</span>
       </div>
       <div className="ml-2 flex shrink-0 items-center gap-2">
         <ReadinessBadge id={option.id} keyStatus={keyStatus} />
@@ -177,7 +201,13 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
       const [r, m] = await Promise.all([getRoleAssignments(), getOllamaModels()]);
       setRoles(r);
       setDraft({ ...r });
-      setModels(m);
+      // "citadel-*" tags are this exact project's own pre-rename artifacts
+      // (see lib/work-readiness.ts's alias table), installed alongside their
+      // renamed "determinex-*" counterparts on boxes that haven't re-pulled
+      // yet. Letting a role get assigned to one reads as if Determinex ships
+      // someone else's "Citadel" product as a selectable option. Ryan:
+      // "citadel models shouldnt exist... not for us."
+      setModels(m.filter((model) => !model.name.toLowerCase().startsWith("citadel")));
     } catch (e) {
       setError(String(e));
     } finally {
@@ -211,7 +241,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
     return (
       <div className="flex items-center justify-center gap-2 py-10">
         <div className="h-4 w-4 animate-spin rounded-full border border-purple-500/60 border-t-purple-400" />
-        <span className="text-[11px] text-gray-500">Reading config...</span>
+        <span className="text-label text-gray-500">Reading config...</span>
       </div>
     );
   }
@@ -220,7 +250,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
     return (
       <div className="flex items-center gap-2 rounded-lg border border-red-800/40 bg-red-950/30 p-4">
         <AlertTriangle size={14} className="shrink-0 text-red-400" />
-        <p className="text-[11px] text-red-300">{error}</p>
+        <p className="text-label text-red-300">{error}</p>
       </div>
     );
   }
@@ -232,10 +262,10 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
       {tier && (
         <div className="flex items-center gap-2 rounded-lg border border-[#30363d] bg-[#161b22] px-3 py-2">
           <Cpu size={12} className={tier.color} />
-          <span className={`text-[10px] font-bold uppercase tracking-widest ${tier.color}`}>
+          <span className={`text-meta font-bold uppercase tracking-widest ${tier.color}`}>
             {tier.label}
           </span>
-          <span className="ml-1 text-[10px] text-gray-600">{tier.desc}</span>
+          <span className="ml-1 text-label text-gray-600">{tier.desc}</span>
         </div>
       )}
 
@@ -249,10 +279,10 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
             <div key={role} className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className={`text-[11px] font-bold ${meta.color}`}>{meta.label}</span>
-                  <span className="ml-2 text-[10px] text-gray-600">{meta.desc}</span>
+                  <span className={`text-label font-bold ${meta.color}`}>{meta.label}</span>
+                  <span className="ml-2 text-label text-gray-600">{meta.desc}</span>
                 </div>
-                <span className="text-[9px] uppercase tracking-wider text-gray-700">
+                <span className="text-eyebrow uppercase tracking-wider text-gray-700">
                   {meta.runsPerSession}
                 </span>
               </div>
@@ -263,7 +293,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                   onClick={() => setOpenDropdown(isOpen ? null : role)}
                   className="flex w-full items-center justify-between rounded-lg border border-[#30363d] bg-[#010409] px-3 py-2 text-left transition-colors hover:border-[#484f58]"
                 >
-                  <span className="truncate font-mono text-[11px] text-gray-300">
+                  <span className="truncate font-mono text-label text-gray-300">
                     {modelLabel(current, models)}
                   </span>
                   <div className="ml-2 flex shrink-0 items-center gap-2">
@@ -279,7 +309,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setOpenDropdown(null)} />
                     <div className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-lg border border-[#30363d] bg-[#161b22] shadow-2xl">
-                      <div className="border-b border-[#30363d] bg-[#0d1117] px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest text-gray-600">
+                      <div className="border-b border-[#30363d] bg-[#0d1117] px-3 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-gray-600">
                         Local slots
                       </div>
                       <div className="max-h-44 overflow-y-auto">
@@ -294,12 +324,25 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                             className="flex w-full items-center justify-between px-3 py-2 text-left transition-colors hover:bg-[#30363d]"
                           >
                             <div className="flex min-w-0 items-center gap-2">
-                              <Cpu size={10} className={m.is_determinex ? "shrink-0 text-emerald-400" : "shrink-0 text-gray-600"} />
-                              <span className="truncate font-mono text-[11px] text-gray-300">{m.id}</span>
+                              <Cpu
+                                size={10}
+                                className={
+                                  m.is_determinex
+                                    ? "shrink-0 text-emerald-400"
+                                    : "shrink-0 text-gray-600"
+                                }
+                              />
+                              <span className="truncate font-mono text-label text-gray-300">
+                                {m.id}
+                              </span>
                             </div>
                             <div className="ml-2 flex shrink-0 items-center gap-2">
-                              <span className="text-[9px] text-gray-600">{m.size_gb.toFixed(1)}GB</span>
-                              {(`ollama/${m.id}` === current || m.id === current) && <CheckCircle2 size={10} className="text-emerald-400" />}
+                              <span className="text-meta text-gray-600">
+                                {m.size_gb.toFixed(1)}GB
+                              </span>
+                              {(`ollama/${m.id}` === current || m.id === current) && (
+                                <CheckCircle2 size={10} className="text-emerald-400" />
+                              )}
                             </div>
                           </button>
                         ))}
@@ -315,15 +358,17 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                           >
                             <div className="flex items-center gap-2">
                               <Cpu size={10} className="shrink-0 text-purple-400" />
-                              <span className="font-mono text-[11px] text-purple-300">{alias}</span>
-                              <span className="text-[9px] text-gray-700">alias</span>
+                              <span className="font-mono text-label text-purple-300">{alias}</span>
+                              <span className="text-meta text-gray-700">alias</span>
                             </div>
-                            {alias === current && <CheckCircle2 size={10} className="text-emerald-400" />}
+                            {alias === current && (
+                              <CheckCircle2 size={10} className="text-emerald-400" />
+                            )}
                           </button>
                         ))}
                       </div>
 
-                      <div className="border-y border-[#30363d] bg-[#0a1a0a] px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest text-green-700">
+                      <div className="border-y border-[#30363d] bg-[#0a1a0a] px-3 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-green-700">
                         <span className="flex items-center gap-1.5">
                           <Zap size={9} className="text-green-500" />
                           Free OpenRouter routes
@@ -342,7 +387,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                         />
                       ))}
 
-                      <div className="border-y border-[#30363d] bg-[#0d1117] px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest text-gray-600">
+                      <div className="border-y border-[#30363d] bg-[#0d1117] px-3 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-gray-600">
                         Paid API routes
                       </div>
                       {CLOUD_ROUTE_OPTIONS.map((option) => (
@@ -368,7 +413,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
       {error && (
         <div className="flex items-center gap-2 rounded-lg border border-red-800/40 bg-red-950/30 px-3 py-2">
           <AlertTriangle size={12} className="shrink-0 text-red-400" />
-          <p className="break-all text-[10px] text-red-300">{error}</p>
+          <p className="break-all text-label text-red-300">{error}</p>
         </div>
       )}
 
@@ -376,7 +421,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
         <button
           type="button"
           onClick={() => void load()}
-          className="flex items-center gap-1.5 text-[10px] text-gray-600 transition-colors hover:text-gray-400"
+          className="flex items-center gap-1.5 text-label text-gray-600 transition-colors hover:text-gray-400"
         >
           <RefreshCw size={10} />
           Reload from config
@@ -385,7 +430,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
           type="button"
           onClick={() => void save()}
           disabled={!isDirty || saving}
-          className={`flex items-center gap-1.5 rounded-lg px-4 py-1.5 text-[11px] font-bold transition-all ${
+          className={`flex items-center gap-1.5 rounded-lg px-4 py-1.5 text-label font-bold transition-all ${
             saved
               ? "border border-emerald-700/40 bg-emerald-900/40 text-emerald-400"
               : isDirty
@@ -410,7 +455,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
         </button>
       </div>
 
-      <p className="text-[9px] leading-relaxed text-gray-700">
+      <p className="text-meta leading-relaxed text-gray-700">
         Slot changes take effect on the next build session. Restart is not required. Config saved to{" "}
         <span className="font-mono">litellm_config.yaml</span>.
       </p>

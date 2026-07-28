@@ -154,16 +154,16 @@ function SessionCard({
           className={`${cfg.color} flex-shrink-0 mt-0.5 ${session.status === "in_progress" ? "animate-spin" : ""}`}
         />
         <div className="flex-1 min-w-0">
-          <p className="text-[12px] font-bold text-gray-200 truncate leading-tight">
+          <p className="text-body font-bold text-gray-200 truncate leading-tight">
             {session.project_name}
           </p>
-          <p className="text-[9px] font-mono text-gray-600 mt-0.5 truncate">
+          <p className="text-meta font-mono text-gray-600 mt-0.5 truncate">
             {session.session_id.slice(0, 18)}…
           </p>
         </div>
         {/* Language badge */}
         <span
-          className={`text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border flex-shrink-0 ${langBadge(session.lang)}`}
+          className={`text-eyebrow font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border flex-shrink-0 ${langBadge(session.lang)}`}
         >
           {session.lang}
         </span>
@@ -187,20 +187,20 @@ function SessionCard({
               style={{ width: `${pct}%` }}
             />
           </div>
-          <span className="text-[9px] font-mono text-gray-500 flex-shrink-0">
+          <span className="text-meta font-mono text-gray-500 flex-shrink-0">
             {session.complete_count}/{session.step_count}
           </span>
         </div>
 
         {/* Meta row */}
         <div className="flex items-center justify-between">
-          <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${cfg.badgeBg}`}>
+          <span className={`text-meta font-bold px-1.5 py-0.5 rounded border ${cfg.badgeBg}`}>
             {cfg.label}
             {session.status === "failed" &&
               session.failed_count > 0 &&
               ` (${session.failed_count} step${session.failed_count !== 1 ? "s" : ""})`}
           </span>
-          <span className="text-[9px] text-gray-600 font-mono">
+          <span className="text-meta text-gray-600 font-mono">
             {formatDate(session.created_at)}
           </span>
         </div>
@@ -211,7 +211,7 @@ function SessionCard({
         <button
           id={`lib-resume-${session.session_id.slice(0, 8)}`}
           onClick={() => onResume(session.session_id, session.project_name, false)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-[9px] font-bold text-gray-400 hover:text-gray-200 hover:bg-white/[0.03] transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-meta font-bold text-gray-400 hover:text-gray-200 hover:bg-white/[0.03] transition-colors"
         >
           <ChevronRight size={10} />
           Resume
@@ -221,7 +221,7 @@ function SessionCard({
           <button
             id={`lib-retry-${session.session_id.slice(0, 8)}`}
             onClick={() => onResume(session.session_id, session.project_name, true)}
-            className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-[9px] font-bold text-emerald-500 hover:text-emerald-400 hover:bg-emerald-950/30 transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-meta font-bold text-emerald-500 hover:text-emerald-400 hover:bg-emerald-950/30 transition-colors"
           >
             <RotateCcw size={10} />
             Resume & Retry
@@ -275,10 +275,8 @@ export function ProjectLibrary({ onResume, onClose }: ProjectLibraryProps) {
       <div className="flex items-center gap-2.5 px-4 py-3 border-b border-[#30363d] bg-[#161b22]/60 flex-shrink-0">
         <BookOpen size={14} className="text-emerald-400" />
         <div className="flex-1 min-w-0">
-          <span className="text-[12px] font-black text-gray-200 tracking-tight">
-            Project Library
-          </span>
-          <span className="text-[10px] text-gray-600 ml-2 font-mono">
+          <span className="text-body font-black text-gray-200 tracking-tight">Project Library</span>
+          <span className="text-label text-gray-600 ml-2 font-mono">
             {sessions.length} session{sessions.length !== 1 ? "s" : ""}
           </span>
         </div>
@@ -295,7 +293,7 @@ export function ProjectLibrary({ onResume, onClose }: ProjectLibraryProps) {
           title="Close library"
           className="p-1.5 rounded-lg border border-[#30363d] text-gray-500 hover:text-gray-300 hover:border-gray-500 transition-colors"
         >
-          <span className="text-[12px] leading-none">✕</span>
+          <span className="text-body leading-none">✕</span>
         </button>
       </div>
 
@@ -305,7 +303,7 @@ export function ProjectLibrary({ onResume, onClose }: ProjectLibraryProps) {
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className={`flex-shrink-0 text-[9px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border transition-all ${
+            className={`flex-shrink-0 text-eyebrow font-bold uppercase tracking-wider px-2 py-1 rounded-full border transition-all ${
               filter === f
                 ? f === "complete"
                   ? "border-emerald-600 bg-emerald-950/40 text-emerald-300"
@@ -328,16 +326,16 @@ export function ProjectLibrary({ onResume, onClose }: ProjectLibraryProps) {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-16 gap-3">
             <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-[11px] text-gray-500 font-mono">Scanning sessions...</p>
+            <p className="text-label text-gray-500 font-mono">Scanning sessions...</p>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center justify-center py-16 gap-3">
             <AlertTriangle size={22} className="text-red-500" />
-            <p className="text-[11px] text-red-400 font-bold">Could not load sessions</p>
-            <p className="text-[10px] text-gray-600 font-mono text-center break-all">{error}</p>
+            <p className="text-label text-red-400 font-bold">Could not load sessions</p>
+            <p className="text-label text-gray-600 font-mono text-center break-all">{error}</p>
             <button
               onClick={load}
-              className="text-[10px] text-cyan-400 hover:text-cyan-300 underline underline-offset-2"
+              className="text-label text-cyan-400 hover:text-cyan-300 underline underline-offset-2"
             >
               Try again
             </button>
@@ -345,7 +343,7 @@ export function ProjectLibrary({ onResume, onClose }: ProjectLibraryProps) {
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 gap-3">
             <Zap size={22} className="text-gray-700" />
-            <p className="text-[11px] text-gray-600 font-mono">
+            <p className="text-label text-gray-600 font-mono">
               {filter === "all"
                 ? "No build sessions yet."
                 : `No ${filter.replace("_", " ")} sessions.`}
@@ -354,7 +352,7 @@ export function ProjectLibrary({ onResume, onClose }: ProjectLibraryProps) {
         ) : (
           Object.entries(groups).map(([group, items]) => (
             <div key={group}>
-              <p className="text-[9px] uppercase font-black tracking-widest text-gray-600 mb-2">
+              <p className="text-eyebrow uppercase font-black tracking-widest text-gray-600 mb-2">
                 {group}
               </p>
               <div className="space-y-2">

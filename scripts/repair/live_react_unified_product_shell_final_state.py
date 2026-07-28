@@ -1,7 +1,18 @@
 """DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_LOCK_001 evaluator.
 
-Rung 10 (finale). Reads the nine prior rungs' lock manifests on
+Rung 10 (finale). Reads the six prior rungs' lock manifests on
 disk and asserts:
+
+NOTE (2026-07-20): originally nine rungs. Three (idea_lab_panel,
+proof_operator_center_panel, splash_demo_panel) were removed from this
+requirement set because their panels + locks + tests were deleted in
+commit 30b3ff570 ("chore: land pending IDE product shell archive"), which
+determined ~74 ide-product-shell panels including these were a
+Claude<->Codex tandem-pipeline trail, not real durable features. This
+finale test kept requiring their (now-deleted) lock files, which is a
+stale check pointing at deliberately-removed work, not a real gap --
+re-creating fake panels just to satisfy it would be reintroducing the
+exact thing that archival cleanup correctly removed.
 
   * Each rung's lock manifest exists, parses, declares the right
     lock_id, and scope_discipline keeps source_mutation_authorized
@@ -28,13 +39,10 @@ from .live_react_unified_product_shell_final_state_record import (
 _RUNG_LOCKS: dict[str, str] = {
     "tauri_command_surface": "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
     "unified_navigation_panel": "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001",
-    "idea_lab_panel": "DETERMINEX_REACT_IDEA_LAB_PANEL_LOCK_001",
     "repo_clinic_panel": "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001",
     "maintenance_bay_panel": "DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001",
     "learning_studio_panel": "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001",
-    "proof_operator_center_panel": "DETERMINEX_REACT_PROOF_OPERATOR_CENTER_PANEL_LOCK_001",
     "user_level_teaching_mode": "DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001",
-    "splash_demo_panel": "DETERMINEX_REACT_SPLASH_DEMO_PANEL_LOCK_001",
 }
 
 
@@ -128,7 +136,11 @@ def evaluate(repo_root: Path | str) -> LiveReactUnifiedProductShellFinalStateRec
     else:
         decision = "LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_PASSED"
         notes = (
-            "all nine live-mount dimensions closed",
+            "all six live-mount dimensions closed (was nine; idea_lab_panel, "
+            "proof_operator_center_panel, splash_demo_panel dropped 2026-07-20 "
+            "-- their panels+locks+tests were deliberately archived as a "
+            "Claude<->Codex tandem-pipeline trail, not real features, see "
+            "commit 30b3ff570)",
             "aggregate invariants (source_mutation_authorized, "
             "training_eligible, release_ready) stay False",
             "unsupported_claims_blocked True",
@@ -141,13 +153,10 @@ def evaluate(repo_root: Path | str) -> LiveReactUnifiedProductShellFinalStateRec
         decision=decision,
         tauri_command_surface_closed=closures["tauri_command_surface"],
         unified_navigation_panel_closed=closures["unified_navigation_panel"],
-        idea_lab_panel_closed=closures["idea_lab_panel"],
         repo_clinic_panel_closed=closures["repo_clinic_panel"],
         maintenance_bay_panel_closed=closures["maintenance_bay_panel"],
         learning_studio_panel_closed=closures["learning_studio_panel"],
-        proof_operator_center_panel_closed=closures["proof_operator_center_panel"],
         user_level_teaching_mode_closed=closures["user_level_teaching_mode"],
-        splash_demo_panel_closed=closures["splash_demo_panel"],
         source_mutation_authorized=source_mutation_authorized,
         training_eligible=training_eligible,
         release_ready=release_ready,

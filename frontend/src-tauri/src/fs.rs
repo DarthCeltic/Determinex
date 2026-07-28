@@ -2,6 +2,7 @@ use serde::Serialize;
 use std::fs;
 use std::path::{Path, PathBuf};
 use tauri::command;
+use crate::win_process::HideConsoleExt;
 
 /// Cross-platform filesystem boundary for all IPC file access commands.
 /// Resolved at startup to the platform home directory via `app.path().home_dir()`.
@@ -251,6 +252,90 @@ pub fn get_file_system_tree(
     }
 
     Ok(FsTreeResponse { tree })
+}
+
+#[derive(Serialize)]
+pub struct ArtifactEntry {
+    pub name: String,
+    pub path: String,
+    pub size_bytes: u64,
+    pub file_count: u64,
+    pub modified: Option<String>,
+}
+
+/// Known build-output directory names, relative to a project workspace root.
+/// Fixed literals only -- no user input is joined here, so there is no
+/// traversal surface even before the is_safe_path check below runs.
+const ARTIFACT_CANDIDATE_DIRS: &[&str] = &[
+    "target/debug",
+    "target/release",
+    "frontend/.next",
+    "frontend/src-tauri/target/debug",
+    "frontend/src-tauri/target/release",
+    "dist",
+    "dist-windows",
+];
+
+fn dir_size_and_count(path: &Path) -> (u64, u64) {
+    let mut size = 0u64;
+    let mut count = 0u64;
+    if let Ok(entries) = fs::read_dir(path) {
+        for entry in entries.flatten() {
+            let entry_path = entry.path();
+            if let Ok(meta) = entry.metadata() {
+                if meta.is_dir() {
+                    let (s, c) = dir_size_and_count(&entry_path);
+                    size += s;
+                    count += c;
+                } else {
+                    size += meta.len();
+                    count += 1;
+                }
+            }
+        }
+    }
+    (size, count)
+}
+
+/// Real (non-fake) build-artifact scan: reports actual size/file-count/mtime for
+/// whichever known build-output directories exist under the given project root.
+/// Read-only, bounded to a fixed candidate list -- never lists arbitrary directories.
+#[command]
+pub fn get_build_artifacts(
+    workspace: tauri::State<'_, WorkspaceRoot>,
+    workspace_path: String,
+) -> Result<Vec<ArtifactEntry>, String> {
+    let root = PathBuf::from(&workspace_path);
+    if !is_safe_path(&workspace.0, &root) {
+        return Err(format!(
+            "Access denied: '{}' is outside the file-browser boundary",
+            workspace_path
+        ));
+    }
+
+    let mut out = Vec::new();
+    for rel in ARTIFACT_CANDIDATE_DIRS {
+        let candidate = root.join(rel);
+        if !candidate.is_dir() {
+            continue;
+        }
+        let (size_bytes, file_count) = dir_size_and_count(&candidate);
+        let modified = fs::metadata(&candidate)
+            .ok()
+            .and_then(|m| m.modified().ok())
+            .map(|t| {
+                let datetime: chrono::DateTime<chrono::Local> = t.into();
+                datetime.format("%Y-%m-%d %H:%M:%S").to_string()
+            });
+        out.push(ArtifactEntry {
+            name: rel.to_string(),
+            path: candidate.to_string_lossy().to_string(),
+            size_bytes,
+            file_count,
+            modified,
+        });
+    }
+    Ok(out)
 }
 
 #[command]
@@ -508,14 +593,14 @@ pub fn reveal_in_explorer(
     #[cfg(target_os = "windows")]
     {
         // `/select,<path>` opens the parent folder with the file highlighted.
-        std::process::Command::new("explorer")
+        std::process::Command::new("explorer").hide_console()
             .args(["/select,", &abs_path.to_string_lossy()])
             .spawn()
             .map_err(|e| format!("Failed to open Explorer: {}", e))?;
     }
     #[cfg(target_os = "macos")]
     {
-        std::process::Command::new("open")
+        std::process::Command::new("open").hide_console()
             .args(["-R", &abs_path.to_string_lossy()])
             .spawn()
             .map_err(|e| format!("Failed to open Finder: {}", e))?;
@@ -523,7 +608,7 @@ pub fn reveal_in_explorer(
     #[cfg(not(any(target_os = "windows", target_os = "macos")))]
     {
         let parent = abs_path.parent().unwrap_or(&abs_path);
-        std::process::Command::new("xdg-open")
+        std::process::Command::new("xdg-open").hide_console()
             .arg(parent)
             .spawn()
             .map_err(|e| format!("Failed to open file manager: {}", e))?;

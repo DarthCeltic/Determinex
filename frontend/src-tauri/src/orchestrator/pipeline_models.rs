@@ -99,6 +99,18 @@ impl PipelineModels {
             return Some(ModelRoute::Ollama { model: model_name });
         }
 
+        Self::resolve_model_name(config, &model_name)
+    }
+
+    /// Resolve a `model_list` entry's `model_name` (e.g. "free/qwen3-coder",
+    /// "cloud/claude-best", "determinex/planner") directly to a ModelRoute --
+    /// the same block-lookup `resolve_role` uses once it has a model_name in
+    /// hand, extracted so callers with an id that ISN'T a role name (the
+    /// frontend's AI_ROUTE_OPTIONS ids, passed as model_override) can resolve
+    /// it too. Returns None if the id has no matching model_list entry.
+    pub fn resolve_model_name(config: &str, model_name: &str) -> Option<ModelRoute> {
+        use regex::Regex;
+
         let search = format!("model_name: {model_name}");
         let start = config.find(&search)?;
         let rest = &config[start..];
@@ -136,6 +148,61 @@ impl PipelineModels {
                 Some(ModelRoute::Ollama { model: tag })
             }
         }
+    }
+
+    /// Apply a frontend route-picker id (lib/aiRouting.ts's AI_ROUTE_OPTIONS, sent
+    /// as `model_override`) on top of the config-loaded role assignments this
+    /// instance already has. "auto"/None/empty is a no-op -- the existing
+    /// litellm_config.yaml-driven behavior, unchanged. The 3 local role aliases
+    /// (Planner/Engineer/Observer) override just that ONE role, leaving the other
+    /// two at whatever Settings > Hive Roles assigned. Every other id (Local fast,
+    /// and any free_cloud/cloud route) overrides all three roles to one model --
+    /// these are "run the whole pipeline through this" quick picks, not per-role
+    /// assignments. An id with no matching model_list entry is logged and ignored
+    /// (falls back to the config-loaded value) rather than silently misroaring
+    /// requests to a nonexistent model.
+    pub fn with_override(mut self, config: &str, override_id: Option<&str>) -> Self {
+        let id = match override_id {
+            Some(id) if !id.is_empty() && id != "auto" => id,
+            _ => return self,
+        };
+        match id {
+            "local/fast" => {
+                let route = ModelRoute::Ollama { model: "qwen2.5-coder:1.5b-instruct".to_string() };
+                self.sentinel = route.clone();
+                self.engineer = route.clone();
+                self.observer = route;
+            }
+            "determinex/planner" => {
+                self.sentinel = ModelRoute::Ollama { model: Self::DEFAULT_SENTINEL.to_string() };
+            }
+            "determinex/engineer" => {
+                self.engineer = ModelRoute::Ollama { model: Self::DEFAULT_ENGINEER.to_string() };
+            }
+            "determinex/observer" => {
+                self.observer = ModelRoute::Ollama { model: Self::DEFAULT_OBSERVER.to_string() };
+            }
+            other => match Self::resolve_model_name(config, other) {
+                Some(route) => {
+                    self.sentinel = route.clone();
+                    self.engineer = route.clone();
+                    self.observer = route;
+                }
+                None => {
+                    log::warn!(
+                        "[ORCHESTRATOR] model_override '{}' has no matching model_list entry in litellm_config.yaml -- ignoring, using the configured role assignments",
+                        other
+                    );
+                }
+            },
+        }
+        self
+    }
+
+    /// Read litellm_config.yaml's raw text -- needed alongside load() by callers
+    /// (with_override) that resolve a model_list entry by name rather than by role.
+    pub fn read_config_text() -> Option<String> {
+        std::fs::read_to_string(Self::project_root().join("litellm_config.yaml")).ok()
     }
 
     /// Same root-finding logic as ipc_hive.rs::project_root().
@@ -251,5 +318,97 @@ determinex:
                 model: "meta-llama/llama-3.3-70b-instruct:free".to_string()
             })
         );
+    }
+
+    // The exact bug found live 2026-07-27: the frontend's "Auto router" dropdown
+    // sent model_override on every orchestrate_plan/codegen/audit call, but the
+    // Rust payload structs had no field to receive it into, so serde silently
+    // dropped it and PipelineModels::load() always won regardless of what was
+    // selected. These tests cover with_override(), the fix.
+
+    fn base_models() -> PipelineModels {
+        PipelineModels {
+            sentinel: ModelRoute::Ollama { model: "config-sentinel".to_string() },
+            engineer: ModelRoute::Ollama { model: "config-engineer".to_string() },
+            observer: ModelRoute::Ollama { model: "config-observer".to_string() },
+        }
+    }
+
+    #[test]
+    fn auto_and_none_are_a_no_op() {
+        let config = "model_list: []";
+        for id in [None, Some("auto"), Some("")] {
+            let result = base_models().with_override(config, id);
+            assert_eq!(result.sentinel, ModelRoute::Ollama { model: "config-sentinel".to_string() });
+            assert_eq!(result.engineer, ModelRoute::Ollama { model: "config-engineer".to_string() });
+            assert_eq!(result.observer, ModelRoute::Ollama { model: "config-observer".to_string() });
+        }
+    }
+
+    #[test]
+    fn role_specific_alias_overrides_only_that_role() {
+        let config = "model_list: []";
+        let result = base_models().with_override(config, Some("determinex/planner"));
+        assert_eq!(
+            result.sentinel,
+            ModelRoute::Ollama { model: PipelineModels::DEFAULT_SENTINEL.to_string() }
+        );
+        // engineer/observer untouched -- still whatever Settings > Hive Roles assigned.
+        assert_eq!(result.engineer, ModelRoute::Ollama { model: "config-engineer".to_string() });
+        assert_eq!(result.observer, ModelRoute::Ollama { model: "config-observer".to_string() });
+
+        let result = base_models().with_override(config, Some("determinex/engineer"));
+        assert_eq!(result.sentinel, ModelRoute::Ollama { model: "config-sentinel".to_string() });
+        assert_eq!(
+            result.engineer,
+            ModelRoute::Ollama { model: PipelineModels::DEFAULT_ENGINEER.to_string() }
+        );
+        assert_eq!(result.observer, ModelRoute::Ollama { model: "config-observer".to_string() });
+
+        let result = base_models().with_override(config, Some("determinex/observer"));
+        assert_eq!(result.sentinel, ModelRoute::Ollama { model: "config-sentinel".to_string() });
+        assert_eq!(result.engineer, ModelRoute::Ollama { model: "config-engineer".to_string() });
+        assert_eq!(
+            result.observer,
+            ModelRoute::Ollama { model: PipelineModels::DEFAULT_OBSERVER.to_string() }
+        );
+    }
+
+    #[test]
+    fn local_fast_overrides_all_three_roles_uniformly() {
+        let config = "model_list: []";
+        let result = base_models().with_override(config, Some("local/fast"));
+        let expected = ModelRoute::Ollama { model: "qwen2.5-coder:1.5b-instruct".to_string() };
+        assert_eq!(result.sentinel, expected.clone());
+        assert_eq!(result.engineer, expected.clone());
+        assert_eq!(result.observer, expected);
+    }
+
+    #[test]
+    fn a_resolvable_cloud_route_id_overrides_all_three_roles() {
+        let config = r#"
+model_list:
+  - model_name: free/qwen3-coder
+    litellm_params:
+      model: openrouter/qwen/qwen3-coder:free
+      api_key: os.environ/OPENROUTER_API_KEY
+"#;
+        let result = base_models().with_override(config, Some("free/qwen3-coder"));
+        let expected = ModelRoute::OpenRouter { model: "qwen/qwen3-coder:free".to_string() };
+        assert_eq!(result.sentinel, expected.clone());
+        assert_eq!(result.engineer, expected.clone());
+        assert_eq!(result.observer, expected);
+    }
+
+    #[test]
+    fn an_unresolvable_id_falls_back_to_config_values_instead_of_panicking() {
+        // e.g. cloud/kimi-k2 -- offered in the frontend dropdown but not (yet) present
+        // in litellm_config.yaml's model_list. Must degrade to the config-loaded
+        // values, not crash and not silently route to a nonexistent model.
+        let config = "model_list: []";
+        let result = base_models().with_override(config, Some("cloud/kimi-k2"));
+        assert_eq!(result.sentinel, ModelRoute::Ollama { model: "config-sentinel".to_string() });
+        assert_eq!(result.engineer, ModelRoute::Ollama { model: "config-engineer".to_string() });
+        assert_eq!(result.observer, ModelRoute::Ollama { model: "config-observer".to_string() });
     }
 }

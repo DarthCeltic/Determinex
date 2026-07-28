@@ -129,7 +129,7 @@ export function CodefallTheme({
               {Array.from({ length: ROWS * 2 }, (_, ri) => (
                 <span
                   key={ri}
-                  className="text-[9px] font-mono whitespace-nowrap select-none"
+                  className="text-meta font-mono whitespace-nowrap select-none"
                   style={{ color: "#00e5ff", opacity: 0.12 + (ri % 5) * 0.025 }}
                 >
                   {GHOST_TOKENS[(ci * 5 + (ri % ROWS) * 3) % GHOST_TOKENS.length]}
@@ -144,16 +144,16 @@ export function CodefallTheme({
               <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
               {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[7px] font-mono font-bold text-cyan-300 tabular-nums leading-none">
+                  <span className="text-meta font-mono font-bold text-cyan-300 tabular-nums leading-none">
                     {elapsedSeconds}s
                   </span>
                 </div>
               )}
             </div>
-            <p className="text-[13px] font-mono text-cyan-300 tracking-widest uppercase font-bold">
+            <p className="text-body font-mono text-cyan-300 tracking-widest uppercase font-bold">
               {label}
             </p>
-            <p className="text-[10px] font-mono text-cyan-500/60 tracking-wide">
+            <p className="text-label font-mono text-cyan-500/60 tracking-wide">
               encoding semantic intent...
             </p>
           </div>
@@ -180,21 +180,21 @@ export function CodefallTheme({
                     />
                   </div>
                   <span
-                    className="text-[8px] font-mono uppercase tracking-wider"
+                    className="text-eyebrow font-mono uppercase tracking-wider"
                     style={{ color, opacity: nodeActive ? 1 : 0.35 }}
                   >
                     {role}
                   </span>
                   {nodeActive && elapsedSeconds !== undefined && (
                     <span
-                      className="text-[8px] font-mono font-bold tabular-nums"
+                      className="text-meta font-mono font-bold tabular-nums"
                       style={{ color, opacity: 0.9 }}
                     >
                       {elapsedSeconds}s
                     </span>
                   )}
                 </div>
-                {i < arr.length - 1 && <span className="text-[9px] text-cyan-800 mb-4">â†’</span>}
+                {i < arr.length - 1 && <span className="text-meta text-cyan-800 mb-4">â†’</span>}
               </React.Fragment>
             ))}
           </div>
@@ -209,7 +209,7 @@ export function CodefallTheme({
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.88)_100%)]" />
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
         <div className="w-5 h-5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-        <p className="text-[10px] font-mono text-cyan-300 tracking-widest uppercase">{label}</p>
+        <p className="text-meta font-mono text-cyan-300 tracking-widest uppercase">{label}</p>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ EVAL_INDEX = PBROOT / "eval_index.json"
 PB_LOCAL = Path("T:/Dev/ProgramBench/.venv/Scripts/programbench.exe")
 PILOT_ROOT = Path("T:/determinex-programbench")
 HET = "root@5.78.192.163"
-HET_KEY = str(Path.home() / ".ssh" / "id_determinex")
+HET_KEY = str(Path.home() / ".ssh" / "id_citadel")
 
 
 def _reclaim_disk(host: str) -> None:

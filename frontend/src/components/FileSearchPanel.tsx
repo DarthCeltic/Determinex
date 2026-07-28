@@ -98,7 +98,7 @@ export function FileSearchPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props
             type="button"
             onClick={() => setCaseSensitive((v) => !v)}
             title="Match case"
-            className={`flex items-center gap-1 rounded-md border px-2 py-1 text-[9px] font-bold transition ${
+            className={`flex items-center gap-1 rounded-md border px-2 py-1 text-meta font-bold transition ${
               caseSensitive
                 ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-300"
                 : "border-white/8 bg-white/[0.03] text-gray-500 hover:text-gray-300"
@@ -107,7 +107,7 @@ export function FileSearchPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props
             <CaseSensitive size={11} />
             Match Case
           </button>
-          <span className="text-[9px] font-mono text-gray-600">
+          <span className="text-meta font-mono text-gray-600">
             {searchedFor && !searching
               ? `${hits.length} match${hits.length === 1 ? "" : "es"} in ${grouped.length} file${grouped.length === 1 ? "" : "s"}`
               : workspacePath}
@@ -117,34 +117,36 @@ export function FileSearchPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props
 
       <div className="min-h-0 flex-1 overflow-y-auto p-2">
         {!tauriMode && (
-          <div className="p-4 text-center text-[11px] text-gray-500">
+          <div className="p-4 text-center text-label text-gray-500">
             Real workspace search requires the desktop runtime.
           </div>
         )}
 
         {tauriMode && !query.trim() && (
-          <div className="p-4 text-center text-[11px] text-gray-600">
+          <div className="p-4 text-center text-label text-gray-600">
             Type to search every tracked, non-secret file under {workspacePath}.
           </div>
         )}
 
         {tauriMode && query.trim() && !searching && searchedFor && hits.length === 0 && (
-          <div className="p-4 text-center text-[11px] text-gray-600">
+          <div className="p-4 text-center text-label text-gray-600">
             No matches for &quot;{searchedFor}&quot;.
           </div>
         )}
 
         {truncated && (
-          <div className="mb-2 rounded border border-amber-400/20 bg-amber-500/10 px-2 py-1 text-[9px] text-amber-300">
+          <div className="mb-2 rounded border border-amber-400/20 bg-amber-500/10 px-2 py-1 text-meta text-amber-300">
             Result cap reached — narrow your query for a complete list.
           </div>
         )}
 
         {grouped.map((group) => (
           <div key={group.file} className="mb-2">
-            <div className="flex items-center gap-1.5 px-1 py-1 text-[10px] font-bold text-gray-400">
+            <div className="flex items-center gap-1.5 px-1 py-1 text-label font-bold text-gray-400">
               <FileText size={11} className="shrink-0 text-gray-600" />
-              <span className="truncate" title={group.file}>{group.short}</span>
+              <span className="truncate" title={group.file}>
+                {group.short}
+              </span>
               <span className="text-gray-700">— {group.hits.length}</span>
             </div>
             {group.hits.map((hit) => {
@@ -152,10 +154,15 @@ export function FileSearchPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props
               return (
                 <div
                   key={key}
-                  className="group flex items-start gap-2 rounded px-2 py-1 pl-6 text-[11px] hover:bg-white/[0.03]"
+                  className="group flex items-start gap-2 rounded px-2 py-1 pl-6 text-label hover:bg-white/[0.03]"
                 >
-                  <span className="shrink-0 select-none font-mono text-gray-600">{hit.line_number}</span>
-                  <span className="min-w-0 flex-1 truncate font-mono text-gray-300" title={hit.line}>
+                  <span className="shrink-0 select-none font-mono text-gray-600">
+                    {hit.line_number}
+                  </span>
+                  <span
+                    className="min-w-0 flex-1 truncate font-mono text-gray-300"
+                    title={hit.line}
+                  >
                     {hit.line}
                   </span>
                   <button
@@ -164,7 +171,11 @@ export function FileSearchPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props
                     title="Copy file:line"
                     className="shrink-0 text-gray-600 opacity-0 transition hover:text-emerald-300 group-hover:opacity-100"
                   >
-                    {copiedKey === key ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
+                    {copiedKey === key ? (
+                      <Check size={11} className="text-emerald-400" />
+                    ) : (
+                      <Copy size={11} />
+                    )}
                   </button>
                 </div>
               );

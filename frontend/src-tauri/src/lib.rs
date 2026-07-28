@@ -1,10 +1,12 @@
 mod api_keys;
 mod ast_editor;
 mod bootstrap;
+mod cicd;
 mod companion_seeder;
 mod compiler;
 mod db;
 mod first_gui_hive_ipc;
+mod env_manager;
 mod fs;
 mod hardware;
 mod ipc_benchmark;
@@ -14,9 +16,12 @@ mod ipc_hive;
 mod ipc_orchestrator;
 mod memory_health;
 mod model_puller;
+mod oauth_github;
 mod ollama_installer;
 mod ollama_probe;
 mod orchestrator;
+mod proof_center_stats;
+mod python_json;
 mod registry;
 mod sidecar;
 mod telemetry_logger;
@@ -26,7 +31,6 @@ mod threads;
 mod todos;
 mod vanguard_state;
 mod vector_engine;
-mod windows_process;
 mod workspace_search;
 // CLAUDE LANE — IDE repair bridge.
 // Locked under: locks/sentinel/TAURI_LIB_RS_COMMAND_WIRING_LOCK_001.json
@@ -39,7 +43,13 @@ mod project_audit;
 mod onboarding;
 mod local_model_config;
 mod diff_staging;
+mod evidence_feeds;
 mod release_status;
+mod agent_registry;
+mod agent_chat;
+mod passport;
+mod toolchain_installer;
+mod win_process;
 
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
@@ -111,7 +121,29 @@ pub fn run() {
         // Embedded Python sidecar for local GGUF inference (Config E).
         .manage(sidecar::new_shared_sidecar())
         .manage(pty_terminal::PtyState::default())
+        .manage(agent_chat::ChatState::default())
         .invoke_handler(tauri::generate_handler![
+            agent_registry::list_coding_agents,
+            agent_registry::run_coding_agent,
+            agent_registry::agent_status_roster,
+            agent_registry::agent_probe_test,
+            toolchain_installer::list_toolchains,
+            toolchain_installer::install_toolchain,
+            agent_chat::agent_chat_create_session,
+            agent_chat::agent_chat_send,
+            agent_chat::agent_chat_list_sessions,
+            agent_chat::agent_chat_get_transcript,
+            agent_chat::agent_chat_get_plan,
+            agent_chat::agent_chat_set_plan,
+            agent_chat::agent_chat_resync_plan,
+            agent_chat::agent_chat_cloak_status,
+            agent_chat::agent_chat_set_model,
+            passport::passport_cli_login_status,
+            passport::passport_connect,
+            passport::passport_list,
+            passport::passport_disconnect,
+            passport::passport_usage_summary,
+            passport::passport_cli_subscription_status,
             api_keys::get_api_key_status,
             api_keys::save_api_keys,
             api_keys::save_service_key,
@@ -119,7 +151,10 @@ pub fn run() {
             api_keys::save_ollama_base_url,
             threads::get_threads,
             fs::get_file_system_tree,
+            fs::get_build_artifacts,
             fs::get_workspace_files,
+            evidence_feeds::get_flywheel_feed,
+            evidence_feeds::get_cloak_audit_summary,
             fs::read_file_content,
             todos::fetch_todos,
             todos::create_todo,
@@ -146,9 +181,6 @@ pub fn run() {
             ollama_probe::get_work_readiness,
             ollama_installer::ensure_ollama_installed,
             model_puller::pull_required_models,
-            model_puller::pull_custom_model,
-            model_puller::register_custom_gguf,
-            hardware::list_model_tiers,
             ipc_health::get_health_telemetry,
             ipc_hive::create_session,
             ipc_hive::generate_dag,
@@ -192,6 +224,7 @@ pub fn run() {
             pty_terminal::pty_kill,
             pty_terminal::pty_is_alive,
             sync_network_policy,
+            proof_center_stats::get_programbench_proof_stats,
             // CLAUDE LANE — IDE repair bridge (TAURI_LIB_RS_COMMAND_WIRING_LOCK_001).
             ide_repair_bridge::open_workspace,
             ide_repair_bridge::get_workspace_status,
@@ -215,6 +248,8 @@ pub fn run() {
             ide_repair_bridge::get_repo_clinic_workflow_state,
             ide_repair_bridge::get_maintenance_bay_workflow_state,
             ide_repair_bridge::get_learning_studio_workflow_state,
+            ide_repair_bridge::generate_learning_studio_content,
+            ide_repair_bridge::run_maintenance_bay_scan,
             ide_repair_bridge::get_proof_operator_center_state,
             ide_repair_bridge::get_user_level_teaching_windows,
             ide_repair_bridge::get_unified_splash_demo_spec,
@@ -223,6 +258,7 @@ pub fn run() {
             ide_repair_bridge::get_maintenance_bay_verified_demo_status,
             ide_repair_bridge::get_learning_studio_verified_demo_status,
             ide_repair_bridge::get_proof_operator_center_milestone_dashboard_status,
+            ide_repair_bridge::query_corpus,
             git::git_status,
             git::git_stage,
             git::git_unstage,
@@ -233,6 +269,9 @@ pub fn run() {
             git::git_checkout_branch,
             git::git_push,
             git::git_pull,
+            git::git_clone,
+            git::git_conflict_sides,
+            git::git_resolve_conflict,
             lsp::get_lsp_diagnostics,
             lsp::get_lsp_symbols,
             ipc_hive::pause_session,
@@ -241,6 +280,13 @@ pub fn run() {
             ipc_hive::replay_session,
             project_audit::run_project_audit,
             onboarding::analyze_workspace,
+            cicd::list_ci_runs,
+            env_manager::list_env_vars,
+            env_manager::reveal_env_var,
+            oauth_github::github_device_start,
+            oauth_github::github_device_poll,
+            oauth_github::github_sign_out,
+            oauth_github::github_open_verification,
             diff_staging::get_staged_diffs,
             diff_staging::apply_staged_diff,
             diff_staging::reject_staged_diff,
@@ -434,6 +480,7 @@ pub fn run() {
             Ok(())
         })
         .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_dialog::init())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

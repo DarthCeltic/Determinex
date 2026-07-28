@@ -42,15 +42,17 @@ AGPLv3 keeps that loop open permanently:
 
 ## Models, Datasets, and Third-Party Components
 
-Determinex code and any fine-tuned model artifacts released alongside it
-are covered by AGPLv3 unless a model card or file-specific notice states
-otherwise.
+Determinex code and Lunarian Data Systems model artifacts are covered by
+AGPLv3 unless a model card or file-specific notice states otherwise.
 
 Third-party dependencies, base models, datasets, benchmarks, and upstream
 task repositories remain governed by their own licenses and terms. The
-Determinex license does not grant rights the project does not itself own.
+Determinex license does not grant rights that Lunarian Data Systems does
+not own.
 
 ## Contact
 
 For questions about licensing, contributions, or anything not covered
-above, open a [GitHub Discussion](https://github.com/DarthCeltic/determinex/discussions).
+above:
+
+ryan@lunariandata.com

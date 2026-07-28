@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import dynamic from "next/dynamic";
 import {
   writeSpecFile,
   invokeSafe,
@@ -19,6 +20,7 @@ import {
   Send,
   Sparkles,
   ChevronRight,
+  ChevronLeft,
   Paperclip,
   X,
   Image as ImageIcon,
@@ -26,7 +28,23 @@ import {
 } from "lucide-react";
 import { GlossaryTerm } from "@/components/GlossaryTerm";
 import { MatrixRain } from "@/components/MatrixRain";
-import { specGenerationBlockMessage, type WorkReadiness } from "@/lib/work-readiness";
+import {
+  specGenerationBlockMessage,
+  resolveLocalModelTag,
+  type WorkReadiness,
+} from "@/lib/work-readiness";
+
+// Same live multi-agent chat + corpus/oracle-feedback entity as the Chat
+// tab -- Ryan: "the same set up should be in the work part, the concept
+// lab, etc. this chat should be layered throughout." One implementation,
+// mounted here as a collapsible side rail (see the ConceptLab wrapper at
+// the bottom of this file) rather than a second chat surface to keep in
+// sync. ssr:false matches page.tsx's own dynamic import of this component
+// (it talks to the Tauri IPC bridge, which doesn't exist during SSR).
+const AgentChatPanel = dynamic(
+  () => import("@/components/AgentChatPanel").then((m) => m.AgentChatPanel),
+  { ssr: false, loading: () => <div className="h-full w-full bg-[#0d1117]" /> }
+);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // RUNTIME GUARD — shown when browser dev server runs without Tauri
@@ -39,14 +57,14 @@ function NativeRuntimeRequired() {
         <Shield size={22} className="text-amber-400" />
       </div>
       <div className="flex flex-col gap-2 max-w-xs">
-        <p className="text-[13px] font-black text-amber-300 tracking-tight">
+        <p className="text-body font-black text-amber-300 tracking-tight">
           Native Runtime Required
         </p>
-        <p className="text-[11px] text-gray-500 leading-relaxed">
+        <p className="text-label text-gray-500 leading-relaxed">
           The Hive Oracle requires the Tauri native bridge. This browser preview cannot reach Ollama
           or the Determinex backend.
         </p>
-        <p className="text-[10px] font-mono text-gray-700 mt-1">
+        <p className="text-label font-mono text-gray-700 mt-1">
           Launch via <span className="text-amber-500/80">boot.bat</span> to get the full native app.
         </p>
       </div>
@@ -213,13 +231,16 @@ const QUESTION_BANKS: Record<string, string[]> = {
 const BROAD_PATH_CHOICES: Omit<PathInfo, "id">[] = [
   {
     name: "Web + Mobile App",
-    description: "A shared product delivered as a website plus native or cross-platform mobile apps.",
+    description:
+      "A shared product delivered as a website plus native or cross-platform mobile apps.",
     bestFor: "Consumer products, SaaS companions, marketplaces, social apps",
     stack: "Next.js + API + React Native or Flutter",
     complexity: "high",
-    complexityReason: "Needs shared backend, responsive web UX, mobile navigation, auth, and release packaging.",
+    complexityReason:
+      "Needs shared backend, responsive web UX, mobile navigation, auth, and release packaging.",
     buildTime: "3-6 weeks",
-    timelineReason: "Cross-platform flows and mobile packaging need more validation than a single surface.",
+    timelineReason:
+      "Cross-platform flows and mobile packaging need more validation than a single surface.",
     color: "#2dd4bf",
   },
   {
@@ -292,8 +313,12 @@ const BROAD_PATH_CHOICES: Omit<PathInfo, "id">[] = [
 
 export function requestedProjectTypes(ideaText: string): string[] {
   const text = ideaText.toLowerCase();
-  const wantsWeb = /\b(web ?site|site|web app|webapp|frontend|browser|dashboard|portal|landing page|saas)\b/.test(text);
-  const wantsMobile = /\b(mobile|phone|ios|android|native app|mobile app|app store|play store)\b/.test(text);
+  const wantsWeb =
+    /\b(web ?site|site|web app|webapp|frontend|browser|dashboard|portal|landing page|saas)\b/.test(
+      text
+    );
+  const wantsMobile =
+    /\b(mobile|phone|ios|android|native app|mobile app|app store|play store)\b/.test(text);
   const wantsCli = /\b(cli|command.?line|terminal tool|shell command|console app)\b/.test(text);
   const wantsApi = /\b(api|backend|server|service|endpoint|rest|graphql)\b/.test(text);
   const wantsGame = /\b(game|gameplay|player|level|3d|2d)\b/.test(text);
@@ -358,9 +383,9 @@ export function prioritizePathChoices(discovered: PathInfo[], ideaText: string):
 
   const base = [...requestedPaths, ...normalizedDiscovered];
   const existing = new Set(base.map((p) => p.name.toLowerCase()));
-  const extras = BROAD_PATH_CHOICES
-    .filter((p) => !existing.has(p.name.toLowerCase()))
-    .map((p, i) => ({ ...p, id: `manual-${p.name.toLowerCase().replace(/\s+/g, "-")}-${i}` }));
+  const extras = BROAD_PATH_CHOICES.filter((p) => !existing.has(p.name.toLowerCase())).map(
+    (p, i) => ({ ...p, id: `manual-${p.name.toLowerCase().replace(/\s+/g, "-")}-${i}` })
+  );
   return [...base, ...extras].slice(0, Math.max(6, base.length));
 }
 
@@ -402,7 +427,11 @@ function userSafeSpecError(error: string | undefined): string {
   ) {
     return "Spec generation could not continue because Ollama is not reachable. Start Ollama, then retry.";
   }
-  if (lower.includes("cloud model blocked") || lower.includes("determinex_allow_cloud_fallback") || lower.includes("determinex_allow_cloud_fallback")) {
+  if (
+    lower.includes("cloud model blocked") ||
+    lower.includes("determinex_allow_cloud_fallback") ||
+    lower.includes("determinex_allow_cloud_fallback")
+  ) {
     return "Spec generation tried to use a cloud model, but cloud fallback is disabled. Choose a local model in Settings -> Models or explicitly enable cloud fallback.";
   }
 
@@ -453,15 +482,15 @@ function PathCard({
         boxShadow: selected ? `0 0 12px ${path.color}25` : "none",
       }}
     >
-      <div className="text-[10px] font-black tracking-wide" style={{ color: path.color }}>
+      <div className="text-label font-black tracking-wide" style={{ color: path.color }}>
         {path.name}
       </div>
-      <div className="text-[9px] text-gray-400 mt-0.5 leading-snug">{path.description}</div>
-      <div className="text-[8px] text-gray-600 mt-1 font-mono">{path.stack}</div>
+      <div className="text-meta text-gray-400 mt-0.5 leading-snug">{path.description}</div>
+      <div className="text-meta text-gray-600 mt-1 font-mono">{path.stack}</div>
       <div className="flex items-center justify-between mt-2">
-        <span className="text-[8px] text-gray-600">{path.buildTime}</span>
+        <span className="text-meta text-gray-600">{path.buildTime}</span>
         <span
-          className="text-[8px] px-1.5 py-0.5 rounded-full font-bold"
+          className="text-meta px-1.5 py-0.5 rounded-full font-bold"
           style={{ color: complexityColor, background: `${complexityColor}18` }}
         >
           {path.complexity}
@@ -532,7 +561,7 @@ export function MessageBubble({ msg }: { msg: Message }) {
         <div className="w-5 h-5 rounded-full bg-cyan-900/60 border border-cyan-500/40 flex items-center justify-center shrink-0 mt-0.5">
           <Sparkles size={9} className="text-cyan-400" />
         </div>
-        <div className="flex-1 bg-[#0d1f2d] border border-cyan-500/20 rounded-xl rounded-tl-sm px-3 py-2.5 text-[11px] text-gray-300 leading-relaxed">
+        <div className="flex-1 bg-[#0d1f2d] border border-cyan-500/20 rounded-xl rounded-tl-sm px-3 py-2.5 text-label text-gray-300 leading-relaxed">
           {rendered}
         </div>
       </div>
@@ -566,7 +595,7 @@ export function MessageBubble({ msg }: { msg: Message }) {
             ))}
           </div>
         )}
-        <div className="bg-[#1c2128] border border-[#30363d] rounded-xl rounded-tr-sm px-3 py-2.5 text-[11px] text-gray-400 leading-relaxed">
+        <div className="bg-[#1c2128] border border-[#30363d] rounded-xl rounded-tr-sm px-3 py-2.5 text-label text-gray-400 leading-relaxed">
           {msg.text}
         </div>
       </div>
@@ -595,13 +624,17 @@ interface ConceptLabProps {
   onColorHintsChange?: (colors: string[]) => void;
   workReadiness?: WorkReadiness;
   onOpenModelSettings?: () => void;
+  /** Model-route picker, rendered next to the submit action. Passed in as a
+      node (not built here) so this component stays decoupled from the
+      routing/AiRouteSelect internals -- page.tsx owns which control that is. */
+  modelPicker?: React.ReactNode;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function ConceptLab({
+function ConceptLabInner({
   onSessionLaunched,
   onSpecChange,
   onPathPreview,
@@ -616,6 +649,7 @@ export function ConceptLab({
   onColorHintsChange,
   workReadiness,
   onOpenModelSettings,
+  modelPicker,
 }: ConceptLabProps) {
   // ── Runtime gate — bail early when there is no Tauri IPC bridge ───────────
   // Checking here (component body, not module scope) because Next.js evaluates
@@ -625,6 +659,65 @@ export function ConceptLab({
   // Idea step
   const [idea, setIdea] = useState("");
   const [consulting, setConsulting] = useState(false);
+
+  // Quick Verify: the instant, single-function idea->sound-oracle->verified-
+  // program path (scripts/determinex_synthesize.py + determinex_build_from_idea.py
+  // via the preview_idea_oracle/build_idea Tauri commands). Previously this
+  // capability only existed on a separate, buried "Idea Lab" addon page with
+  // its own bare textarea -- Ryan, live: "the work tab should be the same
+  // thing as idea lab... i dont understand why the main functionality is
+  // buried in favor of... a watered down version of something else on the
+  // side." Folded in here as a second action on the SAME textarea instead of
+  // a second place to type an idea. Full-project conversational discovery
+  // (handleConsult, below) is untouched -- this is additive, for when the
+  // idea is small enough to have concrete input/output examples.
+  const [quickVerifying, setQuickVerifying] = useState<"preview" | "build" | null>(null);
+  const [quickPreview, setQuickPreview] = useState<Record<string, unknown> | null>(null);
+  const [quickBuild, setQuickBuild] = useState<Record<string, unknown> | null>(null);
+  const [quickError, setQuickError] = useState<string | null>(null);
+
+  const runQuickPreview = useCallback(async () => {
+    if (!idea.trim()) return;
+    setQuickVerifying("preview");
+    setQuickError(null);
+    setQuickBuild(null);
+    try {
+      const res = await invokeSafe<{ status?: string; payload?: Record<string, unknown> }>(
+        "preview_idea_oracle",
+        { ideaText: idea, modelId: resolveLocalModelTag(selectedModel) }
+      );
+      if (!res) {
+        setQuickError("Quick Verify is unavailable right now (native backend not reachable).");
+        return;
+      }
+      setQuickPreview({ status: res.status, ...(res.payload ?? {}) });
+    } catch (e) {
+      setQuickError(`Preview failed: ${e}`);
+    } finally {
+      setQuickVerifying(null);
+    }
+  }, [idea, selectedModel]);
+
+  const runQuickBuild = useCallback(async () => {
+    if (!idea.trim()) return;
+    setQuickVerifying("build");
+    setQuickError(null);
+    try {
+      const res = await invokeSafe<{ status?: string; payload?: Record<string, unknown> }>(
+        "build_idea",
+        { ideaText: idea, optIn: true, modelId: resolveLocalModelTag(selectedModel) }
+      );
+      if (!res) {
+        setQuickError("Build is unavailable right now (native backend not reachable).");
+        return;
+      }
+      setQuickBuild({ status: res.status, ...(res.payload ?? {}) });
+    } catch (e) {
+      setQuickError(`Build failed: ${e}`);
+    } finally {
+      setQuickVerifying(null);
+    }
+  }, [idea, selectedModel]);
 
   // Sync externalIdea (from Zone 2 example clicks) into local idea state
   useEffect(() => {
@@ -669,6 +762,7 @@ export function ConceptLab({
   const [discDragOver, setDiscDragOver] = useState(false);
 
   const ideaFileRef = useRef<HTMLInputElement>(null);
+  const ideaTextareaRef = useRef<HTMLTextAreaElement>(null);
   const discFileRef = useRef<HTMLInputElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const specChatEndRef = useRef<HTMLDivElement>(null);
@@ -838,9 +932,15 @@ export function ConceptLab({
         })),
         selectedModel
       );
-      
-      const timeoutPromise = new Promise<{ ok: boolean, data?: any, error?: string }>((_, reject) =>
-        setTimeout(() => reject(new Error("Oracle took too long to respond (timeout after 45s). Is the model loaded?")), 45000)
+
+      const timeoutPromise = new Promise<{ ok: boolean; data?: any; error?: string }>((_, reject) =>
+        setTimeout(
+          () =>
+            reject(
+              new Error("Oracle took too long to respond (timeout after 45s). Is the model loaded?")
+            ),
+          45000
+        )
       );
 
       const res = await Promise.race([discoverPromise, timeoutPromise]);
@@ -922,10 +1022,13 @@ export function ConceptLab({
         model_override: selectedModel,
       };
       const conversePromise = converseIdea(payload);
-      const timeoutPromise = new Promise<{ ok: boolean, data?: any, error?: string }>((_, reject) =>
-        setTimeout(() => reject(new Error("Oracle took too long to respond (timeout after 45s).")), 45000)
+      const timeoutPromise = new Promise<{ ok: boolean; data?: any; error?: string }>((_, reject) =>
+        setTimeout(
+          () => reject(new Error("Oracle took too long to respond (timeout after 45s).")),
+          45000
+        )
       );
-      
+
       const res = await Promise.race([conversePromise, timeoutPromise]);
 
       setOracleThinking(false);
@@ -1168,11 +1271,12 @@ export function ConceptLab({
     return (
       <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 overflow-hidden">
         <div className="px-4 py-3 border-b border-[#30363d] bg-[#161b22] shrink-0">
-          <h2 className="text-[12px] font-black uppercase tracking-widest text-cyan-400 flex items-center gap-2">
+          <h2 className="text-body font-black uppercase tracking-widest text-cyan-400 flex items-center gap-2">
             <Zap size={13} /> What are you building?
           </h2>
-          <p className="text-[10px] text-gray-500 mt-1">
-            Start something new, continue an existing project, or point Determinex at a codebase to scan before code is written.
+          <p className="text-label text-gray-500 mt-1">
+            Start something new, continue an existing project, or point Determinex at a codebase to
+            scan before code is written.
           </p>
         </div>
 
@@ -1180,41 +1284,93 @@ export function ConceptLab({
           <div className="shrink-0 rounded-xl border border-cyan-500/20 bg-cyan-950/10 p-3">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <div className="text-[9px] font-black uppercase tracking-widest text-cyan-300">
+                <div className="text-eyebrow font-black uppercase tracking-widest text-cyan-300">
                   Active project
                 </div>
-                <div className="mt-1 truncate text-[12px] font-black text-gray-100">
+                <div className="mt-1 truncate text-body font-black text-gray-100">
                   {selectedProjectName}
                 </div>
-                <div className="mt-1 truncate font-mono text-[9px] text-gray-600">
-                  {projectPath || "No folder selected yet. Add a project cover or describe a new build."}
+                <div className="mt-1 truncate font-mono text-meta text-gray-600">
+                  {projectPath ||
+                    "No folder selected yet. Add a project cover or describe a new build."}
                 </div>
               </div>
               {onOpenProjectLibrary && (
                 <button
                   type="button"
                   onClick={onOpenProjectLibrary}
-                  className="shrink-0 rounded-lg border border-cyan-400/30 bg-cyan-950/30 px-3 py-2 text-[9px] font-black uppercase tracking-widest text-cyan-300 transition-colors hover:bg-cyan-900/40"
+                  className="shrink-0 rounded-lg border border-cyan-400/30 bg-cyan-950/30 px-3 py-2 text-eyebrow font-black uppercase tracking-widest text-cyan-300 transition-colors hover:bg-cyan-900/40"
                 >
                   Choose project
                 </button>
               )}
             </div>
             <div className="mt-3 grid grid-cols-3 gap-1.5">
-              {[
-                ["New idea", "Describe the product or fix."],
-                ["Existing repo", "Select a project or folder first."],
-                ["Imported app", "Paste docs, URL notes, or screenshots."],
-              ].map(([label, detail]) => (
-                <div key={label} className="rounded-lg border border-white/8 bg-black/25 px-2 py-2">
-                  <div className="text-[8px] font-black uppercase tracking-widest text-gray-300">
+              {(
+                [
+                  [
+                    "New idea",
+                    "Describe the product or fix.",
+                    () => ideaTextareaRef.current?.focus(),
+                  ],
+                  [
+                    "Existing repo",
+                    "Select a project or folder first.",
+                    () => onOpenProjectLibrary?.(),
+                  ],
+                  [
+                    "Imported app",
+                    "Paste docs, URL notes, or screenshots.",
+                    // Previously identical to "New idea" (just focused the
+                    // textarea) despite promising screenshot import -- the
+                    // attach picker already exists (the Paperclip button
+                    // below, wired to ideaFileRef) but this tile never
+                    // triggered it. "Docs"/"URL notes" are still just
+                    // free text in the same textarea (honest: no doc/URL
+                    // parser exists), but "screenshots" now does something
+                    // real and distinct from "New idea".
+                    () => ideaFileRef.current?.click(),
+                  ],
+                ] as const
+              ).map(([label, detail, onTileClick]) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={onTileClick}
+                  className="rounded-lg border border-white/8 bg-black/25 px-2 py-2 text-left transition-colors hover:border-cyan-500/40 hover:bg-cyan-950/20"
+                >
+                  <div className="text-eyebrow font-black uppercase tracking-widest text-gray-300">
                     {label}
                   </div>
-                  <div className="mt-1 text-[8px] leading-snug text-gray-600">{detail}</div>
-                </div>
+                  <div className="mt-1 text-meta leading-snug text-gray-600">{detail}</div>
+                </button>
               ))}
             </div>
           </div>
+
+          {/* Example prompts -- real clickable chips, not unreachable placeholder text.
+              Only shown before the user has typed anything; clicking fills the textarea. */}
+          {!idea && (
+            <div className="shrink-0 flex flex-wrap gap-1.5">
+              {[
+                "A website and mobile app for booking local services",
+                "A dashboard for tracking field operations",
+                "A backend API for customer accounts and payments",
+              ].map((example) => (
+                <button
+                  key={example}
+                  type="button"
+                  onClick={() => {
+                    setIdea(example);
+                    ideaTextareaRef.current?.focus();
+                  }}
+                  className="rounded-full border border-white/8 bg-black/25 px-2.5 py-1 text-meta text-gray-500 transition-colors hover:border-cyan-500/40 hover:text-cyan-300"
+                >
+                  {example}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Drag-and-drop textarea */}
           <div
@@ -1231,8 +1387,9 @@ export function ConceptLab({
             }}
           >
             <textarea
-              className="w-full h-full bg-transparent p-4 text-[13px] font-mono focus:outline-none resize-none placeholder-gray-700 text-gray-200 leading-relaxed"
-              placeholder={`Describe what you want to build...\n\nExamples:\n  - A website and mobile app for booking local services\n  - A dashboard for tracking field operations\n  - A backend API for customer accounts and payments`}
+              ref={ideaTextareaRef}
+              className="w-full h-full bg-transparent p-4 text-body font-mono focus:outline-none resize-none placeholder-gray-700 text-gray-200 leading-relaxed"
+              placeholder="Describe what you want to build..."
               value={idea}
               onChange={(e) => setIdea(e.target.value)}
               disabled={consulting}
@@ -1244,7 +1401,7 @@ export function ConceptLab({
               <div className="absolute inset-0 rounded-xl flex items-center justify-center pointer-events-none">
                 <div className="flex flex-col items-center gap-1.5">
                   <ImageIcon size={20} className="text-cyan-400" />
-                  <span className="text-[10px] text-cyan-300 font-mono">Drop image here</span>
+                  <span className="text-label text-cyan-300 font-mono">Drop image here</span>
                 </div>
               </div>
             )}
@@ -1273,7 +1430,7 @@ export function ConceptLab({
                   )}
                   <button
                     onClick={() => removeIdeaAttachment(att.id)}
-                    className="absolute -top-1 -right-1 w-4 h-4 bg-red-500/90 rounded-full text-white text-[9px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute -top-1 -right-1 w-4 h-4 bg-red-500/90 rounded-full text-white text-meta flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <X size={8} />
                   </button>
@@ -1281,6 +1438,12 @@ export function ConceptLab({
               ))}
             </div>
           )}
+
+          {/* Model picker sits right above the submit action, not up in the
+              panel header -- it affects THIS request, so it belongs next to
+              where the request gets sent. Ryan: "i dont like the router at
+              the top, it should be elsewhere." */}
+          {modelPicker && <div className="mb-2 flex justify-end">{modelPicker}</div>}
 
           {/* Action row */}
           <div className="flex gap-2">
@@ -1308,7 +1471,7 @@ export function ConceptLab({
             <button
               onClick={handleConsult}
               disabled={!idea.trim() || consulting}
-              className="flex-1 py-2.5 bg-cyan-900/30 border border-cyan-500/50 hover:bg-cyan-900/60 text-cyan-300 text-[11px] font-bold uppercase tracking-wider rounded-xl transition-colors disabled:opacity-40 flex items-center justify-center gap-2"
+              className="flex-1 py-2.5 bg-cyan-900/30 border border-cyan-500/50 hover:bg-cyan-900/60 text-cyan-300 text-meta font-bold uppercase tracking-wider rounded-xl transition-colors disabled:opacity-40 flex items-center justify-center gap-2"
             >
               {consulting ? (
                 <>
@@ -1322,6 +1485,91 @@ export function ConceptLab({
               )}
             </button>
           </div>
+
+          {/* Quick Verify -- the instant single-function path, folded into
+              the same textarea/action area as the conversational flow above
+              instead of living on its own buried page. Secondary/smaller
+              styling on purpose: this is for a small idea with concrete
+              examples ("write add(a,b), examples: add(2,3)==5"), not a
+              replacement for "Consult Oracle" on a whole app. */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => void runQuickPreview()}
+              disabled={!idea.trim() || quickVerifying !== null}
+              title="For a small, example-driven idea: synthesize a sound oracle and check it right now -- no conversation needed."
+              className="flex-1 py-2 border border-white/8 hover:border-emerald-500/40 text-gray-500 hover:text-emerald-300 text-meta font-bold uppercase tracking-wider rounded-lg transition-colors disabled:opacity-40 flex items-center justify-center gap-1.5"
+            >
+              {quickVerifying === "preview" ? (
+                <>
+                  <div className="w-3 h-3 border border-emerald-400 border-t-transparent rounded-full animate-spin" />
+                  Checking...
+                </>
+              ) : (
+                <>
+                  <Zap size={12} /> Quick Verify (single function + examples)
+                </>
+              )}
+            </button>
+            {quickPreview && (
+              <button
+                onClick={() => void runQuickBuild()}
+                disabled={quickVerifying !== null}
+                className="flex-1 py-2 bg-emerald-900/20 border border-emerald-500/40 hover:bg-emerald-900/40 text-emerald-300 text-meta font-bold uppercase tracking-wider rounded-lg transition-colors disabled:opacity-40 flex items-center justify-center gap-1.5"
+              >
+                {quickVerifying === "build" ? (
+                  <>
+                    <div className="w-3 h-3 border border-emerald-400 border-t-transparent rounded-full animate-spin" />
+                    Building...
+                  </>
+                ) : (
+                  <>Build Verified Program</>
+                )}
+              </button>
+            )}
+          </div>
+
+          {quickError && (
+            <div className="rounded-lg border border-red-500/20 bg-red-950/10 px-3 py-2 text-label text-red-300">
+              {quickError}
+            </div>
+          )}
+
+          {(quickPreview || quickBuild) && (
+            <div className="rounded-lg border border-emerald-500/15 bg-emerald-950/10 px-3 py-2.5 text-label font-mono text-gray-400">
+              {quickPreview && !quickBuild && (
+                <>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1">
+                    <span>status: {String(quickPreview.status ?? "unknown")}</span>
+                    <span>checks: {String(quickPreview.n_checks ?? "0")}</span>
+                    <span>sound: {String(quickPreview.oracle_sound ?? "unknown")}</span>
+                  </div>
+                  {typeof quickPreview.oracle_tests === "string" && (
+                    <pre className="mt-2 max-h-32 overflow-y-auto whitespace-pre-wrap text-meta text-gray-500">
+                      {quickPreview.oracle_tests}
+                    </pre>
+                  )}
+                </>
+              )}
+              {quickBuild && (
+                <>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1">
+                    <span>status: {String(quickBuild.status ?? "unknown")}</span>
+                    <span>solved: {String(quickBuild.solved ?? "unknown")}</span>
+                    <span>proof: {String(quickBuild.proof ?? "")}</span>
+                  </div>
+                  {typeof quickBuild.program === "string" && quickBuild.program.length > 0 && (
+                    <pre className="mt-2 max-h-40 overflow-y-auto whitespace-pre-wrap text-meta text-gray-500">
+                      {quickBuild.program}
+                    </pre>
+                  )}
+                </>
+              )}
+              <p className="mt-2 text-meta text-gray-600">
+                Source mutation authorized: false. A solved result is temp-only until a separate
+                human-approved apply gate exists.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -1344,17 +1592,17 @@ export function ConceptLab({
                 style={{ background: confirmedPath.color }}
               />
               <span
-                className="text-[10px] font-black truncate"
+                className="text-label font-black truncate"
                 style={{ color: confirmedPath.color }}
               >
                 {confirmedPath.name}
               </span>
-              <span className="text-[8px] font-mono text-gray-600 truncate">
+              <span className="text-meta font-mono text-gray-600 truncate">
                 {confirmedPath.stack}
               </span>
               <button
                 onClick={handleReset}
-                className="ml-auto text-[8px] text-gray-700 hover:text-gray-500 shrink-0 flex items-center gap-1"
+                className="ml-auto text-meta text-gray-700 hover:text-gray-500 shrink-0 flex items-center gap-1"
               >
                 <RefreshCw size={7} /> Change
               </button>
@@ -1362,7 +1610,7 @@ export function ConceptLab({
           ) : (
             /* Full grid — dim unselected cards when one is clicked */
             <div className="shrink-0 border-b border-[#30363d] px-3 pt-3 pb-2.5">
-              <p className="text-[9px] uppercase font-bold tracking-widest text-gray-600 mb-2 flex items-center gap-1">
+              <p className="text-eyebrow uppercase font-bold tracking-widest text-gray-600 mb-2 flex items-center gap-1">
                 <ChevronRight size={9} /> Choose your direction
               </p>
               <div className="grid grid-cols-2 gap-2">
@@ -1376,7 +1624,7 @@ export function ConceptLab({
                   />
                 ))}
               </div>
-              <p className="text-[8px] text-gray-700 mt-2">
+              <p className="text-meta text-gray-700 mt-2">
                 Click a card to explore it — details open on the right.
               </p>
             </div>
@@ -1419,25 +1667,25 @@ export function ConceptLab({
                     style={{ width: `${(currentQuestionIdx / guidedQuestions.length) * 100}%` }}
                   />
                 </div>
-                <span className="text-[9px] font-mono text-gray-600 flex-shrink-0">
+                <span className="text-meta font-mono text-gray-600 flex-shrink-0">
                   Q {currentQuestionIdx + 1}/{guidedQuestions.length}
                 </span>
               </div>
               {/* Type badge + skip + free-form toggle */}
               <div className="flex items-center gap-2">
-                <span className="text-[8px] font-bold uppercase tracking-widest text-cyan-500/60 px-1.5 py-0.5 rounded border border-cyan-800/30 bg-cyan-950/20">
+                <span className="text-eyebrow font-bold uppercase tracking-widest text-cyan-500/60 px-1.5 py-0.5 rounded border border-cyan-800/30 bg-cyan-950/20">
                   {guidedType}
                 </span>
                 <button
                   onClick={handleSkipQuestion}
                   disabled={oracleThinking || oracleTyping !== null}
-                  className="text-[9px] text-gray-600 hover:text-gray-400 transition-colors disabled:opacity-40 ml-auto"
+                  className="text-meta text-gray-600 hover:text-gray-400 transition-colors disabled:opacity-40 ml-auto"
                 >
                   Skip →
                 </button>
                 <button
                   onClick={() => setFreeFormMode(true)}
-                  className="text-[9px] text-gray-600 hover:text-cyan-400 transition-colors"
+                  className="text-meta text-gray-600 hover:text-cyan-400 transition-colors"
                   title="Switch to free-form conversation"
                 >
                   💬 Free-form
@@ -1449,10 +1697,10 @@ export function ConceptLab({
           {/* Free-form toggle banner */}
           {guidedMode && freeFormMode && (
             <div className="px-3 pt-2 pb-1.5 border-b border-[#30363d]/60 flex items-center gap-2">
-              <span className="text-[9px] text-gray-600 font-mono flex-1">Free-form mode</span>
+              <span className="text-meta text-gray-600 font-mono flex-1">Free-form mode</span>
               <button
                 onClick={() => setFreeFormMode(false)}
-                className="text-[9px] text-cyan-500 hover:text-cyan-400 transition-colors"
+                className="text-meta text-cyan-500 hover:text-cyan-400 transition-colors"
               >
                 ← Resume guided
               </button>
@@ -1513,7 +1761,7 @@ export function ConceptLab({
             </button>
             <textarea
               ref={inputRef}
-              className="flex-1 min-h-[52px] max-h-[100px] bg-[#010409] border border-[#30363d] rounded-xl p-2.5 text-[11px] font-mono focus:border-cyan-500/60 focus:outline-none resize-none placeholder-gray-700 text-gray-300 leading-relaxed"
+              className="flex-1 min-h-[52px] max-h-[100px] bg-[#010409] border border-[#30363d] rounded-xl p-2.5 text-label font-mono focus:border-cyan-500/60 focus:outline-none resize-none placeholder-gray-700 text-gray-300 leading-relaxed"
               placeholder={
                 guidedMode && !freeFormMode && currentQuestionIdx < guidedQuestions.length
                   ? "Your answer... (Enter to advance)"
@@ -1561,7 +1809,7 @@ export function ConceptLab({
         <div className="shrink-0 px-3 pb-2 flex justify-end">
           <button
             onClick={handleReset}
-            className="text-[9px] text-gray-700 hover:text-gray-500 flex items-center gap-1"
+            className="text-meta text-gray-700 hover:text-gray-500 flex items-center gap-1"
           >
             <RefreshCw size={8} /> Start over
           </button>
@@ -1584,15 +1832,15 @@ export function ConceptLab({
         >
           <MatrixRain active={specRefining} label="Updating spec..." />
           <div className="px-3 py-1.5 bg-[#161b22] border-b border-[#30363d] flex items-center justify-between shrink-0">
-            <span className="text-[9px] uppercase font-bold tracking-widest text-purple-400">
+            <span className="text-eyebrow uppercase font-bold tracking-widest text-purple-400">
               Formal Specification
             </span>
-            <span className="text-[9px] text-emerald-400 font-mono border border-emerald-500/30 px-1.5 py-0.5 rounded bg-emerald-950/30">
+            <span className="text-meta text-emerald-400 font-mono border border-emerald-500/30 px-1.5 py-0.5 rounded bg-emerald-950/30">
               READY
             </span>
           </div>
           <textarea
-            className="flex-1 min-h-0 bg-[#010409] p-3 text-[11px] font-mono focus:outline-none resize-none text-gray-300 leading-relaxed overflow-y-auto"
+            className="flex-1 min-h-0 bg-[#010409] p-3 text-label font-mono focus:outline-none resize-none text-gray-300 leading-relaxed overflow-y-auto"
             value={spec}
             onChange={(e) => {
               setSpec(e.target.value);
@@ -1619,7 +1867,7 @@ export function ConceptLab({
 
         {/* Quick-add chips — click immediately submits */}
         <div className="shrink-0 px-3 pt-2 pb-1.5">
-          <p className="text-[9px] uppercase font-bold tracking-widest text-amber-500/60 mb-1.5 flex items-center gap-1">
+          <p className="text-eyebrow uppercase font-bold tracking-widest text-amber-500/60 mb-1.5 flex items-center gap-1">
             <MessageSquare size={8} /> Quick additions — click to apply
           </p>
           <div className="flex flex-wrap gap-1.5">
@@ -1628,7 +1876,7 @@ export function ConceptLab({
                 key={s.label}
                 onClick={() => handleSpecRefineWith(s.text)}
                 disabled={specRefining || launching}
-                className="px-2 py-0.5 rounded-md border border-[#30363d] bg-[#0d1117] hover:border-amber-500/50 hover:bg-amber-950/30 text-[9px] text-gray-500 hover:text-amber-300 transition-all disabled:opacity-30 active:scale-95"
+                className="px-2 py-0.5 rounded-md border border-[#30363d] bg-[#0d1117] hover:border-amber-500/50 hover:bg-amber-950/30 text-meta text-gray-500 hover:text-amber-300 transition-all disabled:opacity-30 active:scale-95"
               >
                 + {s.label}
               </button>
@@ -1639,7 +1887,7 @@ export function ConceptLab({
         {/* Spot-change input */}
         <div className="shrink-0 px-3 pb-2 flex gap-2 items-end">
           <textarea
-            className="flex-1 min-h-[40px] max-h-[72px] bg-[#010409] border border-[#30363d] rounded-xl p-2.5 text-[11px] font-mono focus:border-purple-500/60 focus:outline-none resize-none placeholder-gray-700 text-gray-300 leading-relaxed"
+            className="flex-1 min-h-[40px] max-h-[72px] bg-[#010409] border border-[#30363d] rounded-xl p-2.5 text-label font-mono focus:border-purple-500/60 focus:outline-none resize-none placeholder-gray-700 text-gray-300 leading-relaxed"
             placeholder="Request a spot change... (Enter to send)"
             value={specInput}
             onChange={(e) => setSpecInput(e.target.value)}
@@ -1666,7 +1914,7 @@ export function ConceptLab({
 
         {/* Error */}
         {launchError && (
-          <div className="text-[10px] text-red-400 bg-red-900/20 border border-red-800/40 rounded-lg mx-3 mb-2 px-3 py-2 shrink-0">
+          <div className="text-label text-red-400 bg-red-900/20 border border-red-800/40 rounded-lg mx-3 mb-2 px-3 py-2 shrink-0">
             {launchError}
           </div>
         )}
@@ -1676,7 +1924,7 @@ export function ConceptLab({
           <button
             onClick={handleBuild}
             disabled={!spec.trim() || launching || specRefining}
-            className="w-full py-3 bg-emerald-900/30 border border-emerald-500/50 hover:bg-emerald-900/60 text-emerald-300 text-[12px] font-bold uppercase tracking-wider rounded-xl transition-colors disabled:opacity-40 flex items-center justify-center gap-2"
+            className="w-full py-3 bg-emerald-900/30 border border-emerald-500/50 hover:bg-emerald-900/60 text-emerald-300 text-body font-bold uppercase tracking-wider rounded-xl transition-colors disabled:opacity-40 flex items-center justify-center gap-2"
           >
             {launching ? (
               <>
@@ -1690,7 +1938,7 @@ export function ConceptLab({
             )}
           </button>
           <div className="flex items-center justify-between mt-1.5">
-            <p className="text-[9px] text-gray-600">
+            <p className="text-meta text-gray-600">
               <GlossaryTerm
                 term="Oracle"
                 definition="First AI role. Reads your spec and encodes the full intent — what the software should do, why, and what constraints apply. All other roles inherit this semantic context."
@@ -1721,7 +1969,7 @@ export function ConceptLab({
             </p>
             <button
               onClick={handleReset}
-              className="text-[9px] text-gray-700 hover:text-gray-500 flex items-center gap-1 shrink-0 ml-2"
+              className="text-meta text-gray-700 hover:text-gray-500 flex items-center gap-1 shrink-0 ml-2"
             >
               <RefreshCw size={8} /> Restart
             </button>
@@ -1735,7 +1983,131 @@ export function ConceptLab({
   return (
     <div className="flex flex-col h-full items-center justify-center gap-4 bg-[#0d1117]">
       <div className="w-8 h-8 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
-      <p className="text-[11px] text-emerald-400 font-mono">Initializing session...</p>
+      <p className="text-label text-emerald-400 font-mono">Initializing session...</p>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Outer wrapper: collapsible multi-agent chat + corpus/oracle-feedback rail.
+// Wraps ALL of ConceptLabInner's step branches uniformly (idea/consulting/
+// launched/spec-ready/etc. all have their own early `return` above) instead
+// of threading a rail into each one individually. Session is keyed to the
+// same workspace ConceptLab itself is working in, so the chat's oracle
+// verification and @corpus history are about the SAME project the user is
+// building here -- not a disconnected side conversation.
+//
+// Rendered via a PORTAL (document.body), not a normal flex sibling or an
+// in-place absolute overlay -- found live 2026-07-22: page.tsx's "WORK"
+// drawer (activeSidebar === "hive") has a hard `w-[460px]` on its own
+// container AND its body wrapper is `overflow-y-auto` with no explicit
+// overflow-x, which the CSS spec computes to `overflow-x: auto` too (a
+// browser can't leave one axis `visible` while the other scrolls) -- so
+// ANY horizontal overflow past the drawer's right edge, in-flow OR
+// absolutely-positioned, gets clipped/squeezed by that ancestor. A portal
+// escapes that ancestor chain entirely; position is computed from the
+// container's own getBoundingClientRect() so the rail still visually anchors
+// beside ConceptLab regardless of which page layout it's embedded in.
+// ─────────────────────────────────────────────────────────────────────────────
+// Ryan, live: "that multiagent room is kinda small and harder to see, it
+// should be able to be adjusted." Default width bumped up from the original
+// 380px, and the rail is now user-resizable (drag the left edge) with the
+// chosen width remembered across restarts -- same drag-to-resize posture as
+// page.tsx's addon dock windows (startAddonDockResize), just a single
+// horizontal dimension since this rail's height/position already track the
+// ConceptLab container it's anchored to.
+const _RAIL_WIDTH_KEY = "determinex-work-chat-rail-width";
+const _RAIL_MIN_W = 340;
+const _RAIL_DEFAULT_W = 480;
+
+function _loadRailWidth(): number {
+  if (typeof window === "undefined") return _RAIL_DEFAULT_W;
+  const raw = window.localStorage.getItem(_RAIL_WIDTH_KEY);
+  const n = raw ? Number(raw) : NaN;
+  return Number.isFinite(n) && n >= _RAIL_MIN_W ? n : _RAIL_DEFAULT_W;
+}
+
+/**
+ * Work's multi-agent chat.
+ *
+ * Ryan, live 2026-07-27: "the multichat pop out is still exposed in allot of
+ * places" -- then, on a first attempt that deleted it outright: "i want it in
+ * all chat box areas, or wherever there is one."
+ *
+ * The capability was never the problem; the delivery was. This used
+ * createPortal(document.body) with `fixed` + z-[999]/z-[998], so it escaped its
+ * own panel and floated above every other screen -- the addon dock included --
+ * and needed a six-condition `suppressQuickChat` prop plus a 400ms
+ * getBoundingClientRect poll just to chase its own container around the
+ * viewport.
+ *
+ * Now it renders INSIDE this component's relative container: absolute instead
+ * of fixed, local stacking instead of z-999. It cannot overlay anything outside
+ * Work, so the suppression prop and the position polling are both gone with it.
+ * Chat stays where a chat box belongs.
+ */
+export function ConceptLab(props: ConceptLabProps) {
+  const [chatRailOpen, setChatRailOpen] = useState(false);
+  const [railWidth, setRailWidth] = useState(_RAIL_DEFAULT_W);
+  useEffect(() => setRailWidth(_loadRailWidth()), []);
+
+  const startRailResize = useCallback(
+    (e: React.PointerEvent) => {
+      e.preventDefault();
+      const startX = e.clientX;
+      const startWidth = railWidth;
+      // The panel's left edge is pinned to the rail button; the handle is on
+      // its right edge, so dragging right grows it. Bounded by the container
+      // now rather than the viewport, since it no longer escapes the panel.
+      const maxWidth = Math.max(_RAIL_MIN_W, window.innerWidth - 120);
+      const onMove = (ev: PointerEvent) => {
+        const dx = ev.clientX - startX;
+        setRailWidth(Math.min(maxWidth, Math.max(_RAIL_MIN_W, startWidth + dx)));
+      };
+      const onUp = () => {
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerup", onUp);
+        setRailWidth((w) => {
+          window.localStorage.setItem(_RAIL_WIDTH_KEY, String(w));
+          return w;
+        });
+      };
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
+    },
+    [railWidth]
+  );
+
+  return (
+    <div className="relative h-full">
+      <ConceptLabInner {...props} />
+
+      <button
+        type="button"
+        onClick={() => setChatRailOpen((v) => !v)}
+        title={chatRailOpen ? "Close chat" : "Open multi-agent chat"}
+        data-testid="work-chat-toggle"
+        className={`absolute left-0 top-1/2 z-20 flex w-6 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-r-md border border-l-0 border-white/8 bg-[#0d1117] py-3 text-gray-600 shadow-lg transition-colors hover:text-fuchsia-300 ${
+          chatRailOpen ? "border-fuchsia-400/30 text-fuchsia-300" : ""
+        }`}
+      >
+        {chatRailOpen ? <ChevronLeft size={12} /> : <ChevronRight size={12} />}
+        <MessageSquare size={12} />
+      </button>
+
+      {chatRailOpen && (
+        <div
+          className="absolute left-6 top-0 z-10 h-full border-l border-white/8 bg-[#0d1117] shadow-2xl"
+          style={{ width: railWidth }}
+        >
+          <div
+            onPointerDown={startRailResize}
+            title="Drag to resize"
+            className="absolute -right-1.5 top-0 z-10 h-full w-3 cursor-ew-resize"
+          />
+          <AgentChatPanel workspacePath={props.projectPath ?? ""} />
+        </div>
+      )}
     </div>
   );
 }

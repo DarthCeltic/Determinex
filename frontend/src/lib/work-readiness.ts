@@ -67,7 +67,11 @@ function isCloudModel(modelId: string): boolean {
 }
 
 function normalizeModelId(modelId: string): string {
-  return modelId.trim().replace(/^ollama\//, "").replace(/:latest$/, "").toLowerCase();
+  return modelId
+    .trim()
+    .replace(/^ollama\//, "")
+    .replace(/:latest$/, "")
+    .toLowerCase();
 }
 
 function modelMatches(installed: Set<string>, expected: string): boolean {
@@ -76,7 +80,7 @@ function modelMatches(installed: Set<string>, expected: string): boolean {
 }
 
 function displayModelId(modelId: string): string {
-  return modelId.replace(/determinex/gi, "determinex");
+  return modelId.replace(/citadel/gi, "determinex");
 }
 
 export function expectedLocalModels(modelId: string): string[] {
@@ -84,6 +88,32 @@ export function expectedLocalModels(modelId: string): string[] {
   if (!trimmed || isCloudModel(trimmed)) return [];
   if (MODEL_ALIASES[trimmed]) return MODEL_ALIASES[trimmed];
   return [trimmed.replace(/^ollama\//, "")];
+}
+
+/**
+ * Resolve a router route id into a concrete Ollama tag for the local-only IDE
+ * commands (preview_idea_oracle / build_idea).
+ *
+ * These go to scripts/ide/_tauri_driver.py, whose _build_local_config() writes
+ * a pinned local-model config and returns None if the id is not a real local
+ * model -- which the surface reports as BLOCKED_NO_MODEL. Router aliases are
+ * NOT model tags, so passing the picker's value straight through blocked the
+ * build. Verified against the driver directly:
+ *
+ *   'auto'                       -> None            (blocked)
+ *   'local/fast'                 -> None            (blocked)
+ *   ''                           -> WRITTEN         (driver's pinned default)
+ *   'determinex-engineer-v11-dsl'-> WRITTEN
+ *
+ * "Auto" is the picker's default, so out of the box every verified build was
+ * refused. Returning "" for anything that is not a concrete local tag lets the
+ * driver fall back to its own pinned default instead of being handed a name
+ * Ollama has never heard of.
+ */
+export function resolveLocalModelTag(modelId?: string): string {
+  const trimmed = (modelId ?? "").trim();
+  if (!trimmed || trimmed === "auto") return "";
+  return expectedLocalModels(trimmed)[0] ?? "";
 }
 
 export function evaluateWorkReadiness(input: {
@@ -97,7 +127,8 @@ export function evaluateWorkReadiness(input: {
       status: "offline",
       ready: false,
       label: "Ollama Offline",
-      summary: input.ollamaError || "Ollama is not reachable. Start Ollama before generating specs.",
+      summary:
+        input.ollamaError || "Ollama is not reachable. Start Ollama before generating specs.",
       details: [],
       missingRoles: Object.keys(input.roles),
       checkedAt: Date.now(),
@@ -123,7 +154,9 @@ export function evaluateWorkReadiness(input: {
     if (found) {
       details.push(`${ROLE_LABELS[role]} -> ${displayModelId(assignment)}`);
     } else {
-      missing.push(`${ROLE_LABELS[role]} needs ${expected.map(displayModelId).join(" or ") || displayModelId(assignment)}`);
+      missing.push(
+        `${ROLE_LABELS[role]} needs ${expected.map(displayModelId).join(" or ") || displayModelId(assignment)}`
+      );
     }
   });
 
@@ -144,7 +177,8 @@ export function evaluateWorkReadiness(input: {
       status: "attention",
       ready: false,
       label: "Cloud Selected",
-      summary: "One or more Hive roles use cloud models. Confirm API keys or switch to local roles before generating.",
+      summary:
+        "One or more Hive roles use cloud models. Confirm API keys or switch to local roles before generating.",
       details: cloud,
       missingRoles: cloud,
       checkedAt: Date.now(),

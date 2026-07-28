@@ -14,16 +14,17 @@ LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_STATUS_TOKENS = (
 
 @dataclass(frozen=True)
 class LiveReactUnifiedProductShellFinalStateRecord:
+    # idea_lab_panel_closed, proof_operator_center_panel_closed, and
+    # splash_demo_panel_closed were dropped 2026-07-20: their panels+locks+
+    # tests were deliberately archived (commit 30b3ff570) as a Claude<->Codex
+    # tandem-pipeline trail, not real features. Was nine dimensions, now six.
     decision: str
     tauri_command_surface_closed: bool
     unified_navigation_panel_closed: bool
-    idea_lab_panel_closed: bool
     repo_clinic_panel_closed: bool
     maintenance_bay_panel_closed: bool
     learning_studio_panel_closed: bool
-    proof_operator_center_panel_closed: bool
     user_level_teaching_mode_closed: bool
-    splash_demo_panel_closed: bool
     source_mutation_authorized: bool
     training_eligible: bool
     release_ready: bool

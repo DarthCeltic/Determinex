@@ -9,3 +9,8 @@ package-lock.json
 *.pt
 *.md
 AGENTS.md
+# Self-contained diagnostic dashboard, not core product UI or hand-maintained
+# source -- Prettier's HTML formatter would rewrite ~2700 lines of it in one
+# pass (doctype casing, CSS/HTML re-wrapping) for zero functional benefit and
+# a diff too large to meaningfully review. Same rationale as the *.md exclusion.
+public/pb_dashboard.html

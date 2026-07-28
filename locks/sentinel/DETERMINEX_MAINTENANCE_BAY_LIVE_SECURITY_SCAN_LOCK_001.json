@@ -1,0 +1,38 @@
+{
+  "lock_id": "DETERMINEX_MAINTENANCE_BAY_LIVE_SECURITY_SCAN_LOCK_001",
+  "date": "2026-07-16",
+  "commit": "clean-main",
+  "description": "Live wiring for Maintenance Bay (the 3rd of the 5 canonical unified product surfaces to get real data, after Learning Studio rung 7 and the Repo Clinic live-diagnosis wiring). MaintenanceBayPanel.tsx previously only fetched a static get_maintenance_bay_workflow_state capability descriptor -- every prop defaulted false/unknown regardless of reality, identical to Repo Clinic's state before its fix. This rung is WIRING, not invention: scripts/security/security_gate.py already existed, already composed 5 real scanners (secret_scan, dependency_scan via pip-audit, verify_lockfiles, license_scan, container_scan) into one pass/fail result, and had a real prior run on record (assurance/security/dependency_scan.json, 2026-07-02). A fresh live run during this rung found 353 packages / 110 high-severity CVEs and 1 flagged license -- the first time this scanner's real findings were ever surfaced anywhere in the product UI. New command run_maintenance_bay_scan wired end-to-end: backend_command_surface.py -> _tauri_driver.py -> ide_repair_bridge.rs #[tauri::command] -> lib.rs generate_handler! -> MaintenanceBayPanel.tsx (new 'Run Live Scan' button, explicit opt-in -- NOT auto-fetched on mount, since a real pip-audit pass over the whole environment can take several seconds). Deliberately excluded from UNIFIED_PRODUCT_READ_ONLY_COMMANDS (Python + Rust), same reasoning as generate_learning_studio_content: real per-call computation, not a static view-model snapshot. Later-stage props (approvalPresent, postApplyVerifierPassed, rollbackPlanPresent) remain honestly false by default -- no update-application session-state exists yet, same as Repo Clinic's later stages.",
+  "purpose": "Live security/maintenance advisory for Maintenance Bay, composed from the 5 existing scripts/security/*.py scanners -- never fabricated, never silently passing.",
+  "depends_on_locks": [
+    "DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001",
+    "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "TAURI_LIB_RS_COMMAND_WIRING_LOCK_001"
+  ],
+  "tests": 15,
+  "test_modules": ["tests/ide/test_maintenance_bay_live_scan_lock.py"],
+  "new_tauri_command": "run_maintenance_bay_scan",
+  "composed_scanners": ["secret_scan", "dependency_scan", "verify_lockfiles", "license_scan", "container_scan"],
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": true,
+    "subprocess_spawned_note": "the 5 pre-existing security scanners shell out (pip-audit, git log for secret_scan); no new subprocess surface was introduced by this rung",
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "update_applied": false,
+    "compatibility_verifier_bypassed": false,
+    "no_followup_claim": false,
+    "all_languages_claim": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_maintenance_bay_live_security_scan/run_20260716.json"
+  },
+  "remediates_finding": "maintenance-bay-panel-had-no-real-backend-capability",
+  "next_recommended_lock": "DETERMINEX_MAINTENANCE_BAY_DEPENDENCY_UPDATE_PROPOSAL_LOCK_001"
+}

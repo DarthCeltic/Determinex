@@ -15,7 +15,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-log = logging.getLogger("hive")
+try:
+    from hive._log import get_logger as _get_logger  # noqa: F401
+    log = _get_logger("hive.manifest")
+except ImportError:
+    log = logging.getLogger("hive")
 
 # DETERMINEX_ROOT env var is set by the Rust backend (spawn_hive_subprocess) so the
 # PyInstaller sidecar — whose __file__ resolves to a temp extraction dir — finds

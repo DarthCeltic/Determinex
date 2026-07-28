@@ -26,18 +26,18 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
       <div className="px-6 py-4 border-b border-[#30363d] bg-[#161b22]/60 flex items-center gap-4 shrink-0">
         <button
           onClick={onBack}
-          className="text-gray-600 hover:text-gray-300 transition-colors flex items-center gap-1.5 text-[10px] shrink-0"
+          className="text-gray-600 hover:text-gray-300 transition-colors flex items-center gap-1.5 text-label shrink-0"
         >
           <ArrowLeft size={11} /> All options
         </button>
         <div className="flex-1 min-w-0">
-          <h2 className="text-[16px] font-black truncate" style={{ color: path.color }}>
+          <h2 className="text-title font-black truncate" style={{ color: path.color }}>
             {path.name}
           </h2>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <span
-            className="text-[9px] px-2 py-0.5 rounded-full font-bold"
+            className="text-meta px-2 py-0.5 rounded-full font-bold"
             style={{
               color: complexityColor,
               background: `${complexityColor}15`,
@@ -46,7 +46,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
           >
             {path.complexity}
           </span>
-          <span className="text-[9px] text-gray-500 flex items-center gap-1 font-mono">
+          <span className="text-meta text-gray-500 flex items-center gap-1 font-mono">
             <Clock size={9} /> {path.buildTime}
           </span>
         </div>
@@ -59,7 +59,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
       >
         <PathWireframe path={path} colorOverride={colorOverride} />
         <div className="absolute bottom-3 inset-x-0 flex justify-center pointer-events-none">
-          <span className="text-[8px] uppercase tracking-[0.2em] text-gray-700 font-bold">
+          <span className="text-eyebrow uppercase tracking-[0.2em] text-gray-700 font-bold">
             Wireframe Preview
           </span>
         </div>
@@ -70,8 +70,8 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
         <div className="p-8 flex flex-col gap-6">
           {/* Description + best-for */}
           <div>
-            <p className="text-[13px] text-gray-200 leading-relaxed">{path.description}</p>
-            <p className="text-[11px] text-gray-500 mt-2">
+            <p className="text-body text-gray-200 leading-relaxed">{path.description}</p>
+            <p className="text-label text-gray-500 mt-2">
               <span className="text-gray-600">Best for: </span>
               {path.bestFor}
             </p>
@@ -80,9 +80,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
           {/* Stack */}
           <div className="flex items-start gap-2">
             <Layers size={11} className="text-gray-600 shrink-0 mt-0.5" />
-            <span className="font-mono text-[10px] text-gray-400 leading-relaxed">
-              {path.stack}
-            </span>
+            <span className="font-mono text-label text-gray-400 leading-relaxed">{path.stack}</span>
           </div>
 
           {/* Complexity reason */}
@@ -94,13 +92,13 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
               <div className="flex items-center gap-1.5 mb-1.5">
                 <AlertCircle size={10} style={{ color: complexityColor }} />
                 <span
-                  className="text-[9px] uppercase font-bold tracking-widest"
+                  className="text-eyebrow uppercase font-bold tracking-widest"
                   style={{ color: complexityColor }}
                 >
                   Why {path.complexity} complexity
                 </span>
               </div>
-              <p className="text-[11px] text-gray-400 leading-relaxed">{path.complexityReason}</p>
+              <p className="text-label text-gray-400 leading-relaxed">{path.complexityReason}</p>
             </div>
           )}
 
@@ -109,11 +107,11 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
             <div className="rounded-xl border border-[#30363d] p-3.5">
               <div className="flex items-center gap-1.5 mb-1.5">
                 <Clock size={10} className="text-gray-500" />
-                <span className="text-[9px] uppercase font-bold tracking-widest text-gray-500">
+                <span className="text-eyebrow uppercase font-bold tracking-widest text-gray-500">
                   Why {path.buildTime}
                 </span>
               </div>
-              <p className="text-[11px] text-gray-400 leading-relaxed">{path.timelineReason}</p>
+              <p className="text-label text-gray-400 leading-relaxed">{path.timelineReason}</p>
             </div>
           )}
 
@@ -122,7 +120,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
             <div className="rounded-xl border border-[#30363d] p-3.5">
               <div className="flex items-center gap-1.5 mb-2.5">
                 <Wrench size={10} className="text-amber-400" />
-                <span className="text-[9px] uppercase font-bold tracking-widest text-amber-400/80">
+                <span className="text-eyebrow uppercase font-bold tracking-widest text-amber-400/80">
                   You&apos;ll also need to set up
                 </span>
               </div>
@@ -133,9 +131,9 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
                     <div key={i} className="flex gap-2">
                       <div className="w-1 h-1 rounded-full bg-amber-400/50 shrink-0 mt-[5px]" />
                       <div>
-                        <span className="text-[10px] font-bold text-gray-300">{name.trim()}</span>
+                        <span className="text-label font-bold text-gray-300">{name.trim()}</span>
                         {rest.length > 0 && (
-                          <span className="text-[10px] text-gray-500">
+                          <span className="text-label text-gray-500">
                             {" "}
                             — {rest.join("—").trim()}
                           </span>
@@ -154,7 +152,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
       <div className="shrink-0 border-t border-[#30363d] px-6 py-4 flex flex-col gap-3 bg-[#0d1117]">
         <button
           onClick={() => onChoose(path)}
-          className="w-full py-3.5 text-[12px] font-black uppercase tracking-widest rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+          className="w-full py-3.5 text-body font-black uppercase tracking-widest rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
           style={{
             background: `${path.color}18`,
             border: `1px solid ${path.color}55`,
@@ -166,7 +164,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
         </button>
         <button
           onClick={onBack}
-          className="text-[10px] text-gray-700 hover:text-gray-500 text-center transition-colors"
+          className="text-label text-gray-700 hover:text-gray-500 text-center transition-colors"
         >
           ← See all options
         </button>

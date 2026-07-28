@@ -2,10 +2,19 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { MarketplacePanel } from "../MarketplacePanel";
+import { SettingsProvider } from "@/contexts/SettingsContext";
 
 describe("MarketplacePanel", () => {
   it("opens an actionable local community hub panel instead of a dead button", () => {
-    render(<MarketplacePanel />);
+    // MarketplacePanel now reads real keyStatus via useSettings() (LLM
+    // marketplace cards show actual "Connected"/"Add API Key" state instead
+    // of a hardcoded fake "installed" badge) -- needs a real provider, not a
+    // bare render, or useSettings() throws before anything renders.
+    render(
+      <SettingsProvider>
+        <MarketplacePanel />
+      </SettingsProvider>
+    );
 
     fireEvent.click(screen.getByTestId("community-hub-button"));
 

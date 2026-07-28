@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Fonts are self-hosted via next/font in app/layout.tsx -- see the comment
+   there. A Google Fonts @import lived here and made every launch of a
+   privacy-sovereign, offline-capable app phone home before it rendered. */
 @import "tailwindcss";
 
 :root {
@@ -56,6 +58,31 @@
   --determinex-rain-opacity: 0.52;
   --determinex-rain-blend: screen;
   --determinex-logo-filter: saturate(1.2) hue-rotate(40deg) contrast(1.05);
+
+  /* ── Type scale ───────────────────────────────────────────────────────────
+     Measured 2026-07-28: 780 of 925 visible text nodes (84%) rendered below
+     11px, and the single most common font size in the whole application was
+     9px -- with 121 nodes at 7px and 10 at 6px. VS Code ships a 13px UI font
+     and treats 11px as a floor. 1,236 hard-coded `text-[Npx]` classes were the
+     cause; there was no scale to reach for, so every component invented one.
+
+     Five tiers, nothing below 11px, and every tier multiplied by
+     --dtx-font-scale so density and zoom are a one-variable change instead of
+     another sweep. */
+  --dtx-font-scale: 1;
+  /* Uppercase + bold + wide tracking reads much larger than its px value, so
+     these decorative "eyebrow" labels sit a tier BELOW body-adjacent text.
+     Ryan, on the first pass of this scale: "some of that font is too big and
+     makes our proportions look wierd" -- correct: promoting 418 nine-px nodes
+     straight to 11px left 581 nodes at 11px and 564 at 12px, one pixel apart,
+     which is no hierarchy at all. This is the missing tier. */
+  --dtx-text-eyebrow: calc(10px * var(--dtx-font-scale));
+  --dtx-text-meta: calc(11px * var(--dtx-font-scale));
+  --dtx-text-label: calc(12px * var(--dtx-font-scale));
+  --dtx-text-body: calc(13px * var(--dtx-font-scale));
+  --dtx-text-title: calc(16px * var(--dtx-font-scale));
+  --dtx-text-display: calc(22px * var(--dtx-font-scale));
+  --dtx-text-hero: calc(28px * var(--dtx-font-scale));
 }
 
 @theme inline {
@@ -63,6 +90,47 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--determinex-font-sans);
   --font-mono: var(--determinex-font-mono);
+
+  /* Exposes the scale above as `text-meta` / `text-label` / `text-body` /
+     `text-title` / `text-display` / `text-hero`. Named by ROLE, not by size, so
+     retuning a tier is one edit here rather than another 1,236-site sweep. */
+  --text-eyebrow: var(--dtx-text-eyebrow);
+  --text-meta: var(--dtx-text-meta);
+  --text-label: var(--dtx-text-label);
+  --text-body: var(--dtx-text-body);
+  --text-title: var(--dtx-text-title);
+  --text-display: var(--dtx-text-display);
+  --text-hero: var(--dtx-text-hero);
+}
+
+/* Density. `compact` is close to the old sizing for users on small screens who
+   want the information back; `comfortable` is the default because the previous
+   default was not readable. Applied on <html> by SettingsContext. */
+:root[data-density="compact"] {
+  --dtx-font-scale: 0.88;
+}
+:root[data-density="spacious"] {
+  --dtx-font-scale: 1.12;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The shell animates panel entry with framer-motion springs. Honour the OS
+     request rather than overriding it. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Keyboard focus was effectively invisible, so keyboard navigation could not be
+   followed at all. */
+:focus-visible {
+  outline: 2px solid var(--determinex-accent);
+  outline-offset: 2px;
 }
 
 body {

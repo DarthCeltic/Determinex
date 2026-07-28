@@ -21,11 +21,7 @@ describe("ConceptLab path ranking", () => {
   it("prioritizes explicit website plus mobile intent over a CLI candidate", () => {
     const idea = "I want a website and mobile applications for customers";
 
-    expect(requestedProjectTypes(idea)).toEqual([
-      "Web + Mobile App",
-      "Web App",
-      "Mobile App",
-    ]);
+    expect(requestedProjectTypes(idea)).toEqual(["Web + Mobile App", "Web App", "Mobile App"]);
 
     const ranked = prioritizePathChoices([cliPath], idea);
 

@@ -53,8 +53,15 @@ const STALE_MODEL_IDS = [
 
 // Network provider tokens we refuse outright in the UI.
 const NETWORK_PROVIDER_TOKENS = [
-  "anthropic", "openai", "google", "deepseek", "gemini",
-  "openrouter", "vllm-remote", "cloud", "network",
+  "anthropic",
+  "openai",
+  "google",
+  "deepseek",
+  "gemini",
+  "openrouter",
+  "vllm-remote",
+  "cloud",
+  "network",
 ];
 
 export function LocalModelSettingsPanel() {
@@ -90,8 +97,12 @@ export function LocalModelSettingsPanel() {
     // No live model call. Save writes config only, via a plain Tauri command
     // (save_local_model_config) -- never invokes a model.
     const config: StoredLocalModelConfig = {
-      provider, model_id: modelId, digest, capabilities,
-      task_classes: taskClasses, dry_run_default: dryRunDefault,
+      provider,
+      model_id: modelId,
+      digest,
+      capabilities,
+      task_classes: taskClasses,
+      dry_run_default: dryRunDefault,
     };
     const r = await invokeIdeCommand("get_repair_flow_state", {});
     try {
@@ -134,7 +145,9 @@ export function LocalModelSettingsPanel() {
             data-testid="local-model-provider-select"
           >
             {PROVIDERS.map((p) => (
-              <option key={p.value} value={p.value}>{p.label}</option>
+              <option key={p.value} value={p.value}>
+                {p.label}
+              </option>
             ))}
           </select>
         </label>
@@ -204,24 +217,26 @@ export function LocalModelSettingsPanel() {
             data-testid="local-model-live-opt-in-warning-checkbox"
           />
           <span data-testid="local-model-live-opt-in-warning">
-            I understand: enabling live mode lets the model produce advisory
-            output. Output remains untrusted and source mutation is still
-            gated.
+            I understand: enabling live mode lets the model produce advisory output. Output remains
+            untrusted and source mutation is still gated.
           </span>
         </label>
       </div>
 
       {networkBlocked && (
-        <div className="rounded border border-red-500/30 bg-red-500/5 p-2 text-xs"
-             data-testid="local-model-network-blocked-note">
+        <div
+          className="rounded border border-red-500/30 bg-red-500/5 p-2 text-xs"
+          data-testid="local-model-network-blocked-note"
+        >
           Network/cloud providers are blocked. Pick a local provider.
         </div>
       )}
       {isStale && (
-        <div className="rounded border border-red-500/30 bg-red-500/5 p-2 text-xs"
-             data-testid="local-model-stale-id-warning">
-          Model ID {modelId} is in the known-stale set. Pick the current
-          generation.
+        <div
+          className="rounded border border-red-500/30 bg-red-500/5 p-2 text-xs"
+          data-testid="local-model-stale-id-warning"
+        >
+          Model ID {modelId} is in the known-stale set. Pick the current generation.
         </div>
       )}
 
@@ -241,8 +256,10 @@ export function LocalModelSettingsPanel() {
       </div>
 
       {saveResp && (
-        <pre className="overflow-auto rounded bg-muted/50 p-2 text-xs"
-             data-testid="local-model-save-result">
+        <pre
+          className="overflow-auto rounded bg-muted/50 p-2 text-xs"
+          data-testid="local-model-save-result"
+        >
           {JSON.stringify(saveResp, null, 2)}
         </pre>
       )}

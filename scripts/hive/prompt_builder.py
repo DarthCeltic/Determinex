@@ -324,12 +324,37 @@ def _build_monitor_messages(
 def _parse_monitor_verdict(response_text: str) -> tuple[float, str]:
     """Parse Monitor's JSON verdict. Returns (score, verdict_text).
 
-    Handles three output patterns:
-    1. Clean JSON object: {"score": 0.8, "verdict": "..."}
-    2. JSON inside markdown fence: ```json\n{...}\n```
-    3. DSL/plain text fallback (DSL-fine-tuned models output tags instead of JSON):
+    Parse priority:
+    1. Instructor structured extraction (when instructor + pydantic installed):
+       Sends the raw text through a Pydantic model extraction — no regex
+       fragility, works even on malformed JSON or mixed format responses.
+    2. JSON object extraction: {"score": 0.8, "verdict": "..."}
+    3. JSON inside markdown fence: ```json\n{...}\n```
+    4. DSL/plain text fallback (DSL-fine-tuned models output tags instead of JSON):
        e.g. [SCORE: 0.9] [VERDICT: looks good] — extract score if present, else 0.5
     """
+    # ── Priority 1: Instructor structured extraction ──────────────────────────
+    # Instructor wraps an LLM call to extract structured Pydantic objects from
+    # raw text. Here we use it in a lightweight "extract from existing text" mode
+    # (no extra API call) via instructor's text extraction utils.
+    try:
+        import instructor
+        from pydantic import BaseModel, Field
+
+        class _MonitorVerdict(BaseModel):
+            score: float = Field(ge=0.0, le=1.0)
+            verdict: str
+
+        # instructor.from_dict / extract_from_text (v1.x API)
+        # Tries to coerce the text into the Pydantic model without an LLM call
+        extracted = instructor.utils.extract_json_from_string(response_text)
+        if extracted and "score" in extracted:
+            mv = _MonitorVerdict.model_validate(extracted)
+            return max(0.0, min(1.0, mv.score)), mv.verdict[:200]
+    except Exception:
+        pass  # Fall through to existing parse paths
+
+    # ── Priority 2 & 3: Existing JSON extraction (unchanged) ─────────────────
     # Strip markdown fences
     text = re.sub(r"```(?:json)?\s*", "", response_text).strip()
 
@@ -344,7 +369,8 @@ def _parse_monitor_verdict(response_text: str) -> tuple[float, str]:
         except (json.JSONDecodeError, ValueError, TypeError):
             continue
 
-    # DSL tag extraction fallback: [SCORE: 0.9] or CONFIDENCE: 0.85
+    # ── Priority 4: DSL tag extraction fallback ───────────────────────────────
+    # [SCORE: 0.9] or CONFIDENCE: 0.85
     score_m = re.search(r"(?:SCORE|CONFIDENCE|score|confidence)[:\s]+([0-9.]+)", text)
     if score_m:
         try:
@@ -358,3 +384,4 @@ def _parse_monitor_verdict(response_text: str) -> tuple[float, str]:
     if text.strip():
         return 0.5, text[:200]
     return 0.5, "no verdict"
+

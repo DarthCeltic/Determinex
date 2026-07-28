@@ -45,14 +45,18 @@ describe("isTauri()", () => {
 
   it("returns false when transformCallback is missing", async () => {
     const { isTauri } = await import("../lib/api");
-    (window as typeof window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ = { transformCallback: undefined };
+    (window as typeof window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ = {
+      transformCallback: undefined,
+    };
     expect(isTauri()).toBe(false);
     delete (window as typeof window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__;
   });
 
   it("returns true when __TAURI_INTERNALS__ is fully wired", async () => {
     const { isTauri } = await import("../lib/api");
-    (window as typeof window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ = { transformCallback: () => {} };
+    (window as typeof window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ = {
+      transformCallback: () => {},
+    };
     expect(isTauri()).toBe(true);
     delete (window as typeof window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__;
   });

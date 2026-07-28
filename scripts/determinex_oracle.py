@@ -164,35 +164,149 @@ def _junit_counts(xml_path: Path) -> tuple[int, int]:
     return (total, n_passed)
 
 
+def _uses_vitest(workdir: Path) -> bool:
+    """vitest vs jest -- checked, not assumed. A vitest.config.* file is the
+    clearest signal; falls back to checking package.json's own dependency
+    lists (covers a vitest project configured inline in package.json's
+    "test" script with no separate config file)."""
+    for cfg in ("vitest.config.ts", "vitest.config.js", "vitest.config.mjs",
+               "vitest.config.cjs", "vite.config.ts", "vite.config.js"):
+        if (workdir / cfg).exists():
+            # vite.config.* only counts if it actually configures a `test`
+            # block -- a plain Vite app with no vitest set up shouldn't
+            # falsely route here.
+            if cfg.startswith("vitest.config"):
+                return True
+            try:
+                if "test" in (workdir / cfg).read_text(encoding="utf-8", errors="replace"):
+                    return True
+            except OSError:
+                pass
+    pkg = workdir / "package.json"
+    if pkg.exists():
+        try:
+            data = json.loads(pkg.read_text(encoding="utf-8", errors="replace"))
+            deps = {**data.get("dependencies", {}), **data.get("devDependencies", {})}
+            if "vitest" in deps:
+                return True
+        except (OSError, json.JSONDecodeError):
+            pass
+    return False
+
+
+def _has_test_framework(workdir: Path) -> bool:
+    """Does this subproject actually have a JS/TS test framework configured
+    at all? A package.json with no jest/vitest dependency and no "test"
+    script (e.g. a thin CLI-wrapper extension whose only scripts are
+    compile/package) has nothing for _verify_typescript's test-run step to
+    invoke -- that's "nothing to verify", not "0 tests ran"."""
+    if _uses_vitest(workdir):
+        return True
+    pkg = workdir / "package.json"
+    if not pkg.exists():
+        return False
+    try:
+        data = json.loads(pkg.read_text(encoding="utf-8", errors="replace"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    deps = {**data.get("dependencies", {}), **data.get("devDependencies", {})}
+    if "jest" in deps:
+        return True
+    test_script = data.get("scripts", {}).get("test", "")
+    # npm's own default placeholder for `npm init` scaffolds -- explicitly
+    # NOT a real test command.
+    return bool(test_script) and "Error: no test specified" not in test_script
+
+
 # ---------------------------------------------------------------------------
 # Concrete oracle: TypeScript / JavaScript (tsc + jest/vitest)
 # This is the surface Determinex's OWN products live in -- highest day-one priority.
 # ---------------------------------------------------------------------------
 def _verify_typescript(workdir: Path) -> OracleResult:
+    # Found live 2026-07-22: this whole function computed `passed = len(failures)
+    # == 0` -- if tsc/jest failed to even LAUNCH (missing binary, bad --
+    # no-install resolution, config error) with a nonzero exit that didn't
+    # happen to contain a parseable "error TSxxxx"/JUnit failure line,
+    # `failures` stayed empty and the oracle silently reported PASSED without
+    # ever actually verifying anything. Ryan: "it should be fixed to where it
+    # all compiles and reports one way or the other" -- a tool that couldn't
+    # run is not the same claim as "nothing's wrong", and must never be
+    # reported identically.
     raw = []
     failures: list[Failure] = []
+    ran_typecheck = False
     # 1) type check -- tsc is itself a compiler oracle (no tests required)
     if (workdir / "tsconfig.json").exists():
+        ran_typecheck = True
         cp = _run(["npx", "--no-install", "tsc", "--noEmit", "--pretty", "false"], workdir)
-        raw.append(cp.stdout + cp.stderr)
-        for line in (cp.stdout + cp.stderr).splitlines():
-            # tsc format: path(line,col): error TSxxxx: message
-            if "): error TS" in line:
-                tid = line.split("(")[0].strip()
-                failures.append(Failure(test_id=tid, name=tid, text=line, status="failure"))
-    # 2) run the test suite if one exists, emitting JUnit
+        out = cp.stdout + cp.stderr
+        raw.append(out)
+        ts_failures = [
+            Failure(test_id=line.split("(")[0].strip(), name=line.split("(")[0].strip(),
+                   text=line, status="failure")
+            for line in out.splitlines() if "): error TS" in line
+        ]
+        failures.extend(ts_failures)
+        if cp.returncode != 0 and not ts_failures:
+            # tsc itself failed to produce a real type-check verdict (missing
+            # binary, npx resolution failure, OOM, etc.) -- not "0 errors".
+            tail = out.strip()[-1500:]
+            failures.append(Failure(
+                test_id="tsc", name="typecheck",
+                text=f"tsc exited {cp.returncode} with no parsed TS error lines "
+                     f"(likely failed to run at all, not '0 errors'):\n{tail}",
+                status="failure"))
+    # 2) run the test suite if one exists, emitting JUnit. vitest OR jest --
+    # found live 2026-07-22: this always ran jest unconditionally, so any
+    # vitest-based project (this repo's OWN frontend among them -- "test":
+    # "vitest run" in package.json, no jest anywhere) got an npx prompt to
+    # auto-install jest, which _run's --no-install correctly refuses, and
+    # that refusal read as a real test failure. Detect which one this
+    # project actually uses instead of assuming.
     junit = workdir / "junit.xml"
     total, n_passed = 0, 0
-    if (workdir / "package.json").exists():
-        cp = _run(["npx", "--no-install", "jest", "--ci",
-                   "--reporters=jest-junit"], workdir)
-        raw.append(cp.stdout + cp.stderr)
+    ran_tests = False
+    # Found live 2026-07-22: a package.json with NO test framework configured
+    # at all (this repo's own vscode-extension: no jest/vitest dependency,
+    # no "test" script -- it's a thin CLI wrapper with its own compile-only
+    # scripts) still unconditionally tried to run jest, which npx correctly
+    # refused to auto-install, and that refusal read as a real test failure.
+    # No test framework configured is "nothing to verify" (vacuous pass,
+    # same principle as pytest's "no tests collected"), not "broken".
+    if (workdir / "package.json").exists() and _has_test_framework(workdir):
+        ran_tests = True
+        if _uses_vitest(workdir):
+            cp = _run(["npx", "--no-install", "vitest", "run",
+                       "--reporter=junit", f"--outputFile={junit}"], workdir)
+            runner_name = "vitest"
+        else:
+            cp = _run(["npx", "--no-install", "jest", "--ci",
+                       "--reporters=jest-junit"], workdir)
+            runner_name = "jest"
+        out = cp.stdout + cp.stderr
+        raw.append(out)
         if junit.exists():
-            failures.extend(_junit_failures(junit))
+            junit_failures = _junit_failures(junit)
+            failures.extend(junit_failures)
             total, n_passed = _junit_counts(junit)
+        elif cp.returncode != 0 and "No tests found" not in out:
+            # No JUnit report AND a real nonzero exit that isn't the test
+            # runner's own well-known "there simply are no tests here"
+            # message -- it failed to run at all (missing binary, config
+            # error, crash), not "0 test failures".
+            tail = out.strip()[-1500:]
+            failures.append(Failure(
+                test_id=runner_name, name="test-run",
+                text=f"{runner_name} exited {cp.returncode} with no JUnit report and no "
+                     f"'No tests found' message (likely failed to run at all):\n{tail}",
+                status="failure"))
     passed = len(failures) == 0
-    return OracleResult(passed=passed, failures=failures, raw="\n".join(raw),
-                        oracle="typescript", total=total, n_passed=n_passed)
+    note = "" if (ran_typecheck or ran_tests) else "no tsconfig.json or package.json -- nothing to verify"
+    result = OracleResult(passed=passed, failures=failures, raw="\n".join(raw),
+                          oracle="typescript", total=total, n_passed=n_passed)
+    if note:
+        result.raw = (result.raw + "\n" + note).strip()
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -204,6 +318,29 @@ def _verify_python(workdir: Path) -> OracleResult:
                "-p", "no:cacheprovider"], workdir)
     failures = _junit_failures(junit) if junit.exists() else []
     total, n_passed = _junit_counts(junit) if junit.exists() else (0, 0)
+    # Found live 2026-07-22: `passed=(len(failures)==0 and returncode==0)` reported
+    # a bare, unexplained "not passed" (0 failures, no notes -- nothing to look
+    # at) for ANY nonzero pytest exit that wasn't a parsed test failure. The
+    # most common real case: exit code 5 = "no tests were collected" for a
+    # small package with no local tests (its coverage lives in the root
+    # tests/ tree) -- that is NOT the same claim as "this package is broken",
+    # and reporting it identically was exactly the un-actionable "fails with
+    # no reason" this project's whole philosophy forbids. Ryan: "it should be
+    # fixed to where it all compiles and reports one way or the other."
+    if cp.returncode == 5 and not failures:
+        return OracleResult(passed=True, failures=[], raw=cp.stdout + cp.stderr,
+                            oracle="python", total=0, n_passed=0)
+    if cp.returncode != 0 and not failures:
+        # Some other non-test-failure exit (import/collection error, crash,
+        # etc.) -- a REAL problem, but the JUnit file never got a chance to
+        # record it as a normal test failure. Surface it explicitly instead
+        # of silently reporting "0 failures" alongside passed=False.
+        tail = (cp.stdout + cp.stderr).strip()
+        tail = tail[-2000:] if len(tail) > 2000 else tail
+        failures = [Failure(test_id="pytest", name="collection/run",
+                            text=f"pytest exited {cp.returncode} with no parsed test "
+                                 f"failures (collection or environment error):\n{tail}",
+                            status="failure")]
     return OracleResult(passed=(len(failures) == 0 and cp.returncode == 0),
                         failures=failures, raw=cp.stdout + cp.stderr, oracle="python",
                         total=total, n_passed=n_passed)
@@ -382,6 +519,141 @@ def _verify_php(workdir: Path) -> OracleResult:
 
 
 # ---------------------------------------------------------------------------
+# Concrete oracle: C / C++ (cmake / make / autotools build, else compiler
+# syntax-check per file -- same "compile is ground truth" shape as go/rust).
+# ---------------------------------------------------------------------------
+_C_FAMILY_ERROR_RE = re.compile(r"(\S+\.(?:c|cc|cpp|cxx|h|hpp)):(\d+):\d*:?\s*(error.*)")
+
+
+def _verify_c_family(workdir: Path, cc: str, lang: str, ext: str) -> OracleResult:
+    if (workdir / "CMakeLists.txt").exists():
+        build_dir = workdir / "_determinex_cbuild"
+        build_dir.mkdir(exist_ok=True)
+        cfg = _run(["cmake", "-S", str(workdir), "-B", str(build_dir)], workdir, timeout=300)
+        cp = cfg if cfg.returncode != 0 else _run(
+            ["cmake", "--build", str(build_dir)], workdir, timeout=900)
+    elif (workdir / "Makefile").exists() or (workdir / "makefile").exists():
+        cp = _run(["make"], workdir, timeout=900)
+    elif (workdir / "configure").exists():
+        cfg = _run(["./configure"], workdir, timeout=300)
+        cp = cfg if cfg.returncode != 0 else _run(["make"], workdir, timeout=900)
+    else:
+        # No build system shipped: per-file syntax-only compile is ground
+        # truth, same posture as _verify_ruby/_verify_php's lint fallback.
+        srcs = [str(p) for p in workdir.glob(f"**/{ext}")]
+        if not srcs:
+            return OracleResult(passed=False, oracle=lang,
+                                failures=[Failure(lang, "build", f"no {ext} found",
+                                                  status="failure")])
+        cp = _run([cc, "-fsyntax-only", *srcs], workdir, timeout=300)
+
+    out = cp.stdout + cp.stderr
+    failures: list[Failure] = []
+    for line in out.splitlines():
+        m = _C_FAMILY_ERROR_RE.match(line)
+        if m:
+            failures.append(Failure(test_id=f"{m.group(1)}:{m.group(2)}",
+                                    name=m.group(1), text=line, status="failure"))
+    passed = cp.returncode == 0
+    if not passed and not failures:
+        # Compiler/build-system failed to even launch (missing toolchain
+        # component, configure error, ...) with no parseable error line --
+        # must surface as an explained failure, never a silent 0/0 pass.
+        failures = [Failure(lang, "build", out[:600], status="failure")]
+    return OracleResult(passed=passed, failures=failures, raw=out, oracle=lang)
+
+
+def _verify_c(workdir: Path) -> OracleResult:
+    return _verify_c_family(workdir, cc="gcc", lang="c", ext="*.c")
+
+
+def _verify_cpp(workdir: Path) -> OracleResult:
+    return _verify_c_family(workdir, cc="g++", lang="cpp", ext="*.cpp")
+
+
+# ---------------------------------------------------------------------------
+# Concrete oracle: COBOL (legacy) -- GnuCOBOL `cobc -c` compile-only per file.
+# ---------------------------------------------------------------------------
+def _verify_cobol(workdir: Path) -> OracleResult:
+    srcs = [p for p in list(workdir.glob("**/*.cob")) + list(workdir.glob("**/*.cbl"))]
+    if not srcs:
+        return OracleResult(passed=False, oracle="cobol",
+                            failures=[Failure("cobol", "build", "no .cob/.cbl found",
+                                              status="failure")])
+    fails: list[Failure] = []
+    raw = ""
+    for s in srcs:
+        cp = _run(["cobc", "-c", str(s)], workdir, timeout=120)
+        raw += cp.stdout + cp.stderr
+        if cp.returncode != 0:
+            fails.append(Failure("cobol", s.name, (cp.stdout + cp.stderr)[:400], status="failure"))
+    return OracleResult(passed=not fails, failures=fails, raw=raw[:4000], oracle="cobol",
+                        total=len(srcs), n_passed=len(srcs) - len(fails))
+
+
+# ---------------------------------------------------------------------------
+# Concrete oracle: BASIC (legacy) -- FreeBASIC `fbc -c` compile-only per file.
+# ---------------------------------------------------------------------------
+def _verify_basic(workdir: Path) -> OracleResult:
+    srcs = list(workdir.glob("**/*.bas"))
+    if not srcs:
+        return OracleResult(passed=False, oracle="basic",
+                            failures=[Failure("basic", "build", "no .bas found",
+                                              status="failure")])
+    fails: list[Failure] = []
+    raw = ""
+    for s in srcs:
+        cp = _run(["fbc", "-c", str(s)], workdir, timeout=120)
+        raw += cp.stdout + cp.stderr
+        if cp.returncode != 0:
+            fails.append(Failure("basic", s.name, (cp.stdout + cp.stderr)[:400], status="failure"))
+    return OracleResult(passed=not fails, failures=fails, raw=raw[:4000], oracle="basic",
+                        total=len(srcs), n_passed=len(srcs) - len(fails))
+
+
+# ---------------------------------------------------------------------------
+# Concrete oracle: Tauri (composite) -- the Rust backend (src-tauri/) AND the
+# TS/JS frontend verified together as ONE unit. A Tauri app is only actually
+# correct when both halves compile; a passing `cargo check` next to a broken
+# frontend build (or vice versa) is not a real pass. Reuses the existing
+# _verify_rust / _verify_typescript oracles rather than reimplementing either
+# half -- this is composition, not a third compiler frontend.
+# ---------------------------------------------------------------------------
+def _verify_tauri(workdir: Path) -> OracleResult:
+    src_tauri = workdir / "src-tauri"
+    if not src_tauri.exists():
+        if (workdir / "Cargo.toml").exists() and (workdir / "tauri.conf.json").exists():
+            # workdir passed in as the src-tauri dir itself
+            src_tauri = workdir
+            workdir = workdir.parent
+        else:
+            return OracleResult(passed=False, oracle="tauri",
+                                failures=[Failure("tauri", "layout",
+                                          "no src-tauri/ (or Cargo.toml+tauri.conf.json) found -- "
+                                          "not a Tauri project layout", status="failure")])
+
+    backend = _verify_rust(src_tauri)
+    failures = list(backend.failures)
+    raw = f"--- backend (cargo, {src_tauri}) ---\n{backend.raw}\n"
+    total = backend.total
+    n_passed = backend.n_passed
+    passed = backend.passed
+
+    if (workdir / "package.json").exists():
+        frontend = _verify_typescript(workdir)
+        failures.extend(frontend.failures)
+        raw += f"--- frontend (tsc/tests, {workdir}) ---\n{frontend.raw}\n"
+        total += frontend.total
+        n_passed += frontend.n_passed
+        passed = passed and frontend.passed
+
+    if not passed and not failures:
+        failures = [Failure("tauri", "build", raw[:600], status="failure")]
+    return OracleResult(passed=passed, failures=failures, raw=raw[:6000], oracle="tauri",
+                        total=total, n_passed=n_passed)
+
+
+# ---------------------------------------------------------------------------
 # Concrete oracle: RISC-V / ET-SoC1 silicon kernels (Docker toolchain + sys-emu)
 # Built 2026-07-10 during the AIFoundry CORE-ET hackathon. workdir must be a
 # checkout of aifoundry-org/hf-hackathon (or a git worktree of it) with the
@@ -411,7 +683,23 @@ def _docker(cmd: list[str], timeout: int = 300) -> subprocess.CompletedProcess:
     import os
     env = dict(os.environ)
     env["MSYS_NO_PATHCONV"] = "1"
-    return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=env)
+    try:
+        return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=env)
+    except subprocess.TimeoutExpired as e:
+        # Found live 2026-07-23: _wait_for_container_ready's readiness-probe
+        # loop calls this with a short per-attempt timeout (10s) specifically
+        # so a hung probe doesn't block the whole poll -- but subprocess.run
+        # RAISES on timeout rather than returning a nonzero-exit
+        # CompletedProcess, so an unhandled TimeoutExpired crashed the entire
+        # oracle call instead of just failing that one poll attempt (every
+        # _docker() caller's existing `cp.returncode != 0` handling expects a
+        # CompletedProcess, never an exception). 124 matches the conventional
+        # `timeout` shell command's exit code for "the command timed out".
+        stdout = (e.stdout or b"").decode("utf-8", "replace") if isinstance(e.stdout, bytes) else (e.stdout or "")
+        stderr = (e.stderr or b"").decode("utf-8", "replace") if isinstance(e.stderr, bytes) else (e.stderr or "")
+        return subprocess.CompletedProcess(
+            args=cmd, returncode=124,
+            stdout=stdout, stderr=stderr + f"\n[determinex] docker command timed out after {timeout}s: {cmd}")
 
 
 def _verify_riscv_et_soc1(workdir: Path) -> OracleResult:
@@ -482,6 +770,180 @@ def _verify_riscv_et_soc1(workdir: Path) -> OracleResult:
 
 
 # ---------------------------------------------------------------------------
+# Concrete oracle: DuckDB (embedded -- no server, no Docker). Runs every
+# *.sql file in workdir through the real duckdb CLI against an in-memory
+# database. Installed live 2026-07-22 via `winget install --id DuckDB.cli
+# --location T:/determinex-tools/duckdb` (kept off C: per Ryan: "put what
+# you need on T to save for now on space").
+# ---------------------------------------------------------------------------
+_SQL_ERROR_RE = re.compile(r"^Error:.*", re.IGNORECASE)
+
+
+def _verify_duckdb(workdir: Path) -> OracleResult:
+    srcs = list(workdir.glob("**/*.sql"))
+    if not srcs:
+        return OracleResult(passed=False, oracle="duckdb",
+                            failures=[Failure("duckdb", "build", "no .sql found",
+                                              status="failure")])
+    fails: list[Failure] = []
+    raw = ""
+    for s in srcs:
+        # ".bail on" is load-bearing: without it the CLI (sqlite3-style)
+        # keeps going after a failed statement and exits 0 even though a
+        # query inside the script errored -- would be a silent pass.
+        # DuckDB's dot-command tokenizer treats backslash as an escape char
+        # (sqlite3-style), so a raw Windows path in ".read C:\Users\..."
+        # silently eats the backslashes -- found live 2026-07-22. Forward
+        # slashes are accepted by Windows paths and aren't special to the
+        # tokenizer.
+        cp = _run(["duckdb", ":memory:", "-c", ".bail on", "-c", f".read {s.as_posix()}"],
+                  workdir, timeout=120)
+        out = cp.stdout + cp.stderr
+        raw += out
+        errors = [line for line in out.splitlines() if _SQL_ERROR_RE.match(line)]
+        if cp.returncode != 0 or errors:
+            text = "\n".join(errors) or out[:400]
+            fails.append(Failure("duckdb", s.name, text[:400], status="failure"))
+    return OracleResult(passed=not fails, failures=fails, raw=raw[:4000], oracle="duckdb",
+                        total=len(srcs), n_passed=len(srcs) - len(fails))
+
+
+# ---------------------------------------------------------------------------
+# Concrete oracle: MariaDB (Docker-backed, ephemeral). A native Windows
+# MSI service install was tried live 2026-07-22 (`winget install --id
+# MariaDB.Server`) and failed with a generic 1603, rolling back cleanly with
+# no files left on disk -- exactly the fragile, elevation-hungry, host-
+# service-registering path an EPHEMERAL verification sandbox shouldn't
+# depend on. Every *.sql file in workdir is run against a real, disposable
+# mariadb server instead -- same "spin up -> verify -> tear down" Docker
+# shape already proven by the riscv-et-soc1 oracle above.
+# ---------------------------------------------------------------------------
+def _wait_for_container_ready(container: str, probe_cmd: list[str], timeout: int = 150) -> bool:
+    # 90s was measured live 2026-07-23 to be uncomfortably close to the real
+    # boundary -- mariadb:11's first-time container init (mariadb-install-db
+    # + the temp-server bootstrap/restart cycle) consistently took 94-99s on
+    # this box, one run exceeded 90s outright. 150s gives real margin without
+    # meaningfully slowing down the common case (the loop returns as soon as
+    # the probe succeeds, it doesn't wait out the full budget).
+    import time
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        cp = _docker(["docker", "exec", container, *probe_cmd], timeout=10)
+        if cp.returncode == 0:
+            return True
+        time.sleep(2)
+    return False
+
+
+# Found live 2026-07-23: the official mariadb image's entrypoint runs a
+# TEMPORARY bootstrap mysqld first (binds the port, answers "ready for
+# connections" and responds to a ping/ident probe) purely to apply
+# MARIADB_ROOT_PASSWORD, then stops it and starts the REAL server ~10-15s
+# later -- confirmed via `docker logs`: two separate "ready for
+# connections" lines with a "Temporary server stopped" in between. A probe
+# landing in that temporary-server window reports ready, but the actual
+# root password grant isn't durably in place yet, so the first real exec
+# right after can get a genuine `ERROR 1045 Access denied` with the
+# CORRECT password -- not a bad credential, a startup race. Retrying the
+# exact same exec a few times (not a separate readiness probe, which
+# raced identically) is what actually closes the window.
+_TRANSIENT_AUTH_SIGNATURES = ("Access denied for user", "Can't connect to")
+
+
+def _run_with_transient_retry(cmd: list[str], timeout: int, attempts: int = 5,
+                              delay: float = 3.0) -> subprocess.CompletedProcess:
+    import time
+    cp = _docker(cmd, timeout=timeout)
+    for _ in range(attempts - 1):
+        out = cp.stdout + cp.stderr
+        if cp.returncode == 0 or not any(sig in out for sig in _TRANSIENT_AUTH_SIGNATURES):
+            break
+        time.sleep(delay)
+        cp = _docker(cmd, timeout=timeout)
+    return cp
+
+
+def _verify_mariadb(workdir: Path) -> OracleResult:
+    srcs = list(workdir.glob("**/*.sql"))
+    if not srcs:
+        return OracleResult(passed=False, oracle="mariadb",
+                            failures=[Failure("mariadb", "build", "no .sql found",
+                                              status="failure")])
+    container = "determinex-mariadb-oracle"
+    _docker(["docker", "rm", "-f", container])
+    run = _docker(["docker", "run", "-d", "--name", container,
+                   "-e", "MARIADB_ROOT_PASSWORD=determinex",
+                   "-v", f"{workdir}:/sql:ro", "mariadb:11"], timeout=120)
+    if run.returncode != 0:
+        return OracleResult(passed=False, oracle="mariadb",
+                            failures=[Failure("mariadb", "docker-start",
+                                      run.stderr[:2000], status="failure")])
+    try:
+        if not _wait_for_container_ready(
+                container, ["mariadb-admin", "ping", "-uroot", "-pdeterminex"]):
+            return OracleResult(passed=False, oracle="mariadb",
+                                failures=[Failure("mariadb", "startup",
+                                          "mariadb server never became ready within 90s",
+                                          status="failure")])
+        fails: list[Failure] = []
+        raw = ""
+        for s in srcs:
+            rel = f"/sql/{s.relative_to(workdir).as_posix()}"
+            cp = _run_with_transient_retry(
+                ["docker", "exec", container, "sh", "-c", f"mariadb -uroot -pdeterminex < {rel}"],
+                timeout=60)
+            out = cp.stdout + cp.stderr
+            raw += out
+            if cp.returncode != 0:
+                fails.append(Failure("mariadb", s.name, out[:400], status="failure"))
+        return OracleResult(passed=not fails, failures=fails, raw=raw[:4000], oracle="mariadb",
+                            total=len(srcs), n_passed=len(srcs) - len(fails))
+    finally:
+        _docker(["docker", "rm", "-f", container])
+
+
+# ---------------------------------------------------------------------------
+# Concrete oracle: MongoDB (Docker-backed, ephemeral) -- same shape as
+# MariaDB above. Every *.js file in workdir is run as a mongosh script
+# against a real, disposable mongod instance.
+# ---------------------------------------------------------------------------
+def _verify_mongodb(workdir: Path) -> OracleResult:
+    srcs = list(workdir.glob("**/*.js"))
+    if not srcs:
+        return OracleResult(passed=False, oracle="mongodb",
+                            failures=[Failure("mongodb", "build", "no .js found",
+                                              status="failure")])
+    container = "determinex-mongodb-oracle"
+    _docker(["docker", "rm", "-f", container])
+    run = _docker(["docker", "run", "-d", "--name", container,
+                   "-v", f"{workdir}:/scripts:ro", "mongo:7"], timeout=120)
+    if run.returncode != 0:
+        return OracleResult(passed=False, oracle="mongodb",
+                            failures=[Failure("mongodb", "docker-start",
+                                      run.stderr[:2000], status="failure")])
+    try:
+        if not _wait_for_container_ready(
+                container, ["mongosh", "--quiet", "--eval", "db.runCommand({ping:1})"]):
+            return OracleResult(passed=False, oracle="mongodb",
+                                failures=[Failure("mongodb", "startup",
+                                          "mongod never became ready within 90s",
+                                          status="failure")])
+        fails: list[Failure] = []
+        raw = ""
+        for s in srcs:
+            rel = f"/scripts/{s.relative_to(workdir).as_posix()}"
+            cp = _docker(["docker", "exec", container, "mongosh", "--quiet", rel], timeout=60)
+            out = cp.stdout + cp.stderr
+            raw += out
+            if cp.returncode != 0:
+                fails.append(Failure("mongodb", s.name, out[:400], status="failure"))
+        return OracleResult(passed=not fails, failures=fails, raw=raw[:4000], oracle="mongodb",
+                            total=len(srcs), n_passed=len(srcs) - len(fails))
+    finally:
+        _docker(["docker", "rm", "-f", container])
+
+
+# ---------------------------------------------------------------------------
 # Stubs for surfaces still on the roadmap. Each declares the EXACT command it
 # will run; raising OracleUnavailable (never silently passing) until wired.
 # ---------------------------------------------------------------------------
@@ -537,6 +999,35 @@ register(Oracle("ruby", ("ruby", "rb"), ("ruby",),
 register(Oracle("php", ("php",), ("php",),
                 "PHP (phpunit --log-junit for tests; else `php -l` lint)",
                 _verify_php))
+register(Oracle("c", ("c",), ("gcc", "clang", "cc"),
+                "a C compiler (gcc/clang); cmake/make/autotools build used if shipped, "
+                "else `gcc -fsyntax-only` per file",
+                _verify_c))
+register(Oracle("cpp", ("cpp", "c++", "cxx"), ("g++", "clang++"),
+                "a C++ compiler (g++/clang++); cmake/make/autotools build used if shipped, "
+                "else `g++ -fsyntax-only` per file",
+                _verify_cpp))
+register(Oracle("cobol", ("cobol", "cob", "cbl"), ("cobc",),
+                "GnuCOBOL (`cobc -c` compile-only per .cob/.cbl file)",
+                _verify_cobol))
+register(Oracle("basic", ("basic", "bas", "freebasic"), ("fbc",),
+                "FreeBASIC (`fbc -c` compile-only per .bas file)",
+                _verify_basic))
+register(Oracle("tauri", ("tauri",), ("cargo", "npx"),
+                "Rust toolchain (cargo) + Node/npm -- composite: verifies src-tauri/ "
+                "(cargo) AND the TS/JS frontend (tsc/tests) together as one Tauri app",
+                _verify_tauri))
+register(Oracle("duckdb", ("duckdb",), ("duckdb",),
+                "DuckDB CLI (embedded, no server) -- runs *.sql files with .bail on",
+                _verify_duckdb))
+register(Oracle("mariadb", ("mariadb", "mysql"), ("docker",),
+                "Docker Desktop -- spins an ephemeral mariadb:11 container, "
+                "runs *.sql files against it, tears down",
+                _verify_mariadb))
+register(Oracle("mongodb", ("mongodb", "mongo"), ("docker",),
+                "Docker Desktop -- spins an ephemeral mongo:7 container, "
+                "runs *.js (mongosh) scripts against it, tears down",
+                _verify_mongodb))
 register(Oracle("riscv-et-soc1", ("riscv-et-soc1", "et-soc1", "erbium"), ("docker",),
                 "Docker Desktop + one-time toolchain/SDK build under "
                 "DETERMINEX_ET_WORK (default C:/Dev/et-soc1-work); see "

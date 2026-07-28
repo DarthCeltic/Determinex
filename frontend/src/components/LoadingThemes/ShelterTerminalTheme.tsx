@@ -68,7 +68,8 @@ export function ShelterTerminalTheme({
       }
       ctx.stroke();
       // Radiation needle gauge
-      const cx = w - 70, cy = 60;
+      const cx = w - 70,
+        cy = 60;
       ctx.strokeStyle = "rgba(0,255,80,0.55)";
       ctx.beginPath();
       ctx.arc(cx, cy, 28, Math.PI, Math.PI * 2);
@@ -100,26 +101,37 @@ export function ShelterTerminalTheme({
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,12,4,0)_0%,rgba(0,12,4,0.85)_100%)]" />
         <div className="absolute inset-0 flex">
           <div className="flex-1 flex flex-col justify-center px-8 gap-1">
-            <p className="text-[8px] font-mono tracking-widest uppercase mb-3" style={{ color: phosphorDim }}>
+            <p
+              className="text-eyebrow font-mono tracking-widest uppercase mb-3"
+              style={{ color: phosphorDim }}
+            >
               ◄ SHELTER TERMINAL V3.7 ►
             </p>
             {SHELTER_BOOT.slice(0, visibleLines).map((line, i) => (
-              <p key={i} className="text-[9px] font-mono"
-                 style={{ color: i === visibleLines - 1 ? phosphor : phosphorDim, textShadow: `0 0 6px ${phosphor}55` }}>
+              <p
+                key={i}
+                className="text-meta font-mono"
+                style={{
+                  color: i === visibleLines - 1 ? phosphor : phosphorDim,
+                  textShadow: `0 0 6px ${phosphor}55`,
+                }}
+              >
                 {">"} {line}
               </p>
             ))}
-            <p className="text-[9px] font-mono mt-2" style={{ color: phosphorDim }}>
+            <p className="text-meta font-mono mt-2" style={{ color: phosphorDim }}>
               {">"} <span className="animate-pulse">_</span>
             </p>
           </div>
           <div className="flex flex-col items-center justify-center pr-10 gap-4">
-            <p className="text-[14px] font-mono tracking-widest uppercase font-bold"
-               style={{ color: phosphor, textShadow: `0 0 14px ${phosphor}80` }}>
+            <p
+              className="text-title font-mono tracking-widest uppercase font-bold"
+              style={{ color: phosphor, textShadow: `0 0 14px ${phosphor}80` }}
+            >
               {label}
             </p>
             {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
-              <p className="text-[10px] font-mono tabular-nums" style={{ color: phosphorDim }}>
+              <p className="text-label font-mono tabular-nums" style={{ color: phosphorDim }}>
                 LOCAL UPTIME: {elapsedSeconds}s
               </p>
             )}
@@ -132,17 +144,28 @@ export function ShelterTerminalTheme({
               ].map(({ role, active: a }, i, arr) => (
                 <React.Fragment key={role}>
                   <div className="flex flex-col items-center gap-1">
-                    <div className="w-5 h-5 border flex items-center justify-center"
-                         style={{ borderColor: a ? phosphor : phosphorDim, background: a ? `${phosphor}25` : "transparent",
-                                  boxShadow: a ? `0 0 10px ${phosphor}60` : "none" }}>
+                    <div
+                      className="w-5 h-5 border flex items-center justify-center"
+                      style={{
+                        borderColor: a ? phosphor : phosphorDim,
+                        background: a ? `${phosphor}25` : "transparent",
+                        boxShadow: a ? `0 0 10px ${phosphor}60` : "none",
+                      }}
+                    >
                       <div className="w-1 h-1" style={{ background: a ? phosphor : phosphorDim }} />
                     </div>
-                    <span className="text-[8px] font-mono uppercase tracking-wider"
-                          style={{ color: a ? phosphor : phosphorDim }}>
+                    <span
+                      className="text-eyebrow font-mono uppercase tracking-wider"
+                      style={{ color: a ? phosphor : phosphorDim }}
+                    >
                       {role}
                     </span>
                   </div>
-                  {i < arr.length - 1 && <span className="text-[9px] mb-4" style={{ color: phosphorDim }}>{"->"}</span>}
+                  {i < arr.length - 1 && (
+                    <span className="text-meta mb-4" style={{ color: phosphorDim }}>
+                      {"->"}
+                    </span>
+                  )}
                 </React.Fragment>
               ))}
             </div>
@@ -152,11 +175,19 @@ export function ShelterTerminalTheme({
     );
   }
   return (
-    <div className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none" style={{ background: "#000c04" }}>
+    <div
+      className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none"
+      style={{ background: "#000c04" }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 opacity-80" />
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-        <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: phosphor, borderTopColor: "transparent" }} />
-        <p className="text-[10px] font-mono tracking-widest uppercase" style={{ color: phosphor }}>{label}</p>
+        <div
+          className="w-5 h-5 border-2 rounded-full animate-spin"
+          style={{ borderColor: phosphor, borderTopColor: "transparent" }}
+        />
+        <p className="text-meta font-mono tracking-widest uppercase" style={{ color: phosphor }}>
+          {label}
+        </p>
       </div>
     </div>
   );

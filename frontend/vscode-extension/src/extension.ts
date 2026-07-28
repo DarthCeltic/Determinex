@@ -18,7 +18,9 @@ function setting<T>(key: string, fallback: T, legacyKey?: string): T {
 
   if (legacyKey) {
     const [legacySection, ...legacyRest] = legacyKey.split(".");
-    const legacyValue = vscode.workspace.getConfiguration(legacySection).get<T>(legacyRest.join("."));
+    const legacyValue = vscode.workspace
+      .getConfiguration(legacySection)
+      .get<T>(legacyRest.join("."));
     if (legacyValue !== undefined && legacyValue !== "") return legacyValue;
   }
 
@@ -43,7 +45,11 @@ function callBackend(command: string, args: Record<string, unknown>): Promise<an
     child.stdout.on("data", (d) => (out += d.toString()));
     child.stderr.on("data", (d) => (err += d.toString()));
     child.on("close", () => {
-      const line = out.trim().split("\n").filter((l) => l.trim().startsWith("{")).pop();
+      const line = out
+        .trim()
+        .split("\n")
+        .filter((l) => l.trim().startsWith("{"))
+        .pop();
       if (!line) return reject(new Error(err || "no JSON from backend"));
       try {
         resolve(JSON.parse(line));
@@ -60,24 +66,40 @@ async function buildFromIdea() {
   });
   if (!idea) return;
   await vscode.window.withProgress(
-    { location: vscode.ProgressLocation.Notification, title: "Determinex: synthesizing oracle + building..." },
+    {
+      location: vscode.ProgressLocation.Notification,
+      title: "Determinex: synthesizing oracle + building...",
+    },
     async () => {
-      const model = setting<string>("determinex.model", "determinex-engineer-v11-dsl", "determinex.model");
+      const model = setting<string>(
+        "determinex.model",
+        "determinex-engineer-v11-dsl",
+        "determinex.model"
+      );
       const r = await callBackend("build_idea", { idea_text: idea, opt_in: true, model_id: model });
       const p = r.payload || {};
       if (p.solved) {
-        const doc = await vscode.workspace.openTextDocument({ language: "python", content: p.program || "" });
+        const doc = await vscode.workspace.openTextDocument({
+          language: "python",
+          content: p.program || "",
+        });
         await vscode.window.showTextDocument(doc);
-        vscode.window.showInformationMessage(`Determinex: verified program (${p.proof || "oracle passed"}).`);
+        vscode.window.showInformationMessage(
+          `Determinex: verified program (${p.proof || "oracle passed"}).`
+        );
       } else {
-        vscode.window.showWarningMessage(`Determinex: not solved. ${p.proof || ""} Moves: ${(p.next_moves || []).join(", ")}`);
+        vscode.window.showWarningMessage(
+          `Determinex: not solved. ${p.proof || ""} Moves: ${(p.next_moves || []).join(", ")}`
+        );
       }
     }
   );
 }
 
 async function previewIdeaOracle() {
-  const idea = await vscode.window.showInputBox({ prompt: "Idea to preview the sound oracle for:" });
+  const idea = await vscode.window.showInputBox({
+    prompt: "Idea to preview the sound oracle for:",
+  });
   if (!idea) return;
   const r = await callBackend("preview_idea_oracle", { idea_text: idea });
   const p = r.payload || {};

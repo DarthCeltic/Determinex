@@ -26,6 +26,8 @@ pub struct PlanRequestPayload {
     pub thread_id: String,
     #[serde(default)]
     pub retry_count: u32,
+    #[serde(default)]
+    pub model_override: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -34,12 +36,16 @@ pub struct CodeGenPayload {
     pub thread_id: String,
     #[serde(default)]
     pub retry_count: u32,
+    #[serde(default)]
+    pub model_override: Option<String>,
 }
 
 #[derive(Deserialize)]
 pub struct AuditPayload {
     pub code: EngineerCode,
     pub thread_id: String,
+    #[serde(default)]
+    pub model_override: Option<String>,
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -80,6 +86,7 @@ pub async fn orchestrate_plan(
         user_prompt: payload.user_prompt,
         thread_id: payload.thread_id,
         retry_count: payload.retry_count,
+        model_override: payload.model_override,
     };
 
     let result: Result<MoAResult, OrchestratorError> = handle.plan_request(context).await;
@@ -109,7 +116,12 @@ pub async fn orchestrate_codegen(
     );
 
     let result = handle
-        .code_generation(payload.plan, payload.thread_id, payload.retry_count)
+        .code_generation(
+            payload.plan,
+            payload.thread_id,
+            payload.retry_count,
+            payload.model_override,
+        )
         .await;
     to_ipc_result(result)
 }
@@ -126,8 +138,9 @@ pub async fn orchestrate_audit(
         payload.thread_id
     );
 
-    let result: Result<ObserverVerdict, OrchestratorError> =
-        handle.audit_request(payload.code, payload.thread_id).await;
+    let result: Result<ObserverVerdict, OrchestratorError> = handle
+        .audit_request(payload.code, payload.thread_id, payload.model_override)
+        .await;
     to_ipc_result(result)
 }
 

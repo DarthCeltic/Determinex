@@ -26,7 +26,11 @@ from hive.concurrent_guard import (
     drop_session_state,         # #34 cleanup on session end
 )
 
-log = logging.getLogger("hive")
+try:
+    from hive._log import get_logger as _get_logger, bind_session as _bind_session  # noqa: F401
+    log = _get_logger("hive.api_client")
+except ImportError:
+    log = logging.getLogger("hive")
 
 # ── CRITICAL: Zero-Egress Guarantee ─────────────────────────────────────────────
 # LiteLLM ships with telemetry=True by default, pinging BerriAI servers on every

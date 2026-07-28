@@ -33,12 +33,15 @@ def test_live_evaluation_passes():
     assert rec.is_passed, rec.notes
 
 
-def test_all_four_dimensions_closed():
+def test_all_two_dimensions_closed():
+    # Was four; verified_demo_binding and release_blocker_panel were dropped
+    # 2026-07-20 -- their panels+locks+tests were deliberately archived
+    # (commit 30b3ff570) as a Claude<->Codex tandem-pipeline trail, not real
+    # features. Requiring their (now-deleted) lock files here was a stale
+    # check pointing at intentionally-removed work, not a real gap.
     rec = final.evaluate(_REPO_ROOT)
     assert rec.browser_snapshot_closed
-    assert rec.verified_demo_binding_closed
     assert rec.happy_blocked_path_closed
-    assert rec.release_blocker_panel_closed
 
 
 def test_aggregate_invariants():
@@ -94,21 +97,29 @@ def test_missing_browser_snapshot_rung_blocks(tmp_path):
 
 
 def test_lock_with_opened_source_mutation_blocks(tmp_path):
+    # Was DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001
+    # (deleted 2026-07-20, see module docstring) -- retargeted to a
+    # surviving rung, same invariant (opening source_mutation_authorized on
+    # any rung blocks the finale).
     fake = _mirror(tmp_path)
     target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001.json")
+              / "DETERMINEX_REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_LOCK_001.json")
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["source_mutation_authorized"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
     rec = final.evaluate(fake)
     assert rec.is_blocked
-    assert rec.verified_demo_binding_closed is False
+    assert rec.happy_blocked_path_closed is False
 
 
 def test_lock_with_release_ready_true_blocks(tmp_path):
+    # Was DETERMINEX_REACT_RELEASE_READINESS_BLOCKER_PANEL_LOCK_001
+    # (deleted 2026-07-20, see module docstring) -- retargeted to a
+    # surviving rung, same invariant (an unsupported claim key set True on
+    # any rung blocks the finale).
     fake = _mirror(tmp_path)
     target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_RELEASE_READINESS_BLOCKER_PANEL_LOCK_001.json")
+              / "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001.json")
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["release_ready_set_true"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -118,9 +129,12 @@ def test_lock_with_release_ready_true_blocks(tmp_path):
 
 
 def test_lock_with_broad_public_claims_granted_blocks(tmp_path):
+    # Was DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001
+    # (deleted 2026-07-20, see module docstring) -- retargeted to a
+    # surviving rung.
     fake = _mirror(tmp_path)
     target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_LOCK_001.json")
+              / "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001.json")
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["broad_public_claims_granted"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")

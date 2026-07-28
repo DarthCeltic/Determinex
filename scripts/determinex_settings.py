@@ -39,37 +39,15 @@ import threading
 from pathlib import Path
 from typing import Optional
 
+from pydantic import AliasChoices, Field, field_validator
+from pydantic_core import PydanticUseDefault
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
-
-
-def _env(name: str, default: str = "") -> str:
-    return os.environ.get(name, default)
-
-
-def _env_bool(name: str, default: bool = False) -> bool:
-    """Return True when env var is "1", "true", "yes", "on" (case-insensitive)."""
-    val = os.environ.get(name, "").strip().lower()
-    if val == "":
-        return default
-    return val in ("1", "true", "yes", "on")
-
-
-def _env_int(name: str, default: int) -> int:
-    try:
-        return int(os.environ.get(name, ""))
-    except (ValueError, TypeError):
-        return default
-
-
-def _env_float(name: str, default: float) -> float:
-    try:
-        return float(os.environ.get(name, ""))
-    except (ValueError, TypeError):
-        return default
 
 
 def _resolve_path(
@@ -108,12 +86,139 @@ def _resolve_path(
 # Settings class
 # ---------------------------------------------------------------------------
 
-class DeterminexSettings:
+class DeterminexSettings(BaseSettings):
     """Centralized Determinex configuration resolved from environment variables.
 
     Instantiate via :func:`get_settings` to get the cached singleton.
     Direct instantiation is fine for tests (pass env overrides before calling).
+
+    Scalar settings (safety flags, model IDs, API keys, budget/context tuning)
+    are real pydantic-settings fields, populated and type-validated once at
+    construction time -- this is where the "naked os.environ.get() scattered
+    across 80+ scripts" problem this module's docstring describes actually
+    lived. Path settings keep the pre-existing @property + _resolve_path()
+    pattern: their drive-portability fallback (does T:/ exist? no -> use a
+    relative local path instead) is genuine business logic pydantic's env
+    loading doesn't model, not a naked-env-read case, and changing that
+    pattern would break test_audit_dir_local_fallback_when_drive_absent's
+    monkeypatch of the module-level _resolve_path function.
     """
+
+    model_config = SettingsConfigDict(extra="ignore", populate_by_name=True)
+
+    # Only bool/int/float fields need this -- pydantic's native coercion
+    # rejects "" for those types (the old _env_bool/_env_int/_env_float
+    # fell back to the default instead). str fields don't need it ("" is
+    # already a valid str), which matters here: a wildcard "*" validator
+    # combined with any AliasChoices-aliased field below causes genuine
+    # infinite recursion inside pydantic-settings' alias resolution
+    # (reproduced in isolation, not a fluke) -- scoping to only the
+    # non-string field names sidesteps that entirely.
+    _EMPTY_STRING_FALLBACK_FIELDS = (
+        "online_discovery", "allow_cloud_fallback", "allow_unsandboxed",
+        "require_docker", "require_cloak", "offline_observer",
+        "flywheel_auto", "cloak_enabled", "cloak_audit",
+        "budget_usd", "budget_calls", "budget_per_task",
+        "max_retries", "observer_timeout", "test_timeout",
+        "rosetta_layer2", "no_rosetta",
+    )
+
+    @field_validator(*_EMPTY_STRING_FALLBACK_FIELDS, mode="before")
+    @classmethod
+    def _empty_string_uses_default(cls, v):
+        if v == "":
+            raise PydanticUseDefault()
+        return v
+
+    # ------------------------------------------------------------------
+    # Safety flags — all fail CLOSED
+    # ------------------------------------------------------------------
+
+    safety_mode: str = Field(default="strict", validation_alias="DETERMINEX_SAFETY_MODE")
+    online_discovery: bool = Field(default=False, validation_alias="DETERMINEX_ONLINE_DISCOVERY")
+    allow_cloud_fallback: bool = Field(default=False, validation_alias="DETERMINEX_ALLOW_CLOUD_FALLBACK")
+    # 2026-07-26: finalized to DETERMINEX_* as part of the Citadel->Determinex rename.
+    # The REAL enforcement point (hive/compiler.py's SEC-2 gate) must read the same
+    # name this Field validates, or assert_safety_defaults() below could report "no
+    # violations" while the compiler was actually running unsandboxed -- keep these two
+    # in sync.
+    allow_unsandboxed: bool = Field(default=False, validation_alias="DETERMINEX_ALLOW_UNSANDBOXED")
+    require_docker: bool = Field(default=True, validation_alias="DETERMINEX_REQUIRE_DOCKER")
+    require_cloak: bool = Field(default=True, validation_alias="DETERMINEX_REQUIRE_CLOAK")
+    offline_observer: bool = Field(default=True, validation_alias="DETERMINEX_OFFLINE_OBSERVER")
+    flywheel_auto: bool = Field(default=False, validation_alias="DETERMINEX_FLYWHEEL_AUTO")
+    cloak_enabled: bool = Field(default=False, validation_alias="DETERMINEX_CLOAK")
+    cloak_audit: bool = Field(default=False, validation_alias="DETERMINEX_CLOAK_AUDIT")
+
+    # ------------------------------------------------------------------
+    # Model identifiers
+    # ------------------------------------------------------------------
+
+    builder_model: str = Field(
+        default="determinex-engineer-v11-dsl", validation_alias="DETERMINEX_BUILDER_MODEL"
+    )
+    observer_model: str = Field(
+        default="determinex-observer-v6-dsl", validation_alias="DETERMINEX_OBSERVER_MODEL"
+    )
+    architect_model: str = Field(
+        default="determinex-sentinel-v5-dsl", validation_alias="DETERMINEX_ARCHITECT_MODEL"
+    )
+    deepseek_model: str = Field(default="deepseek-chat", validation_alias="DETERMINEX_DEEPSEEK_MODEL")
+    anthropic_model: str = Field(
+        default="claude-sonnet-4-6", validation_alias="DETERMINEX_ANTHROPIC_MODEL"
+    )
+    ollama_url: str = Field(
+        default="http://localhost:11434",
+        validation_alias=AliasChoices("DETERMINEX_OLLAMA_URL", "OLLAMA_HOST"),
+    )
+    vllm_url: str = Field(default="http://localhost:8000/v1", validation_alias="DETERMINEX_VLLM_URL")
+    vllm_model: str = Field(
+        default="Qwen/Qwen2.5-Coder-7B-Instruct", validation_alias="DETERMINEX_VLLM_MODEL"
+    )
+    inference_backend: str = Field(default="ollama", validation_alias="DETERMINEX_INFERENCE_BACKEND")
+
+    # ------------------------------------------------------------------
+    # API keys — no defaults; callers must handle empty string
+    # ------------------------------------------------------------------
+
+    anthropic_api_key: str = Field(
+        default="", validation_alias=AliasChoices("ANTHROPIC_API_KEY", "DETERMINEX_ANTHROPIC_KEY")
+    )
+    deepseek_api_key: str = Field(
+        default="", validation_alias=AliasChoices("DETERMINEX_DEEPSEEK_KEY", "DEEPSEEK_API_KEY")
+    )
+    openrouter_api_key: str = Field(default="", validation_alias="OPENROUTER_API_KEY")
+    openai_api_key: str = Field(
+        default="", validation_alias=AliasChoices("DETERMINEX_OPENAI_KEY", "OPENAI_API_KEY")
+    )
+    gemini_api_key: str = Field(
+        default="", validation_alias=AliasChoices("DETERMINEX_GEMINI_KEY", "GEMINI_API_KEY")
+    )
+    # HMAC signing key for corpus rows. The real signing code (determinex_safety.py,
+    # corpus/corpus_manager.py) reads DETERMINEX_CORPUS_HMAC_KEY -- this used to check
+    # DETERMINEX_HMAC_KEY/DETERMINEX_CORPUS_HMAC_KEY first, names nothing else honors,
+    # so DETERMINEX_CORPUS_HMAC_KEY must be the primary alias, not the fallback.
+    hmac_key: str = Field(
+        default="", validation_alias=AliasChoices("DETERMINEX_CORPUS_HMAC_KEY", "DETERMINEX_HMAC_KEY")
+    )
+
+    # ------------------------------------------------------------------
+    # Budget / rate limits
+    # ------------------------------------------------------------------
+
+    budget_usd: float = Field(default=2.50, validation_alias="DETERMINEX_BUDGET_USD")
+    budget_calls: int = Field(default=200, validation_alias="DETERMINEX_BUDGET_CALLS")
+    budget_per_task: float = Field(default=6.0, validation_alias="DETERMINEX_BUDGET_PER_TASK")
+
+    # ------------------------------------------------------------------
+    # Context / inference tuning
+    # ------------------------------------------------------------------
+
+    max_retries: int = Field(default=5, validation_alias="DETERMINEX_MAX_RETRIES")
+    observer_timeout: int = Field(default=7200, validation_alias="DETERMINEX_OBSERVER_TIMEOUT")
+    test_timeout: int = Field(default=60, validation_alias="DETERMINEX_TEST_TIMEOUT")
+    rosetta_layer2: bool = Field(default=False, validation_alias="DETERMINEX_ROSETTA_LAYER2")
+    no_rosetta: bool = Field(default=False, validation_alias="DETERMINEX_NO_ROSETTA")
 
     # ------------------------------------------------------------------
     # Core paths
@@ -208,160 +313,6 @@ class DeterminexSettings:
             "T:/determinex_artifacts/cache",
             local_fallback="data/artifact_cache",
         )
-
-    # ------------------------------------------------------------------
-    # Safety flags — all fail CLOSED
-    # ------------------------------------------------------------------
-
-    @property
-    def safety_mode(self) -> str:
-        return _env("DETERMINEX_SAFETY_MODE", "strict")
-
-    @property
-    def online_discovery(self) -> bool:
-        """Online artifact discovery — disabled by default."""
-        return _env_bool("DETERMINEX_ONLINE_DISCOVERY", default=False)
-
-    @property
-    def allow_cloud_fallback(self) -> bool:
-        return _env_bool("DETERMINEX_ALLOW_CLOUD_FALLBACK", default=False)
-
-    @property
-    def allow_unsandboxed(self) -> bool:
-        return _env_bool("DETERMINEX_ALLOW_UNSANDBOXED", default=False)
-
-    @property
-    def require_docker(self) -> bool:
-        return _env_bool("DETERMINEX_REQUIRE_DOCKER", default=True)
-
-    @property
-    def require_cloak(self) -> bool:
-        return _env_bool("DETERMINEX_REQUIRE_CLOAK", default=True)
-
-    @property
-    def offline_observer(self) -> bool:
-        return _env_bool("DETERMINEX_OFFLINE_OBSERVER", default=True)
-
-    @property
-    def flywheel_auto(self) -> bool:
-        return _env_bool("DETERMINEX_FLYWHEEL_AUTO", default=False)
-
-    @property
-    def cloak_enabled(self) -> bool:
-        return _env_bool("DETERMINEX_CLOAK", default=False)
-
-    @property
-    def cloak_audit(self) -> bool:
-        return _env_bool("DETERMINEX_CLOAK_AUDIT", default=False)
-
-    # ------------------------------------------------------------------
-    # Model identifiers
-    # ------------------------------------------------------------------
-
-    @property
-    def builder_model(self) -> str:
-        return _env("DETERMINEX_BUILDER_MODEL", "determinex-engineer-v11-dsl")
-
-    @property
-    def observer_model(self) -> str:
-        return _env("DETERMINEX_OBSERVER_MODEL", "determinex-observer-v6-dsl")
-
-    @property
-    def architect_model(self) -> str:
-        return _env("DETERMINEX_ARCHITECT_MODEL", "determinex-sentinel-v5-dsl")
-
-    @property
-    def deepseek_model(self) -> str:
-        return _env("DETERMINEX_DEEPSEEK_MODEL", "deepseek-chat")
-
-    @property
-    def anthropic_model(self) -> str:
-        return _env("DETERMINEX_ANTHROPIC_MODEL", "claude-sonnet-4-6")
-
-    @property
-    def ollama_url(self) -> str:
-        return _env("DETERMINEX_OLLAMA_URL", _env("OLLAMA_HOST", "http://localhost:11434"))
-
-    @property
-    def vllm_url(self) -> str:
-        return _env("DETERMINEX_VLLM_URL", "http://localhost:8000/v1")
-
-    @property
-    def vllm_model(self) -> str:
-        return _env("DETERMINEX_VLLM_MODEL", "Qwen/Qwen2.5-Coder-7B-Instruct")
-
-    @property
-    def inference_backend(self) -> str:
-        return _env("DETERMINEX_INFERENCE_BACKEND", "ollama")
-
-    # ------------------------------------------------------------------
-    # API keys — no defaults; callers must handle empty string
-    # ------------------------------------------------------------------
-
-    @property
-    def anthropic_api_key(self) -> str:
-        return _env("ANTHROPIC_API_KEY", _env("DETERMINEX_ANTHROPIC_KEY", ""))
-
-    @property
-    def deepseek_api_key(self) -> str:
-        return _env("DETERMINEX_DEEPSEEK_KEY", _env("DEEPSEEK_API_KEY", ""))
-
-    @property
-    def openrouter_api_key(self) -> str:
-        return _env("OPENROUTER_API_KEY", "")
-
-    @property
-    def openai_api_key(self) -> str:
-        return _env("DETERMINEX_OPENAI_KEY", _env("OPENAI_API_KEY", ""))
-
-    @property
-    def gemini_api_key(self) -> str:
-        return _env("DETERMINEX_GEMINI_KEY", _env("GEMINI_API_KEY", ""))
-
-    @property
-    def hmac_key(self) -> str:
-        """HMAC signing key for corpus rows. Prefer DETERMINEX_HMAC_KEY; also accepts DETERMINEX_CORPUS_HMAC_KEY."""
-        return _env("DETERMINEX_HMAC_KEY", _env("DETERMINEX_CORPUS_HMAC_KEY", ""))
-
-    # ------------------------------------------------------------------
-    # Budget / rate limits
-    # ------------------------------------------------------------------
-
-    @property
-    def budget_usd(self) -> float:
-        return _env_float("DETERMINEX_BUDGET_USD", 2.50)
-
-    @property
-    def budget_calls(self) -> int:
-        return _env_int("DETERMINEX_BUDGET_CALLS", 200)
-
-    @property
-    def budget_per_task(self) -> float:
-        return _env_float("DETERMINEX_BUDGET_PER_TASK", 6.0)
-
-    # ------------------------------------------------------------------
-    # Context / inference tuning
-    # ------------------------------------------------------------------
-
-    @property
-    def max_retries(self) -> int:
-        return _env_int("DETERMINEX_MAX_RETRIES", 5)
-
-    @property
-    def observer_timeout(self) -> int:
-        return _env_int("DETERMINEX_OBSERVER_TIMEOUT", 7200)
-
-    @property
-    def test_timeout(self) -> int:
-        return _env_int("DETERMINEX_TEST_TIMEOUT", 60)
-
-    @property
-    def rosetta_layer2(self) -> bool:
-        return _env_bool("DETERMINEX_ROSETTA_LAYER2", default=False)
-
-    @property
-    def no_rosetta(self) -> bool:
-        return _env_bool("DETERMINEX_NO_ROSETTA", default=False)
 
     # ------------------------------------------------------------------
     # Introspection helpers

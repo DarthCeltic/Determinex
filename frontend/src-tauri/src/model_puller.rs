@@ -18,16 +18,7 @@ use serde::{Deserialize, Serialize};
 use tokio::process::Command;
 
 use crate::hardware;
-
-#[cfg(target_os = "windows")]
-fn no_window(cmd: &mut Command) -> &mut Command {
-    const CREATE_NO_WINDOW: u32 = 0x0800_0000;
-    cmd.creation_flags(CREATE_NO_WINDOW)
-}
-#[cfg(not(target_os = "windows"))]
-fn no_window(cmd: &mut Command) -> &mut Command {
-    cmd
-}
+use crate::win_process::HideConsoleExt;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -82,7 +73,8 @@ fn required_models_for_budget(budget_mb: u64) -> Vec<&'static str> {
 
 /// Parse `ollama list` output to get currently installed model tags.
 async fn get_installed_models() -> Result<Vec<String>, String> {
-    let output = no_window(Command::new("ollama").arg("list"))
+    let output = Command::new("ollama").hide_console()
+        .arg("list")
         .output()
         .await
         .map_err(|e| format!("Failed to run `ollama list`: {}", e))?;
@@ -129,7 +121,8 @@ fn model_is_installed(tag: &str, installed: &[String]) -> bool {
 async fn pull_model(tag: &str) -> Result<(), String> {
     log::info!("[MODEL-PULLER] Pulling model: {}", tag);
 
-    let output = no_window(Command::new("ollama").args(["pull", tag]))
+    let output = Command::new("ollama").hide_console()
+        .args(["pull", tag])
         .output()
         .await
         .map_err(|e| format!("Failed to run `ollama pull {}`: {}", tag, e))?;
@@ -218,118 +211,6 @@ pub async fn pull_required_models() -> Result<PullSummary, String> {
     let budget_mb = hardware::poll_vram_budget()?;
     let config = hardware::calculate_tier(budget_mb)?;
     ensure_models_ready_with_config(budget_mb, &config).await
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// ADVANCED / CUSTOM MODEL SELECTION
-// ─────────────────────────────────────────────────────────────────────────────
-//
-// The tier system above (and hardware::available_tiers_for_budget) covers the
-// "just works" path. These two commands are the escape hatch for everyone
-// else: someone with 100GB of VRAM who wants to load up on much bigger
-// experts, someone who already has a favorite fine-tune, or someone who wants
-// whatever's new on HuggingFace this week that isn't in any hardcoded list.
-// Both are deliberately generic -- neither one knows or cares what model it's
-// fetching, unlike the DSL fine-tunes in bootstrap.rs which are specific,
-// named, versioned entities.
-
-/// Pull any Ollama-hosted model tag the user asks for, verbatim -- e.g.
-/// "llama3.3:70b", "deepseek-coder-v2:236b", or literally anything on
-/// ollama.com/library. No allowlist: if Ollama's registry has it, this can
-/// fetch it. Errors surface Ollama's own message (e.g. "model not found").
-#[tauri::command]
-pub async fn pull_custom_model(tag: String) -> Result<PullSummary, String> {
-    let trimmed = tag.trim();
-    if trimmed.is_empty() {
-        return Err("Model tag cannot be empty.".to_string());
-    }
-
-    let installed = get_installed_models().await.unwrap_or_default();
-    if model_is_installed(trimmed, &installed) {
-        return Ok(PullSummary {
-            models_pulled: vec![],
-            models_existing: vec![trimmed.to_string()],
-            models_failed: vec![],
-            tier_resolved: "custom".to_string(),
-            vram_budget_mb: hardware::poll_vram_budget().unwrap_or(0),
-        });
-    }
-
-    match pull_model(trimmed).await {
-        Ok(()) => Ok(PullSummary {
-            models_pulled: vec![trimmed.to_string()],
-            models_existing: vec![],
-            models_failed: vec![],
-            tier_resolved: "custom".to_string(),
-            vram_budget_mb: hardware::poll_vram_budget().unwrap_or(0),
-        }),
-        Err(e) => Ok(PullSummary {
-            models_pulled: vec![],
-            models_existing: vec![],
-            models_failed: vec![format!("{}: {}", trimmed, e)],
-            tier_resolved: "custom".to_string(),
-            vram_budget_mb: hardware::poll_vram_budget().unwrap_or(0),
-        }),
-    }
-}
-
-/// Download an arbitrary GGUF (HuggingFace or any other direct URL) and
-/// register it in Ollama under `tag`. This is how someone brings a model
-/// that was never going to make it into any hardcoded list -- their own
-/// fine-tune, something new from HF, a quantization variant, whatever.
-///
-/// The GGUF is cached under DETERMINEX_MODELS_DIR/custom/<safe-tag>.gguf so a
-/// second registration (or a re-run after `ollama rm`) doesn't re-download.
-#[tauri::command]
-pub async fn register_custom_gguf(url: String, tag: String, num_ctx: u32) -> Result<String, String> {
-    let tag = tag.trim();
-    let url = url.trim();
-    if tag.is_empty() || url.is_empty() {
-        return Err("Both a model tag and a GGUF URL are required.".to_string());
-    }
-
-    let models_dir = std::env::var("DETERMINEX_MODELS_DIR").unwrap_or_else(|_| {
-        let home = std::env::var("USERPROFILE")
-            .or_else(|_| std::env::var("HOME"))
-            .unwrap_or_else(|_| ".".to_string());
-        format!("{}/determinex-models", home)
-    });
-    let safe_name = tag.replace([':', '/'], "_");
-    let gguf_path = std::path::PathBuf::from(models_dir)
-        .join("custom")
-        .join(format!("{}.gguf", safe_name));
-
-    if !gguf_path.exists() {
-        log::info!("[MODEL-PULLER] Downloading custom GGUF for {} from {}", tag, url);
-        crate::bootstrap::stream_download(url, &gguf_path).await?;
-    } else {
-        log::info!("[MODEL-PULLER] Custom GGUF for {} already cached at {:?}", tag, gguf_path);
-    }
-
-    let modelfile_content = format!(
-        "FROM {}\nPARAMETER num_ctx {}\nPARAMETER temperature 0\n",
-        gguf_path.to_string_lossy(),
-        num_ctx.max(512)
-    );
-    let temp_path = std::env::temp_dir().join(format!("determinex_custom_modelfile_{}.txt", safe_name));
-    std::fs::write(&temp_path, &modelfile_content)
-        .map_err(|e| format!("Failed to write Modelfile for {}: {}", tag, e))?;
-
-    let out = crate::windows_process::no_window_tokio(
-        Command::new("ollama").args(["create", tag, "-f", temp_path.to_str().unwrap_or("")]),
-    )
-    .output()
-    .await;
-
-    let _ = std::fs::remove_file(&temp_path);
-    let out = out.map_err(|e| format!("Failed to spawn `ollama create {}`: {}", tag, e))?;
-
-    if out.status.success() {
-        Ok(format!("Registered {} from {}", tag, gguf_path.display()))
-    } else {
-        let stderr = String::from_utf8_lossy(&out.stderr);
-        Err(format!("`ollama create {}` failed: {}", tag, stderr.trim()))
-    }
 }
 
 #[cfg(test)]

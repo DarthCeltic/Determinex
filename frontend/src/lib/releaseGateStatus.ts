@@ -58,8 +58,7 @@ export const DETERMINEX_RELEASE_GATES: ReleaseGateSnapshot = {
         "assurance/evidence/installer_release_packet_hardening/run_20260629.INSTALLER_RELEASE_PACKET_HARDENED_UNSIGNED.json",
         "assurance/evidence/determinex_download_bundle_20260707/download_manifest.json",
       ],
-      exactBlocker:
-        "windows_msi_not_bundled; linux_packages_not_bundled",
+      exactBlocker: "windows_msi_not_bundled; linux_packages_not_bundled",
       nextAction:
         "Build the full package matrix: Windows NSIS, Windows MSI, and Linux package artifact(s), then refresh the download bundle.",
       runbookCommands: [
@@ -87,7 +86,13 @@ export const DETERMINEX_RELEASE_GATES: ReleaseGateSnapshot = {
       title: "Legal/IP public distribution packet",
       status: "partial",
       releaseReady: false,
-      evidence: ["LICENSE", "pyproject.toml", "frontend/package.json", "frontend/src-tauri/Cargo.toml", "frontend/vscode-extension/package.json"],
+      evidence: [
+        "LICENSE",
+        "pyproject.toml",
+        "frontend/package.json",
+        "frontend/src-tauri/Cargo.toml",
+        "frontend/vscode-extension/package.json",
+      ],
       exactBlocker:
         "AGPLv3 source license evidence is present, but public repo secret scan, repo scrub, model notices, and third-party notices have not been recorded in the legal public distribution packet.",
       nextAction:
@@ -199,7 +204,10 @@ export const DETERMINEX_RELEASE_GATES: ReleaseGateSnapshot = {
       title: "VS Code/Open VSX compatibility",
       status: "deferred",
       releaseReady: false,
-      evidence: ["frontend/vscode-extension", "docs/release/DETERMINEX_EXTENSION_COMPATIBILITY_CONTRACT.md"],
+      evidence: [
+        "frontend/vscode-extension",
+        "docs/release/DETERMINEX_EXTENSION_COMPATIBILITY_CONTRACT.md",
+      ],
       exactBlocker:
         "Extension compatibility contract exists, but runtime compatibility packet has not passed.",
       nextAction:
@@ -214,10 +222,12 @@ export const DETERMINEX_RELEASE_GATES: ReleaseGateSnapshot = {
       status: "deferred",
       releaseReady: false,
       evidence: ["PROJECT.md", "docs/release/DETERMINEX_INTERNAL_RENAME_MIGRATION.md"],
-      exactBlocker: "Legacy determinex_* and DETERMINEX_* implementation identifiers remain by project contract.",
-      nextAction: "Execute the internal rename migration with compatibility aliases and migration tests.",
+      exactBlocker:
+        "Legacy determinex_* and DETERMINEX_* implementation identifiers remain by project contract.",
+      nextAction:
+        "Execute the internal rename migration with compatibility aliases and migration tests.",
       runbookCommands: [
-        "rg \"determinex_|DETERMINEX_\"",
+        'rg "determinex_|DETERMINEX_"',
         ".venv\\Scripts\\python.exe scripts\\release\\determinex_release_gates.py --output assurance\\evidence\\determinex_release_gate_status\\release_gates_20260707.json",
       ],
     },

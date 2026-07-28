@@ -11,7 +11,7 @@
 
 **Do not open a public GitHub issue for security vulnerabilities.**
 
-Report security issues privately via [GitHub Security Advisories](https://github.com/DarthCeltic/determinex/security/advisories/new).
+Report security issues privately via [GitHub Security Advisories](https://github.com/determinex-ai/determinex/security/advisories/new).
 
 Security reports do not grant source mutation authority, real-user source mutation authority, proof execution authority, training rows, release readiness, production readiness, installer readiness, or open availability. Training eligibility remains false unless a separate signed evidence gate grants it.
 

@@ -21,9 +21,9 @@ BOARD = ROOT / "logs" / "programbench_lock_board.json"
 HETZ_IMPORT_BASE = Path("T:/determinex-programbench")
 SSH = Path(r"C:\Windows\System32\OpenSSH\ssh.exe")
 SCP = Path(r"C:\Windows\System32\OpenSSH\scp.exe")
-SSH_KEY = Path.home() / ".ssh" / "id_determinex"
+SSH_KEY = Path.home() / ".ssh" / "id_citadel"
 SSH_HOST = "root@5.78.192.163"
-REMOTE_BASE = "/root/determinex-programbench"
+REMOTE_BASE = "/root/citadel-programbench"
 PYTHON = Path(sys.executable)
 
 

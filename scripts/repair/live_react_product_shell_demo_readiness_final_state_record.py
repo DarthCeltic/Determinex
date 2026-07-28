@@ -14,11 +14,13 @@ LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_STATUS_TOKENS = (
 
 @dataclass(frozen=True)
 class LiveReactProductShellDemoReadinessFinalStateRecord:
+    # verified_demo_binding_closed and release_blocker_panel_closed were
+    # dropped 2026-07-20: their panels+locks+tests were deliberately
+    # archived (commit 30b3ff570) as a Claude<->Codex tandem-pipeline
+    # trail, not real features. Was four dimensions, now two.
     decision: str
     browser_snapshot_closed: bool
-    verified_demo_binding_closed: bool
     happy_blocked_path_closed: bool
-    release_blocker_panel_closed: bool
     source_mutation_authorized: bool
     training_eligible: bool
     release_ready: bool

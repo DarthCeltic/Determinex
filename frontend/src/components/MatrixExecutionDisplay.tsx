@@ -180,7 +180,7 @@ export function MatrixExecutionDisplay({
               }}
             />
             <div className="text-center">
-              <p className="text-[9px] tracking-[0.4em] uppercase font-mono text-gray-500">
+              <p className="text-eyebrow tracking-[0.4em] uppercase font-mono text-gray-500">
                 VRAM TOLLBOOTH — ACTIVE NODE
               </p>
               <h2
@@ -193,7 +193,7 @@ export function MatrixExecutionDisplay({
                 {activeAgent ? activeAgent.label : "INITIALIZING"}
               </h2>
               {activeAgent && (
-                <p className="text-[9px] font-mono text-gray-400 mt-0.5">
+                <p className="text-meta font-mono text-gray-400 mt-0.5">
                   {activeAgent.model} · {activeAgent.role}
                 </p>
               )}
@@ -201,7 +201,7 @@ export function MatrixExecutionDisplay({
           </div>
 
           {/* Live log line */}
-          <p className="text-[10px] font-mono text-center text-green-400/80 leading-relaxed min-h-[2.5rem]">
+          <p className="text-label font-mono text-center text-green-400/80 leading-relaxed min-h-[2.5rem]">
             {displayLog}
           </p>
         </div>
@@ -241,12 +241,12 @@ export function MatrixExecutionDisplay({
                     )}
                   </div>
                   <span
-                    className="text-[8px] font-black tracking-widest uppercase font-mono"
+                    className="text-eyebrow font-black tracking-widest uppercase font-mono"
                     style={{ color: isActive ? agent.color : isDone ? "#22c55e" : "#4b5563" }}
                   >
                     {agent.label}
                   </span>
-                  <span className="text-[7px] text-gray-600 font-mono">
+                  <span className="text-meta text-gray-600 font-mono">
                     {isPending ? "STANDBY" : isDone ? "DONE" : "ACTIVE"}
                   </span>
                 </div>
@@ -268,7 +268,7 @@ export function MatrixExecutionDisplay({
               title="Observer rejection loop count"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block" />
-              <span className="text-[8px] font-black text-amber-400 tracking-wider">
+              <span className="text-meta font-black text-amber-400 tracking-wider">
                 RETRY ×{retryCount}
               </span>
             </div>
@@ -291,14 +291,14 @@ export function MatrixExecutionDisplay({
                 <AlertTriangle size={14} className="text-red-400" />
               )}
               <span
-                className="text-[10px] font-black tracking-widest uppercase"
+                className="text-meta font-black tracking-widest uppercase"
                 style={{ color: agentStatus.accepted ? "#22c55e" : "#ef4444" }}
               >
                 {agentStatus.verdict}
               </span>
             </div>
             {agentStatus.confidence !== null && (
-              <span className="text-[9px] text-gray-400">
+              <span className="text-meta text-gray-400">
                 confidence: {(agentStatus.confidence * 100).toFixed(0)}%
               </span>
             )}
@@ -310,10 +310,10 @@ export function MatrixExecutionDisplay({
           <div className="w-full flex items-start gap-2 px-4 py-3 rounded-xl border border-red-500/30 bg-red-950/20 font-mono">
             <AlertTriangle size={14} className="text-red-400 mt-0.5 shrink-0" />
             <div>
-              <p className="text-[9px] text-red-400 font-black tracking-widest uppercase mb-0.5">
+              <p className="text-eyebrow text-red-400 font-black tracking-widest uppercase mb-0.5">
                 [{agentStatus.error.stage}] PIPELINE ABORTED
               </p>
-              <p className="text-[9px] text-red-300/70 leading-relaxed">
+              <p className="text-meta text-red-300/70 leading-relaxed">
                 {agentStatus.error.message}
               </p>
             </div>
@@ -339,13 +339,13 @@ export function MatrixExecutionDisplay({
         <div className="w-full rounded-xl border border-green-500/20 bg-black/70 backdrop-blur-sm overflow-hidden">
           <div className="px-3 py-1.5 border-b border-green-500/20 flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[8px] font-black tracking-[0.4em] uppercase text-green-500/70 font-mono">
+            <span className="text-eyebrow font-black tracking-[0.4em] uppercase text-green-500/70 font-mono">
               PIPELINE TELEMETRY
             </span>
           </div>
           <div
             ref={terminalRef}
-            className="h-32 overflow-y-auto px-3 py-2 flex flex-col gap-0.5 font-mono text-[9px] leading-relaxed"
+            className="h-32 overflow-y-auto px-3 py-2 flex flex-col gap-0.5 font-mono text-meta leading-relaxed"
             style={{ scrollbarWidth: "none" }}
           >
             {timestampedLogs.length === 0 ? (

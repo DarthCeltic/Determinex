@@ -34,7 +34,7 @@ def _init_rag() -> bool:
         _EMBEDDER = TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
         _DB_PATH = os.environ.get(
             "DETERMINEX_DB",
-            os.path.join(os.environ.get("APPDATA", os.path.expanduser("~")), "run.determinex.app", "determinex.sqlite")
+            r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
         )
         return True
     except Exception as e:

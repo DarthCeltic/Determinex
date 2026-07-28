@@ -12,6 +12,7 @@ pub struct ApiKeysPayload {
     pub deepseek_key: Option<String>,
     pub mistral_key: Option<String>,
     pub openrouter_key: Option<String>,
+    pub kimi_key: Option<String>,
 }
 
 #[derive(Serialize)]
@@ -46,6 +47,7 @@ pub fn get_api_key_status(state: State<'_, DbState>) -> Result<HashMap<String, b
     status.insert("deepseek".to_string(), false);
     status.insert("mistral".to_string(), false);
     status.insert("openrouter".to_string(), false);
+    status.insert("kimi".to_string(), false);
 
     for provider_res in active_providers_iter {
         if let Ok(provider) = provider_res {
@@ -87,6 +89,7 @@ pub fn save_api_keys(
     upsert("deepseek", &keys.deepseek_key)?;
     upsert("mistral", &keys.mistral_key)?;
     upsert("openrouter", &keys.openrouter_key)?;
+    upsert("kimi", &keys.kimi_key)?;
 
     Ok(SuccessResponse {
         status: "success".to_string(),

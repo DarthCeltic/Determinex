@@ -31,7 +31,7 @@ export const APPROVAL_UX_COPY = {
   temp_workspace_explanation:
     "The patch was applied only to a temporary workspace. Your original files were not modified. You can dismiss the patch at any time before approval.",
   source_mutation_warning:
-    "Approving will eventually apply the diff to your real files. This step is not yet wired up in this build — even an approve action here produces only a fixture/dry-run record. Real source mutation will require a separate, explicit step.",
+    "Approving here records the decision only. The patch plan stages its proposed files into the Review panel, and applying them there is the single path that writes to your source — with the same workspace-boundary check every other write uses.",
   approval_consequences:
     "Approving records your operator identity and a signature over the diff. Approvals can be revoked, but not retroactively: any later audit will see that you approved this packet at this time.",
   reject_option:
@@ -58,12 +58,15 @@ export function HumanApprovalPanel({ workspacePath, unifiedDiff = "" }: Props) {
 
   const fetchPacket = React.useCallback(async () => {
     const r = await invokeIdeCommand("get_human_approval_packet", {
-      workspace: workspacePath, unified_diff: unifiedDiff,
+      workspace: workspacePath,
+      unifiedDiff,
     });
     setPacket(r);
   }, [workspacePath, unifiedDiff]);
 
-  React.useEffect(() => { void fetchPacket(); }, [fetchPacket]);
+  React.useEffect(() => {
+    void fetchPacket();
+  }, [fetchPacket]);
 
   const payload = (packet?.payload ?? {}) as Record<string, unknown>;
   const filesChanged = (payload.files_changed as string[] | undefined) ?? [];
@@ -75,20 +78,19 @@ export function HumanApprovalPanel({ workspacePath, unifiedDiff = "" }: Props) {
   const canApprove = operator.trim().length > 0;
 
   return (
-    <section
-      data-testid="human-approval-panel"
-      className="rounded border p-3 text-sm space-y-3"
-    >
+    <section data-testid="human-approval-panel" className="rounded border p-3 text-sm space-y-3">
       <header>
         <h3 className="font-medium">Human Approval</h3>
         <p className="text-xs opacity-80" data-testid="human-approval-source-mutation-still-gated">
-          Source mutation is still gated. This panel records your decision; it
-          does not write to your repo.
+          Source mutation is still gated. This panel records your decision; it does not write to
+          your repo.
         </p>
       </header>
 
-      <ul className="rounded bg-amber-500/5 border border-amber-500/30 p-3 text-xs space-y-1"
-          data-testid="human-approval-risk-copy">
+      <ul
+        className="rounded bg-amber-500/5 border border-amber-500/30 p-3 text-xs space-y-1"
+        data-testid="human-approval-risk-copy"
+      >
         <li>{APPROVAL_UX_COPY.diagnosis_advisory}</li>
         <li>{APPROVAL_UX_COPY.patch_plan_untrusted}</li>
         <li>{APPROVAL_UX_COPY.verifier_result_explanation}</li>
@@ -100,7 +102,9 @@ export function HumanApprovalPanel({ workspacePath, unifiedDiff = "" }: Props) {
 
       <dl className="grid grid-cols-2 gap-1 text-xs">
         <dt className="opacity-70">Trace</dt>
-        <dd className="font-mono" data-testid="human-approval-trace-id">{traceId || "—"}</dd>
+        <dd className="font-mono" data-testid="human-approval-trace-id">
+          {traceId || "—"}
+        </dd>
 
         <dt className="opacity-70">Files</dt>
         <dd data-testid="human-approval-files-changed">
@@ -119,8 +123,10 @@ export function HumanApprovalPanel({ workspacePath, unifiedDiff = "" }: Props) {
       </dl>
 
       {diffSummary && (
-        <pre className="overflow-auto rounded bg-muted/50 p-2 text-xs"
-             data-testid="human-approval-diff-summary">
+        <pre
+          className="overflow-auto rounded bg-muted/50 p-2 text-xs"
+          data-testid="human-approval-diff-summary"
+        >
           {diffSummary}
         </pre>
       )}
@@ -160,14 +166,18 @@ export function HumanApprovalPanel({ workspacePath, unifiedDiff = "" }: Props) {
       </div>
 
       {decision === "approved-fixture" && (
-        <div className="rounded border border-emerald-500/30 bg-emerald-500/5 p-2 text-xs"
-             data-testid="human-approval-fixture-recorded">
+        <div
+          className="rounded border border-emerald-500/30 bg-emerald-500/5 p-2 text-xs"
+          data-testid="human-approval-fixture-recorded"
+        >
           Recorded as FIXTURE approval. Source mutation remains BLOCKED.
         </div>
       )}
       {decision === "rejected" && (
-        <div className="rounded border border-red-500/30 bg-red-500/5 p-2 text-xs"
-             data-testid="human-approval-rejected-recorded">
+        <div
+          className="rounded border border-red-500/30 bg-red-500/5 p-2 text-xs"
+          data-testid="human-approval-rejected-recorded"
+        >
           Recorded as REJECTED. Temp workspace will be discarded by the backend.
         </div>
       )}

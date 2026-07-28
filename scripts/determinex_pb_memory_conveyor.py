@@ -25,8 +25,8 @@ Usage (local Windows side, T: drive present):
   python scripts/determinex_pb_memory_conveyor.py --interval 120 --max-failures 3
 
 Hetzner layout expected:
-  /root/Determinex/logs/pb_churn_events.jsonl   — written by determinex_pb_churn.py
-  /root/Determinex/logs/reimpl/<short>_drive.py — candidate files
+  /root/Citadel/logs/pb_churn_events.jsonl   — written by determinex_pb_churn.py
+  /root/Citadel/logs/reimpl/<short>_drive.py — candidate files
 """
 from __future__ import annotations
 
@@ -46,9 +46,9 @@ ROOT = Path(__file__).resolve().parent.parent
 PY   = Path(sys.executable)
 SSH  = Path(r"C:\Windows\System32\OpenSSH\ssh.exe")
 SCP  = Path(r"C:\Windows\System32\OpenSSH\scp.exe")
-SSH_KEY  = Path.home() / ".ssh" / "id_determinex"
+SSH_KEY  = Path.home() / ".ssh" / "id_citadel"
 REMOTE   = "root@5.78.192.163"
-REMOTE_ROOT = "/root/Determinex"
+REMOTE_ROOT = "/root/Citadel"
 
 PB         = ROOT / "corpus" / "programbench"
 EVAL_INDEX = PB / "eval_index.json"
@@ -226,7 +226,7 @@ def _fetch_remote_events() -> list[dict[str, Any]]:
 
 def _fetch_remote_reimpl_slugs(already: set[str]) -> list[str]:
     """
-    SSH-list /root/Determinex/logs/reimpl/ on Hetzner and return full slugs
+    SSH-list /root/Citadel/logs/reimpl/ on Hetzner and return full slugs
     from eval_index whose short name matches a *_drive.py or *_candidate.py
     file present there.  These are candidates the churn loop has already
     produced but which may not yet have an oracle-green churn event.

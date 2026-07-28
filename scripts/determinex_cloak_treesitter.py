@@ -34,10 +34,31 @@ if TYPE_CHECKING:
 
 log = logging.getLogger("determinex_cloak")
 
+# The languages this module has QUERIES for. This is a declaration of intent, NOT a statement
+# that the grammar is installed -- _load_language_obj imports tree_sitter_<lang> lazily and
+# returns None when the package is absent. Use loadable_languages() for what actually works.
+#
+# The two drifted badly and silently: this set advertises 9, while pyproject's [cloak] extra
+# declares only 4 grammars (rust, go, python, javascript). A 2026-07-26 audit "verified
+# tree-sitter live" by printing THIS CONSTANT, which proved nothing -- 6 of the 9 had no
+# grammar installed. See tests/test_cloak_language_coverage.py.
 TS_SUPPORTED_LANGUAGES: frozenset[str] = frozenset([
     "rust", "java", "ruby", "php", "c", "cpp",
     "go", "typescript", "javascript",
 ])
+
+
+def loadable_languages() -> frozenset[str]:
+    """The languages whose grammar actually imports AND whose query compiles, right now.
+
+    Always prefer this over TS_SUPPORTED_LANGUAGES when reporting capability or deciding
+    whether AST extraction is genuinely available. Result is not cached here because
+    _load_language_obj and _get_query already memoise.
+    """
+    return frozenset(
+        lang for lang in TS_SUPPORTED_LANGUAGES
+        if _load_language_obj(lang) is not None and _get_query(lang) is not None
+    )
 
 # ── grammar language object loaders ───────────────────────────────────────────
 
@@ -86,6 +107,7 @@ _QUERIES: dict[str, str] = {
         (field_declaration name: (field_identifier) @n)
         (enum_variant name: (identifier) @n)
         (let_declaration pattern: (identifier) @n)
+        (parameter pattern: (identifier) @n)
     """,
 
     "java": """
@@ -97,6 +119,8 @@ _QUERIES: dict[str, str] = {
         (method_declaration name: (identifier) @n)
         (constructor_declaration name: (identifier) @n)
         (variable_declarator name: (identifier) @n)
+        (formal_parameter name: (identifier) @n)
+        (field_declaration declarator: (variable_declarator name: (identifier) @n))
     """,
 
     "ruby": """
@@ -104,6 +128,8 @@ _QUERIES: dict[str, str] = {
         (singleton_method name: (identifier) @n)
         (class name: (constant) @n)
         (module name: (constant) @n)
+        (method_parameters (identifier) @n)
+        (assignment left: (identifier) @n)
     """,
 
     "php": """
@@ -113,6 +139,9 @@ _QUERIES: dict[str, str] = {
         (interface_declaration name: (name) @n)
         (trait_declaration name: (name) @n)
         (property_element (variable_name (name) @n))
+        (simple_parameter name: (variable_name (name) @n))
+        (assignment_expression
+          left: (variable_name (name) @n))
     """,
 
     "c": """
@@ -126,6 +155,15 @@ _QUERIES: dict[str, str] = {
         (union_specifier name: (type_identifier) @n)
         (enum_specifier name: (type_identifier) @n)
         (type_definition declarator: (type_identifier) @n)
+        (field_declaration declarator: (field_identifier) @n)
+        (field_declaration
+          declarator: (pointer_declarator declarator: (field_identifier) @n))
+        (parameter_declaration declarator: (identifier) @n)
+        (parameter_declaration
+          declarator: (pointer_declarator declarator: (identifier) @n))
+        (init_declarator declarator: (identifier) @n)
+        (init_declarator
+          declarator: (pointer_declarator declarator: (identifier) @n))
     """,
 
     "cpp": """
@@ -145,6 +183,16 @@ _QUERIES: dict[str, str] = {
         (namespace_definition (namespace_identifier) @n)
         (type_definition declarator: (type_identifier) @n)
         (field_declaration declarator: (field_identifier) @n)
+        (field_declaration
+          declarator: (pointer_declarator declarator: (field_identifier) @n))
+        (parameter_declaration declarator: (identifier) @n)
+        (parameter_declaration
+          declarator: (pointer_declarator declarator: (identifier) @n))
+        (parameter_declaration
+          declarator: (reference_declarator (identifier) @n))
+        (init_declarator declarator: (identifier) @n)
+        (init_declarator
+          declarator: (pointer_declarator declarator: (identifier) @n))
     """,
 
     "go": """
@@ -155,6 +203,8 @@ _QUERIES: dict[str, str] = {
         (const_spec name: (identifier) @n)
         (short_var_declaration
           left: (expression_list (identifier) @n))
+        (parameter_declaration name: (identifier) @n)
+        (field_declaration name: (field_identifier) @n)
     """,
 
     "typescript": """
@@ -167,6 +217,10 @@ _QUERIES: dict[str, str] = {
         (variable_declarator name: (identifier) @n)
         (lexical_declaration
           (variable_declarator name: (identifier) @n))
+        (required_parameter pattern: (identifier) @n)
+        (optional_parameter pattern: (identifier) @n)
+        (public_field_definition name: (property_identifier) @n)
+        (property_signature name: (property_identifier) @n)
     """,
 
     "javascript": """
@@ -177,6 +231,8 @@ _QUERIES: dict[str, str] = {
         (variable_declarator name: (identifier) @n)
         (lexical_declaration
           (variable_declarator name: (identifier) @n))
+        (formal_parameters (identifier) @n)
+        (field_definition property: (property_identifier) @n)
     """,
 }
 

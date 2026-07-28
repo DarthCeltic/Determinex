@@ -373,6 +373,12 @@ def propose_probes(help_text: str, docs: str, sample_inputs: list[Probe], genera
             argv = shlex.split(line)
         except Exception:
             continue
+        # models sometimes echo the program name despite explicit instructions not to
+        # (e.g. "gron -u" instead of "-u") -- Probe.argv must exclude it (see Probe docstring)
+        # or the reference binary treats it as a positional arg (a bogus input filename) and
+        # every downstream station scores 0.00 trying to match a nonsense filesystem error.
+        while argv and not argv[0].startswith("-"):
+            argv.pop(0)
         if not argv or not any(a.startswith("-") for a in argv):
             continue
         key = tuple(argv)

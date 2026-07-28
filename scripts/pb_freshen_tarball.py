@@ -13,11 +13,11 @@ Usage:
   python scripts/pb_freshen_tarball.py [--slug SLUG] [--run-dir HETZNER_DIR] [--dry-run]
 
   SLUG: specific tool slug (e.g. sigoden__argc.04a08f1). Omit to process all tools.
-  HETZNER_DIR: remote path on Hetzner (default: /root/determinex-programbench)
+  HETZNER_DIR: remote path on Hetzner (default: /root/citadel-programbench)
   --dry-run: show what would be done without making changes
 
 Requirements:
-  - SSH key at ~/.ssh/id_determinex
+  - SSH key at ~/.ssh/id_citadel
   - Hetzner host: root@5.78.192.163
 """
 from __future__ import annotations
@@ -40,7 +40,7 @@ for _stream in (sys.stdout, sys.stderr):
         pass
 
 HETZNER_HOST = "root@5.78.192.163"
-SSH_KEY = str(Path.home() / ".ssh" / "id_determinex")
+SSH_KEY = str(Path.home() / ".ssh" / "id_citadel")
 SSH_OPTS = ["-o", "StrictHostKeyChecking=no", "-i", SSH_KEY]
 
 # Root of the per_tool_overrides on local machine
@@ -218,8 +218,8 @@ def process_tool(
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--slug", help="Specific tool slug to freshen")
-    ap.add_argument("--run-dir", default="/root/determinex-programbench",
-                    help="Hetzner base directory (default: /root/determinex-programbench)")
+    ap.add_argument("--run-dir", default="/root/citadel-programbench",
+                    help="Hetzner base directory (default: /root/citadel-programbench)")
     ap.add_argument("--dry-run", action="store_true", help="Show what would change without uploading")
     args = ap.parse_args()
 

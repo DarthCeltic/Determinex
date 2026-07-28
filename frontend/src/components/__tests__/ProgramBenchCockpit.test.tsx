@@ -47,12 +47,16 @@ describe("ProgramBenchCockpit", () => {
 
     expect(screen.getByTestId("programbench-tool-drilldown")).toBeInTheDocument();
     // Rows come from snapshot.locked_tools (the real lock board), not hardcoded fixtures.
-    expect(screen.getByTestId("programbench-lock-count")).toHaveTextContent("2 locks");
+    // Label changed from "locks" to "archived" -- these are real archived pass-rates, not
+    // a claim of legitimate reimplementation (see the 2026-06-30 provenance audit banner).
+    expect(screen.getByTestId("programbench-lock-count")).toHaveTextContent("2 archived");
     expect(screen.getByTestId("programbench-tool-ripgrep")).toHaveTextContent("ripgrep");
     expect(screen.getByTestId("programbench-tool-zoxide")).toHaveTextContent("577/577");
     expect(screen.getAllByTestId("programbench-tool-evidence")[0]).toHaveTextContent(
-      "corpus/programbench/locked/ripgrep/eval_report.json",
+      "corpus/programbench/locked/ripgrep/eval_report.json"
     );
-    expect(screen.getByTestId("programbench-boundary")).toHaveTextContent("No unbounded benchmark run");
+    expect(screen.getByTestId("programbench-boundary")).toHaveTextContent(
+      "No unbounded benchmark run"
+    );
   });
 });

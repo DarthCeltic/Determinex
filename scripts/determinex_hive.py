@@ -183,6 +183,28 @@ def cmd_new_session(args) -> None:
     print(f"Workspace:       {session.project_root}")
     print(f"Lang:            {args.lang}")
     print(f"Budget:          ${session.session_budget_usd:.2f}")
+
+    # Every project the hive builds should default to a project-instructions file any LLM/agent
+    # tool reads (Claude Code's CLAUDE.md, Gemini CLI's GEMINI.md, Codex's AGENTS.md, ...) --
+    # Ryan, direct instruction 2026-07-27. Best-effort: a project-md generation failure must
+    # never abort a real build session over what is a documentation nicety, not the build itself.
+    try:
+        from determinex_project_md import (
+            generate_agents_md,
+            spec_to_understanding,
+            write_project_md_files,
+        )
+        workspace = Path(session.project_root)
+        understanding = spec_to_understanding(spec_text, args.lang, root=str(workspace))
+        title_m = re.search(r"^#\s+(.+)$", spec_text, re.MULTILINE)
+        project_name = title_m.group(1).strip() if title_m else workspace.name
+        content = generate_agents_md(understanding, project_name)
+        written = write_project_md_files(workspace, content)
+        if written:
+            print(f"Project instructions: {', '.join(p.name for p in written)}")
+    except Exception as _md_err:
+        log.debug("project-md generation skipped: %s", _md_err)
+
     print(f"\nNext: python determinex_hive.py generate-dag --session {session.session_id}")
 
 

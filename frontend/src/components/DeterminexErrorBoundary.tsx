@@ -54,7 +54,7 @@ export class DeterminexErrorBoundary extends Component<ErrorBoundaryProps, Error
               {this.props.fallbackMessage ||
                 "A component in the Determinex UI tree threw an unrecoverable error. The application has been isolated to prevent a full white-screen crash."}
             </p>
-            <pre className="text-[10px] text-red-300/70 bg-black/40 rounded p-3 overflow-auto max-h-40 mb-4 border border-red-900/30">
+            <pre className="text-label text-red-300/70 bg-black/40 rounded p-3 overflow-auto max-h-40 mb-4 border border-red-900/30">
               {this.state.error?.toString()}
               {this.state.errorInfo?.componentStack?.slice(0, 500)}
             </pre>

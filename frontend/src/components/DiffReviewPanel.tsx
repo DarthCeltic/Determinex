@@ -1,35 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { invokeSafe } from "../lib/api";
+import { invoke } from "@tauri-apps/api/core";
+import { invokeSafe, isTauri } from "../lib/api";
 import { DiffEditor } from "@monaco-editor/react";
-import { Check, X, GitCompare, Save, Trash2, Loader2, ShieldCheck, ShieldAlert, ShieldQuestion } from "lucide-react";
-
-interface StagedDiff {
-  id: string;
-  path: string;
-  originalContent: string;
-  proposedContent: string;
-  verified: boolean | null;
-  verificationTool: string | null;
-  verificationOutput: string | null;
-}
+import { Check, X, GitCompare, Save, Trash2, Loader2, Columns2, Rows2 } from "lucide-react";
 
 export function DiffReviewPanel() {
-  const [stagedDiffs, setStagedDiffs] = useState<StagedDiff[]>([]);
+  const [stagedDiffs, setStagedDiffs] = useState<any[]>([]);
   const [selectedDiffId, setSelectedDiffId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [unreachable, setUnreachable] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [actionInProgress, setActionInProgress] = useState(false);
+  const [sideBySide, setSideBySide] = useState(true);
 
+  // invokeSafe returns null both when the backend is unreachable and never
+  // when the list is genuinely empty -- so "no diffs" and "no backend" used to
+  // render the identical "No pending changes to review." Same
+  // empty-state-doubles-as-something-else bug class already fixed in the Space
+  // panel and ToolsRegistry: the reassuring message was shown in cases where
+  // nothing had actually been checked.
   const fetchDiffs = async () => {
     try {
       const diffs = await invokeSafe<any[]>("get_staged_diffs", {});
-      setStagedDiffs(diffs || []);
-      if (diffs && diffs.length > 0 && !selectedDiffId) {
+      if (diffs === null) {
+        setUnreachable(true);
+        setStagedDiffs([]);
+        setSelectedDiffId(null);
+        return;
+      }
+      setUnreachable(false);
+      setStagedDiffs(diffs);
+      if (diffs.length > 0 && !selectedDiffId) {
         setSelectedDiffId(diffs[0].id);
-      } else if (!diffs || diffs.length === 0) {
+      } else if (diffs.length === 0) {
         setSelectedDiffId(null);
       }
     } catch (e) {
       console.error("Failed to load staged diffs", e);
+      setUnreachable(true);
     } finally {
       setLoading(false);
     }
@@ -41,34 +49,40 @@ export function DiffReviewPanel() {
     return () => clearInterval(int);
   }, []);
 
-  const handleApply = async (id: string) => {
+  // Raw invoke, not invokeSafe. apply_staged_diff really can refuse -- it
+  // rejects any path outside the workspace boundary, and the write itself can
+  // fail -- but invokeSafe swallowed that into null and the catch below only
+  // console.error'd. The result was an "Apply Change" click that did nothing,
+  // left the row in place, and explained nothing, inviting the user to keep
+  // clicking a button that could never work for that diff.
+  const runDiffAction = async (cmd: string, id: string, verb: string) => {
     setActionInProgress(true);
+    setActionError(null);
     try {
-      await invokeSafe("apply_staged_diff", { id });
-      await fetchDiffs();
+      await invoke(cmd, { id });
     } catch (e) {
-      console.error("Failed to apply diff", e);
+      setActionError(
+        `Could not ${verb} this change: ${e instanceof Error ? e.message : String(e)}`
+      );
     } finally {
+      // Refresh either way: on success the row is gone, on failure it must stay
+      // visible rather than appearing to have been handled.
+      await fetchDiffs();
       setActionInProgress(false);
     }
   };
 
-  const handleReject = async (id: string) => {
-    setActionInProgress(true);
-    try {
-      await invokeSafe("reject_staged_diff", { id });
-      await fetchDiffs();
-    } catch (e) {
-      console.error("Failed to reject diff", e);
-    } finally {
-      setActionInProgress(false);
-    }
-  };
+  const handleApply = (id: string) => runDiffAction("apply_staged_diff", id, "apply");
+  const handleReject = (id: string) => runDiffAction("reject_staged_diff", id, "reject");
 
-  const selectedDiff = stagedDiffs.find(d => d.id === selectedDiffId);
+  const selectedDiff = stagedDiffs.find((d) => d.id === selectedDiffId);
 
   if (loading && stagedDiffs.length === 0) {
-    return <div className="flex-1 bg-[#0d1117] flex items-center justify-center"><Loader2 className="w-8 h-8 text-blue-500 animate-spin" /></div>;
+    return (
+      <div className="flex-1 bg-[#0d1117] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+      </div>
+    );
   }
 
   return (
@@ -79,16 +93,39 @@ export function DiffReviewPanel() {
           <h2 className="text-sm font-bold text-white">AI Proposed Changes</h2>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {stagedDiffs.length === 0 ? (
-            <div className="p-4 text-xs text-[#8b949e] italic">No pending changes to review.</div>
+          {unreachable ? (
+            <div className="p-4 text-xs text-amber-300/80">
+              {isTauri()
+                ? "Could not reach the staged-diff backend, so nothing has been checked."
+                : "Browser mode cannot read staged diffs — this needs the desktop runtime."}
+            </div>
+          ) : stagedDiffs.length === 0 ? (
+            <div className="space-y-2 p-4">
+              <p className="text-xs italic text-[#8b949e]">No pending changes to review.</p>
+              {/* Names the one producer that exists rather than implying every
+                  agent feeds this queue. stage_diff_for_review is still the
+                  staging store's only writer; Verified Search now calls it, but
+                  the hive fix path does not -- it writes to your files directly
+                  and reverts on failure, so git is its review surface. */}
+              <p className="text-label leading-relaxed text-[#6e7681]">
+                Verified Search queues oracle-verified programs here with{" "}
+                <span className="text-[#8b949e]">Stage for review</span>. Agent edits do not land
+                here — for your own uncommitted work, open Source Control.
+              </p>
+            </div>
           ) : (
-            stagedDiffs.map(diff => (
-              <div 
-                key={diff.id} 
+            stagedDiffs.map((diff) => (
+              <div
+                key={diff.id}
                 onClick={() => setSelectedDiffId(diff.id)}
-                className={"p-3 border-b border-[#30363d] cursor-pointer hover:bg-[#21262d] transition-colors " + (selectedDiffId === diff.id ? "bg-[#21262d] border-l-2 border-l-purple-500" : "")}
+                className={
+                  "p-3 border-b border-[#30363d] cursor-pointer hover:bg-[#21262d] transition-colors " +
+                  (selectedDiffId === diff.id ? "bg-[#21262d] border-l-2 border-l-purple-500" : "")
+                }
               >
-                <div className="text-sm font-mono truncate text-blue-400">{diff.path.split(/[/\\]/).pop()}</div>
+                <div className="text-sm font-mono truncate text-blue-400">
+                  {diff.path.split(/[/\\]/).pop()}
+                </div>
                 <div className="text-xs text-[#8b949e] truncate">{diff.path}</div>
               </div>
             ))
@@ -97,28 +134,43 @@ export function DiffReviewPanel() {
       </div>
 
       <div className="flex-1 flex flex-col">
+        {/* A refused apply/reject must say so. The row deliberately stays in
+            the list on failure, so without this the button would just look
+            inert. */}
+        {actionError && (
+          <div className="flex shrink-0 items-start gap-2 border-b border-red-500/30 bg-red-950/30 px-4 py-2">
+            <X className="mt-0.5 h-3 w-3 shrink-0 text-red-400" />
+            <p className="flex-1 font-mono text-label leading-relaxed text-red-300">
+              {actionError}
+            </p>
+            <button
+              onClick={() => setActionError(null)}
+              className="shrink-0 text-red-400/60 transition-colors hover:text-red-300"
+              title="Dismiss"
+            >
+              <X className="h-3 w-3" />
+            </button>
+          </div>
+        )}
         {selectedDiff ? (
           <>
             <div className="h-14 border-b border-[#30363d] bg-[#0d1117] px-4 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <span className="text-sm font-mono text-[#8b949e]">{selectedDiff.path}</span>
-                {selectedDiff.verified === true && (
-                  <span className="flex items-center gap-1.5 text-xs font-semibold text-green-400 bg-green-500/10 border border-green-500/20 rounded-full px-2.5 py-1">
-                    <ShieldCheck className="w-3.5 h-3.5" /> Verified — {selectedDiff.verificationTool} passed
-                  </span>
-                )}
-                {selectedDiff.verified === false && (
-                  <span className="flex items-center gap-1.5 text-xs font-semibold text-red-400 bg-red-500/10 border border-red-500/20 rounded-full px-2.5 py-1">
-                    <ShieldAlert className="w-3.5 h-3.5" /> {selectedDiff.verificationTool} FAILED
-                  </span>
-                )}
-                {selectedDiff.verified === null && (
-                  <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 bg-slate-500/10 border border-slate-500/20 rounded-full px-2.5 py-1">
-                    <ShieldQuestion className="w-3.5 h-3.5" /> No oracle for this file type — not verified
-                  </span>
-                )}
               </div>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setSideBySide((v) => !v)}
+                  title={sideBySide ? "Switch to inline diff" : "Switch to side-by-side diff"}
+                  className="px-2.5 py-1.5 flex items-center gap-1.5 text-xs font-medium text-[#8b949e] hover:bg-white/5 border border-white/10 rounded transition-colors"
+                >
+                  {sideBySide ? (
+                    <Rows2 className="w-3.5 h-3.5" />
+                  ) : (
+                    <Columns2 className="w-3.5 h-3.5" />
+                  )}
+                  {sideBySide ? "Inline" : "Side-by-side"}
+                </button>
                 <button
                   onClick={() => handleReject(selectedDiff.id)}
                   disabled={actionInProgress}
@@ -127,31 +179,14 @@ export function DiffReviewPanel() {
                   <Trash2 className="w-4 h-4" /> Reject
                 </button>
                 <button
-                  onClick={() => {
-                    if (selectedDiff.verified === false && !window.confirm(
-                      `${selectedDiff.verificationTool ?? "The oracle"} reported this change FAILS to compile. Apply it anyway?`
-                    )) return;
-                    handleApply(selectedDiff.id);
-                  }}
+                  onClick={() => handleApply(selectedDiff.id)}
                   disabled={actionInProgress}
-                  className={`px-3 py-1.5 flex items-center gap-1.5 text-sm font-medium border rounded transition-colors disabled:opacity-50 ${
-                    selectedDiff.verified === false
-                      ? "text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30"
-                      : "text-green-400 bg-green-500/10 hover:bg-green-500/20 border-green-500/20"
-                  }`}
+                  className="px-3 py-1.5 flex items-center gap-1.5 text-sm font-medium text-green-400 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 rounded transition-colors disabled:opacity-50"
                 >
-                  <Save className="w-4 h-4" /> {selectedDiff.verified === false ? "Apply Anyway" : "Apply Change"}
+                  <Save className="w-4 h-4" /> Apply Change
                 </button>
               </div>
             </div>
-            {selectedDiff.verified === false && selectedDiff.verificationOutput && (
-              <div className="border-b border-red-900/40 bg-red-950/20 px-4 py-3 shrink-0 max-h-40 overflow-y-auto">
-                <div className="text-xs font-semibold text-red-300 mb-1">
-                  {selectedDiff.verificationTool} output — this is why it's marked failed, not a guess:
-                </div>
-                <pre className="text-xs font-mono text-red-200/80 whitespace-pre-wrap">{selectedDiff.verificationOutput}</pre>
-              </div>
-            )}
             <div className="flex-1 min-h-0">
               <DiffEditor
                 theme="vs-dark"
@@ -159,7 +194,7 @@ export function DiffReviewPanel() {
                 modified={selectedDiff.proposedContent}
                 options={{
                   readOnly: true,
-                  renderSideBySide: true,
+                  renderSideBySide: sideBySide,
                   minimap: { enabled: false },
                   scrollBeyondLastLine: false,
                 }}

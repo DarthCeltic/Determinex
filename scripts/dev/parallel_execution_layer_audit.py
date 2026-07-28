@@ -606,6 +606,24 @@ CLASSIFICATION_RULES: tuple[_Rule, ...] = (
     _Rule(re.compile(r"^scripts/determinex_projector\.py$"),
           "LEGACY_EXEMPT_READ_ONLY",
           "Local model projector utility."),
+    _Rule(re.compile(r"^scripts/determinex_commit_training_capture\.py$"),
+          "LEGACY_EXEMPT_READ_ONLY",
+          "Commit-history training capture — read-only `git log`/`git show` "
+          "against the local repo, no user payload execution."),
+    _Rule(re.compile(r"^scripts/determinex_local_model_bench\.py$"),
+          "LEGACY_EXEMPT_READ_ONLY",
+          "Local model benchmark harness — fixed-argument `nvidia-smi` "
+          "hardware probe, no user payload execution."),
+    _Rule(re.compile(r"^scripts/determinex_ingest\.py$"),
+          "LEGACY_EXEMPT_READ_ONLY",
+          "`_git_tracked_files` — read-only `git ls-files` against the "
+          "local repo, no user payload execution."),
+    _Rule(re.compile(r"^scripts/determinex_toolchain_installer\.py$"),
+          "LEGACY_EXEMPT_READ_ONLY",
+          "Opt-in oracle-toolchain enablement (winget/choco install) — "
+          "operator-initiated, fixed package-ID dict, never arbitrary/"
+          "user-controlled command text; same posture as "
+          "determinex_local_model_bench.py's fixed-argument hardware probe."),
 
     # Sprint orchestration drivers
     _Rule(re.compile(r"^scripts/sprint4_"), "LEGACY_EXEMPT_READ_ONLY",
@@ -638,6 +656,21 @@ CLASSIFICATION_RULES: tuple[_Rule, ...] = (
     _Rule(re.compile(r"^scripts/security/"), "LEGACY_EXEMPT_READ_ONLY",
           "Security scanning helpers (SBOM, container/dep scans) — invoke "
           "documented vendor tools on local artifacts."),
+    _Rule(re.compile(r"^scripts/determinex_safety\.py$"), "LEGACY_EXEMPT_READ_ONLY",
+          "Semgrep OSS static-analysis call (audit 2026-07-19): shells out to "
+          "the documented `semgrep` binary via shutil.which guard, fail-open "
+          "if absent — same pattern as scripts/security/, not payload execution."),
+
+    # Modal burst-compute workers (audit 2026-07-19): PB eval / K-search
+    # candidate execution is real, but it runs inside Modal's own isolated
+    # remote cloud containers, not on this machine — same sandboxed-behind-
+    # a-hardened-boundary stance as the SWE-bench Docker sandbox below.
+    _Rule(re.compile(r"^scripts/modal_pb_worker\.py$"), "HIVE_SANDBOXED_PATH",
+          "ProgramBench eval worker — runs in a Modal-provisioned, isolated "
+          "Docker-compatible remote container per instance."),
+    _Rule(re.compile(r"^scripts/modal_verified_search\.py$"), "HIVE_SANDBOXED_PATH",
+          "VerifiedSearch K-search amplifier — runs in a Modal-provisioned "
+          "remote GPU container, same sandboxing property as local Docker."),
 
     # Windows / other bench harnesses
     _Rule(re.compile(r"^scripts/benchmarks/windows/deepeval_humaneval\.py$"),

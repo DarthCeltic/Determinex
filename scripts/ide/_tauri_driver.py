@@ -17,6 +17,7 @@ already-locked IDEBackendCommandSurface.
 """
 from __future__ import annotations
 
+import contextlib
 import json
 import sys
 from pathlib import Path
@@ -71,6 +72,10 @@ def _dispatch(command: str, args: dict[str, object]) -> dict[str, object]:
     unified_diff = str(args.get("unified_diff") or "")
     user_request = str(args.get("user_request") or args.get("idea_text") or "")
     idea_text = str(args.get("idea_text") or "")
+    learning_mode = str(args.get("mode") or "")
+    learning_context = str(args.get("context") or "")
+    corpus_query = str(args.get("corpus_query") or "")
+    corpus_mode = str(args.get("corpus_mode") or "ask")
     config = None
     if command in _MODEL_COMMANDS or args.get("model_id"):
         config = _build_local_config(str(args.get("model_id") or ""))
@@ -116,6 +121,8 @@ def _dispatch(command: str, args: dict[str, object]) -> dict[str, object]:
         "get_repo_clinic_workflow_state",
         "get_maintenance_bay_workflow_state",
         "get_learning_studio_workflow_state",
+        "generate_learning_studio_content",
+        "run_maintenance_bay_scan",
         "get_proof_operator_center_state",
         "get_user_level_teaching_windows",
         "get_unified_splash_demo_spec",
@@ -129,6 +136,7 @@ def _dispatch(command: str, args: dict[str, object]) -> dict[str, object]:
         "get_learning_studio_verified_demo_status",
         # DETERMINEX_REACT_PROOF_OPERATOR_CENTER_MILESTONE_DASHBOARD_BINDING_LOCK_001
         "get_proof_operator_center_milestone_dashboard_status",
+        "query_corpus",
     ):
         inner = command
     else:
@@ -144,6 +152,10 @@ def _dispatch(command: str, args: dict[str, object]) -> dict[str, object]:
         unified_diff=unified_diff,
         idea_text=idea_text,
         user_request=user_request,
+        learning_mode=learning_mode,
+        learning_context=learning_context,
+        corpus_query=corpus_query,
+        corpus_mode=corpus_mode,
     )
 
     # Map inner status → Tauri status (mirrors the Python tauri_backend_bridge).
@@ -174,9 +186,30 @@ def main(argv: list[str]) -> int:
                                   notes=(f"bad args JSON: {exc}",))))
         return 1
 
-    response = _dispatch(command, args)
+    # stdout is a JSON-only channel: ide_repair_bridge.rs feeds the whole of it
+    # to serde_json::from_str, so a single stray print anywhere downstream turns
+    # a good result into "malformed JSON from driver".
+    #
+    # That was not hypothetical. build_idea reaches determinex_verified_search,
+    # whose per-sample progress lines ("[vs] r1 s1/6 t=0.0 gen 3s verify 1s ->
+    # 1 fail") go to stdout. A real run emitted 12 of them ahead of a perfectly
+    # valid response, and the Rust side rejected the lot with "expected value at
+    # line 1 column 6" -- column 6 being the "[vs]" prefix. The amplifier had
+    # actually done the work; only the transport was broken.
+    #
+    # Redirecting stdout to stderr for the dispatch keeps that output visible in
+    # the app log (where it is genuinely useful progress) while guaranteeing the
+    # only thing on real stdout is the response. Fixes every command at once
+    # rather than chasing prints library by library.
+    real_stdout = sys.stdout
+    try:
+        with contextlib.redirect_stdout(sys.stderr):
+            response = _dispatch(command, args)
+    except Exception as exc:  # noqa: BLE001 - must still answer in JSON
+        response = _respond(command, "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
+                            notes=(f"driver raised: {exc}",))
     # Single-line JSON for the Rust side.
-    print(json.dumps(response))
+    print(json.dumps(response), file=real_stdout)
     return 0
 
 

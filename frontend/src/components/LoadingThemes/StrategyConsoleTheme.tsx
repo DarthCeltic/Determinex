@@ -188,25 +188,25 @@ export function StrategyConsoleTheme({
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
           <div className="flex flex-col items-center gap-2 text-center">
             <p
-              className="text-[9px] font-mono tracking-[0.5em] uppercase"
+              className="text-eyebrow font-mono tracking-[0.5em] uppercase"
               style={{ color: `${accent}60` }}
             >
               STRATEGY CONSOLE — REGRESSION PLAN RESPONSE
             </p>
             <p
-              className="text-[20px] font-mono font-bold tracking-widest uppercase"
+              className="text-display font-mono font-bold tracking-widest uppercase"
               style={{ color: accent, textShadow: `0 0 20px ${accent}60` }}
             >
               {STRATEGY_LINES[Math.floor(Date.now() / 3000) % STRATEGY_LINES.length]}
             </p>
             <p
-              className="text-[13px] font-mono tracking-wider uppercase"
+              className="text-body font-mono tracking-wider uppercase"
               style={{ color: `${accent}80` }}
             >
               {label}
             </p>
             {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
-              <p className="text-[11px] font-mono tabular-nums" style={{ color: `${accent}60` }}>
+              <p className="text-label font-mono tabular-nums" style={{ color: `${accent}60` }}>
                 T+{elapsedSeconds}s
               </p>
             )}
@@ -214,7 +214,7 @@ export function StrategyConsoleTheme({
 
           {/* Blinking cursor */}
           <div className="flex items-center gap-1 mt-2">
-            <span className="text-[11px] font-mono" style={{ color: accent }}>
+            <span className="text-label font-mono" style={{ color: accent }}>
               PROCESSING_
             </span>
             <span className="w-2 h-3 animate-pulse" style={{ background: accent }} />
@@ -242,7 +242,7 @@ export function StrategyConsoleTheme({
                     )}
                   </div>
                   <span
-                    className="text-[7px] font-mono tracking-wider uppercase"
+                    className="text-eyebrow font-mono tracking-wider uppercase"
                     style={{ color: nodeActive ? accent : `${accent}35` }}
                   >
                     {role}
@@ -264,10 +264,10 @@ export function StrategyConsoleTheme({
       <canvas ref={canvasRef} className="absolute inset-0" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0.85)_100%)]" />
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-        <span className="text-[11px] font-mono animate-pulse" style={{ color: accent }}>
+        <span className="text-label font-mono animate-pulse" style={{ color: accent }}>
           â–ˆ
         </span>
-        <p className="text-[10px] font-mono tracking-widest uppercase" style={{ color: accent }}>
+        <p className="text-meta font-mono tracking-widest uppercase" style={{ color: accent }}>
           {label}
         </p>
       </div>

@@ -12,11 +12,14 @@ import io
 import json
 import os
 import shutil
+import sys
 import tarfile
-import tempfile
 import time
 from pathlib import Path
 from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from determinex_atomic_io import write_text_atomic as _write_text_atomic  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,28 +46,6 @@ def _load_json_file(path: Path, default: Any) -> Any:
     if not path.is_file():
         return default
     return json.loads(path.read_text(encoding="utf-8", errors="replace"))
-
-
-def _write_text_atomic(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        "w",
-        encoding="utf-8",
-        dir=str(path.parent),
-        delete=False,
-        prefix=f".{path.name}.",
-        suffix=".tmp",
-    ) as f:
-        f.write(text)
-        tmp = Path(f.name)
-    for attempt in range(10):
-        try:
-            tmp.replace(path)
-            return
-        except PermissionError:
-            if attempt == 9:
-                raise
-            time.sleep(0.25)
 
 
 def _write_json_atomic(path: Path, data: Any) -> None:

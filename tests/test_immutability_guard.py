@@ -112,8 +112,15 @@ def test_evidence_validate_no_file_mutations():
     assert before == after, f"evidence validate mutated files: {set(before) ^ set(after)}"
 
 
+@pytest.mark.slow
 def test_config_show_no_file_mutations(tmp_path, capsys):
-    """determinex config show must not write any files."""
+    """determinex config show must not write any files.
+
+    Walks scripts/ + assurance/ + corpus/ twice (~192K files, ~130s+ real
+    I/O even with no contention) -- genuinely slow by design, not a hang.
+    Marked slow so it doesn't blow past a fast-loop timeout budget; it still
+    runs in the full/CI pass.
+    """
     import determinex_cli as cli
     # Snapshot entire scripts/ and assurance/ before
     checked_dirs = [_ROOT / "scripts", _ROOT / "assurance", _ROOT / "corpus"]

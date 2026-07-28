@@ -1,12 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ChevronRight, Folder, FileText } from "lucide-react";
-import {
-  createPath,
-  deletePath,
-  getFileSystemTree,
-  renamePath,
-  revealInExplorer,
-} from "@/lib/api";
+import { createPath, deletePath, getFileSystemTree, renamePath, revealInExplorer } from "@/lib/api";
 
 // Maximum children to render per directory level to prevent DOM explosion
 const MAX_RENDER_CHILDREN = 200;
@@ -196,7 +190,8 @@ export const FileSystemNode = ({
     }
   };
 
-  const gitEntry = gitStatusMap?.[localNode.path.replace(/\\/g, "/")] ?? gitStatusMap?.[localNode.path];
+  const gitEntry =
+    gitStatusMap?.[localNode.path.replace(/\\/g, "/")] ?? gitStatusMap?.[localNode.path];
   const badge = gitBadge(gitEntry);
   const hasDescendantChanges = useMemo(() => {
     if (!localNode.isDir || !gitStatusMap) return false;
@@ -244,22 +239,25 @@ export const FileSystemNode = ({
               if (e.key === "Escape") setRenaming(false);
             }}
             onBlur={() => void submitRename()}
-            className="min-w-0 flex-1 rounded border border-cyan-500/50 bg-black/60 px-1 text-[13px] font-mono text-gray-100 outline-none"
+            className="min-w-0 flex-1 rounded border border-cyan-500/50 bg-black/60 px-1 text-body font-mono text-gray-100 outline-none"
           />
         ) : (
           <span
-            className={`truncate text-[13px] font-mono whitespace-pre ${badge ? badge.className : ""}`}
+            className={`truncate text-body font-mono whitespace-pre ${badge ? badge.className : ""}`}
           >
             {localNode.name}
           </span>
         )}
         {badge && !renaming && (
-          <span className={`ml-auto shrink-0 pr-1 text-[10px] font-black ${badge.className}`}>
+          <span className={`ml-auto shrink-0 pr-1 text-label font-black ${badge.className}`}>
             {badge.letter}
           </span>
         )}
         {!badge && hasDescendantChanges && !renaming && (
-          <span className="ml-auto shrink-0 pr-1.5 text-amber-400" title="Contains uncommitted changes">
+          <span
+            className="ml-auto shrink-0 pr-1.5 text-amber-400"
+            title="Contains uncommitted changes"
+          >
             <span className="block h-1.5 w-1.5 rounded-full bg-current" />
           </span>
         )}
@@ -285,7 +283,7 @@ export const FileSystemNode = ({
               if (e.key === "Escape") setCreating(null);
             }}
             onBlur={() => void submitCreate()}
-            className="min-w-0 flex-1 rounded border border-emerald-500/50 bg-black/60 px-1 text-[13px] font-mono text-gray-100 outline-none"
+            className="min-w-0 flex-1 rounded border border-emerald-500/50 bg-black/60 px-1 text-body font-mono text-gray-100 outline-none"
           />
         </div>
       )}
@@ -293,7 +291,7 @@ export const FileSystemNode = ({
       {isOpen && (
         <div className="flex flex-col">
           {isLoading ? (
-            <div className="text-[10px] text-gray-500 py-1 pl-4 animate-pulse">Loading...</div>
+            <div className="text-label text-gray-500 py-1 pl-4 animate-pulse">Loading...</div>
           ) : (
             <>
               {visibleChildren.map((child, idx) => (
@@ -312,7 +310,7 @@ export const FileSystemNode = ({
               {isTruncated && (
                 <div
                   style={{ paddingLeft: `${(depth + 1) * 14 + 4}px` }}
-                  className="text-[10px] text-amber-500/70 py-1 font-mono"
+                  className="text-label text-amber-500/70 py-1 font-mono"
                 >
                   ⚠ {children.length - MAX_RENDER_CHILDREN} more items not rendered (Shift+click to
                   drill in)
@@ -325,10 +323,17 @@ export const FileSystemNode = ({
 
       {menu && (
         <>
-          <div className="fixed inset-0 z-[200]" onClick={() => setMenu(null)} onContextMenu={(e) => { e.preventDefault(); setMenu(null); }} />
+          <div
+            className="fixed inset-0 z-[200]"
+            onClick={() => setMenu(null)}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setMenu(null);
+            }}
+          />
           <div
             style={{ position: "fixed", left: menu.x, top: menu.y }}
-            className="z-[201] w-44 overflow-hidden rounded-lg border border-white/10 bg-[#161b22] py-1 text-[12px] shadow-2xl"
+            className="z-[201] w-44 overflow-hidden rounded-lg border border-white/10 bg-[#161b22] py-1 text-body shadow-2xl"
           >
             {localNode.isDir && (
               <>

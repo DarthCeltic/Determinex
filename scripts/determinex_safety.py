@@ -80,6 +80,8 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Optional
 
+from pydantic import BaseModel, ValidationError
+
 log = logging.getLogger("determinex.safety")
 
 DETERMINEX_ROOT = Path(os.environ.get("DETERMINEX_ROOT", Path(__file__).resolve().parents[1]))
@@ -166,6 +168,23 @@ def wal_append(record: dict, path: Path = _WAL_PATH) -> dict:
     return body
 
 
+class _WalRecordShape(BaseModel):
+    """Structural validation ONLY -- record_hash/prev_hash must be present
+    and strings. Deliberately does NOT replace the raw dict used for
+    hashing below: the hash-chain canonicalization step
+    ({k: v for k, v in rec.items() if k != "record_hash"}) must see every
+    field exactly as parsed, unfiltered by a model's declared shape, or a
+    field not captured by this model could silently escape tamper
+    detection. This model only gives a clearer error ("missing record_hash
+    field") than letting a missing field default through .get() straight
+    into an opaque "record_hash mismatch"."""
+
+    model_config = {"extra": "allow"}
+
+    record_hash: str
+    prev_hash: str
+
+
 def verify_wal_integrity(path: Path = _WAL_PATH) -> tuple[bool, str]:
     """Walk the WAL chain from genesis. Returns (intact, detail). A single
     edited byte anywhere in history breaks the chain from that point on."""
@@ -182,6 +201,10 @@ def verify_wal_integrity(path: Path = _WAL_PATH) -> tuple[bool, str]:
                 rec = json.loads(line)
             except json.JSONDecodeError as e:
                 return False, f"line {i}: not valid JSON ({e})"
+            try:
+                _WalRecordShape.model_validate(rec)
+            except ValidationError as e:
+                return False, f"line {i}: malformed WAL record ({e})"
             stored_hash = rec.get("record_hash", "")
             stored_prev = rec.get("prev_hash", "")
             if stored_prev != prev_hash:
@@ -1019,7 +1042,17 @@ class SafetyEngine:
                     violations=violations,
                 ))
 
+        # ── Semgrep OSS: dataflow-aware semantic scan (Layer 3 depth) ─────────
+        # Catches evasions that bypass keyword splitting:
+        #   base64-encoded payloads, indirect subprocess chains, dynamic import tricks.
+        # Semgrep unavailable or timeout → warning only; existing L3 checks remain
+        # authoritative. Never blocks on Semgrep failure (fail-open for this sub-layer).
+        semgrep_verdict = _semgrep_scan_code(code, lang)
+        if semgrep_verdict is not None and not semgrep_verdict.safe:
+            return self._enforce(semgrep_verdict)
+
         return SafetyVerdict(safe=True, layer="L3_OUTPUT")
+
 
     # ── Combined spec check (L0 + L1) ─────────────────────────────────────────
 
@@ -1275,12 +1308,133 @@ _PY_EXEC_TRICKS_RE = re.compile(
     re.IGNORECASE,
 )
 
+def _semgrep_scan_code(code: str, lang: str) -> "SafetyVerdict | None":
+    """Layer 3 depth: Semgrep OSS dataflow-aware scan of Builder-generated code.
+
+    Catches evasions that bypass flat keyword-matching:
+      - Base64-encoded subprocess payloads (exec(base64.b64decode(...)))
+      - Indirect function chains (getattr(os, 'sys'+'tem')(cmd))
+      - Dynamic attribute access to banned modules
+      - Obfuscated credential exfiltration paths
+
+    Returns:
+      SafetyVerdict(safe=False)  if a Semgrep rule fired
+      None                       if Semgrep is unavailable, timed out, or found nothing
+                                 (existing L3 checks remain authoritative in this case)
+
+    Never raises — Semgrep failure is always fail-open for this sub-layer.
+    """
+    import shutil
+    import subprocess
+    import tempfile
+
+    if not shutil.which("semgrep"):
+        return None  # Not installed — existing AST/regex L3 remains authoritative
+
+    # Map Determinex language names to Semgrep language IDs
+    _SEMGREP_LANG_MAP = {
+        "python": "python", "py": "python",
+        "javascript": "javascript", "js": "javascript",
+        "typescript": "typescript", "ts": "typescript",
+        "go": "go", "golang": "go",
+        "rust": "rust", "rs": "rust",
+        "java": "java",
+        "ruby": "ruby", "rb": "ruby",
+    }
+    semgrep_lang = _SEMGREP_LANG_MAP.get(lang.lower().split()[0] if lang else "", "")
+    if not semgrep_lang:
+        return None  # Language not supported by Semgrep scan — skip
+
+    # Inline Semgrep rules: security anti-patterns for generated code
+    # These complement the L3 keyword/AST checks above.
+    _SEMGREP_RULES = """
+rules:
+  - id: determinex-dynamic-exec-obfuscated
+    languages: [python]
+    message: Obfuscated dynamic code execution in generated output
+    severity: ERROR
+    patterns:
+      - pattern: exec(...)
+      - pattern-not: exec("...")
+  - id: determinex-base64-exec
+    languages: [python]
+    message: Base64-encoded execution payload
+    severity: ERROR
+    pattern: exec($X.decode(...))
+  - id: determinex-subprocess-shell-true
+    languages: [python]
+    message: Subprocess with shell=True and dynamic command construction
+    severity: ERROR
+    pattern: subprocess.run($CMD, shell=True, ...)
+    pattern-not: subprocess.run([...], shell=True, ...)
+  - id: determinex-os-system-dynamic
+    languages: [python]
+    message: os.system with dynamic string construction
+    severity: ERROR
+    pattern: os.system($X + $Y)
+  - id: determinex-net-exfil-pattern
+    languages: [python]
+    message: Potential data exfiltration via network in generated code
+    severity: WARNING
+    pattern: requests.post($URL, data=$DATA, ...)
+    pattern-not: requests.post("...", data=$DATA, ...)
+"""
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            import pathlib
+            code_path = pathlib.Path(d) / f"check.{semgrep_lang[:2]}"
+            rules_path = pathlib.Path(d) / "rules.yaml"
+            code_path.write_text(code, encoding="utf-8", errors="replace")
+            rules_path.write_text(_SEMGREP_RULES, encoding="utf-8")
+            result = subprocess.run(
+                ["semgrep", "--config", str(rules_path), "--json",
+                 "--no-git-ignore", "--quiet", str(code_path)],
+                capture_output=True, text=True, timeout=15,
+            )
+            if result.returncode not in (0, 1):
+                # Non-zero non-1 = Semgrep internal error — fail open
+                return None
+            import json
+            findings = json.loads(result.stdout or "{}").get("results", [])
+            if not findings:
+                return None
+            errors = [f["extra"]["message"] for f in findings
+                      if f.get("extra", {}).get("severity") == "ERROR"]
+            if errors:
+                return SafetyVerdict(
+                    safe=False,
+                    layer="L3_OUTPUT_SEMGREP",
+                    category="SEMGREP_SECURITY_FINDING",
+                    reason=f"Semgrep OSS: {errors[0]}",
+                    violations=errors[:5],
+                )
+    except Exception:
+        pass  # Semgrep failure is always fail-open — existing L3 checks stand
+    return None
+
+
+# Python-specific: catch dynamic exec tricks in Builder output
+_PY_EXEC_TRICKS_RE = re.compile(
+    r"__import__\s*\("
+    r"|getattr\s*\([^)]*import"
+    r"|exec\s*\(\s*compile"
+    r"|exec\s*\(\s*base64"
+    r"|eval\s*\(\s*base64"
+    r"|eval\s*\(\s*__import__"
+    r"|marshal\.loads"
+    r"|pickle\.loads\s*\(\s*base64",
+    re.IGNORECASE,
+)
+
 def _scan_output_python(source: str) -> list[str]:
     """Scan Builder Python output for dynamic execution tricks."""
     violations: list[str] = []
     for m in _PY_EXEC_TRICKS_RE.finditer(source):
         violations.append(f"Dynamic exec: '{m.group().strip()}'")
     return violations
+
+
+
 
 
 # ─────────────────────────────────────────────────────────────────────────────

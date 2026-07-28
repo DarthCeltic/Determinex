@@ -62,17 +62,30 @@ function backendMissing(command: IdeRepairCommand, reason: string): IdeRepairRes
 
 // Probe whether the Tauri runtime is reachable. Used by panel shells
 // to pick between "live" and "BLOCKED_NO_TAURI_APP" displays.
+//
+// Was checking window.__TAURI__ -- that global is only ever mounted when
+// `app.withGlobalTauri: true` is set in tauri.conf.json (a v1-era convenience
+// flag). This app's tauri.conf.json never sets it, so window.__TAURI__ has
+// never been populated in any real run -- this check was permanently false,
+// meaning the whole Repair Panel showed BLOCKED_FRONTEND_MISSING/BACKEND_MISSING
+// unconditionally, every time, including inside the real packaged app.
+// Found live 2026-07-19 (Ryan: "repair doesnt work"). The real, always-present
+// Tauri v2 IPC marker is window.__TAURI_INTERNALS__ -- same check lib/api.ts's
+// isTauri() already uses correctly everywhere else in this app.
 export function tauriRuntimePresent(): boolean {
   if (typeof window === "undefined") return false;
-  // Tauri v2 mounts __TAURI__ on window; we read it defensively.
-  const w = window as unknown as { __TAURI__?: unknown };
-  return Boolean(w.__TAURI__);
+  const w = window as unknown as { __TAURI_INTERNALS__?: { transformCallback?: unknown } };
+  return (
+    typeof w.__TAURI_INTERNALS__ === "object" &&
+    w.__TAURI_INTERNALS__ !== null &&
+    typeof w.__TAURI_INTERNALS__.transformCallback === "function"
+  );
 }
 
 // Invoke a Tauri command. Wrapped so panels never call window directly.
 export async function invokeIdeCommand(
   command: IdeRepairCommand,
-  args: Record<string, unknown> = {},
+  args: Record<string, unknown> = {}
 ): Promise<IdeRepairResponse> {
   if (!tauriRuntimePresent()) {
     return backendMissing(command, "Tauri runtime not present (web preview / test)");
@@ -87,10 +100,7 @@ export async function invokeIdeCommand(
         ...res,
         status: "TAURI_COMMAND_SOURCE_MUTATION_BLOCKED",
         source_mutation_authorized: false,
-        notes: [
-          ...res.notes,
-          "frontend refused source_mutation_authorized=true from backend",
-        ],
+        notes: [...res.notes, "frontend refused source_mutation_authorized=true from backend"],
       };
     }
     if (res.training_eligible) {
@@ -108,7 +118,9 @@ export async function invokeIdeCommand(
 
 // Convenience predicate exported for panel tests.
 export function isBlocked(r: IdeRepairResponse): boolean {
-  return r.status.startsWith("TAURI_RUST_COMMAND_BRIDGE_BLOCKED_")
-    || r.status.startsWith("TAURI_COMMAND_BLOCKED_")
-    || r.status === "TAURI_COMMAND_SOURCE_MUTATION_BLOCKED";
+  return (
+    r.status.startsWith("TAURI_RUST_COMMAND_BRIDGE_BLOCKED_") ||
+    r.status.startsWith("TAURI_COMMAND_BLOCKED_") ||
+    r.status === "TAURI_COMMAND_SOURCE_MUTATION_BLOCKED"
+  );
 }

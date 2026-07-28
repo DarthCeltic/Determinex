@@ -74,7 +74,7 @@ def collect() -> str:
     # ── Hetzner queue (via SSH) ─────────────────────────────────
     try:
         result = subprocess.run(
-            ["ssh", "-i", str(Path.home()/".ssh"/"id_determinex"),
+            ["ssh", "-i", str(Path.home()/".ssh"/"id_citadel"),
              "-o", "ConnectTimeout=3", "root@5.78.192.163",
              "wc -l /root/queue/pending_light.txt /root/queue/pending_heavy.txt /root/queue/claimed.txt /root/queue/done.txt 2>/dev/null"],
             capture_output=True, text=True, timeout=10,

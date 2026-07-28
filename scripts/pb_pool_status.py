@@ -5,11 +5,15 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
-import tempfile
-import time
 from collections import Counter
 from pathlib import Path
-from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from determinex_atomic_io import (  # noqa: E402
+    load_json_with_retry as load,
+    write_json_atomic,
+    write_text_atomic,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,49 +23,6 @@ RES = ROOT / "logs" / "programbench_factory" / "NATIVE_EVAL_RESERVATIONS.json"
 OUT_MD = ROOT / "logs" / "programbench_factory" / "POOL_STATUS.md"
 OUT_JSON = ROOT / "logs" / "programbench_factory" / "POOL_STATUS.json"
 PY = Path(sys.executable)
-
-
-def load(path: Path, default: Any) -> Any:
-    if not path.is_file():
-        return default
-    last_exc: Exception | None = None
-    for _ in range(5):
-        try:
-            text = path.read_text(encoding="utf-8", errors="replace")
-            if text.strip():
-                return json.loads(text)
-        except json.JSONDecodeError as exc:
-            last_exc = exc
-        time.sleep(0.2)
-    if last_exc:
-        raise last_exc
-    return default
-
-
-def write_text_atomic(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        "w",
-        encoding="utf-8",
-        dir=str(path.parent),
-        delete=False,
-        prefix=f".{path.name}.",
-        suffix=".tmp",
-    ) as f:
-        f.write(text)
-        tmp = Path(f.name)
-    for attempt in range(10):
-        try:
-            tmp.replace(path)
-            return
-        except PermissionError:
-            if attempt == 9:
-                raise
-            time.sleep(0.25)
-
-
-def write_json_atomic(path: Path, data: Any) -> None:
-    write_text_atomic(path, json.dumps(data, indent=2) + "\n")
 
 
 def capture(cmd: list[str]) -> str:

@@ -16,11 +16,11 @@ describe("ProjectAuditPanel component", () => {
           title: "Mocked Health",
           score: 100,
           status: "pass",
-          details: "Mocked passed health test"
-        }
+          details: "Mocked passed health test",
+        },
       ],
       blockers: [],
-      snykOutput: "Mocked Snyk Output"
+      snykOutput: "Mocked Snyk Output",
     });
   });
 
@@ -39,9 +39,12 @@ describe("ProjectAuditPanel component", () => {
     expect(screen.getByText(/Scanning codebase workspace/i)).toBeInTheDocument();
 
     // Wait for mock audit to resolve and output results
-    await waitFor(() => {
-      expect(screen.getByText("Shippable Status Score")).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText("Shippable Status Score")).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
 
     expect(screen.getByText("95/100")).toBeInTheDocument();
     expect(screen.getByText("Mocked Health")).toBeInTheDocument();

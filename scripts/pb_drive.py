@@ -38,10 +38,10 @@ for _s in (sys.stdout, sys.stderr):
         pass
 
 HOST = "root@5.78.192.163"
-KEY = str(Path.home() / ".ssh" / "id_determinex")
+KEY = str(Path.home() / ".ssh" / "id_citadel")
 SSH = ["ssh", "-o", "StrictHostKeyChecking=no", "-o", "ConnectTimeout=40", "-i", KEY, HOST]
 SCP = ["scp", "-o", "StrictHostKeyChecking=no", "-o", "ConnectTimeout=40", "-i", KEY]
-ROOT = "/root/determinex-programbench"
+ROOT = "/root/citadel-programbench"
 PB = "/root/ProgramBench/.venv/bin/programbench"
 
 

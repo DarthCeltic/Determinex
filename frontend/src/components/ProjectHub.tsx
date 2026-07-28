@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Code2,
   FolderGit2,
+  FolderOpen,
   FolderPlus,
   GitBranch,
   Play,
@@ -19,6 +20,8 @@ import {
 } from "lucide-react";
 
 import { useIterationTheme } from "@/contexts/IterationThemeContext";
+import { cloneRepo } from "@/lib/gitService";
+import { pickFolder } from "@/lib/api";
 
 export type ProjectHubDestination = "work" | "workspace" | "source" | "runs" | "brain" | "proof";
 
@@ -50,10 +53,13 @@ const SEEDED_PROJECTS: ProjectHubProject[] = [
     id: "determinex",
     name: "Determinex",
     // localPath/remote are literal disk/GitHub references, not display prose --
-    // must track the real checkout, which lives at C:\Dev\Determinex post-rename
-    // (this IDE's own repo). Verified against `git remote -v` and the filesystem.
+    // must track the real checkout (this IDE's own repo). Verified 2026-07-26
+    // against `git remote -v`, `gh repo list`, and the filesystem. NOTE: the
+    // old value here was github.com/lunariandatasystems-cmd/citadel, which a
+    // mechanical rename turned into .../determinex -- a repo that does not
+    // exist. That account only owns hf-hackathon; the real home is DarthCeltic.
     localPath: "C:\\Dev\\Determinex",
-    remote: "github.com/DarthCeltic/determinex",
+    remote: "github.com/DarthCeltic/Determinex",
     provider: "GitHub",
     branch: "clean-main",
     status: "dirty",
@@ -93,6 +99,28 @@ const SEEDED_PROJECTS: ProjectHubProject[] = [
   },
 ];
 
+// Only user-added covers are persisted -- the 3 SEEDED_PROJECTS are re-derived from code every
+// load, so they never go stale/duplicate if this file's seed list changes later.
+const USER_PROJECTS_STORAGE_KEY = "determinex.userAddedProjects";
+
+function loadPersistedUserProjects(): ProjectHubProject[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(USER_PROJECTS_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as ProjectHubProject[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function persistUserProjects(projects: ProjectHubProject[]) {
+  if (typeof window === "undefined") return;
+  const seededIds = new Set(SEEDED_PROJECTS.map((p) => p.id));
+  const userProjects = projects.filter((p) => !seededIds.has(p.id));
+  window.localStorage.setItem(USER_PROJECTS_STORAGE_KEY, JSON.stringify(userProjects));
+}
 
 const DEFAULT_OPTIONS: Array<{ id: ProjectHubProject["defaultView"]; label: string }> = [
   { id: "last", label: "Last used" },
@@ -123,8 +151,13 @@ function getStackAccent(stack: string[]): string {
   return "#374151";
 }
 
+// Was `path.replace(/Citadel/gi, "Determinex")` -- a display-only cosmetic
+// rewrite from the period when the brand had been renamed but the real paths
+// on disk had not. A mechanical rename turned it into replace(Determinex ->
+// Determinex), i.e. a confusing no-op. The paths themselves are now genuinely
+// Determinex-named, so the whole rewrite is obsolete: show the real path.
 function displayPath(path: string) {
-  return path.replace(/Determinex/gi, "Determinex");
+  return path;
 }
 
 const statusStyle = {
@@ -200,23 +233,43 @@ function ProjectCard({
         />
       )}
       <div className="relative z-10 flex items-start gap-3">
-        <div className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-colors ${selected ? "border-[var(--determinex-accent)]/30 bg-[var(--determinex-accent)]/15" : "border-white/10 bg-white/5"}`}>
-          <FolderGit2 size={18} className={selected ? "text-[var(--determinex-accent)]" : "text-[var(--determinex-muted)]"} />
-          <span className={`absolute -bottom-1 -right-1 h-2.5 w-2.5 rounded-full border-2 border-[var(--determinex-bg)] ${statusDot[project.status]}`} />
+        <div
+          className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-colors ${selected ? "border-[var(--determinex-accent)]/30 bg-[var(--determinex-accent)]/15" : "border-white/10 bg-white/5"}`}
+        >
+          <FolderGit2
+            size={18}
+            className={
+              selected ? "text-[var(--determinex-accent)]" : "text-[var(--determinex-muted)]"
+            }
+          />
+          <span
+            className={`absolute -bottom-1 -right-1 h-2.5 w-2.5 rounded-full border-2 border-[var(--determinex-bg)] ${statusDot[project.status]}`}
+          />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="truncate text-sm font-semibold tracking-wide text-[var(--determinex-text)]" style={{ fontFamily: "var(--determinex-font-display)" }}>
+            <h3
+              className="truncate text-sm font-semibold tracking-wide text-[var(--determinex-text)]"
+              style={{ fontFamily: "var(--determinex-font-display)" }}
+            >
               {project.name}
             </h3>
-            {selected && <CheckCircle2 size={15} className="shrink-0 text-[var(--determinex-accent)] animate-in zoom-in" />}
+            {selected && (
+              <CheckCircle2
+                size={15}
+                className="shrink-0 text-[var(--determinex-accent)] animate-in zoom-in"
+              />
+            )}
           </div>
-          <p className="mt-0.5 truncate font-mono text-[10px] text-[var(--determinex-muted)] opacity-70">
+          <p className="mt-0.5 truncate font-mono text-label text-[var(--determinex-muted)] opacity-70">
             {displayPath(project.localPath)}
           </p>
           <div className="mt-2 flex flex-wrap gap-1">
             {project.stack.slice(0, 3).map((s) => (
-              <span key={s} className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-[8px] text-gray-500">
+              <span
+                key={s}
+                className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-meta text-gray-500"
+              >
                 {s}
               </span>
             ))}
@@ -244,7 +297,7 @@ function ProjectCard({
                   event.stopPropagation();
                   onNavigate(destination as ProjectHubDestination);
                 }}
-                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-[var(--determinex-border)]/30 bg-[var(--determinex-accent)]/10 px-2 py-2 text-[9px] font-bold uppercase tracking-widest text-[var(--determinex-text)] transition-all hover:bg-[var(--determinex-accent)] hover:text-black hover:shadow-[0_0_15px_var(--determinex-accent)]"
+                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-[var(--determinex-border)]/30 bg-[var(--determinex-accent)]/10 px-2 py-2 text-eyebrow font-bold uppercase tracking-widest text-[var(--determinex-text)] transition-all hover:bg-[var(--determinex-accent)] hover:text-black hover:shadow-[0_0_15px_var(--determinex-accent)]"
               >
                 <ActionIcon size={11} /> {label as string}
               </span>
@@ -256,19 +309,36 @@ function ProjectCard({
   );
 }
 
-export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, onOpenLibrary }: ProjectHubProps) {
+export function ProjectHub({
+  selectedProjectName,
+  onSelectProject,
+  onNavigate,
+  onOpenLibrary,
+}: ProjectHubProps) {
   const { themePack } = useIterationTheme();
   const [projects, setProjects] = useState<ProjectHubProject[]>(SEEDED_PROJECTS);
   const [selectedId, setSelectedId] = useState("determinex");
   const [defaultView, setDefaultView] = useState<ProjectHubProject["defaultView"]>("last");
   const [newProjectName, setNewProjectName] = useState("");
   const [newProjectRemote, setNewProjectRemote] = useState("");
+  const [newProjectDestination, setNewProjectDestination] = useState("");
   const [addMode, setAddMode] = useState<"folder" | "clone">("folder");
+  const [adding, setAdding] = useState(false);
+  const [addError, setAddError] = useState<string | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem("determinex.defaultView");
     if (stored && DEFAULT_OPTIONS.some((option) => option.id === stored)) {
       setDefaultView(stored as ProjectHubProject["defaultView"]);
+    }
+  }, []);
+
+  // Restore user-added project covers from a prior session -- previously every addProject()
+  // call was lost on reload since it only ever touched in-memory React state.
+  useEffect(() => {
+    const persisted = loadPersistedUserProjects();
+    if (persisted.length > 0) {
+      setProjects((current) => [...persisted, ...current]);
     }
   }, []);
 
@@ -287,58 +357,92 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
     () => [
       {
         label: "Project.md",
-        value: selectedProject.id === "determinex" ? "Bound to repo contract" : "Draft needed from scan",
-        detail: "Defines what this codebase is, how it should be handled, and what the worker can trust.",
+        value:
+          selectedProject.id === "determinex" ? "Bound to repo contract" : "Draft needed from scan",
+        detail:
+          "Defines what this codebase is, how it should be handled, and what the worker can trust.",
       },
       {
         label: "Plan Source",
         value: selectedProject.lastRun,
-        detail: "The active plan can come from a prompt, imported docs, README, open issues, or a prior run.",
+        detail:
+          "The active plan can come from a prompt, imported docs, README, open issues, or a prior run.",
       },
       {
         label: "Next Safe Action",
-        value: selectedProject.status === "needs-proof" ? "Scan before building" : "Resume or open Work",
-        detail: "Determinex should explain the next action before it writes code or starts a verifier.",
+        value:
+          selectedProject.status === "needs-proof" ? "Scan before building" : "Resume or open Work",
+        detail:
+          "Determinex should explain the next action before it writes code or starts a verifier.",
       },
       {
         label: "Evidence Boundary",
         value: selectedProject.proof,
-        detail: "Proof screens own builds, logs, verifier output, and release blockers for this project.",
+        detail:
+          "Proof screens own builds, logs, verifier output, and release blockers for this project.",
       },
     ],
     [selectedProject]
   );
 
-  const addProject = () => {
+  const addProject = async () => {
     const typedValue = newProjectRemote.trim();
-    const name = newProjectName.trim() || (addMode === "clone" ? "Cloned Codebase" : "Local Codebase");
+    const destination = newProjectDestination.trim();
+    setAddError(null);
+
+    if (addMode === "clone") {
+      if (!typedValue) {
+        setAddError("Enter a git remote URL to clone.");
+        return;
+      }
+      if (!destination) {
+        setAddError("Enter a local destination folder to clone into.");
+        return;
+      }
+      setAdding(true);
+      try {
+        await cloneRepo(typedValue, destination);
+      } catch (err) {
+        setAdding(false);
+        setAddError(err instanceof Error ? err.message : String(err));
+        return;
+      }
+      setAdding(false);
+    } else if (!typedValue) {
+      setAddError("Enter a local folder path to bind.");
+      return;
+    }
+
+    const name =
+      newProjectName.trim() || (addMode === "clone" ? "Cloned Codebase" : "Local Codebase");
     const id = `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Date.now()}`;
     // "folder" mode: the typed value IS the local path to bind (no clone step).
-    // "clone" mode: the typed value is the git remote; the local checkout path
-    // is not yet chosen by the user (no destination picker exists), so it
-    // stays a real placeholder the workspace-root guard in page.tsx recognizes.
+    // "clone" mode: cloneRepo() above already cloned the remote into `destination` --
+    // localPath is the real checkout, not a placeholder.
     const project: ProjectHubProject = {
       id,
       name,
-      localPath:
-        addMode === "clone"
-          ? "Choose folder to bind"
-          : typedValue || "Choose folder to bind",
-      remote: addMode === "clone" ? typedValue || "git remote pending" : "local folder",
+      localPath: addMode === "clone" ? destination : typedValue,
+      remote: addMode === "clone" ? typedValue : "local folder",
       provider: addMode === "clone" ? "Git" : "Local",
       branch: addMode === "clone" ? "main" : "unscanned",
       status: "needs-proof",
       stack: ["Unscanned", "Read-only"],
       defaultView: "workspace",
       lastOpened: "Just added",
-      lastRun: "Workspace scan pending",
+      lastRun: addMode === "clone" ? "Cloned, workspace scan pending" : "Workspace scan pending",
       proof: "No verifier run",
     };
-    setProjects((current) => [project, ...current]);
+    setProjects((current) => {
+      const next = [project, ...current];
+      persistUserProjects(next);
+      return next;
+    });
     setSelectedId(id);
     onSelectProject(project);
     setNewProjectName("");
     setNewProjectRemote("");
+    setNewProjectDestination("");
   };
 
   const chooseProject = (project: ProjectHubProject) => {
@@ -396,7 +500,7 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
         <header className="shrink-0 mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              {/* Project icon */}
+              {/* Lunarian logo */}
               <div
                 className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 transition-all"
                 style={{
@@ -435,7 +539,7 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                 <h2 className="text-xs font-bold uppercase tracking-widest text-[var(--determinex-text)] opacity-90">
                   Codebases
                 </h2>
-                <span className="rounded-full bg-white/10 px-2 py-0.5 font-mono text-[10px] text-white/70">
+                <span className="rounded-full bg-white/10 px-2 py-0.5 font-mono text-label text-white/70">
                   {projects.length}
                 </span>
               </div>
@@ -468,7 +572,7 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                     key={id}
                     type="button"
                     onClick={() => setAddMode(id as typeof addMode)}
-                    className={`rounded-xl border px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-all ${
+                    className={`rounded-xl border px-3 py-2 text-meta font-bold uppercase tracking-wider transition-all ${
                       addMode === id
                         ? "border-[var(--determinex-accent)] bg-[var(--determinex-accent)]/15 text-[var(--determinex-text)] shadow-[0_0_15px_var(--determinex-accent-glow)]"
                         : "border-white/5 bg-white/5 text-[var(--determinex-muted)] hover:bg-white/10"
@@ -479,8 +583,9 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                 ))}
               </div>
               <div className="space-y-3">
-                <p className="text-[10px] leading-relaxed text-[var(--determinex-muted)]">
-                  Start from a local folder or a Git remote. Determinex should scan it, explain the stack, and draft the project contract before building.
+                <p className="text-label leading-relaxed text-[var(--determinex-muted)]">
+                  Start from a local folder or a Git remote. Determinex should scan it, explain the
+                  stack, and draft the project contract before building.
                 </p>
                 <input
                   value={newProjectName}
@@ -488,18 +593,68 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                   placeholder="Project Name"
                   className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-2.5 text-xs text-[var(--determinex-text)] outline-none transition-all placeholder:text-[var(--determinex-muted)] focus:border-[var(--determinex-border)] focus:shadow-[0_0_15px_var(--determinex-accent-glow)]"
                 />
-                <input
-                  value={newProjectRemote}
-                  onChange={(event) => setNewProjectRemote(event.target.value)}
-                  placeholder={addMode === "clone" ? "https://github.com/..." : "C:\\Path\\To\\Code"}
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-2.5 text-xs text-[var(--determinex-text)] font-mono outline-none transition-all placeholder:text-[var(--determinex-muted)] focus:border-[var(--determinex-border)] focus:shadow-[0_0_15px_var(--determinex-accent-glow)]"
-                />
+                <div className="flex gap-2">
+                  <input
+                    data-testid="project-hub-add-remote-input"
+                    value={newProjectRemote}
+                    onChange={(event) => setNewProjectRemote(event.target.value)}
+                    placeholder={
+                      addMode === "clone" ? "https://github.com/..." : "C:\\Path\\To\\Code"
+                    }
+                    className="flex-1 min-w-0 rounded-xl border border-white/10 bg-black/40 px-4 py-2.5 text-xs text-[var(--determinex-text)] font-mono outline-none transition-all placeholder:text-[var(--determinex-muted)] focus:border-[var(--determinex-border)] focus:shadow-[0_0_15px_var(--determinex-accent-glow)]"
+                  />
+                  {addMode === "folder" && (
+                    <button
+                      type="button"
+                      title="Browse for a folder"
+                      onClick={async () => {
+                        const picked = await pickFolder("Choose a project folder");
+                        if (picked) setNewProjectRemote(picked);
+                      }}
+                      className="shrink-0 rounded-xl border border-white/10 bg-white/5 px-3 text-[var(--determinex-muted)] transition-all hover:bg-white/10 hover:text-[var(--determinex-text)]"
+                    >
+                      <FolderOpen size={15} />
+                    </button>
+                  )}
+                </div>
+                {addMode === "clone" && (
+                  <div className="flex gap-2">
+                    <input
+                      data-testid="project-hub-add-destination-input"
+                      value={newProjectDestination}
+                      onChange={(event) => setNewProjectDestination(event.target.value)}
+                      placeholder="C:\Path\To\Clone\Into (must not exist yet)"
+                      className="flex-1 min-w-0 rounded-xl border border-white/10 bg-black/40 px-4 py-2.5 text-xs text-[var(--determinex-text)] font-mono outline-none transition-all placeholder:text-[var(--determinex-muted)] focus:border-[var(--determinex-border)] focus:shadow-[0_0_15px_var(--determinex-accent-glow)]"
+                    />
+                    <button
+                      type="button"
+                      title="Browse for a destination folder"
+                      onClick={async () => {
+                        const picked = await pickFolder("Choose a destination folder");
+                        if (picked) setNewProjectDestination(picked);
+                      }}
+                      className="shrink-0 rounded-xl border border-white/10 bg-white/5 px-3 text-[var(--determinex-muted)] transition-all hover:bg-white/10 hover:text-[var(--determinex-text)]"
+                    >
+                      <FolderOpen size={15} />
+                    </button>
+                  </div>
+                )}
+                {addError && (
+                  <p
+                    data-testid="project-hub-add-error"
+                    className="text-label leading-relaxed text-rose-400"
+                  >
+                    {addError}
+                  </p>
+                )}
                 <button
                   type="button"
-                  onClick={addProject}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-[var(--determinex-border)] bg-[var(--determinex-accent)]/15 px-4 py-3 text-xs font-black uppercase tracking-widest text-[var(--determinex-text)] transition-all hover:bg-[var(--determinex-accent)] hover:text-black hover:shadow-[0_0_20px_var(--determinex-accent)]"
+                  data-testid="project-hub-add-submit"
+                  onClick={() => void addProject()}
+                  disabled={adding}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-[var(--determinex-border)] bg-[var(--determinex-accent)]/15 px-4 py-3 text-xs font-black uppercase tracking-widest text-[var(--determinex-text)] transition-all hover:bg-[var(--determinex-accent)] hover:text-black hover:shadow-[0_0_20px_var(--determinex-accent)] disabled:opacity-50"
                 >
-                  <Plus size={15} /> Create Cover
+                  <Plus size={15} /> {adding ? "Cloning…" : "Create Cover"}
                 </button>
               </div>
             </section>
@@ -510,13 +665,19 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
             {/* Hero Card */}
             <section className="relative flex-1 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-black/40 p-8 shadow-2xl backdrop-blur-xl">
               {/* Hero glow */}
-              <div className="absolute right-0 top-0 h-80 w-80 -translate-y-1/3 translate-x-1/4 rounded-full opacity-10 blur-[80px]" style={{ background: themePack.colors.accent }} />
-              <div className="absolute bottom-0 left-12 h-64 w-64 translate-y-1/3 rounded-full opacity-8 blur-[70px]" style={{ background: themePack.colors.accent2 }} />
+              <div
+                className="absolute right-0 top-0 h-80 w-80 -translate-y-1/3 translate-x-1/4 rounded-full opacity-10 blur-[80px]"
+                style={{ background: themePack.colors.accent }}
+              />
+              <div
+                className="absolute bottom-0 left-12 h-64 w-64 translate-y-1/3 rounded-full opacity-8 blur-[70px]"
+                style={{ background: themePack.colors.accent2 }}
+              />
 
               <div className="relative h-full flex flex-col">
                 <div className="flex items-start justify-between">
                   <div>
-                    <div className="inline-flex items-center gap-2 rounded-full border border-[var(--determinex-accent)]/30 bg-[var(--determinex-accent)]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[var(--determinex-accent)] mb-4 shadow-[0_0_15px_var(--determinex-accent-glow)]">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-[var(--determinex-accent)]/30 bg-[var(--determinex-accent)]/10 px-3 py-1 text-meta font-bold uppercase tracking-widest text-[var(--determinex-accent)] mb-4 shadow-[0_0_15px_var(--determinex-accent-glow)]">
                       <Zap size={11} className="animate-pulse" /> Project Cover
                     </div>
                     <h2
@@ -533,8 +694,12 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-xs text-[var(--determinex-muted)] font-mono">
                         <GitBranch size={13} /> {selectedProject.branch}
                       </span>
-                      <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-black uppercase tracking-widest ${statusStyle[selectedProject.status]}`}>
-                        <span className={`h-1.5 w-1.5 rounded-full ${statusDot[selectedProject.status]}`} />
+                      <span
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-black uppercase tracking-widest ${statusStyle[selectedProject.status]}`}
+                      >
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${statusDot[selectedProject.status]}`}
+                        />
                         {statusLabel(selectedProject.status)}
                       </span>
                     </div>
@@ -542,26 +707,38 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
 
                   <div className="hidden lg:flex flex-col gap-2 text-right shrink-0 ml-4">
                     <div className="rounded-xl border border-white/5 bg-black/30 px-4 py-3 backdrop-blur-md">
-                      <div className="text-[9px] uppercase tracking-widest text-[var(--determinex-muted)] font-bold mb-1">Last Open</div>
-                      <div className="text-sm font-black text-[var(--determinex-text)]">{selectedProject.lastOpened}</div>
+                      <div className="text-eyebrow uppercase tracking-widest text-[var(--determinex-muted)] font-bold mb-1">
+                        Last Open
+                      </div>
+                      <div className="text-sm font-black text-[var(--determinex-text)]">
+                        {selectedProject.lastOpened}
+                      </div>
                     </div>
                     <div className="rounded-xl border border-white/5 bg-black/30 px-4 py-3 backdrop-blur-md">
-                      <div className="text-[9px] uppercase tracking-widest text-[var(--determinex-muted)] font-bold mb-1">Proof Status</div>
-                      <div className="text-sm font-black text-[var(--determinex-text)]">{selectedProject.proof}</div>
+                      <div className="text-eyebrow uppercase tracking-widest text-[var(--determinex-muted)] font-bold mb-1">
+                        Proof Status
+                      </div>
+                      <div className="text-sm font-black text-[var(--determinex-text)]">
+                        {selectedProject.proof}
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-7 grid gap-3 lg:grid-cols-4">
                   {projectCoverRows.map((row) => (
-                    <div key={row.label} className="rounded-2xl border border-white/8 bg-black/35 p-4">
-                      <div className="mb-2 flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-[var(--determinex-muted)]">
-                        <CheckCircle2 size={12} className="text-[var(--determinex-accent)]" /> {row.label}
+                    <div
+                      key={row.label}
+                      className="rounded-2xl border border-white/8 bg-black/35 p-4"
+                    >
+                      <div className="mb-2 flex items-center gap-2 text-eyebrow font-black uppercase tracking-widest text-[var(--determinex-muted)]">
+                        <CheckCircle2 size={12} className="text-[var(--determinex-accent)]" />{" "}
+                        {row.label}
                       </div>
-                      <div className="min-h-[2rem] text-[12px] font-black leading-tight text-[var(--determinex-text)]">
+                      <div className="min-h-[2rem] text-body font-black leading-tight text-[var(--determinex-text)]">
                         {row.value}
                       </div>
-                      <p className="mt-2 text-[10px] leading-relaxed text-[var(--determinex-muted)] opacity-75">
+                      <p className="mt-2 text-label leading-relaxed text-[var(--determinex-muted)] opacity-75">
                         {row.detail}
                       </p>
                     </div>
@@ -573,9 +750,19 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-4xl">
                     {[
                       ["Work", "work", Play, "Ask, plan, build, and continue active sessions"],
-                      ["Space", "workspace", Terminal, "Files, source state, runs, and project map"],
+                      [
+                        "Space",
+                        "workspace",
+                        Terminal,
+                        "Files, source state, runs, and project map",
+                      ],
                       ["Brain", "brain", Brain, "Model slots, routing, health, and evals"],
-                      ["Proof", "proof", ShieldCheck, "Build verdicts, logs, outputs, and evidence"],
+                      [
+                        "Proof",
+                        "proof",
+                        ShieldCheck,
+                        "Build verdicts, logs, outputs, and evidence",
+                      ],
                     ].map(([label, destination, Icon, desc]) => {
                       const ActionIcon = Icon as typeof Play;
                       return (
@@ -587,9 +774,15 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                         >
                           <div className="absolute inset-0 bg-gradient-to-br from-[var(--determinex-accent)]/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                           <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 group-hover:scale-110 group-hover:border-[var(--determinex-accent)]/50 group-hover:bg-[var(--determinex-accent)]/20">
-                            <ActionIcon size={22} className="text-[var(--determinex-muted)] transition-colors duration-300 group-hover:text-[var(--determinex-accent)]" />
+                            <ActionIcon
+                              size={22}
+                              className="text-[var(--determinex-muted)] transition-colors duration-300 group-hover:text-[var(--determinex-accent)]"
+                            />
                           </div>
-                          <h3 className="relative z-10 mt-4 text-lg font-bold tracking-wide text-[var(--determinex-text)]" style={{ fontFamily: "var(--determinex-font-display)" }}>
+                          <h3
+                            className="relative z-10 mt-4 text-lg font-bold tracking-wide text-[var(--determinex-text)]"
+                            style={{ fontFamily: "var(--determinex-font-display)" }}
+                          >
                             {label as string}
                           </h3>
                           <p className="relative z-10 mt-1 text-xs text-[var(--determinex-muted)] opacity-75">
@@ -617,17 +810,17 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                   <div className="rounded-xl border border-white/8 bg-white/[0.03] px-3 py-3">
                     <div className="flex items-center justify-between gap-3">
                       <div className="min-w-0">
-                        <div className="truncate text-[11px] font-black text-[var(--determinex-text)]">
+                        <div className="truncate text-label font-black text-[var(--determinex-text)]">
                           {selectedProject.lastRun}
                         </div>
-                        <div className="mt-1 font-mono text-[9px] text-gray-600">
+                        <div className="mt-1 font-mono text-meta text-gray-600">
                           {selectedProject.lastOpened} - {selectedProject.proof}
                         </div>
                       </div>
                       <button
                         type="button"
                         onClick={() => onNavigate("runs")}
-                        className="shrink-0 rounded-lg border border-violet-400/25 bg-violet-950/20 px-3 py-1.5 text-[9px] font-black uppercase tracking-widest text-violet-300 transition-all hover:bg-violet-900/30"
+                        className="shrink-0 rounded-lg border border-violet-400/25 bg-violet-950/20 px-3 py-1.5 text-eyebrow font-black uppercase tracking-widest text-violet-300 transition-all hover:bg-violet-900/30"
                       >
                         Runs
                       </button>
@@ -636,7 +829,7 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                   <button
                     type="button"
                     onClick={onOpenLibrary}
-                    className="flex items-center justify-center gap-2 rounded-xl border border-[var(--determinex-border)]/40 bg-[var(--determinex-accent)]/10 px-3 py-2.5 text-[10px] font-black uppercase tracking-widest text-[var(--determinex-text)] transition-all hover:bg-[var(--determinex-accent)] hover:text-black"
+                    className="flex items-center justify-center gap-2 rounded-xl border border-[var(--determinex-border)]/40 bg-[var(--determinex-accent)]/10 px-3 py-2.5 text-meta font-black uppercase tracking-widest text-[var(--determinex-text)] transition-all hover:bg-[var(--determinex-accent)] hover:text-black"
                   >
                     <BookOpen size={13} /> Open Session Library
                   </button>
@@ -652,7 +845,7 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                   <button
                     type="button"
                     onClick={() => onNavigate(viewToDestination(defaultView))}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--determinex-accent)] px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-black transition-all hover:bg-white hover:shadow-[0_0_15px_var(--determinex-accent)]"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--determinex-accent)] px-3 py-1.5 text-meta font-black uppercase tracking-widest text-black transition-all hover:bg-white hover:shadow-[0_0_15px_var(--determinex-accent)]"
                   >
                     Launch <ChevronRight size={13} />
                   </button>
@@ -663,7 +856,7 @@ export function ProjectHub({ selectedProjectName, onSelectProject, onNavigate, o
                       key={option.id}
                       type="button"
                       onClick={() => applyDefault(option.id)}
-                      className={`flex-1 rounded-xl border px-2 py-3 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 ${
+                      className={`flex-1 rounded-xl border px-2 py-3 text-meta font-bold uppercase tracking-widest transition-all duration-300 ${
                         defaultView === option.id
                           ? "border-[var(--determinex-accent)] bg-gradient-to-b from-[var(--determinex-accent)]/20 to-[var(--determinex-accent)]/5 text-[var(--determinex-text)] shadow-[0_0_15px_var(--determinex-accent-glow)] scale-105"
                           : "border-white/5 bg-white/5 text-[var(--determinex-muted)] hover:border-white/15 hover:bg-white/10"

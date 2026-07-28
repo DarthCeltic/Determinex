@@ -18,7 +18,7 @@ import argparse, json, glob, subprocess, sys, time, os
 from pathlib import Path
 
 PB = "/root/ProgramBench/.venv/bin/programbench"
-ROOT = "/root/determinex-programbench"
+ROOT = "/root/citadel-programbench"
 LOG = "/tmp/grind/_grind.log"
 
 

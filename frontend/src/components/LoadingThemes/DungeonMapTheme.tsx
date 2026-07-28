@@ -33,12 +33,13 @@ export function DungeonMapTheme({
     });
     if (canvas.parentElement) ro.observe(canvas.parentElement);
 
-    let raf: number, t = 0;
+    let raf: number,
+      t = 0;
     const ROOMS = [
       { x: 0.18, y: 0.28, w: 0.16, h: 0.18 },
       { x: 0.48, y: 0.22, w: 0.18, h: 0.22 },
-      { x: 0.74, y: 0.40, w: 0.14, h: 0.18 },
-      { x: 0.30, y: 0.62, w: 0.20, h: 0.16 },
+      { x: 0.74, y: 0.4, w: 0.14, h: 0.18 },
+      { x: 0.3, y: 0.62, w: 0.2, h: 0.16 },
       { x: 0.58, y: 0.66, w: 0.16, h: 0.14 },
     ];
     const draw = () => {
@@ -49,10 +50,16 @@ export function DungeonMapTheme({
       ctx.strokeStyle = "rgba(120,90,40,0.10)";
       ctx.lineWidth = 1;
       for (let x = 0; x < w; x += 16) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
       }
       for (let y = 0; y < h; y += 16) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
       }
       // Rooms
       ROOMS.forEach((r, i) => {
@@ -68,9 +75,12 @@ export function DungeonMapTheme({
       ctx.lineWidth = 2;
       ctx.beginPath();
       for (let i = 0; i < ROOMS.length - 1; i++) {
-        const a = ROOMS[i], b = ROOMS[i + 1];
-        const ax = (a.x + a.w / 2) * w, ay = (a.y + a.h / 2) * h;
-        const bx = (b.x + b.w / 2) * w, by = (b.y + b.h / 2) * h;
+        const a = ROOMS[i],
+          b = ROOMS[i + 1];
+        const ax = (a.x + a.w / 2) * w,
+          ay = (a.y + a.h / 2) * h;
+        const bx = (b.x + b.w / 2) * w,
+          by = (b.y + b.h / 2) * h;
         ctx.moveTo(ax, ay);
         ctx.lineTo(bx, ay);
         ctx.lineTo(bx, by);
@@ -79,7 +89,8 @@ export function DungeonMapTheme({
       // Party torch (4 dots moving along the path)
       const PATH = ROOMS.flatMap((r, i, arr) => {
         if (i === arr.length - 1) return [];
-        const a = ROOMS[i], b = ROOMS[i + 1];
+        const a = ROOMS[i],
+          b = ROOMS[i + 1];
         return [
           [(a.x + a.w / 2) * w, (a.y + a.h / 2) * h] as [number, number],
           [(b.x + b.w / 2) * w, (a.y + a.h / 2) * h] as [number, number],
@@ -99,10 +110,14 @@ export function DungeonMapTheme({
       raf = requestAnimationFrame(draw);
     };
     draw();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, [active]);
   if (!active) return null;
-  const primary = "#cfe7a6", dim = "rgba(207,231,166,0.55)";
+  const primary = "#cfe7a6",
+    dim = "rgba(207,231,166,0.55)";
   if (fullPanel) {
     return (
       <div className="absolute inset-0 z-20 overflow-hidden" style={{ background: "#0d0a06" }}>
@@ -110,18 +125,34 @@ export function DungeonMapTheme({
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(13,10,6,0)_0%,rgba(13,10,6,0.78)_100%)]" />
         <div className="absolute bottom-6 left-6 flex flex-col gap-0.5">
           {PARTY_LINES.map((l, i) => (
-            <p key={i} className="text-[10px] font-serif italic" style={{ color: dim }}>· {l}</p>
+            <p key={i} className="text-label font-serif italic" style={{ color: dim }}>
+              · {l}
+            </p>
           ))}
         </div>
-        <ThemeOverlay label={label} elapsedSeconds={elapsedSeconds} primary={primary} dim={dim}
-                      subLabel="party advances on the map" arrow="✦"
-                      rolePalette={{ oracle: "#9be38a", architect: "#d6b35a", builder: "#7fbfff", compiler: "#ff8a7a" }}
-                      chipShape="diamond" />
+        <ThemeOverlay
+          label={label}
+          elapsedSeconds={elapsedSeconds}
+          primary={primary}
+          dim={dim}
+          subLabel="party advances on the map"
+          arrow="✦"
+          rolePalette={{
+            oracle: "#9be38a",
+            architect: "#d6b35a",
+            builder: "#7fbfff",
+            compiler: "#ff8a7a",
+          }}
+          chipShape="diamond"
+        />
       </div>
     );
   }
   return (
-    <div className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none" style={{ background: "#0d0a06" }}>
+    <div
+      className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none"
+      style={{ background: "#0d0a06" }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 opacity-85" />
       <SmallPanel label={label} primary={primary} />
     </div>

@@ -61,10 +61,14 @@ export function OracleArena() {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className={`flex gap-4 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
               >
-                <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${msg.role === "oracle" ? "bg-cyan-900/30 text-cyan-400 border border-cyan-500/30" : "bg-purple-900/30 text-purple-400 border border-purple-500/30"}`}>
+                <div
+                  className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${msg.role === "oracle" ? "bg-cyan-900/30 text-cyan-400 border border-cyan-500/30" : "bg-purple-900/30 text-purple-400 border border-purple-500/30"}`}
+                >
                   {msg.role === "oracle" ? <Bot size={16} /> : <User size={16} />}
                 </div>
-                <div className={`max-w-[80%] rounded-2xl px-5 py-3.5 text-[13px] leading-relaxed shadow-lg ${msg.role === "oracle" ? "bg-[#161b22] border border-[#30363d]" : "bg-purple-900/10 border border-purple-500/20 text-purple-100"}`}>
+                <div
+                  className={`max-w-[80%] rounded-2xl px-5 py-3.5 text-body leading-relaxed shadow-lg ${msg.role === "oracle" ? "bg-[#161b22] border border-[#30363d]" : "bg-purple-900/10 border border-purple-500/20 text-purple-100"}`}
+                >
                   {msg.text}
                 </div>
               </motion.div>
@@ -76,7 +80,7 @@ export function OracleArena() {
               <div className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-cyan-900/30 text-cyan-400 border border-cyan-500/30">
                 <Bot size={16} />
               </div>
-              <div className="max-w-[80%] rounded-2xl px-5 py-3.5 text-[13px] leading-relaxed bg-[#161b22] border border-[#30363d]">
+              <div className="max-w-[80%] rounded-2xl px-5 py-3.5 text-body leading-relaxed bg-[#161b22] border border-[#30363d]">
                 {state.oracleTyping || "▌"}
               </div>
             </div>
@@ -107,22 +111,22 @@ export function OracleArena() {
           <div className="z-10 w-[80%] max-w-lg aspect-square">
             {/* Show the wireframe of the best path (first path) */}
             <div className="bg-[#0d1117] border border-[#30363d] rounded-2xl p-8 h-full shadow-2xl flex flex-col items-center justify-center relative overflow-hidden transition-all duration-1000 transform translate-y-0 opacity-100">
-               <div className="absolute top-4 left-4 text-[10px] uppercase font-bold tracking-widest text-gray-500">
-                 Current Blueprint
-               </div>
-               <div className="absolute top-4 right-4 text-[10px] text-cyan-400 font-mono bg-cyan-950/30 px-2 py-0.5 rounded border border-cyan-500/20">
-                 {state.paths[0].name}
-               </div>
-               
-               <div className="flex-1 w-full flex items-center justify-center">
-                 <PathWireframe path={state.paths[0]} />
-               </div>
+              <div className="absolute top-4 left-4 text-meta uppercase font-bold tracking-widest text-gray-500">
+                Current Blueprint
+              </div>
+              <div className="absolute top-4 right-4 text-label text-cyan-400 font-mono bg-cyan-950/30 px-2 py-0.5 rounded border border-cyan-500/20">
+                {state.paths[0].name}
+              </div>
+
+              <div className="flex-1 w-full flex items-center justify-center">
+                <PathWireframe path={state.paths[0]} />
+              </div>
             </div>
           </div>
         ) : (
           <div className="z-10 text-center opacity-30">
-             <Zap size={64} className="mx-auto mb-4" />
-             <p className="font-mono text-sm tracking-widest uppercase">Waiting for paths</p>
+            <Zap size={64} className="mx-auto mb-4" />
+            <p className="font-mono text-sm tracking-widest uppercase">Waiting for paths</p>
           </div>
         )}
       </div>

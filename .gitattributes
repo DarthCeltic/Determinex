@@ -6,6 +6,11 @@
 *.sh text eol=lf
 *.bash text eol=lf
 
+# Git hooks (extension-less shell scripts) -- a CRLF-corrupted shebang line
+# breaks execution outright, not just style. scripts/git-hooks/ is the
+# tracked source install_git_hooks() copies into .git/hooks/.
+scripts/git-hooks/* text eol=lf
+
 # Windows-only scripts — allow CRLF
 *.bat text eol=crlf
 *.ps1 text eol=crlf

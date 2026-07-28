@@ -8,6 +8,12 @@ pub struct Context {
     pub thread_id: String,
     #[serde(default)]
     pub retry_count: u32,
+    /// Frontend route-picker id (lib/aiRouting.ts's AI_ROUTE_OPTIONS), e.g. "auto",
+    /// "local/fast", "determinex/planner", "free/qwen3-coder", "cloud/claude-best".
+    /// "auto" or omitted means: use whatever Settings > Hive Roles has configured,
+    /// unchanged. See PipelineModels::with_override.
+    #[serde(default)]
+    pub model_override: Option<String>,
 }
 
 /// Structured plan emitted by the Sentinel.

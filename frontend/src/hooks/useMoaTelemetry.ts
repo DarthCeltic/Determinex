@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { listen } from "@tauri-apps/api/event";
 import { isTauri } from "@/lib/api";
+import { emitPolicyBlock } from "@/lib/policy-block-bus";
 import type { AgentStatus } from "@/components/MatrixExecutionDisplay";
 
 interface MoaTelemetryHandlers {
@@ -30,6 +31,15 @@ export function useMoaTelemetry({
 
       if (agent === "system" && status === "FlushingVRAM") {
         setMatrixLogs((prev) => [...prev, "[SYSTEM] VRAM flush — evicting model from GPU..."]);
+        return;
+      }
+
+      if (agent === "system" && status === "SecurityPanic|PathTraversalBlocked") {
+        setMatrixLogs((prev) => [
+          ...prev,
+          "[SECURITY] ⛔ AEGIS FS jail blocked a write outside the workspace sandbox.",
+        ]);
+        emitPolicyBlock("PATH_TRAVERSAL_BLOCKED", "orchestrator generated-file write");
         return;
       }
 

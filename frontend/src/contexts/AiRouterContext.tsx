@@ -6,7 +6,7 @@ import {
   routeKeyReady,
   routeRequiresKey,
   AiRouteOption,
-  routeOptionById
+  routeOptionById,
 } from "@/lib/aiRouting";
 
 interface AiRouterContextValue {
@@ -43,13 +43,15 @@ export function AiRouterProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("determinex_selected_topology");
       if (saved) {
-        try { return JSON.parse(saved); } catch (e) {}
+        try {
+          return JSON.parse(saved);
+        } catch (e) {}
       }
     }
     return {
       sentinel: "determinex/planner",
       engineer: "determinex/engineer",
-      observer: "determinex/observer"
+      observer: "determinex/observer",
     };
   });
 
@@ -84,12 +86,16 @@ export function AiRouterProvider({ children }: { children: React.ReactNode }) {
   // Compute route warnings (key status, network policy blocks)
   const routeWarnings = useMemo(() => {
     const warnings: string[] = [];
-    const isAllowed = allowedOptions.some(o => o.id === selectedModel);
+    const isAllowed = allowedOptions.some((o) => o.id === selectedModel);
     if (!isAllowed) {
-      warnings.push(`Selected model is blocked under the active "${networkPolicy}" network policy.`);
+      warnings.push(
+        `Selected model is blocked under the active "${networkPolicy}" network policy.`
+      );
     }
     if (routeRequiresKey(selectedModel) && !routeKeyReady(selectedModel, keyStatus)) {
-      warnings.push(`Selected cloud route "${selectedModel}" requires an API key but none is configured.`);
+      warnings.push(
+        `Selected cloud route "${selectedModel}" requires an API key but none is configured.`
+      );
     }
     return warnings;
   }, [selectedModel, allowedOptions, networkPolicy, keyStatus]);
@@ -116,7 +122,7 @@ export function AiRouterProvider({ children }: { children: React.ReactNode }) {
         changeModel,
         changeTopology,
         allowedOptions,
-        routeWarnings
+        routeWarnings,
       }}
     >
       {children}

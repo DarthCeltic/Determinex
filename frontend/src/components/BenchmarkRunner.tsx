@@ -2,7 +2,17 @@
 
 import { useState, useEffect, useRef } from "react";
 import { listen } from "@tauri-apps/api/event";
-import { Play, Square, BarChart3, ChevronDown, ChevronRight, Loader2 } from "lucide-react";
+import {
+  Play,
+  Square,
+  BarChart3,
+  ChevronDown,
+  ChevronRight,
+  Loader2,
+  Sparkles,
+  ShieldCheck,
+  ArrowRight,
+} from "lucide-react";
 import { invokeSafe } from "@/lib/api";
 import { useErrorToast } from "@/components/ErrorToast";
 import { ProgramBenchCockpit } from "@/components/ProgramBenchCockpit";
@@ -101,7 +111,7 @@ function ScoreRing({ resolved, total, color }: { resolved: number; total: number
           style={{ transition: "stroke-dasharray 0.6s ease" }}
         />
       </svg>
-      <span className="text-[11px] font-black text-white leading-none">
+      <span className="text-label font-black text-white leading-none">
         {total > 0 && resolved > 0 ? `${Math.round(pct * 100)}%` : "—"}
       </span>
     </div>
@@ -115,7 +125,7 @@ function ElapsedTimer({ running, elapsed }: { running: boolean; elapsed: number 
   const s = (elapsed % 60).toString().padStart(2, "0");
   return (
     <span
-      className={`text-[10px] font-mono ${running ? "text-amber-400 animate-pulse" : "text-gray-600"}`}
+      className={`text-label font-mono ${running ? "text-amber-400 animate-pulse" : "text-gray-600"}`}
     >
       {m}:{s}
     </span>
@@ -130,7 +140,7 @@ function LogPane({ lines, logOffset }: { lines: string[]; logOffset: number }) {
 
   if (lines.length === 0) return null;
   return (
-    <div className="mt-2 bg-black/60 border border-white/5 rounded-lg p-3 max-h-48 overflow-y-auto font-mono text-[9px] leading-relaxed">
+    <div className="mt-2 bg-black/60 border border-white/5 rounded-lg p-3 max-h-48 overflow-y-auto font-mono text-meta leading-relaxed">
       {lines.map((l, i) => (
         <div
           key={logOffset + i}
@@ -146,6 +156,16 @@ function LogPane({ lines, logOffset }: { lines: string[]; logOffset: number }) {
 
 export function BenchmarkRunner() {
   const showError = useErrorToast();
+  // Ryan: "programbench is fine and all, but its not the end all be all, its
+  // just one bench theres a million and there will be a million more, that
+  // needs to be less prominent and easier to understand for the average
+  // user who could give two flying fucks about the bench, just that its
+  // smart and knows what its doing. like that level of depth should be a
+  // sub menu in brain." -- ProgramBench/SWE-bench/LiveCode/BigCode detail
+  // (raw scores, per-tool locked-tool rows, live run controls) now lives
+  // behind an explicit "Benchmarks" tab; the default view is a plain-
+  // language summary with no benchmark jargon.
+  const [tab, setTab] = useState<"overview" | "benchmarks">("overview");
   const [runs, setRuns] = useState<Record<string, RunState>>(() =>
     Object.fromEntries(BENCHMARKS.map((b) => [b.id, makeInitialRun()]))
   );
@@ -222,8 +242,11 @@ export function BenchmarkRunner() {
         data?: { run_key: string; pid: number; event: string; log_path: string };
         error?: string;
       }>("launch_benchmark_run", {
-        benchmark_id: id,
-        script_name: cfg.scriptName,
+        // Tauri looks params up as camelCase (ArgumentCase::Camel default), so
+        // snake_case keys arrive missing and these required String params make
+        // the command reject outright -- launch/stop never worked.
+        benchmarkId: id,
+        scriptName: cfg.scriptName,
         args: cfg.args,
       });
 
@@ -312,7 +335,7 @@ export function BenchmarkRunner() {
     unlisteners.current[id]?.();
     delete unlisteners.current[id];
     // Tell Rust to kill the OS process.
-    invokeSafe("stop_benchmark_run", { benchmark_id: id }).catch((e) =>
+    invokeSafe("stop_benchmark_run", { benchmarkId: id }).catch((e) =>
       showError(`Failed to stop benchmark: ${e}`)
     );
     setRun(id, { status: "idle" });
@@ -328,167 +351,226 @@ export function BenchmarkRunner() {
       {/* Header */}
       <div className="p-4 border-b border-[#30363d] bg-[#0d1117]/60 flex-shrink-0">
         <div className="flex items-center gap-2 mb-1">
-          <BarChart3 size={14} className="text-orange-400" />
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-400">
-            Benchmark Suite
+          <Sparkles size={14} className="text-orange-400" />
+          <span className="text-meta font-black uppercase tracking-widest text-orange-400">
+            Brain
           </span>
         </div>
-        <p className="text-[9px] text-gray-500 font-mono leading-relaxed">
-          SWE-bench · LiveCode · BigCode · SWE-lancer. Scores feed the white paper.
+        <p className="text-meta text-gray-500 font-mono leading-relaxed">
+          Which models play each role, and how well the system does on real, compiler-verified work.
         </p>
+        <div className="mt-3 flex gap-1 rounded-lg border border-white/8 p-0.5 w-fit">
+          <button
+            onClick={() => setTab("overview")}
+            className={`rounded-md px-2.5 py-1 text-eyebrow font-bold uppercase tracking-wide transition-colors ${
+              tab === "overview" ? "bg-white/10 text-white" : "text-gray-600 hover:text-gray-400"
+            }`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setTab("benchmarks")}
+            className={`rounded-md px-2.5 py-1 text-eyebrow font-bold uppercase tracking-wide transition-colors ${
+              tab === "benchmarks" ? "bg-white/10 text-white" : "text-gray-600 hover:text-gray-400"
+            }`}
+          >
+            Benchmarks
+          </button>
+        </div>
       </div>
 
-      <ProgramBenchCockpit />
+      {tab === "overview" && (
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
+          <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <ShieldCheck size={13} className="text-emerald-400" />
+              <span className="text-label font-bold text-white">How this stays honest</span>
+            </div>
+            <p className="text-label text-gray-400 leading-relaxed">
+              Brain assigns which AI model plays each role -- Oracle, Architect, and Builder --
+              shown in the Role Slots panel. Nothing an agent produces is trusted on its own word:
+              every answer is checked by a real compiler or test run before it counts as correct.
+            </p>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+            <div className="text-eyebrow uppercase tracking-widest text-gray-500 font-bold mb-2">
+              Why you don&apos;t see raw scores here
+            </div>
+            <p className="text-label text-gray-400 leading-relaxed">
+              This system is measured against several independent public benchmarks (SWE-bench,
+              LiveCodeBench, BigCodeBench, ProgramBench, and more over time) -- no single one of
+              them is the whole story, and chasing one number is a distraction from actually being
+              useful. The detailed, per-benchmark numbers are one tab away for anyone who wants
+              them.
+            </p>
+          </div>
+          <button
+            onClick={() => setTab("benchmarks")}
+            className="flex items-center justify-center gap-1.5 rounded-lg border border-white/8 px-3 py-2 text-eyebrow font-black uppercase tracking-widest text-gray-400 hover:bg-white/5 hover:text-gray-200 transition-colors"
+          >
+            View detailed benchmark scores <ArrowRight size={11} />
+          </button>
+        </div>
+      )}
 
-      {/* Benchmark cards */}
-      <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-3">
-        {BENCHMARKS.map((cfg) => {
-          const run = runs[cfg.id];
-          const isExpanded = expanded[cfg.id] ?? false;
-          const hist = history[cfg.id] ?? [];
-          const isRunning = run.status === "running";
+      {tab === "benchmarks" && (
+        <>
+          <ProgramBenchCockpit />
 
-          return (
-            <div
-              key={cfg.id}
-              className="bg-[#161b22] border border-[#30363d] rounded-xl overflow-hidden transition-all"
-              style={{ borderColor: isRunning ? cfg.accentColor + "40" : undefined }}
-            >
-              {/* Card header */}
-              <div className="p-3 flex items-center gap-3">
-                <ScoreRing
-                  resolved={run.result?.resolved ?? 0}
-                  total={run.result?.total ?? cfg.defaultTotal}
-                  color={cfg.accentColor}
-                />
+          {/* Benchmark cards */}
+          <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-3">
+            {BENCHMARKS.map((cfg) => {
+              const run = runs[cfg.id];
+              const isExpanded = expanded[cfg.id] ?? false;
+              const hist = history[cfg.id] ?? [];
+              const isRunning = run.status === "running";
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[11px] font-bold text-white truncate">{cfg.label}</span>
-                    {run.status === "done" && run.result && (
-                      <span
-                        className={`text-[9px] font-mono px-1.5 py-0.5 rounded-full ${
-                          run.result.status === "pass"
-                            ? "bg-emerald-500/20 text-emerald-400"
-                            : run.result.status === "partial"
-                              ? "bg-amber-500/20 text-amber-400"
-                              : "bg-red-500/20 text-red-400"
-                        }`}
-                      >
-                        {run.result.resolved}/{run.result.total}
-                      </span>
-                    )}
-                    {isRunning && <Loader2 size={10} className="text-amber-400 animate-spin" />}
-                  </div>
-                  <p className="text-[9px] text-gray-500 leading-relaxed truncate">
-                    {cfg.description}
-                  </p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <ElapsedTimer running={isRunning} elapsed={run.elapsed} />
-                    {run.status === "error" && (
-                      <span className="text-[9px] text-red-400">
-                        {run.errorKind === "launch"
-                          ? "launch failed"
-                          : run.errorKind === "timeout"
-                            ? "timed out"
-                            : run.errorKind === "crash"
-                              ? "process crashed"
-                              : "error"}
-                      </span>
-                    )}
-                  </div>
-                </div>
+              return (
+                <div
+                  key={cfg.id}
+                  className="bg-[#161b22] border border-[#30363d] rounded-xl overflow-hidden transition-all"
+                  style={{ borderColor: isRunning ? cfg.accentColor + "40" : undefined }}
+                >
+                  {/* Card header */}
+                  <div className="p-3 flex items-center gap-3">
+                    <ScoreRing
+                      resolved={run.result?.resolved ?? 0}
+                      total={run.result?.total ?? cfg.defaultTotal}
+                      color={cfg.accentColor}
+                    />
 
-                <div className="flex items-center gap-1.5 flex-shrink-0">
-                  <button
-                    onClick={() => toggleExpand(cfg.id)}
-                    className="p-1 text-gray-600 hover:text-gray-300 transition-colors rounded"
-                    title="Toggle log"
-                  >
-                    {isExpanded ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
-                  </button>
-                  {isRunning ? (
-                    <button
-                      onClick={() => stopBenchmark(cfg.id)}
-                      className="p-1.5 rounded-lg bg-red-900/30 border border-red-500/30 text-red-400 hover:bg-red-900/60 transition-colors"
-                      title="Stop"
-                    >
-                      <Square size={12} />
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => startBenchmark(cfg)}
-                      className="p-1.5 rounded-lg border transition-colors"
-                      style={{
-                        backgroundColor: cfg.accentColor + "20",
-                        borderColor: cfg.accentColor + "40",
-                        color: cfg.accentColor,
-                      }}
-                      title="Run benchmark"
-                    >
-                      <Play size={12} />
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Expanded: log + history */}
-              {isExpanded && (
-                <div className="px-3 pb-3 border-t border-[#30363d]/50">
-                  <LogPane lines={run.log} logOffset={run.logOffset} />
-
-                  {hist.length > 0 && (
-                    <div className="mt-3">
-                      <div className="text-[9px] uppercase font-bold text-gray-600 tracking-widest mb-1.5">
-                        History
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        {hist.map((h, i) => (
-                          <div
-                            key={i}
-                            className="flex items-center justify-between text-[9px] font-mono text-gray-500"
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-label font-bold text-white truncate">
+                          {cfg.label}
+                        </span>
+                        {run.status === "done" && run.result && (
+                          <span
+                            className={`text-meta font-mono px-1.5 py-0.5 rounded-full ${
+                              run.result.status === "pass"
+                                ? "bg-emerald-500/20 text-emerald-400"
+                                : run.result.status === "partial"
+                                  ? "bg-amber-500/20 text-amber-400"
+                                  : "bg-red-500/20 text-red-400"
+                            }`}
                           >
-                            <span>{new Date(h.timestamp).toLocaleString()}</span>
-                            <span
-                              className={`${h.status === "pass" ? "text-emerald-400" : h.status === "partial" ? "text-amber-400" : "text-red-400"}`}
-                            >
-                              {h.resolved}/{h.total} ({h.score}%)
-                            </span>
-                          </div>
-                        ))}
+                            {run.result.resolved}/{run.result.total}
+                          </span>
+                        )}
+                        {isRunning && <Loader2 size={10} className="text-amber-400 animate-spin" />}
                       </div>
+                      <p className="text-meta text-gray-500 leading-relaxed truncate">
+                        {cfg.description}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <ElapsedTimer running={isRunning} elapsed={run.elapsed} />
+                        {run.status === "error" && (
+                          <span className="text-meta text-red-400">
+                            {run.errorKind === "launch"
+                              ? "launch failed"
+                              : run.errorKind === "timeout"
+                                ? "timed out"
+                                : run.errorKind === "crash"
+                                  ? "process crashed"
+                                  : "error"}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      <button
+                        onClick={() => toggleExpand(cfg.id)}
+                        className="p-1 text-gray-600 hover:text-gray-300 transition-colors rounded"
+                        title="Toggle log"
+                      >
+                        {isExpanded ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
+                      </button>
+                      {isRunning ? (
+                        <button
+                          onClick={() => stopBenchmark(cfg.id)}
+                          className="p-1.5 rounded-lg bg-red-900/30 border border-red-500/30 text-red-400 hover:bg-red-900/60 transition-colors"
+                          title="Stop"
+                        >
+                          <Square size={12} />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => startBenchmark(cfg)}
+                          className="p-1.5 rounded-lg border transition-colors"
+                          style={{
+                            backgroundColor: cfg.accentColor + "20",
+                            borderColor: cfg.accentColor + "40",
+                            color: cfg.accentColor,
+                          }}
+                          title="Run benchmark"
+                        >
+                          <Play size={12} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Expanded: log + history */}
+                  {isExpanded && (
+                    <div className="px-3 pb-3 border-t border-[#30363d]/50">
+                      <LogPane lines={run.log} logOffset={run.logOffset} />
+
+                      {hist.length > 0 && (
+                        <div className="mt-3">
+                          <div className="text-eyebrow uppercase font-bold text-gray-600 tracking-widest mb-1.5">
+                            History
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            {hist.map((h, i) => (
+                              <div
+                                key={i}
+                                className="flex items-center justify-between text-meta font-mono text-gray-500"
+                              >
+                                <span>{new Date(h.timestamp).toLocaleString()}</span>
+                                <span
+                                  className={`${h.status === "pass" ? "text-emerald-400" : h.status === "partial" ? "text-amber-400" : "text-red-400"}`}
+                                >
+                                  {h.resolved}/{h.total} ({h.score}%)
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-              )}
-            </div>
-          );
-        })}
+              );
+            })}
 
-        {/* Score delta framework */}
-        <div className="mt-2 p-3 bg-[#0d1117] border border-[#30363d]/50 rounded-xl">
-          <div className="text-[9px] uppercase font-bold text-gray-600 tracking-widest mb-2">
-            Score Delta Framework
+            {/* Score delta framework */}
+            <div className="mt-2 p-3 bg-[#0d1117] border border-[#30363d]/50 rounded-xl">
+              <div className="text-eyebrow uppercase font-bold text-gray-600 tracking-widest mb-2">
+                Score Delta Framework
+              </div>
+              <div className="flex flex-col gap-1.5 font-mono text-meta">
+                <div className="flex justify-between">
+                  <span className="text-gray-500">B-Uncloaked (DeepSeek baseline)</span>
+                  <span className="text-gray-400">X%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">B-Cloaked (privacy cost)</span>
+                  <span className="text-amber-400">Y% · Y−X = privacy tax</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">D-Cloaked (Claude Architect)</span>
+                  <span className="text-emerald-400">Z% · Z−Y = Architect lift</span>
+                </div>
+                <div className="mt-1 pt-1.5 border-t border-[#30363d]/50 text-gray-600 leading-relaxed">
+                  D-Cloaked broken baseline:{" "}
+                  <span className="text-emerald-400">35/300 = 11.7%</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col gap-1.5 font-mono text-[9px]">
-            <div className="flex justify-between">
-              <span className="text-gray-500">B-Uncloaked (DeepSeek baseline)</span>
-              <span className="text-gray-400">X%</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">B-Cloaked (privacy cost)</span>
-              <span className="text-amber-400">Y% · Y−X = privacy tax</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">D-Cloaked (Claude Architect)</span>
-              <span className="text-emerald-400">Z% · Z−Y = Architect lift</span>
-            </div>
-            <div className="mt-1 pt-1.5 border-t border-[#30363d]/50 text-gray-600 leading-relaxed">
-              D-Cloaked broken baseline: <span className="text-emerald-400">35/300 = 11.7%</span>
-            </div>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }

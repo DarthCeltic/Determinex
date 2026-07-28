@@ -2,8 +2,8 @@ use serde::Serialize;
 use std::path::PathBuf;
 use std::process::Stdio;
 use tokio::process::Command;
-use crate::windows_process::no_window_tokio;
 use tokio::time::{timeout, Duration};
+use crate::win_process::HideConsoleExt;
 
 #[derive(Debug, Serialize)]
 pub struct TerminalCommandResult {
@@ -44,6 +44,7 @@ pub async fn run_terminal_command(
     #[cfg(target_os = "windows")]
     let mut child_cmd = {
         let mut cmd = Command::new("powershell.exe");
+        cmd.hide_console();
         cmd.args([
             "-NoLogo",
             "-NoProfile",
@@ -53,13 +54,13 @@ pub async fn run_terminal_command(
             "-Command",
             &command,
         ]);
-        no_window_tokio(&mut cmd);
         cmd
     };
 
     #[cfg(not(target_os = "windows"))]
     let mut child_cmd = {
         let mut cmd = Command::new("sh");
+        cmd.hide_console();
         cmd.args(["-lc", &command]);
         cmd
     };

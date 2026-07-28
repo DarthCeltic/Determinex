@@ -1,0 +1,46 @@
+{
+  "lock_id": "DETERMINEX_LEARNING_STUDIO_CONTENT_GENERATION_LOCK_001",
+  "date": "2026-07-16",
+  "commit": "clean-main",
+  "description": "Rung 7 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES. First Learning Studio rung that GENERATES content -- rung 6 (DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001) only validated a supplied LearningStudioOutput; nothing ever produced one. scripts/ide/learning_studio_content.py grounds all 9 modes (explain_this_repo, explain_this_file, explain_this_error, explain_this_test_failure, teach_me_the_concept, compare_possible_fixes, walk_me_through_the_patch, show_beginner_vs_professional_version, generate_learning_checklist) in determinex_corpus_api.py (the new read-only corpus query surface) plus real filesystem reads for repo/file structural summaries -- an unmatched query honestly says so instead of fabricating an explanation. Every generated output is still routed through learning_studio_workflow.evaluate() before reaching the frontend, so the non-authorizing gate applies to GENERATED content exactly as it applied to rung 6's placeholder. New Tauri command generate_learning_studio_content wired end-to-end: Python backend_command_surface.py -> _tauri_driver.py -> Rust ide_repair_bridge.rs #[tauri::command] -> lib.rs tauri::generate_handler! -> frontend LearningStudioPanel.tsx (context textarea + Generate button + rendered output). Deliberately excluded from both the Python UNIFIED_PRODUCT_READ_ONLY_COMMANDS frozenset and the matching Rust const array (it takes real args and does per-call computation, unlike the static view-model snapshots those pinned sets represent -- same category as preview_idea_oracle/repair_diagnose/build_idea, which also live outside those sets).",
+  "purpose": "Rung 7 of DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_SERIES -- Learning Studio content generation, grounded in the verified corpus, never fabricated.",
+  "depends_on_locks": [
+    "DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001",
+    "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001",
+    "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
+    "TAURI_LIB_RS_COMMAND_WIRING_LOCK_001"
+  ],
+  "tests": 23,
+  "test_modules": ["tests/ide/test_learning_studio_content_generation_lock.py"],
+  "status_tokens": [
+    "LEARNING_STUDIO_NON_AUTHORIZING_PASSED",
+    "LEARNING_STUDIO_BLOCKED_MUTATION_CONFUSION",
+    "LEARNING_STUDIO_BLOCKED_FALSE_SUCCESS",
+    "LEARNING_STUDIO_GENERATION_ERROR"
+  ],
+  "content_module": "scripts/ide/learning_studio_content.py",
+  "new_tauri_command": "generate_learning_studio_content",
+  "scope_discipline": {
+    "source_mutation_authorized": false,
+    "training_eligible": false,
+    "training_eligibility_opened": false,
+    "network_called": false,
+    "subprocess_spawned": false,
+    "corpus_written": false,
+    "codex_lane_files_touched": false,
+    "proof_control_files_touched": false,
+    "release_workflow_added": false,
+    "gate_loosened": false,
+    "learning_mutates_source": false,
+    "learning_approves_patch": false,
+    "learning_marks_repair_success": false,
+    "no_followup_claim": false,
+    "all_languages_claim": false,
+    "content_fabricated_without_corpus_grounding": false
+  },
+  "evidence": {
+    "run_artifact": "assurance/evidence/determinex_learning_studio_content_generation/run_20260716.json"
+  },
+  "remediates_finding": "learning-studio-mode-tabs-had-no-content-generator",
+  "next_recommended_lock": "DETERMINEX_LEARNING_STUDIO_CONCEPT_CURRICULUM_LOCK_001"
+}

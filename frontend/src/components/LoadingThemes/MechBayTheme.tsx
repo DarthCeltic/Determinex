@@ -35,7 +35,8 @@ export function MechBayTheme({
     });
     if (canvas.parentElement) ro.observe(canvas.parentElement);
 
-    let raf: number, t = 0;
+    let raf: number,
+      t = 0;
     const draw = () => {
       ctx.fillStyle = "rgba(10,10,10,0.25)";
       ctx.fillRect(0, 0, w, h);
@@ -43,15 +44,25 @@ export function MechBayTheme({
       ctx.strokeStyle = "rgba(255,200,60,0.18)";
       ctx.lineWidth = 2;
       for (let x = w * 0.18; x < w * 0.82; x += 60) {
-        ctx.beginPath(); ctx.moveTo(x, h * 0.10); ctx.lineTo(x, h * 0.85); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, h * 0.1);
+        ctx.lineTo(x, h * 0.85);
+        ctx.stroke();
       }
       // Horizontal gantry crossbars
       ctx.strokeStyle = "rgba(255,200,60,0.30)";
       ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(w * 0.10, h * 0.10); ctx.lineTo(w * 0.90, h * 0.10); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(w * 0.10, h * 0.85); ctx.lineTo(w * 0.90, h * 0.85); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(w * 0.1, h * 0.1);
+      ctx.lineTo(w * 0.9, h * 0.1);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(w * 0.1, h * 0.85);
+      ctx.lineTo(w * 0.9, h * 0.85);
+      ctx.stroke();
       // Central mech silhouette (blocky)
-      const cx = w / 2, cy = h * 0.50;
+      const cx = w / 2,
+        cy = h * 0.5;
       ctx.fillStyle = "rgba(40,40,50,0.85)";
       ctx.fillRect(cx - 36, cy - 60, 72, 30); // chest
       ctx.fillRect(cx - 50, cy - 30, 28, 60); // left shoulder/arm
@@ -68,7 +79,8 @@ export function MechBayTheme({
       ctx.beginPath();
       for (let x = cx - 30; x < cx + 30; x++) {
         const y = cy - 45 + Math.sin((x + t) * 0.4) * 6;
-        if (x === cx - 30) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        if (x === cx - 30) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
       }
       ctx.stroke();
       // Sparks
@@ -82,10 +94,14 @@ export function MechBayTheme({
       raf = requestAnimationFrame(draw);
     };
     draw();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, [active]);
   if (!active) return null;
-  const primary = "#ffc83c", dim = "rgba(255,200,60,0.5)";
+  const primary = "#ffc83c",
+    dim = "rgba(255,200,60,0.5)";
   if (fullPanel) {
     return (
       <div className="absolute inset-0 z-20 overflow-hidden" style={{ background: "#0a0a0a" }}>
@@ -93,19 +109,34 @@ export function MechBayTheme({
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(10,10,10,0)_0%,rgba(10,10,10,0.75)_100%)]" />
         <div className="absolute top-6 right-8 flex flex-col gap-0.5 text-right">
           {DIAG.map((l, i) => (
-            <p key={i} className="text-[9px] font-mono tracking-widest" style={{ color: dim }}>{l}</p>
+            <p key={i} className="text-meta font-mono tracking-widest" style={{ color: dim }}>
+              {l}
+            </p>
           ))}
         </div>
-        <ThemeOverlay label={label} elapsedSeconds={elapsedSeconds} primary={primary} dim={dim}
-                      subLabel="mech bay diagnostic — release gate closed"
-                      arrow="▣"
-                      rolePalette={{ oracle: "#ffc83c", architect: "#78ffc8", builder: "#ffc83c", compiler: "#ff7a4a" }}
-                      chipShape="square" />
+        <ThemeOverlay
+          label={label}
+          elapsedSeconds={elapsedSeconds}
+          primary={primary}
+          dim={dim}
+          subLabel="mech bay diagnostic — release gate closed"
+          arrow="▣"
+          rolePalette={{
+            oracle: "#ffc83c",
+            architect: "#78ffc8",
+            builder: "#ffc83c",
+            compiler: "#ff7a4a",
+          }}
+          chipShape="square"
+        />
       </div>
     );
   }
   return (
-    <div className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none" style={{ background: "#0a0a0a" }}>
+    <div
+      className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none"
+      style={{ background: "#0a0a0a" }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 opacity-85" />
       <SmallPanel label={label} primary={primary} />
     </div>

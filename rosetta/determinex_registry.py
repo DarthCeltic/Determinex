@@ -48,7 +48,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 REGISTRY_URL = os.environ.get(
     "DETERMINEX_REGISTRY_URL",
-    "https://raw.githubusercontent.com/DarthCeltic/determinex/main/registry/registry.json",
+    "https://raw.githubusercontent.com/determinex-ai/determinex/main/registry/registry.json",
 )
 
 LOCAL_VERSIONS_FILE = "registry_local_versions.json"

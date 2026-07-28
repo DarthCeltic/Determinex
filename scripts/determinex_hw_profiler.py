@@ -84,6 +84,15 @@ _DIALECT_SIGNATURES: list[tuple[str, re.Pattern]] = [
     ("et_soc1_yolo", re.compile(r"\bCONV_3x3_P1_VPU\(|\bconv2d_3x3_p1_fp32_mh_tensor\(")),
 ]
 
+# See detect_dialect_sources's comment: a hand-ported hardware kernel is
+# realistically a handful to a few dozen files. Found live 2026-07-22 that
+# a large polyglot repo can have thousands of REAL, gitignore-respecting
+# tracked .c files (vendored/reference upstream archives, not anything
+# hand-ported) -- past this count, reading+regex-scanning every one of them
+# is real, unavoidable work for an input this profiler was never meant to
+# run against, so skip rather than pay for it.
+_MAX_DIALECT_SCAN_FILES = 200
+
 
 def detect_dialect(root: Path) -> str | None:
     """Cheap heuristic: does this repo look like a known hardware-kernel dialect?"""
@@ -95,8 +104,34 @@ def detect_dialect_sources(root: Path) -> tuple[str, list[Path]] | None:
     """Like detect_dialect, but also returns every source file matching that
     dialect's signature, so a caller can profile the whole kernel, not just
     the first file found."""
+    # Deferred import (not module-level): determinex_ingest imports THIS
+    # module (detect_dialect_sources/profile_repo, for its C/C++ hardware
+    # profile step), so importing it back at module level here would be a
+    # circular import. Reusing its _walk_files gets the same fix this
+    # exact bug already got there for free: a raw, unfiltered
+    # `root.rglob("*.c")` walked (and read_text'd -- full file CONTENTS,
+    # not just a stat) every .c file anywhere under root, including this
+    # repo's own .venv/scratch/corpus/node_modules/etc -- found live
+    # 2026-07-22 as the SAME ingest() call's real remaining hang after the
+    # walk-and-crash bugs in determinex_ingest.py itself were fixed:
+    # census/build/harness detection went from 90+s to ~3s, but this
+    # function (triggered whenever the census's top language is c/cpp) was
+    # still walking the whole tree raw and hadn't been touched.
+    from determinex_ingest import _walk_files
+    c_files = [p for p in _walk_files(root) if p.suffix.lower() == ".c"]
+    # A hand-ported hardware kernel (this profiler's actual target) is
+    # realistically a handful to a few dozen files -- thousands of tracked
+    # .c files means the repo is something else entirely (found live
+    # 2026-07-22: 8,757 .c files / ~245MB, almost all vendored/reference
+    # upstream C archives from this project's own ProgramBench corpus, not
+    # anything hand-ported). Reading and regex-scanning the full text of
+    # every one of those is real, unavoidable work for genuinely wrong
+    # inputs -- skip the scan entirely rather than pay for it on a repo
+    # this profiler was never meant to run against.
+    if len(c_files) > _MAX_DIALECT_SCAN_FILES:
+        return None
     matched: dict[str, list[Path]] = {}
-    for p in root.rglob("*.c"):
+    for p in c_files:
         try:
             text = p.read_text(encoding="utf-8", errors="replace")
         except Exception:

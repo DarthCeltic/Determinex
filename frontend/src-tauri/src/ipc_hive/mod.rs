@@ -16,6 +16,8 @@ use std::sync::Mutex;
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Emitter, Manager};
 
+use crate::win_process::{HideConsoleExt, HideConsoleNewGroupExt};
+
 pub mod oracle;
 pub mod roles;
 pub mod session;
@@ -380,7 +382,7 @@ pub(crate) fn resolve_python_exe() -> Result<PathBuf, String> {
     // 5. PATH resolution — reject Windows Store stubs
     #[cfg(target_os = "windows")]
     {
-        if let Ok(out) = crate::windows_process::no_window(std::process::Command::new("where").arg("python")).output() {
+        if let Ok(out) = std::process::Command::new("where").hide_console().arg("python").output() {
             if out.status.success() {
                 for candidate in String::from_utf8_lossy(&out.stdout).lines() {
                     let candidate = candidate.trim();
@@ -586,7 +588,7 @@ pub(crate) fn spawn_hive_subprocess_with_env(
     log::info!("[IPC] Using sidecar: {}", sidecar_path.display());
 
     let mut cmd = Command::new(&sidecar_path);
-    crate::windows_process::no_window(&mut cmd);
+    cmd.hide_console_new_group();
 
     let policy = _app
         .try_state::<crate::NetworkPolicyState>()
@@ -601,12 +603,6 @@ pub(crate) fn spawn_hive_subprocess_with_env(
         .envs(extra_env.iter().map(|(k, v)| (k.to_string(), v.clone())))
         .stdout(Stdio::from(log_file))
         .stderr(Stdio::from(log_file2));
-
-    #[cfg(target_os = "windows")]
-    {
-        use std::os::windows::process::CommandExt;
-        cmd.creation_flags(0x00000200); // CREATE_NEW_PROCESS_GROUP
-    }
 
     let child = cmd
         .spawn()

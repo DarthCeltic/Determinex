@@ -1,0 +1,265 @@
+{
+  "_schema": "parked_v1",
+  "_last_updated": "2026-06-11",
+  "_driver": "claude",
+  "_notes": "Formal park verdicts. Read this before touching ANY tool. Nothing parked is re-attempted without citing new information.",
+  "parked": [
+    {
+      "slug": "igrep",
+      "verdict": "harness-gap:parked",
+      "parked_date": "2026-06-10",
+      "best_score": "862/1408 (2 failing branches: 5046a3ff 162 fail, df37316a 384 fail)",
+      "evidence_path": "corpus/programbench/locked/igrep/",
+      "root_cause": "Docker image layering: PB task image has /workspace/executable as ELF binary. Compiled image has /usr/local/bin/igrep (6.8MB) + shell wrapper but no /workspace/executable. After PB wipes /workspace/, failing branches evaluate in task-image context where wrapper target path does not exist. TUI tests (tmux) pass; non-TUI tests fail with rc=127. Not fixable without PB harness change.",
+      "new_info_required": "PB harness change that preserves /workspace/executable across image layers, OR a way to install our binary directly at /workspace/executable path during compile.sh",
+      "eval_source": "hetzner_2026_06_10"
+    },
+    {
+      "slug": "jplot",
+      "verdict": "best-only:park",
+      "parked_date": "2026-06-10",
+      "best_score": "1438/1444 (v2 — 3 unique failures x bidir = 6 failures)",
+      "best_artifact": "corpus/programbench/locked/jplot/",
+      "root_cause": "Two structurally irreconcilable failures: (1) test_gap_fill_term x2: Fscanf blocks on PTY slave in test context; (2) test_http_source_ticker x2: needs -cover build flag but -cover flag (v3) broke Cluster A passing tests. Best achievable: 1438/1444.",
+      "new_info_required": "A way to enable -cover build for specific branches only, or a synthetic PTY harness that unblocks Fscanf test. Otherwise ceiling is 1438/1444.",
+      "eval_source": "hetzner_2026_06_10"
+    }
+  ],
+  "parked_items": [
+    {
+      "slug": "antonmedv__walk.bf802ef",
+      "parked_date": "2026-06-11",
+      "verdict": "parked",
+      "reason": "Real behavioral failures: file permission bits rw-rw-r-- vs rw-r--r-- (Docker group write). Pytest internal error causing 96 not_run in test_gap_statusbar module. 2 root-user skips (Tier B parity). Score 1316/1423 = 92.5%. Fix requires: chmod g-w in file creation, debug internal error. Not a mechanical conversion.",
+      "best_result": "1316/1423 (92.5%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling005_walk/antonmedv__walk.bf802ef/antonmedv__walk.bf802ef.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "lz4__lz4.1519f46",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce:confirmed",
+      "reason": "214/3658 (both chain run and cap-removed re-eval determinex_pb_rolling004_lz4): 3440 failures + 4 skips. CONFIRMED: same result with cap removed — not a cap artifact. test_additional_coverage.py fails across compress level 10/11, fast+high-value, custom block size. Fundamental behavioral mismatch in lz4 compression parameter handling.",
+      "best_result": "214/3658 (5.85%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling004_lz4/lz4__lz4.1519f46/lz4__lz4.1519f46.eval.json",
+      "cycles_attempted": 3
+    },
+    {
+      "slug": "blake3-team__blake3.15e83a5",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "56/1374: 1312 failures, 6 skipped. Ran in both ROLLING-004 and ROLLING-005 with identical results — not a cap artifact. Fundamental behavioral failures across both runs.",
+      "best_result": "56/1374 (4.1%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling004_v1/blake3-team__blake3.15e83a5/blake3-team__blake3.15e83a5.eval.json",
+      "cycles_attempted": 2
+    },
+    {
+      "slug": "jhspetersson__fselect.c3559ca",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "3/3435: 2157 not_run + 1274 failures. Chain reported EVAL FAILED (terminated). Catastrophic — binary or harness issue prevents test collection.",
+      "best_result": "3/3435 (<0.1%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling001_v1/jhspetersson__fselect.c3559ca/jhspetersson__fselect.c3559ca.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "luajit__luajit.a553b3d",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "88/6366: 6274 failures (98.6% failure rate). LuaJIT is a JIT compiler; tests likely exercise specific JIT behavior, FFI, or Lua compatibility. Fundamental mismatch.",
+      "best_result": "88/6366 (1.4%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling001_v1/luajit__luajit.a553b3d/luajit__luajit.a553b3d.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "stranger6667__jsonschema.d52e881",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "16/4911: 1101 not_run + 3790 failures. jsonschema validator — massive failure rate suggests fundamental schema validation behavior mismatch or binary doesn't produce expected output format.",
+      "best_result": "16/4911 (0.3%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling001_v1/stranger6667__jsonschema.d52e881/stranger6667__jsonschema.d52e881.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "parcel-bundler__lightningcss.HASH",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "32/3666: 2768 not_run + 862 failures. Very high not_run — likely test collection failing. lightningcss is a CSS minifier/transformer; complex output format expectations.",
+      "best_result": "32/3666 (0.9%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling002_v1 (chain B)",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "hairyhenderson__gomplate.HASH",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "39/3548: 2047 not_run + 1462 failures. High not_run — test collection failing. gomplate is a template renderer (Go templates). Missing template engine behavior or output format issues.",
+      "best_result": "39/3548 (1.1%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling001_v1 (chain A)",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "universal-ctags__ctags.243595e",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "4/2861: 2297 not_run + 560 failures. ctags is a universal code tagger — very high not_run suggests test collection failure or binary exits early. Complex project (C, hundreds of parsers).",
+      "best_result": "4/2861 (0.1%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling002_v1/universal-ctags__ctags.243595e/universal-ctags__ctags.243595e.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "robertdavidgraham__masscan.b99d433",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "362/6714: 6352 failures. masscan is a port scanner — tests likely require real network access (ports being scanned) which doesn't work in Docker sandbox. All network tests fail.",
+      "best_result": "362/6714 (5.4%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling002_v1/robertdavidgraham__masscan.b99d433/robertdavidgraham__masscan.b99d433.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "segmentio__chamber.5f93f5f",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:moderate-bounce",
+      "reason": "4124/4486: 297 not_run + 12 skipped + 53 failures. chamber is an AWS SSM secrets manager CLI. Failures likely require AWS credentials or SSM access not available in Docker sandbox.",
+      "best_result": "4124/4486 (91.9%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling002_v1/segmentio__chamber.5f93f5f/segmentio__chamber.5f93f5f.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "zk-org__zk.10d93d5",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "554/2942 (rolling004_v1): 774 errors + 1534 failures + 80 skips. zk is a plain-text note-taking tool (Zettelkasten). Errors are in fixture setup ('temp_notebook_with_notes' fixture fails) — zk binary likely missing or not installed correctly. Failures span all test categories. Not close to functional.",
+      "best_result": "554/2942 (18.8%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling004_v1/zk-org__zk.10d93d5/zk-org__zk.10d93d5.eval.json",
+      "cycles_attempted": 2
+    },
+    {
+      "slug": "blacknon__hwatch.edfcb62",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:moderate-bounce",
+      "reason": "1996/2469 (v2b): 73 not_run + 6 skipped + 394 failures. hwatch is a TUI process watcher. 73 not_run (TUI/tmux tests). 394 real behavioral failures. Not close to lock.",
+      "best_result": "1996/2469 (80.8%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_hwatch_v2b/blacknon__hwatch.edfcb62/blacknon__hwatch.edfcb62.eval.json",
+      "cycles_attempted": 2
+    },
+    {
+      "slug": "axodotdev__oranda.27d60c7",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:moderate-bounce",
+      "reason": "1880/1956 (r5): 2 skipped + 74 failures. oranda generates project release pages. Failures in serve mode (returncode 255, process exits immediately), and GitHub API calls (rendering tests that need live GitHub data). 2 skips are runtime orchestration skips. Fixable if serve mode and GitHub mocking addressed.",
+      "best_result": "1880/1956 (96.1%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling005_v1/axodotdev__oranda.27d60c7/axodotdev__oranda.27d60c7.eval.json",
+      "cycles_attempted": 3
+    },
+    {
+      "slug": "bootandy__dust.62bf1e1",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:moderate-bounce",
+      "reason": "1384/1930: 8 root-user permission skips + 538 failures. dust is a disk usage analyzer. Failures in configuration files and advanced features (collapse option, config file option) — behavioral assertion mismatches. Potentially fixable with config file support improvements.",
+      "best_result": "1384/1930 (71.7%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling004_v1/bootandy__dust.62bf1e1/bootandy__dust.62bf1e1.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "ducaale__xh.4a6e44f",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:moderate-bounce",
+      "reason": "2284/2532: 2 netrc skips + 246 failures. xh is an HTTP client. Failures in shell completion generation (bash/zsh/fish completion scripts not matching expected output). 2 skips are intentional test runtime skips for .netrc auth. Completion script output format mismatch is the main issue.",
+      "best_result": "2284/2532 (90.2%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling003_v1/ducaale__xh.4a6e44f/ducaale__xh.4a6e44f.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "dundee__gdu.ede21d2",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:moderate-bounce",
+      "reason": "1764/2968: 104 not_run + 40 skipped + 1060 failures. gdu is a TUI disk usage analyzer. pytest-dependency cascade skips (TUI tests that depend on test_tui_launches which fails). Not_run = TUI action tests that need tmux. 1060 real failures in additional coverage (time filter, database, depth).",
+      "best_result": "1764/2968 (59.4%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling003_v1/dundee__gdu.ede21d2/dundee__gdu.ede21d2.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "antonmedv__fx.86d0d34",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:moderate-bounce",
+      "reason": "5978/6389 (rolling004_fx cap-removed): 326 failures + 8 skips + 77 not_run. fx is a JSON processor/viewer (uses JavaScript VM). Failures: VM issues (invalid RegExp flags with temp path names, 'args' keyword argument mismatch in test runner, '_' not defined, bracket notation not returning expected output). These are behavioral JS-VM mismatches. Fix requires reimplementing fx's JS engine behavior more exactly. Not a near-lock.",
+      "best_result": "5978/6389 (93.6%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling004_fx/antonmedv__fx.86d0d34/antonmedv__fx.86d0d34.eval.json",
+      "cycles_attempted": 2
+    },
+    {
+      "slug": "typst__typst.88356d0",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "1762/3573 (rolling005_typst): 1806 failures + 2 skips + 3 not_run. typst is a document typesetting system. Failures: (1) 'eval' subcommand doesn't exist in our compiled version; (2) --standard flag for PDF versions not supported; (3) --deps flag in compile subcommand. Root cause: tests generated for a newer typst version with features (eval subcommand, --standard, --deps) not in the version we compiled. Version mismatch is the fundamental blocker.",
+      "best_result": "1762/3573 (49.3%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling005_typst/typst__typst.88356d0/typst__typst.88356d0.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "hpjansson__chafa.dd4d4c1",
+      "parked_date": "2026-06-11",
+      "verdict": "near-lock:in-progress",
+      "reason": "5456/5539 (v1): 80 failures (all test_animation.*) + 3 not_run (xdist_group @placement_counter). ROOT CAUSE: (1) executable wrapper used 'exec /usr/local/bin/chafa $@' instead of 'exec -a $0 ...' so binary sees argv[0]=/usr/local/bin/chafa; golden files expect /workspace/executable; (2) bidir plugin missing xdist_group @suffix injection. v2 launched with both fixes — expected 5539/5539 lock.",
+      "best_result": "5456/5539 (98.5%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling004_chafa/hpjansson__chafa.dd4d4c1/hpjansson__chafa.dd4d4c1.eval.json",
+      "v2_eval_path": "/root/determinex-programbench/determinex_pb_chafa_v2/ (PID 1374906)",
+      "cycles_attempted": 2
+    },
+    {
+      "slug": "filosottile__age.706dfc1",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "292/1678 (age_v1): 100 skipped + 1286 failures. age is an encryption tool. Massive failure rate despite building from source. Likely cryptographic output format or key encoding mismatches.",
+      "best_result": "292/1678 (17.4%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_age_v1/filosottile__age.706dfc1/filosottile__age.706dfc1.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "nikolassv__bartib.6b9b5ce",
+      "parked_date": "2026-06-11",
+      "verdict": "ceiling-confirmed:near-lock",
+      "reason": "1856/1858 (v9, CEILING CONFIRMED): 2 skips, 0 not_run, 0 failed. Both skips are bidir variants of test_subcommand_has_help[help] — HARDCODED @pytest.mark.skip at test_subcommands.py:53 ('help subcommand doesn't support --help'). The contradictory test_help_does_not_support_help_flag passes when no intercept is present. tmux installed in v9 → test_edit_command_with_tmux now passes. CANNOT reach 100%: the skip is in upstream test source, not fixable without editing fixtures.",
+      "best_result": "1856/1858 (99.9% — CEILING, 2 hardcoded upstream skips)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_bartib_v9/nikolassv__bartib.6b9b5ce/nikolassv__bartib.6b9b5ce.eval.json",
+      "cycles_attempted": 9
+    },
+    {
+      "slug": "johnkerl__miller.8d85b46",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:moderate-bounce",
+      "reason": "27436/29851 (rolling005_v1): 2207 not_run + 204 failures + 4 skips. miller (mlr) is a data processor for CSV/JSON/TSV. 2207 not_run tests indicate a collection cap or conftest filter. 204 real behavioral failures in additional_verbs (count_similar_groups, group_like_groups_similar_schemas, nest/implode). Fix path: remove collection cap if present, then address behavioral failures.",
+      "best_result": "27436/29851 (91.9%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling005_v1/johnkerl__miller.8d85b46/johnkerl__miller.8d85b46.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "facebook__zstd.1168da0",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:moderate-bounce",
+      "reason": "4516/4738 (rolling005_zstd): 190 failures + 32 skips. zstd is a compression utility. Failures in: --fast flag behavior (compress_with_fast_flag, roundtrip_fast_mode), -q/-quiet verbosity flag (doesn't suppress output as expected), dictionary training (FileNotFoundError: cwd deleted during test), and other compression parameter behaviors. 32 skips are upstream skips. Fix path: check --fast flag implementation, -q flag, cwd preservation for dict training.",
+      "best_result": "4516/4738 (95.3%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling005_zstd/facebook__zstd.1168da0/facebook__zstd.1168da0.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "paradigmxyz__solar.5190d0e",
+      "parked_date": "2026-06-11",
+      "verdict": "parked:deep-bounce",
+      "reason": "308/5055 (rolling005_solar): 4674 failures + 69 errors + 4 skips. solar is a Solidity language server/compiler (Rust). Root cause: compile.sh failed to install solar binary — all tests fail with rc=127 ('executable: line 2: /usr/local/bin/solar: No such file or directory'). Binary never installed. Fix path: repair compile.sh to correctly build and install solar from source.",
+      "best_result": "308/5055 (6.1%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling005_solar/paradigmxyz__solar.5190d0e/paradigmxyz__solar.5190d0e.eval.json",
+      "cycles_attempted": 1
+    },
+    {
+      "slug": "agourlay__zip-password-finder.704700d",
+      "parked_date": "2026-06-11",
+      "verdict": "near-lock-runtime-skip",
+      "reason": "1582/1584 (rolling-004): 2 runtime skips — both are 'File 4 takes too long to process - encrypted differently' at test_zip_password_finder.py:137. These are bidir duplicates of the same test. NOT upstream @pytest.mark.skip — it's a conditional runtime skip when processing exceeds timeout. Fix path: either make the binary faster on this specific file, or increase timeout. Ceiling is 1584/1584 if the file can be cracked within timeout.",
+      "best_result": "1582/1584 (99.9%)",
+      "eval_path": "/root/determinex-programbench/determinex_pb_rolling004_v1/agourlay__zip-password-finder.704700d/agourlay__zip-password-finder.704700d.eval.json",
+      "cycles_attempted": 1
+    }
+  ]
+}

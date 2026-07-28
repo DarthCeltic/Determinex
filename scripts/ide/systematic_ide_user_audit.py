@@ -92,9 +92,26 @@ def _read(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace") if path.is_file() else ""
 
 
+def _normalize_ws(s: str) -> str:
+    """Collapse whitespace runs to a single space for substring matching.
+
+    Prose needles that span a JSX text node (e.g. "...remain
+    network-denied...") only match while the source happens to keep that
+    prose on one line. Prettier is free to rewrap JSX text at printWidth --
+    that changes nothing about what the UI renders, but a byte-exact
+    substring check broke on it. Found live 2026-07-19: a repo-wide
+    `prettier --write .` rewrapped ToolsHub.tsx's network-denied sentence
+    across two lines and this check's exact needle stopped matching real,
+    unchanged, still-rendered text. Normalizing both sides makes the check
+    track content, not incidental line-wrap position.
+    """
+    return " ".join(s.split())
+
+
 def _check_contains(root: Path, path: Path, needles: tuple[str, ...], check_id: str) -> AuditCheck:
     text = _read(path)
-    missing = [needle for needle in needles if needle not in text]
+    normalized_text = _normalize_ws(text)
+    missing = [needle for needle in needles if _normalize_ws(needle) not in normalized_text]
     if not path.is_file():
         return AuditCheck(check_id, "blocked", (_rel(root, path),), f"missing file: {_rel(root, path)}")
     if missing:
@@ -214,6 +231,16 @@ def _backend_command_section(root: Path) -> AuditSection:
 
 
 def _release_gate_section(root: Path) -> AuditSection:
+    # 2026-07-19: a real local Windows MSI+NSIS build (build_release_package.ps1,
+    # after fixing its --bundles "all" bug) now genuinely succeeds, so the release
+    # gates evidence honestly no longer contains "windows_msi_not_bundled" -- that
+    # string going away is real progress, not staleness. linux_packages remains
+    # genuinely unbuilt (needs a Linux host) so it's the current accurate blocker
+    # to check for instead. The frontend-facing releaseGateStatus.ts text is left
+    # checking the OLD string deliberately: it's what real end users would see
+    # about whether a PUBLISHED, downloadable release exists, which is a distinct,
+    # still-accurate claim from "a developer can build one locally" -- updating
+    # that text is a release-messaging decision, not a test-staleness fix.
     release = root / "frontend/src/lib/releaseGateStatus.ts"
     evidence = root / "assurance/evidence/determinex_release_gate_status/release_gates_20260707.json"
     return _section(
@@ -238,7 +265,7 @@ def _release_gate_section(root: Path) -> AuditSection:
                     '"release_ready": false',
                     '"authority_granted": false',
                     "determinex_download_bundle_20260707/download_manifest.json",
-                    "windows_msi_not_bundled",
+                    "linux_packages_not_bundled",
                 ),
                 "release-evidence-boundary",
             ),

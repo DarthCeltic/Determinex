@@ -28,20 +28,41 @@ export const FRONTEND_COMMAND_INVOKE_CLIENT_STATUS_TOKENS = [
 
 // Typed argument shapes per command. Keeping them flat (Record-shaped)
 // so the Tauri argv-json mapping in _tauri_driver.py stays trivial.
-export interface OpenWorkspaceArgs { workspace: string; }
-export interface WorkspaceStatusArgs { workspace: string; }
-export interface ModelRouteArgs { task_class: string; }
-export interface DiagnoseDryRunArgs { workspace: string; task_class: string; }
+export interface OpenWorkspaceArgs {
+  workspace: string;
+}
+export interface WorkspaceStatusArgs {
+  workspace: string;
+}
+export interface ModelRouteArgs {
+  task_class: string;
+}
+export interface DiagnoseDryRunArgs {
+  workspace: string;
+  task_class: string;
+}
 export interface DiagnoseLiveOptInArgs {
   workspace: string;
   task_class: string;
   opt_in: boolean;
 }
-export interface GeneratePatchPlanArgs { workspace: string; opt_in: boolean; }
-export interface VerifyTempPatchArgs { workspace: string; }
-export interface HumanApprovalPacketArgs { workspace: string; unified_diff: string; }
-export interface SourceApplyDryRunArgs { workspace: string; }
-export interface RepairFlowStateArgs { workspace: string; }
+export interface GeneratePatchPlanArgs {
+  workspace: string;
+  opt_in: boolean;
+}
+export interface VerifyTempPatchArgs {
+  workspace: string;
+}
+export interface HumanApprovalPacketArgs {
+  workspace: string;
+  unified_diff: string;
+}
+export interface SourceApplyDryRunArgs {
+  workspace: string;
+}
+export interface RepairFlowStateArgs {
+  workspace: string;
+}
 
 export type IdeCommandArgs =
   | { command: "open_workspace"; args: OpenWorkspaceArgs }
@@ -63,10 +84,7 @@ export interface IdeInvokeClient {
 // Transport interface. Production transport calls the Tauri runtime;
 // the mock transport returns canned responses for tests.
 export interface IdeInvokeTransport {
-  call(
-    command: IdeRepairCommand,
-    args: Record<string, unknown>,
-  ): Promise<IdeRepairResponse>;
+  call(command: IdeRepairCommand, args: Record<string, unknown>): Promise<IdeRepairResponse>;
   runtimeReady(): boolean;
 }
 
@@ -77,7 +95,7 @@ export const realTauriTransport: IdeInvokeTransport = {
 
 // Factory: build a client around a transport. Default = real Tauri.
 export function makeIdeInvokeClient(
-  transport: IdeInvokeTransport = realTauriTransport,
+  transport: IdeInvokeTransport = realTauriTransport
 ): IdeInvokeClient {
   return {
     isRuntimeReady: () => transport.runtimeReady(),
@@ -89,9 +107,7 @@ export function makeIdeInvokeClient(
           payload: {},
           source_mutation_authorized: false,
           training_eligible: false,
-          notes: [
-            `frontend invoke client rejected unknown command: ${cmd.command}`,
-          ],
+          notes: [`frontend invoke client rejected unknown command: ${cmd.command}`],
         };
       }
       if (!transport.runtimeReady()) {
@@ -104,10 +120,7 @@ export function makeIdeInvokeClient(
           notes: ["Tauri runtime unavailable; use mock transport for tests"],
         };
       }
-      const res = await transport.call(
-        cmd.command,
-        cmd.args as unknown as Record<string, unknown>,
-      );
+      const res = await transport.call(cmd.command, cmd.args as unknown as Record<string, unknown>);
       // Forward as-is; the underlying invokeIdeCommand already strips
       // source_mutation_authorized=true and training_eligible=true.
       return res;
@@ -118,7 +131,7 @@ export function makeIdeInvokeClient(
 // Mock transport for tests. Always returns a deterministic response.
 export function makeMockTransport(
   responder: (cmd: IdeRepairCommand, args: Record<string, unknown>) => IdeRepairResponse,
-  runtimeReady: boolean = true,
+  runtimeReady: boolean = true
 ): IdeInvokeTransport {
   return {
     runtimeReady: () => runtimeReady,

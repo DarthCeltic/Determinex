@@ -8,6 +8,7 @@
 
 "use client";
 import * as React from "react";
+import { Ban, CheckCircle2 } from "lucide-react";
 
 import { IdeRepairResponse, invokeIdeCommand } from "@/lib/ide-repair-api";
 
@@ -17,6 +18,17 @@ export const SOURCE_APPLY_DRY_RUN_PANEL_STATUS_TOKENS = [
   "SOURCE_APPLY_SOURCE_UNCHANGED_VISIBLE",
   "SOURCE_APPLY_REAL_WRITE_DISABLED",
 ] as const;
+
+// SCREAMING_SNAKE_CASE backend status tokens, humanized for display only --
+// the raw token still drives `blocked` and is still what data-testid
+// consumers/tests read (unchanged). Ryan (2026-07-21): "low tech and a lot
+// of text" -- a font-mono enum dump isn't a UI.
+function humanizeStatus(token: string): string {
+  return token
+    .split("_")
+    .map((w) => (w ? w.charAt(0) + w.slice(1).toLowerCase() : w))
+    .join(" ");
+}
 
 interface Props {
   workspacePath: string;
@@ -30,7 +42,9 @@ export function SourceApplyDryRunPanel({ workspacePath }: Props) {
     setResp(r);
   }, [workspacePath]);
 
-  React.useEffect(() => { void refresh(); }, [refresh]);
+  React.useEffect(() => {
+    void refresh();
+  }, [refresh]);
 
   const payload = (resp?.payload ?? {}) as Record<string, unknown>;
   const sourceMutationStatus = String(payload.source_mutation ?? "BLOCKED_PENDING_HUMAN_APPROVAL");
@@ -39,39 +53,49 @@ export function SourceApplyDryRunPanel({ workspacePath }: Props) {
   return (
     <section
       data-testid="source-apply-dry-run-panel"
-      className="rounded border p-3 text-sm space-y-2"
+      className="rounded-xl border border-white/10 bg-white/[0.02] p-3.5 text-sm space-y-2.5"
     >
       <header>
-        <h3 className="font-medium">Source Apply (dry-run only)</h3>
+        <h3 className="font-medium text-gray-200 text-body">Source Apply (dry-run only)</h3>
       </header>
 
-      <div className="rounded border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs"
-           data-testid="source-apply-real-write-disabled-note">
-        Real source mutation is disabled in this build. This panel shows what
-        the gate WOULD decide if a real approval were submitted. No file is
-        written here.
+      <div
+        className="rounded-lg border border-amber-500/20 bg-amber-500/[0.05] px-3 py-2 text-xs text-gray-400"
+        data-testid="source-apply-real-write-disabled-note"
+      >
+        Real source mutation is disabled in this build. This panel shows what the gate WOULD decide
+        if a real approval were submitted. No file is written here.
       </div>
 
-      <dl className="grid grid-cols-2 gap-1 text-xs">
-        <dt className="opacity-70">Source mutation</dt>
-        <dd className="font-mono" data-testid="source-apply-gate-status">
-          {sourceMutationStatus}
+      <div className="flex items-center justify-between text-xs">
+        <dt className="text-gray-500">Source mutation</dt>
+        <dd
+          className={`flex items-center gap-1.5 rounded-full px-2 py-0.5 text-label font-medium ${
+            blocked
+              ? "bg-red-500/10 text-red-300 border border-red-500/30"
+              : "bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
+          }`}
+          data-testid="source-apply-gate-status"
+          title={sourceMutationStatus}
+        >
+          {blocked ? <Ban size={11} /> : <CheckCircle2 size={11} />}
+          {humanizeStatus(sourceMutationStatus)}
         </dd>
-      </dl>
+      </div>
 
       {blocked && (
-        <div className="rounded border border-red-500/30 bg-red-500/5 p-2 text-xs"
-             data-testid="source-apply-blocked-note">
-          Apply is blocked. Possible reasons: no signed approval, stale source,
-          diff mismatch, verifier not passed. See evidence viewer for the full
-          gate decision record.
+        <div
+          className="rounded-lg border border-red-500/20 bg-red-500/[0.05] p-2 text-xs text-gray-400"
+          data-testid="source-apply-blocked-note"
+        >
+          Apply is blocked. Possible reasons: no signed approval, stale source, diff mismatch,
+          verifier not passed. See evidence viewer for the full gate decision record.
         </div>
       )}
 
-      <div className="text-xs opacity-80" data-testid="source-apply-source-unchanged-note">
-        Your original files are unchanged. Rollback note: any temp workspace
-        produced by an earlier verify step is automatically discarded on
-        verifier failure.
+      <div className="text-xs text-gray-500" data-testid="source-apply-source-unchanged-note">
+        Your original files are unchanged. Rollback note: any temp workspace produced by an earlier
+        verify step is automatically discarded on verifier failure.
       </div>
     </section>
   );

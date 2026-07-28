@@ -419,14 +419,26 @@ def test_synthesizer_extracts_examples_and_validates():
 
 def test_synthesizer_skips_wrongtyped_property_no_slop():
     """A string function tagged idempotent must NOT emit int-fuzzed property tests
-    (that would fail a correct impl). Type-aware fuzz or skip -- never slop."""
-    from determinex_synthesize import parse_spec, synthesize_oracle_tests
+    (that would fail a correct impl). Type-aware fuzz or skip -- never slop.
+    Checked path-agnostically: whichever of the static/Hypothesis backends is
+    active (determined by whether hypothesis is installed), it must never
+    emit an int- or list-only fuzz construct for a string-typed function."""
+    from determinex_synthesize import (
+        parse_spec, synthesize_oracle_tests, _HYPOTHESIS_AVAILABLE)
     idea = "Write rle(s) that is idempotent. Example: rle('aaa') == 'a3'."
     spec = parse_spec(idea)
     tests = synthesize_oracle_tests(spec)
     if "test_invariant_idempotent" in tests:
-        # must fuzz with strings, never randint
-        assert "random.choice" in tests and "randint(-50" not in tests
+        # never wrong-typed int/list fuzz for a string-only function, on
+        # either backend
+        assert "randint(-50" not in tests
+        assert "st.integers(" not in tests
+        assert "st.lists(" not in tests
+        assert "st.one_of(" not in tests
+        if _HYPOTHESIS_AVAILABLE:
+            assert "st.text(" in tests
+        else:
+            assert "random.choice" in tests
 
 
 def test_build_from_idea_solves_with_correct_model(tmp_path):
@@ -570,7 +582,7 @@ def test_agent_registry_verifies_through_oracle(tmp_path):
 
     # a good agent fixes it -> oracle VERIFIES
     ws_good = tmp_path / "good"; ws_good.mkdir(); _broken(ws_good)
-    def good(task, ws, timeout):
+    def good(task, ws, timeout, model=None):
         (ws / "solution.py").write_text("def add(a, b):\n    return a + b\n", encoding="utf-8")
         return "fixed", 0
     register_agent("ut-good", probe="python", runner=good)
@@ -579,7 +591,7 @@ def test_agent_registry_verifies_through_oracle(tmp_path):
 
     # a hallucinating agent that changes nothing -> oracle REJECTS (caught)
     ws_bad = tmp_path / "bad"; ws_bad.mkdir(); _broken(ws_bad)
-    def bad(task, ws, timeout):
+    def bad(task, ws, timeout, model=None):
         return "claimed success but did nothing", 0
     register_agent("ut-bad", probe="python", runner=bad)
     r2 = run_agent("ut-bad", "fix", ws_bad)

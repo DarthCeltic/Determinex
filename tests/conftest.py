@@ -39,6 +39,32 @@ os.environ.setdefault(
 )
 
 
+# Safety-posture env vars (DeterminexSettings' fail-closed defaults) must not
+# leak in from the developer's own .env -- found live 2026-07-21: Ryan's local
+# .env sets DETERMINEX_ALLOW_CLOUD_FALLBACK=1 for his own convenience, and
+# once any test/module transitively called load_dotenv() (several scripts
+# under scripts/ do, unconditionally, at import time), that value stuck in
+# os.environ for the rest of the pytest process -- breaking ~15 "fail closed
+# by default" lock tests across dev/intake/models/repair, but only when run
+# as part of the full suite (order-dependent), never in isolation. Strip these
+# before every test so the lock tests always see the code's real defaults;
+# a test that wants a non-default value still can via its own monkeypatch.
+_SAFETY_ENV_VARS = (
+    "DETERMINEX_SAFETY_MODE",
+    "DETERMINEX_ONLINE_DISCOVERY",
+    "DETERMINEX_ALLOW_CLOUD_FALLBACK",
+    "DETERMINEX_ALLOW_UNSANDBOXED",
+    "DETERMINEX_REQUIRE_CLOAK",
+    "DETERMINEX_OFFLINE_OBSERVER",
+)
+
+
+@pytest.fixture(autouse=True)
+def _isolate_safety_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    for _var in _SAFETY_ENV_VARS:
+        monkeypatch.delenv(_var, raising=False)
+
+
 @pytest.fixture
 def tmp_repo(tmp_path: Path) -> Path:
     """A throwaway directory shaped like a tiny project root."""

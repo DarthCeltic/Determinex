@@ -22,7 +22,11 @@ from pathlib import Path
 from typing import Optional
 from hive.manifest import StepRecord
 
-log = logging.getLogger("hive")
+try:
+    from hive._log import get_logger as _get_logger, bind_session as _bind_session  # noqa: F401
+    log = _get_logger("hive.compiler")
+except ImportError:
+    log = logging.getLogger("hive")
 
 # ── Compile timeout ────────────────────────────────────────────────────────────
 COMPILE_TIMEOUT = 60
@@ -1183,6 +1187,14 @@ def sanitize_compiler_output(raw: str, workspace_root: Optional[Path] = None) ->
         # Legacy fallback if no workspace is provided. We don't know the exact
         # tmp root (varies by OS, user, and worktree config), so scrub anywhere
         # the determinex workspace naming convention appears in the path.
+        # NOTE (2026-07-19): this must match scripts/hive/workspace.py's actual
+        # WORKSPACE_BASE, which still creates "determinex_workspaces" -- an
+        # earlier premature rename to "determinex_workspace(s)" here silently
+        # stopped stripping anything (workspace UUIDs, and the local username
+        # in the temp path on Windows, leaked straight into hashed/displayed
+        # compiler output; two runs of the identical error from different
+        # session UUIDs also stopped hashing identically, defeating the
+        # quality-gate dedup this function exists for).
         #   /tmp/determinex_workspaces/<id>/        → /workspace/
         #   /tmp/determinex_workspace_<id>/         → /workspace/   (legacy single-name form)
         #   C:/Temp/determinex_workspaces/<id>/     → /workspace/

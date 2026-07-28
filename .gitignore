@@ -13,8 +13,21 @@ id_ed25519
 # ── Node / Frontend ───────────────────────────────────────────────────────────
 node_modules/
 .next/
+# Machine-specific Cargo build-artifact redirect (e.g. a personal T:\ scratch
+# drive) -- committing this broke `cargo`/`tauri dev` for anyone without that
+# exact drive letter (found via a clean-VM release test, 2026-07-19). Keep it
+# local-only; Cargo's default target/ dir is portable and always works.
+frontend/.cargo/config.toml
 frontend/.next/
 frontend/node_modules/
+# Tauri Windows build requires this to physically exist at build time (checked
+# by tauri-build regardless of tauri.conf.json's `resources` list) but it's a
+# 24MB third-party Microsoft installer -- fetched by the pretauri hook below,
+# never committed. Same class of bug as the missing sidecar binary (found via
+# the same clean-VM release test, 2026-07-19).
+frontend/src-tauri/resources/vc_redist.x64.exe
+frontend/src-tauri/bin/*.exe
+frontend/src-tauri/bin/determinex-hive-*
 dist/
 build/
 
@@ -207,6 +220,7 @@ structure.txt
 
 # ── Branding assets (in assets/ when ready, not root) ─────────────────────────
 determinexlogo.jpg
+lunariandatalogo.jpg
 
 # ── Old UI archive ─────────────────────────────────────────────────────────────
 archive_streamlit/
@@ -289,3 +303,25 @@ corpus/programbench/pending_unlock/**/submission.tar.gz
 # host; the box builds its own). Regenerable via determinex_code_rag --index / determinex_pb_absorb --scan-drive.
 corpus/programbench/code_rag_index.json
 corpus/programbench/ingest/_drive_sources.txt
+
+# JUnit XML output from oracle test runs (determinex_oracle.py's _verify_typescript
+# vitest/jest runs, _verify_jvm gradle/maven, etc.) -- written wherever the oracle's
+# workdir happens to be, regenerable, never meant to be committed. Found scattered
+# untracked across frontend/, packages/*, integrations/openenv/* 2026-07-23.
+junit.xml
+_determinex_junit.xml
+_determinex_*.xml
+
+# Derived: markdown heading-tree index (rebuild: python scripts/corpus/corpus_tree_index.py build)
+corpus/programbench/tree_index.json
+
+# Derived: BM25 index over the corpus (rebuild: python scripts/corpus/corpus_fts.py build).
+# Not committed like embeddings_cache.npy is -- that one costs Ollama round trips to rebuild,
+# this one is pure local CPU over ~430KB and bm25_search() self-builds it on first use.
+corpus/programbench/fts_index.sqlite3
+
+# Provisioned Python sidecar runtime: ~142MB of embedded CPython plus
+# llama-cpp-python/numpy wheels, rebuilt by `python bundler/setup_sidecar.py`.
+# *.exe already catches python.exe, but not the site-packages tree, so an
+# `git add -A` would otherwise sweep in a 142MB machine-specific runtime.
+bundler/sidecar/

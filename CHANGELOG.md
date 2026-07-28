@@ -11,6 +11,45 @@ canonical source of truth; this file groups them into a human-readable timeline.
 
 ---
 
+## [2026-07-21] — Agent Chat Room + Passport shipped; ~20 real reliability bugs found and fixed auditing the IDE end-to-end
+
+**New**: multi-agent chat room (Claude Code/Codex/Gemini CLI/local-ollama share one session,
+oracle-verified per turn, Project Cloak room for cloud agents) and Passport (native CLI login
+status, connected-service profiles, real usage ledger). Both promoted to first-class nav rail
+icons.
+
+**Two systemic bugs, found by driving the real running app rather than reading code:**
+- Tauri converts camelCase JS argument keys to a Rust command's snake_case parameter names --
+  it does not also accept snake_case directly. Eight call sites across Idea Lab, Model Route,
+  Diagnose/Patch Plan, Human Approval, `git_clone`, `git_resolve_conflict`, and `query_corpus`
+  passed snake_case keys straight through, so every one of these commands failed 100% of the
+  time (Idea Lab's Preview Oracle, Merge Editor's conflict resolution, ProjectHub's Git Clone,
+  and Learning Studio's corpus search all silently did nothing).
+- `ide-product-shell-api.ts`'s Tauri-runtime probe checked `window.__TAURI__`, a Tauri v1-only
+  global this app's config never sets -- permanently false in every real run, so the entire
+  ide-product-shell panel family (Repo Clinic, Maintenance Bay, Learning Studio, Unified
+  Navigation, User-Level Teaching, Proof Operator Center) always hit an instant fake
+  "backend missing" response instead of the real backend. The identical bug in a sibling file
+  had already been fixed once (2026-07-19, "repair doesn't work") but never ported here.
+
+**Also fixed**: two real crashes (Trace panel, Maintenance Bay panel) from `.map()`/`.filter()`
+on non-array backend responses; a Windows command-line-length limit (`os error 206`) that broke
+every Agent Chat Room turn on this machine; a chat-turn oracle-verify timeout that silently
+killed and lost real agent results; the chat transcript never live-updating (root cause: three
+Rust event structs missing `#[serde(rename_all = "camelCase")]`); failed chat turns vanishing
+with zero persisted trace; a stale/leaked session list across projects; one high-severity npm
+vulnerability (`brace-expansion`); a duplicate dead copy of `ProblemsPanel.tsx`; and
+`start.ps1`/`start.sh`'s default mode crashing confusingly (no root `Cargo.toml` has ever
+existed for its "native" orchestrator mode).
+
+**Correction carried over from 2026-06-30** (recorded here since this is the first changelog
+entry since): the historical "64-65 confirmed ProgramBench locks / 32%" figures below predate a
+provenance audit that found the majority were upstream source builds, not native
+reimplementations. Honest current score: 0/200 legitimate locks under the native-reimplementation
+methodology. See `docs/architecture/NATIVE_REIMPL_LOOP.md`.
+
+---
+
 ## [2026-06-19] — ProgramBench: canon audit (64 honest strict locks, 32.0%) + 2 new + 4 demoted
 
 **Two new strict locks** (build-target playbook): gowsdl 846/846 (build ./cmd/gowsdl not the root
@@ -128,7 +167,7 @@ Proof Center route at `/proof-center` with screenshot and transcript hashes,
 advanced 10 all-gap rows, and promoted zero support rows. It leaves signed or
 trusted installer readiness, fresh clean-host install, open availability remains
 false, internal RC readiness, full monolithic `tests/status`, all gaps closed, all families
-supported, and ProgramBench total-100 open.
+supported, ProgramBench total-100, and `PATENT_FILED` unclaimed.
 
 Batch 004 then verified sync against `origin/clean-main` before mutation,
 archived `trasta298__keifu` as ProgramBench strict lock 56, and moved the

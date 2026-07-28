@@ -207,7 +207,13 @@ def learn_class(slug: str, failures_text: str, before_sh: str, after_sh: str,
         lc[key] = {"detect": sig, "symptom": sig, "fix": fixtext[:800], "source_tool": slug,
                    "verified": True, "learned": _t.strftime("%Y-%m-%d"), "uses": 0}
         if len(lc) > 60:                            # bound build_knowledge growth (drop oldest)
-            for k in sorted(lc, key=lambda x: str(lc[x].get("learned", "")))[:len(lc) - 60]:
+            # verified (oracle-confirmed flywheel) entries are NEVER dropped ahead of an
+            # unverified one, regardless of date -- mirrors determinex_pb_absorb._bound_and_write.
+            # Learned entries in this registry are all verified=True by construction (this function
+            # is the only writer of `verified: True`), so in practice this only ever drops by date;
+            # the sort key stays defensive in case a future writer ever mixes in verified=False rows.
+            drop_order = sorted(lc, key=lambda x: (bool(lc[x].get("verified")), str(lc[x].get("learned", ""))))
+            for k in drop_order[:len(lc) - 60]:
                 lc.pop(k, None)
     else:                                           # seen before -> bump the use count
         lc[key]["uses"] = int(lc[key].get("uses", 0)) + 1

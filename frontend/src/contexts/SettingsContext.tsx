@@ -1,11 +1,13 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import {
   getApiKeyStatus,
   getToolRegistry,
   checkOllamaStatus,
   getModelsRegistry,
   invokeSafe,
+  isTauri,
   getOllamaBaseUrl,
   saveOllamaBaseUrl,
 } from "@/lib/api";
@@ -15,6 +17,16 @@ import {
   storeNetworkPolicy,
   type NetworkPolicyMode,
 } from "@/lib/networkPolicy";
+import {
+  applyDensity,
+  clampZoom,
+  nextZoom,
+  readStoredDensity,
+  readStoredZoom,
+  UI_DENSITY_STORAGE_KEY,
+  UI_ZOOM_STORAGE_KEY,
+  type UiDensity,
+} from "@/lib/uiDensity";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -32,6 +44,7 @@ export interface ApiKeys {
   deepseek_key: string;
   mistral_key: string;
   openrouter_key: string;
+  kimi_key: string;
 }
 
 interface SettingsContextValue {
@@ -41,11 +54,27 @@ interface SettingsContextValue {
 
   // Settings tab
   settingsTab: "keys" | "roles" | "diagnostics" | "skin" | "network";
-  setSettingsTab: React.Dispatch<React.SetStateAction<"keys" | "roles" | "diagnostics" | "skin" | "network">>;
+  setSettingsTab: React.Dispatch<
+    React.SetStateAction<"keys" | "roles" | "diagnostics" | "skin" | "network">
+  >;
 
   // Network policy
   networkPolicy: NetworkPolicyMode;
   setNetworkPolicy: (mode: NetworkPolicyMode) => void;
+  /**
+   * Set when the backend did not confirm the requested policy, in which case
+   * `networkPolicy` has been rolled back to what is actually in force. Never
+   * let the UI advertise a privacy posture the backend has not applied.
+   */
+  networkPolicyError: string | null;
+  dismissNetworkPolicyError: () => void;
+
+  // UI density + zoom. The type scale defaults to a readable 13px body; these
+  // make it the user's choice rather than another hard-coded decision.
+  uiDensity: UiDensity;
+  setUiDensity: (d: UiDensity) => void;
+  uiZoom: number;
+  setUiZoom: (z: number) => void;
 
   // API key state
   keyStatus: Record<string, boolean>;
@@ -87,7 +116,9 @@ export function useSettings(): SettingsContextValue {
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const showError = useErrorToast();
   const [showSettings, setShowSettings] = useState(false);
-  const [settingsTab, setSettingsTab] = useState<"keys" | "roles" | "diagnostics" | "skin" | "network">("keys");
+  const [settingsTab, setSettingsTab] = useState<
+    "keys" | "roles" | "diagnostics" | "skin" | "network"
+  >("keys");
   const [networkPolicyState, setNetworkPolicyState] = useState<NetworkPolicyMode>("cloaked");
   const [keyStatus, setKeyStatus] = useState<Record<string, boolean>>({});
   const [apiKeys, setApiKeys] = useState<ApiKeys>({
@@ -98,6 +129,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     deepseek_key: "",
     mistral_key: "",
     openrouter_key: "",
+    kimi_key: "",
   });
   const [ollamaBaseUrl, setOllamaBaseUrl] = useState<string>("");
   const [toolCatalog, setToolCatalog] = useState<ToolEntry[]>([]);
@@ -107,16 +139,108 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [diagnosticResult, setDiagnosticResult] = useState<string[] | null>(null);
   const [isDiagnosing, setIsDiagnosing] = useState(false);
 
+  // Privacy posture is the one setting that must never be optimistically
+  // reported. This used invokeSafe (which swallows failures into null) in a
+  // fire-and-forget .catch(console.error), so if the backend never applied the
+  // policy the UI still showed "Offline / Local only" and localStorage agreed
+  // -- the user believed network egress was blocked when it was not. For a
+  // product whose central claim is privacy sovereignty, a silently unapplied
+  // policy is the most dangerous failure in the app.
+  //
+  // Now: raw invoke so a rejection is real, and on failure the displayed policy
+  // is rolled back to what is actually in force, with an error the UI shows.
+  const [networkPolicyError, setNetworkPolicyError] = useState<string | null>(null);
+
+  // Read in an effect, not in the useState initializer: localStorage does not
+  // exist during SSR, and reading it while rendering desyncs server and client
+  // markup (the same trap usePanelWidth documents).
+  const [uiDensity, setUiDensityState] = useState<UiDensity>("comfortable");
+  const [uiZoom, setUiZoomState] = useState(1);
+  useEffect(() => {
+    const d = readStoredDensity();
+    const z = readStoredZoom();
+    setUiDensityState(d);
+    setUiZoomState(z);
+    applyDensity(d, z);
+  }, []);
+
+  const setUiDensity = useCallback(
+    (d: UiDensity) => {
+      setUiDensityState(d);
+      applyDensity(d, uiZoom);
+      try {
+        window.localStorage.setItem(UI_DENSITY_STORAGE_KEY, d);
+      } catch {
+        /* storage disabled -- the setting still applies for this session */
+      }
+    },
+    [uiZoom]
+  );
+
+  const setUiZoom = useCallback(
+    (z: number) => {
+      const clamped = clampZoom(z);
+      setUiZoomState(clamped);
+      applyDensity(uiDensity, clamped);
+      try {
+        window.localStorage.setItem(UI_ZOOM_STORAGE_KEY, String(clamped));
+      } catch {
+        /* storage disabled */
+      }
+    },
+    [uiDensity]
+  );
+
+  // Ctrl/Cmd +/-/0 is muscle memory in every editor. Bound here rather than in a
+  // panel so it works from anywhere in the app.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      const dir =
+        e.key === "+" || e.key === "="
+          ? "in"
+          : e.key === "-"
+            ? "out"
+            : e.key === "0"
+              ? "reset"
+              : null;
+      if (!dir) return;
+      e.preventDefault();
+      setUiZoom(nextZoom(uiZoom, dir));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [uiZoom, setUiZoom]);
+
   useEffect(() => {
     const policy = readStoredNetworkPolicy();
     setNetworkPolicyState(policy);
-    invokeSafe("sync_network_policy", { policy }).catch(console.error);
+    if (!isTauri()) return;
+    invoke("sync_network_policy", { policy }).catch((e: unknown) => {
+      setNetworkPolicyError(
+        `Could not apply the saved "${policy}" network policy at startup: ${
+          e instanceof Error ? e.message : String(e)
+        }. Treat the network as UNRESTRICTED until this is resolved.`
+      );
+    });
   }, []);
 
   const setNetworkPolicy = useCallback((mode: NetworkPolicyMode) => {
+    const previous = readStoredNetworkPolicy();
     setNetworkPolicyState(mode);
     storeNetworkPolicy(mode);
-    invokeSafe("sync_network_policy", { policy: mode }).catch(console.error);
+    setNetworkPolicyError(null);
+    if (!isTauri()) return;
+    invoke("sync_network_policy", { policy: mode }).catch((e: unknown) => {
+      // Roll back rather than display a posture that is not in force.
+      setNetworkPolicyState(previous);
+      storeNetworkPolicy(previous);
+      setNetworkPolicyError(
+        `Could not switch the network policy to "${mode}": ${
+          e instanceof Error ? e.message : String(e)
+        }. Still on "${previous}".`
+      );
+    });
   }, []);
 
   // Refresh key status + tool registry (called on settings open and after saves).
@@ -185,6 +309,12 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         setSettingsTab,
         networkPolicy: networkPolicyState,
         setNetworkPolicy,
+        networkPolicyError,
+        dismissNetworkPolicyError: () => setNetworkPolicyError(null),
+        uiDensity,
+        setUiDensity,
+        uiZoom,
+        setUiZoom,
         keyStatus,
         apiKeys,
         setApiKeys,

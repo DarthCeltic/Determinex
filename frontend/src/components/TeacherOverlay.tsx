@@ -1,7 +1,28 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { PointerEvent } from "react";
-import { X, ChevronLeft, ChevronRight, GraduationCap, Zap, Code2, ShieldCheck, Activity, Search, Package, Cpu, Terminal, BookOpen, Lightbulb, CheckCircle2, KeyRound } from "lucide-react";
+import {
+  X,
+  ChevronLeft,
+  ChevronRight,
+  GraduationCap,
+  Zap,
+  Code2,
+  ShieldCheck,
+  Activity,
+  Search,
+  Package,
+  Terminal,
+  BookOpen,
+  Lightbulb,
+  CheckCircle2,
+  KeyRound,
+  Folder,
+  Database,
+  Eye,
+  GitPullRequest,
+  Bot,
+} from "lucide-react";
 
 type Step = {
   id: string;
@@ -34,7 +55,8 @@ const STEPS: Step[] = [
   {
     id: "setup",
     title: "First-Run Setup",
-    subtitle: "Setup should configure privacy policy, provider keys, Ollama, local models, and startup checks in one place.",
+    subtitle:
+      "Setup should configure privacy policy, provider keys, Ollama, local models, and startup checks in one place.",
     icon: KeyRound,
     color: "text-indigo-400",
     panel: "setup",
@@ -54,7 +76,8 @@ const STEPS: Step[] = [
   {
     id: "local-cloak",
     title: "Local vs Cloak",
-    subtitle: "Local means models run on this machine; Cloak means cloud calls are allowed only after privacy gates.",
+    subtitle:
+      "Local means models run on this machine; Cloak means cloud calls are allowed only after privacy gates.",
     icon: ShieldCheck,
     color: "text-emerald-400",
     panel: "cloak",
@@ -73,31 +96,114 @@ const STEPS: Step[] = [
   {
     id: "work",
     title: "Work",
-    subtitle: "The universal entry point for a new idea, an existing project, or an imported app/codebase.",
+    subtitle:
+      "The universal entry point for a new idea, an existing project, or an imported app/codebase -- and where the compile-gate loop runs once you start.",
     icon: Zap,
     color: "text-emerald-400",
-    panel: "ideation",
+    // Was "ideation" -- a nav id from before the Work/Space/Brain/Proof/Repair/
+    // Audit/Tools rail redesign. It matched nothing real, so this step could
+    // only ever be reached manually (dots/Jump To), never by the "explains the
+    // current screen" auto-sync the welcome step promises. The real Work rail
+    // button sets activeSidebar to "hive" -- confirmed live 2026-07-19 by
+    // reading the header title rendered for that value ("Work", not "Hive
+    // Sessions"). The separate "Hive Sessions" step this used to defer to
+    // described a screen ("click the hexagon icon") that no longer exists in
+    // the current rail; folded its still-true tips into this one instead of
+    // leaving it stranded and unreachable.
+    panel: "hive",
     tips: [
       "Start with plain language; Determinex should ask clarifying questions before writing code.",
       "Choose the project direction before a spec is generated.",
       "Use the project picker when you want to continue an existing codebase.",
-    ],
-    action: "Click Work in the rail, then describe the outcome you want.",
-  },
-  {
-    id: "hive",
-    title: "Hive Sessions",
-    subtitle: "The core compile-gate loop: generate, compile, retry, escalate.",
-    icon: Cpu,
-    color: "text-violet-400",
-    panel: "hive",
-    tips: [
-      "Each attempt writes a WAL record: patch + compile error + correction prompt.",
+      "Each build attempt writes a WAL record: patch + compile error + correction prompt.",
       "Failed attempts automatically become training data for the flywheel.",
-      "Up to 5 retries at increasing temperature (0.1 to 0.4) before escalation.",
     ],
     shortcut: "Ctrl+2",
-    action: "Click the hexagon icon to see live Hive activity.",
+    action: "Click Work in the rail, then describe the outcome you want.",
+  },
+  // The five steps below (space, brain, proof-screen, repair-screen, audit)
+  // did not exist before 2026-07-19 -- the other 5 primary rail screens had
+  // ZERO guide coverage, so opening the guide on any of them silently fell
+  // back to the generic "Welcome" step instead of explaining what was
+  // actually on screen. Found live while checking Ryan's "space needs more
+  // explanation" / "repair is odd" / "brain is wierd layout" / "guide is
+  // wierd" feedback -- the guide's own promise ("explains the current
+  // screen") was broken for most of the app. Content below was written from
+  // the real live screens, not guessed.
+  {
+    id: "space",
+    title: "Space",
+    subtitle: "The open project's real git and file state -- not a mockup.",
+    icon: Folder,
+    color: "text-purple-400",
+    panel: "explorer",
+    tips: [
+      "Source shows branch, upstream tracking, and a real uncommitted-change count; Open Source Control jumps to the Git panel.",
+      "Files reports how many entries were scanned; Browse Tree and Find in Files dig in from here.",
+      "Runs opens the session log, or jumps to Work if nothing has run yet.",
+      "Quick Attach docks Terminal or Code beside this screen instead of navigating away from it.",
+    ],
+    action: "Click Space in the rail to see the open project's git and file state.",
+  },
+  {
+    id: "brain-screen",
+    title: "Brain",
+    subtitle:
+      "The ProgramBench Cockpit -- live scores from the corpus of locked, oracle-verified tool reimplementations.",
+    icon: Database,
+    color: "text-orange-400",
+    panel: "benchmark",
+    tips: [
+      "AVG and Tests % are aggregate scores across the active lock set, not a claim about any single tool.",
+      '"Perfect (Live)" counts tools re-verified at 100% in the most recent run, not the historical best.',
+      'Top Family names the most common failure class across recent evals; Advisor\'s "expected lift" is what fixing it should be worth.',
+      "Locked Tools lists real archived evals: pass count / total tests, and the workspace path each was built from.",
+    ],
+    action: "Click Brain in the rail to see the live lock board, not a static score.",
+  },
+  {
+    id: "proof-screen",
+    title: "Proof",
+    subtitle:
+      "Project-scoped run history, build output, trace logs, diffs, and verifier results -- empty states explain exactly what's missing.",
+    icon: Eye,
+    color: "text-cyan-400",
+    panel: "proof",
+    tips: [
+      "Oracle Verdict and Pipeline State are empty until a hive session actually runs -- that's a real empty state, not a broken panel.",
+      "Session Library, Builds, Trace, Diffs, and Gates are separate lenses on the same run history.",
+      '"Go to Work" is the fastest way to produce something for this screen to show.',
+    ],
+    action: "Run something from Work, then check Proof for the oracle verdict.",
+  },
+  {
+    id: "repair-screen",
+    title: "Repair",
+    subtitle:
+      "Diagnose this repo, review a patch plan, and gate human approval -- read-only until you explicitly approve.",
+    icon: GitPullRequest,
+    color: "text-cyan-400",
+    panel: "repair",
+    tips: [
+      'Workspace shows the real detected adapter (Python/Rust/Go/Node/...) for the open project -- "Unknown" briefly on first open just means the check hasn\'t resolved yet, not that detection failed.',
+      "Diagnosis is advisory; the verifier (the real compiler/test oracle) is the only source of truth, not the model.",
+      "Source mutation is BLOCKED until a human approves a verified diff -- nothing here writes to your files by itself.",
+    ],
+    action: "Click Repair in the rail to see this repo's real adapter, verifier, and gate state.",
+  },
+  {
+    id: "audit",
+    title: "Audit",
+    subtitle:
+      "Shippable Project Audit -- scans code, dependencies, security, and release blockers for this workspace.",
+    icon: ShieldCheck,
+    color: "text-red-400",
+    panel: "audit",
+    tips: [
+      "Run Audit Scan triggers a real security, compile, and release-readiness pass -- it is not pre-computed or cosmetic.",
+      "The scorecard is scoped to the current workspace, not a generic checklist.",
+    ],
+    action: "Click Audit in the rail, then Run Audit Scan.",
   },
   {
     id: "terminal",
@@ -212,7 +318,20 @@ type Props = {
   onClose: () => void;
   activeSidebar?: string;
   activeAddon?: string | null;
+  onAskAgent?: (task: string) => void;
 };
+
+/**
+ * Same panel-matching rule the overlay itself uses (addon takes priority over
+ * the primary tab behind it) -- exposed so the collapsed teaser bubble can show
+ * a real, per-screen line instead of one static sentence on every screen.
+ */
+export function getGuideStepFor(activeSidebar?: string, activeAddon?: string | null): Step {
+  const idx = activeAddon
+    ? STEPS.findIndex((s) => s.panel === activeAddon)
+    : STEPS.findIndex((s) => s.panel === activeSidebar);
+  return idx >= 0 ? STEPS[idx] : STEPS[0];
+}
 
 const COMPLETED_ACTIONS_STORAGE_KEY = "determinex.guide.completedActions";
 
@@ -226,11 +345,17 @@ function loadCompletedActions(): Set<string> {
   }
 }
 
-export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Props) {
+export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon, onAskAgent }: Props) {
   const [step, setStep] = useState(0);
-  const [position, setPosition] = useState({ x: 24, y: 24 });
+  const [position, setPosition] = useState({ x: 24, y: 24, height: 560 });
   const [completedActions, setCompletedActions] = useState<Set<string>>(loadCompletedActions);
-  const dragState = useRef<{ pointerId: number; startX: number; startY: number; originX: number; originY: number } | null>(null);
+  const dragState = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    originX: number;
+    originY: number;
+  } | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -254,15 +379,29 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
     setPosition((current) => {
       const width = 380;
       const height = Math.min(560, window.innerHeight - 48);
+      // `height` here MUST be the same number the card is actually allowed to
+      // grow to (its rendered maxHeight), not just a guess used for placement.
+      // It used to be: this effect picked a placement assuming <=560px tall,
+      // but the card's own style separately allowed it to grow up to
+      // `calc(100vh - 48px)` (often 800px+) -- so any step with enough
+      // content (a checklist, 4+ tips) grew taller than the gap this left
+      // below it and its footer (Prev/Next, page dots) rendered off the
+      // bottom of the window entirely, with no way to scroll to it. Ryan: "on
+      // some of its pages you cant see all of it." Now both the placement AND
+      // the rendered maxHeight (see the style prop below) come from this same
+      // `height` value, so the card can never be taller than the room this
+      // math actually left for it.
       if (current.x !== 24 || current.y !== 24) {
         return {
           x: Math.min(Math.max(16, current.x), Math.max(16, window.innerWidth - width - 16)),
           y: Math.min(Math.max(16, current.y), Math.max(16, window.innerHeight - height - 16)),
+          height,
         };
       }
       return {
         x: Math.max(16, window.innerWidth - width - 24),
         y: Math.max(16, window.innerHeight - height - 72),
+        height,
       };
     });
   }, [open]);
@@ -286,12 +425,13 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
   const s = STEPS[step];
   const StepIcon = s.icon;
   const progress = (step / (STEPS.length - 1)) * 100;
-  const focusSteps = ["setup", "local-cloak", "work", "market", "privacy"];
+  const focusSteps = ["setup", "local-cloak", "work", "space", "market", "privacy"];
   const toggleAction = (label: string) => {
     setCompletedActions((current) => {
       const next = new Set(current);
       const key = `${s.id}:${label}`;
-      if (next.has(key)) next.delete(key); else next.add(key);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
       try {
         window.localStorage.setItem(COMPLETED_ACTIONS_STORAGE_KEY, JSON.stringify([...next]));
       } catch {
@@ -319,10 +459,11 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
     const width = 380;
     const maxX = Math.max(16, window.innerWidth - width - 16);
     const maxY = Math.max(16, window.innerHeight - 160);
-    setPosition({
+    setPosition((current) => ({
       x: Math.min(Math.max(16, state.originX + event.clientX - state.startX), maxX),
       y: Math.min(Math.max(16, state.originY + event.clientY - state.startY), maxY),
-    });
+      height: current.height,
+    }));
   };
 
   const endDrag = (event: PointerEvent<HTMLDivElement>) => {
@@ -340,7 +481,7 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
           left: position.x,
           top: position.y,
           width: 380,
-          maxHeight: "calc(100vh - 48px)",
+          maxHeight: position.height,
           background: "rgba(8,8,16,0.97)",
           borderColor: "var(--determinex-border)",
           boxShadow: "0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px -12px rgba(0,0,0,0.8)",
@@ -371,10 +512,12 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
             <StepIcon size={16} className={s.color} />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-[9px] uppercase font-black tracking-widest text-gray-600 mb-0.5">
+            <div className="text-eyebrow uppercase font-black tracking-widest text-gray-600 mb-0.5">
               Determinex Guide &middot; {step + 1} of {STEPS.length}
             </div>
-            <div className="text-[11px] font-bold text-white/85 leading-tight truncate">{s.title}</div>
+            <div className="text-label font-bold text-white/85 leading-tight truncate">
+              {s.title}
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -386,11 +529,18 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto no-scrollbar px-5 py-4 space-y-4">
-          <p className="text-[11px] leading-relaxed text-gray-400">{s.subtitle}</p>
+        {/* min-h-0 is load-bearing: a flex child defaults to min-height:auto,
+            which lets it grow to fit its content instead of respecting the
+            parent's maxHeight -- so overflow-y-auto never kicked in and the
+            footer (Prev/Next, page dots) got pushed below the window edge
+            entirely instead of the body scrolling internally. Only visible on
+            steps with enough content to overflow (checklists, 4+ tips) --
+            Ryan: "on some of its pages you cant see all of it." */}
+        <div className="min-h-0 flex-1 overflow-y-auto no-scrollbar px-5 py-4 space-y-4">
+          <p className="text-label leading-relaxed text-gray-400">{s.subtitle}</p>
 
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-[9px] uppercase font-black tracking-widest text-gray-600">
+            <div className="flex items-center gap-2 text-eyebrow uppercase font-black tracking-widest text-gray-600">
               <GraduationCap size={9} />
               Jump To
             </div>
@@ -411,7 +561,7 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
                     }`}
                   >
                     <TargetIcon size={11} className={target.color} />
-                    <span className="text-[10px] font-semibold text-gray-400">{target.title}</span>
+                    <span className="text-label font-semibold text-gray-400">{target.title}</span>
                   </button>
                 );
               })}
@@ -419,22 +569,25 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-[9px] uppercase font-black tracking-widest text-gray-600">
+            <div className="flex items-center gap-2 text-eyebrow uppercase font-black tracking-widest text-gray-600">
               <Lightbulb size={9} />
               Key Concepts
             </div>
             {s.tips.map((tip, i) => (
-              <div key={i} className="flex gap-2.5 rounded-xl border border-white/5 bg-white/[0.02] px-3.5 py-2.5">
+              <div
+                key={i}
+                className="flex gap-2.5 rounded-xl border border-white/5 bg-white/[0.02] px-3.5 py-2.5"
+              >
                 <div className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-current ${s.color}`} />
-                <p className="text-[10px] leading-relaxed text-gray-400">{tip}</p>
+                <p className="text-label leading-relaxed text-gray-400">{tip}</p>
               </div>
             ))}
           </div>
 
           {s.shortcut && (
             <div className="flex items-center gap-2.5 rounded-xl border border-white/5 bg-black/30 px-3.5 py-2.5">
-              <span className="text-[9px] text-gray-600">Keyboard shortcut</span>
-              <kbd className="ml-auto rounded border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[9px] font-mono text-gray-300">
+              <span className="text-meta text-gray-600">Keyboard shortcut</span>
+              <kbd className="ml-auto rounded border border-white/10 bg-white/[0.04] px-2 py-0.5 text-meta font-mono text-gray-300">
                 {s.shortcut}
               </kbd>
             </div>
@@ -443,13 +596,29 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
           {s.action && (
             <div className="flex items-start gap-2.5 rounded-xl border border-[var(--determinex-accent)]/15 bg-[var(--determinex-accent)]/5 px-3.5 py-2.5">
               <BookOpen size={11} className="text-[var(--determinex-accent)] mt-0.5 shrink-0" />
-              <p className="text-[10px] leading-relaxed text-[var(--determinex-accent)]/80">{s.action}</p>
+              <p className="text-label leading-relaxed text-[var(--determinex-accent)]/80">
+                {s.action}
+              </p>
             </div>
+          )}
+
+          {onAskAgent && s.id !== "welcome" && (
+            <button
+              type="button"
+              onClick={() =>
+                onAskAgent(
+                  `I'm looking at the "${s.title}" screen in Determinex and have a question about it: ${s.subtitle}\n\nMy question: `
+                )
+              }
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-violet-400/25 bg-violet-950/15 px-3.5 py-2.5 text-meta font-black uppercase tracking-widest text-violet-300 transition hover:bg-violet-900/25"
+            >
+              <Bot size={12} /> Ask an Agent about this screen
+            </button>
           )}
 
           {s.checklist && (
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-[9px] uppercase font-black tracking-widest text-gray-600">
+              <div className="flex items-center gap-2 text-eyebrow uppercase font-black tracking-widest text-gray-600">
                 <CheckCircle2 size={9} />
                 Walkthrough
               </div>
@@ -465,8 +634,13 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
                         : "border-white/5 bg-white/[0.02] hover:bg-white/[0.05]"
                     }`}
                   >
-                    <CheckCircle2 size={12} className={done ? "text-emerald-400" : "text-gray-700"} />
-                    <span className={`text-[10px] leading-relaxed ${done ? "text-emerald-300/80" : "text-gray-400"}`}>
+                    <CheckCircle2
+                      size={12}
+                      className={done ? "text-emerald-400" : "text-gray-700"}
+                    />
+                    <span
+                      className={`text-label leading-relaxed ${done ? "text-emerald-300/80" : "text-gray-400"}`}
+                    >
                       {item}
                     </span>
                   </button>
@@ -492,21 +666,24 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
         </div>
 
         {/* Footer */}
-        <div className="flex items-center gap-3 border-t px-5 py-3.5" style={{ borderColor: "var(--determinex-border)" }}>
+        <div
+          className="flex items-center gap-3 border-t px-5 py-3.5"
+          style={{ borderColor: "var(--determinex-border)" }}
+        >
           <button
             onClick={prev}
             disabled={step === 0}
-            className="flex items-center gap-1.5 rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2 text-[10px] font-semibold text-gray-500 disabled:opacity-30 hover:enabled:bg-white/[0.06] hover:enabled:text-gray-300 transition-all"
+            className="flex items-center gap-1.5 rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2 text-label font-semibold text-gray-500 disabled:opacity-30 hover:enabled:bg-white/[0.06] hover:enabled:text-gray-300 transition-all"
           >
             <ChevronLeft size={11} /> Prev
           </button>
-          <div className="flex-1 text-center text-[9px] text-gray-700 font-mono">
+          <div className="flex-1 text-center text-meta text-gray-700 font-mono">
             {step + 1} / {STEPS.length}
           </div>
           {step < STEPS.length - 1 ? (
             <button
               onClick={next}
-              className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[10px] font-bold text-black transition-all hover:opacity-90"
+              className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-label font-bold text-black transition-all hover:opacity-90"
               style={{ background: "var(--determinex-accent)" }}
             >
               Next <ChevronRight size={11} />
@@ -514,7 +691,7 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon }: Pr
           ) : (
             <button
               onClick={onClose}
-              className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[10px] font-bold text-black transition-all hover:opacity-90"
+              className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-label font-bold text-black transition-all hover:opacity-90"
               style={{ background: "var(--determinex-accent)" }}
             >
               Done <X size={11} />

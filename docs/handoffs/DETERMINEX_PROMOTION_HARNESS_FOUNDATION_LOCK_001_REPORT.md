@@ -1,0 +1,20 @@
+# DETERMINEX_PROMOTION_HARNESS_FOUNDATION_LOCK_001_REPORT
+
+- Status: `PROMOTION_HARNESS_FOUNDATION_PASSED`.
+- Claim-scanner row eligible: `True`.
+- Release cells/families: `13 / 0`.
+- Rule: promotion requires current green proof for every required pillar.
+
+## Fixture Matrix
+
+- `all_green`: `PROMOTION_ELIGIBLE` blockers `none`.
+- `missing_detector`: `PROMOTION_REFUSED` blockers `DETECTOR_PILLAR_REQUIRED`.
+- `missing_verifier`: `PROMOTION_REFUSED` blockers `VERIFIER_PILLAR_REQUIRED`.
+- `missing_toolchain`: `PROMOTION_REFUSED` blockers `TOOLCHAIN_OR_AUTHORITY_PILLAR_REQUIRED`.
+- `family_inference_refused`: `PROMOTION_REFUSED` blockers `FAMILY_SUPPORT_CANNOT_BE_INFERRED_FROM_ROW_PROMOTION`.
+- `external_distinct_detector_verifier_passes`: `PROMOTION_ELIGIBLE` blockers `none`.
+- `external_same_detector_verifier_refused`: `PROMOTION_REFUSED` blockers `EXTERNAL_DETECTOR_VERIFIER_EVIDENCE_MUST_BE_DISTINCT, SELF_SURFACE_OR_SHALLOW_FIXTURE, BEHAVIORAL_VERIFIER_REQUIRED, REPAIR_LOOP_PROOF_REQUIRED`.
+- `mapped_only_support_refused`: `PROMOTION_REFUSED` blockers `FIXTURE_PILLAR_REQUIRED, VERIFIER_PILLAR_REQUIRED, RELEASE_FAMILY_IMPLICATION_PILLAR_REQUIRED, EXTERNAL_DETECTOR_VERIFIER_EVIDENCE_MUST_BE_DISTINCT, SELF_SURFACE_OR_SHALLOW_FIXTURE, BEHAVIORAL_VERIFIER_REQUIRED, REPAIR_LOOP_PROOF_REQUIRED`.
+- `programbench_without_eval_refused`: `PROMOTION_REFUSED` blockers `PROGRAMBENCH_RELATION_PILLAR_REQUIRED, EXTERNAL_DETECTOR_VERIFIER_EVIDENCE_MUST_BE_DISTINCT, SELF_SURFACE_OR_SHALLOW_FIXTURE, BEHAVIORAL_VERIFIER_REQUIRED, REPAIR_LOOP_PROOF_REQUIRED`.
+
+No universal support, all-family support, ProgramBench total-100, open availability, full status-suite, or patent claim is made.

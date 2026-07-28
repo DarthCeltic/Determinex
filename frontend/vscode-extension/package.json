@@ -4,17 +4,35 @@
   "description": "Build from an idea, repair any repo, with oracle-bounded correctness. Any AI (Claude/Codex/Gemini/local) plugs in; nothing it produces is accepted unless the oracle passes.",
   "version": "0.1.0",
   "license": "AGPL-3.0-or-later",
-  "publisher": "DarthCeltic85",
-  "engines": { "vscode": "^1.85.0" },
-  "categories": ["AI", "Programming Languages", "Testing"],
+  "publisher": "lunarian-data-systems",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Programming Languages",
+    "Testing"
+  ],
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-      { "command": "determinex.buildFromIdea", "title": "Determinex: Build From Idea (verified)" },
-      { "command": "determinex.previewIdeaOracle", "title": "Determinex: Preview the Sound Oracle for an Idea" },
-      { "command": "determinex.repairDiagnose", "title": "Determinex: Diagnose This Repo (blame + slop)" },
-      { "command": "determinex.governanceStatus", "title": "Determinex: No-Overclaim Governance Status" }
+      {
+        "command": "determinex.buildFromIdea",
+        "title": "Determinex: Build From Idea (verified)"
+      },
+      {
+        "command": "determinex.previewIdeaOracle",
+        "title": "Determinex: Preview the Sound Oracle for an Idea"
+      },
+      {
+        "command": "determinex.repairDiagnose",
+        "title": "Determinex: Diagnose This Repo (blame + slop)"
+      },
+      {
+        "command": "determinex.governanceStatus",
+        "title": "Determinex: No-Overclaim Governance Status"
+      }
     ],
     "configuration": {
       "title": "Determinex",

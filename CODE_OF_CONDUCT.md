@@ -20,4 +20,4 @@ Violations are handled by the maintainer. First offense: warning. Second offense
 
 ## Contact
 
-Open a [GitHub issue](https://github.com/DarthCeltic/determinex/issues) or contact the maintainer via GitHub.
+Open a [GitHub issue](https://github.com/determinex-ai/determinex/issues) or contact the maintainer via GitHub.

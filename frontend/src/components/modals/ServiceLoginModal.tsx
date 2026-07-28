@@ -54,7 +54,7 @@ export function ServiceLoginModal() {
             <Globe className="text-amber-400" size={22} />
             <div>
               <h2 className="text-base font-bold text-gray-200">Connect Service</h2>
-              <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-0.5">
+              <p className="text-meta text-gray-500 uppercase tracking-widest mt-0.5">
                 {showServiceLogin}
               </p>
             </div>
@@ -63,13 +63,13 @@ export function ServiceLoginModal() {
         </div>
 
         <div className="bg-[#010409] border border-[#21262d] rounded-lg p-4 space-y-3">
-          <p className="text-[11px] text-gray-400 leading-relaxed">
+          <p className="text-label text-gray-400 leading-relaxed">
             Paste your <span className="text-amber-400 font-bold">{showServiceLogin}</span> token
-            below. It's stored locally in this device's app database — never sent to external
-            servers.
+            below. It&apos;s stored locally in this device&apos;s app database — never sent to
+            external servers.
           </p>
           <div className="flex flex-col gap-1.5">
-            <label className="text-[9px] uppercase font-bold text-gray-500 tracking-widest">
+            <label className="text-eyebrow uppercase font-bold text-gray-500 tracking-widest">
               API Key / Token
             </label>
             <input
@@ -81,7 +81,7 @@ export function ServiceLoginModal() {
               className="bg-[#161b22] border border-[#30363d] focus:border-amber-500 outline-none rounded-lg p-3 text-sm text-gray-300 w-full font-mono transition-colors"
             />
           </div>
-          <div className="text-[9px] text-gray-600 flex items-center gap-1.5 mt-1">
+          <div className="text-meta text-gray-600 flex items-center gap-1.5 mt-1">
             <KeyRound size={10} className="text-gray-500" />
             Stored in local SQLite → injected into os.environ → available to ToolForge
           </div>

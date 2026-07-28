@@ -24,7 +24,9 @@ export function EvidenceViewerPanel({ workspacePath }: Props) {
     setResp(r);
   }, [workspacePath]);
 
-  React.useEffect(() => { void refresh(); }, [refresh]);
+  React.useEffect(() => {
+    void refresh();
+  }, [refresh]);
 
   const payload = (resp?.payload ?? {}) as Record<string, unknown>;
   const trainingEligible = Boolean(payload.training_eligible ?? false);
@@ -33,14 +35,13 @@ export function EvidenceViewerPanel({ workspacePath }: Props) {
   const evidenceFiles = (payload.evidence_files as string[] | undefined) ?? [];
 
   return (
-    <section
-      data-testid="evidence-viewer-panel"
-      className="rounded border p-3 text-sm space-y-2"
-    >
+    <section data-testid="evidence-viewer-panel" className="rounded border p-3 text-sm space-y-2">
       <header className="flex items-center justify-between">
         <h3 className="font-medium">Evidence</h3>
-        <span className="text-xs uppercase opacity-70"
-              data-testid="evidence-viewer-read-only-badge">
+        <span
+          className="text-xs uppercase opacity-70"
+          data-testid="evidence-viewer-read-only-badge"
+        >
           Read-only
         </span>
       </header>
@@ -63,7 +64,9 @@ export function EvidenceViewerPanel({ workspacePath }: Props) {
           <p className="text-xs opacity-60">(no locks loaded for this flow yet)</p>
         ) : (
           <ul className="mt-1 list-disc pl-5 text-xs font-mono">
-            {locks.map((l) => <li key={l}>{l}</li>)}
+            {locks.map((l) => (
+              <li key={l}>{l}</li>
+            ))}
           </ul>
         )}
       </div>
@@ -74,15 +77,17 @@ export function EvidenceViewerPanel({ workspacePath }: Props) {
           <p className="text-xs opacity-60">(no evidence files referenced yet)</p>
         ) : (
           <ul className="mt-1 list-disc pl-5 text-xs font-mono">
-            {evidenceFiles.map((f) => <li key={f}>{f}</li>)}
+            {evidenceFiles.map((f) => (
+              <li key={f}>{f}</li>
+            ))}
           </ul>
         )}
       </div>
 
       <div className="text-xs opacity-80" data-testid="evidence-viewer-health">
-        Each lock manifest under <code>locks/sentinel/</code> describes what
-        the step proves and what it does NOT prove. Validate with{" "}
-        <code>determinex evidence validate</code> from the CLI.
+        Each lock manifest under <code>locks/sentinel/</code> describes what the step proves and
+        what it does NOT prove. Validate with <code>determinex evidence validate</code> from the
+        CLI.
       </div>
     </section>
   );

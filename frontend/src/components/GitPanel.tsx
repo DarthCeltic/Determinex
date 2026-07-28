@@ -10,7 +10,7 @@ import {
   RefreshCw,
   FileCode,
   AlertTriangle,
-  Minus
+  Minus,
 } from "lucide-react";
 import {
   getGitStatus,
@@ -23,14 +23,15 @@ import {
   checkoutBranch,
   pushCommits,
   pullCommits,
-  GitFile
+  GitFile,
 } from "@/lib/gitService";
 import { languageForPath } from "@/lib/language";
+import { isTauri } from "@/lib/api";
 
 const DiffEditor = dynamic(() => import("@monaco-editor/react").then((m) => m.DiffEditor), {
   ssr: false,
   loading: () => (
-    <div className="flex-1 flex items-center justify-center text-[10px] font-mono text-gray-700">
+    <div className="flex-1 flex items-center justify-center text-label font-mono text-gray-700">
       Loading diff…
     </div>
   ),
@@ -73,29 +74,47 @@ export default function GitPanel({ workspacePath }: Props) {
   };
 
   useEffect(() => {
+    if (!isTauri()) return;
     loadStatus();
     setSelectedFile(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspacePath]);
 
+  // gitService's write helpers now reject on a real backend failure instead of
+  // swallowing it (they returned void either way before, so a rejected stage or
+  // push looked exactly like a successful one). These handlers had no catch at
+  // all, so they need one now -- otherwise the honest error just becomes an
+  // unhandled rejection in the dev overlay.
   const handleStage = async (path: string) => {
-    await stageFile(workspacePath, path);
-    loadStatus();
-    if (selectedFile?.path === path) {
-      setSelectedFile(prev => prev ? { ...prev, status: "staged" } : null);
+    try {
+      await stageFile(workspacePath, path);
+      if (selectedFile?.path === path) {
+        setSelectedFile((prev) => (prev ? { ...prev, status: "staged" } : null));
+      }
+    } catch (e: any) {
+      setError(e?.message || `Could not stage ${path}`);
     }
+    loadStatus();
   };
 
   const handleUnstage = async (path: string) => {
-    await unstageFile(workspacePath, path);
-    loadStatus();
-    if (selectedFile?.path === path) {
-      setSelectedFile(prev => prev ? { ...prev, status: "modified" } : null);
+    try {
+      await unstageFile(workspacePath, path);
+      if (selectedFile?.path === path) {
+        setSelectedFile((prev) => (prev ? { ...prev, status: "modified" } : null));
+      }
+    } catch (e: any) {
+      setError(e?.message || `Could not unstage ${path}`);
     }
+    loadStatus();
   };
 
   const handleStageAll = async () => {
-    await stageAll(workspacePath);
+    try {
+      await stageAll(workspacePath);
+    } catch (e: any) {
+      setError(e?.message || "Could not stage all changes");
+    }
     loadStatus();
   };
 
@@ -134,20 +153,44 @@ export default function GitPanel({ workspacePath }: Props) {
     }
   };
 
+  // Push and pull are the two most likely to fail for reasons the user must
+  // see (no upstream, auth, rejected non-fast-forward). Both previously
+  // reported nothing at all.
   const handlePush = async () => {
-    await pushCommits(workspacePath);
+    setError(null);
+    try {
+      await pushCommits(workspacePath);
+    } catch (e: any) {
+      setError(e?.message || "Push failed");
+    }
     loadStatus();
   };
 
   const handlePull = async () => {
-    await pullCommits(workspacePath);
+    setError(null);
+    try {
+      await pullCommits(workspacePath);
+    } catch (e: any) {
+      setError(e?.message || "Pull failed");
+    }
     loadStatus();
   };
 
   if (!workspacePath) {
     return (
-      <div className="flex-1 flex items-center justify-center p-4 bg-[#0d1117] text-[11px] font-mono text-gray-600">
+      <div className="flex-1 flex items-center justify-center p-4 bg-[#0d1117] text-label font-mono text-gray-600">
         No workspace open.
+      </div>
+    );
+  }
+
+  if (!isTauri()) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center gap-2 p-4 bg-[#0d1117] text-center opacity-40">
+        <p className="text-label text-gray-500">Browser mode cannot read real git status</p>
+        <p className="text-label text-gray-600">
+          Open the Tauri desktop app to stage, commit, and push.
+        </p>
       </div>
     );
   }
@@ -155,7 +198,7 @@ export default function GitPanel({ workspacePath }: Props) {
   if (!status) {
     return (
       <div className="flex-1 flex items-center justify-center p-4 bg-[#0d1117]">
-        <div className="flex items-center gap-2 text-[11px] font-mono text-gray-500 animate-pulse">
+        <div className="flex items-center gap-2 text-label font-mono text-gray-500 animate-pulse">
           <RefreshCw className="h-3 w-3 animate-spin" />
           Loading Git Status...
         </div>
@@ -163,11 +206,11 @@ export default function GitPanel({ workspacePath }: Props) {
     );
   }
 
-  const stagedFiles = status.files.filter(f => f.status === "staged");
-  const unstagedFiles = status.files.filter(f => f.status !== "staged");
+  const stagedFiles = status.files.filter((f) => f.status === "staged");
+  const unstagedFiles = status.files.filter((f) => f.status !== "staged");
 
   return (
-    <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 font-mono text-[11px] border-l border-white/5">
+    <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 font-mono text-label border-l border-white/5">
       {/* Header Panel */}
       <div className="flex items-center justify-between p-3 border-b border-white/5 bg-[#161b22]">
         <div className="flex items-center gap-1.5 font-semibold text-white">
@@ -187,7 +230,7 @@ export default function GitPanel({ workspacePath }: Props) {
       </div>
 
       {/* Sync / Remote status */}
-      <div className="flex items-center justify-between px-3 py-2 bg-[#161b22]/50 border-b border-white/5 text-[10px]">
+      <div className="flex items-center justify-between px-3 py-2 bg-[#161b22]/50 border-b border-white/5 text-label">
         <div className="flex items-center gap-3">
           <button
             onClick={handlePull}
@@ -220,8 +263,10 @@ export default function GitPanel({ workspacePath }: Props) {
                 onChange={(e) => handleCheckout(e.target.value)}
                 className="flex-1 bg-[#0d1117] border border-white/10 rounded px-2 py-1 text-white focus:outline-none focus:border-blue-500"
               >
-                {branches.map(b => (
-                  <option key={b.name} value={b.name}>{b.name}</option>
+                {branches.map((b) => (
+                  <option key={b.name} value={b.name}>
+                    {b.name}
+                  </option>
                 ))}
               </select>
               <button
@@ -258,9 +303,9 @@ export default function GitPanel({ workspacePath }: Props) {
               <span>Staged Changes ({stagedFiles.length})</span>
             </div>
             {stagedFiles.length === 0 ? (
-              <div className="text-[10px] text-gray-600 px-1 italic">No staged files</div>
+              <div className="text-label text-gray-600 px-1 italic">No staged files</div>
             ) : (
-              stagedFiles.map(file => (
+              stagedFiles.map((file) => (
                 <div
                   key={file.path}
                   onClick={() => setSelectedFile(file)}
@@ -273,7 +318,9 @@ export default function GitPanel({ workspacePath }: Props) {
                     <span className="truncate text-white">{file.path.split("/").pop()}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="text-[9px] px-1 bg-green-500/20 text-green-400 rounded">{file.code || "A"}</span>
+                    <span className="text-meta px-1 bg-green-500/20 text-green-400 rounded">
+                      {file.code || "A"}
+                    </span>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -297,16 +344,16 @@ export default function GitPanel({ workspacePath }: Props) {
               {unstagedFiles.length > 0 && (
                 <button
                   onClick={handleStageAll}
-                  className="text-[9px] hover:text-white transition-colors flex items-center gap-0.5"
+                  className="text-meta hover:text-white transition-colors flex items-center gap-0.5"
                 >
                   <Plus className="h-2 w-2" /> Stage All
                 </button>
               )}
             </div>
             {unstagedFiles.length === 0 ? (
-              <div className="text-[10px] text-gray-600 px-1 italic">No unstaged changes</div>
+              <div className="text-label text-gray-600 px-1 italic">No unstaged changes</div>
             ) : (
-              unstagedFiles.map(file => (
+              unstagedFiles.map((file) => (
                 <div
                   key={file.path}
                   onClick={() => setSelectedFile(file)}
@@ -319,9 +366,13 @@ export default function GitPanel({ workspacePath }: Props) {
                     <span className="truncate">{file.path.split("/").pop()}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className={`text-[9px] px-1 rounded ${
-                      file.status === "untracked" ? "bg-yellow-500/20 text-yellow-400" : "bg-blue-500/20 text-blue-400"
-                    }`}>
+                    <span
+                      className={`text-meta px-1 rounded ${
+                        file.status === "untracked"
+                          ? "bg-yellow-500/20 text-yellow-400"
+                          : "bg-blue-500/20 text-blue-400"
+                      }`}
+                    >
                       {file.code || (file.status === "untracked" ? "U" : "M")}
                     </span>
                     <button
@@ -343,7 +394,7 @@ export default function GitPanel({ workspacePath }: Props) {
           {/* Commit Box Form */}
           <div className="p-3 border-t border-white/5 bg-[#161b22]/50">
             {error && (
-              <div className="flex items-start gap-1 p-2 bg-red-950/30 border border-red-500/20 rounded text-red-400 mb-2 text-[10px]">
+              <div className="flex items-start gap-1 p-2 bg-red-950/30 border border-red-500/20 rounded text-red-400 mb-2 text-label">
                 <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
@@ -378,7 +429,7 @@ export default function GitPanel({ workspacePath }: Props) {
             <div className="flex-1 flex flex-col h-full overflow-hidden">
               <div className="p-3 border-b border-white/5 bg-[#161b22] flex items-center justify-between">
                 <span className="font-semibold text-white">{selectedFile.path}</span>
-                <span className="text-gray-500 text-[10px] uppercase">{selectedFile.status}</span>
+                <span className="text-gray-500 text-meta uppercase">{selectedFile.status}</span>
               </div>
               <div className="flex-1">
                 <DiffEditor

@@ -181,7 +181,7 @@ export function VectorGridTheme({
             {elapsedSeconds !== undefined && elapsedSeconds > 0 && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <span
-                  className="text-[8px] font-mono font-bold tabular-nums"
+                  className="text-meta font-mono font-bold tabular-nums"
                   style={{ color: accent }}
                 >
                   {elapsedSeconds}s
@@ -192,18 +192,18 @@ export function VectorGridTheme({
 
           <div className="flex flex-col items-center gap-1">
             <p
-              className="text-[9px] font-mono tracking-[0.6em] uppercase"
+              className="text-eyebrow font-mono tracking-[0.6em] uppercase"
               style={{ color: `${accent}60` }}
             >
               END OF LINE
             </p>
             <p
-              className="text-[14px] font-mono font-bold tracking-widest uppercase"
+              className="text-title font-mono font-bold tracking-widest uppercase"
               style={{ color: accent, textShadow: `0 0 16px ${accent}` }}
             >
               {label}
             </p>
-            <p className="text-[9px] font-mono" style={{ color: `${gold}70` }}>
+            <p className="text-meta font-mono" style={{ color: `${gold}70` }}>
               GRID CYCLE ACTIVE • PROGRAM EXECUTING
             </p>
           </div>
@@ -231,7 +231,7 @@ export function VectorGridTheme({
                     />
                   </div>
                   <span
-                    className="text-[7px] font-mono uppercase tracking-wider"
+                    className="text-eyebrow font-mono uppercase tracking-wider"
                     style={{ color, opacity: nodeActive ? 1 : 0.3 }}
                   >
                     {role}
@@ -260,7 +260,7 @@ export function VectorGridTheme({
           className="w-6 h-6 border-2 rounded-full animate-spin"
           style={{ borderColor: `${accent}40`, borderTopColor: accent }}
         />
-        <p className="text-[10px] font-mono tracking-widest uppercase" style={{ color: accent }}>
+        <p className="text-meta font-mono tracking-widest uppercase" style={{ color: accent }}>
           {label}
         </p>
       </div>

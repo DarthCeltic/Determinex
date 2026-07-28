@@ -16,7 +16,7 @@ describe("MissionControlPanel", () => {
 
     expect(screen.getByText("Determinex Mission Control")).toBeInTheDocument();
     expect(screen.getByTestId("mission-control-boundary")).toHaveTextContent(
-      MISSION_CONTROL_CLAIM_BOUNDARY,
+      MISSION_CONTROL_CLAIM_BOUNDARY
     );
     expect(DETERMINEX_RELEASE_GATES.releaseReady).toBe(false);
     expect(DETERMINEX_RELEASE_GATES.authorityGranted).toBe(false);
@@ -34,11 +34,13 @@ describe("MissionControlPanel", () => {
   it("starts on release readiness and shows exact clean-host blocker guidance", () => {
     render(<MissionControlPanel />);
 
-    expect(within(screen.getByTestId("mission-active-card")).getByText("Prepare a release")).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId("mission-active-card")).getByText("Prepare a release")
+    ).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Current runner cannot access Docker Desktop state; rerun the clean-host probe outside the sandbox.",
-      ),
+        "Current runner cannot access Docker Desktop state; rerun the clean-host probe outside the sandbox."
+      )
     ).toBeInTheDocument();
     expect(screen.getAllByText(/full_release_closure.py/).length).toBeGreaterThan(0);
   });
@@ -50,16 +52,18 @@ describe("MissionControlPanel", () => {
 
     const nextAction = screen.getByTestId("mission-next-action");
     expect(
-      within(screen.getByTestId("mission-active-card")).getByText("Become the VS Code successor"),
+      within(screen.getByTestId("mission-active-card")).getByText("Become the VS Code successor")
     ).toBeInTheDocument();
     expect(within(nextAction).getByText("VS Code/Open VSX compatibility")).toBeInTheDocument();
     expect(within(nextAction).getByText("Deferred")).toBeInTheDocument();
-    expect(within(nextAction).getByText(/runtime compatibility packet has not passed/)).toBeInTheDocument();
+    expect(
+      within(nextAction).getByText(/runtime compatibility packet has not passed/)
+    ).toBeInTheDocument();
   });
 
   it("includes an LLM-neutral program advisor mission with a proof boundary", () => {
     const mission = DETERMINEX_MISSION_CONTROL_MISSIONS.find(
-      (candidate) => candidate.id === "llm-program-advisor",
+      (candidate) => candidate.id === "llm-program-advisor"
     );
     expect(mission).toBeDefined();
     expect(mission?.userOutcome).toMatch(/Codex, Claude, Gemini, OpenAI, Ollama/);
@@ -69,7 +73,7 @@ describe("MissionControlPanel", () => {
     fireEvent.click(screen.getByTestId("mission-tab-llm-program-advisor"));
 
     expect(
-      within(screen.getByTestId("mission-active-card")).getByText("Brief any LLM on a program"),
+      within(screen.getByTestId("mission-active-card")).getByText("Brief any LLM on a program")
     ).toBeInTheDocument();
     expect(screen.getByText(/model-neutral guidance/)).toBeInTheDocument();
   });

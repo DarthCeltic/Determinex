@@ -64,6 +64,28 @@ from hive.forge_daemon import start_forge_daemon, stop_forge_daemon
 from hive.thermal import thermal_hard_halt, ThermalCriticalError, dynamic_ipc_timeout
 from hive.rosetta_bridge import make_bridge, RosettaBridge
 
+# ── Structured logging ────────────────────────────────────────────────────────
+try:
+    from hive._log import get_logger as _get_hive_logger, bind_session as _bind_log_session
+    log = _get_hive_logger("hive.executor")
+    _LOG_BIND = _bind_log_session
+except ImportError:
+    import logging as _std_logging
+    log = _std_logging.getLogger("hive")
+    _LOG_BIND = lambda **_kw: None  # noqa: E731
+
+# ── DSPy opt-in hook (DETERMINEX_USE_DSPY=1 enables prompt optimization) ────
+import os as _os_dspy
+_DSPY_ENABLED = _os_dspy.environ.get("DETERMINEX_USE_DSPY", "").strip() == "1"
+if _DSPY_ENABLED:
+    try:
+        from hive.dspy_modules import DeterminexMonitor, DeterminexDAGPlanner  # noqa: F401
+        log.info("dspy_enabled", monitor=True, dag_planner=True)
+    except ImportError:
+        _DSPY_ENABLED = False
+        log.warning("dspy_import_failed", hint="pip install dspy-ai; DETERMINEX_USE_DSPY ignored")
+
+
 
 def _run_daemon_timeout(fn, timeout: float):
     """Run fn on a daemon thread and raise TimeoutError without waiting forever."""

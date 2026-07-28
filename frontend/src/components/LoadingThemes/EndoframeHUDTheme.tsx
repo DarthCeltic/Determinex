@@ -34,7 +34,8 @@ export function EndoframeHUDTheme({
     });
     if (canvas.parentElement) ro.observe(canvas.parentElement);
 
-    let raf: number, t = 0;
+    let raf: number,
+      t = 0;
     const draw = () => {
       ctx.fillStyle = "rgba(8,0,0,0.28)";
       ctx.fillRect(0, 0, w, h);
@@ -43,10 +44,13 @@ export function EndoframeHUDTheme({
       ctx.lineWidth = 1;
       for (let y = 0; y < h; y += 2) {
         ctx.beginPath();
-        ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
       }
       // Reticle crosshair
-      const cx = w / 2, cy = h / 2;
+      const cx = w / 2,
+        cy = h / 2;
       ctx.strokeStyle = "rgba(255,32,32,0.55)";
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -56,8 +60,10 @@ export function EndoframeHUDTheme({
       ctx.arc(cx, cy, 64 + Math.sin(t * 0.03) * 4, 0, Math.PI * 2);
       ctx.stroke();
       ctx.beginPath();
-      ctx.moveTo(cx - 90, cy); ctx.lineTo(cx + 90, cy);
-      ctx.moveTo(cx, cy - 90); ctx.lineTo(cx, cy + 90);
+      ctx.moveTo(cx - 90, cy);
+      ctx.lineTo(cx + 90, cy);
+      ctx.moveTo(cx, cy - 90);
+      ctx.lineTo(cx, cy + 90);
       ctx.stroke();
       // Sweep
       ctx.strokeStyle = "rgba(255,128,80,0.35)";
@@ -69,7 +75,12 @@ export function EndoframeHUDTheme({
       ctx.strokeStyle = "rgba(255,32,32,0.75)";
       ctx.lineWidth = 2;
       const off = 90;
-      [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx, sy]) => {
+      [
+        [-1, -1],
+        [1, -1],
+        [-1, 1],
+        [1, 1],
+      ].forEach(([sx, sy]) => {
         ctx.beginPath();
         ctx.moveTo(cx + sx * off, cy + sy * (off - 12));
         ctx.lineTo(cx + sx * off, cy + sy * off);
@@ -80,10 +91,14 @@ export function EndoframeHUDTheme({
       raf = requestAnimationFrame(draw);
     };
     draw();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, [active]);
   if (!active) return null;
-  const primary = "#ff2222", dim = "rgba(255,80,80,0.55)";
+  const primary = "#ff2222",
+    dim = "rgba(255,80,80,0.55)";
   if (fullPanel) {
     return (
       <div className="absolute inset-0 z-20 overflow-hidden" style={{ background: "#0a0000" }}>
@@ -91,18 +106,28 @@ export function EndoframeHUDTheme({
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(10,0,0,0)_0%,rgba(10,0,0,0.85)_100%)]" />
         <div className="absolute top-6 left-8 flex flex-col gap-1 pointer-events-none">
           {TARGET_LINES.map((l, i) => (
-            <p key={i} className="text-[9px] font-mono tracking-widest" style={{ color: dim }}>
+            <p key={i} className="text-meta font-mono tracking-widest" style={{ color: dim }}>
               {">"} {l}
             </p>
           ))}
         </div>
-        <ThemeOverlay label={label} elapsedSeconds={elapsedSeconds} primary={primary} dim={dim}
-                      subLabel="endoframe vision — diagnostic only" arrow="►" chipShape="square" />
+        <ThemeOverlay
+          label={label}
+          elapsedSeconds={elapsedSeconds}
+          primary={primary}
+          dim={dim}
+          subLabel="endoframe vision — diagnostic only"
+          arrow="►"
+          chipShape="square"
+        />
       </div>
     );
   }
   return (
-    <div className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none" style={{ background: "#0a0000" }}>
+    <div
+      className="absolute inset-0 z-20 rounded-xl overflow-hidden pointer-events-none"
+      style={{ background: "#0a0000" }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 opacity-80" />
       <SmallPanel label={label} primary={primary} />
     </div>

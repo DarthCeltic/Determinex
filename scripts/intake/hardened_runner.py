@@ -53,6 +53,7 @@ For anything that needs a real boundary against these gaps, use Docker
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
@@ -339,9 +340,23 @@ def run(
 
     # Execute (shell=False is explicit; subprocess.run never raises here
     # because we catch every documented exception) -------------------------
+    # shutil.which resolves Windows' .cmd/.bat shims (PATHEXT) -- a bare
+    # subprocess.run(shell=False) does NOT try these extensions the way a
+    # real shell (or Rust's std::process::Command) does, so an npm-installed
+    # tool like "npx" (a .cmd wrapper, not a .exe) raised a raw
+    # FileNotFoundError here. Found live 2026-07-22: this is the SAME
+    # Windows PATHEXT bug already fixed twice this session for spawning
+    # claude-code/codex/gemini-cli (determinex_agents.py's resolve_argv) --
+    # this is the third, independent place it existed, silently making
+    # _verify_typescript's tsc/jest checks fail to launch and (before that
+    # bug was also fixed) get reported as a false PASS. Only argv[0] is
+    # resolved; the rest of cmd_list is real argument text, and shell=False
+    # stays exactly as it was (never shell=True -- this is a security
+    # boundary, not something this fix touches).
+    resolved_cmd = [shutil.which(cmd_list[0]) or cmd_list[0], *cmd_list[1:]]
     try:
         proc = subprocess.run(
-            cmd_list,
+            resolved_cmd,
             input=stdin,
             capture_output=True,
             text=True,
