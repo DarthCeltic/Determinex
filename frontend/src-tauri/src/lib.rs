@@ -46,6 +46,7 @@ mod local_model_config;
 mod diff_staging;
 mod evidence_feeds;
 mod release_status;
+mod rosetta;
 mod agent_registry;
 mod agent_chat;
 mod passport;
@@ -213,6 +214,8 @@ pub fn run() {
             ipc_benchmark::stop_benchmark_run,
             ipc_benchmark::get_programbench_snapshot,
             first_gui_hive_ipc::record_first_gui_hive_ipc_evidence,
+            rosetta::rosetta_status,
+            rosetta::rosetta_fetch,
             sidecar::spawn_sidecar,
             sidecar::sidecar_load,
             sidecar::sidecar_infer,

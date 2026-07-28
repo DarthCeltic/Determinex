@@ -25,7 +25,17 @@
  * destination rather than the entry point hard-coding it.
  */
 
-export type SurfaceKind = "sidebar" | "addon";
+/**
+ * How a member opens.
+ *
+ * "modal" exists because three members (Settings, Skin, Guide) open a modal or
+ * overlay, not a panel -- and before this they were declared "addon" and cast
+ * with `as WorkspaceAddon` at the call site. That cast was a lie: none of the
+ * three is in the addon union, so the drawer advertised them, the user clicked,
+ * and nothing opened. Precisely the "list of things that do nothing" this
+ * taxonomy was built to eliminate, hiding inside the taxonomy itself.
+ */
+export type SurfaceKind = "sidebar" | "addon" | "modal";
 
 export interface SurfaceMember {
   /** PrimaryWorkspace id (kind "sidebar") or WorkspaceAddon id (kind "addon"). */
@@ -36,6 +46,11 @@ export interface SurfaceMember {
   what: string;
   /** One line: what it DOES for you. */
   does: string;
+  /**
+   * For `kind: "modal"`, which modal to open. Kept as a named union rather than
+   * reusing `id` so the shell's handler cannot silently fall through.
+   */
+  modal?: "settings" | "skin" | "guide";
   /** Determinex's own release tooling -- hidden from shipped end-user builds. */
   internalOnly?: boolean;
 }
@@ -209,13 +224,6 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
         does: "Lists past sessions and opens their output folder.",
       },
       {
-        id: "problems",
-        label: "Problems",
-        kind: "addon",
-        what: "Real compiler/LSP diagnostics.",
-        does: "Lists actual errors and warnings for the open workspace.",
-      },
-      {
         id: "health",
         label: "Health",
         kind: "addon",
@@ -313,13 +321,6 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
         does: "Explains code and concepts from real evidence. Non-authorizing: it never approves anything.",
       },
       {
-        id: "surfaces",
-        label: "Product Surfaces",
-        kind: "addon",
-        what: "Overview of the five unified product surfaces.",
-        does: "States each surface's purpose, proof boundary, and caveats.",
-      },
-      {
         id: "benchmark",
         label: "Brain",
         kind: "sidebar",
@@ -329,7 +330,8 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
       {
         id: "guide",
         label: "Guide",
-        kind: "addon",
+        kind: "modal",
+        modal: "guide",
         what: "The context-aware walkthrough.",
         does: "Explains the screen you are on and what to do next.",
       },
@@ -352,14 +354,16 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
       {
         id: "skin",
         label: "Skin",
-        kind: "addon",
-        what: "Theme and loading-screen pack.",
-        does: "Changes how the IDE looks.",
+        kind: "modal",
+        modal: "skin",
+        what: "The visual theme picker -- 27 skins, each a full palette.",
+        does: "Switches the whole shell's colours. Every skin meets WCAG AA contrast on body text.",
       },
       {
         id: "settings",
         label: "Settings",
-        kind: "addon",
+        kind: "modal",
+        modal: "settings",
         what: "Keys, hive roles, diagnostics, network.",
         does: "The main configuration surface.",
       },

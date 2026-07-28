@@ -442,6 +442,82 @@ pub(crate) fn hive_script() -> PathBuf {
     project_root().join("scripts").join("determinex_hive.py")
 }
 
+/// Resolve the bundled `determinex-hive` engine binary, if present.
+///
+/// Extracted from `spawn_hive_subprocess_with_env`, where this walk was inline and
+/// therefore unavailable to every OTHER command. That is why `create_session`,
+/// `explore_workspace`, `diagnose_workspace` and `fix_workspace` all shelled to
+/// `python <repo>/scripts/determinex_hive.py` instead: the standalone path existed
+/// and only one call site could reach it. On a machine with no repo checkout those
+/// commands could not work at all, which made the shipped app dependent on the
+/// development tree.
+///
+/// Search order: dev layout, then packaged layouts (bin/ beside or above the exe).
+pub(crate) fn resolve_hive_binary() -> Option<PathBuf> {
+    let suffix = if cfg!(target_os = "windows") { ".exe" } else { "" };
+    let triple_name = format!("determinex-hive-{}{}", target_triple(), suffix);
+    let plain_name = format!("determinex-hive{}", suffix);
+    let candidates = [triple_name.as_str(), plain_name.as_str()];
+
+    // Dev layout: <project_root>/frontend/src-tauri/bin/
+    let dev_bin_dir = project_root().join("frontend").join("src-tauri").join("bin");
+    if let Some(found) = candidates
+        .iter()
+        .map(|name| dev_bin_dir.join(name))
+        .find(|path| path.exists())
+    {
+        return Some(found);
+    }
+
+    // Packaged layout: bin/<name> at or above the exe, or beside the exe.
+    let exe = std::env::current_exe().ok()?;
+    let mut dir = exe.parent()?.to_path_buf();
+    for _ in 0..6 {
+        for name in candidates {
+            let in_bin = dir.join("bin").join(name);
+            if in_bin.exists() {
+                return Some(in_bin);
+            }
+            let beside = dir.join(name);
+            if beside.exists() {
+                return Some(beside);
+            }
+        }
+        match dir.parent() {
+            Some(parent) => dir = parent.to_path_buf(),
+            None => break,
+        }
+    }
+    None
+}
+
+/// A `Command` that runs a hive subcommand, preferring the bundled engine binary
+/// and falling back to `python scripts/determinex_hive.py` for a dev checkout.
+///
+/// Returns the command plus whether it is the standalone binary, so callers can
+/// log which path they took rather than guessing.
+pub(crate) fn hive_command(subcommand: &str) -> Result<(Command, bool), String> {
+    if let Some(binary) = resolve_hive_binary() {
+        let mut cmd = Command::new(binary);
+        cmd.hide_console();
+        cmd.arg(subcommand);
+        return Ok((cmd, true));
+    }
+    // Dev fallback: the repo's script through a resolved interpreter.
+    let script = hive_script();
+    if !script.exists() {
+        return Err(format!(
+            "Neither the bundled determinex-hive binary nor {} was found.              Build the engine with: python bundler/build_hive_sidecar.py",
+            script.display()
+        ));
+    }
+    let python = resolve_python_exe()?;
+    let mut cmd = Command::new(python);
+    cmd.hide_console();
+    cmd.arg(script).arg(subcommand);
+    Ok((cmd, false))
+}
+
 /// Spawn the Determinex Hive sidecar binary for a subcommand.
 ///
 /// This is the VS Code pattern: Tauri bundles the pre-compiled determinex-hive

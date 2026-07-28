@@ -473,7 +473,7 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon, onAs
   };
 
   return (
-    <div className="fixed inset-0 z-[200] pointer-events-none">
+    <div data-testid="guide-overlay" className="fixed inset-0 z-[200] pointer-events-none">
       <div
         data-testid="guide-window"
         className="pointer-events-auto absolute flex flex-col rounded-2xl border shadow-2xl overflow-hidden"

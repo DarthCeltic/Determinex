@@ -20,9 +20,14 @@ Model registry integration:
   If a model isn't registered, the bridge falls back to the GGUF_PATH_DEFAULTS
   map which hard-codes last-resort fallback GGUF paths.
 
-Rosetta Stone file:
-  Loaded from ~/.determinex/rosetta/rosetta_v1.pt on first use.
-  If the file doesn't exist the bridge disables itself and logs once.
+Projector resolution (first match wins):
+  1. ~/.determinex/rosetta/npz/  -- exported .npz shards, run with numpy. Works in
+     the packaged binary, which excludes torch. Fetched from HuggingFace on demand
+     via scripts/rosetta_hub.py.
+  2. ~/.determinex/rosetta/rosetta_v1.pt -- the 1.68 GB source checkpoint. Needs
+     torch, so this path only ever works in a dev checkout.
+  If neither exists the bridge disables itself and logs once, naming the command
+  that fixes it.
 """
 
 from __future__ import annotations
@@ -148,8 +153,64 @@ _stone_cache:  dict[Path, object] = {} # path → RosettaStone instance
 _unavailable:  set[str]           = set()  # keys that failed — skip silently
 
 
+_ROSETTA_NPZ_DEFAULT = Path.home() / ".determinex" / "rosetta" / "npz"
+
+
+def _load_npz_stone() -> Optional[object]:
+    """Torch-free projector over exported .npz shards, if any are present.
+
+    Preferred over the 1.68 GB .pt for one decisive reason: the shipped engine
+    binary excludes torch (bundling it would take the binary from 111 MB to ~2 GB),
+    so the .pt path can only ever work in a source checkout. The npz shards run on
+    numpy alone, are 92-134 MB per architecture, and are fetched from HuggingFace
+    on demand -- which is what makes the bridge available in the PRODUCT rather
+    than only on a dev machine.
+
+    Verified against torch to better than 1e-05 relative on float32 weights; see
+    scripts/determinex_rosetta_npz.py::verify_parity and tests/test_rosetta_npz.py.
+    """
+    key = str(_ROSETTA_NPZ_DEFAULT)
+    with _bridge_lock:
+        cached = _stone_cache.get(_ROSETTA_NPZ_DEFAULT)
+        if cached is not None:
+            return cached
+        if key in _unavailable:
+            return None
+    try:
+        from determinex_rosetta_npz import NumpyRosettaStone
+
+        stone = NumpyRosettaStone.load(_ROSETTA_NPZ_DEFAULT)
+        with _bridge_lock:
+            _stone_cache[_ROSETTA_NPZ_DEFAULT] = stone
+        log.info(
+            "[Rosetta] npz shards loaded (torch-free): %s arches=%s",
+            _ROSETTA_NPZ_DEFAULT, stone.supported_arches(),
+        )
+        return stone
+    except FileNotFoundError:
+        # Not an error: the shards are an optional download. Recorded so the .pt
+        # path gets its turn without this being retried on every projection.
+        with _bridge_lock:
+            _unavailable.add(key)
+        return None
+    except Exception as e:
+        log.warning("[Rosetta] npz shards present but unusable: %s", e)
+        with _bridge_lock:
+            _unavailable.add(key)
+        return None
+
+
 def _load_stone(stone_path: Path = _ROSETTA_PT_DEFAULT) -> Optional[object]:
-    """Load and cache the RosettaStone. Returns None if unavailable."""
+    """Load and cache a projector. Returns None if none is available.
+
+    Order is deliberate: npz first (works everywhere, including the packaged
+    binary), then the .pt (source checkouts with torch). Both expose
+    encode/decode/project, so callers do not care which they got.
+    """
+    npz = _load_npz_stone()
+    if npz is not None:
+        return npz
+
     with _bridge_lock:
         if stone_path in _stone_cache:
             return _stone_cache[stone_path]
@@ -165,8 +226,12 @@ def _load_stone(stone_path: Path = _ROSETTA_PT_DEFAULT) -> Optional[object]:
                  stone_path.name, stone.supported_arches())
         return stone
     except FileNotFoundError:
-        log.warning("[Rosetta] Stone not found at %s — Rosetta bridge disabled. "
-                    "Run train_rosetta_bases.py on RunPod to generate it.", stone_path)
+        log.warning(
+            "[Rosetta] No projector available. Neither .npz shards at %s nor a "
+            "checkpoint at %s. Fetch the shards (92-134 MB per architecture, no "
+            "torch needed) with:  python scripts/rosetta_hub.py pull --arch qwen2_1b5",
+            _ROSETTA_NPZ_DEFAULT, stone_path,
+        )
         with _bridge_lock:
             _unavailable.add(str(stone_path))
         return None

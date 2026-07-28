@@ -73,8 +73,33 @@ try:
     from determinex_rosetta import RosettaStone
     import determinex_inference
     from determinex_inference import DeterminexInference
-except ImportError as e:
-    logging.getLogger("hive").warning(f"Phase 2 Latent Bridge components missing or failed to import: {e}")
+except Exception as e:  # noqa: BLE001 - see below; this MUST NOT be ImportError only
+    # `except ImportError` was not enough, and the gap took down the whole
+    # product in its shipped form.
+    #
+    # determinex_inference imports llama_cpp, which loads a native library at
+    # import time. When that library is present but its `lib/` directory is not
+    # -- exactly what the PyInstaller sidecar produced -- llama_cpp raises
+    # FileNotFoundError (WinError 3) from os.add_dll_directory, NOT ImportError.
+    # So this guard, whose entire purpose is "these components are optional",
+    # let a native-loader failure escape and crash the process on startup:
+    # `determinex-hive.exe --help` died before printing anything.
+    #
+    # A component declared optional has to survive every way its import can
+    # fail, not just the tidy one.
+    # Say which layer is affected. "Phase 2 Latent Bridge components
+    # unavailable" read like a malfunction, when the accurate picture is:
+    #   Layer 1 (semantic DSL, the ACTIVE layer) needs neither torch nor a
+    #     trained checkpoint and is unaffected.
+    #   Layer 2 (soft-prefix projection) needs torch plus a rosetta_v*.pt, and is
+    #     a documented v1.5 milestone -- absent by design, not broken.
+    # A scary warning about a feature that was never claimed to be on is its own
+    # kind of false signal.
+    logging.getLogger("hive").info(
+        f"Rosetta Layer 2 (latent projection) not available in this build "
+        f"({type(e).__name__}: {e}). Layer 1 semantic DSL is unaffected; the "
+        "hive runs normally."
+    )
     determinex_rosetta = None
     RosettaStone = None
     determinex_inference = None

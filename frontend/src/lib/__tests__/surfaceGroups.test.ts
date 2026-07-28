@@ -45,6 +45,30 @@ describe("surface taxonomy", () => {
     ).toEqual([]);
   });
 
+  it("never offers a surface that cannot open", () => {
+    // The REVERSE of the two checks above, and the one that was missing.
+    // `skin` sat in the taxonomy pointing at an addon id that was never in
+    // `addonItems`, so the drawer advertised a panel, the user clicked it, and
+    // nothing could render -- exactly the "list of things that do nothing" this
+    // taxonomy replaced. The old checks only ran page.tsx -> taxonomy, so a
+    // taxonomy entry with no panel behind it was invisible.
+    const addons = new Set(unionMembers("WorkspaceAddon"));
+    const sidebars = new Set(unionMembers("PrimaryWorkspace"));
+    const orphans = SURFACE_GROUPS.flatMap((g) =>
+      g.members
+        .filter((m) => {
+          // A modal surface has no panel by design; what it must have is a
+          // declared target, or the shell's handler falls through silently.
+          if (m.kind === "modal") return !m.modal;
+          return m.kind === "addon" ? !addons.has(m.id) : !sidebars.has(m.id);
+        })
+        .map((m) => `${m.id} (${m.kind})`)
+    );
+    expect(orphans, `taxonomy members with no panel behind them: ${orphans.join(", ")}`).toEqual(
+      []
+    );
+  });
+
   it("covers every primary sidebar declared in page.tsx", () => {
     // "none" is a state, not a surface; "extensions" is covered as Tools.
     const declared = unionMembers("PrimaryWorkspace").filter((id) => id !== "none");

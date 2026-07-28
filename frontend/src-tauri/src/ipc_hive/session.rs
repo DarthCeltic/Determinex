@@ -1,14 +1,14 @@
 use serde::Serialize;
 use std::io::{BufRead, BufReader};
-use std::path::PathBuf;
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use crate::win_process::HideConsoleExt;
 
 use tauri::{AppHandle, Emitter, State};
 
 use crate::ipc_envelope::Envelope;
+use super::hive_command;
 use super::{
-    hive_script, is_oom_exit, manifest_path, project_root, resolve_python_exe, sessions_dir,
+    hive_script, is_oom_exit, manifest_path, project_root, sessions_dir,
     spawn_hive_subprocess, spawn_hive_subprocess_with_env, CreateSessionPayload,
     CreateSessionResult, HiveProcessMap, LogRingBuffer, RunSessionPayload, SessionIdPayload,
     SessionStatus, SpawnResult, StartSessionPayload, StepStatus,
@@ -72,18 +72,20 @@ pub async fn create_session(
     );
 
     let root = project_root();
-    let script = hive_script();
 
-    if !script.exists() {
-        return Ok(Envelope::err(format!("determinex_hive.py not found at {:?}", script)));
-    }
-
-    // Call new-session synchronously — it's fast (just writes manifest)
-    let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = Command::new(&python).hide_console()
+    // new-session is the FIRST step of every build, and it ran
+    // `python <repo>/scripts/determinex_hive.py` unconditionally -- so on an
+    // installed copy with no repo checkout, nothing could be built at all. The
+    // bundled engine binary was already shipped in the installer and only
+    // generate-dag / run-session ever used it. Called synchronously here because
+    // it is fast (it just writes the manifest).
+    let (mut cmd, standalone) = hive_command("new-session")?;
+    log::info!(
+        "[IPC] create_session via {}",
+        if standalone { "bundled engine" } else { "repo script" }
+    );
+    let output = cmd
         .args([
-            script.to_str().unwrap(),
-            "new-session",
             "--spec",
             &payload.spec_path,
             "--lang",
@@ -93,7 +95,7 @@ pub async fn create_session(
         ])
         .current_dir(&root)
         .output()
-        .map_err(|e| format!("Failed to spawn determinex_hive.py new-session: {}", e))?;
+        .map_err(|e| format!("Failed to spawn the hive engine (new-session): {}", e))?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -592,14 +594,15 @@ pub async fn start_session(
     );
 
     let root = project_root();
-    let script = hive_script();
 
-    // 1. new-session (sync)
-    let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = Command::new(&python).hide_console()
+    // 1. new-session (sync), through the bundled engine when present.
+    let (mut cmd, standalone) = hive_command("new-session")?;
+    log::info!(
+        "[IPC] start_session via {}",
+        if standalone { "bundled engine" } else { "repo script" }
+    );
+    let output = cmd
         .args([
-            script.to_str().unwrap(),
-            "new-session",
             "--spec",
             &payload.spec_path,
             "--lang",
@@ -609,7 +612,7 @@ pub async fn start_session(
         ])
         .current_dir(&root)
         .output()
-        .map_err(|e| format!("Failed to spawn determinex_hive.py new-session: {}", e))?;
+        .map_err(|e| format!("Failed to spawn the hive engine (new-session): {}", e))?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -627,7 +630,6 @@ pub async fn start_session(
     // 2. Spawn a thread to run generate-dag, wait for it, then run-session.
     //    #oom_hook: After each subprocess exits, check for OOM exit codes.
     let sid_clone = session_id.clone();
-    let script_clone = script.clone();
     let root_clone = root.clone();
 
     std::thread::spawn(move || {
@@ -678,16 +680,19 @@ pub async fn start_session(
                 return;
             }
         };
-        // resolve_python_exe already validated at the top of start_session;
-        // inside the thread we fall back to the venv path directly.
-        let py_in_thread = resolve_python_exe().unwrap_or_else(|_| PathBuf::from("python"));
-        let mut child1 = match Command::new(&py_in_thread).hide_console()
-            .args([
-                script_clone.to_str().unwrap(),
-                "generate-dag",
-                "--session",
-                &sid_clone,
-            ])
+        // Same preference inside the thread: bundled engine first, repo script only
+        // as a dev fallback. `hive_command` cannot fail here in a way worth
+        // aborting for -- if it does, the spawn below reports it into session.log
+        // like any other launch failure.
+        let (mut thread_cmd, _) = match hive_command("generate-dag") {
+            Ok(pair) => pair,
+            Err(e) => {
+                log::error!("[IPC] start_session: no hive engine available: {}", e);
+                return;
+            }
+        };
+        let mut child1 = match thread_cmd
+            .args(["--session", &sid_clone])
             .current_dir(&root_clone)
             .stdout(Stdio::from(stdout_file1))
             .stderr(Stdio::from(stderr_file1))
@@ -805,13 +810,15 @@ pub async fn start_session(
                 return;
             }
         };
-        let mut child2 = match Command::new(&py_in_thread).hide_console()
-            .args([
-                script_clone.to_str().unwrap(),
-                "run-session",
-                "--session",
-                &sid_clone,
-            ])
+        let (mut thread_cmd2, _) = match hive_command("run-session") {
+            Ok(pair) => pair,
+            Err(e) => {
+                log::error!("[IPC] start_session: no hive engine for run-session: {}", e);
+                return;
+            }
+        };
+        let mut child2 = match thread_cmd2
+            .args(["--session", &sid_clone])
             .current_dir(&root_clone)
             .stdout(Stdio::from(stdout_file2))
             .stderr(Stdio::from(stderr_file2))

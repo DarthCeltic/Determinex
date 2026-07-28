@@ -295,3 +295,118 @@ test.describe("panel arrangement", () => {
     await expect(page.getByText(/Restored "e2e-arrangement"/)).toBeVisible();
   });
 });
+
+test.describe("no dead drawer entries", () => {
+  test("Settings, Skin and Guide open something instead of nothing", async ({ page }) => {
+    await bootToShell(page);
+
+    // All three were declared `kind: "addon"` and launched with
+    // `handleAddonLaunch(member.id as WorkspaceAddon)`. None of the three is in
+    // that union, so the cast type-checked, the drawer advertised them, and
+    // clicking did nothing at all. They are `kind: "modal"` now.
+    // Assert on the dialog itself, not on guessed copy: a text regex that happens
+    // not to match reports "opened nothing" for a modal that opened fine, which is
+    // exactly what the first version of this spec did.
+    // Each surface lives in its own group -- Guide is under Learn, not System.
+    for (const [group, id, testid] of [
+      ["system", "settings", "settings-modal"],
+      ["system", "skin", "settings-modal"],
+      ["learn", "guide", "guide-overlay"],
+    ] as const) {
+      await page.getByTestId(`rail-group-${group}`).click();
+      const member = page.getByTestId(`surface-member-${id}`);
+      await expect(member, `${id} must be in the System drawer`).toBeVisible();
+      await member.click();
+      // A modal surface gets one honest "Open" button, not PANEL/DOCK.
+      await page.getByTestId(`surface-open-${id}`).click();
+
+      // Something must actually appear. Before the fix this assertion failed for
+      // all three.
+      await expect(page.getByTestId(testid), `${id} opened nothing`).toBeVisible({
+        timeout: 10_000,
+      });
+
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(300);
+    }
+  });
+});
+
+test.describe("opening a surface actually shows it", () => {
+  test("choosing the already-active sidebar opens it rather than closing it", async ({ page }) => {
+    await bootToShell(page);
+
+    // Work Cockpit is the DEFAULT sidebar, and `openSurface` used to call
+    // handleSidebarLaunch, which toggles. So picking the first surface most users
+    // would pick closed it and rendered an empty panel.
+    await page.getByTestId("rail-group-work").click();
+    await page.getByTestId("surface-member-hive").click();
+    await page.getByTestId("surface-open-hive-panel").click();
+
+    await expect(page.getByTestId("zone1-close"), "Zone 1 must be open").toBeVisible();
+    const body = await page.evaluate(() => document.body.innerText.replace(/\s+/g, " "));
+    expect(body.length, "the panel rendered no content at all").toBeGreaterThan(200);
+  });
+
+  test("a panel-hosted addon does not shadow a sidebar opened after it", async ({ page }) => {
+    await bootToShell(page);
+
+    // Host an addon in the panel...
+    await page.getByTestId("rail-group-agents").click();
+    await page.getByTestId("surface-member-agent-chat").click();
+    await page.getByTestId("surface-open-agent-chat-panel").click();
+    await expect(page.getByText(/Agent Chat Room/).first()).toBeVisible();
+
+    // ...then pick a SIDEBAR surface. The addon used to keep rendering, so asking
+    // for Brain showed Agent Chat Room.
+    await page.getByTestId("rail-group-learn").click();
+    await page.getByTestId("surface-member-benchmark").click();
+    await page.getByTestId("surface-open-benchmark-panel").click();
+    await page.waitForTimeout(600);
+
+    const body = await page.evaluate(() => document.body.innerText.replace(/\s+/g, " "));
+    expect(body, "the hosted addon is still shadowing the sidebar").not.toMatch(
+      /MULTI-AGENT SESSION/
+    );
+    expect(body).toMatch(/Which models play each role/);
+  });
+
+  test("every surface in every group opens without a page error", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    await bootToShell(page);
+
+    for (const g of RAIL_GROUPS) {
+      await page.getByTestId(`rail-group-${g}`).click();
+      const ids = await page
+        .getByTestId(/^surface-member-/)
+        .evaluateAll((els) =>
+          els.map((e) => (e.getAttribute("data-testid") || "").replace("surface-member-", ""))
+        );
+      expect(ids.length, `group ${g} has no members`).toBeGreaterThan(0);
+
+      for (const id of ids) {
+        // Ensure the drawer is OPEN rather than clicking the rail blindly: the rail
+        // button toggles, so a blind re-click after Escape closes it half the time
+        // and the member lookup then waits forever. Assert the state, do not guess.
+        const rail = page.getByTestId(`rail-group-${g}`);
+        if ((await rail.getAttribute("aria-expanded")) !== "true") {
+          await rail.click();
+        }
+        await expect(page.getByTestId("surface-drawer")).toBeVisible();
+        await page.getByTestId(`surface-member-${id}`).click();
+        const modal = page.getByTestId(`surface-open-${id}`);
+        const panel = page.getByTestId(`surface-open-${id}-panel`);
+        // Every surface must offer SOME way to open it. A member with neither is
+        // an entry that does nothing, which is what this taxonomy replaced.
+        const hasModal = await modal.isVisible().catch(() => false);
+        const hasPanel = await panel.isVisible().catch(() => false);
+        expect(hasModal || hasPanel, `${g}/${id} offers no way to open`).toBe(true);
+        await (hasModal ? modal : panel).click();
+        await page.waitForTimeout(250);
+        await page.keyboard.press("Escape");
+      }
+    }
+    expect(errors, `page errors while opening surfaces: ${errors.join(" | ")}`).toEqual([]);
+  });
+});

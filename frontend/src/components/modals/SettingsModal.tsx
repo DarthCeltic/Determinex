@@ -97,14 +97,36 @@ export function SettingsModal() {
     });
   }, [settingsTab, hasFetchedModels]);
 
+  // Escape closes it -- the other half of the accessibility item, where the
+  // drawer got Escape and the modals did not, so the only way out of Settings was
+  // to find its close button.
+  //
+  // Declared ABOVE the early return on purpose. The first version of this sat
+  // below it, which is a rules-of-hooks violation: hook order changes the moment
+  // `showSettings` flips, React throws, and the modal never renders at all. The
+  // e2e spec caught it as "settings opened nothing".
+  useEffect(() => {
+    if (!showSettings) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowSettings(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [showSettings, setShowSettings]);
+
   if (!showSettings) return null;
 
   const onClose = () => setShowSettings(false);
+
   const toggleShowKey = (provider: string) =>
     setShowKeys((p) => ({ ...p, [provider]: !p[provider] }));
 
   return (
     <div
+      data-testid="settings-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Settings"
       className="absolute inset-0 z-50 flex items-center justify-center p-6 backdrop-blur-md"
       style={{ background: "rgba(0,0,0,0.85)" }}
       onClick={onClose}

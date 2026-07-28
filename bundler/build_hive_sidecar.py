@@ -152,6 +152,14 @@ def build_sidecar(triple: str, dry_run: bool = False) -> Path:
         # not torch directly. Excluding these reduces binary size by ~2GB.
         # determinex_rosetta / determinex_inference import torch but they are optional
         # (wrapped in try/except in determinex_hive.py lines 72-81).
+        # llama_cpp is excluded for the same reason torch is: this sidecar drives
+        # models over HTTP (Ollama / LiteLLM), never in-process. It was NOT
+        # excluded before, so PyInstaller bundled the Python package without its
+        # native lib/ directory and the binary crashed at import with
+        # FileNotFoundError before printing a single line -- the shipped engine
+        # could not start at all. Local GGUF inference is a separate concern,
+        # served by the embedded sidecar in src-tauri/src/sidecar.rs.
+        "--exclude-module", "llama_cpp",
         "--exclude-module", "torch",
         "--exclude-module", "torchvision",
         "--exclude-module", "torchaudio",
@@ -218,17 +226,60 @@ def verify_sidecar(triple: str) -> bool:
         text=True,
         timeout=90,  # onefile mode extracts to %TEMP% on first run (~30-60s)
     )
-    # determinex_hive.py uses argparse so --help exits 0
-    if result.returncode == 0:
-        _log("  Sidecar binary OK (--help responded)")
-        return True
-    else:
-        # Some builds exit non-zero on --help — check that it at least printed something
-        if result.stdout or result.stderr:
-            _log("  Sidecar binary OK (responded to --help)")
-            return True
-        _log(f"  FAIL: binary did not respond (exit {result.returncode})")
+    combined = result.stdout + result.stderr
+
+    # This check used to accept a CRASH as success. On a non-zero exit it did:
+    #
+    #     if result.stdout or result.stderr:
+    #         _log("  Sidecar binary OK (responded to --help)")
+    #         return True
+    #
+    # A fatal traceback IS output, so a binary that died on import "responded"
+    # and was declared OK. Measured 2026-07-28: the shipped
+    # determinex-hive.exe crashed with FileNotFoundError before printing one
+    # useful line, and this function reported "Sidecar binary OK". Worse,
+    # frontend/package.json's `pretauri` runs `--verify || build`, so a green
+    # verify SKIPS the rebuild -- the broken engine shipped BECAUSE this passed.
+    #
+    # A verifier that a crash satisfies is worse than no verifier: the clean run
+    # gets read as proof.
+    # Only genuinely FATAL markers. The first version of this list also included
+    # "ModuleNotFoundError" / "ImportError" / "FileNotFoundError", which matched
+    # the optional-component guard's own success message -- "Phase 2 Latent Bridge
+    # components unavailable (ModuleNotFoundError: No module named 'torch') --
+    # continuing" is the guard WORKING, and this rejected the binary for saying so.
+    # An over-eager verifier is its own failure mode: it just fails in the safe
+    # direction instead of the dangerous one.
+    #
+    # PyInstaller always emits both of these on an unhandled exception, so they are
+    # sufficient to catch a real crash.
+    fatal_markers = (
+        "Traceback (most recent call last)",
+        "Failed to execute script",
+    )
+    hit = next((m for m in fatal_markers if m in combined), None)
+    if hit:
+        _log(f"  FAIL: binary crashed on --help ({hit})")
+        for line in combined.strip().splitlines()[-6:]:
+            _log(f"    {line}")
         return False
+
+    # determinex_hive.py uses argparse, so --help exits 0. Anything else is a
+    # failure, full stop.
+    if result.returncode != 0:
+        _log(f"  FAIL: --help exited {result.returncode}")
+        for line in combined.strip().splitlines()[-6:]:
+            _log(f"    {line}")
+        return False
+
+    # And it has to look like THIS CLI's help, not merely be non-empty -- a
+    # binary that prints anything at all should not pass a smoke test.
+    if "usage:" not in combined.lower():
+        _log("  FAIL: --help produced no usage text; this is not the hive CLI")
+        return False
+
+    _log("  Sidecar binary OK (--help exited 0 and printed usage)")
+    return True
 
 
 # ---------------------------------------------------------------------------

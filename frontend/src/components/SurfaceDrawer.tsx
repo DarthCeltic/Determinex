@@ -83,29 +83,45 @@ function MemberRow({
           <p className="text-label leading-relaxed text-gray-400">{member.what}</p>
           <p className="text-label leading-relaxed text-gray-500">{member.does}</p>
 
-          {/* Ryan's "you can choose to move it to the other two main boxes" --
-              the same surface, two destinations, decided here rather than by
-              whichever menu you came from. */}
-          <div className="flex gap-1.5 pt-0.5">
-            <button
-              type="button"
-              onClick={() => onOpen(member, "panel")}
-              data-testid={`surface-open-${member.id}-panel`}
-              title="Open in the left workspace panel"
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-gray-300 transition-colors hover:border-white/20 hover:bg-white/[0.07]"
-            >
-              <PanelLeft size={10} /> Panel
-            </button>
-            <button
-              type="button"
-              onClick={() => onOpen(member, "dock")}
-              data-testid={`surface-open-${member.id}-dock`}
-              title="Open in the movable dock over the main area"
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-[var(--determinex-accent)]/30 bg-[var(--determinex-accent)]/10 px-2 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-[var(--determinex-accent)] transition-colors hover:bg-[var(--determinex-accent)]/20"
-            >
-              <PanelRight size={10} /> Dock
-            </button>
-          </div>
+          {/* A modal surface has no destination to choose -- offering PANEL and
+              DOCK for something that opens a dialog is a meaningless choice, and
+              the buttons did nothing for these three. One honest action instead. */}
+          {member.kind === "modal" ? (
+            <div className="pt-0.5">
+              <button
+                type="button"
+                onClick={() => onOpen(member, "panel")}
+                data-testid={`surface-open-${member.id}`}
+                className="flex w-full items-center justify-center gap-1.5 rounded-md border border-[var(--determinex-accent)]/30 bg-[var(--determinex-accent)]/10 px-2 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-[var(--determinex-accent)] transition-colors hover:bg-[var(--determinex-accent)]/20"
+              >
+                Open
+              </button>
+            </div>
+          ) : (
+            /* Ryan's "you can choose to move it to the other two main boxes" --
+             the same surface, two destinations, decided here rather than by
+             whichever menu you came from. */
+            <div className="flex gap-1.5 pt-0.5">
+              <button
+                type="button"
+                onClick={() => onOpen(member, "panel")}
+                data-testid={`surface-open-${member.id}-panel`}
+                title="Open in the left workspace panel"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-gray-300 transition-colors hover:border-white/20 hover:bg-white/[0.07]"
+              >
+                <PanelLeft size={10} /> Panel
+              </button>
+              <button
+                type="button"
+                onClick={() => onOpen(member, "dock")}
+                data-testid={`surface-open-${member.id}-dock`}
+                title="Open in the movable dock over the main area"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-[var(--determinex-accent)]/30 bg-[var(--determinex-accent)]/10 px-2 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-[var(--determinex-accent)] transition-colors hover:bg-[var(--determinex-accent)]/20"
+              >
+                <PanelRight size={10} /> Dock
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

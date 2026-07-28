@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import logging
 import os
 import stat
 import struct
@@ -101,6 +102,10 @@ GGUF_DIM_KEYS = [
 
 REGISTRY_PATH = Path.home() / ".determinex" / "models.yaml"
 ROSETTA_DIR   = Path.home() / ".determinex" / "rosetta"
+# Pre-rename location. Kept in the search path so a checkpoint left behind by the
+# Citadel -> Determinex rename is still found instead of silently disabling the
+# latent bridge.
+LEGACY_ROSETTA_DIR = Path.home() / ".citadel" / "rosetta"
 ADAPTERS_DIR  = ROSETTA_DIR / "adapters"
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -886,7 +891,19 @@ def find_rosetta_files(extra_dirs: Optional[list[Path]] = None) -> list[Path]:
     Search standard locations for rosetta_v*.pt files.
     Returns list sorted newest-version-first.
     """
-    search = [ROSETTA_DIR, Path.cwd()]
+    # LEGACY_ROSETTA_DIR is searched too, and this is not cosmetic.
+    #
+    # The Citadel -> Determinex rename moved ROSETTA_DIR from ~/.citadel/rosetta to
+    # ~/.determinex/rosetta. The 1.68 GB rosetta_v1.pt does not live in git
+    # (.gitignore excludes *.pt, correctly -- it is a model weight), so nothing
+    # carried it across and nothing reported that it had been left behind. The
+    # bridge simply reported itself unavailable, which looked like a feature that
+    # was never finished rather than an artifact orphaned by a rename.
+    #
+    # Found 2026-07-28 at the old path, intact: stored weights hash matched its
+    # own recomputed hash, and it covers SEVEN arches (llama, mistral, qwen2, phi3,
+    # deepseek2, qwen2_1b5, qwen2_3b) -- more than the five on record.
+    search = [ROSETTA_DIR, LEGACY_ROSETTA_DIR, Path.cwd()]
     if extra_dirs:
         search.extend(extra_dirs)
 
@@ -909,7 +926,16 @@ def load_latest_rosetta(verify: bool = True) -> Optional[RosettaStone]:
     files = find_rosetta_files()
     if not files:
         return None
-    return RosettaStone.load(files[0], verify=verify)
+    chosen = files[0]
+    if LEGACY_ROSETTA_DIR in chosen.parents:
+        # Loud on purpose: it works, but it is sitting in the pre-rename directory
+        # and the next cleanup of ~/.citadel would delete it.
+        logging.getLogger("rosetta").warning(
+            "Loaded %s from the pre-rename directory %s. Move it to %s so a cleanup "
+            "of the old path cannot delete it.",
+            chosen.name, LEGACY_ROSETTA_DIR, ROSETTA_DIR,
+        )
+    return RosettaStone.load(chosen, verify=verify)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

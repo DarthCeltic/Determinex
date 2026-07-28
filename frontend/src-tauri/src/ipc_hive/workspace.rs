@@ -1,11 +1,8 @@
-use std::process::Command;
-use crate::win_process::HideConsoleExt;
-
 use serde::Deserialize;
 use tauri::State;
 
 use crate::ipc_envelope::Envelope;
-use super::{hive_script, project_root, resolve_python_exe, HiveProcessMap};
+use super::{hive_command, project_root, HiveProcessMap};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ENTERPRISE CODEBASE EXPLORER IPC
@@ -46,21 +43,15 @@ pub async fn explore_workspace(
     log::info!("[IPC] explore_workspace: {}", payload.workspace_path);
 
     let root = project_root();
-    let script = hive_script();
 
-    if !script.exists() {
-        return Ok(Envelope::err(format!("determinex_hive.py not found at {:?}", script)));
-    }
-
-    let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = Command::new(&python).hide_console()
-        .args([
-            script.to_str().unwrap(),
-            "explore",
-            "--workspace",
-            &payload.workspace_path,
-            "--json",
-        ])
+    // Prefer the BUNDLED engine binary; fall back to the repo script only in a dev
+    // checkout. This used to require `python <repo>/scripts/determinex_hive.py`
+    // unconditionally, so on an installed copy with no repo present it could not
+    // run at all -- the shipped app depended on the development tree.
+    let (mut cmd, standalone) = hive_command("explore")?;
+    log::info!("[IPC] explore_workspace via {}", if standalone { "bundled engine" } else { "repo script" });
+    let output = cmd
+        .args(["--workspace", &payload.workspace_path, "--json"])
         .current_dir(&root)
         .output()
         .map_err(|e| format!("Failed to spawn explore: {}", e))?;
@@ -99,22 +90,11 @@ pub async fn diagnose_workspace(
     );
 
     let root = project_root();
-    let script = hive_script();
 
-    if !script.exists() {
-        return Ok(Envelope::err(format!("determinex_hive.py not found at {:?}", script)));
-    }
-
-    let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = Command::new(&python).hide_console()
-        .args([
-            script.to_str().unwrap(),
-            "diagnose",
-            "--workspace",
-            &payload.workspace_path,
-            "--issue",
-            &payload.issue,
-        ])
+    let (mut cmd, standalone) = hive_command("diagnose")?;
+    log::info!("[IPC] diagnose_workspace via {}", if standalone { "bundled engine" } else { "repo script" });
+    let output = cmd
+        .args(["--workspace", &payload.workspace_path, "--issue", &payload.issue])
         .current_dir(&root)
         .output()
         .map_err(|e| format!("Failed to spawn diagnose: {}", e))?;
@@ -153,15 +133,8 @@ pub async fn fix_workspace(
     );
 
     let root = project_root();
-    let script = hive_script();
-
-    if !script.exists() {
-        return Ok(Envelope::err(format!("determinex_hive.py not found at {:?}", script)));
-    }
 
     let mut args = vec![
-        script.to_str().unwrap().to_string(),
-        "fix".to_string(),
         "--workspace".to_string(),
         payload.workspace_path.clone(),
         "--issue".to_string(),
@@ -172,8 +145,9 @@ pub async fn fix_workspace(
         args.push(out.clone());
     }
 
-    let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
-    let output = Command::new(&python).hide_console()
+    let (mut cmd, standalone) = hive_command("fix")?;
+    log::info!("[IPC] fix_workspace via {}", if standalone { "bundled engine" } else { "repo script" });
+    let output = cmd
         .args(&args)
         .current_dir(&root)
         .output()

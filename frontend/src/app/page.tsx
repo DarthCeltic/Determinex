@@ -303,14 +303,12 @@ type WorkspaceAddon =
   | "execution"
   | "mission"
   | "roadmap"
-  | "problems"
   | "review"
   | "merge"
   | "idea"
   | "learning"
   | "repoclinic"
   | "maintenancebay"
-  | "surfaces"
   | "findfiles"
   | "repair"
   | "agents"
@@ -830,11 +828,34 @@ export default function DeterminexIDE() {
   // they asked for it, so the same surface can go either place instead of the
   // entry point hard-coding it the way the old rail did.
   const openSurface = (member: SurfaceMember, destination: SurfaceDestination) => {
+    // Modal surfaces (Settings, Skin, Guide) are not panels and have no
+    // destination to choose. They were previously declared as addons and cast
+    // with `as WorkspaceAddon`, which type-checked and opened nothing.
+    if (member.kind === "modal") {
+      if (member.modal === "guide") {
+        setShowTeacher(true);
+      } else {
+        setSettingsTab(member.modal === "skin" ? "skin" : "keys");
+        setShowSettings(true);
+      }
+      setOpenGroupId(null);
+      return;
+    }
     if (destination === "dock") {
       if (panelAddon === member.id) setPanelAddon(null);
       handleAddonLaunch(member.id as WorkspaceAddon);
     } else if (member.kind === "sidebar") {
-      handleSidebarLaunch(member.id as PrimaryWorkspace);
+      // SET, never toggle. This used to call handleSidebarLaunch, which toggles --
+      // so choosing a surface that was already active CLOSED it, and the drawer's
+      // "open this" action rendered an empty panel. Work Cockpit is the default
+      // sidebar, so the very first surface a user picks was the one that broke.
+      //
+      // Also clears any panel-hosted addon: without that, an addon opened into the
+      // panel earlier keeps rendering and shadows the sidebar you just asked for
+      // (picking Brain showed Agent Chat Room).
+      setPanelAddon(null);
+      setActiveSidebar(member.id as PrimaryWorkspace);
+      setPreviewedPath(null);
     } else {
       // An addon asked for the panel slot, so put it IN the panel. This used to
       // call handleAddonLaunch -- identical to the "dock" branch above -- so
@@ -1525,14 +1546,6 @@ export default function DeterminexIDE() {
       action: () => handleAddonLaunch("editor"),
     },
     {
-      id: "go-surfaces",
-      label: "Attach Product Surfaces",
-      description: "Attach the overview hub for all 5 unified product surfaces",
-      category: "Add-ons",
-      icon: LayoutGrid,
-      action: () => handleAddonLaunch("surfaces"),
-    },
-    {
       id: "go-learning",
       label: "Attach Learning Studio",
       description: "Attach non-authorizing teaching explanations grounded in the verified corpus",
@@ -1713,15 +1726,6 @@ export default function DeterminexIDE() {
       panel: <TerminalPanel workspacePath={explorerRoot} />,
     },
     {
-      id: "surfaces",
-      label: "Product Surfaces",
-      description:
-        "Overview hub: purpose, proof boundary, and caveats for all 5 unified product surfaces.",
-      icon: LayoutGrid,
-      tone: "text-sky-400",
-      panel: <UnifiedNavigationPanel />,
-    },
-    {
       id: "learning",
       label: "Learning Studio",
       description: "Non-authorizing teaching explanations grounded in the verified corpus.",
@@ -1836,14 +1840,6 @@ export default function DeterminexIDE() {
       panel: <SuccessorRoadmapPanel />,
     },
     {
-      id: "problems",
-      label: "Problems",
-      description: "Audit blockers and LSP diagnostics.",
-      icon: XOctagon,
-      tone: "text-red-400",
-      panel: <ProblemsPanel workspacePath={explorerRoot} />,
-    },
-    {
       id: "review",
       label: "Review",
       description: "Review and apply AI-proposed diffs.",
@@ -1901,7 +1897,6 @@ export default function DeterminexIDE() {
   // so a hosted surface renders its real panel with its real label and icon.
   const panelHostedAddon = addonItems.find((item) => item.id === panelAddon) ?? null;
   const runtimeAddonIds: WorkspaceAddon[] = [
-    "surfaces",
     "idea",
     "learning",
     "repoclinic",
@@ -1914,7 +1909,6 @@ export default function DeterminexIDE() {
     "search",
     "findfiles",
     "health",
-    "problems",
     "review",
     "merge",
     "repair",
@@ -1940,7 +1934,6 @@ export default function DeterminexIDE() {
     "findfiles",
     "health",
     "cloak",
-    "problems",
     "repair",
     "agents",
     "agent-chat",
@@ -1952,7 +1945,6 @@ export default function DeterminexIDE() {
     "learning",
     "repoclinic",
     "maintenancebay",
-    "surfaces",
     // Same fix, round 2 (2026-07-23): a systematic id-by-id reachability
     // sweep (grep every addon id's total reference count across this file)
     // found 5 more with EXACTLY the same "command palette / AddonSwitcher
@@ -3948,7 +3940,10 @@ export default function DeterminexIDE() {
         errorCount={statusBarErrorCount}
         keyStatus={keyStatus}
         onChangeModel={setSelectedModel}
-        onClickErrors={() => handleAddonLaunch("problems")}
+        // Problems is a tab inside Build now rather than its own panel, and
+        // BuildCenter defaults initialTool to "problems" -- so this lands on the
+        // same view it always did, with one fewer duplicate entry point.
+        onClickErrors={() => handleAddonLaunch("build")}
         onClickModel={() => {
           setSettingsTab("roles");
           setShowSettings(true);

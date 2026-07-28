@@ -15,6 +15,7 @@ import {
   Settings,
 } from "lucide-react";
 import { ModelSelectorDropdown } from "@/components/ModelSelectorDropdown";
+import { RosettaWeights } from "@/components/RosettaWeights";
 import { isTauri, getHealthTelemetry } from "@/lib/api";
 import { getRoleAssignments, type RoleAssignments } from "@/lib/api";
 
@@ -170,6 +171,11 @@ export function BrainStage({
               <h3 className="flex items-center gap-2 text-body font-black uppercase tracking-widest text-[var(--determinex-text)]">
                 <Database size={16} className="text-orange-400" /> Active Topologies
               </h3>
+            </div>
+            {/* Latent-bridge weights live next to model selection because that is
+                what they are: per-architecture weights for the models chosen here. */}
+            <div className="border-b border-white/8 px-4 py-3">
+              <RosettaWeights />
             </div>
             <div className="flex-1 overflow-y-auto no-scrollbar">
               <ModelSelectorDropdown
