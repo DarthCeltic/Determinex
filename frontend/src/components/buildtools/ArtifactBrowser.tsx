@@ -95,7 +95,9 @@ export function ArtifactBrowser() {
           ))
         ) : (
           <div className="flex h-full min-h-[180px] flex-col items-center justify-center gap-1 opacity-40 px-6 text-center">
-            <p className="text-label text-gray-500">No build-output directories found yet.</p>
+            <p className="text-label text-gray-500">
+              No build output yet. Run a build from Work and its compiled artifacts show up here.
+            </p>
             <p className="max-w-[320px] text-meta text-gray-700">
               Run a real build (cargo build, npm run build) to populate target/, .next/, or dist/.
             </p>

@@ -46,17 +46,22 @@ function rustStructFields(structName: string): string[] {
     const re = new RegExp(`struct\\s+${structName}\\s*\\{([\\s\\S]*?)\\n\\}`, "m");
     const m = re.exec(src);
     if (!m) continue;
-    // A `rename_all` would change the wire names without changing these, which
-    // is precisely the drift this test exists to catch -- so refuse to compare.
-    const decl = src.slice(Math.max(0, m.index - 220), m.index);
-    if (/rename_all/.test(decl)) {
+    // A `rename_all` changes the WIRE names without changing the field names, so
+    // comparing raw field names would be meaningless. The first version of this
+    // test refused to compare such a struct at all, which meant the idiomatic
+    // serde spelling could not be used -- the test dictating the code. It now
+    // applies the same conversion serde does.
+    const decl = src.slice(Math.max(0, m.index - 400), m.index);
+    const rename = /rename_all\s*=\s*"([a-zA-Z]+)"/.exec(decl)?.[1];
+    const fields = [...m[1].matchAll(/^\s*pub\s+([a-z_0-9]+)\s*:/gm)].map((f) => f[1]);
+    if (!rename) return fields;
+    if (rename !== "camelCase") {
       throw new Error(
-        `${structName} carries a serde rename_all; the wire names no longer match ` +
-          `its field names, so this comparison would be meaningless. Pin the ` +
-          `renamed names explicitly instead.`
+        `${structName} uses rename_all = "${rename}", which this test does not ` +
+          `know how to convert. Teach it the conversion rather than skipping the struct.`
       );
     }
-    return [...m[1].matchAll(/^\s*pub\s+([a-z_0-9]+)\s*:/gm)].map((f) => f[1]);
+    return fields.map((f) => f.replace(/_([a-z0-9])/g, (_, c) => c.toUpperCase()));
   }
   throw new Error(`Rust struct ${structName} not found under ${TAURI_SRC}`);
 }
@@ -75,6 +80,8 @@ const PAIRS: Array<{
   rustStruct: string;
   tsFile: string;
   tsInterface: string;
+  /** Rust fields the TS interface deliberately does not read. */
+  allowExtraInRust?: string[];
 }> = [
   {
     command: "probe_hardware",
@@ -88,13 +95,38 @@ const PAIRS: Array<{
     tsFile: "lib/api.ts",
     tsInterface: "DockerStatus",
   },
+  {
+    // camelCase on the wire -- exercises the rename_all handling above.
+    command: "get_work_readiness",
+    rustStruct: "WorkReadinessResponse",
+    tsFile: "lib/work-readiness.ts",
+    tsInterface: "WorkReadiness",
+    // Rust reports per-role detail the TS interface does not declare. Extra data
+    // is additive and safe; a field the TS EXPECTS and Rust omits is not.
+    allowExtraInRust: ["checks"],
+  },
+  {
+    command: "list_hive_sessions",
+    rustStruct: "SessionSummary",
+    tsFile: "lib/api.ts",
+    tsInterface: "HiveSessionSummary",
+  },
+  {
+    command: "get_role_assignments",
+    rustStruct: "RoleAssignments",
+    tsFile: "lib/api.ts",
+    tsInterface: "RoleAssignments",
+  },
 ];
 
 describe("Rust response structs match the TypeScript interfaces that read them", () => {
   it.each(PAIRS)(
     "$command: $rustStruct <-> $tsInterface",
-    ({ rustStruct, tsFile, tsInterface }) => {
-      const rust = rustStructFields(rustStruct).sort();
+    ({ rustStruct, tsFile, tsInterface, allowExtraInRust }) => {
+      const allowed = new Set(allowExtraInRust ?? []);
+      const rust = rustStructFields(rustStruct)
+        .filter((f) => !allowed.has(f))
+        .sort();
       const ts = tsInterfaceFields(tsFile, tsInterface).sort();
 
       expect(rust.length, `${rustStruct} parsed as having no fields`).toBeGreaterThan(0);
@@ -120,8 +152,17 @@ describe("Rust response structs match the TypeScript interfaces that read them",
   });
 
   it("knows how many commands still return an untyped Value", () => {
-    // Not a threshold to defend -- a visible number, so converting one is
-    // recorded and regressing one is noticed. 36 at the start of this pass.
+    // A visible number, so converting one is recorded and regressing one is
+    // noticed. 36 at the start of this work.
+    //
+    // Counted separately, because they are not the same thing:
+    //   BARE `Result<Value, _>`  -- nothing about the response is typed.
+    //   `Envelope<Value>`        -- the envelope IS typed; only `data` is
+    //                              dynamic, which for model output and external
+    //                              script output is the honest shape.
+    // The three remaining bare ones each carry a comment saying why a struct
+    // there would silently DROP fields from an evidence artifact or a script's
+    // superset -- worse than leaving it dynamic.
     let untyped = 0;
     for (const file of rustSources(TAURI_SRC)) {
       const src = readFileSync(file, "utf8");
@@ -140,7 +181,8 @@ describe("Rust response structs match the TypeScript interfaces that read them",
         if (/\b(serde_json::)?Value\b/.test(src.slice(i + 1, brace))) untyped++;
       }
     }
-    // Fails if it grows, so a new command cannot quietly add to the backlog.
-    expect(untyped).toBeLessThanOrEqual(34);
+    // Fails if it GROWS, so a new command cannot quietly add to the backlog.
+    // 36 -> 8 in this pass (3 bare + 5 typed-envelope-with-dynamic-data).
+    expect(untyped).toBeLessThanOrEqual(8);
   });
 });

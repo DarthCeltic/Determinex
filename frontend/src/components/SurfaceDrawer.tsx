@@ -138,7 +138,10 @@ export function SurfaceDrawer({
           onClick={onClose}
           title="Close"
           data-testid="surface-drawer-close"
-          className="shrink-0 text-gray-600 transition-colors hover:text-gray-300"
+          aria-label={`Close the ${group.label} drawer`}
+          /* Was a bare 12x12 glyph -- under WCAG 2.2 AA's 24px floor and hard to
+             hit. Padded, not enlarged. */
+          className="-m-1 flex h-6 w-6 shrink-0 items-center justify-center rounded text-gray-600 transition-colors hover:bg-white/5 hover:text-gray-300"
         >
           <X size={12} />
         </button>

@@ -361,7 +361,10 @@ export function PassportPanel() {
                   </p>
                 </div>
               ) : (
-                <p className="text-meta text-gray-600">No usage recorded yet.</p>
+                <p className="text-meta text-gray-500">
+                  No usage recorded yet. Spend and token counts appear here once an agent makes its
+                  first billable call.
+                </p>
               )}
 
               {cliUsage && (

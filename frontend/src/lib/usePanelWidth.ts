@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { LAYOUT_RESTORED_EVENT } from "./panelLayouts";
 
 /**
  * A user-resizable, per-surface, persisted panel width.
@@ -48,9 +49,17 @@ export function usePanelWidth(
   // would desync the server and client markup.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const raw = window.localStorage.getItem(STORAGE_PREFIX + key);
-    const n = raw ? Number(raw) : NaN;
-    setWidth(Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : defaultWidth);
+    const read = () => {
+      const raw = window.localStorage.getItem(STORAGE_PREFIX + key);
+      const n = raw ? Number(raw) : NaN;
+      setWidth(Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : defaultWidth);
+    };
+    read();
+    // Restoring a named layout rewrites these keys underneath us. Without this the
+    // stored value would change and the panel would keep its old width until a
+    // reload -- a restore that appears to do nothing.
+    window.addEventListener(LAYOUT_RESTORED_EVENT, read);
+    return () => window.removeEventListener(LAYOUT_RESTORED_EVENT, read);
   }, [key, defaultWidth, min, max]);
 
   // Keep the live value out of the drag closure so a fast drag can't read a

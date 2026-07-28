@@ -41,27 +41,6 @@ const MODEL_ALIASES: Record<string, string[]> = {
   "determinex/qwen7b": ["qwen2.5-coder:7b-instruct"],
 };
 
-export function createWorkReadiness(status: WorkReadinessStatus): WorkReadiness {
-  if (status === "checking") {
-    return {
-      status,
-      ready: false,
-      label: "Checking",
-      summary: "Checking local model readiness...",
-      details: [],
-      missingRoles: [],
-    };
-  }
-  return {
-    status,
-    ready: false,
-    label: "Unknown",
-    summary: "Model readiness has not been checked yet.",
-    details: [],
-    missingRoles: [],
-  };
-}
-
 function isCloudModel(modelId: string): boolean {
   return /^(cloud|openai|anthropic|gemini|deepseek)\//.test(modelId);
 }

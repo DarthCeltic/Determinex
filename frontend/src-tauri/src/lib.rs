@@ -11,6 +11,7 @@ mod fs;
 mod hardware;
 mod ipc_benchmark;
 mod ipc_bootstrap;
+mod ipc_envelope;
 mod ipc_health;
 mod ipc_hive;
 mod ipc_orchestrator;

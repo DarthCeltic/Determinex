@@ -232,25 +232,33 @@ screen space on it. Panels are resizable and closable.
 
 ## ENVIRONMENT
 
-### E-1. `next build` — compiles, packaging step blocked locally
+### E-1. `next build` — RESOLVED, and my first diagnosis was wrong
 
-`✓ Compiled successfully` and `✓ Generating static pages (6/6)`. The build then
-fails on `EBUSY: rmdir 'frontend/out'`.
+`✓ Compiled successfully`, `✓ Generating static pages (6/6)`, then
+`EBUSY: rmdir 'frontend/out'`.
 
-Diagnosed rather than guessed at. The directory is **writable but not
-removable**, which is the specific signature of a process holding it as its
-**current working directory** — you can create files inside a CWD but cannot
-delete it. It survives killing the app, every `node` process and every `cargo`
-process, and `mv`/`Remove-Item` are both refused.
+I originally recorded this as "the specific signature of a process holding it as
+its current working directory... most likely a stale Next.js static-generation
+worker that did not exit cleanly", and said it clears on reboot. **That was
+wrong.** Re-checked 2026-07-28 with the actual process list:
 
-`out` is genuinely required: `next.config` sets `distDir: "out"` for production
-and `tauri.conf.json` points `frontendDist` at `../out`. The most likely holder
-is a stale Next.js static-generation worker (the build spawns 7) that did not
-exit cleanly. It is not a code defect — the compile and page generation both
-succeed — and it clears on reboot.
+```
+cargo.exe     26252  "cargo" run --no-default-features --color always --
+determinex.exe 34684  T:\determinex-target\debug\determinex.exe
+```
 
-**Not a release blocker, but confirm one clean `next build` + Tauri package from
-a fresh boot before shipping an installer.**
+`npm run tauri dev` was running. `tauri.conf.json` sets
+`frontendDist: "../out"`, so the live dev app holds that directory — which is why
+it "survived" killing node workers and why it appeared to need a reboot: a reboot
+closed the app.
+
+**So this is not a defect and not a reboot requirement. It is an ordinary
+constraint: you cannot run `npm run build` while `npm run tauri dev` is running.**
+Close the dev app, then build. Worth a line in the release checklist and worth a
+clearer error than `EBUSY` if it is cheap to add.
+
+I did not kill the running app to prove it conclusively — that is the one-line
+confirmation to run before packaging.
 
 ---
 
@@ -258,7 +266,9 @@ a fresh boot before shipping an installer.**
 
 1. **S-4** — correct the Apache/AGPL claim on the DataHub submission.
 2. **S-3** — restate or re-evidence the "100%" Cloak claim.
-3. **E-1** — one clean `next build` + Tauri package from a fresh boot.
+3. ~~**E-1** — one clean `next build` from a fresh boot.~~ **Not a blocker.** The
+   dev app holds `frontend/out`; close it and build. A Tauri *package* run is still
+   unverified end to end.
 4. A decision on **pushing** — 68 commits are local only; nothing has left this
    machine.
 

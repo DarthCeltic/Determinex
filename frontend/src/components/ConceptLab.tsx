@@ -2086,6 +2086,7 @@ export function ConceptLab(props: ConceptLabProps) {
         type="button"
         onClick={() => setChatRailOpen((v) => !v)}
         title={chatRailOpen ? "Close chat" : "Open multi-agent chat"}
+        aria-label={chatRailOpen ? "Close multi-agent chat" : "Open multi-agent chat"}
         data-testid="work-chat-toggle"
         className={`absolute left-0 top-1/2 z-20 flex w-6 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-r-md border border-l-0 border-white/8 bg-[#0d1117] py-3 text-gray-600 shadow-lg transition-colors hover:text-fuchsia-300 ${
           chatRailOpen ? "border-fuchsia-400/30 text-fuchsia-300" : ""

@@ -89,6 +89,11 @@ fn transcript_markdown(request: &Value, result: &Value) -> String {
 }
 
 #[tauri::command]
+/// Writes the first-GUI-Hive-IPC evidence bundle and returns the manifest it
+/// wrote, verbatim.
+///
+/// Untyped on purpose: the return IS the evidence record, and an evidence record
+/// that has been reshaped by a struct is no longer evidence.
 pub fn record_first_gui_hive_ipc_evidence(
     payload: FirstGuiHiveIpcEvidencePayload,
 ) -> Result<Value, String> {

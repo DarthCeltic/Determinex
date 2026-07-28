@@ -15,7 +15,15 @@
   --determinex-accent-2: #00e5ff;
   --determinex-accent-3: #9cffcb;
   --determinex-text: #e9fff3;
-  --determinex-muted: #6b8978;
+  /* Was #6b8978, which measured 4.16:1 against the panel background -- below
+     WCAG AA's 4.5:1 for body text, and used for body copy rather than
+     decoration. #7e9689 measures 4.9:1, keeping the same hue.
+
+     Worth recording that the UI review PREDICTED this tier would "fail AA fairly
+     broadly" and that prediction was wrong: measuring every rendered
+     colour-on-background pair found exactly ONE failure, this one. The rest of
+     the palette sits between 15:1 and 19:1. */
+  --determinex-muted: #7e9689;
   --determinex-danger: #ff3f5f;
   --determinex-accent-glow: rgba(53, 255, 138, 0.48);
   --determinex-font-sans: var(

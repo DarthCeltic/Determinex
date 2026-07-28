@@ -65,7 +65,7 @@ pub struct InstalledModel {
 }
 
 #[derive(Debug, Serialize)]
-struct RoleModelReadiness {
+pub struct RoleModelReadiness {
     role: String,
     assignment: String,
     target_model: Option<String>,
@@ -261,9 +261,32 @@ fn model_is_installed(installed: &HashSet<String>, target: &str) -> bool {
 ///
 /// This command is intentionally authoritative: it reads the current
 /// `litellm_config.yaml`, resolves role aliases through `model_list`, and
+/// `get_work_readiness`'s response. `api.ts`'s `WorkReadiness` has declared this
+/// shape all along with no Rust counterpart, and the four inline literals this
+/// replaces had ALREADY drifted from each other -- the offline branch omitted
+/// `checks` entirely while the other three included it, so a consumer reading
+/// `checks` got `undefined` in exactly the state where it mattered least to
+/// notice.
+///
+/// camelCase on the wire because that is what the TypeScript reads
+/// (`missingRoles`, `checkedAt`); `returnShape.test.ts` understands `rename_all`
+/// and compares the converted names.
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WorkReadinessResponse {
+    pub status: String,
+    pub ready: bool,
+    pub label: String,
+    pub summary: String,
+    pub details: Vec<String>,
+    pub missing_roles: Vec<String>,
+    pub checks: Vec<RoleModelReadiness>,
+    pub checked_at: i64,
+}
+
 /// compares those resolved Ollama tags with the live `/api/tags` response.
 #[tauri::command]
-pub async fn get_work_readiness() -> Result<serde_json::Value, String> {
+pub async fn get_work_readiness() -> Result<WorkReadinessResponse, String> {
     let config_path = crate::ipc_hive::project_root().join("litellm_config.yaml");
     let config = std::fs::read_to_string(&config_path)
         .map_err(|e| format!("read {}: {}", config_path.display(), e))?;
@@ -272,15 +295,16 @@ pub async fn get_work_readiness() -> Result<serde_json::Value, String> {
     let roles = parse_role_assignments(&config);
     let ollama_ok = check_ollama_status(None).await.unwrap_or(false);
     if !ollama_ok {
-        return Ok(serde_json::json!({
-            "status": "offline",
-            "ready": false,
-            "label": "Ollama Offline",
-            "summary": "Ollama is not reachable. Start Ollama before generating specs.",
-            "details": [],
-            "missingRoles": roles.keys().cloned().collect::<Vec<_>>(),
-            "checkedAt": chrono::Utc::now().timestamp_millis()
-        }));
+        return Ok(WorkReadinessResponse {
+            status: "offline".to_string(),
+            ready: false,
+            label: "Ollama Offline".to_string(),
+            summary: "Ollama is not reachable. Start Ollama before generating specs.".to_string(),
+            details: Vec::new(),
+            missing_roles: roles.keys().cloned().collect(),
+            checks: Vec::new(),
+            checked_at: chrono::Utc::now().timestamp_millis(),
+        });
     }
 
     let models = get_ollama_models(None).await.unwrap_or_default();
@@ -354,39 +378,43 @@ pub async fn get_work_readiness() -> Result<serde_json::Value, String> {
     }
 
     if !missing_roles.is_empty() {
-        return Ok(serde_json::json!({
-            "status": "attention",
-            "ready": false,
-            "label": "Attention",
-            "summary": format!("Missing local model coverage for {} role{}.", missing_roles.len(), if missing_roles.len() == 1 { "" } else { "s" }),
-            "details": missing_roles,
-            "missingRoles": missing_roles,
-            "checks": checks,
-            "checkedAt": chrono::Utc::now().timestamp_millis()
-        }));
+        return Ok(WorkReadinessResponse {
+            status: "attention".to_string(),
+            ready: false,
+            label: "Attention".to_string(),
+            summary: format!(
+                "Missing local model coverage for {} role{}.",
+                missing_roles.len(),
+                if missing_roles.len() == 1 { "" } else { "s" }
+            ),
+            details: missing_roles.clone(),
+            missing_roles,
+            checks,
+            checked_at: chrono::Utc::now().timestamp_millis(),
+        });
     }
 
     if !cloud_roles.is_empty() {
-        return Ok(serde_json::json!({
-            "status": "attention",
-            "ready": false,
-            "label": "Cloud Selected",
-            "summary": "One or more Hive roles use cloud models. Confirm API keys or switch to local roles before generating.",
-            "details": cloud_roles,
-            "missingRoles": cloud_roles,
-            "checks": checks,
-            "checkedAt": chrono::Utc::now().timestamp_millis()
-        }));
+        return Ok(WorkReadinessResponse {
+            status: "attention".to_string(),
+            ready: false,
+            label: "Cloud Selected".to_string(),
+            summary: "One or more Hive roles use cloud models. Confirm API keys or switch to local roles before generating.".to_string(),
+            details: cloud_roles.clone(),
+            missing_roles: cloud_roles,
+            checks,
+            checked_at: chrono::Utc::now().timestamp_millis(),
+        });
     }
 
-    Ok(serde_json::json!({
-        "status": "ready",
-        "ready": true,
-        "label": "Model Ready",
-        "summary": "All local Hive roles resolve to installed Ollama models.",
-        "details": details,
-        "missingRoles": [],
-        "checks": checks,
-        "checkedAt": chrono::Utc::now().timestamp_millis()
-    }))
+    Ok(WorkReadinessResponse {
+        status: "ready".to_string(),
+        ready: true,
+        label: "Model Ready".to_string(),
+        summary: "All local Hive roles resolve to installed Ollama models.".to_string(),
+        details,
+        missing_roles: Vec::new(),
+        checks,
+        checked_at: chrono::Utc::now().timestamp_millis(),
+    })
 }

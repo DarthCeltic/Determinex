@@ -101,7 +101,10 @@ export function DiffReviewPanel() {
             </div>
           ) : stagedDiffs.length === 0 ? (
             <div className="space-y-2 p-4">
-              <p className="text-xs italic text-[#8b949e]">No pending changes to review.</p>
+              <p className="text-xs italic text-[#8b949e]">
+                No changes waiting for review. An agent stages a diff here whenever it proposes an
+                edit — nothing touches your files until you approve it.
+              </p>
               {/* Names the one producer that exists rather than implying every
                   agent feeds this queue. stage_diff_for_review is still the
                   staging store's only writer; Verified Search now calls it, but

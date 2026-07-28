@@ -348,7 +348,8 @@ export function BrainStage({
                 <div className="flex flex-col items-center justify-center h-full gap-2 text-center opacity-50">
                   <Activity size={18} className="text-gray-700" />
                   <p className="text-gray-600">
-                    No active session.
+                    No active session. Start a build from Work to watch the model route and per-step
+                    reasoning here.
                     <br />
                     Start a hive run in Work.
                   </p>

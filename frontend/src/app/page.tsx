@@ -263,6 +263,7 @@ import { getSkinPackStyle } from "@/theme/skinPacks";
 import { SURFACE_GROUPS, type SurfaceMember } from "@/lib/surfaceGroups";
 import { SurfaceDrawer, type SurfaceDestination } from "@/components/SurfaceDrawer";
 import { usePanelWidth } from "@/lib/usePanelWidth";
+import { usePanelSplit } from "@/lib/useSplitRatio";
 
 // surfaceGroups.ts names its icons as strings so the taxonomy stays testable
 // without importing React. This is the one place those names become components.
@@ -871,6 +872,13 @@ export default function DeterminexIDE() {
           ? 400
           : 380;
   const zone1Key = panelAddon ? `zone1.addon.${panelAddon}` : `zone1.${activeSidebar}`;
+  // The Work Cockpit's internal split, persisted like Zone 1's width.
+  const cockpitGridRef = useRef<HTMLDivElement>(null);
+  const cockpitSplit = usePanelSplit("workCockpit", 0.55, {
+    min: 0.3,
+    max: 0.75,
+    containerRef: cockpitGridRef,
+  });
   const zone1 = usePanelWidth(zone1Key, zone1Default, {
     min: panelAddon ? 420 : 280,
     max: 1100,
@@ -1018,20 +1026,32 @@ export default function DeterminexIDE() {
       } else if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === "F" || e.key === "f")) {
         e.preventDefault();
         handleAddonLaunch("findfiles");
-      } else if ((e.metaKey || e.ctrlKey) && e.key === "1") {
+      } else if ((e.metaKey || e.ctrlKey) && /^[1-9]$/.test(e.key)) {
+        // Ctrl/Cmd+1..9 opens the matching rail group's drawer.
+        //
+        // This used to map only 1/2/3, and to three specific left-hand
+        // workspaces (hub / hive / explorer) rather than to the rail -- a
+        // leftover from before the nine-group rail existed. So six of nine groups
+        // had no shortcut, and the three that did went somewhere the rail no
+        // longer represents. One coherent mapping instead.
         e.preventDefault();
-        setActiveSidebar("hub");
-      } else if ((e.metaKey || e.ctrlKey) && e.key === "2") {
-        e.preventDefault();
-        setActiveSidebar("hive");
-      } else if ((e.metaKey || e.ctrlKey) && e.key === "3") {
-        e.preventDefault();
-        setActiveSidebar("explorer");
+        const group = SURFACE_GROUPS[Number(e.key) - 1];
+        if (group) setOpenGroupId((cur) => (cur === group.id ? null : group.id));
+      } else if (e.key === "Escape") {
+        // Escape closed nothing at the shell level. The drawer is the most
+        // common thing a user wants out of, so it goes first.
+        if (openGroupId) {
+          e.preventDefault();
+          setOpenGroupId(null);
+        }
       }
     };
     window.addEventListener("keydown", handleGlobalKeyDown);
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
-  }, []);
+    // openGroupId is read above, so an empty dep list would pin this handler to
+    // its mount-time value and Escape would only ever see "nothing open".
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openGroupId]);
   const handleProjectSelect = (project: ProjectHubProject) => {
     setSelectedProjectName(project.name);
     if (!project.localPath.startsWith("Choose")) {
@@ -2111,6 +2131,7 @@ export default function DeterminexIDE() {
             onClick={openProjectHub}
             data-testid="rail-project-hub"
             title="Project Hub (Cmd/Ctrl+1)"
+            aria-label="Project Hub"
             className={`mb-4 h-12 w-12 shrink-0 overflow-hidden border-2 transition-all duration-500 ${
               activeSidebar === "hub"
                 ? "scale-110 shadow-[0_0_25px_var(--determinex-accent)]"
@@ -2143,7 +2164,7 @@ export default function DeterminexIDE() {
               dock. No scroll affordance is needed here any more -- nine icons
               fit any window, which is why the old chevron is gone. */}
           <div className="flex flex-1 flex-col items-center gap-2.5 w-full py-1">
-            {SURFACE_GROUPS.map((group) => {
+            {SURFACE_GROUPS.map((group, index) => {
               const GroupIcon = GROUP_ICONS[group.icon] ?? Package;
               const isOpen = openGroupId === group.id;
               const holdsActive = group.members.some(
@@ -2155,7 +2176,7 @@ export default function DeterminexIDE() {
                   type="button"
                   data-testid={`rail-group-${group.id}`}
                   onClick={() => setOpenGroupId(isOpen ? null : group.id)}
-                  title={`${group.label} — ${group.blurb}`}
+                  title={`${group.label} — ${group.blurb}  (Ctrl+${index + 1})`}
                   aria-expanded={isOpen}
                   className={`flex w-full cursor-pointer flex-col items-center gap-1 transition-all ${
                     isOpen || holdsActive
@@ -2225,7 +2246,8 @@ export default function DeterminexIDE() {
                 setShowSettings(true);
               }}
               title={`Skin: ${themePack.label ?? "Switch skin"}`}
-              className="flex flex-col items-center gap-1 group"
+              aria-label={`Switch skin (current: ${themePack.label ?? "default"})`}
+              className="group flex min-w-6 flex-col items-center gap-1"
             >
               <span
                 className="h-4 w-4 rounded-full border-2 transition-all duration-300 group-hover:scale-125"
@@ -2390,7 +2412,8 @@ export default function DeterminexIDE() {
                         handleAddonLaunch(addon);
                       }}
                       data-testid="zone1-move-to-dock"
-                      className="rounded p-1 text-gray-600 transition-colors hover:bg-white/5 hover:text-gray-300"
+                      aria-label="Move this panel to the floating dock"
+                      className="flex h-6 w-6 items-center justify-center rounded text-gray-600 transition-colors hover:bg-white/5 hover:text-gray-300"
                       title="Move to the floating dock"
                     >
                       <PanelRight size={13} />
@@ -2413,7 +2436,8 @@ export default function DeterminexIDE() {
                       setPreviewedPath(null);
                     }}
                     data-testid="zone1-close"
-                    className="text-gray-600 hover:text-gray-300 transition-colors p-1 rounded hover:bg-white/5"
+                    aria-label="Close panel"
+                    className="flex h-6 w-6 items-center justify-center rounded text-gray-600 transition-colors hover:bg-white/5 hover:text-gray-300"
                     title="Close panel"
                   >
                     <span className="text-title leading-none">✕</span>
@@ -2852,6 +2876,7 @@ export default function DeterminexIDE() {
                 onClick={() => setActiveSidebar("none")}
                 className="absolute top-4 right-4 z-[100] h-8 w-8 flex items-center justify-center rounded-full bg-black/20 border border-white/10 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/40 hover:text-white"
                 title="Close panel to view background"
+                aria-label="Close panel to view background"
               >
                 <X size={16} />
               </button>
@@ -3004,7 +3029,22 @@ export default function DeterminexIDE() {
                         )}
                       </div>
 
-                      <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+                      {/* The cockpit split. Was a hard-coded
+                          `xl:grid-cols-[1.1fr_0.9fr]`, so the only way to change
+                          it was to edit this file -- the last genuinely locked box
+                          in the shell. Now a drag handle with a persisted ratio.
+                          Ratio, not pixels: this grid sits inside Zone 2, which is
+                          itself `flex-1` and grows as Zone 1 shrinks, so a stored
+                          width would stop matching the moment either changed. */}
+                      <div
+                        ref={cockpitGridRef}
+                        className="grid gap-4"
+                        style={{
+                          gridTemplateColumns: `minmax(0, ${cockpitSplit.ratio}fr) 6px minmax(0, ${
+                            1 - cockpitSplit.ratio
+                          }fr)`,
+                        }}
+                      >
                         <section className="rounded-2xl border border-white/8 bg-black/30 p-5">
                           <div className="mb-4 flex items-center justify-between gap-3">
                             <div>
@@ -3048,6 +3088,24 @@ export default function DeterminexIDE() {
                             ))}
                           </div>
                         </section>
+
+                        {/* Drag handle. Wider hit area than the visible line so it
+                            is actually grabbable; double-click restores the
+                            default. */}
+                        <div
+                          onPointerDown={cockpitSplit.startResize}
+                          onDoubleClick={cockpitSplit.reset}
+                          data-testid="cockpit-split-resize"
+                          role="separator"
+                          aria-orientation="vertical"
+                          aria-label="Resize the cockpit columns (double-click to reset)"
+                          title="Drag to resize — double-click to reset"
+                          className={`-mx-2 w-[6px] cursor-ew-resize rounded-full transition-colors ${
+                            cockpitSplit.resizing
+                              ? "bg-[var(--determinex-accent)]/50"
+                              : "bg-transparent hover:bg-[var(--determinex-accent)]/25"
+                          }`}
+                        />
 
                         <section className="rounded-2xl border border-white/8 bg-black/30 p-5">
                           <div className="mb-4 text-eyebrow font-black uppercase tracking-widest text-gray-600">
@@ -3881,6 +3939,7 @@ export default function DeterminexIDE() {
 
       {/* Status bar — fixed bottom */}
       <StatusBar
+        onOpenPalette={() => setShowPalette(true)}
         activeSidebar={activeSidebar}
         selectedModel={selectedModel}
         gitBranch={gitBranch}

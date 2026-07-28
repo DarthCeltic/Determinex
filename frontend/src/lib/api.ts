@@ -249,34 +249,6 @@ interface OrchestrateEnvelope {
   error?: unknown;
 }
 
-export async function getKnowledgeSuggestions(prompt: string) {
-  try {
-    if (isTauri()) {
-      const result = await invoke<OrchestrateEnvelope>("orchestrate_plan", {
-        payload: {
-          user_prompt: `Identify 3 specific sub-tasks or architectural requirements based on: ${prompt}`,
-          thread_id: "ideation-suggestions",
-        },
-      });
-      if (!result.ok) throw result.error;
-      const raw = result.data?.plan?.steps;
-      if (!Array.isArray(raw)) {
-        console.warn(
-          "[getKnowledgeSuggestions] unexpected response shape — plan.steps missing",
-          result.data
-        );
-        return { suggestions: [], source: "error" };
-      }
-      const steps = raw.filter((s): s is string => typeof s === "string");
-      return { suggestions: steps.map((s) => ({ text: s, relevance: 1.0 })), source: "native" };
-    }
-    return { suggestions: [], source: "dev-mode" };
-  } catch (error) {
-    console.error("Failed to fetch knowledge suggestions:", error);
-    return { suggestions: [], source: "error" };
-  }
-}
-
 export async function getWorkspaceFiles(): Promise<WorkspaceFilesResponse> {
   try {
     if (isTauri()) return await invoke<WorkspaceFilesResponse>("get_workspace_files");
@@ -315,21 +287,6 @@ export async function fetchTodos(threadId: string): Promise<TodosResponse> {
     console.error("Failed to fetch todos:", error);
     return { todos: [] };
   }
-}
-
-export async function createTodo(threadId: string, text: string) {
-  if (!isTauri()) return null;
-  return invoke<{ id: number }>("create_todo", { threadId, text });
-}
-
-export async function toggleTodo(id: number, done: boolean) {
-  if (!isTauri()) return null;
-  return invoke("toggle_todo", { id, done });
-}
-
-export async function deleteTodo(id: number) {
-  if (!isTauri()) return null;
-  return invoke("delete_todo", { id });
 }
 
 export async function addCustomRegistryModel(payload: Record<string, unknown>) {
@@ -466,20 +423,6 @@ export async function saveOllamaBaseUrl(url: string): Promise<void> {
 }
 
 // ── Hive Mind DAG Orchestrator ────────────────────────────────────────────────
-
-export async function getWorkReadiness(): Promise<WorkReadiness | null> {
-  try {
-    const result = await invokeSafe<
-      WorkReadiness | { ok: boolean; data?: WorkReadiness; error?: string }
-    >("get_work_readiness");
-    if (!result) return null;
-    if ("ready" in result && "status" in result) return result;
-    if ("ok" in result && result.ok && result.data) return result.data;
-    return null;
-  } catch {
-    return null;
-  }
-}
 
 /** Write the MD spec to sessions/specs/spec_{ts}.md on disk. Returns the absolute path. */
 export async function writeSpecFile(content: string): Promise<string> {

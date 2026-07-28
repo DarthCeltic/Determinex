@@ -1,3 +1,4 @@
+use serde::Serialize;
 use std::io::{BufRead, BufReader};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
@@ -5,6 +6,7 @@ use crate::win_process::HideConsoleExt;
 
 use tauri::{AppHandle, Emitter, State};
 
+use crate::ipc_envelope::Envelope;
 use super::{
     hive_script, is_oom_exit, manifest_path, project_root, resolve_python_exe, sessions_dir,
     spawn_hive_subprocess, spawn_hive_subprocess_with_env, CreateSessionPayload,
@@ -18,8 +20,50 @@ use super::{
 /// Calls `determinex_hive.py new-session --spec PATH --lang LANG --budget N`.
 /// Returns the session_id and workspace path. Does NOT start the build —
 /// the frontend must call generate_dag() and then run_session() separately.
+/// Response payloads that were inline `serde_json::json!` literals. Naming them
+/// is the point: an inline literal cannot be checked against the TypeScript that
+/// reads it, and `session.rs` alone wrote the `{ok,data,error}` envelope 21 times.
+#[derive(Serialize)]
+pub struct LogPathResponse {
+    pub path: String,
+    pub exists: bool,
+}
+
+#[derive(Serialize)]
+pub struct StreamStartedResponse {
+    pub streaming: bool,
+    pub event: String,
+}
+
+#[derive(Serialize)]
+pub struct SessionIdResponse {
+    pub session_id: String,
+}
+
+/// `read_hive_workspace_file` puts `content` alongside `ok` rather than inside
+/// `data`; api.ts reads `result.content`, so the shape is preserved exactly.
+#[derive(Serialize)]
+pub struct WorkspaceFileResponse {
+    pub ok: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub content: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error: Option<String>,
+}
+
+impl WorkspaceFileResponse {
+    fn ok(content: String) -> Self {
+        Self { ok: true, content: Some(content), error: None }
+    }
+    fn err(msg: impl Into<String>) -> Self {
+        Self { ok: false, content: None, error: Some(msg.into()) }
+    }
+}
+
 #[tauri::command]
-pub async fn create_session(payload: CreateSessionPayload) -> Result<serde_json::Value, String> {
+pub async fn create_session(
+    payload: CreateSessionPayload,
+) -> Result<Envelope<CreateSessionResult>, String> {
     log::info!(
         "[IPC] create_session: spec={}, lang={}, budget={}",
         payload.spec_path,
@@ -31,10 +75,7 @@ pub async fn create_session(payload: CreateSessionPayload) -> Result<serde_json:
     let script = hive_script();
 
     if !script.exists() {
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": format!("determinex_hive.py not found at {:?}", script)
-        }));
+        return Ok(Envelope::err(format!("determinex_hive.py not found at {:?}", script)));
     }
 
     // Call new-session synchronously — it's fast (just writes manifest)
@@ -56,10 +97,7 @@ pub async fn create_session(payload: CreateSessionPayload) -> Result<serde_json:
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": format!("new-session failed: {}", stderr)
-        }));
+        return Ok(Envelope::err(format!("new-session failed: {}", stderr)));
     }
 
     // Parse session_id from stdout: "Session created: <uuid>"
@@ -90,13 +128,7 @@ pub async fn create_session(payload: CreateSessionPayload) -> Result<serde_json:
         workspace
     );
 
-    Ok(serde_json::json!({
-        "ok": true,
-        "data": CreateSessionResult {
-            session_id,
-            workspace,
-        }
-    }))
+    Ok(Envelope::ok(CreateSessionResult { session_id, workspace }))
 }
 
 /// Generate the DAG for a session (async, runs in background).
@@ -112,18 +144,12 @@ pub async fn generate_dag(
     payload: SessionIdPayload,
     process_map: State<'_, HiveProcessMap>,
     app: tauri::AppHandle,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<SpawnResult>, String> {
     log::info!("[IPC] generate_dag: session={}", payload.session_id);
 
     let pid = spawn_hive_subprocess("generate-dag", &payload.session_id, &process_map, &[], &app)?;
 
-    Ok(serde_json::json!({
-        "ok": true,
-        "data": SpawnResult {
-            session_id: payload.session_id,
-            pid,
-        }
-    }))
+    Ok(Envelope::ok(SpawnResult { session_id: payload.session_id, pid }))
 }
 
 /// Start the DAG build loop (async, runs in background).
@@ -142,7 +168,7 @@ pub async fn run_session(
     payload: RunSessionPayload,
     process_map: State<'_, HiveProcessMap>,
     app: tauri::AppHandle,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<SpawnResult>, String> {
     log::info!(
         "[IPC] run_session: session={} amplify={} amplify_k={:?}",
         payload.session_id, payload.amplify, payload.amplify_k
@@ -155,10 +181,9 @@ pub async fn run_session(
             if let Ok(data) = serde_json::from_str::<serde_json::Value>(&content) {
                 let step_count = data["steps"].as_array().map(|a| a.len()).unwrap_or(0);
                 if step_count == 0 {
-                    return Ok(serde_json::json!({
-                        "ok": false,
-                        "error": "Session has no steps. Run generate_dag first to populate the DAG."
-                    }));
+                    return Ok(Envelope::err(
+                        "Session has no steps. Run generate_dag first to populate the DAG.",
+                    ));
                 }
             }
         }
@@ -181,13 +206,7 @@ pub async fn run_session(
         &app,
     )?;
 
-    Ok(serde_json::json!({
-        "ok": true,
-        "data": SpawnResult {
-            session_id: payload.session_id,
-            pid,
-        }
-    }))
+    Ok(Envelope::ok(SpawnResult { session_id: payload.session_id, pid }))
 }
 
 /// Read the manifest.json for a session and return step statuses.
@@ -200,14 +219,11 @@ pub async fn run_session(
 pub async fn get_session_status(
     payload: SessionIdPayload,
     process_map: State<'_, HiveProcessMap>,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<SessionStatus>, String> {
     let manifest_file = manifest_path(&payload.session_id);
 
     if !manifest_file.exists() {
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": format!("Session not found: {}", payload.session_id)
-        }));
+        return Ok(Envelope::err(format!("Session not found: {}", payload.session_id)));
     }
 
     let content = std::fs::read_to_string(&manifest_file)
@@ -248,6 +264,9 @@ pub async fn get_session_status(
         scaffolding_validated: data["scaffolding_validated"].as_bool().unwrap_or(false),
         created_at: data["created_at"].as_str().unwrap_or("").to_string(),
         updated_at: data["updated_at"].as_str().unwrap_or("").to_string(),
+        // Filled in by the crash detection below, when it applies.
+        process_crashed: None,
+        crash_tail: None,
     };
 
     // ── Crash detection ──────────────────────────────────────────────────────
@@ -270,7 +289,7 @@ pub async fn get_session_status(
         true // No in_progress steps: crash check irrelevant
     };
 
-    let mut result = serde_json::json!({ "ok": true, "data": status });
+    let mut status = status;
 
     if has_in_progress && !process_alive {
         let log_path = sessions_dir().join(&payload.session_id).join("session.log");
@@ -284,11 +303,13 @@ pub async fn get_session_status(
         } else {
             "Session log not found".to_string()
         };
-        result["data"]["process_crashed"] = serde_json::json!(true);
-        result["data"]["crash_tail"] = serde_json::json!(crash_tail);
+        // Was `result["data"]["process_crashed"] = ...`, a double index into an
+        // untyped Value that silently no-ops if either key is absent.
+        status.process_crashed = Some(true);
+        status.crash_tail = Some(crash_tail);
     }
 
-    Ok(result)
+    Ok(Envelope::ok(status))
 }
 
 /// Return the path to the session's log file.
@@ -296,15 +317,14 @@ pub async fn get_session_status(
 /// The frontend uses this to know where to tail for log streaming.
 /// Log file: sessions/{session_id}/session.log
 #[tauri::command]
-pub async fn get_session_log_path(payload: SessionIdPayload) -> Result<serde_json::Value, String> {
+pub async fn get_session_log_path(
+    payload: SessionIdPayload,
+) -> Result<Envelope<LogPathResponse>, String> {
     let log_path = sessions_dir().join(&payload.session_id).join("session.log");
 
-    Ok(serde_json::json!({
-        "ok": true,
-        "data": {
-            "path": log_path.to_string_lossy(),
-            "exists": log_path.exists(),
-        }
+    Ok(Envelope::ok(LogPathResponse {
+        exists: log_path.exists(),
+        path: log_path.to_string_lossy().to_string(),
     }))
 }
 
@@ -316,10 +336,10 @@ pub async fn get_session_log_path(payload: SessionIdPayload) -> Result<serde_jso
 pub async fn read_hive_workspace_file(
     payload: SessionIdPayload,
     relative_path: String,
-) -> Result<serde_json::Value, String> {
+) -> Result<WorkspaceFileResponse, String> {
     let manifest_file = manifest_path(&payload.session_id);
     if !manifest_file.exists() {
-        return Ok(serde_json::json!({ "ok": false, "error": "Session not found" }));
+        return Ok(WorkspaceFileResponse::err("Session not found"));
     }
 
     let content = std::fs::read_to_string(&manifest_file)
@@ -329,7 +349,7 @@ pub async fn read_hive_workspace_file(
 
     let project_root = data["project_root"].as_str().unwrap_or("").to_string();
     if project_root.is_empty() {
-        return Ok(serde_json::json!({ "ok": false, "error": "No project_root in manifest" }));
+        return Ok(WorkspaceFileResponse::err("No project_root in manifest"));
     }
 
     let root = std::path::Path::new(&project_root);
@@ -338,22 +358,22 @@ pub async fn read_hive_workspace_file(
     // Security: ensure resolved path stays inside the session workspace
     let canonical_root = match std::fs::canonicalize(root) {
         Ok(p) => p,
-        Err(_) => return Ok(serde_json::json!({ "ok": false, "error": "Workspace not found" })),
+        Err(_) => return Ok(WorkspaceFileResponse::err("Workspace not found")),
     };
     let canonical_target = match std::fs::canonicalize(&target) {
         Ok(p) => p,
-        Err(_) => return Ok(serde_json::json!({ "ok": false, "error": "File not found" })),
+        Err(_) => return Ok(WorkspaceFileResponse::err("File not found")),
     };
     if !canonical_target.starts_with(&canonical_root) {
-        return Ok(serde_json::json!({ "ok": false, "error": "Path traversal blocked" }));
+        return Ok(WorkspaceFileResponse::err("Path traversal blocked"));
     }
     if !canonical_target.is_file() {
-        return Ok(serde_json::json!({ "ok": false, "error": "Not a file" }));
+        return Ok(WorkspaceFileResponse::err("Not a file"));
     }
 
     match std::fs::read_to_string(&canonical_target) {
-        Ok(text) => Ok(serde_json::json!({ "ok": true, "content": text })),
-        Err(e) => Ok(serde_json::json!({ "ok": false, "error": e.to_string() })),
+        Ok(text) => Ok(WorkspaceFileResponse::ok(text)),
+        Err(e) => Ok(WorkspaceFileResponse::err(e.to_string())),
     }
 }
 
@@ -369,7 +389,7 @@ pub async fn read_hive_workspace_file(
 pub async fn stream_session_log(
     payload: SessionIdPayload,
     app: AppHandle,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<StreamStartedResponse>, String> {
     let session_dir = sessions_dir().join(&payload.session_id);
     let log_path = session_dir.join("session.log");
 
@@ -506,9 +526,9 @@ pub async fn stream_session_log(
         );
     });
 
-    Ok(serde_json::json!({
-        "ok": true,
-        "data": { "streaming": true, "event": format!("hive-log-{}", payload.session_id) }
+    Ok(Envelope::ok(StreamStartedResponse {
+        streaming: true,
+        event: format!("hive-log-{}", payload.session_id),
     }))
 }
 
@@ -524,7 +544,7 @@ pub async fn stream_session_log(
 pub async fn kill_session(
     payload: SessionIdPayload,
     process_map: State<'_, HiveProcessMap>,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<()>, String> {
     // Path 1: process_map (populated by generate_dag / run_session commands)
     for key in &[
         format!("generate-dag:{}", payload.session_id),
@@ -554,7 +574,7 @@ pub async fn kill_session(
     }
 
     log::info!("[IPC] kill_session: session={}", payload.session_id);
-    Ok(serde_json::json!({ "ok": true }))
+    Ok(Envelope::done())
 }
 
 /// Start an entire session (new-session -> generate-dag -> run-session)
@@ -564,7 +584,7 @@ pub async fn start_session(
     payload: StartSessionPayload,
     _process_map: State<'_, HiveProcessMap>,
     app: AppHandle,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<SessionIdResponse>, String> {
     log::info!(
         "[IPC] start_session: spec={}, lang={}",
         payload.spec_path,
@@ -593,9 +613,7 @@ pub async fn start_session(
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Ok(
-            serde_json::json!({ "ok": false, "error": format!("new-session failed: {}", stderr) }),
-        );
+        return Ok(Envelope::err(format!("new-session failed: {}", stderr)));
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
@@ -845,34 +863,32 @@ pub async fn start_session(
         }
     });
 
-    Ok(serde_json::json!({
-        "ok": true,
-        "data": {
-            "session_id": session_id,
-        }
-    }))
+    Ok(Envelope::ok(SessionIdResponse { session_id }))
 }
 
 #[tauri::command]
-pub async fn pause_session(payload: SessionIdPayload) -> Result<serde_json::Value, String> {
+pub async fn pause_session(payload: SessionIdPayload) -> Result<Envelope<()>, String> {
     log::info!("[IPC] pause_session: session={}", payload.session_id);
     Err("Pause session is not implemented in native backend yet".to_string())
 }
 
 #[tauri::command]
-pub async fn resume_session(payload: SessionIdPayload) -> Result<serde_json::Value, String> {
+pub async fn resume_session(payload: SessionIdPayload) -> Result<Envelope<()>, String> {
     log::info!("[IPC] resume_session: session={}", payload.session_id);
     Err("Resume session is not implemented in native backend yet".to_string())
 }
 
 #[tauri::command]
-pub async fn cancel_session(payload: SessionIdPayload, process_map: State<'_, HiveProcessMap>) -> Result<serde_json::Value, String> {
+pub async fn cancel_session(
+    payload: SessionIdPayload,
+    process_map: State<'_, HiveProcessMap>,
+) -> Result<Envelope<()>, String> {
     log::info!("[IPC] cancel_session: session={}", payload.session_id);
     kill_session(payload, process_map).await
 }
 
 #[tauri::command]
-pub async fn replay_session(payload: SessionIdPayload) -> Result<serde_json::Value, String> {
+pub async fn replay_session(payload: SessionIdPayload) -> Result<Envelope<()>, String> {
     log::info!("[IPC] replay_session: session={}", payload.session_id);
     Err("Replay session is not implemented in native backend yet".to_string())
 }

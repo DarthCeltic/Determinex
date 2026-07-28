@@ -112,16 +112,21 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
     }
   };
 
+  // A spinner is never worth blocking the application for. This used to be
+  // `fixed inset-0 z-50` -- a full-bleed blocker whose entire content was a
+  // spinner, rendered BEFORE the dismiss button existed, so there was a window in
+  // which the app was unusable and offered no way out. It also broke two attempts
+  // at automating this app, because every click landed on an invisible overlay.
   if (loading) {
     return (
       <div
         data-testid="workspace-onboarding"
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+        role="status"
+        aria-live="polite"
+        className="fixed bottom-10 right-4 z-40 flex items-center gap-2.5 rounded-xl border border-[#30363d] bg-[#161b22] px-4 py-3 shadow-2xl"
       >
-        <div className="bg-[#161b22] border border-[#30363d] rounded-xl p-8 w-full max-w-lg shadow-2xl flex flex-col items-center justify-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          <p className="text-[#8b949e] animate-pulse">Scanning workspace stack...</p>
-        </div>
+        <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-t-2 border-blue-500" />
+        <p className="text-label text-[#8b949e]">Scanning workspace stack...</p>
       </div>
     );
   }
@@ -129,9 +134,16 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
   return (
     <div
       data-testid="workspace-onboarding"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      role="dialog"
+      aria-label="Workspace detected"
+      /* Was a centred full-screen modal with a backdrop. A workspace scan reports
+         a FINDING; it does not need a decision before the app can be used, and
+         gating the whole IDE behind it is the single worst piece of first-run
+         friction measured in the UI review. Now an anchored sheet: dismissible,
+         non-blocking, and it cannot swallow clicks meant for the shell. */
+      className="fixed bottom-10 right-4 z-40 flex max-h-[80vh] w-full max-w-xl flex-col"
     >
-      <div className="bg-[#161b22] border border-[#30363d] rounded-xl w-full max-w-xl shadow-2xl overflow-hidden">
+      <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-[#30363d] bg-[#161b22] shadow-2xl">
         <div className="bg-[#21262d] border-b border-[#30363d] px-6 py-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-white flex items-center gap-2">
             <Server className="w-5 h-5 text-blue-400" /> Workspace Detected

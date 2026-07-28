@@ -9,7 +9,9 @@ import {
   Circle,
   PanelBottom,
   Plus,
+  Search,
 } from "lucide-react";
+import { LayoutMenu } from "./LayoutMenu";
 import { AiRouteSummary } from "@/components/AiRouteSelect";
 import { routeKeyReady, type ApiKeyStatus } from "@/lib/aiRouting";
 import { useAiRouter } from "@/contexts/AiRouterContext";
@@ -31,6 +33,8 @@ type Props = {
   keyStatus?: ApiKeyStatus;
   onChangeModel?: (value: string) => void;
   onClickErrors?: () => void;
+  /** Opens the command palette. Surfaces its shortcut in the strip. */
+  onOpenPalette?: () => void;
   onClickModel?: () => void;
   onTogglePanel?: () => void;
   quickAttachItems?: QuickAttachItem[];
@@ -94,6 +98,7 @@ export function StatusBar({
   keyStatus = {},
   onChangeModel,
   onClickErrors,
+  onOpenPalette,
   onClickModel,
   onTogglePanel,
   quickAttachItems = [],
@@ -142,7 +147,10 @@ export function StatusBar({
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-50 flex h-5 items-center justify-between select-none"
+      /* h-5 (20px) made every control in this strip a ~19px-tall target, under
+         WCAG 2.2 AA 2.5.8's 24px floor. h-7 (28px) clears it with the strip's own
+         1px border accounted for -- h-6 measured 23px in practice. */
+      className="fixed bottom-0 left-0 right-0 z-50 flex h-7 items-center justify-between select-none"
       style={{
         background: "rgba(4,6,10,0.96)",
         borderTop: "1px solid rgba(255,255,255,0.05)",
@@ -158,6 +166,27 @@ export function StatusBar({
         >
           Determinex
         </div>
+
+        {/* Command palette. There WAS a palette and no visible way to learn it
+            existed -- the shortcut lived only in a code comment, so the fastest
+            path through the app was invisible. */}
+        {onOpenPalette && (
+          <button
+            type="button"
+            onClick={onOpenPalette}
+            title="Command palette — find any panel or action"
+            aria-label="Open the command palette"
+            className="flex h-full items-center gap-1.5 border-r border-white/8 px-2.5 text-meta text-gray-500 transition-colors hover:bg-white/[0.04] hover:text-gray-200"
+          >
+            <Search size={10} />
+            <span className="font-mono">Ctrl+K</span>
+          </button>
+        )}
+
+        {/* Named panel layouts. Per-surface widths were already persisted; this is
+            the "I have a reviewing arrangement and a building arrangement"
+            case. */}
+        <LayoutMenu />
 
         {/* Git branch */}
         <div className="flex items-center gap-1 px-2.5 text-meta text-gray-600 border-r border-white/8 h-full">
@@ -194,6 +223,7 @@ export function StatusBar({
           <button
             onClick={onTogglePanel}
             title="Toggle attached panel"
+            aria-label="Toggle attached panel"
             className="flex items-center gap-1 px-2.5 text-meta h-full border-r border-white/8 text-gray-600 transition-colors hover:bg-white/[0.04] hover:text-gray-300"
           >
             <PanelBottom size={10} />

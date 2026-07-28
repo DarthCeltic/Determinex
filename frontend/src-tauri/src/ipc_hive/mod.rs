@@ -262,6 +262,16 @@ pub struct SessionStatus {
     pub scaffolding_validated: bool,
     pub created_at: String,
     pub updated_at: String,
+
+    /// Set when the manifest still says a step is in progress but no process is
+    /// alive. Previously injected into the serialized envelope with
+    /// `result["data"]["process_crashed"] = ...`, a double index into an untyped
+    /// Value that silently no-ops if either key is missing -- so a crash could
+    /// have gone unreported with nothing to show it had.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub process_crashed: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub crash_tail: Option<String>,
 }
 
 #[derive(Serialize)]

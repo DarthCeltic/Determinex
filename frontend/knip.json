@@ -15,12 +15,16 @@
   ],
   "project": ["src/**/*.{ts,tsx}", "eslint-rules/**/*.mjs"],
   "ignore": [
-    "vscode-extension/out/**",
     ".next/**",
     "out/**",
     "src-tauri/target/**",
+    "src/components/ide-product-shell/**",
+    "src/components/ide-repair/**",
+    "src/lib/ide-invoke-client.ts",
     "src/lib/ide-panel-bindings.ts",
-    "src/lib/ide-invoke-client.ts"
+    "src/lib/ide-product-shell-api.ts",
+    "src/lib/ide-repair-api.ts",
+    "vscode-extension/out/**"
   ],
   "ignoreDependencies": [
     "@tailwindcss/postcss",

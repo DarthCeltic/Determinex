@@ -176,26 +176,3 @@ interface AnnotatedTextProps {
   /** Extra className applied to each GlossaryTerm span */
   termClassName?: string;
 }
-
-export function AnnotatedText({ text, termClassName }: AnnotatedTextProps) {
-  const segments = text.split(ANNOTATE_RE);
-
-  return (
-    <>
-      {segments.map((seg, i) => {
-        // Odd indices are captured groups — i.e., matched terms
-        if (i % 2 === 1) {
-          const def = GLOSSARY[seg];
-          if (def) {
-            return (
-              <GlossaryTerm key={i} term={seg} definition={def} className={termClassName}>
-                {seg}
-              </GlossaryTerm>
-            );
-          }
-        }
-        return seg;
-      })}
-    </>
-  );
-}

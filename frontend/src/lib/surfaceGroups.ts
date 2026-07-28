@@ -395,14 +395,6 @@ export const GROUP_BY_SURFACE: Record<string, SurfaceGroup> = Object.fromEntries
   SURFACE_GROUPS.flatMap((g) => g.members.map((m) => [m.id, g]))
 );
 
-export function findSurface(id: string): SurfaceMember | undefined {
-  for (const g of SURFACE_GROUPS) {
-    const hit = g.members.find((m) => m.id === id);
-    if (hit) return hit;
-  }
-  return undefined;
-}
-
 /** Every surface id, in group order. */
 export function allSurfaceIds(): string[] {
   return SURFACE_GROUPS.flatMap((g) => g.members.map((m) => m.id));

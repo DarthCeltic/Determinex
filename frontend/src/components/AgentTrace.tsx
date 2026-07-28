@@ -97,7 +97,8 @@ export function AgentTrace() {
             ) : sessions.length === 0 ? (
               <tr>
                 <td colSpan={4} className="px-4 py-8 text-center text-[#8b949e] italic">
-                  No active or recent jobs found.
+                  No agent jobs yet. Start a build from Work and each session appears here with its
+                  live status.
                 </td>
               </tr>
             ) : (

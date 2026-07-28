@@ -208,10 +208,6 @@ export function routeLabel(id: string): string {
   return routeOptionById(id)?.label ?? id;
 }
 
-export function routeProvider(id: string): string {
-  return routeOptionById(id)?.provider ?? (id.startsWith("ollama/") ? "local" : "custom");
-}
-
 export function routeRequiresKey(id: string): boolean {
   const option = routeOptionById(id);
   return option?.kind === "cloud" || option?.kind === "free_cloud";

@@ -1,7 +1,8 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use tauri::Manager;
 
 use super::{project_root, sessions_dir};
+use crate::ipc_envelope::Envelope;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LIST HIVE SESSIONS — Project Library
@@ -30,11 +31,11 @@ pub struct SessionSummary {
 /// a different schema (`workspace_path`, `report`, etc.) not relevant here.
 /// Capped at 100 sessions to bound IPC payload size.
 #[tauri::command]
-pub async fn list_hive_sessions() -> Result<serde_json::Value, String> {
+pub async fn list_hive_sessions() -> Result<Envelope<Vec<SessionSummary>>, String> {
     let sessions = sessions_dir();
 
     if !sessions.exists() {
-        return Ok(serde_json::json!({ "ok": true, "data": [] }));
+        return Ok(Envelope::ok(Vec::new()));
     }
 
     let entries =
@@ -128,7 +129,7 @@ pub async fn list_hive_sessions() -> Result<serde_json::Value, String> {
     // Cap at 100 to bound IPC payload size
     summaries.truncate(100);
 
-    Ok(serde_json::json!({ "ok": true, "data": summaries }))
+    Ok(Envelope::ok(summaries))
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -140,7 +141,35 @@ const DEFAULT_ARCHITECT: &str = "local/fast";
 const DEFAULT_BUILDER: &str = "determinex/engineer";
 const DEFAULT_MONITOR: &str = "determinex/observer";
 
-fn default_roles() -> serde_json::Value {
+/// Role -> model assignments. `api.ts` has declared this exact shape as
+/// `RoleAssignments` since before there was any Rust type to check it against;
+/// `returnShape.test.ts` now pins the two together.
+#[derive(Serialize, Deserialize, Clone)]
+pub struct RoleAssignments {
+    pub oracle: String,
+    pub architect: String,
+    pub builder: String,
+    pub monitor: String,
+}
+
+/// Reported by the role writers so the UI can show which file it touched.
+#[derive(Serialize)]
+pub struct ConfigPathResponse {
+    pub config_path: String,
+}
+
+/// `get_role_assignments` also reports which file it read, which the envelope's
+/// generic `data` cannot express on its own.
+#[derive(Serialize)]
+pub struct RoleAssignmentsResponse {
+    pub oracle: String,
+    pub architect: String,
+    pub builder: String,
+    pub monitor: String,
+    pub config_path: String,
+}
+
+fn default_roles_json() -> serde_json::Value {
     serde_json::json!({
         "oracle": DEFAULT_ORACLE,
         "architect": DEFAULT_ARCHITECT,
@@ -168,8 +197,8 @@ fn role_config_path(app: &tauri::AppHandle) -> std::path::PathBuf {
         .join("litellm_config.yaml")
 }
 
-fn parse_roles(config: &str) -> serde_json::Value {
-    let mut roles = default_roles();
+fn parse_roles_json(config: &str) -> serde_json::Value {
+    let mut roles = default_roles_json();
     for role in ["oracle", "architect", "builder", "monitor"] {
         let pattern = format!(r"(?m)^\s*{}:\s*([^\s#]+)", regex::escape(role));
         if let Ok(re) = regex::Regex::new(&pattern) {
@@ -228,17 +257,38 @@ fn upsert_roles(mut config: String, assignments: &serde_json::Value) -> String {
     config
 }
 
+/// Read a `serde_json::Value` of role names into the typed struct, falling back
+/// per-field so a partially-written config still yields a complete answer.
+fn roles_from_json(v: &serde_json::Value) -> RoleAssignments {
+    let pick = |k: &str, d: &str| v.get(k).and_then(|x| x.as_str()).unwrap_or(d).to_string();
+    RoleAssignments {
+        oracle: pick("oracle", DEFAULT_ORACLE),
+        architect: pick("architect", DEFAULT_ARCHITECT),
+        builder: pick("builder", DEFAULT_BUILDER),
+        monitor: pick("monitor", DEFAULT_MONITOR),
+    }
+}
+
 /// Return the current role-to-model assignments from litellm_config.yaml.
 #[tauri::command]
-pub async fn get_role_assignments(app: tauri::AppHandle) -> Result<serde_json::Value, String> {
+pub async fn get_role_assignments(
+    app: tauri::AppHandle,
+) -> Result<Envelope<RoleAssignmentsResponse>, String> {
     let config_path = role_config_path(&app);
-    if !config_path.exists() {
-        return Ok(
-            serde_json::json!({ "ok": true, "data": default_roles(), "config_path": config_path }),
-        );
-    }
-    let config = std::fs::read_to_string(&config_path).unwrap_or_default();
-    Ok(serde_json::json!({ "ok": true, "data": parse_roles(&config), "config_path": config_path }))
+    let path_text = config_path.to_string_lossy().to_string();
+    let roles = if config_path.exists() {
+        let config = std::fs::read_to_string(&config_path).unwrap_or_default();
+        roles_from_json(&parse_roles_json(&config))
+    } else {
+        roles_from_json(&default_roles_json())
+    };
+    Ok(Envelope::ok(RoleAssignmentsResponse {
+        oracle: roles.oracle,
+        architect: roles.architect,
+        builder: roles.builder,
+        monitor: roles.monitor,
+        config_path: path_text,
+    }))
 }
 
 /// Persist updated role assignments back into litellm_config.yaml.
@@ -247,7 +297,7 @@ pub async fn get_role_assignments(app: tauri::AppHandle) -> Result<serde_json::V
 pub async fn set_role_assignments(
     app: tauri::AppHandle,
     assignments: serde_json::Value,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<ConfigPathResponse>, String> {
     let config_path = role_config_path(&app);
     if let Some(parent) = config_path.parent() {
         std::fs::create_dir_all(parent).map_err(|e| format!("create config dir: {}", e))?;
@@ -259,7 +309,7 @@ pub async fn set_role_assignments(
         upsert_roles(current, &assignments)
     };
     std::fs::write(&config_path, next).map_err(|e| format!("write role config: {}", e))?;
-    Ok(serde_json::json!({ "ok": true, "config_path": config_path }))
+    Ok(Envelope::ok(ConfigPathResponse { config_path: config_path.to_string_lossy().to_string() }))
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -291,11 +341,14 @@ mod tests {
 
     #[test]
     fn missing_config_defaults_to_local_first_roles() {
-        let roles = parse_roles("");
-        assert_eq!(roles["oracle"], "local/fast");
-        assert_eq!(roles["architect"], "local/fast");
-        assert_eq!(roles["builder"], "determinex/engineer");
-        assert_eq!(roles["monitor"], "determinex/observer");
+        // Asserted through the TYPED struct now, not by indexing a Value: a typo
+        // in a key used to yield Value::Null and compare unequal for the wrong
+        // reason, and a missing field could not be distinguished from a wrong one.
+        let roles = roles_from_json(&parse_roles_json(""));
+        assert_eq!(roles.oracle, "local/fast");
+        assert_eq!(roles.architect, "local/fast");
+        assert_eq!(roles.builder, "determinex/engineer");
+        assert_eq!(roles.monitor, "determinex/observer");
     }
 
     #[test]

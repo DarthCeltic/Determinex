@@ -1,6 +1,8 @@
+use serde::{Deserialize, Serialize};
 use std::process::{Command, Stdio};
 use crate::win_process::HideConsoleExt;
 
+use crate::ipc_envelope::Envelope;
 use super::{
     project_root, resolve_python_exe, ConverseIdeaPayload, DiscoverIdeaPayload,
     GenerateSpecPayload, RefineSpecPayload,
@@ -219,26 +221,55 @@ fn fallback_refine(spec: &str, request: &str) -> serde_json::Value {
 
 /// Generate a spec from free text by calling scripts/spec_generator.py.
 /// Payload is sent via stdin as JSON to avoid Windows 32767-char CLI arg limit.
+/// Typed payloads for the four idea/spec oracle commands. `api.ts` already
+/// declares each of these shapes (`GenerateSpecResult`, `ConverseIdeaResult`,
+/// `RefineSpecResult`, `DiscoverIdeaResult`) with no Rust counterpart, and the
+/// inline literals they replace had drifted: `converse_idea` put `advisor_mode`
+/// INSIDE `data` while `generate_spec` put it alongside `data`, so a caller
+/// checking one place got `undefined` from the other.
+#[derive(Serialize)]
+pub struct SpecData {
+    pub spec: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ConverseData {
+    pub response: String,
+    pub ready_to_spec: bool,
+    pub spec_summary: Option<String>,
+    /// Kept inside `data` here because that is where api.ts's ConverseIdeaResult
+    /// reads it from. Moving it would be a silent breaking change.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub advisor_mode: Option<String>,
+}
+
+impl ConverseData {
+    fn fallback(response: impl Into<String>) -> Self {
+        Self {
+            response: response.into(),
+            ready_to_spec: false,
+            spec_summary: None,
+            advisor_mode: Some("built_in_packaged_fallback".to_string()),
+        }
+    }
+}
+
 #[tauri::command]
-pub async fn generate_spec(payload: GenerateSpecPayload) -> Result<serde_json::Value, String> {
+pub async fn generate_spec(
+    payload: GenerateSpecPayload,
+) -> Result<Envelope<SpecData>, String> {
     log::info!("[IPC] generate_spec: {} chars", payload.idea.len());
     let script = project_root().join("scripts").join("spec_generator.py");
     if !script.exists() {
-        return Ok(serde_json::json!({
-            "ok": true,
-            "data": { "spec": fallback_spec(&payload.idea) },
-            "advisor_mode": "built_in_packaged_fallback"
-        }));
+        return Ok(Envelope::ok(SpecData { spec: fallback_spec(&payload.idea) })
+            .advisor_mode("built_in_packaged_fallback"));
     }
 
     let python = match resolve_python_exe() {
         Ok(path) => path,
         Err(_) => {
-            return Ok(serde_json::json!({
-                "ok": true,
-                "data": { "spec": fallback_spec(&payload.idea) },
-                "advisor_mode": "built_in_packaged_fallback"
-            }));
+            return Ok(Envelope::ok(SpecData { spec: fallback_spec(&payload.idea) })
+                .advisor_mode("built_in_packaged_fallback"));
         }
     };
 
@@ -266,34 +297,28 @@ pub async fn generate_spec(payload: GenerateSpecPayload) -> Result<serde_json::V
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": user_safe_process_error("Spec generation", &stderr)
-        }));
+        return Ok(Envelope::err(user_safe_process_error("Spec generation", &stderr)));
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
-    Ok(serde_json::json!({
-        "ok": true,
-        "data": {
-            "spec": stdout.trim().to_string(),
-        }
-    }))
+    Ok(Envelope::ok(SpecData { spec: stdout.trim().to_string() }))
 }
 
 /// Run the discovery phase: analyze raw idea + optional image attachments.
 /// Full payload is sent via stdin so large image data doesn't get truncated in CLI args.
 #[tauri::command]
-pub async fn discover_idea(payload: DiscoverIdeaPayload) -> Result<serde_json::Value, String> {
+pub async fn discover_idea(
+    payload: DiscoverIdeaPayload,
+) -> Result<Envelope<serde_json::Value>, String> {
     log::info!("[IPC] discover_idea: {}", payload.idea);
     let script = project_root().join("scripts").join("idea_oracle.py");
     if !script.exists() {
-        return Ok(serde_json::json!({ "ok": true, "data": fallback_discover(&payload.idea) }));
+        return Ok(Envelope::ok(fallback_discover(&payload.idea)));
     }
     let python = match resolve_python_exe() {
         Ok(path) => path,
         Err(_) => {
-            return Ok(serde_json::json!({ "ok": true, "data": fallback_discover(&payload.idea) }))
+            return Ok(Envelope::ok(fallback_discover(&payload.idea)))
         }
     };
 
@@ -324,7 +349,7 @@ pub async fn discover_idea(payload: DiscoverIdeaPayload) -> Result<serde_json::V
         let safe_error = user_safe_process_error("Idea discovery", &stderr);
         let mut fallback = fallback_discover(&payload.idea);
         fallback["warning"] = serde_json::Value::String(safe_error);
-        return Ok(serde_json::json!({ "ok": true, "data": fallback }));
+        return Ok(Envelope::ok(fallback));
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
@@ -337,41 +362,31 @@ pub async fn discover_idea(payload: DiscoverIdeaPayload) -> Result<serde_json::V
     })?;
 
     if let Some(err) = parsed.get("error") {
-        return Ok(serde_json::json!({ "ok": false, "error": err }));
+        return Ok(Envelope::err(err.to_string()));
     }
 
-    Ok(serde_json::json!({ "ok": true, "data": parsed }))
+    Ok(Envelope::ok(parsed))
 }
 
 /// Continue the discovery conversation. Full payload (history + current message + attachments)
 /// is sent via stdin as JSON.
 #[tauri::command]
-pub async fn converse_idea(payload: ConverseIdeaPayload) -> Result<serde_json::Value, String> {
+pub async fn converse_idea(
+    payload: ConverseIdeaPayload,
+) -> Result<Envelope<ConverseData>, String> {
     log::info!("[IPC] converse_idea: {}", payload.user_message);
     let script = project_root().join("scripts").join("idea_oracle.py");
     if !script.exists() {
-        return Ok(serde_json::json!({
-            "ok": true,
-            "data": {
-                "response": "Got it. What should the first working version do for the user?",
-                "ready_to_spec": false,
-                "spec_summary": null,
-                "advisor_mode": "built_in_packaged_fallback"
-            }
-        }));
+        return Ok(Envelope::ok(ConverseData::fallback(
+            "Got it. What should the first working version do for the user?",
+        )));
     }
     let python = match resolve_python_exe() {
         Ok(path) => path,
         Err(_) => {
-            return Ok(serde_json::json!({
-                "ok": true,
-                "data": {
-                    "response": "Got it. What should the first working version do for the user?",
-                    "ready_to_spec": false,
-                    "spec_summary": null,
-                    "advisor_mode": "built_in_packaged_fallback"
-                }
-            }));
+            return Ok(Envelope::ok(ConverseData::fallback(
+                "Got it. What should the first working version do for the user?",
+            )));
         }
     };
 
@@ -399,15 +414,10 @@ pub async fn converse_idea(payload: ConverseIdeaPayload) -> Result<serde_json::V
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Ok(serde_json::json!({
-            "ok": true,
-            "data": {
-                "response": user_safe_process_error("Idea conversation", &stderr),
-                "ready_to_spec": false,
-                "spec_summary": null,
-                "advisor_mode": "built_in_packaged_fallback"
-            }
-        }));
+        return Ok(Envelope::ok(ConverseData::fallback(user_safe_process_error(
+            "Idea conversation",
+            &stderr,
+        ))));
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
@@ -420,16 +430,27 @@ pub async fn converse_idea(payload: ConverseIdeaPayload) -> Result<serde_json::V
     })?;
 
     if let Some(err) = parsed.get("error") {
-        return Ok(serde_json::json!({ "ok": false, "error": err }));
+        return Ok(Envelope::err(err.to_string()));
     }
 
-    Ok(serde_json::json!({ "ok": true, "data": parsed }))
+    // Validate the model's JSON into the shape api.ts actually declares, rather
+    // than forwarding whatever came back. A mismatch is reported, not silently
+    // reshaped -- an unchecked pass-through is how a model's stray field ends up
+    // being read as a feature.
+    match serde_json::from_value::<ConverseData>(parsed) {
+        Ok(data) => Ok(Envelope::ok(data)),
+        Err(e) => Ok(Envelope::err(format!(
+            "idea_oracle.py returned a response this build does not understand: {e}"
+        ))),
+    }
 }
 
 /// Refine an existing spec and return both the updated spec and an Oracle explanation.
 /// Calls scripts/spec_refiner.py which returns JSON { response, spec }.
 #[tauri::command]
-pub async fn refine_spec(payload: RefineSpecPayload) -> Result<serde_json::Value, String> {
+pub async fn refine_spec(
+    payload: RefineSpecPayload,
+) -> Result<Envelope<serde_json::Value>, String> {
     log::info!(
         "[IPC] refine_spec: {} chars request, {} chars spec",
         payload.request.len(),
@@ -437,21 +458,15 @@ pub async fn refine_spec(payload: RefineSpecPayload) -> Result<serde_json::Value
     );
     let script = project_root().join("scripts").join("spec_refiner.py");
     if !script.exists() {
-        return Ok(serde_json::json!({
-            "ok": true,
-            "data": fallback_refine(&payload.spec, &payload.request),
-            "advisor_mode": "built_in_packaged_fallback"
-        }));
+        return Ok(Envelope::ok(fallback_refine(&payload.spec, &payload.request))
+            .advisor_mode("built_in_packaged_fallback"));
     }
 
     let python = match resolve_python_exe() {
         Ok(path) => path,
         Err(_) => {
-            return Ok(serde_json::json!({
-                "ok": true,
-                "data": fallback_refine(&payload.spec, &payload.request),
-                "advisor_mode": "built_in_packaged_fallback"
-            }));
+            return Ok(Envelope::ok(fallback_refine(&payload.spec, &payload.request))
+                .advisor_mode("built_in_packaged_fallback"));
         }
     };
 
@@ -483,11 +498,11 @@ pub async fn refine_spec(payload: RefineSpecPayload) -> Result<serde_json::Value
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Ok(serde_json::json!({
-            "ok": true,
-            "data": fallback_refine(&payload.spec, &user_safe_process_error("Spec refinement", &stderr)),
-            "advisor_mode": "built_in_packaged_fallback"
-        }));
+        return Ok(Envelope::ok(fallback_refine(
+            &payload.spec,
+            &user_safe_process_error("Spec refinement", &stderr),
+        ))
+        .advisor_mode("built_in_packaged_fallback"));
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
@@ -500,16 +515,13 @@ pub async fn refine_spec(payload: RefineSpecPayload) -> Result<serde_json::Value
     })?;
 
     if let Some(err) = parsed.get("error") {
-        return Ok(serde_json::json!({ "ok": false, "error": err }));
+        return Ok(Envelope::err(err.to_string()));
     }
 
-    Ok(serde_json::json!({
-        "ok": true,
-        "data": {
-            "response": parsed["response"],
-            "spec": parsed["spec"],
-        }
-    }))
+    Ok(Envelope::ok(serde_json::json!({
+        "response": parsed["response"],
+        "spec": parsed["spec"],
+    })))
 }
 
 #[cfg(test)]

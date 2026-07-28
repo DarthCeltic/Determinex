@@ -180,3 +180,118 @@ test.describe("shell", () => {
     }
   });
 });
+
+test.describe("keyboard", () => {
+  test("Ctrl+1..9 opens each rail group and Escape closes the drawer", async ({ page }) => {
+    await bootToShell(page);
+    const drawer = page.getByTestId("surface-drawer");
+
+    // Every group must be reachable from the keyboard. Before this, only 1/2/3
+    // were bound, and they went to three left-hand workspaces rather than to the
+    // rail -- a leftover from before the nine-group rail existed.
+    for (let i = 0; i < RAIL_GROUPS.length; i++) {
+      await page.keyboard.press(`Control+${i + 1}`);
+      await expect(drawer, `Ctrl+${i + 1} must open a drawer`).toBeVisible();
+      await expect(page.getByTestId(`rail-group-${RAIL_GROUPS[i]}`)).toHaveAttribute(
+        "aria-expanded",
+        "true"
+      );
+      await page.keyboard.press("Escape");
+      await expect(drawer, "Escape must close the drawer").toBeHidden();
+    }
+  });
+
+  test("the command palette shortcut is visible, not just bound", async ({ page }) => {
+    await bootToShell(page);
+    // The palette existed with its shortcut recorded only in a code comment, so
+    // the fastest path through the app was undiscoverable.
+    const hint = page.getByRole("button", { name: "Open the command palette" });
+    await expect(hint).toBeVisible();
+    await expect(hint).toContainText("Ctrl+K");
+  });
+
+  test("every interactive control has an accessible name and a 24px target", async ({ page }) => {
+    await bootToShell(page);
+    const bad = await page.evaluate(() => {
+      const noName: string[] = [];
+      const small: string[] = [];
+      for (const el of document.querySelectorAll("button,[role=button]")) {
+        const r = el.getBoundingClientRect();
+        if (!r.width || !r.height) continue;
+        const name = (el.getAttribute("aria-label") || el.textContent || "").trim();
+        const id = el.getAttribute("data-testid") || el.getAttribute("title") || "(unlabelled)";
+        // A `title` is a tooltip, not an accessible name.
+        if (!name) noName.push(id);
+        if (r.height < 24 || r.width < 24)
+          small.push(`${id} ${Math.round(r.width)}x${Math.round(r.height)}`);
+      }
+      return { noName, small };
+    });
+    expect(bad.noName, "buttons with no accessible name").toEqual([]);
+    expect(bad.small, "targets under WCAG 2.2 AA's 24px floor").toEqual([]);
+  });
+});
+
+test.describe("panel arrangement", () => {
+  test("the cockpit split is draggable and the ratio persists", async ({ page }) => {
+    await bootToShell(page);
+
+    const handle = page.getByTestId("cockpit-split-resize");
+    await expect(handle, "the cockpit split needs a real handle").toBeVisible();
+
+    const before = await page.evaluate(
+      () =>
+        getComputedStyle(
+          document.querySelector('[data-testid="cockpit-split-resize"]')!.parentElement!
+        ).gridTemplateColumns
+    );
+
+    const box = (await handle.boundingBox())!;
+    const vp = page.viewportSize()!;
+    // Grab a point on the handle that is actually ON SCREEN. The handle spans the
+    // full column height (~892px), so `box.y + box.height / 2` lands below a
+    // 720px viewport and the drag silently never happens -- which is exactly how
+    // this spec first "failed" against a feature that worked.
+    const grabX = box.x + box.width / 2;
+    const grabY = Math.min(box.y + 80, vp.height - 60);
+    await page.mouse.move(grabX, grabY);
+    await page.mouse.down();
+    await page.mouse.move(grabX - 140, grabY, { steps: 10 });
+    await page.mouse.up();
+
+    const after = await page.evaluate(
+      () =>
+        getComputedStyle(
+          document.querySelector('[data-testid="cockpit-split-resize"]')!.parentElement!
+        ).gridTemplateColumns
+    );
+    expect(after, "dragging must change the split").not.toEqual(before);
+
+    // Persisted, so it is still there next launch -- the point of the feature.
+    const stored = await page.evaluate(() =>
+      localStorage.getItem("determinex.splitRatio.workCockpit")
+    );
+    expect(Number(stored)).toBeGreaterThan(0);
+    expect(Number(stored)).toBeLessThan(1);
+  });
+
+  test("a named layout round-trips through the UI", async ({ page }) => {
+    await bootToShell(page);
+
+    await page.getByTestId("layout-menu-toggle").click();
+    await expect(page.getByTestId("layout-menu")).toBeVisible();
+    await page.getByTestId("layout-save-current").click();
+    await page.getByLabel("Layout name").fill("e2e-arrangement");
+    await page.getByRole("button", { name: "Save", exact: true }).click();
+
+    await expect(page.getByTestId("layout-restore-e2e-arrangement")).toBeVisible();
+    const saved = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("determinex.panelLayouts") || "[]")
+    );
+    expect(saved.map((l: { name: string }) => l.name)).toContain("e2e-arrangement");
+
+    // Restoring must actually apply, not just close the menu.
+    await page.getByTestId("layout-restore-e2e-arrangement").click();
+    await expect(page.getByText(/Restored "e2e-arrangement"/)).toBeVisible();
+  });
+});

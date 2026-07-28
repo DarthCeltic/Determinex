@@ -1,3 +1,4 @@
+use crate::ipc_envelope::Envelope;
 use crate::orchestrator::{
     Context, EngineerCode, MoAResult, ObserverVerdict, OrchestratorError, OrchestratorHandle,
     SentinelPlan,
@@ -54,14 +55,19 @@ pub struct AuditPayload {
 // { "ok": true, "data": ... } | { "ok": false, "error": ... } envelope.
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Converts any Result<T, OrchestratorError> into a uniform JSON envelope.
+/// Converts any Result<T, OrchestratorError> into the uniform envelope.
 /// Frontend discriminates on `result.ok` — true for success, false for failure.
+///
+/// This was already generic over `T` and then erased that type by building a
+/// `serde_json::json!` literal, so all three orchestrate commands returned an
+/// untyped Value despite the payload type being known right here. Returning
+/// `Envelope<T>` keeps it.
 fn to_ipc_result<T: Serialize>(
     result: Result<T, OrchestratorError>,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<T>, String> {
     match result {
-        Ok(data) => Ok(serde_json::json!({ "ok": true, "data": data })),
-        Err(e) => Ok(serde_json::json!({ "ok": false, "error": e })),
+        Ok(data) => Ok(Envelope::ok(data)),
+        Err(e) => Ok(Envelope::err(e.to_string())),
     }
 }
 
@@ -76,7 +82,7 @@ fn to_ipc_result<T: Serialize>(
 pub async fn orchestrate_plan(
     payload: PlanRequestPayload,
     handle: State<'_, OrchestratorHandle>,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<MoAResult>, String> {
     log::info!(
         "[IPC] orchestrate_plan invoked for thread: {}",
         payload.thread_id
@@ -109,7 +115,7 @@ pub async fn orchestrate_plan(
 pub async fn orchestrate_codegen(
     payload: CodeGenPayload,
     handle: State<'_, OrchestratorHandle>,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<MoAResult>, String> {
     log::info!(
         "[IPC] orchestrate_codegen (plan-skip) for thread: {}",
         payload.thread_id
@@ -132,7 +138,7 @@ pub async fn orchestrate_codegen(
 pub async fn orchestrate_audit(
     payload: AuditPayload,
     handle: State<'_, OrchestratorHandle>,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<ObserverVerdict>, String> {
     log::info!(
         "[IPC] orchestrate_audit (observer-only) for thread: {}",
         payload.thread_id

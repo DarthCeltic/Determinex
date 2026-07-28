@@ -53,7 +53,38 @@ fn locate_repo_root() -> Option<PathBuf> {
     None
 }
 
-fn run_usage_script(args: &[&str]) -> Result<serde_json::Value, String> {
+/// The two usage commands' shapes. `PassportPanel.tsx` has declared both all
+/// along (`UsageSummary`, `CliSubscriptionStatus`) with no Rust counterpart, so
+/// the contract lived only in the Python script's head.
+///
+/// Deserializing the script's output into these instead of forwarding it raw
+/// means a change to `determinex_usage.py`'s output shape becomes an error here
+/// rather than `undefined` in a panel.
+#[derive(Serialize, Deserialize)]
+pub struct UsageProviderSummary {
+    pub calls: u64,
+    pub tokens_in: u64,
+    pub tokens_out: u64,
+    pub est_usd: f64,
+    pub models: Vec<String>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct UsageSummary {
+    pub exists: bool,
+    pub window_hours: Option<f64>,
+    pub providers: std::collections::HashMap<String, UsageProviderSummary>,
+    pub total_est_usd: f64,
+    pub total_calls: u64,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct CliSubscriptionEntry {
+    pub available: bool,
+    pub reason: String,
+}
+
+fn run_usage_script<T: serde::de::DeserializeOwned>(args: &[&str]) -> Result<T, String> {
     let root = locate_repo_root().ok_or_else(|| "could not locate repo root".to_string())?;
     let mut cmd = Command::new("python");
     cmd.hide_console();
@@ -72,7 +103,7 @@ fn run_usage_script(args: &[&str]) -> Result<serde_json::Value, String> {
 }
 
 #[tauri::command]
-pub fn passport_usage_summary(window_hours: Option<f64>) -> Result<serde_json::Value, String> {
+pub fn passport_usage_summary(window_hours: Option<f64>) -> Result<UsageSummary, String> {
     match window_hours {
         Some(h) => run_usage_script(&["summary", "--window-hours", &h.to_string()]),
         None => run_usage_script(&["summary", "--all-time"]),
@@ -80,7 +111,8 @@ pub fn passport_usage_summary(window_hours: Option<f64>) -> Result<serde_json::V
 }
 
 #[tauri::command]
-pub fn passport_cli_subscription_status() -> Result<serde_json::Value, String> {
+pub fn passport_cli_subscription_status(
+) -> Result<std::collections::HashMap<String, CliSubscriptionEntry>, String> {
     run_usage_script(&["cli-status"])
 }
 

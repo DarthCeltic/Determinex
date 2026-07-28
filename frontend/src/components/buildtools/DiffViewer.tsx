@@ -103,7 +103,9 @@ export function DiffViewer() {
           <GitBranch size={10} /> Staged Changes
         </div>
         {diffs.length === 0 ? (
-          <p className="text-label text-gray-700 italic px-1 py-1">No pending changes to review.</p>
+          <p className="text-label italic px-1 py-1 text-gray-500">
+            No changes staged. Run a build or a repair and proposed edits land here for approval.
+          </p>
         ) : (
           <div className="flex flex-col gap-1">
             {diffs.map((d) => (

@@ -4,6 +4,7 @@ use crate::win_process::HideConsoleExt;
 use serde::Deserialize;
 use tauri::State;
 
+use crate::ipc_envelope::Envelope;
 use super::{hive_script, project_root, resolve_python_exe, HiveProcessMap};
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -41,17 +42,14 @@ pub struct FixWorkspacePayload {
 pub async fn explore_workspace(
     payload: ExploreWorkspacePayload,
     _process_map: State<'_, HiveProcessMap>,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<serde_json::Value>, String> {
     log::info!("[IPC] explore_workspace: {}", payload.workspace_path);
 
     let root = project_root();
     let script = hive_script();
 
     if !script.exists() {
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": format!("determinex_hive.py not found at {:?}", script)
-        }));
+        return Ok(Envelope::err(format!("determinex_hive.py not found at {:?}", script)));
     }
 
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
@@ -69,10 +67,7 @@ pub async fn explore_workspace(
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": format!("explore failed: {}", stderr)
-        }));
+        return Ok(Envelope::err(format!("explore failed: {}", stderr)));
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
@@ -81,11 +76,10 @@ pub async fn explore_workspace(
     // to the "raw" branch below, and the UI silently lost explanation /
     // relevant_files. Raw stays as the genuine last resort.
     match crate::python_json::parse_python_json::<serde_json::Value>(&stdout, "hive") {
-        Ok(data) => Ok(serde_json::json!({ "ok": true, "data": data })),
-        Err(_) => Ok(serde_json::json!({
-            "ok": true,
-            "data": { "raw": stdout.trim().to_string() }
-        })),
+        Ok(data) => Ok(Envelope::ok(data)),
+        // Raw stays the genuine last resort, and stays inside `data` so callers
+        // that check for `data.raw` still find it.
+        Err(_) => Ok(Envelope::ok(serde_json::json!({ "raw": stdout.trim().to_string() }))),
     }
 }
 
@@ -97,7 +91,7 @@ pub async fn explore_workspace(
 pub async fn diagnose_workspace(
     payload: DiagnoseWorkspacePayload,
     _process_map: State<'_, HiveProcessMap>,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<serde_json::Value>, String> {
     log::info!(
         "[IPC] diagnose_workspace: {} issue_len={}",
         payload.workspace_path,
@@ -108,10 +102,7 @@ pub async fn diagnose_workspace(
     let script = hive_script();
 
     if !script.exists() {
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": format!("determinex_hive.py not found at {:?}", script)
-        }));
+        return Ok(Envelope::err(format!("determinex_hive.py not found at {:?}", script)));
     }
 
     let python = resolve_python_exe().map_err(|e| format!("Python not found: {}", e))?;
@@ -130,10 +121,7 @@ pub async fn diagnose_workspace(
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": format!("diagnose failed: {}", stderr)
-        }));
+        return Ok(Envelope::err(format!("diagnose failed: {}", stderr)));
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
@@ -142,11 +130,10 @@ pub async fn diagnose_workspace(
     // to the "raw" branch below, and the UI silently lost explanation /
     // relevant_files. Raw stays as the genuine last resort.
     match crate::python_json::parse_python_json::<serde_json::Value>(&stdout, "hive") {
-        Ok(data) => Ok(serde_json::json!({ "ok": true, "data": data })),
-        Err(_) => Ok(serde_json::json!({
-            "ok": true,
-            "data": { "raw": stdout.trim().to_string() }
-        })),
+        Ok(data) => Ok(Envelope::ok(data)),
+        // Raw stays the genuine last resort, and stays inside `data` so callers
+        // that check for `data.raw` still find it.
+        Err(_) => Ok(Envelope::ok(serde_json::json!({ "raw": stdout.trim().to_string() }))),
     }
 }
 
@@ -158,7 +145,7 @@ pub async fn diagnose_workspace(
 pub async fn fix_workspace(
     payload: FixWorkspacePayload,
     _process_map: State<'_, HiveProcessMap>,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<serde_json::Value>, String> {
     log::info!(
         "[IPC] fix_workspace: {} issue_len={}",
         payload.workspace_path,
@@ -169,10 +156,7 @@ pub async fn fix_workspace(
     let script = hive_script();
 
     if !script.exists() {
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": format!("determinex_hive.py not found at {:?}", script)
-        }));
+        return Ok(Envelope::err(format!("determinex_hive.py not found at {:?}", script)));
     }
 
     let mut args = vec![
@@ -198,10 +182,7 @@ pub async fn fix_workspace(
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
         let stdout_text = String::from_utf8_lossy(&output.stdout);
-        return Ok(serde_json::json!({
-            "ok": false,
-            "error": format!("fix failed: {}{}", stderr, stdout_text)
-        }));
+        return Ok(Envelope::err(format!("fix failed: {}{}", stderr, stdout_text)));
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);
@@ -210,10 +191,9 @@ pub async fn fix_workspace(
     // to the "raw" branch below, and the UI silently lost explanation /
     // relevant_files. Raw stays as the genuine last resort.
     match crate::python_json::parse_python_json::<serde_json::Value>(&stdout, "hive") {
-        Ok(data) => Ok(serde_json::json!({ "ok": true, "data": data })),
-        Err(_) => Ok(serde_json::json!({
-            "ok": true,
-            "data": { "raw": stdout.trim().to_string() }
-        })),
+        Ok(data) => Ok(Envelope::ok(data)),
+        // Raw stays the genuine last resort, and stays inside `data` so callers
+        // that check for `data.raw` still find it.
+        Err(_) => Ok(Envelope::ok(serde_json::json!({ "raw": stdout.trim().to_string() }))),
     }
 }

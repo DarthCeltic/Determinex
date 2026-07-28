@@ -1,3 +1,4 @@
+use serde::Serialize;
 /// ipc_benchmark.rs — Tauri IPC for long-running SWE-bench / benchmark runs.
 ///
 /// Two commands:
@@ -15,6 +16,7 @@
 ///
 /// The frontend subscribes once to the event name returned by launch_benchmark_run
 /// and drives the BenchmarkRunner state machine from the incoming events.
+use crate::ipc_envelope::Envelope;
 use std::collections::HashMap;
 use std::io::{BufRead, BufReader};
 use std::path::PathBuf;
@@ -84,7 +86,7 @@ pub async fn launch_benchmark_run(
     args: Vec<String>,
     process_map: State<'_, BenchmarkProcessMap>,
     app: AppHandle,
-) -> Result<serde_json::Value, String> {
+) -> Result<Envelope<BenchmarkLaunched>, String> {
     let ts = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs())
@@ -282,15 +284,36 @@ pub async fn launch_benchmark_run(
         );
     });
 
-    Ok(serde_json::json!({
-        "ok": true,
-        "data": {
-            "run_key": run_key,
-            "pid": pid,
-            "event": event_name,
-            "log_path": log_path.to_string_lossy(),
-        }
+    Ok(Envelope::ok(BenchmarkLaunched {
+        run_key,
+        pid,
+        event: event_name,
+        log_path: log_path.to_string_lossy().to_string(),
     }))
+}
+
+/// Typed benchmark responses. These were three inline literals that had already
+/// diverged: `stop_benchmark_run` puts `pid` at the TOP level while
+/// `launch_benchmark_run` puts it inside `data`, so a caller could not read "the
+/// pid" the same way from both.
+#[derive(Serialize)]
+pub struct BenchmarkLaunched {
+    pub run_key: String,
+    pub pid: u32,
+    pub event: String,
+    pub log_path: String,
+}
+
+/// `stop_benchmark_run`'s wire shape, preserved exactly: `pid` sits alongside
+/// `ok`, not inside `data`. Changing that would be a silent breaking change for
+/// whatever reads it.
+#[derive(Serialize)]
+pub struct BenchmarkStopped {
+    pub ok: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pid: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error: Option<String>,
 }
 
 /// Kill a running benchmark process by benchmark_id.
@@ -298,7 +321,7 @@ pub async fn launch_benchmark_run(
 pub async fn stop_benchmark_run(
     benchmark_id: String,
     process_map: State<'_, BenchmarkProcessMap>,
-) -> Result<serde_json::Value, String> {
+) -> Result<BenchmarkStopped, String> {
     let pid = {
         let mut map = process_map
             .0
@@ -310,9 +333,13 @@ pub async fn stop_benchmark_run(
     if let Some(pid) = pid {
         log::info!("[BENCH] Stopping benchmark {} (PID {})", benchmark_id, pid);
         kill_process(pid);
-        Ok(serde_json::json!({ "ok": true, "pid": pid }))
+        Ok(BenchmarkStopped { ok: true, pid: Some(pid), error: None })
     } else {
-        Ok(serde_json::json!({ "ok": false, "error": "No running process found" }))
+        Ok(BenchmarkStopped {
+            ok: false,
+            pid: None,
+            error: Some("No running process found".to_string()),
+        })
     }
 }
 
@@ -322,6 +349,13 @@ pub async fn stop_benchmark_run(
 /// instead of duplicating its SQLite/failure-family logic in Rust. The script's
 /// JSON output is the stable Benchmark Lab contract; Rust only transports it.
 #[tauri::command]
+/// Returns the ProgramBench snapshot as the analysis script produced it.
+///
+/// Untyped on purpose: `api.ts`'s `ProgramBenchSnapshot` documents the fields the
+/// UI reads, but the script emits a superset that changes as the campaign adds
+/// metrics. A struct here would drop the new ones on the floor, silently, which is
+/// exactly the failure this typing pass exists to prevent -- so the honest shape
+/// is the script's own.
 pub async fn get_programbench_snapshot(
     run_id: Option<String>,
     expected_total: Option<u32>,

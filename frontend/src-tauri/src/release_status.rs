@@ -10,6 +10,13 @@ use serde_json::Value;
 use std::fs;
 
 #[tauri::command]
+/// Returns the newest `release_gates_*.json` evidence file VERBATIM.
+///
+/// Deliberately untyped, and this is the one place where that is the honest
+/// answer: the file is written by the release-gate collector and its shape is
+/// whatever that run produced. Declaring a struct here would silently DROP fields
+/// from an evidence artifact, which is worse than leaving it dynamic -- the whole
+/// point of the artifact is that it is a faithful record.
 pub fn get_release_gate_status() -> Result<Value, String> {
     let dir = crate::ipc_hive::project_root()
         .join("assurance")
