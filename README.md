@@ -4,10 +4,6 @@
 
 # Determinex
 
-> Renamed 2026-07-02. Script filenames, environment variables, and model tags below
-> still use the legacy `determinex_*`/`DETERMINEX_*` prefix pending a coordinated internal
-> rename — this is expected, not a mistake.
-
 **Compiler-verified multi-agent AI that gets smarter from its own failures.**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
@@ -17,7 +13,7 @@
 [![White Paper](https://img.shields.io/badge/Paper-WHITE__PAPER.md-green)](docs/papers/WHITE_PAPER.md)
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-♥-pink)](https://github.com/sponsors/DarthCeltic)
 
-*Built by [Ryan Gurganious](https://github.com/DarthCeltic)*
+*Built by [DarthCeltic](https://github.com/DarthCeltic)*
 
 </div>
 
@@ -614,7 +610,7 @@ above.
 
 <div align="center">
 
-*Determinex · Ryan Gurganious · 2026*
+*Determinex · DarthCeltic · 2026*
 
 </div>
 

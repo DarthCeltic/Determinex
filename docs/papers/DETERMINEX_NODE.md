@@ -2,7 +2,7 @@
 
 > **Status:** OWNER-RESOLVED v0.2 — paper design only. Build is post-announce.
 > Disclosure content is pre-filing provisional written-description material.
-> **Owner:** Ryan Gurganious, Ryan Gurganious. **Drafted:** 2026-06-11.
+> **Owner:** DarthCeltic. **Drafted:** 2026-06-11.
 > **Provenance key:** `[PRIOR]` = consolidates existing Determinex design work.
 > `[NEW]` = introduced in this draft, needs Ryan's verdict before claim triage.
 >
@@ -353,6 +353,6 @@ Estimate: bounded weeks of work, all deferred until after announce.
 
 ---
 
-*DETERMINEX NODE v0 · Ryan Gurganious · 2026-06-11*
+*DETERMINEX NODE v0 · DarthCeltic · 2026-06-11*
 *Pre-filing provisional written-description material. Not legal advice.*
 *Not a product specification. Not a build commitment.*

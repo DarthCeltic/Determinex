@@ -790,6 +790,6 @@ benchmark paradigms while the cloud AI remains blind to every proprietary identi
 ---
 
 *Document: BENCHMARK_EXPANSION.md*
-*Author: Ryan Gurganious*
+*Author: DarthCeltic*
 *Status: Living document — update as scores come in*
 

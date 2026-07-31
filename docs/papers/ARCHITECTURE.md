@@ -1504,7 +1504,7 @@ upstream) until each clears its last-mile tail and the provenance gate. The adva
 ---
 
 *Document updated June 20, 2026 (Generation 7 appended). Generation 6 appended June 14, 2026. Earlier body built April 28, 2026 from: git log, source audit, live system state, hive mind design spec, SWE-bench ablation run in progress.*
-*Author: Ryan Gurganious. Released under AGPLv3.*
+*Author: DarthCeltic. Released under AGPLv3.*
 
 ---
 
@@ -1553,7 +1553,7 @@ reimpl_corpus` (coach + technique recipes + corpus-owned oracle), `determinex_re
 (design-invariant analyzer), with `determinex_providers`/`router`/`contract`/`case_memory` composed
 (audited to avoid duplication). Engine regression-green (`tests/test_autofix_pipeline.py` 47/1-skip).
 
-*Generation 8 appended June 25, 2026 from live build state. Author: Ryan Gurganious.*
+*Generation 8 appended June 25, 2026 from live build state. Author: DarthCeltic.*
 
 ---
 
@@ -1602,7 +1602,7 @@ Six pieces shipped this generation:
    → `ingest/`), distilled by the **local model** (no paid APIs), quality-gated (the detect must look
    like a failure, the fix must be actionable; gaming excluded), resumable + incremental.
 
-*Generation 9 appended June 29, 2026 from live build state. Author: Ryan Gurganious.*
+*Generation 9 appended June 29, 2026 from live build state. Author: DarthCeltic.*
 
 
 
