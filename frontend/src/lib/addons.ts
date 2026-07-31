@@ -12,6 +12,19 @@ export type Addon = {
   icon: string;
   tags: string[];
   featured?: boolean;
+  /**
+   * Set when clicking Install cannot actually produce this capability.
+   *
+   * The Marketplace's `toggle()` only writes an id into localStorage -- nothing is provisioned. The
+   * card then rendered "Installed", so a user could click Install on `kotlin-oracle` and be told the
+   * Kotlin toolchain was present while `_ORACLE_IMAGES` (scripts/hive/compiler.py) contains only
+   * rust, go, python and typescript and `validate_project` FAILS CLOSED for everything else. They
+   * would hit that refusal after being told the oracle was installed.
+   *
+   * A planned addon still appears -- the roadmap is worth showing -- but it cannot be toggled into a
+   * state that asserts it works. Guarded by lib/__tests__/addons.planned.test.ts.
+   */
+  planned?: boolean;
 };
 
 export const ADDONS: Addon[] = [
@@ -109,7 +122,7 @@ export const ADDONS: Addon[] = [
     name: "Rust / Cargo",
     author: "Determinex Core",
     category: "oracle",
-    description: "rustc + cargo check + cargo test. The gold standard oracle. All PB Rust tools.",
+    description: "cargo build in a network-isolated container. Real type check; does not run cargo test.",
     version: "1.83.0",
     status: "builtin",
     icon: "🦀",
@@ -121,7 +134,7 @@ export const ADDONS: Addon[] = [
     name: "Go Build",
     author: "Determinex Core",
     category: "oracle",
-    description: "go build + go test. 100% reproducible. Powers revive, direnv, fzf, trdsql.",
+    description: "go build ./... in a network-isolated container. Real type check; does not run go test.",
     version: "1.22.3",
     status: "builtin",
     icon: "🐹",
@@ -132,7 +145,7 @@ export const ADDONS: Addon[] = [
     name: "Python pytest",
     author: "Determinex Core",
     category: "oracle",
-    description: "pytest + mypy. Handles TUI, tmux, PTY tests. eureka, keifu, fasttext.",
+    description: "compileall, then imports every module, then unittest discover. Stdlib only — the sandbox runs --network=none, so pytest and mypy are not available.",
     version: "3.11.9",
     status: "builtin",
     icon: "🐍",
@@ -143,7 +156,7 @@ export const ADDONS: Addon[] = [
     name: "TypeScript / tsc",
     author: "Determinex Core",
     category: "oracle",
-    description: "tsc strict + jest. Frontend oracle. Powers the IDE itself.",
+    description: "tsc --noEmit with the project tsconfig, or --strict when none ships. Type check only; jest is not run.",
     version: "5.4.2",
     status: "builtin",
     icon: "📘",
@@ -154,9 +167,16 @@ export const ADDONS: Addon[] = [
     name: "Kotlin / Gradle",
     author: "Community",
     category: "oracle",
-    description: "gradle test. JVM oracle for Android + backend Kotlin targets.",
+    // Was "gradle test. JVM oracle for Android + backend Kotlin targets." -- present tense, as
+    // though it ran. determinex_oracle.py has a Gradle entry, but the sandboxed oracle the IDE
+    // actually uses (_ORACLE_IMAGES in scripts/hive/compiler.py) has no Kotlin image, so
+    // validate_project fails closed. Same overstatement cpp-oracle already had corrected.
+    description:
+      "Planned. No sandboxed Kotlin oracle ships yet — the compiler oracle covers Rust, Go, " +
+      "Python and TypeScript, and fails closed for Kotlin.",
     version: "2.0.0",
     status: "available",
+    planned: true,
     icon: "🅺",
     tags: ["kotlin", "jvm"],
   },
@@ -165,9 +185,16 @@ export const ADDONS: Addon[] = [
     name: "Swift / XCTest",
     author: "Community",
     category: "oracle",
-    description: "swift test. iOS/macOS oracle. Requires Xcode toolchain.",
+    // Was "swift test. iOS/macOS oracle. Requires Xcode toolchain." determinex_oracle.py does
+    // implement `swift test`, but via a DIRECT HOST SUBPROCESS, which validate_project deliberately
+    // does not use -- buying verification by running model-generated code outside the sandbox would
+    // trade a correctness gap for a security one. So there is no oracle the IDE will run for Swift.
+    description:
+      "Planned. No sandboxed Swift oracle ships yet — the compiler oracle covers Rust, Go, " +
+      "Python and TypeScript, and fails closed for Swift.",
     version: "5.10.0",
     status: "available",
+    planned: true,
     icon: "🐦",
     tags: ["swift", "apple"],
   },
@@ -175,10 +202,19 @@ export const ADDONS: Addon[] = [
     id: "cpp-oracle",
     name: "C/C++ / CMake",
     author: "Determinex Core",
+    // Was status: "installed" with a description promising "cmake + make + GTest". There is no
+    // C/C++ oracle: `_ORACLE_IMAGES` in scripts/hive/compiler.py contains only rust, go, python and
+    // typescript, and validate_project's final branch FAILS CLOSED for C/C++ with "No sandboxed
+    // Compiler Oracle for lang ...". So the Marketplace advertised as installed the one thing the
+    // oracle refuses to verify, and a user picking a C project would hit that refusal after being
+    // told the toolchain was present.
     category: "oracle",
-    description: "cmake + make + GTest. Handles doxygen, ditaa, cmatrix, FFmpeg.",
+    description:
+      "Planned. No sandboxed C/C++ oracle ships yet — the compiler oracle currently covers Rust, " +
+      "Go, Python and TypeScript, and fails closed for C/C++.",
     version: "3.28.0",
-    status: "installed",
+    status: "available",
+    planned: true,
     icon: "⚙️",
     tags: ["c", "cpp", "compiled"],
   },
@@ -336,7 +372,7 @@ export const ADDONS: Addon[] = [
   {
     id: "redlens",
     name: "Red Lens",
-    author: "Lunarian",
+    author: "Ryan Gurganious",
     category: "theme",
     description: "Deep crimson precision. For the long compile sessions.",
     version: "1.2.0",
@@ -347,7 +383,7 @@ export const ADDONS: Addon[] = [
   {
     id: "deepspace",
     name: "Deep Space",
-    author: "Lunarian",
+    author: "Ryan Gurganious",
     category: "theme",
     description: "Midnight void with nebula accents.",
     version: "1.4.0",
@@ -358,7 +394,7 @@ export const ADDONS: Addon[] = [
   {
     id: "mechbay",
     name: "Mech Bay",
-    author: "Lunarian",
+    author: "Ryan Gurganious",
     category: "theme",
     description: "Industrial amber on gunmetal. Utility-first.",
     version: "1.1.0",

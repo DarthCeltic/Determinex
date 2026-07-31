@@ -20,7 +20,9 @@ Safety guard rails:
 
 Usage:
     from determinex_flywheel import capture_successful_epoch
-    count = capture_successful_epoch(issue_text, patch, instance_id, repo_name)
+    # `verification` is required: it is what the compile gate actually established.
+    count = capture_successful_epoch(issue_text, patch, instance_id, repo_name,
+                                     verification="compiled+tested")
     # Optional: poll auto-retrain status / trigger
     from determinex_flywheel import maybe_trigger_auto_retrain
     maybe_trigger_auto_retrain()
@@ -97,21 +99,47 @@ class FlywheelState:
         tmp.replace(_FLYWHEEL_STATE_FILE)
 
 
+#: Gate outcomes that genuinely clear CLAUDE.md's "all training data must be compiler-validated
+#: before entering corpus" bar. Compile-only qualifies: a compiler really ran and really passed.
+#: Anything else does not, however plausible the patch looks.
+VERIFIED_GATE_KINDS = frozenset({"compiled+tested", "compiled_only"})
+
+
 def capture_successful_epoch(
     issue_text: str,
     patch: str,
     instance_id: str = "unknown",
     repo_name: str = "",
+    *,
+    verification: str,
 ) -> int:
     """
-    Append a verified (issue → patch) pair to auto_curriculum.jsonl.
-    Called only when: targeted tests PASS AND regression sweep PASSES.
+    Append a compiler-validated (issue → patch) pair to auto_curriculum.jsonl.
+
+    `verification` is required and keyword-only on purpose. This function's docstring used to say
+    "Called only when: targeted tests PASS AND regression sweep PASSES", and that was simply not
+    true: it wrote `"verified": True` for whatever it was handed, and the caller handed it any
+    patch the compile gate returned PASS for. The gate returned PASS without compiling anything
+    whenever the baseline compile failed, the toolchain was absent, the language was unsupported,
+    or no build file existed -- so unverified patches entered the corpus labelled verified and
+    became training data for the next LoRA retrain.
+
+    An unverified patch is now NOT written at all, rather than written with verified=False. The
+    corpus stays clean regardless of whether a downstream consumer remembers to filter, which is
+    the same reason the oracle fails closed instead of returning a soft pass.
 
     Returns current total entry count in flywheel file.
     Logs a notification when FLYWHEEL_NOTIFY_THRESHOLD is crossed.
     """
     if not patch or not patch.strip():
         log.debug("Flywheel: empty patch — skipping capture for %s", instance_id)
+        return _count_entries()
+
+    if verification not in VERIFIED_GATE_KINDS:
+        log.warning(
+            "Flywheel: NOT capturing %s — verification=%r is not compiler-validated, so it is "
+            "not training data. Corpus unchanged.", instance_id, verification,
+        )
         return _count_entries()
 
     entry = {
@@ -124,6 +152,9 @@ def capture_successful_epoch(
         "repo": repo_name,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "verified": True,
+        # Provenance, so a future reader can tell a compile-only sample from a tested one
+        # without re-deriving it from run logs.
+        "verification": verification,
         "source": "determinex_swe_flywheel",
     }
 

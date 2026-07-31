@@ -32,5 +32,19 @@
     "out/types/**/*.ts",
     "out/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  // vscode-extension is a SEPARATE npm project: its own package.json, its own
+  // tsconfig.json (include: ["src"], own outDir), and its own dependencies -- including
+  // @types/vscode, which is installed only by running npm ci inside that directory.
+  //
+  // Without this exclusion the `**/*.ts` include above sweeps in
+  // vscode-extension/src/extension.ts, so `cd frontend && npm ci && tsc --noEmit` fails
+  // on a FRESH CHECKOUT with "Cannot find module 'vscode'". It passes on this machine only
+  // because frontend/vscode-extension/node_modules happens to exist from an earlier manual
+  // install. Verified 2026-07-29 by running npm ci + tsc in a clean git export: it failed.
+  //
+  // No CI workflow installs the extension's dependencies -- release.yml,
+  // release_package_matrix.yml, test.yml and the linux fresh-install candidate all run
+  // `npm ci` in frontend/ only -- so this was a reproducibility hole in every one of them.
+  // The extension is type-checked by its own tsconfig, where its types resolve.
+  "exclude": ["node_modules", "vscode-extension"]
 }

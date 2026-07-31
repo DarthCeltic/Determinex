@@ -388,10 +388,29 @@ def synthesize_oracle_tests(spec: Spec) -> str:
     if not spec.examples and not emitted_property:
         # no deterministic ground truth extractable -> a smoke test that at least
         # pins that the symbol exists and is callable (honest minimum).
+        #
+        # VACUOUS_ORACLE_MARKER (added 2026-07-30). This is the weakest oracle the synthesizer can
+        # emit: `assert callable(f)` is satisfied by `def f(s): return None`. validate_oracle counts
+        # `def test_` occurrences, so it returned ok with n=1, and build_from_idea then reported
+        # solved=True with the proof "program PASSES all 1 synthesized checks (oracle-verified)".
+        # Worse, its `caveat` only fired for model-PROPOSED examples, so the weakest oracle shipped
+        # with NO warning while a stronger one was flagged. The marker below lets callers detect
+        # this case; see determinex_build_from_idea.py, which now refuses to claim verification on it.
+        lines.append("# DETERMINEX_VACUOUS_ORACLE: no example or typeable invariant was extractable")
         lines.append("def test_symbol_exists():")
         lines.append(f"    assert callable({spec.name})")
         lines.append("")
     return "\n".join(lines)
+
+
+#: Marker emitted into synthesized test code when no real ground truth could be derived. A caller
+#: that treats such an oracle as proof is claiming verification it does not have.
+VACUOUS_ORACLE_MARKER = "# DETERMINEX_VACUOUS_ORACLE:"
+
+
+def oracle_is_vacuous(test_code: str) -> bool:
+    """True when the synthesized oracle asserts nothing about behaviour."""
+    return VACUOUS_ORACLE_MARKER in (test_code or "")
 
 
 

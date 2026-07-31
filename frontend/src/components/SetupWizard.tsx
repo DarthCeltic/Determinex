@@ -140,6 +140,19 @@ export function SetupWizard() {
   const [toolchainResult, setToolchainResult] = useState<ToolchainInstallResult | null>(null);
   const [recommendedPolicy, setRecommendedPolicy] = useState<NetworkPolicyMode | null>(null);
   const [installPhase, setInstallPhase] = useState<string>("");
+  // Fine-tuned model coverage, probed after initialize_system. Null means not probed yet.
+  const [modelStatus, setModelStatus] = useState<{
+    ollama_available: boolean;
+    missing_count: number;
+    total_count: number;
+  } | null>(null);
+  const [modelInstallState, setModelInstallState] = useState<
+    "idle" | "installing" | "done" | "failed"
+  >("idle");
+  const [modelInstallError, setModelInstallError] = useState<string>("");
+  // null = not probed yet. Drives the OpenRouter card, which previously asserted the key was
+  // already present without ever looking.
+  const [openRouterKeyPresent, setOpenRouterKeyPresent] = useState<boolean | null>(null);
   const [apiKeys, setApiKeys] = useState<SetupApiKeys>({
     openai_key: "",
     anthropic_key: "",
@@ -237,10 +250,47 @@ export function SetupWizard() {
     return () => window.removeEventListener(SETUP_RERUN_EVENT, handler);
   }, [beginSetupProbe]);
 
+  // Real key status for the OpenRouter card. Failure resolves to "not present" rather than
+  // leaving the optimistic claim standing -- the whole point is to stop asserting a key exists
+  // without having looked.
+  useEffect(() => {
+    let cancelled = false;
+    // The local `invoke` wrapper is untyped (it also serves dev-mode mocks), so narrow here.
+    invoke("get_api_key_status")
+      .then((status) => {
+        if (cancelled) return;
+        const map = (status ?? {}) as Record<string, boolean>;
+        setOpenRouterKeyPresent(Boolean(map.openrouter));
+      })
+      .catch(() => {
+        if (!cancelled) setOpenRouterKeyPresent(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const handlePolicySelect = async (mode: NetworkPolicyMode) => {
     setPolicy(mode);
     setStep("providers");
   };
+
+  // Cheap and side-effect free. Asking lets the wizard say what is actually missing instead of
+  // leaving the user to discover it when a build fails to route. Shared by both the online and the
+  // offline paths -- it used to exist only in the online one.
+  const probeDeterminexModels = useCallback(async () => {
+    try {
+      const status = (await invoke("check_determinex_models")) as {
+        ollama_available: boolean;
+        missing_count: number;
+        total_count: number;
+      };
+      setModelStatus(status);
+    } catch (probeErr) {
+      // Never block setup on the probe itself.
+      console.warn("[SetupWizard] model probe failed:", probeErr);
+    }
+  }, []);
 
   const handleStartInstall = async () => {
     setStep("installing");
@@ -272,12 +322,38 @@ export function SetupWizard() {
           return;
         }
 
-        setInstallPhase("Registering Determinex model swarm with Ollama...");
+        // This used to read "Registering Determinex model swarm with Ollama...", which was not
+        // true: initialize_system pulls the base qwen models and registers the fine-tuned
+        // Determinex models only if their GGUFs already happen to be on disk. On a fresh
+        // machine they never are, so the swarm was announced and nothing was registered. The
+        // real provisioning path is the explicit, size-disclosed step below.
+        setInstallPhase("Finalizing system configuration...");
         await invoke("initialize_system");
+
+        await probeDeterminexModels();
       } else {
         setInstallPhase("Configuring IDE for Offline mode...");
-        // Still init system, but don't pull models from internet
-        await invoke("initialize_system").catch(() => {});
+        // Offline still needs the system initialised; it just must not reach the network.
+        //
+        // The `.catch(() => {})` that used to be here sat INSIDE this try, so the outer catch at
+        // the bottom (which sets step="error") was unreachable for the offline branch: a genuine
+        // initialize_system failure was swallowed and the wizard went straight to the green
+        // "System Ready / Determinex is fully configured for your environment" screen.
+        try {
+          await invoke("initialize_system");
+        } catch (offlineErr: unknown) {
+          setError(
+            offlineErr instanceof Error ? offlineErr.message : String(offlineErr),
+          );
+          setStep("error");
+          return;
+        }
+
+        // Also probe here. This used to run ONLY in the online/cloaked branch, so anyone choosing
+        // Offline never saw the "N of M fine-tuned models are not installed" panel -- i.e. the
+        // exact gap that panel exists to close was left open for offline installs, which are the
+        // ones most likely to have no models at all.
+        await probeDeterminexModels();
       }
 
       setStep("ready");
@@ -447,24 +523,44 @@ export function SetupWizard() {
                 </p>
               </div>
 
-              {/* OpenRouter — free tier highlight */}
-              <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex gap-3">
-                <Zap className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-sm font-semibold text-green-200 mb-1">
-                    OpenRouter Free Tier — Already Configured ✓
-                  </p>
-                  <p className="text-xs text-green-300/80 leading-relaxed">
-                    Your{" "}
-                    <code className="font-mono bg-black/30 px-1 rounded">OPENROUTER_API_KEY</code>{" "}
-                    is already in <code className="font-mono bg-black/30 px-1 rounded">.env</code>.
-                    This unlocks <strong>27 free LLMs</strong> with zero cost — including Qwen3
-                    Coder 480B (1M context), NVIDIA Nemotron Ultra 550B, and Llama 3.3 70B. No
-                    credit card required. Roles are pre-set to use these in{" "}
-                    <code className="font-mono bg-black/30 px-1 rounded">litellm_config.yaml</code>.
-                  </p>
+              {/* OpenRouter free tier.
+                  This card used to render "OpenRouter Free Tier — Already Configured ✓" and
+                  "Your OPENROUTER_API_KEY is already in .env" UNCONDITIONALLY, with no key check
+                  of any kind, on step 2 of first-run setup. For anyone installing Determinex that
+                  is simply false twice over: they have entered no key, and neither .env nor
+                  litellm_config.yaml ships in the installer -- both are repository files. It is
+                  the same defect class as the "Registering Determinex model swarm" claim one
+                  screen later, and it is now driven by get_api_key_status. */}
+              {openRouterKeyPresent === true ? (
+                <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex gap-3">
+                  <Zap className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-green-200 mb-1">
+                      OpenRouter key configured ✓
+                    </p>
+                    <p className="text-xs text-green-300/80 leading-relaxed">
+                      This unlocks OpenRouter&apos;s <strong>free tier</strong> at zero cost —
+                      including Qwen3 Coder 480B (1M context), NVIDIA Nemotron Ultra 550B, and
+                      Llama 3.3 70B. No credit card required.
+                    </p>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4 flex gap-3">
+                  <Zap className="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-slate-200 mb-1">
+                      OpenRouter free tier — optional, and free
+                    </p>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Adding an OpenRouter key below unlocks a set of <strong>free models</strong>{" "}
+                      at zero cost, including Qwen3 Coder 480B (1M context) and Llama 3.3 70B. No
+                      credit card required. Determinex runs entirely on local models without it —
+                      this only adds cloud options.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
@@ -793,6 +889,62 @@ export function SetupWizard() {
                   Determinex is fully configured for your environment.
                 </p>
               </div>
+
+              {/* The fine-tuned models are a separate, explicit choice. They are several GB,
+                  and the builder and monitor roles default to them -- so saying nothing here
+                  is what previously left a "ready" install unable to route work. */}
+              {modelStatus && modelStatus.missing_count > 0 && modelInstallState !== "done" && (
+                <div className="w-full max-w-md rounded-xl border border-amber-400/30 bg-amber-400/10 p-4 text-left">
+                  <p className="text-sm font-semibold text-amber-200">
+                    {modelStatus.missing_count} of {modelStatus.total_count} fine-tuned models
+                    are not installed
+                  </p>
+                  <p className="mt-1 text-xs text-slate-300">
+                    {modelStatus.ollama_available
+                      ? "The Builder and Monitor roles use these by default. Without them those roles cannot run, and the download is several GB — so it is your call, not a silent one. You can also do this later."
+                      : "Ollama was not detected, so these cannot be registered yet. Install Ollama from ollama.com, then run this step again."}
+                  </p>
+                  {modelStatus.ollama_available && (
+                    <button
+                      type="button"
+                      disabled={modelInstallState === "installing"}
+                      onClick={async () => {
+                        setModelInstallState("installing");
+                        setModelInstallError("");
+                        try {
+                          await invoke("install_determinex_models");
+                          setModelInstallState("done");
+                          const refreshed = (await invoke("check_determinex_models")) as {
+                            ollama_available: boolean;
+                            missing_count: number;
+                            total_count: number;
+                          };
+                          setModelStatus(refreshed);
+                        } catch (err: unknown) {
+                          setModelInstallState("failed");
+                          setModelInstallError(
+                            err instanceof Error ? err.message : String(err),
+                          );
+                        }
+                      }}
+                      className="mt-3 rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-900 transition-colors hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {modelInstallState === "installing"
+                        ? "Downloading models — this can take a while…"
+                        : "Download and register now"}
+                    </button>
+                  )}
+                  {modelInstallState === "failed" && (
+                    <p className="mt-2 break-words text-xs text-rose-300">{modelInstallError}</p>
+                  )}
+                </div>
+              )}
+              {modelInstallState === "done" && modelStatus?.missing_count === 0 && (
+                <p className="text-xs text-emerald-300">
+                  All {modelStatus.total_count} fine-tuned models registered.
+                </p>
+              )}
+
               <button
                 onClick={finishSetup}
                 className="mt-4 px-8 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold tracking-wide flex items-center gap-2 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/20"

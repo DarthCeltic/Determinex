@@ -60,9 +60,42 @@ _CLOUD_PROVIDERS = {
 
 
 def _is_cloud_model(model: str) -> bool:
-    """Return True if the model string refers to a cloud-hosted provider."""
+    """Return True if the model string refers to a cloud-hosted provider.
+
+    THIS BLOCKED EVERY LOCAL CALL ON A FRESH INSTALL (found 2026-07-30).
+
+    The test used to be `not m.startswith("ollama/")`, but callers pass the CONFIGURED ALIAS, not the
+    resolved provider name -- `api_client._effective_model = kwargs.get("model", model)`, which is
+    `determinex/engineer`. That does not start with `ollama/`, so a model running on the user's own
+    machine was classified as cloud. With `DETERMINEX_REQUIRE_CLOAK=1` (the documented default) and
+    Cloak inactive, `pre_api_gate` then raises:
+
+        [SAFETY GATE] Cloud API call to 'determinex/engineer' blocked:
+        DETERMINEX_REQUIRE_CLOAK=1 but Cloak is not active.
+
+    Reproduced directly with the env cleared: `determinex/engineer` and the bare ctx_config default
+    `determinex-engineer-v11-dsl` were both BLOCKED; only the fully-qualified `ollama/...` passed. So a
+    new user's entirely local, offline build session was refused as a cloud call. It works on the
+    development box only because `.env` sets `DETERMINEX_REQUIRE_CLOAK=0` -- and `.env` is not shipped
+    in the installer, which is what made this invisible.
+
+    Same defect as the api_client OOM timeout guard and the budget pricer before it: one locality
+    question, answered by hand in three places, wrong in two. `budget.is_local_model` is the canonical
+    answer -- it knows ollama/, ollama_chat/, hosted_vllm/, text-completion-openai/, determinex/,
+    local/ and the bare `determinex-` family.
+
+    The explicit provider-substring check is kept ahead of it, so an unrecognised string still errs
+    toward "cloud, therefore require Cloak" rather than toward silently skipping obfuscation.
+    """
     m = model.lower()
-    return any(p in m for p in _CLOUD_PROVIDERS) or not m.startswith("ollama/")
+    if any(p in m for p in _CLOUD_PROVIDERS):
+        return True
+    try:
+        from hive.budget import is_local_model
+    except Exception:
+        # Locality is unknowable here; treat as cloud so Cloak enforcement is not skipped.
+        return not m.startswith("ollama/")
+    return not is_local_model(model)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

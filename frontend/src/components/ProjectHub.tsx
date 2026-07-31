@@ -21,7 +21,7 @@ import {
 
 import { useIterationTheme } from "@/contexts/IterationThemeContext";
 import { cloneRepo } from "@/lib/gitService";
-import { pickFolder } from "@/lib/api";
+import { invokeSafe, pickFolder } from "@/lib/api";
 
 export type ProjectHubDestination = "work" | "workspace" | "source" | "runs" | "brain" | "proof";
 
@@ -48,6 +48,20 @@ interface ProjectHubProps {
   onOpenLibrary?: () => void;
 }
 
+// SEEDED EXAMPLES, NOT FACTS.
+//
+// These are the development machine's own projects. `branch` and `status` are already overridden at
+// runtime by a live `git_status` read with an honest "unknown" fallback (see the effect below) --
+// but `lastOpened`, `lastRun` and `proof` were not, and they shipped as literals: "Today",
+// "Frontend IA pass", "Proof gated". On a fresh install that meant a new user's project list
+// described recent activity and proof state on drives they do not have (`T:\Dev\ProgramBench`).
+//
+// Corrected 2026-07-30: the activity fields say "—" / "not checked" instead of inventing a history.
+// The cards themselves still appear on a machine that lacks these paths, which is a smaller lie
+// than the one removed: selecting one runs `git_status`, which returns ok:false and shows "unknown",
+// so the card degrades honestly on contact. Filtering the list by path existence would need a
+// full `get_file_system_tree` read per seed on mount, which is not worth the cost -- if it matters
+// later, add a cheap `path_exists` command rather than paying for a tree walk.
 const SEEDED_PROJECTS: ProjectHubProject[] = [
   {
     id: "determinex",
@@ -55,7 +69,7 @@ const SEEDED_PROJECTS: ProjectHubProject[] = [
     // localPath/remote are literal disk/GitHub references, not display prose --
     // must track the real checkout (this IDE's own repo). Verified 2026-07-26
     // against `git remote -v`, `gh repo list`, and the filesystem. NOTE: the
-    // old value here was github.com/lunariandatasystems-cmd/citadel, which a
+    // old value here was github.com/DarthCeltic/citadel, which a
     // mechanical rename turned into .../determinex -- a repo that does not
     // exist. That account only owns hf-hackathon; the real home is DarthCeltic.
     localPath: "C:\\Dev\\Determinex",
@@ -65,9 +79,9 @@ const SEEDED_PROJECTS: ProjectHubProject[] = [
     status: "dirty",
     stack: ["Next", "Tauri", "Rust", "Python"],
     defaultView: "work",
-    lastOpened: "Today",
-    lastRun: "Frontend IA pass",
-    proof: "Proof gated",
+    lastOpened: "—",
+    lastRun: "—",
+    proof: "not checked",
   },
   {
     id: "programbench",
@@ -79,9 +93,9 @@ const SEEDED_PROJECTS: ProjectHubProject[] = [
     status: "running",
     stack: ["Python", "Docker", "CLI Eval"],
     defaultView: "brain",
-    lastOpened: "Today",
-    lastRun: "PB shard review",
-    proof: "Read-only poll",
+    lastOpened: "—",
+    lastRun: "—",
+    proof: "not checked",
   },
   {
     id: "swebench",
@@ -93,9 +107,9 @@ const SEEDED_PROJECTS: ProjectHubProject[] = [
     status: "needs-proof",
     stack: ["Python", "Docker", "Cloak"],
     defaultView: "proof",
-    lastOpened: "This week",
-    lastRun: "Ablation evidence",
-    proof: "Baseline refresh needed",
+    lastOpened: "—",
+    lastRun: "—",
+    proof: "not checked",
   },
 ];
 
@@ -131,24 +145,24 @@ const DEFAULT_OPTIONS: Array<{ id: ProjectHubProject["defaultView"]; label: stri
 ];
 
 const STACK_PRIORITY: Array<[string, string]> = [
-  ["rust", "#f59e0b"],
-  ["tauri", "#f59e0b"],
+  ["rust", "var(--dtx-warn)"],
+  ["tauri", "var(--dtx-warn)"],
   ["go", "#00bcd4"],
   ["kotlin", "#a855f7"],
-  ["swift", "#f97316"],
-  ["python", "#34d399"],
-  ["typescript", "#a78bfa"],
-  ["next", "#a78bfa"],
-  ["react", "#60a5fa"],
+  ["swift", "var(--dtx-warn)"],
+  ["python", "var(--dtx-ok)"],
+  ["typescript", "var(--dtx-alt)"],
+  ["next", "var(--dtx-alt)"],
+  ["react", "var(--dtx-info)"],
   ["docker", "#2196f3"],
-  ["cloak", "#ec4899"],
+  ["cloak", "var(--dtx-alt)"],
 ];
 
 function getStackAccent(stack: string[]): string {
   for (const [key, color] of STACK_PRIORITY) {
     if (stack.some((s) => s.toLowerCase().includes(key))) return color;
   }
-  return "#374151";
+  return "var(--dtx-code-border)";
 }
 
 // Was `path.replace(/Citadel/gi, "Determinex")` -- a display-only cosmetic
@@ -353,6 +367,49 @@ export function ProjectHub({
     [projects, selectedId]
   );
 
+  // Live git state for the selected project's checkout.
+  //
+  // WHY (added 2026-07-29). `branch` and `status` were seeded literals rendered as
+  // present tense: the Determinex card read "clean-main" / "dirty" while the checkout was
+  // actually on `mojibake-and-count-fix`. These are the operator's REAL projects with
+  // verified paths, which makes a stale branch worse than obviously-fake demo data --
+  // it looks exactly like a reading of the repo, and it is not.
+  //
+  // The `git_status` command already existed (src-tauri/src/git.rs) and nothing here
+  // called it. When it fails -- no git, path absent, not a repo -- the seeded literal is
+  // NOT shown as a fallback: a stale branch presented confidently is the bug. The badge
+  // says "unknown" instead.
+  const [liveGit, setLiveGit] = useState<{
+    branch: string;
+    dirty: boolean;
+    ok: boolean;
+  } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const path = selectedProject?.localPath;
+    if (!path) {
+      setLiveGit(null);
+      return;
+    }
+    setLiveGit(null); // never show the previous project's branch while loading
+    void (async () => {
+      const result = await invokeSafe<{ branch: string; files: { path: string }[] }>(
+        "git_status",
+        { cwd: path }
+      );
+      if (cancelled) return;
+      setLiveGit(
+        result
+          ? { branch: result.branch, dirty: (result.files?.length ?? 0) > 0, ok: true }
+          : { branch: "unknown", dirty: false, ok: false }
+      );
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedProject?.localPath]);
+
   const projectCoverRows = useMemo(
     () => [
       {
@@ -500,7 +557,7 @@ export function ProjectHub({
         <header className="shrink-0 mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              {/* Lunarian logo */}
+              {/* Project logo */}
               <div
                 className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 transition-all"
                 style={{
@@ -691,8 +748,23 @@ export function ProjectHub({
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-xs text-[var(--determinex-muted)]">
                         <FolderGit2 size={13} /> {selectedProject.provider}
                       </span>
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-xs text-[var(--determinex-muted)] font-mono">
-                        <GitBranch size={13} /> {selectedProject.branch}
+                      <span
+                        className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-xs text-[var(--determinex-muted)] font-mono"
+                        title={
+                          liveGit === null
+                            ? "Reading git state…"
+                            : liveGit.ok
+                              ? `Live from git status in ${selectedProject.localPath}${liveGit.dirty ? " — uncommitted changes present" : " — clean"}`
+                              : `Could not read git state in ${selectedProject.localPath}`
+                        }
+                      >
+                        <GitBranch size={13} />{" "}
+                        {liveGit === null ? "…" : liveGit.branch}
+                        {liveGit?.ok && liveGit.dirty && (
+                          <span className="text-amber-400" title="uncommitted changes">
+                            *
+                          </span>
+                        )}
                       </span>
                       <span
                         className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-black uppercase tracking-widest ${statusStyle[selectedProject.status]}`}

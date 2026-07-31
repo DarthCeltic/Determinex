@@ -34,10 +34,10 @@ import { checkOllamaStatus } from "@/lib/api";
 type ProviderClass = "local" | "free" | "cheap" | "frontier";
 
 const CLASS_COPY: Record<ProviderClass, { label: string; badge: string; color: string }> = {
-  local: { label: "Local / On-device", badge: "FREE · PRIVATE", color: "#34d399" },
-  free: { label: "Free-tier Cloud API", badge: "FREE TIER", color: "#60a5fa" },
-  cheap: { label: "Cheap Cloud API", badge: "LOW COST", color: "#38bdf8" },
-  frontier: { label: "Frontier Cloud API", badge: "PAID · HIGHEST QUALITY", color: "#f59e0b" },
+  local: { label: "Local / On-device", badge: "FREE · PRIVATE", color: "var(--dtx-ok)" },
+  free: { label: "Free-tier Cloud API", badge: "FREE TIER", color: "var(--dtx-info)" },
+  cheap: { label: "Cheap Cloud API", badge: "LOW COST", color: "var(--dtx-info)" },
+  frontier: { label: "Frontier Cloud API", badge: "PAID · HIGHEST QUALITY", color: "var(--dtx-warn)" },
 };
 
 type ProviderEntry = {
@@ -135,13 +135,13 @@ type CustomProvider = {
 
 const CUSTOM_PROVIDERS_STORAGE_KEY = "determinex-custom-providers";
 const CUSTOM_PROVIDER_COLORS = [
-  "#f472b6",
-  "#a78bfa",
-  "#60a5fa",
-  "#34d399",
-  "#fbbf24",
+  "var(--dtx-alt)",
+  "var(--dtx-alt)",
+  "var(--dtx-info)",
+  "var(--dtx-ok)",
+  "var(--dtx-warn)",
   "#fb7185",
-  "#22d3ee",
+  "var(--dtx-alt-2)",
   "#facc15",
 ];
 

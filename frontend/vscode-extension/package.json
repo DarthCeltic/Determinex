@@ -4,7 +4,7 @@
   "description": "Build from an idea, repair any repo, with oracle-bounded correctness. Any AI (Claude/Codex/Gemini/local) plugs in; nothing it produces is accepted unless the oracle passes.",
   "version": "0.1.0",
   "license": "AGPL-3.0-or-later",
-  "publisher": "lunarian-data-systems",
+  "publisher": "darthceltic",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -58,11 +58,25 @@
   "scripts": {
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "package": "vsce package"
+    "package": "vsce package",
+    "pretest": "tsc -p ./",
+    "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.85.0",
+    "@vscode/test-electron": "^2.5.2",
+    "glob": "^11.1.0",
+    "mocha": "^10.8.2",
     "typescript": "^5.4.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DarthCeltic/Determinex.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DarthCeltic/Determinex/issues"
+  },
+  "homepage": "https://github.com/DarthCeltic/Determinex"
 }

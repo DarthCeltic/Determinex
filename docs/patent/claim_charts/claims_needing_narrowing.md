@@ -124,7 +124,7 @@ Attorney judgment required on which limitations to include in independent vs. de
 
 ## NARROW-04: Cloaked-Pair + DP Aggregation + Cartridge Routing (Combined Fleet Privacy Pipeline)
 
-`[PRIOR mechanisms — LUNARIAN_NODE.md §2 §5–6 / §9 N-14]`
+`[PRIOR mechanisms — DETERMINEX_NODE.md §2 §5–6 / §9 N-14]`
 
 **Staged claim (narrow form, distinguishing elements bolded):**
 > A system for privacy-preserving collection of AI-generated code training signal from a

@@ -55,7 +55,7 @@ Before grepping: two tools query Determinex's own knowledge instead of you doing
 Benchmark results are not product support, not release support, and not product readiness.
 | Folder | Files | What's there |
 |---|---:|---|
-| [`papers/`](papers/) | 7 | **Canonical publication-grade docs.** Updated each rev. WHITE_PAPER, ARCHITECTURE, PROJECT_CLOAK, PROGRAMBENCH, BENCHMARK_EXPANSION, LUNARIAN_NODE, LICENSING. |
+| [`papers/`](papers/) | 7 | **Canonical publication-grade docs.** Updated each rev. WHITE_PAPER, ARCHITECTURE, PROJECT_CLOAK, PROGRAMBENCH, BENCHMARK_EXPANSION, DETERMINEX_NODE, LICENSING. |
 | [`architecture/`](architecture/) | 28 | System designs, verifier harnesses, model routing, ops stack, unified product foundation, Cathedral Index spec. |
 | [`policy/`](policy/) | 27 | Governance, threat models, training/evidence/approval gates, action safety, authority boundaries. |
 | [`companions/`](companions/) | 5 | Operator-facing and project-memory companion essays (project memory, cloak safety, flow AI, MoA/MoE, vibe coding). Skill-load files. |
@@ -80,7 +80,7 @@ Benchmark results are not product support, not release support, and not product 
 | [`papers/PROJECT_CLOAK.md`](papers/PROJECT_CLOAK.md) | 2026-05-29 | Cloak implementation + SWE-bench ablation status. B-Uncloaked 14.0 %; lower-bound configs pending larger-disk rerun. |
 | [`papers/PROGRAMBENCH.md`](papers/PROGRAMBENCH.md) | 2026-06-30 (corrected) | ProgramBench strategy. **0/200 legitimate locks** — prior "confirmed lock" counts were upstream source builds, invalidated 2026-06-30 by provenance audit; 62 archives retained as Native Reimplementation Loop reference corpus; eval_index.json is canonical board. |
 | [`papers/BENCHMARK_EXPANSION.md`](papers/BENCHMARK_EXPANSION.md) | 2026-05-18 | Forward plan for HumanEval/MBPP/BigCodeBench/CodeContests/LiveCodeBench. |
-| [`papers/LUNARIAN_NODE.md`](papers/LUNARIAN_NODE.md) | 2026-05-18 | Long-range strategy. |
+| [`papers/DETERMINEX_NODE.md`](papers/DETERMINEX_NODE.md) | 2026-05-18 | Long-range strategy. |
 | [`papers/LICENSING.md`](papers/LICENSING.md) | current | License + commercial-use boundary. |
 
 ---

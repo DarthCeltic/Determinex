@@ -82,11 +82,11 @@ function estimateHiveTime(fileCount: number, complexity: string): string {
 }
 
 const LANG_COLOR: Record<string, string> = {
-  rust: "#f59e0b",
-  go: "#60a5fa",
-  python: "#34d399",
-  typescript: "#a78bfa",
-  kotlin: "#f472b6",
+  rust: "var(--dtx-warn)",
+  go: "var(--dtx-info)",
+  python: "var(--dtx-ok)",
+  typescript: "var(--dtx-alt)",
+  kotlin: "var(--dtx-alt)",
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -111,13 +111,13 @@ export function SpecBreakdownView({
     () => estimateHiveTime(parsed.files.length, path?.complexity ?? "medium"),
     [parsed.files.length, path?.complexity]
   );
-  const langColor = LANG_COLOR[parsed.language] ?? "#34d399";
-  const pathColor = path?.color ?? "#00e5ff";
+  const langColor = LANG_COLOR[parsed.language] ?? "var(--dtx-ok)";
+  const pathColor = path?.color ?? "var(--dtx-alt-2)";
 
   return (
-    <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 overflow-hidden">
+    <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] text-gray-300 overflow-hidden">
       {/* Header */}
-      <div className="shrink-0 px-6 py-4 border-b border-[#30363d] bg-[#161b22]/60 flex items-start justify-between gap-4">
+      <div className="shrink-0 px-6 py-4 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)]/60 flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-0.5">
             <span className="text-eyebrow uppercase font-bold tracking-widest text-emerald-400/70">
@@ -151,7 +151,7 @@ export function SpecBreakdownView({
       >
         <div className="grid grid-cols-2">
           {/* Traditional */}
-          <div className="px-5 py-4 border-r border-[#30363d] flex flex-col gap-1">
+          <div className="px-5 py-4 border-r border-[var(--dtx-code-border)] flex flex-col gap-1">
             <div className="flex items-center gap-1.5 mb-1">
               <Clock size={10} className="text-gray-600" />
               <span className="text-eyebrow uppercase font-bold tracking-widest text-gray-600">
@@ -184,7 +184,7 @@ export function SpecBreakdownView({
             </div>
           </div>
         </div>
-        <div className="px-5 py-2 border-t border-[#30363d] bg-[#161b22]/40 flex items-center justify-center">
+        <div className="px-5 py-2 border-t border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)]/40 flex items-center justify-center">
           <span className="text-meta text-gray-600">
             Each step is a compiler-validated sprint — not a guess
           </span>
@@ -247,7 +247,7 @@ export function SpecBreakdownView({
               {parsed.files.map((f, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-2 rounded-lg px-2.5 py-1.5 border border-[#30363d] bg-[#0d1117]"
+                  className="flex items-start gap-2 rounded-lg px-2.5 py-1.5 border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)]"
                 >
                   <code
                     className="text-meta font-mono shrink-0 mt-0.5"
@@ -277,7 +277,7 @@ export function SpecBreakdownView({
               {parsed.dependencies.map((d, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-[#30363d] bg-[#161b22]"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)]"
                 >
                   <code className="text-meta font-mono text-sky-400">{d.name}</code>
                   {d.why && <span className="text-meta text-gray-600">— {d.why}</span>}
@@ -321,7 +321,7 @@ export function SpecBreakdownView({
 
       {/* Sticky build CTA */}
       {onBuild && (
-        <div className="shrink-0 border-t border-[#30363d] px-5 py-4 bg-[#0d1117] flex flex-col gap-2">
+        <div className="shrink-0 border-t border-[var(--dtx-code-border)] px-5 py-4 bg-[var(--dtx-code-bg)] flex flex-col gap-2">
           <button
             onClick={onBuild}
             disabled={building}

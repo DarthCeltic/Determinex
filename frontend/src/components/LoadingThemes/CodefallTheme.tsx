@@ -160,9 +160,9 @@ export function CodefallTheme({
           <div className="flex items-center gap-3 mt-6">
             {[
               { role: "Oracle", color: "#00e5ff", active: true },
-              { role: "Architect", color: "#a78bfa", active: false },
-              { role: "Builder", color: "#34d399", active: false },
-              { role: "Compiler", color: "#f59e0b", active: false },
+              { role: "Architect", color: "var(--dtx-alt)", active: false },
+              { role: "Builder", color: "var(--dtx-ok)", active: false },
+              { role: "Compiler", color: "var(--dtx-warn)", active: false },
             ].map(({ role, color, active: nodeActive }, i, arr) => (
               <React.Fragment key={role}>
                 <div className="flex flex-col items-center gap-1">

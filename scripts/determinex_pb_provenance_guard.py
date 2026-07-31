@@ -81,6 +81,41 @@ def load_just() -> dict:
     return json.loads(JUST.read_text(encoding="utf-8")) if JUST.exists() else {"justified": {}}
 
 
+def examinable(tool: str) -> list[str]:
+    """Which artifacts of `tool` this guard can actually open.
+
+    scan_tool() returns [] both when a tool is genuinely clean and when there is
+    nothing to look at -- a missing tarball hits `return hits`, an unreadable one hits
+    `except Exception: pass`. Those are opposite facts sharing one representation, and
+    the guard read the pair as "clean".
+
+    Measured 2026-07-29 on the real tree: 2 of the 5 verified_locks entries
+    (`cheat__cheat.b8098dc`, `lymphatus__caesium-clt`) had NEITHER a submission tarball
+    NOR a tracked source/ dir, so 40% of the registry was certified free of test-gaming
+    having been examined not at all. `cheat__cheat.b8098dc` is also a registry/disk NAME
+    mismatch: disk carries `cheat__cheat/`, holding only a ceiling cert.
+    """
+    found = []
+    if (LOCKED / tool / "source").is_dir():
+        found.append("source/")
+    if (LOCKED / tool / "submission.tar.gz").exists():
+        found.append("submission.tar.gz")
+    return found
+
+
+def near_matches(tool: str) -> list[str]:
+    """Locked dirs whose name is close to `tool`, so an unscannable entry can name its
+    own likely fix instead of leaving the operator to guess at a rename."""
+    if not LOCKED.is_dir():
+        return []
+    stem = tool.split(".")[0]
+    return sorted(
+        d.name for d in LOCKED.iterdir()
+        if d.is_dir() and d.name != tool and not d.name.startswith("_")
+        and (d.name.startswith(stem) or stem.startswith(d.name))
+    )[:3]
+
+
 def scan_tool(tool: str) -> list[dict]:
     hits = []
     # SOURCE-SNAPSHOT scan: the submission.tar.gz is often gitignored (regenerable), so the
@@ -144,7 +179,13 @@ def audit() -> dict:
     just = load_just().get("justified", {})
     proofs = load_proofs()
     flagged = {}
+    unscannable: dict[str, list[str]] = {}
     for tool in sorted(reg):
+        if not examinable(tool):
+            # Recorded, not skipped. "Nothing to open" is a distinct verdict from
+            # "opened it and it was clean", and only the second one is a pass.
+            unscannable[tool] = near_matches(tool)
+            continue
         hits = scan_tool(tool)
         if not hits:
             continue
@@ -159,13 +200,19 @@ def audit() -> dict:
         unjust = [h for h in hits if not _cleared(h)]
         flagged[tool] = {"hits": hits, "unjustified": unjust,
                          "status": "JUSTIFIED" if not unjust else "NEEDS-REVIEW"}
-    return {"scanned": len(reg), "flagged": flagged}
+    return {
+        "registry_present": REG.exists(),
+        "scanned": len(reg) - len(unscannable),
+        "registered": len(reg),
+        "unscannable": unscannable,
+        "flagged": flagged,
+    }
 
 
 def main() -> int:
     r = audit()
     guard = "--guard" in sys.argv
-    print(f"provenance/anti-gaming scan: {r['scanned']} locks")
+    print(f"provenance/anti-gaming scan: {r['scanned']} of {r['registered']} registered locks examined")
     needs = {t: v for t, v in r["flagged"].items() if v["status"] == "NEEDS-REVIEW"}
     just = {t: v for t, v in r["flagged"].items() if v["status"] == "JUSTIFIED"}
     print(f"  JUSTIFIED (audited, recorded): {len(just)} {sorted(just)}")
@@ -173,13 +220,42 @@ def main() -> int:
     for t, v in needs.items():
         for h in v["unjustified"][:3]:
             print(f"    {t}: {h['kind']} in {h['file']} -> {h['snippet']!r}")
+
+    if r["unscannable"]:
+        print(f"  UNSCANNABLE (no artifact on disk): {len(r['unscannable'])}")
+        for tool, near in sorted(r["unscannable"].items()):
+            hint = f"  (did you mean: {', '.join(near)}?)" if near else ""
+            print(f"    {tool}: no source/ and no submission.tar.gz{hint}")
+
     if guard and needs:
         print("\nPROVENANCE GUARD FAILED: unjustified test-gaming signatures on locked tools. "
               "Audit each: justify (genuinely-distinct context, independently-correct output) "
               "or fix the tool to implement the behavior. Record in provenance_justifications.json.")
         return 1
+
+    # A verdict requires having looked. CLAUDE.md records what the alternative cost:
+    # "regenerating the stale verified_locks.json (was 64, missing 35 locks -> the
+    # provenance_guard never checked them) EXPOSED 4 illegitimate locks". A guard whose
+    # input is absent or short does not complain about what is missing from it, so the
+    # absence has to be the failure -- otherwise "PASSED" silently means "examined none".
+    if guard and not r["registry_present"]:
+        print(f"\nPROVENANCE GUARD FAILED: no registry at {REG}. Nothing was examined, so "
+              "no lock can be certified. Regenerate verified_locks.json (see "
+              "determinex_pb_lock_registry.py) and re-run.")
+        return 1
+    if guard and not r["registered"]:
+        print("\nPROVENANCE GUARD FAILED: the registry lists zero locks. Nothing was "
+              "examined, so this is not a pass -- regenerate verified_locks.json.")
+        return 1
+    if guard and r["unscannable"]:
+        print("\nPROVENANCE GUARD FAILED: a registered lock has no artifact to examine. "
+              "Its archive is absent (or the registry names it differently than disk does), "
+              "so its provenance is unverified -- which is not the same as clean. Restore "
+              "the archive, correct the registry entry, or drop the lock.")
+        return 1
     if guard:
-        print("\nPROVENANCE GUARD PASSED: no unjustified test-gaming on any lock.")
+        print(f"\nPROVENANCE GUARD PASSED: {r['scanned']} lock(s) examined, "
+              "no unjustified test-gaming.")
     return 0
 
 

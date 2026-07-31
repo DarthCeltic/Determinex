@@ -62,7 +62,7 @@ export function ProjectAuditPanel({ workspacePath = "" }: Props) {
   };
 
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-[#0d1117]/90 text-gray-300 font-sans">
+    <div className="flex h-full flex-col overflow-hidden bg-[var(--dtx-code-bg)]/90 text-gray-300 font-sans">
       {/* Panel Header */}
       <div className="flex items-center gap-3 px-5 py-4 border-b border-white/5 bg-black/20 shrink-0">
         <ShieldCheck size={20} className="text-[var(--determinex-accent)]" />
@@ -111,7 +111,7 @@ export function ProjectAuditPanel({ workspacePath = "" }: Props) {
         {report && (
           <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
             {/* Headline Score */}
-            <div className="flex items-center justify-between border border-white/10 bg-[#161b22]/40 rounded-2xl p-4 shadow-xl">
+            <div className="flex items-center justify-between border border-white/10 bg-[var(--dtx-code-panel)]/40 rounded-2xl p-4 shadow-xl">
               <div>
                 <span className="text-eyebrow font-black uppercase tracking-widest text-gray-500">
                   Shippable Status Score
@@ -140,7 +140,7 @@ export function ProjectAuditPanel({ workspacePath = "" }: Props) {
               {report.categories.map((c, i) => (
                 <div
                   key={i}
-                  className="border border-white/5 bg-[#161b22]/20 rounded-xl p-3.5 space-y-1.5"
+                  className="border border-white/5 bg-[var(--dtx-code-panel)]/20 rounded-xl p-3.5 space-y-1.5"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-white">{c.title}</span>

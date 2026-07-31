@@ -29,3 +29,34 @@ describe("add-on storage", () => {
     expect(JSON.parse(window.localStorage.getItem(ADDON_STORAGE_KEY) || "[]")).toEqual(["gemini"]);
   });
 });
+
+describe("uninstall persistence", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it("keeps a seeded add-on uninstalled across reads", () => {
+    // THE REGRESSION. readInstalledAddonIds used to merge defaultInstalledAddonIds() -- every
+    // addon whose STATIC status is "installed" -- back in on every read, while
+    // writeInstalledAddonIds only excluded "builtin". So Uninstall wrote a list without the addon
+    // and the next read restored it: reload, and it showed "Installed" again. Confirmed against
+    // real seeded ids (swebench is status "installed" in ADDONS).
+    const seeded = readInstalledAddonIds(window.localStorage);
+    expect(seeded.has("swebench")).toBe(true);
+
+    const remaining = new Set([...seeded].filter((id) => id !== "swebench"));
+    writeInstalledAddonIds(window.localStorage, remaining);
+
+    const afterReload = readInstalledAddonIds(window.localStorage);
+    expect(afterReload.has("swebench")).toBe(false);
+  });
+
+  it("still forces builtins back in, because those are not removable", () => {
+    readInstalledAddonIds(window.localStorage);
+    writeInstalledAddonIds(window.localStorage, new Set());
+
+    const afterReload = readInstalledAddonIds(window.localStorage);
+    // rust-oracle is status "builtin"; it must survive an attempt to remove it.
+    expect(afterReload.has("rust-oracle")).toBe(true);
+  });
+});

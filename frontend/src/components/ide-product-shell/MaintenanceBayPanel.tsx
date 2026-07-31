@@ -101,9 +101,14 @@ export function MaintenanceBayPanel({
   const scanRan = scanResult != null && !scanResult.scan_error && Array.isArray(scanResult.gates);
   const failedGates = scanRan ? scanResult!.gates.filter((g) => !g.passed) : [];
 
-  const compatibilityVerifierPresent = compatibilityVerifierPresentProp ?? scanRan;
-  const compatibilityVerifierPassed =
-    compatibilityVerifierPassedProp ?? (scanRan ? scanResult!.overall_passed === true : false);
+  // A SECURITY scan is not a compatibility verifier. These used to default to `scanRan` and
+  // `scanResult.overall_passed`, where scanRan means the pip-audit/secret/licence/container scan
+  // ran -- so after a green security scan the row "Compatibility verifier required" reported
+  // "passed", asserting that a dependency update had been checked for compatibility when nothing of
+  // the kind had happened. There is no compatibility verifier in this product yet, so absent it
+  // reports absent, and only an explicit prop can claim otherwise.
+  const compatibilityVerifierPresent = compatibilityVerifierPresentProp ?? false;
+  const compatibilityVerifierPassed = compatibilityVerifierPassedProp ?? false;
   const riskClassification =
     riskClassificationProp ??
     (scanRan
@@ -193,11 +198,23 @@ export function MaintenanceBayPanel({
           Dependency / security / doc / test impact plan
         </dt>
         <dd>
-          {riskVisible ? "impact plan present" : "impact plan pending — risk must be visible first"}
+          {/* Was `riskVisible ? "impact plan present" : ...`, and riskVisible is only
+              `riskClassification !== "unknown"` -- which becomes "none_found" after any clean scan.
+              So a clean SECURITY scan asserted that a dependency/doc/test impact plan existed. No
+              impact plan is produced anywhere in this component or its backend payload. */}
+          {riskVisible
+            ? "risk classified — impact plan not produced yet"
+            : "impact plan pending — risk must be visible first"}
         </dd>
 
         <dt data-testid="maintenance-bay-quarantined-changes">Proposed changes quarantined</dt>
-        <dd>UPDATE_PROPOSED_QUARANTINED</dd>
+        <dd>
+          {/* Was the bare literal "UPDATE_PROPOSED_QUARANTINED", rendered unconditionally -- so on a
+              fresh mount with nothing proposed the panel stated that a change set had been proposed
+              and quarantined. Nothing in this component or the workflow payload tracks a proposal,
+              so the honest rendering is the POLICY that would apply, labelled as such. */}
+          {resp?.payload ? "UPDATE_PROPOSED_QUARANTINED" : "policy: any proposed update is quarantined (none proposed)"}
+        </dd>
 
         <dt data-testid="maintenance-bay-compatibility-verifier-required">
           Compatibility verifier required
@@ -263,5 +280,3 @@ export function MaintenanceBayPanel({
     </section>
   );
 }
-
-export default MaintenanceBayPanel;

@@ -6,6 +6,8 @@ All existing scripts are untouched — this dispatches to them.
 Usage::
 
     determinex --version
+    determinex build --idea <file> [--provider local] [--model <m>] [--lang python] [--k N]
+    determinex corpus list | corpus fetch <tool> [--all] [--into <dir>]
     determinex doctor [--json <path>] [--strict]
     determinex status [--last-run] [--tail] [--date YYYY-MM-DD] [--summary] [--json] [-n N] [--all]
     determinex config show
@@ -42,12 +44,18 @@ _USAGE = """\
 determinex <command> [options]
 
 Commands:
+  build           Idea -> synthesized oracle -> verified program
+  corpus          List / fetch corpus tools at their pinned upstream commits
   doctor          Check local environment setup
   status          View pipeline event log
   config show     Print all resolved config settings
   config doctor   Check config/safety defaults
   evidence validate  Validate evidence index integrity
   evidence render    Re-render docs/EVIDENCE_INDEX.md
+
+Examples:
+  determinex build --idea my_idea.md --provider local --k 6
+  determinex corpus fetch cmatrix
 
 Options:
   --version       Print version and exit
@@ -71,6 +79,38 @@ def _cmd_status(argv: list[str]) -> int:
     from determinex_status import main as status_main
     sys.argv = ["determinex status"] + argv
     return status_main()
+
+
+def _cmd_build(argv: list[str]) -> int:
+    """idea -> synthesized oracle -> verified program.
+
+    Added 2026-07-31. Everything this CLI exposed was DIAGNOSTIC -- doctor, status, config,
+    evidence -- so someone who installed Determinex and ran `determinex --help` saw no way to
+    reach the correctness engine at all. The engine was reachable only as
+    `python scripts/determinex_build_from_idea.py`, i.e. only from a source checkout, which the
+    installed console script by definition is not.
+
+    Dispatches to the existing module rather than duplicating its argument parsing, the same way
+    `doctor` and `status` do. Candidates are model-generated and are verified inside
+    `intake.hardened_runner` with network denied -- never a raw subprocess.
+    """
+    from determinex_build_from_idea import main as build_main
+    sys.argv = ["determinex build"] + argv
+    return build_main()
+
+
+def _cmd_corpus(argv: list[str]) -> int:
+    """Materialise a corpus tool's upstream source at its pinned commit.
+
+    The public repo ships the knowledge layer -- oracles, `compile.sh` recipes, eval reports,
+    learned build knowledge, and `canonical_tasks.json` which pins repository+commit for all 200
+    tasks -- but not the ~200 upstream checkouts themselves. Re-hosting those fails twice over: the
+    pack is 9.73 GiB (GitHub soft-limits at 1 GB), and redistributing them carries every upstream
+    project's own license obligations. This reconstructs any tool's tree from its own maintainers
+    at exactly the pinned commit, then overlays our recipe.
+    """
+    from determinex_corpus_fetch import main as corpus_main
+    return corpus_main(argv)
 
 
 def _cmd_config_show(_argv: list[str]) -> int:
@@ -183,6 +223,22 @@ def status(ctx: click.Context, extra: tuple[str, ...]) -> None:
     ctx.exit(_cmd_status(list(extra)))
 
 
+@_cli.command(context_settings=_PASSTHROUGH, add_help_option=False)
+@click.argument("extra", nargs=-1, type=click.UNPROCESSED)
+@click.pass_context
+def build(ctx: click.Context, extra: tuple[str, ...]) -> None:
+    """Build a verified program from an idea file (the correctness engine)."""
+    ctx.exit(_cmd_build(list(extra)))
+
+
+@_cli.command(context_settings=_PASSTHROUGH, add_help_option=False)
+@click.argument("extra", nargs=-1, type=click.UNPROCESSED)
+@click.pass_context
+def corpus(ctx: click.Context, extra: tuple[str, ...]) -> None:
+    """List or fetch corpus tools' upstream source at their pinned commits."""
+    ctx.exit(_cmd_corpus(list(extra)))
+
+
 @_cli.group()
 def config() -> None:
     """Config subcommands."""
@@ -225,6 +281,15 @@ def evidence_render(ctx: click.Context) -> None:
 # main() — preserves the pre-click int-return / exit-code / message contract
 # ---------------------------------------------------------------------------
 
+#: Every command registered on the click group, minus the two that own their own subcommand
+#: validation below. Read from the group rather than restated, so adding a command in one place
+#: cannot produce a CLI that lists it in --help and then calls it unknown.
+_GROUPS_WITH_OWN_SUBCOMMAND_CHECK = ("config", "evidence")
+_TOP_LEVEL_COMMANDS = tuple(
+    name for name in _cli.commands if name not in _GROUPS_WITH_OWN_SUBCOMMAND_CHECK
+)
+
+
 def main() -> int:
     args = sys.argv[1:]
 
@@ -254,7 +319,12 @@ def main() -> int:
             print(f"Unknown evidence subcommand: {sub!r}")
             print("Available: determinex evidence validate | determinex evidence render")
             return 1
-    elif cmd not in ("doctor", "status"):
+    # This allow-list is a SECOND place the set of commands is written down, and it silently
+    # disagreed with the first: registering the `build` click command and adding it to _USAGE
+    # produced a CLI that ADVERTISED build in its own help and then answered
+    # "Unknown command: 'build'". Derived from the click group instead, so the two cannot drift
+    # -- the group is the registry, and the pre-click "Unknown command" contract is preserved.
+    elif cmd not in _TOP_LEVEL_COMMANDS:
         print(f"Unknown command: {cmd!r}\n")
         print(_USAGE)
         return 1

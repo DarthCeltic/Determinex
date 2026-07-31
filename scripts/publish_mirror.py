@@ -45,11 +45,60 @@ REPO = Path(__file__).resolve().parent.parent
 # Never copied, whatever the mirror's tree says. Belt to the allowlist's braces:
 # if one of these ever appears in the mirror it is a leak to fix, not a path to
 # faithfully re-sync.
+#: Paths inside an otherwise-published top-level entry that must not travel.
+#:
+#: `corpus` came OFF the NEVER list on 2026-07-31: the corpus is the point of Determinex — the
+#: Native Reimplementation Loop feeds real source and a real oracle to a model — so publishing a
+#: repo without it ships a hollow product. What cannot travel is the ~150,000 files of VENDORED
+#: UPSTREAM SOURCE inside it, for two independent reasons:
+#:
+#:   SIZE  the pack is 9.73 GiB. GitHub soft-limits at 1 GB and rejects any file over 100 MB.
+#:   LAW   those trees are other people's software. Redistribution obliges us to carry each
+#:         project's copyright notice and license, and 59 of them still have no license text.
+#:
+#: So the KNOWLEDGE layer ships — the oracles, our `compile.sh` recipes, eval reports, learned
+#: build knowledge, and `canonical_tasks.json`, which pins repository+commit for all 200 tasks —
+#: and `determinex corpus fetch` reconstructs any upstream tree from its own maintainers at
+#: exactly that commit. Same inputs to the model, nothing re-hosted.
+CORPUS_VENDORED_MARKERS = (
+    "/source/",                      # locked/<tool>/source, pending_unlock/<tier>/<tool>/source
+)
+
+#: Inside `per_tool_overrides/<tool>/` only these are ours; the rest of that directory is a
+#: complete upstream checkout the recipe happens to sit inside.
+CORPUS_OVERRIDE_KEEP = ("compile.sh", "conftest.py", "eval_report.json", "tests.json")
+
+#: Bulk EVIDENCE that belongs in the dataset, not in a git repo. Dropping the vendored source got
+#: corpus/ from 158,788 files to 2,351 — but still 908 MB, because 519 `eval_report.json` files are
+#: 554 MB of raw per-test output on their own, plus 146 MB of `.bak` archives and 72 MB of training
+#: corpus. A git repo is the wrong home for that: every revision keeps a copy forever.
+#:
+#: Verifiability is not lost. `eval_index.json` records `eval_report_sha256` for each row, so the
+#: repo carries a checksum of every report and the dataset carries the report — you can prove the
+#: artifact you downloaded is the one the board's number came from.
+CORPUS_BULK_EVIDENCE = (
+    ".bak",              # pre-bidir backups; never publish a backup
+    ".tar.gz",           # submission archives, reproducible from compile.sh
+    "/training_corpus/", # the flywheel's training data
+)
+
+#: Basename PREFIXES for bulk evidence. A prefix, not an exact name: matching only
+#: `eval_report.json` left `eval_report_tui_v1.json`, `eval_report_v3.json` and friends behind,
+#: which is 20 MB of the same raw per-test output under a different filename.
+CORPUS_BULK_PREFIXES = ("eval_report",)
+
+#: Individually large reference data that belongs in the dataset. Named explicitly rather than
+#: caught by a size threshold, because a size rule would silently start dropping things as files
+#: grow, and "the repo quietly stopped shipping X" is the failure mode this repo keeps finding.
+CORPUS_BULK_FILES = (
+    "corpus/swebench/swebench_inventory.json",   # 36 MB SWE-bench task inventory
+    "corpus/programbench/xray_index.json",       # 8.8 MB per-test index
+)
+
 NEVER = {
     ".env",
     ".env.local",
     ".git",
-    "corpus",
     "assurance",
     "logs",
     "sessions",
@@ -97,6 +146,44 @@ def tracked_files_under(path: str) -> list[str]:
     return [p for p in out.split("\0") if p]
 
 
+def filter_corpus(paths: list[str]) -> tuple[list[str], int]:
+    """Keep the knowledge layer, drop the vendored upstream source.
+
+    Two shapes of vendored tree exist and both must go:
+
+      `.../<tool>/source/**`            a whole upstream checkout under an explicit `source/` dir
+      `per_tool_overrides/<tool>/**`    a whole upstream checkout with OUR recipe sitting inside it
+
+    The second is the subtle one: `per_tool_overrides` reads like a directory of our own files, and
+    it is 142,750 files of which only ~420 are ours. Everything there is dropped except the four
+    recipe filenames, so a new upstream file cannot arrive in the public repo by default.
+    """
+    kept: list[str] = []
+    dropped = 0
+    for path in paths:
+        posix = path.replace("\\", "/")
+        if any(marker in posix for marker in CORPUS_VENDORED_MARKERS):
+            dropped += 1
+            continue
+        if any(marker in posix or posix.endswith(marker) for marker in CORPUS_BULK_EVIDENCE):
+            dropped += 1
+            continue
+        if posix in CORPUS_BULK_FILES:
+            dropped += 1
+            continue
+        if Path(posix).name.startswith(CORPUS_BULK_PREFIXES):
+            dropped += 1
+            continue
+        if "/per_tool_overrides/" in posix:
+            # Allowlist by basename, not blocklist by pattern: an unknown file inside a vendored
+            # checkout is upstream's until proven otherwise.
+            if Path(posix).name not in CORPUS_OVERRIDE_KEEP:
+                dropped += 1
+                continue
+        kept.append(path)
+    return kept, dropped
+
+
 def collect(allowlist: list[str], allow_new: bool) -> tuple[list[str], list[str]]:
     """Resolve the allowlist to a concrete tracked-file list."""
     files: list[str] = []
@@ -115,6 +202,11 @@ def collect(allowlist: list[str], allow_new: bool) -> tuple[list[str], list[str]
         if not found:
             skipped.append(f"{entry} (nothing tracked under it)")
             continue
+        if top == "corpus":
+            kept, dropped = filter_corpus(found)
+            if dropped:
+                skipped.append(f"{entry} ({dropped} vendored upstream file(s) withheld)")
+            found = kept
         files.extend(found)
     if not allow_new:
         return files, skipped
@@ -126,10 +218,17 @@ def secret_scan(root: Path) -> None:
     committed. The mirror is the public artifact; this is the last gate."""
     scanner = REPO / "scripts" / "security" / "secret_scan.py"
     if not scanner.exists():
-        print("  [warn] secret_scan.py not found -- skipping (verify by hand)")
-        return
+        # This is the last gate before a public push; a missing scanner is not a warning.
+        raise SystemExit(
+            f"secret_scan.py not found at {scanner} -- refusing to publish unscanned content"
+        )
+    # --root, not cwd. Passing cwd alone was inert and this gate never examined the mirror:
+    # secret_scan derives REPO from its own __file__ and ran git with cwd=REPO, so for every
+    # publish so far the verdict described the DEVELOPER CHECKOUT while the staged content about
+    # to be committed and pushed was never scanned. Proven by running the scanner from an empty
+    # non-git directory: it reported "clean -- no secrets in tracked files" and exited 0.
     proc = subprocess.run(
-        [sys.executable, str(scanner)],
+        [sys.executable, str(scanner), "--root", str(root)],
         cwd=str(root),
         capture_output=True,
         text=True,
@@ -140,6 +239,12 @@ def secret_scan(root: Path) -> None:
     print("  " + "\n  ".join(proc.stdout.strip().splitlines()[-4:]))
     if proc.returncode != 0:
         raise SystemExit("secret scan FAILED on the staged mirror -- nothing published")
+    # The scanner now prints the root it examined. If that is not the mirror, the gate did not do
+    # its job and silence would be indistinguishable from success.
+    if str(root) not in proc.stdout:
+        raise SystemExit(
+            f"secret scan did not report scanning the staged mirror ({root}) -- nothing published"
+        )
 
 
 def main() -> int:
@@ -210,7 +315,7 @@ def main() -> int:
 
         msg = args.message or "chore: sync source and docs from the development checkout"
         run(["git", "-c", "user.name=Determinex Publisher",
-             "-c", f"user.email={os.environ.get('GIT_AUTHOR_EMAIL', 'noreply@lunariandata.com')}",
+             "-c", f"user.email={os.environ.get('GIT_AUTHOR_EMAIL', 'noreply@github.com/DarthCeltic')}",
              "commit", "-q", "-m", msg], cwd=staging)
 
         if not args.push:

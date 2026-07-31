@@ -65,10 +65,10 @@ export function AgentTrace() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#0d1117] text-[#c9d1d9] p-6 overflow-y-auto">
-      <div className="flex items-center space-x-3 mb-6 border-b border-[#30363d] pb-4">
+    <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] text-[var(--dtx-code-text)] p-6 overflow-y-auto">
+      <div className="flex items-center space-x-3 mb-6 border-b border-[var(--dtx-code-border)] pb-4">
         <ActivityIcon className="w-6 h-6 text-emerald-400" />
-        <h2 className="text-xl font-semibold text-[#f0f6fc]">Agent Job Queue</h2>
+        <h2 className="text-xl font-semibold text-[var(--dtx-code-text)]">Agent Job Queue</h2>
       </div>
 
       {actionError && (
@@ -77,40 +77,40 @@ export function AgentTrace() {
         </div>
       )}
 
-      <div className="bg-[#161b22] border border-[#30363d] rounded-lg overflow-hidden">
+      <div className="bg-[var(--dtx-code-panel)] border border-[var(--dtx-code-border)] rounded-lg overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-[#30363d] bg-[#21262d] text-[#8b949e] text-sm">
+            <tr className="border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-border-subtle)] text-[var(--dtx-code-muted)] text-sm">
               <th className="px-4 py-3 font-semibold">Job ID</th>
               <th className="px-4 py-3 font-semibold">Status</th>
               <th className="px-4 py-3 font-semibold">Spec / Path</th>
               <th className="px-4 py-3 font-semibold text-right">Controls</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#30363d]">
+          <tbody className="divide-y divide-[var(--dtx-code-border)]">
             {loading && sessions.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-[#8b949e] italic">
+                <td colSpan={4} className="px-4 py-8 text-center text-[var(--dtx-code-muted)] italic">
                   Loading jobs...
                 </td>
               </tr>
             ) : sessions.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-[#8b949e] italic">
+                <td colSpan={4} className="px-4 py-8 text-center text-[var(--dtx-code-muted)] italic">
                   No agent jobs yet. Start a build from Work and each session appears here with its
                   live status.
                 </td>
               </tr>
             ) : (
               sessions.map((session) => (
-                <tr key={session.session_id} className="hover:bg-[#21262d]/50 transition-colors">
+                <tr key={session.session_id} className="hover:bg-[var(--dtx-code-border-subtle)]/50 transition-colors">
                   <td className="px-4 py-3 font-mono text-sm text-blue-400">
                     {session.session_id.substring(0, 8)}...
                   </td>
                   <td className="px-4 py-3">
                     <StatusBadge status={session.status} />
                   </td>
-                  <td className="px-4 py-3 text-sm font-mono text-[#8b949e] truncate max-w-[200px]">
+                  <td className="px-4 py-3 text-sm font-mono text-[var(--dtx-code-muted)] truncate max-w-[200px]">
                     {session.spec_path || "Anonymous Task"}
                   </td>
                   <td className="px-4 py-3 flex items-center justify-end gap-2">
@@ -127,7 +127,7 @@ export function AgentTrace() {
                     <button
                       title="Open this session's output folder"
                       onClick={() => handleReveal(session.session_id)}
-                      className="p-1.5 text-[#8b949e] hover:text-white bg-[#21262d]/40 hover:bg-[#21262d] rounded transition-colors"
+                      className="p-1.5 text-[var(--dtx-code-muted)] hover:text-white bg-[var(--dtx-code-border-subtle)]/40 hover:bg-[var(--dtx-code-border-subtle)] rounded transition-colors"
                     >
                       <FileText className="w-4 h-4" />
                     </button>

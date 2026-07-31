@@ -123,10 +123,10 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
         data-testid="workspace-onboarding"
         role="status"
         aria-live="polite"
-        className="fixed bottom-10 right-4 z-40 flex items-center gap-2.5 rounded-xl border border-[#30363d] bg-[#161b22] px-4 py-3 shadow-2xl"
+        className="fixed bottom-10 right-4 z-40 flex items-center gap-2.5 rounded-xl border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] px-4 py-3 shadow-2xl"
       >
         <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-t-2 border-blue-500" />
-        <p className="text-label text-[#8b949e]">Scanning workspace stack...</p>
+        <p className="text-label text-[var(--dtx-code-muted)]">Scanning workspace stack...</p>
       </div>
     );
   }
@@ -143,22 +143,22 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
          non-blocking, and it cannot swallow clicks meant for the shell. */
       className="fixed bottom-10 right-4 z-40 flex max-h-[80vh] w-full max-w-xl flex-col"
     >
-      <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-[#30363d] bg-[#161b22] shadow-2xl">
-        <div className="bg-[#21262d] border-b border-[#30363d] px-6 py-4 flex items-center justify-between">
+      <div className="flex min-h-0 flex-col overflow-hidden rounded-xl border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] shadow-2xl">
+        <div className="bg-[var(--dtx-code-border-subtle)] border-b border-[var(--dtx-code-border)] px-6 py-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-white flex items-center gap-2">
             <Server className="w-5 h-5 text-blue-400" /> Workspace Detected
           </h2>
         </div>
 
         <div className="p-6 space-y-6">
-          <div className="bg-[#0d1117] border border-[#30363d] rounded-lg p-4 space-y-4">
+          <div className="bg-[var(--dtx-code-bg)] border border-[var(--dtx-code-border)] rounded-lg p-4 space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-[#8b949e]">Inferred Stack</span>
+              <span className="text-sm text-[var(--dtx-code-muted)]">Inferred Stack</span>
               <div className="flex gap-2">
                 {analysis?.inferredStack?.map((stack: string) => (
                   <span
                     key={stack}
-                    className="px-2 py-1 bg-[#238636]/20 text-[#3fb950] border border-[#238636]/50 rounded text-xs font-mono"
+                    className="px-2 py-1 bg-[var(--dtx-ok)]/20 text-[var(--dtx-ok)] border border-[var(--dtx-ok)]/50 rounded text-xs font-mono"
                   >
                     {stack}
                   </span>
@@ -168,7 +168,7 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
 
             {analysis?.buildCommand && (
               <div className="flex justify-between items-center">
-                <span className="text-sm text-[#8b949e]">Build Command</span>
+                <span className="text-sm text-[var(--dtx-code-muted)]">Build Command</span>
                 <span className="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs font-mono flex items-center gap-2">
                   <Terminal className="w-3 h-3" /> {analysis.buildCommand}
                 </span>
@@ -185,7 +185,7 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
                 <h4 className="text-sm font-bold text-amber-300">
                   {missingToolchain.label} toolchain not detected
                 </h4>
-                <p className="text-xs text-[#8b949e] mt-1">
+                <p className="text-xs text-[var(--dtx-code-muted)] mt-1">
                   This project&apos;s detected stack needs {missingToolchain.label}, but it
                   wasn&apos;t found on this machine. Determinex&apos;s compiler oracle verifies
                   every change against a real build/test run -- without this toolchain, that
@@ -218,7 +218,7 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
               </div>
               <div className="flex-1">
                 <h4 className="text-sm font-bold text-blue-300">{analysis?.recommendedAction}</h4>
-                <p className="text-xs text-[#8b949e] mt-1">
+                <p className="text-xs text-[var(--dtx-code-muted)] mt-1">
                   Based on the detected stack, this is the safest first step to ensure your
                   workspace is ready for AI ideation.
                 </p>
@@ -227,7 +227,7 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
           </div>
 
           {executionResult && (
-            <div className="text-xs font-mono text-[#8b949e] bg-[#0d1117] border border-[#30363d] rounded p-2 whitespace-pre-wrap">
+            <div className="text-xs font-mono text-[var(--dtx-code-muted)] bg-[var(--dtx-code-bg)] border border-[var(--dtx-code-border)] rounded p-2 whitespace-pre-wrap">
               {executionResult}
             </div>
           )}
@@ -239,7 +239,7 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
               what to do next, which read as "nothing happened" even on a
               genuine success. */}
           {didSucceed && (
-            <p className="text-xs text-[#3fb950] leading-relaxed">
+            <p className="text-xs text-[var(--dtx-ok)] leading-relaxed">
               This ran for real and finished cleanly. It won&apos;t change anything visible in this
               window -- rebuilding static output doesn&apos;t hot-reload a running instance.
               You&apos;re clear to continue.
@@ -247,17 +247,17 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
           )}
         </div>
 
-        <div className="bg-[#0d1117] border-t border-[#30363d] px-6 py-4 flex justify-end gap-3">
+        <div className="bg-[var(--dtx-code-bg)] border-t border-[var(--dtx-code-border)] px-6 py-4 flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm text-[#8b949e] hover:text-white transition-colors"
+            className="px-4 py-2 text-sm text-[var(--dtx-code-muted)] hover:text-white transition-colors"
           >
             Dismiss
           </button>
           {didSucceed ? (
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-[#238636] hover:bg-[#2ea043] text-white text-sm font-medium rounded-md shadow-sm flex items-center gap-2 transition-colors"
+              className="px-4 py-2 bg-[var(--dtx-ok)] hover:bg-[var(--dtx-ok)] text-white text-sm font-medium rounded-md shadow-sm flex items-center gap-2 transition-colors"
             >
               Continue <ArrowRight className="w-4 h-4" />
             </button>
@@ -265,7 +265,7 @@ export function WorkspaceOnboarding({ workspacePath, onClose }: Props) {
             <button
               onClick={executeAction}
               disabled={executing}
-              className="px-4 py-2 bg-[#238636] hover:bg-[#2ea043] disabled:opacity-60 text-white text-sm font-medium rounded-md shadow-sm flex items-center gap-2 transition-colors"
+              className="px-4 py-2 bg-[var(--dtx-ok)] hover:bg-[var(--dtx-ok)] disabled:opacity-60 text-white text-sm font-medium rounded-md shadow-sm flex items-center gap-2 transition-colors"
             >
               {executing ? (
                 <>

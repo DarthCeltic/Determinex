@@ -6,6 +6,13 @@ import * as React from "react";
 
 import { IdeRepairResponse, invokeIdeCommand } from "@/lib/ide-repair-api";
 
+/**
+ * Consumed OUTSIDE the TypeScript import graph: a Python lock test reads this
+ * array out of the source text and asserts the closed set matches the Rust side.
+ * knip cannot see that, so without this tag it reports the export as unused --
+ * and deleting it would break the lock while the type-checker stayed green.
+ * @public
+ */
 export const EVIDENCE_VIEWER_STATUS_TOKENS = [
   "EVIDENCE_VIEWER_READY",
   "EVIDENCE_VIEWER_READ_ONLY",
@@ -92,5 +99,3 @@ export function EvidenceViewerPanel({ workspacePath }: Props) {
     </section>
   );
 }
-
-export default EvidenceViewerPanel;

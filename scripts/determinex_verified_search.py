@@ -90,6 +90,26 @@ class SearchResult:
     escalated: bool = False
     next_moves: list[str] = field(default_factory=list)   # if not solved, the Adjudicator's advice
     history: list[Candidate] = field(default_factory=list)
+    #: Samples where the GENERATOR raised instead of returning a candidate. Counted separately
+    #: because "the model answered and was wrong" and "the model never answered" are different
+    #: facts, and only the first is evidence about the model. See `generator_never_answered`.
+    generation_errors: int = 0
+    #: The first generator exception, verbatim, so a misconfiguration is diagnosable from the
+    #: result alone rather than needing the run repeated with logging turned up.
+    generation_error_sample: str = ""
+
+    @property
+    def generator_never_answered(self) -> bool:
+        """Every sample failed to generate, so this result says nothing about the model.
+
+        Load-bearing distinction. A provider that raises on every call used to produce
+        `solved=False` with a proof reading "no program passed the N checks (12 samples)" --
+        which is indistinguishable from a model that genuinely attempted twelve times. Measured
+        2026-07-31: `--provider local --model <bare ollama tag>` raised BadRequestError on every
+        call, and the run reported not-solved plus an Adjudicator next-move premised on failures
+        the model never produced. A caller that treats this as a capability verdict is wrong.
+        """
+        return self.total_samples > 0 and self.generation_errors >= self.total_samples
 
 
 # default temperature ladder: start deterministic, widen for diversity
@@ -131,6 +151,8 @@ class VerifiedSearch:
         feedback = ""
         best: Candidate | None = None
         total = 0
+        gen_errors = 0
+        first_gen_error = ""
 
         import os as _os
         import time as _time
@@ -160,15 +182,31 @@ class VerifiedSearch:
                 t0 = _time.time()
                 try:
                     out = generate(_p, temp)
-                except Exception as e:  # a model error is not a solve
-                    out = f"__generation_error__: {e}"
-                return temp, out, _time.time() - t0
+                except Exception as e:  # a model error is not a solve -- nor an attempt
+                    return temp, None, _time.time() - t0, f"{type(e).__name__}: {e}"
+                return temp, out, _time.time() - t0, ""
 
             with ThreadPoolExecutor(max_workers=max_conc) as ex:
                 batch = list(ex.map(lambda t: _gen_one(t), temps))
 
-            for i, (temp, text, gen_s) in enumerate(batch):
+            for i, (temp, text, gen_s, gen_err) in enumerate(batch):
                 total += 1
+                # A generator that RAISED produced no candidate. It used to be turned into the
+                # string "__generation_error__: ...", which was then digested, deduped, and handed
+                # to the oracle as if it were code -- so a wholly broken provider yielded
+                # `solved=False` with a proof reading "no program passed the N checks", and round 2
+                # diagnosed "model is looping" because every error string hashed the same. That is
+                # a capability verdict on a model that was never reached. Counted, never verified.
+                if gen_err:
+                    gen_errors += 1
+                    if not first_gen_error:
+                        first_gen_error = gen_err
+                    if heartbeat:
+                        print(f"    [vs] r{r+1} s{i+1}/{self.k} t={temp:.1f} "
+                              f"gen {gen_s:.0f}s -> GENERATION ERROR: {gen_err[:160]}",
+                              flush=True)
+                    continue
+                assert text is not None  # gen_err empty => generate() returned
                 dg = _digest(text)
                 if dg in seen:
                     if heartbeat:
@@ -199,12 +237,25 @@ class VerifiedSearch:
                         total_samples=total,
                         proof=f"oracle PASSED candidate {dg} (round {r+1}, "
                               f"temp {temp}); 0 failures.",
-                        history=history)
+                        history=history,
+                        generation_errors=gen_errors,
+                        generation_error_sample=first_gen_error)
             # --- round did not solve: build feedback from the best partial ---
             if distinct_this_round == 0:
-                # total loop: model only repeats itself -> escalate now
+                # Distinguish "the model repeats itself" from "the model was never reached".
+                # Both produced zero distinct candidates, and the old code called both looping --
+                # so a BadRequestError from a misconfigured provider was diagnosed as a model
+                # behaviour, which sends the reader looking in the wrong place entirely.
+                if gen_errors and not history:
+                    return self._escalate(
+                        best, history, total, r + 1,
+                        f"the generator raised on every sample and produced no candidate "
+                        f"({gen_errors}/{total}); first error: {first_gen_error[:300]}",
+                        gen_errors=gen_errors, first_gen_error=first_gen_error)
                 return self._escalate(best, history, total, r + 1,
-                                      "no distinct candidates (model is looping)")
+                                      "no distinct candidates (model is looping)",
+                                      gen_errors=gen_errors,
+                                      first_gen_error=first_gen_error)
             if self.early_escalate and best is not None and best.score <= 0.0:
                 # zero-signal round: no candidate scored above 0.00 -> this tier can't
                 # see the target at all; more rounds of the same model are waste.
@@ -212,12 +263,15 @@ class VerifiedSearch:
                     print(f"    [vs] r{r+1}: zero-signal round (best score 0.00) -> "
                           f"early escalate to next tier", flush=True)
                 return self._escalate(best, history, total, r + 1,
-                                      "zero-signal round at this tier (early escalate)")
+                                      "zero-signal round at this tier (early escalate)",
+                                      gen_errors=gen_errors,
+                                      first_gen_error=first_gen_error)
             feedback = self._feedback_from(best)
             # progress check: if best is still all-fail with no improvement, the
             # next round needs a different strategy -> let the loop widen temps,
             # but if we are on the last round, escalate with the Adjudicator's moves.
-        return self._escalate(best, history, total, self.rounds, "rounds exhausted")
+        return self._escalate(best, history, total, self.rounds, "rounds exhausted",
+                              gen_errors=gen_errors, first_gen_error=first_gen_error)
 
     def _feedback_from(self, best: Candidate | None) -> str:
         if best is None:
@@ -241,7 +295,8 @@ class VerifiedSearch:
         return "\n".join(lines)
 
     def _escalate(self, best: Candidate | None, history: list[Candidate],
-                  total: int, rounds: int, reason: str) -> SearchResult:
+                  total: int, rounds: int, reason: str,
+                  gen_errors: int = 0, first_gen_error: str = "") -> SearchResult:
         # Run the Adjudicator over the best candidate's failures: we are only
         # allowed to "give up" if the failures are genuinely IMPOSSIBLE; otherwise
         # we report the untried moves so the orchestration can re-decompose/route.
@@ -261,14 +316,34 @@ class VerifiedSearch:
                 if a.verdict != Verdict.IMPOSSIBLE:
                     next_moves.append(a.strategy)
             all_impossible = bool(verdicts) and all(v == Verdict.IMPOSSIBLE for v in verdicts)
+        # When the generator never answered, the proof must say THAT and nothing about the
+        # model's ability. "REOPENABLE via ['behavioral:semantic']" is advice derived from
+        # failures, and there are no failures to derive it from -- offering it invites the reader
+        # to tune a prompt when the actual fix is a provider setting. Neither is it a "ceiling".
+        if total > 0 and gen_errors >= total:
+            return SearchResult(
+                solved=False, best=None, rounds_used=rounds, total_samples=total,
+                proof=(f"NOT ATTEMPTED: the generator raised on all {total} sample(s), so no "
+                       f"candidate was ever produced and this result says nothing about the "
+                       f"model. First error: {first_gen_error[:400]}"),
+                escalated=True,
+                next_moves=["fix:generator"],
+                history=history,
+                generation_errors=gen_errors,
+                generation_error_sample=first_gen_error)
+        partial = (f" NOTE: {gen_errors}/{total} sample(s) failed to generate at all "
+                   f"({first_gen_error[:200]}), so the effective sample count was lower than "
+                   f"requested." if gen_errors else "")
         return SearchResult(
             solved=False, best=best, rounds_used=rounds, total_samples=total,
             proof=f"not solved ({reason}); "
                   + ("all failures IMPOSSIBLE -> genuine ceiling, human review."
                      if all_impossible else
                      f"REOPENABLE via {sorted(set(next_moves))} -- re-decompose, "
-                     f"route to a stronger model, or raise K."),
-            escalated=True, next_moves=sorted(set(next_moves)), history=history)
+                     f"route to a stronger model, or raise K.")
+                  + partial,
+            escalated=True, next_moves=sorted(set(next_moves)), history=history,
+            generation_errors=gen_errors, generation_error_sample=first_gen_error)
 
 
 def _better(a: Candidate, b: Candidate) -> bool:

@@ -262,9 +262,29 @@ def main() -> None:
         if official_with_eval_override:
             print("\nGUARD FAILED: official_full_suite_resolved tool(s) have eval_overrides. Fix before archiving.")
             sys.exit(1)
-        else:
-            print("\nGUARD PASSED: no official_full_suite_resolved tool has eval_overrides.")
+        # Say plainly when there was nothing to enforce (2026-07-30). The blocking set is derived
+        # from official_full_suite_resolved, and after the provenance retraction NO board entry
+        # carries that flag -- 210 entries, 100 with locked_archive, 0 official. So `is_official`
+        # is always False and this guard is structurally incapable of failing, while still printing
+        # "GUARD PASSED" after listing ~50 tools with collection_cap / nodeid-filter violations.
+        # CLAUDE.md describes this as the CI gate that fails when a locked tool's compile.sh
+        # contains collection-modifying patterns, so a bare "PASSED" reads as that check having
+        # run. It has not. The exit code stays 0 -- there is genuinely no official claim to
+        # protect -- but the message no longer implies a verdict it did not reach.
+        if not official_slugs:
+            print(
+                "\nGUARD VACUOUS: no board entry claims official_full_suite_resolved, so this "
+                "guard had nothing to enforce."
+            )
+            if locked_with_eval_override:
+                print(
+                    f"  ({len(locked_with_eval_override)} locked archive(s) DO contain "
+                    f"eval_overrides -- they are simply not claimed as official locks. "
+                    f"Re-check this guard the moment any tool claims one.)"
+                )
             sys.exit(0)
+        print("\nGUARD PASSED: no official_full_suite_resolved tool has eval_overrides.")
+        sys.exit(0)
 
 
 if __name__ == "__main__":

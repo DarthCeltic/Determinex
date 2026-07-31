@@ -82,6 +82,9 @@ function AddonCard({
     ? keyConnected
     : addon.status === "installed" || addon.status === "builtin";
   const isBuiltin = addon.status === "builtin";
+  // Cannot be installed by clicking: toggle() provisions nothing, and the sandboxed oracle fails
+  // closed for these languages. Rendering an Install button would promise what the product refuses.
+  const isPlanned = addon.planned === true;
 
   return (
     <div className="group relative flex gap-3.5 rounded-xl border border-white/5 bg-white/[0.02] p-4 transition-all hover:border-white/10 hover:bg-white/[0.04]">
@@ -111,17 +114,23 @@ function AddonCard({
           </div>
           <button
             onClick={() => {
-              if (isBuiltin) return;
+              if (isBuiltin || isPlanned) return;
               if (isLlmKeyCard) {
                 onOpenKeySettings?.();
                 return;
               }
               onToggle(addon.id);
             }}
-            disabled={isBuiltin}
-            title={isLlmKeyCard ? "Open Settings -> API Keys" : undefined}
+            disabled={isBuiltin || isPlanned}
+            title={
+              isPlanned
+                ? "Not shippable yet — the sandboxed oracle fails closed for this language"
+                : isLlmKeyCard
+                  ? "Open Settings -> API Keys"
+                  : undefined
+            }
             className={`shrink-0 flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-eyebrow font-black uppercase tracking-widest transition-all ${
-              isBuiltin
+              isBuiltin || isPlanned
                 ? "border-white/5 bg-white/[0.03] text-gray-700 cursor-default"
                 : isInstalled
                   ? isLlmKeyCard
@@ -130,7 +139,11 @@ function AddonCard({
                   : "border-[var(--determinex-accent)]/30 bg-[var(--determinex-accent)]/8 text-[var(--determinex-accent)] hover:bg-[var(--determinex-accent)]/15"
             }`}
           >
-            {isBuiltin ? (
+            {isPlanned ? (
+              // Never "Install": clicking provisions nothing, and the oracle fails closed for this
+              // language, so an Install button here is a promise the product cannot keep.
+              <>Planned</>
+            ) : isBuiltin ? (
               <>
                 <Check size={9} /> Built-in
               </>
@@ -206,6 +219,11 @@ export function MarketplacePanel() {
   }, [installed]);
 
   const toggle = (id: string) => {
+    // A planned addon cannot be installed by clicking. `toggle` only writes an id into
+    // localStorage -- nothing is provisioned -- so allowing it would render "Installed" for a
+    // capability that does not exist, and the user would meet the oracle's fail-closed refusal
+    // after being told the toolchain was present.
+    if (ADDONS.find((a) => a.id === id)?.planned) return;
     setInstalled((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -217,13 +235,18 @@ export function MarketplacePanel() {
   const addons = useMemo(() => {
     return ADDONS.map((a) => ({
       ...a,
-      status: (installed.has(a.id)
-        ? a.status === "builtin"
-          ? "builtin"
-          : "installed"
-        : a.status === "beta"
-          ? "beta"
-          : "available") as AddonStatus,
+      // A planned addon stays "available" no matter what localStorage says. Belt and braces with
+      // the guard in toggle(): an id persisted before `planned` existed would otherwise still
+      // render as "Installed" on upgrade.
+      status: (a.planned
+        ? "available"
+        : installed.has(a.id)
+          ? a.status === "builtin"
+            ? "builtin"
+            : "installed"
+          : a.status === "beta"
+            ? "beta"
+            : "available") as AddonStatus,
     })).filter(
       (a) =>
         (activeCategory === "all" || a.category === activeCategory) &&
@@ -235,7 +258,13 @@ export function MarketplacePanel() {
   }, [activeCategory, query, installed]);
 
   const installedCount = ADDONS.filter((a) =>
-    a.category === "llm" ? (llmKeyConnected(a.id) ?? installed.has(a.id)) : installed.has(a.id)
+    // Planned addons never count: a stale localStorage id from before `planned` existed would
+    // otherwise inflate the headline number with capabilities that do not exist.
+    a.planned
+      ? false
+      : a.category === "llm"
+        ? (llmKeyConnected(a.id) ?? installed.has(a.id))
+        : installed.has(a.id)
   ).length;
   const featuredAddons = ADDONS.filter(
     (a) => a.featured && (activeCategory === "all" || a.category === activeCategory)

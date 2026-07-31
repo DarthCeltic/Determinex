@@ -16,6 +16,13 @@ import {
   UnifiedProductResponse,
 } from "@/lib/ide-product-shell-api";
 
+/**
+ * Consumed OUTSIDE the TypeScript import graph: a Python lock test reads this
+ * array out of the source text and asserts the closed set exactly
+ * (tests/ide_frontend/test_unguarded_status_token_sets_lock.py). knip cannot see
+ * that, so without this tag it reports the export as unused.
+ * @public
+ */
 export const REACT_USER_LEVEL_TEACHING_MODE_STATUS_TOKENS = [
   "REACT_USER_LEVEL_TEACHING_MODE_PASSED",
   "REACT_USER_LEVEL_TEACHING_MODE_BLOCKED_PROOF_HIDDEN",
@@ -163,5 +170,3 @@ export function UserLevelTeachingMode({ initialLevel = "beginner_no_experience" 
     </section>
   );
 }
-
-export default UserLevelTeachingMode;

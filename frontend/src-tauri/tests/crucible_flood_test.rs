@@ -15,6 +15,8 @@
 //!
 //! Run: cargo test --test crucible_flood_test -- --nocapture
 
+mod common;
+
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
@@ -27,9 +29,19 @@ use tokio::task::JoinSet;
 // ─────────────────────────────────────────────────────────────────────────────
 
 const OLLAMA_URL: &str = "http://localhost:11434/api/generate";
-/// Sentinel model — smallest VRAM footprint (llama3.2:3b @ ~2 GB).
-/// Using the real production model, not a stub.
-const MODEL: &str = "determinex-sentinel:v2";
+const OLLAMA_TAGS: &str = "http://localhost:11434/api/tags";
+const OLLAMA_PS: &str = "http://localhost:11434/api/ps";
+/// Smallest-footprint real production model, so the flood measures concurrency and the VRAM
+/// ceiling rather than a model that cannot fit alongside itself.
+///
+/// Corrected 2026-07-31, and the tag and its own comment had drifted apart. The comment said
+/// "Sentinel model — smallest VRAM footprint (llama3.2:3b @ ~2 GB)", but Sentinel is the 7B Mistral
+/// (`determinex-sentinel-v5-dsl`, 7.7 GB); the model the comment actually describes is the Llama-3.2
+/// 3B Observer. The tag `determinex-sentinel:v2` was also two generations stale and 404'd on every
+/// machine, which the daemon-level reachability check below could not distinguish from success.
+/// Resolved in favour of the comment's stated intent: the 3B, which is what a flood test against a
+/// 5800 MB ceiling needs.
+const MODEL: &str = "determinex-observer-v6-dsl";
 const VRAM_CEILING_MB: u64 = 5800;
 const FLOOD_SIZE: usize = 5;
 const CHANNEL_CAPACITY: usize = 16; // identical to orchestrator.rs lib.rs spawn call
@@ -142,21 +154,21 @@ async fn crucible_vram_flood() {
             .expect("HTTP client build failed"),
     );
 
-    match client.get("http://localhost:11434").send().await {
-        Err(_) => {
-            println!();
-            println!("╔══════════════════════════════════════════════════════════════════╗");
-            println!("║  [CRUCIBLE] SKIPPED — Ollama not reachable at localhost:11434    ║");
-            println!("║  Start Ollama and ensure '{:<34}' is pulled. ║", MODEL);
-            println!("╚══════════════════════════════════════════════════════════════════╝");
-            println!();
-            return;
-        }
-        Ok(r) if !r.status().is_success() && r.status().as_u16() != 200 => {
-            // Ollama root returns 200 for a simple GET; anything else is suspicious
-            // but we'll proceed — the real request will surface errors.
-        }
-        _ => {}
+    // This used to be a GET of the Ollama root: it establishes that the daemon answers, and the
+    // banner then told the reader to "ensure '<model>' is pulled" without ever checking whether it
+    // was. With the tag two generations stale that check passed on every machine and the flood then
+    // failed with "Every request failed. Ollama may have crashed or ... is not pulled." — the
+    // guard's own hypothesis, which it had declined to test.
+    if common::should_skip(
+        "[CRUCIBLE] crucible_vram_flood",
+        match common::unmet_prerequisites(&client, OLLAMA_TAGS, &[MODEL]).await {
+            Some(unmet) => Some(unmet),
+            // Warm before flooding: FLOOD_SIZE concurrent senders all triggering the same cold
+            // load would measure the load, not the concurrency this test exists to measure.
+            None => common::residency_shortfall(&client, OLLAMA_URL, OLLAMA_PS, &[MODEL]).await,
+        },
+    ) {
+        return;
     }
 
     println!();

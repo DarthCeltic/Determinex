@@ -273,3 +273,117 @@ confirmation to run before packaging.
    machine.
 
 Everything else on the shell audit's list is either DONE or explicitly scoped.
+
+
+---
+
+# Addendum — 2026-07-29: what running the release paths actually found
+
+The 2026-07-28 audit reasoned about the release paths. This addendum records what happened
+when they were **executed** for the first time. Three of the four findings below were
+invisible to reading, to the type system, and to the whole test suite.
+
+## The Linux release build had never been run
+
+`scripts/release/build_linux_packages_docker.sh` is a complete, end-to-end script —
+webkit2gtk stack, Node 20, Rust, Linux sidecar via PyInstaller,
+`tauri build --bundles appimage,deb,rpm`, then `package_download_bundle.py`. It had **zero
+callers**: `git grep build_linux_packages_docker` finds nothing outside the file itself.
+
+Running it surfaced two blockers in the first three minutes.
+
+### 1. `npm ci` cannot succeed cross-platform (also blocks CI)
+
+    npm error Missing: abbrev@2.0.0 from lock file
+    npm error Missing: yallist@4.0.0 from lock file      (~11 of these)
+
+Not a container problem. The committed lockfile is not cross-platform complete:
+
+| | packages |
+|---|---|
+| Windows resolve (committed lock) | 787 |
+| Linux resolve | 804 |
+| Linux adds | 43 (`@emnapi/*`, `*-wasm32-wasi` bindings) |
+| Linux drops | 26 (`abbrev`, `@npmcli/*`, `@isaacs/fs-minipass`) |
+
+The dropped set is exactly what `npm ci` demanded. `npm install --package-lock-only` on
+Windows reports "up to date", so this is not ordinary drift — it is a per-platform
+optional-dependency divergence that a single lockfile generated on one platform does not
+capture.
+
+**This also breaks CI.** `.github/workflows/release_package_matrix.yml`'s `ubuntu-24.04`
+job runs bare `npm ci`, so the Linux half of the release matrix would fail the moment the
+billing block clears. Nobody had found it because neither path had ever run.
+
+An assumption of mine was wrong here and is worth recording: I predicted a
+Linux-generated lock would fail on Windows in the same way. Tested instead of assumed —
+`npm ci --dry-run` on Windows **accepts** the Linux lock (adds 37, removes 28, exit 0), so
+one lock may serve both. That is being verified by an isolated Windows `npm ci` +
+`tsc` + `next build` against the Linux lock before anything is committed, because a
+dry-run proves resolvability, not that the app builds.
+
+### 2. Twenty-four shell scripts were stored with CRLF
+
+The build died at:
+
+    set: pipefail: invalid option name
+
+bash had read `set -euo pipefail\r`. `.gitattributes` has declared `*.sh text eol=lf`
+since early on, but these files predate the rule — and because git normalises on diff they
+read as **unmodified forever** while being unrunnable on any Linux host. They are precisely
+the Linux-targeted ones: `install_hetzner_stack.sh`, `setup_runpod.sh`, `worker_v2.sh`,
+`register_models.sh`, `build_linux_packages_docker.sh`, and the `testing/` chain.
+
+Scoping matters here. The first conversion pass touched 365 files, pulling in 341
+`compile.sh` under `corpus/programbench/locked/**` — locked PB evidence archives whose
+bytes are the record of what a run built, and which `pb_override_scan` reads. Reverted;
+evidence stays byte-identical. Two CRLF files remain on purpose, both upstream test
+fixtures where the line endings are the test data.
+
+## 3. `clean_host` cannot be satisfied by any machine except a GitHub runner
+
+`run_windows_clean_host_install_smoke.ps1`:
+
+```powershell
+$IsGitHubWindowsRunner = ($env:GITHUB_ACTIONS -eq "true") -and [bool]$env:GITHUB_RUN_ID
+clean_host_fresh_install = $IsGitHubWindowsRunner
+runner.host_reused_from_developer_machine = -not $IsGitHubWindowsRunner
+```
+
+The gate requires `clean_host_fresh_install: true`. That field is wired to *being inside
+GitHub Actions* — not to any property of the host. Consequences both ways:
+
+* **Too strict.** A freshly provisioned Azure Windows VM (one exists:
+  `determinex-clean-host`, D2s v7) yields `false` and self-labels as a reused developer
+  host. Reprovisioning does not help, because the machine's actual cleanliness is never
+  examined.
+* **Too weak.** An environment variable is not proof. Anything that can set
+  `GITHUB_ACTIONS=true` produces an authorizing transcript.
+
+A stronger design would attest from evidence the runner can check — no prior install in
+the uninstall registry, no dev toolchain on PATH, low uptime — and keep the GitHub-runner
+path as one way to satisfy it. That is a change to what a release gate *attests*, so it is
+recorded here for an owner decision rather than made unilaterally.
+
+## 4. The download bundle's checksums were never wrong
+
+Worth stating because it contradicts an assumption in the earlier audit. Verified rather
+than assumed:
+
+* evidence signatures: **1622 scanned, 1622 already valid, 0 broken**
+* bundle checksums: both recorded SHA-256 values **match the built artifacts exactly**
+
+The manifest's "missing" entries are the 193 MB MSI and 188 MB NSIS installer, which live
+in the build output. 381 MB of binary does not belong in git; the manifest is accurate and
+the binaries are simply not staged.
+
+## Standing blockers after this pass
+
+| gate | status | who can clear it |
+|---|---|---|
+| `linux_packages` | blocked | now buildable locally via Docker — was never run |
+| `clean_host` | blocked | GitHub billing, or an owner decision on what the gate attests |
+| `windows_trust` | deferred | needs a code-signing certificate (procurement) |
+| `installer` | partial | resolves with the Linux artifacts above |
+
+`release_ready` remains `false`, correctly.

@@ -82,13 +82,17 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
         what: "The Ask / Plan / Build / Prove entry point.",
         does: "Turns a plain-language request into a spec, a plan, and a compiler-verified build.",
       },
-      {
-        id: "idea",
-        label: "Idea Lab",
-        kind: "addon",
-        what: "Single-function idea to verified program.",
-        does: "Synthesizes a sound oracle from your idea, then samples a model until something passes it.",
-      },
+      // "idea" / "Idea Lab" was removed 2026-07-29. It had no entry in page.tsx's
+      // addonItems, so `selectedAddon` resolved to null and the dock render -- guarded by
+      // `addonDockOpen && selectedAddon` -- produced NOTHING. A user clicking "Idea Lab"
+      // watched the menu close and nothing happen.
+      //
+      // It was also a duplicate: the feature it described ("synthesizes a sound oracle
+      // from your idea, then samples a model until something passes it") is exactly the
+      // "search" member below, whose panel (VerifiedSearch) calls preview_idea_oracle and
+      // build_idea and whose own docstring opens "Verified Search = the Correctness
+      // Amplifier, driven from the IDE." So the capability is still offered -- once,
+      // through the entry that actually opens.
       {
         id: "hub",
         label: "Project Hub",

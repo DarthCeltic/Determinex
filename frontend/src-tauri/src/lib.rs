@@ -123,12 +123,17 @@ pub fn run() {
         // Embedded Python sidecar for local GGUF inference (Config E).
         .manage(sidecar::new_shared_sidecar())
         .manage(pty_terminal::PtyState::default())
+        // The project the user actually opened, kept separate from WorkspaceRoot -- which is the
+        // file BROWSER's root and is set to the system drive so the picker can reach any project.
+        // Credential reads (env_manager) use this narrower root instead.
+        .manage(env_manager::ProjectRoot::default())
         .manage(agent_chat::ChatState::default())
         .invoke_handler(tauri::generate_handler![
             agent_registry::list_coding_agents,
             agent_registry::run_coding_agent,
             agent_registry::agent_status_roster,
             agent_registry::agent_probe_test,
+            agent_registry::list_ai_providers,
             toolchain_installer::list_toolchains,
             toolchain_installer::install_toolchain,
             agent_chat::agent_chat_create_session,
@@ -140,6 +145,8 @@ pub fn run() {
             agent_chat::agent_chat_resync_plan,
             agent_chat::agent_chat_cloak_status,
             agent_chat::agent_chat_set_model,
+            agent_chat::agent_chat_apply_proposal,
+            agent_chat::agent_chat_list_proposals,
             passport::passport_cli_login_status,
             passport::passport_connect,
             passport::passport_list,
@@ -183,6 +190,8 @@ pub fn run() {
             ollama_probe::get_work_readiness,
             ollama_installer::ensure_ollama_installed,
             model_puller::pull_required_models,
+            model_puller::check_determinex_models,
+            model_puller::install_determinex_models,
             ipc_health::get_health_telemetry,
             ipc_hive::create_session,
             ipc_hive::generate_dag,
@@ -263,6 +272,7 @@ pub fn run() {
             ide_repair_bridge::get_learning_studio_verified_demo_status,
             ide_repair_bridge::get_proof_operator_center_milestone_dashboard_status,
             ide_repair_bridge::query_corpus,
+            ide_repair_bridge::get_runtime_capability_status,
             git::git_status,
             git::git_stage,
             git::git_unstage,
@@ -287,6 +297,7 @@ pub fn run() {
             cicd::list_ci_runs,
             env_manager::list_env_vars,
             env_manager::reveal_env_var,
+            env_manager::set_project_root,
             oauth_github::github_device_start,
             oauth_github::github_device_poll,
             oauth_github::github_sign_out,
@@ -485,6 +496,8 @@ pub fn run() {
         })
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

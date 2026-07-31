@@ -160,7 +160,7 @@ function CloudRouteButton({
       type="button"
       onClick={onSelect}
       className={`flex w-full items-center justify-between px-3 py-2 text-left transition-colors ${
-        option.kind === "free_cloud" ? "hover:bg-[#0f2a0f]" : "hover:bg-[#30363d]"
+        option.kind === "free_cloud" ? "hover:bg-[#0f2a0f]" : "hover:bg-[var(--dtx-code-border)]"
       }`}
     >
       <div className="flex min-w-0 items-center gap-2">
@@ -260,7 +260,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
   return (
     <div className="flex flex-col gap-4">
       {tier && (
-        <div className="flex items-center gap-2 rounded-lg border border-[#30363d] bg-[#161b22] px-3 py-2">
+        <div className="flex items-center gap-2 rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] px-3 py-2">
           <Cpu size={12} className={tier.color} />
           <span className={`text-meta font-bold uppercase tracking-widest ${tier.color}`}>
             {tier.label}
@@ -291,7 +291,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                 <button
                   type="button"
                   onClick={() => setOpenDropdown(isOpen ? null : role)}
-                  className="flex w-full items-center justify-between rounded-lg border border-[#30363d] bg-[#010409] px-3 py-2 text-left transition-colors hover:border-[#484f58]"
+                  className="flex w-full items-center justify-between rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg-deep)] px-3 py-2 text-left transition-colors hover:border-[#484f58]"
                 >
                   <span className="truncate font-mono text-label text-gray-300">
                     {modelLabel(current, models)}
@@ -308,8 +308,8 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                 {isOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setOpenDropdown(null)} />
-                    <div className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-lg border border-[#30363d] bg-[#161b22] shadow-2xl">
-                      <div className="border-b border-[#30363d] bg-[#0d1117] px-3 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-gray-600">
+                    <div className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] shadow-2xl">
+                      <div className="border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-3 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-gray-600">
                         Local slots
                       </div>
                       <div className="max-h-44 overflow-y-auto">
@@ -321,7 +321,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                               setDraft((d) => (d ? { ...d, [role]: `ollama/${m.id}` } : d));
                               setOpenDropdown(null);
                             }}
-                            className="flex w-full items-center justify-between px-3 py-2 text-left transition-colors hover:bg-[#30363d]"
+                            className="flex w-full items-center justify-between px-3 py-2 text-left transition-colors hover:bg-[var(--dtx-code-border)]"
                           >
                             <div className="flex min-w-0 items-center gap-2">
                               <Cpu
@@ -354,7 +354,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                               setDraft((d) => (d ? { ...d, [role]: alias } : d));
                               setOpenDropdown(null);
                             }}
-                            className="flex w-full items-center justify-between px-3 py-2 text-left transition-colors hover:bg-[#30363d]"
+                            className="flex w-full items-center justify-between px-3 py-2 text-left transition-colors hover:bg-[var(--dtx-code-border)]"
                           >
                             <div className="flex items-center gap-2">
                               <Cpu size={10} className="shrink-0 text-purple-400" />
@@ -368,7 +368,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                         ))}
                       </div>
 
-                      <div className="border-y border-[#30363d] bg-[#0a1a0a] px-3 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-green-700">
+                      <div className="border-y border-[var(--dtx-code-border)] bg-[#0a1a0a] px-3 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-green-700">
                         <span className="flex items-center gap-1.5">
                           <Zap size={9} className="text-green-500" />
                           Free OpenRouter routes
@@ -387,7 +387,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
                         />
                       ))}
 
-                      <div className="border-y border-[#30363d] bg-[#0d1117] px-3 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-gray-600">
+                      <div className="border-y border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-3 py-1.5 text-eyebrow font-bold uppercase tracking-widest text-gray-600">
                         Paid API routes
                       </div>
                       {CLOUD_ROUTE_OPTIONS.map((option) => (
@@ -435,7 +435,7 @@ export function RoleAssignmentPanel({ keyStatus = {} }: { keyStatus?: ApiKeyStat
               ? "border border-emerald-700/40 bg-emerald-900/40 text-emerald-400"
               : isDirty
                 ? "bg-cyan-600 text-white shadow-[0_0_12px_rgba(0,229,255,0.2)] hover:bg-cyan-500"
-                : "cursor-not-allowed border border-[#30363d] bg-[#161b22] text-gray-600"
+                : "cursor-not-allowed border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] text-gray-600"
           }`}
         >
           {saving ? (

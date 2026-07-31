@@ -40,8 +40,22 @@ PAGE_TSX = _REPO_ROOT / "frontend" / "src" / "app" / "page.tsx"
 # earlier the same session (learning/repoclinic/maintenancebay/surfaces).
 # Pinned here so a regression shows up as "you just re-broke a NAMED past
 # incident," not just an anonymous assertion failure.
+# "surfaces" was removed from this set on 2026-07-28. It is NOT a regression that
+# got waved through: the addon itself was deliberately retired as a duplicate by
+# d0d979a280 ("remove the duplicate surfaces, and three drawer entries that opened
+# nothing"), so it is absent from addonItems and from the WorkspaceAddon union.
+# Pinning it as "must stay reachable" was asserting that a deleted feature still
+# had a button.
+#
+# It did still have one. That commit missed the WORK COCKPIT's "Attach What You
+# Need" grid, which kept a "Product Surfaces" button wired to the dead id --
+# compiling cleanly because the grid's tuples inferred as plain `string` and the
+# launch call cast with `as WorkspaceAddon`. Fixed at the source instead of here:
+# that array now carries `satisfies [string, WorkspaceAddon, LucideIcon, string][]`
+# and the cast is gone, so a retired id is a COMPILE error rather than something a
+# regex test has to notice. Verified by re-adding the id and watching tsc reject it.
 _PREVIOUSLY_BURIED_IDS = frozenset({
-    "learning", "repoclinic", "maintenancebay", "surfaces",
+    "learning", "repoclinic", "maintenancebay",
     "flywheel", "execution", "mission", "roadmap", "merge", "review",
 })
 

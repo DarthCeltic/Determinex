@@ -26,6 +26,38 @@
   --determinex-muted: #7e9689;
   --determinex-danger: #ff3f5f;
   --determinex-accent-glow: rgba(53, 255, 138, 0.48);
+
+  /* ── Code-surface + semantic layer ─────────────────────────────────────────
+     These are OVERWRITTEN per skin at runtime by getSkinPackStyle() ->
+     getCodeLayerStyle() in theme/skinPacks.ts, which derives them from the active
+     skin. The values here are the derived defaults for the Determinex skin, present
+     so the tokens resolve during SSR and before React mounts -- without them the
+     first paint would have no surface colours at all.
+
+     They exist because 28 components styled their chrome with literal GitHub hex
+     (#0d1117 x97, #30363d x168, #161b22 x55; 681 literal hex values in total).
+     A skin applies its palette as CSS variables on the root element, so a literal
+     hex ignores all 27 skins -- half the app did not respond to the theme picker.
+     Dense code surfaces still read as recessed and neutral; that is now a function
+     of the skin instead of a second hardcoded palette. */
+  --dtx-code-bg-deep: #010301;
+  --dtx-code-bg: #020403;
+  --dtx-code-panel: #080d0a;
+  --dtx-code-raised: #0e1712;
+  --dtx-code-border: rgba(140, 160, 148, 0.22);
+  --dtx-code-border-subtle: rgba(120, 138, 128, 0.14);
+  --dtx-code-text: #e9fff3;
+  --dtx-code-muted: #7e9689;
+
+  /* Semantic status colours. Constant across skins on purpose: "pass" must stay
+     recognisably green, or the meaning moves with the decoration. */
+  --dtx-ok: #34d399;
+  --dtx-warn: #f59e0b;
+  --dtx-fail: #ff3f5f;
+  --dtx-info: #60a5fa;
+  --dtx-alt: #a78bfa;
+  --dtx-alt-2: #00e5ff;
+  --dtx-accent: #35ff8a;
   --determinex-font-sans: var(
     --font-inter,
     "Inter",

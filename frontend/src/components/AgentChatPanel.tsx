@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   Circle,
   Columns,
+  FileDiff,
   FileText,
   Loader2,
   Lock,
@@ -32,6 +33,10 @@ type CodingAgentInfo = {
   installed: boolean;
   installHint: string;
   aliases: string[];
+  // From the registry, which is the only place that knows. Optional so an older backend still
+  // renders instead of the picker vanishing.
+  supportsModel?: boolean;
+  supportsChatMode?: boolean;
 };
 
 // Cheap, free, no-model-call status (see determinex_agents.py._cheap_status).
@@ -44,6 +49,12 @@ type AgentStatusEntry = {
   installed: boolean;
   authKnown: boolean;
   loggedIn: boolean;
+  // Named state, because `loggedIn` was carrying four different facts and this panel was reading
+  // it as the broadest one. See READINESS below.
+  readiness?: string;
+  readinessEvidence?: string;
+  lastProbeStatus?: string;
+  lastProbeAt?: string;
   plan: string;
   detail: string;
   installHint: string;
@@ -191,6 +202,40 @@ const CORPUS_AGENT: CodingAgentInfo = {
   installed: true, // always available -- no external toolchain, just Determinex's own corpus store
   installHint: "",
   aliases: [],
+  // Not a model and not a CLI: corpus answers from Determinex's own stored lessons, so there is
+  // nothing to point at a provider and no conversational mode to switch into.
+  supportsModel: false,
+  supportsChatMode: false,
+};
+
+// ── Readiness, one row per distinguishable state ────────────────────────────────────────────────
+//
+// `loggedIn` was one boolean carrying four facts, and 2026-07-31 produced three of them on one
+// machine: a credential that works, a credential with no auth method selected, and a credential the
+// PROVIDER refuses ("IneligibleTierError: This client is no longer supported for Gemini Code Assist
+// for individuals"). The last one is the reason this exists -- no local check can discover it, the
+// token refreshes fine, and telling the user to log in again cannot fix it. Each state gets its own
+// colour and its own words because each has a different remedy.
+const READINESS: Record<string, { dot: string; label: string; tone: string }> = {
+  verified: { dot: "bg-emerald-400", label: "verified", tone: "text-emerald-300" },
+  credentials_unverified: { dot: "bg-sky-400", label: "not tested", tone: "text-sky-300" },
+  provider_refused: { dot: "bg-red-400", label: "provider refused", tone: "text-red-300" },
+  quota_exhausted: { dot: "bg-amber-400", label: "out of quota", tone: "text-amber-300" },
+  failed: { dot: "bg-red-400", label: "failed", tone: "text-red-300" },
+  no_auth_method: { dot: "bg-amber-400", label: "no auth method", tone: "text-amber-300" },
+  no_credentials: { dot: "bg-gray-600", label: "not signed in", tone: "text-gray-400" },
+  not_installed: { dot: "bg-gray-700", label: "not installed", tone: "text-gray-500" },
+};
+
+// The live probe event carries the classifier's status; map it to the same vocabulary so a probe
+// on screen and the remembered verdict never describe the same thing two different ways.
+const PROBE_TO_READINESS: Record<string, string> = {
+  ok: "verified",
+  provider_refused: "provider_refused",
+  quota_exhausted: "quota_exhausted",
+  auth_error: "failed",
+  timeout: "failed",
+  error: "failed",
 };
 
 function colorFor(name: string) {
@@ -700,8 +745,13 @@ export function AgentChatPanel({ workspacePath = "" }: Props) {
                     // model override -- aider/cursor-agent have neither
                     // model_flag nor {model} wiring.
                     const isLocal = a.name === "local-ollama";
-                    const supportsModel =
-                      isLocal || ["claude-code", "codex", "gemini-cli"].includes(a.name);
+                    // From the registry, not from a list typed here. This was
+                    // `["claude-code","codex","gemini-cli"].includes(a.name)`, which meant aider got
+                    // no model picker despite its own --help documenting `--model MODEL`, and any
+                    // agent added later would silently get none either. `supports_model` is computed
+                    // where the answer actually lives (a model_flag, or a {model} slot in the argv
+                    // template). Defaulted for an older backend rather than assumed true.
+                    const supportsModel = a.supportsModel ?? isLocal;
                     return (
                       <div
                         key={a.name}
@@ -998,7 +1048,7 @@ export function AgentChatPanel({ workspacePath = "" }: Props) {
                   className="min-h-0 flex-1 space-y-2.5 overflow-y-auto no-scrollbar"
                 >
                   {transcript.map((t) => (
-                    <TurnBubble key={t.turnId} turn={t} />
+                    <TurnBubble key={t.turnId} turn={t} workspacePath={workspacePath} />
                   ))}
                   {viewMode === "inline" &&
                     liveEntries.map(([turnId, l]) => {
@@ -1096,7 +1146,12 @@ function AgentRosterBar({
   // aider/cursor-agent/local-ollama clutter this strip when not installed
   // and have no meaningful "online" concept beyond installed -- the roster
   // is about the three real chat participants with real auth state.
-  const roster = agents.filter((a) => ["claude-code", "codex", "gemini-cli"].includes(a.name));
+  // Every registered agent, not a hardcoded three. The strip used to list claude-code, codex and
+  // gemini-cli only, so aider, cursor-agent and local-ollama had no readiness dot and no Test button
+  // -- you could add them to a session from the picker below and never find out whether they worked.
+  // `corpus` is excluded because it is not a spawnable CLI (no probe, no auth, handled entirely in
+  // agent_chat.rs), so "readiness" and a live probe are meaningless for it.
+  const roster = agents.filter((a) => a.name !== "corpus");
   if (roster.length === 0) return null;
 
   return (
@@ -1107,23 +1162,19 @@ function AgentRosterBar({
         const result = probeResult[a.name];
         const isProbing = !!probing[a.name];
 
-        let dotClass = "bg-gray-700"; // not installed
-        if (a.installed) {
-          if (result) {
-            dotClass =
-              result.status === "ok"
-                ? "bg-emerald-400"
-                : result.status === "quota_exhausted" || result.status === "timeout"
-                  ? "bg-amber-400"
-                  : "bg-red-400";
-          } else {
-            dotClass = s?.loggedIn
-              ? "bg-emerald-400"
-              : s?.authKnown
-                ? "bg-amber-400"
-                : "bg-gray-600";
-          }
-        }
+        // Driven by the persisted readiness state, not by `loggedIn` and not by the live event.
+        //
+        // The old fallback was `loggedIn ? emerald : ...`, which painted gemini-cli green while
+        // Google was refusing the client outright -- valid credentials, revoked product access, and
+        // the dot could not tell the difference because the field it read could not either. The
+        // live `result` still wins while a probe is on screen, but it is an event: it vanished on
+        // the next render and the dot went back to green. Readiness is remembered, so the answer
+        // survives a re-render and a restart.
+        const readiness = result
+          ? PROBE_TO_READINESS[result.status] ?? "failed"
+          : (s?.readiness ?? (a.installed ? "credentials_unverified" : "not_installed"));
+        const dotClass = READINESS[readiness]?.dot ?? "bg-gray-700";
+        const readinessLabel = READINESS[readiness]?.label ?? readiness;
 
         return (
           <div
@@ -1133,8 +1184,14 @@ function AgentRosterBar({
             <div className="flex items-center gap-1.5">
               <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${dotClass}`} />
               <span className={`font-mono text-label font-bold ${c.text}`}>{a.name}</span>
+              <span
+                className={`shrink-0 text-meta font-bold ${READINESS[readiness]?.tone ?? "text-gray-500"}`}
+                title={s?.readinessEvidence || ""}
+              >
+                {readinessLabel}
+              </span>
               <span className="truncate text-meta text-gray-600">
-                {!a.installed ? "not installed" : s?.plan || (s?.authKnown ? "" : "checking…")}
+                {a.installed ? s?.plan || "" : ""}
               </span>
               <button
                 type="button"
@@ -1147,8 +1204,12 @@ function AgentRosterBar({
                 Test
               </button>
             </div>
-            {s?.detail && !isProbing && !result && (
-              <p className="truncate text-meta text-gray-600">{s.detail}</p>
+            {!isProbing && !result && (s?.readinessEvidence || s?.detail) && (
+              // The evidence, not just the verdict. A state of "provider refused" is only actionable
+              // if it also says what the provider said and when.
+              <p className="truncate text-meta text-gray-600" title={s?.readinessEvidence || s?.detail}>
+                {s?.readinessEvidence || s?.detail}
+              </p>
             )}
             {isProbing && (
               <pre className="max-h-16 max-w-[220px] overflow-y-auto whitespace-pre-wrap font-mono text-meta text-gray-500">
@@ -1185,9 +1246,123 @@ function AgentRosterBar({
   );
 }
 
-function TurnBubble({ turn }: { turn: ChatTurnDto }) {
+// A chat turn never writes to the workspace -- it proposes. Measured 2026-07-31: one conversational
+// turn in six, asked only "What is the capital of France?", silently rewrote a source file, so the
+// write was made structurally unavailable rather than merely discouraged. The agent emits a
+// validated before/after payload and the user approves it here.
+//
+// The payload is stripped out of the displayed text: it carries whole file contents, which would
+// bury the agent's actual reply under a wall of JSON in a 48-line-tall bubble.
+const PROPOSAL_BEGIN = "<<<DETERMINEX_PROPOSED_EDITS";
+const PROPOSAL_END = "DETERMINEX_PROPOSED_EDITS>>>";
+
+type ProposedFile = { path: string; before: string; after: string };
+
+function parseProposals(text: string): ProposedFile[] {
+  const out: ProposedFile[] = [];
+  let cursor = 0;
+  for (;;) {
+    const start = text.indexOf(PROPOSAL_BEGIN, cursor);
+    if (start < 0) return out;
+    const bodyStart = start + PROPOSAL_BEGIN.length;
+    const end = text.indexOf(PROPOSAL_END, bodyStart);
+    if (end < 0) return out;
+    cursor = end + PROPOSAL_END.length;
+    try {
+      const payload = JSON.parse(text.slice(bodyStart, end).trim());
+      if (payload?.schema !== "determinex-chat-proposed-edits-v1") continue;
+      for (const f of payload.files ?? []) {
+        if (typeof f?.path === "string" && typeof f?.before === "string" && typeof f?.after === "string") {
+          out.push(f as ProposedFile);
+        }
+      }
+    } catch {
+      // A malformed block must not blank the turn it is attached to.
+      continue;
+    }
+  }
+}
+
+function stripProposals(text: string): string {
+  let out = text;
+  for (;;) {
+    const start = out.indexOf(PROPOSAL_BEGIN);
+    if (start < 0) return out.trimEnd();
+    const end = out.indexOf(PROPOSAL_END, start);
+    if (end < 0) return out.slice(0, start).trimEnd();
+    out = out.slice(0, start) + out.slice(end + PROPOSAL_END.length);
+  }
+}
+
+function ProposedEdits({
+  turn,
+  workspacePath,
+  files,
+}: {
+  turn: ChatTurnDto;
+  workspacePath: string;
+  files: ProposedFile[];
+}) {
+  const [state, setState] = useState<"idle" | "applying" | "applied">("idle");
+  const [error, setError] = useState<string | null>(null);
+
+  async function approve() {
+    setState("applying");
+    setError(null);
+    try {
+      const applied = await invoke<string[]>("agent_chat_apply_proposal", {
+        sessionId: turn.sessionId,
+        turnId: turn.turnId,
+        workspace: workspacePath,
+      });
+      setState("applied");
+      if (applied.length === 0) setError("nothing was applied");
+    } catch (e) {
+      // Surfaced verbatim on purpose: the two refusals a user can hit here are "the file changed
+      // since this was proposed" and "that path leaves the workspace", and both are things they
+      // need to read rather than a generic failure toast.
+      setState("idle");
+      setError(String(e));
+    }
+  }
+
+  return (
+    <div className="mt-2 rounded-lg border border-amber-500/25 bg-amber-950/10 p-2">
+      <div className="mb-1.5 flex items-center gap-1.5">
+        <FileDiff size={11} className="text-amber-400" />
+        <span className="font-mono text-meta font-bold text-amber-300">
+          {state === "applied" ? "changes applied" : "proposed changes — not written"}
+        </span>
+      </div>
+      <ul className="mb-2 space-y-0.5">
+        {files.map((f) => (
+          <li key={f.path} className="font-mono text-meta text-gray-400">
+            {f.path}{" "}
+            <span className="text-gray-600">
+              ({f.before.split("\n").length} → {f.after.split("\n").length} lines)
+            </span>
+          </li>
+        ))}
+      </ul>
+      {state !== "applied" && (
+        <button
+          type="button"
+          onClick={approve}
+          disabled={state === "applying" || !workspacePath}
+          className="rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1 font-mono text-meta text-amber-200 hover:bg-amber-500/20 disabled:opacity-40"
+        >
+          {state === "applying" ? "applying…" : "Apply these changes"}
+        </button>
+      )}
+      {error && <p className="mt-1 font-mono text-meta text-red-300">{error}</p>}
+    </div>
+  );
+}
+
+function TurnBubble({ turn, workspacePath = "" }: { turn: ChatTurnDto; workspacePath?: string }) {
   const isUser = turn.speakerKind === "user";
   const c = colorFor(turn.speaker);
+  const proposals = isUser ? [] : parseProposals(turn.rawOutput);
   return (
     <div
       className={`rounded-xl border p-3 ${
@@ -1221,8 +1396,11 @@ function TurnBubble({ turn }: { turn: ChatTurnDto }) {
         )}
       </div>
       <pre className="max-h-48 overflow-y-auto whitespace-pre-wrap font-mono text-meta leading-relaxed text-gray-400">
-        {(isUser ? turn.taskPrompt : turn.rawOutput).slice(0, 4000)}
+        {(isUser ? turn.taskPrompt : stripProposals(turn.rawOutput)).slice(0, 4000)}
       </pre>
+      {proposals.length > 0 && (
+        <ProposedEdits turn={turn} workspacePath={workspacePath} files={proposals} />
+      )}
       {!isUser && turn.oracle && (
         <p className="mt-1 text-meta text-gray-600 font-mono">
           oracle: {turn.oracle} ({turn.nFailures} failures)

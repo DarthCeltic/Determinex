@@ -22,6 +22,13 @@ type StoredLocalModelConfig = {
   dry_run_default: boolean;
 };
 
+/**
+ * Consumed OUTSIDE the TypeScript import graph: a Python lock test reads this
+ * array out of the source text and asserts the closed set matches the Rust side.
+ * knip cannot see that, so without this tag it reports the export as unused --
+ * and deleting it would break the lock while the type-checker stayed green.
+ * @public
+ */
 export const LOCAL_MODEL_SETTINGS_PANEL_STATUS_TOKENS = [
   "LOCAL_MODEL_SETTINGS_PANEL_READY",
   "LOCAL_MODEL_CONFIG_DRY_RUN_DEFAULT",
@@ -266,5 +273,3 @@ export function LocalModelSettingsPanel() {
     </section>
   );
 }
-
-export default LocalModelSettingsPanel;

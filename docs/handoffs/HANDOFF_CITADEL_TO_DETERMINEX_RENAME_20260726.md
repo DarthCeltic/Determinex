@@ -102,7 +102,7 @@ this repo). Ryan explicitly approved, when asked: **force-push this full local h
 history.** Do this as the *last* step, after the rename is fully complete and tests pass — don't
 push a half-finished rename to the public-facing repo. `DarthCeltic` is Ryan's designated
 open-source/developer-donation GitHub account — it's the intended final home, not
-`lunariandatasystems-cmd` (whose `citadel` repo the old `origin` pointed to doesn't even exist).
+`DarthCeltic` (whose `citadel` repo the old `origin` pointed to doesn't even exist).
 
 ## Incident to know about (already resolved, but don't repeat it)
 Earlier this session I dispatched the sweep agent with `isolation: "worktree"`. Its worktree came

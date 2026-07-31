@@ -121,8 +121,14 @@ def amplified_solve(
             blocked += moves
 
     n_solved = sum(1 for r in leaf_results if r.solved)
+    # `bool(leaves) and ...` is load-bearing. With no leaves this was `0 == 0` -> solved=True,
+    # reported as "SOLVED all 0 leaves (oracle-verified)" without ever calling the model or the
+    # oracle. Verified by passing generate/verify functions that raise if invoked: it returned
+    # solved=True. Zero leaves is reachable whenever the upstream check list is empty -- an
+    # ingest that flags SYNTHESIZE, a JUnit parse that names no checks, or a filter that removes
+    # them all -- and "vacuously true" is the one thing an oracle-backed claim may never be.
     return AmplifiedResult(
-        solved=(n_solved == len(leaves)), leaves_total=len(leaves),
+        solved=bool(leaves) and n_solved == len(leaves), leaves_total=len(leaves),
         leaves_solved=n_solved, leaf_results=leaf_results, blocked_moves=blocked)
 
 

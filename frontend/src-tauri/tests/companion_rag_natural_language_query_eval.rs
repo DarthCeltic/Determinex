@@ -1,10 +1,12 @@
+mod common;
+
 use fastembed::{
     InitOptionsUserDefined, Pooling, TextEmbedding, TokenizerFiles, UserDefinedEmbeddingModel,
 };
 use rusqlite::{params, Connection};
 use serde_json::json;
 use std::{
-    env, fs,
+    fs,
     path::{Path, PathBuf},
 };
 
@@ -15,18 +17,20 @@ struct QueryCase {
 
 #[test]
 fn companion_natural_language_queries_retrieve_expected_skill_chunks() {
-    let db_path = PathBuf::from(
-        env::var("DETERMINEX_COMPANION_QUERY_DB")
-            .expect("DETERMINEX_COMPANION_QUERY_DB must point to a seeded companion DB copy"),
-    );
-    let model_dir = PathBuf::from(
-        env::var("DETERMINEX_FASTEMBED_MODEL_DIR")
-            .expect("DETERMINEX_FASTEMBED_MODEL_DIR must point to local fastembed assets"),
-    );
-    let output_path = PathBuf::from(
-        env::var("DETERMINEX_RAG_NL_QUERY_OUTPUT")
-            .expect("DETERMINEX_RAG_NL_QUERY_OUTPUT must point to the result artifact"),
-    );
+    // Skip, do not panic: harness-supplied inputs. See tests/common/mod.rs.
+    let Some(env_values) = common::required_env(
+        "companion_natural_language_queries_retrieve_expected_skill_chunks",
+        &[
+            "DETERMINEX_COMPANION_QUERY_DB",
+            "DETERMINEX_FASTEMBED_MODEL_DIR",
+            "DETERMINEX_RAG_NL_QUERY_OUTPUT",
+        ],
+    ) else {
+        return;
+    };
+    let db_path = PathBuf::from(&env_values[0]);
+    let model_dir = PathBuf::from(&env_values[1]);
+    let output_path = PathBuf::from(&env_values[2]);
 
     unsafe {
         rusqlite::ffi::sqlite3_auto_extension(Some(std::mem::transmute(

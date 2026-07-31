@@ -130,6 +130,14 @@ _QUERIES: dict[str, str] = {
         (module name: (constant) @n)
         (method_parameters (identifier) @n)
         (assignment left: (identifier) @n)
+        ; `@ivar = x` -- Ruby instance variables were never captured at all, so every
+        ; one reached the cloud model in plaintext (measured 2026-07-28). The sigil is
+        ; part of the token, so _filter_add strips it (same treatment as PHP's `$`):
+        ; the map key is the bare name, which lets the existing word-boundary replacer
+        ; rewrite `@zzq_ivar` to `@x_NNNN` and keep the sigil intact. Capturing the
+        ; token WITH the `@` put "@zzq_ivar" in the map, which the replacer could
+        ; never match -- an inert entry that still leaked.
+        (assignment left: (instance_variable) @n)
     """,
 
     "php": """
@@ -142,6 +150,16 @@ _QUERIES: dict[str, str] = {
         (simple_parameter name: (variable_name (name) @n))
         (assignment_expression
           left: (variable_name (name) @n))
+        ; `$this->field = x` is a member_access_expression, not a property_element,
+        ; so fields assigned in a constructor leaked (measured 2026-07-28).
+        ; Restricted to $this via #eq? for the same reason as the JS/TS fix: an
+        ; unrestricted member_access capture would rewrite `$other->prop` on objects
+        ; whose property names may be an external contract.
+        (assignment_expression
+          left: (member_access_expression
+                  object: (variable_name (name) @_obj)
+                  name: (name) @n)
+          (#eq? @_obj "this"))
     """,
 
     "c": """
@@ -173,6 +191,13 @@ _QUERIES: dict[str, str] = {
         (function_definition
           declarator: (function_declarator
             declarator: (qualified_identifier name: (identifier) @n)))
+        ; A method defined INLINE in the class body -- `class C { void m(){} } ` --
+        ; has declarator: (field_identifier), not (identifier), so the rule above
+        ; never matched it and the method name reached the cloud model in plaintext.
+        ; Measured leaking 2026-07-28 (zzqSet survived).
+        (function_definition
+          declarator: (function_declarator
+            declarator: (field_identifier) @n))
         (declaration
           declarator: (function_declarator
             declarator: (identifier) @n))
@@ -221,6 +246,13 @@ _QUERIES: dict[str, str] = {
         (optional_parameter pattern: (identifier) @n)
         (public_field_definition name: (property_identifier) @n)
         (property_signature name: (property_identifier) @n)
+        ; Same leak as JavaScript, same fix -- TypeScript shares the grammar family,
+        ; so `this.field = x` in a constructor is an assignment to a
+        ; member_expression and public_field_definition never saw it. Measured
+        ; leaking 2026-07-28. Scoped to `object: (this)` so external property
+        ; access (res.status, JSON.parse) is untouched.
+        (assignment_expression
+          left: (member_expression object: (this) property: (property_identifier) @n))
     """,
 
     "javascript": """
@@ -233,6 +265,22 @@ _QUERIES: dict[str, str] = {
           (variable_declarator name: (identifier) @n))
         (formal_parameters (identifier) @n)
         (field_definition property: (property_identifier) @n)
+        ; `this.zzqField = 0` in a constructor is an assignment to a
+        ; member_expression, NOT a field_definition -- field_definition only covers
+        ; the modern `class X { field = 0 }` form. So instance fields declared the
+        ; conventional way survived obfuscation and reached the cloud model in
+        ; plaintext (measured 2026-07-28: of ZzqCls/zzqField/zzqMethod/zzqParam/
+        ; zzqLocal, zzqField was the single survivor).
+        ;
+        ; Scoped to `object: (this)` deliberately. A general
+        ; `(member_expression property: ...)` capture -- the reason this gap was
+        ; left open -- would also rewrite external API property access like
+        ; `res.status` or `JSON.parse`. `this.X` is by construction a field of the
+        ; project's own class, so it cannot be an external contract, and known
+        ; framework names (props/state/...) are still filtered by the safe-list
+        ; every other capture goes through.
+        (assignment_expression
+          left: (member_expression object: (this) property: (property_identifier) @n))
     """,
 }
 
@@ -244,6 +292,16 @@ _COMPILED_QUERIES: dict[str, Query | None] = {}
 
 _SINGLE_CHAR = re.compile(r'^[a-zA-Z_]$')
 _DUNDER = re.compile(r'^__[a-zA-Z_][a-zA-Z0-9_]*__$')
+
+# Ruby names the runtime calls for you. Renaming any of these changes behaviour:
+# `initialize` stops being the constructor, `each` breaks Enumerable, `<=>` breaks
+# Comparable, `hash`/`eql?` break Hash keys. Deliberately conservative -- only
+# names with a language or core-protocol contract, not every convention.
+_RUBY_HOOKS: frozenset[str] = frozenset({
+    "initialize", "initialize_copy", "method_missing", "respond_to_missing?",
+    "to_s", "to_str", "to_a", "to_ary", "to_h", "to_hash", "to_i", "to_proc",
+    "inspect", "hash", "eql?", "coerce", "each", "call", "<=>", "==", "===",
+})
 
 
 def _get_lang_and_parser(language: str):
@@ -331,7 +389,14 @@ def extract_treesitter_identifiers(
 
     found: set[str] = set()
     for _pat_idx, capture_dict in matches:
-        for nodes in capture_dict.values():
+        for cap_name, nodes in capture_dict.items():
+            # Only @n is a name to obfuscate. A capture whose key starts with "_"
+            # exists to CONSTRAIN a pattern (e.g. PHP's `@_obj` bound so an
+            # `#eq? "this"` predicate can restrict a member access to $this) and its
+            # text must never enter the symbol map -- doing so obfuscated the `$this`
+            # keyword itself and emitted syntactically broken PHP.
+            if cap_name.startswith("_"):
+                continue
             for node in nodes:
                 name = raw[node.start_byte:node.end_byte].decode("utf-8", errors="replace")
                 _filter_add(name, safe, language, found)
@@ -353,6 +418,24 @@ def _filter_add(name: str, safe: frozenset[str], language: str, found: set[str])
         name = name[1:]
         if not name or len(name) < 2:
             return
+    # Ruby: strip @ / @@ so the map key is the bare name. The replacer matches
+    # identifier tokens, so a key of "@ivar" never applies; a key of "ivar"
+    # rewrites the name inside `@ivar` and leaves the sigil in place.
+    if name.startswith("@"):
+        name = name.lstrip("@")
+        if not name or len(name) < 2:
+            return
+    # Language magic / hook names must NEVER be renamed: they are called by the
+    # runtime, not by the project, so obfuscating them emits code that no longer
+    # works and the model is handed a broken file to patch. _DUNDER above only
+    # matches the Python `__x__` shape, so these all slipped through -- measured
+    # 2026-07-28: PHP `__construct` and Ruby `initialize`/`to_s` were all renamed.
+    if language == "php" and name.startswith("__"):
+        # PHP reserves every function name beginning with __ as magical (language
+        # spec), so this is a rule about PHP rather than a guessed list.
+        return
+    if language == "ruby" and name in _RUBY_HOOKS:
+        return
     # Go: exported names start with uppercase — they're the public API, not proprietary.
     # Unexported (lowercase) are the private identifiers we want to obfuscate.
     if language == "go" and name and name[0].isupper():

@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import os
 import sys
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -63,6 +62,61 @@ _SAFETY_ENV_VARS = (
 def _isolate_safety_env(monkeypatch: pytest.MonkeyPatch) -> None:
     for _var in _SAFETY_ENV_VARS:
         monkeypatch.delenv(_var, raising=False)
+
+
+# Two security scanners write their result to a COMMITTED path by design:
+#   dependency_scan  -> assurance/security/dependency_scan.json
+#   verify_installed -> assurance/security/installed_drift.json
+# Several tests run them for real (correctly -- mocking a security gate proves nothing), so a plain
+# `pytest` finished with those two tracked files modified. Two problems with that, and the second is
+# the serious one: a contributor on a clean checkout cannot tell whether they broke something, and a
+# test run silently REPLACES committed security evidence -- today only a fresh `generated_at`, but
+# had a verdict actually changed, the new result would land in a tracked file with nobody prompted to
+# look at it.
+#
+# Redirected here rather than in one test file because it is a property of the suite, not of any one
+# test: this was first fixed locally in test_maintenance_bay_live_scan_lock.py and the files came
+# back dirty from a different test on the next full run. Same reasoning as the
+# DETERMINEX_PROGRAMBENCH_EVIDENCE_WRITE_ROOT redirect above.
+#
+# Session-scoped so the two imports and patches happen once, not once per test.
+_TRACKED_SCANNER_OUTPUTS = (
+    ("dependency_scan", "_SCAN_OUTPUT"),
+    ("verify_installed", "_OUTPUT"),
+    # Added after the first version of this fixture missed it. container_scan proved the point the
+    # hard way: a full-suite run rewrote assurance/security/container_scan.json with a genuinely
+    # CHANGED verdict -- image_count 9 -> 10, unpinned_count 0 -> 1 -- because a stray
+    # docker/welcome-to-docker:latest had appeared on the dev machine. Not a timestamp; a security
+    # finding, silently committed-adjacent. Exactly the failure this fixture exists to prevent.
+    #
+    # Redirecting DEFAULT_OUT sends `container_scan.main()` to tmp. security_gate then reads the
+    # committed file, which is fine: the gate is advisory inventory (its own comment says so), and
+    # the test's purpose is that every gate composes and runs, not that the image list is live.
+    ("container_scan", "DEFAULT_OUT"),
+)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _scanner_output_off_tracked_paths(tmp_path_factory: pytest.TempPathFactory):
+    """Keep real scanner runs real, but never let them overwrite committed evidence."""
+    import importlib
+
+    sec = _ROOT / "scripts" / "security"
+    if str(sec) not in sys.path:
+        sys.path.insert(0, str(sec))
+
+    out_dir = tmp_path_factory.mktemp("scanner-output")
+    patcher = pytest.MonkeyPatch()
+    for module_name, attr in _TRACKED_SCANNER_OUTPUTS:
+        try:
+            module = importlib.import_module(module_name)
+        except Exception:
+            # A missing optional scanner must not break the entire suite's collection.
+            continue
+        # Both read the module global at call time, so patching the attribute is enough.
+        patcher.setattr(module, attr, out_dir / f"{module_name}.json", raising=False)
+    yield
+    patcher.undo()
 
 
 @pytest.fixture

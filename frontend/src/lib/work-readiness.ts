@@ -27,17 +27,23 @@ const ROLE_LABELS: Record<keyof RoleAssignments, string> = {
   monitor: "Monitor",
 };
 
-// Each role lists the current post-rename tag first, then the legacy
-// pre-rename tag as a fallback -- boxes that haven't re-pulled/re-tagged the
-// renamed models yet (the legacy citadel-* tags are still installed
-// alongside the new ones on this dev box) still resolve as ready.
+// One tag per role: the current one.
+//
+// These lists carried a legacy pre-rename tag as a second entry, so a box that had not
+// re-tagged its models still resolved as ready. Removed 2026-07-29: `ollama list` shows
+// the current determinex-* tags installed and current, which makes the fallbacks dead
+// weight that keeps a retired name alive in the model resolver.
+//
+// A machine carrying ONLY the pre-rename tags will now read as not-ready, which is the
+// correct answer -- it needs the models re-registered (register_models.ps1) rather than a
+// resolver that quietly accepts an obsolete name forever.
 const MODEL_ALIASES: Record<string, string[]> = {
   "local/fast": ["qwen2.5-coder:3b-instruct"],
   "local/coder": ["qwen2.5-coder:1.5b-instruct"],
   "local/smart": ["mistral"],
-  "determinex/engineer": ["determinex-engineer-v11-dsl", "citadel-engineer-v11-dsl"],
-  "determinex/observer": ["determinex-observer-v6-dsl", "citadel-observer-v6-dsl"],
-  "determinex/sentinel": ["determinex-sentinel-v5-dsl", "citadel-sentinel-v5-dsl"],
+  "determinex/engineer": ["determinex-engineer-v11-dsl"],
+  "determinex/observer": ["determinex-observer-v6-dsl"],
+  "determinex/sentinel": ["determinex-sentinel-v5-dsl"],
   "determinex/qwen7b": ["qwen2.5-coder:7b-instruct"],
 };
 
@@ -58,9 +64,10 @@ function modelMatches(installed: Set<string>, expected: string): boolean {
   return installed.has(target) || installed.has(`${target}:latest`);
 }
 
-function displayModelId(modelId: string): string {
-  return modelId.replace(/citadel/gi, "determinex");
-}
+// Was displayModelId(), which rewrote a legacy pre-rename tag to the current name for
+// display. That is the overclaim pattern in miniature: if a config genuinely names an
+// obsolete model, showing it under the current name hides the one fact the reader needs.
+// The configured value is now shown verbatim.
 
 export function expectedLocalModels(modelId: string): string[] {
   const trimmed = modelId.trim();
@@ -131,11 +138,9 @@ export function evaluateWorkReadiness(input: {
     const expected = expectedLocalModels(assignment);
     const found = expected.some((modelId) => modelMatches(installed, modelId));
     if (found) {
-      details.push(`${ROLE_LABELS[role]} -> ${displayModelId(assignment)}`);
+      details.push(`${ROLE_LABELS[role]} -> ${assignment}`);
     } else {
-      missing.push(
-        `${ROLE_LABELS[role]} needs ${expected.map(displayModelId).join(" or ") || displayModelId(assignment)}`
-      );
+      missing.push(`${ROLE_LABELS[role]} needs ${expected.join(" or ") || assignment}`);
     }
   });
 

@@ -9,6 +9,7 @@ import json
 import logging
 import os
 import re
+import sys
 import threading
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
@@ -24,11 +25,50 @@ except ImportError:
 # DETERMINEX_ROOT env var is set by the Rust backend (spawn_hive_subprocess) so the
 # PyInstaller sidecar — whose __file__ resolves to a temp extraction dir — finds
 # the real project root instead of a temp path.
-_ROOT = (
-    Path(os.environ["DETERMINEX_ROOT"]).resolve()
-    if os.environ.get("DETERMINEX_ROOT")
-    else Path(__file__).resolve().parent.parent.parent
-)
+#
+# But an env var pointing at the WRONG tree is worse than no env var, and that is not
+# hypothetical: .env carried DETERMINEX_ROOT=C:\Dev\Citadel (the pre-rename checkout)
+# for two days. _SESSIONS_DIR below is derived from this, so every session created in
+# that window wrote its manifest and WAL into the old checkout instead of this one.
+# Existence alone could never have caught it — that directory does exist.
+_ROOT_MARKER = "litellm_config.yaml"
+
+
+def _looks_like_repo(p: Path) -> bool:
+    return (p / _ROOT_MARKER).is_file()
+
+
+def resolve_repo_root() -> Path:
+    """The project root, preferring whichever candidate actually looks like the repo.
+
+    Three cases, in order, because no single rule covers them all:
+      1. DETERMINEX_ROOT points at a real checkout  -> use it (the sidecar's purpose).
+      2. It does not, but the derived path does      -> use the derived path and warn;
+         this is the stale-pointer case, where obeying the variable silently sends
+         sessions into another tree.
+      3. Neither looks like a checkout               -> honour DETERMINEX_ROOT anyway.
+         In a PyInstaller sidecar the derived path is a temp extraction dir, so
+         falling back to it would be strictly worse than trusting the caller.
+    """
+    derived = Path(__file__).resolve().parent.parent.parent
+    raw = os.environ.get("DETERMINEX_ROOT", "").strip()
+    if not raw:
+        return derived
+    env_root = Path(raw).resolve()
+    if _looks_like_repo(env_root):
+        return env_root
+    if _looks_like_repo(derived):
+        print(
+            f"[determinex] WARNING: DETERMINEX_ROOT={env_root} has no {_ROOT_MARKER} "
+            f"and is not a Determinex checkout. Using {derived} instead — sessions "
+            f"would otherwise be written to the wrong tree. Fix the value in .env.",
+            file=sys.stderr,
+        )
+        return derived
+    return env_root
+
+
+_ROOT = resolve_repo_root()
 _SESSIONS_DIR = _ROOT / "sessions"
 
 # ── Build loop constants (needed by StepRecord defaults) ──────────────────────
@@ -71,6 +111,16 @@ class StepRecord:
     offline_observation_result:  str = ""      # pending|pass|fail|skipped
     public_api_snapshot: Optional[dict] = None
     compiler_error_hashes: list[str] = field(default_factory=list)  # for quality gate
+    # Model Router provenance (DETERMINEX_ROUTE=1): which rung of the ladder actually
+    # produced the code the oracle accepted -- {model, tier, escalations, est_cost,
+    # samples, passed}. None when routing was off, which is the default.
+    #
+    # Recorded on the STEP because that is what a cost belongs to: without it there is
+    # no way to attribute spend to a tier, so "routing saved X" would be unmeasurable.
+    # Safe to add here: load_manifest's G23 migration drops unknown keys and defaults
+    # missing ones, and the WAL's atomicity is in the .pending -> .complete rename,
+    # not in the field set.
+    route_provenance: dict | None = None
 
 
 @dataclass

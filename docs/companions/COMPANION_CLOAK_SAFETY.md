@@ -10,7 +10,7 @@ depends: []
 
 # Project Cloak: Safety Properties and Threat Model
 
-*A companion to the Determinex white paper. Ryan Gurganious · Lunarian Data Systems · 2026*
+*A companion to the Determinex white paper. Ryan Gurganious · 2026*
 
 ---
 

@@ -260,6 +260,13 @@ export const UNIFIED_PRODUCT_COMMANDS = [
 export type UnifiedProductCommand = (typeof UNIFIED_PRODUCT_COMMANDS)[number];
 
 // Closed set of status tokens the panels may render.
+/**
+ * Consumed OUTSIDE the TypeScript import graph: a Python lock test reads this
+ * array out of the source text and asserts the closed set exactly
+ * (tests/ide_frontend/test_unguarded_status_token_sets_lock.py). knip cannot see
+ * that, so without this tag it reports the export as unused.
+ * @public
+ */
 export const UNIFIED_PRODUCT_STATUS_TOKENS = [
   "TAURI_COMMAND_OK",
   "TAURI_COMMAND_BLOCKED_UNKNOWN",

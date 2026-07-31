@@ -18,6 +18,13 @@ export interface IdeRepairResponse {
 
 // Closed set of status tokens the panels may render. Mirrors the
 // Rust side. Panels MUST refuse to render any token not in this set.
+/**
+ * Consumed OUTSIDE the TypeScript import graph: Python lock tests read this array
+ * out of the source text and assert the set matches the Rust side exactly. knip
+ * cannot see that, so without this tag it reports the export as unused -- and
+ * deleting it would break those locks while the type-checker stayed green.
+ * @public
+ */
 export const IDE_REPAIR_STATUS_TOKENS = [
   "TAURI_RUST_COMMAND_BRIDGE_READY",
   "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_NO_TAURI_APP",

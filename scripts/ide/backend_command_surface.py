@@ -71,6 +71,12 @@ _COMMANDS = frozenset({
     # apparatus view-models. Read-only; the dashboard DISPLAYS authority, never
     # grants it. all_closed=True means no claim has outrun its proof.
     "get_governance_status",
+    # What this machine can actually do, and what it has actually spent. Added 2026-07-30 because
+    # nothing reported either: the accelerator was detected only via nvidia-smi (so AMD and Apple
+    # rigs reported CPU-only and were driven at the lowest tier), and determinex_usage_ledger was
+    # referenced by passport.rs but its latency/cost figures never reached a user-visible surface.
+    # Read-only: it reports capability, it does not change routing.
+    "get_runtime_capability_status",
     "diagnose_dry_run",
     "diagnose_live_opt_in",
     "generate_patch_plan_opt_in",
@@ -217,6 +223,9 @@ class IDEBackendCommandSurface:
         if command == "get_governance_status":
             return self._governance_status()
 
+        if command == "get_runtime_capability_status":
+            return self._runtime_capability_status()
+
         if command == "route_model":
             return self._route(task_class)
 
@@ -350,6 +359,12 @@ class IDEBackendCommandSurface:
             "proof": res.proof, "program": res.code if res.solved else "",
             "oracle_tests": res.oracle_tests, "next_moves": res.next_moves,
             "source_mutation": False,
+            # "the model tried N times and was wrong" and "the model was never reached" are
+            # different facts, and only the first is evidence about the model. Without these the
+            # UI renders both as `solved: false, samples: N` -- which is how a misconfigured
+            # provider looked exactly like a capability ceiling until 2026-07-31.
+            "generation_errors": getattr(res, "generation_errors", 0),
+            "generator_never_answered": getattr(res, "generator_never_answered", False),
         })
 
     def _governance_status(self) -> CommandResult:
@@ -373,6 +388,72 @@ class IDEBackendCommandSurface:
             "displays_authority_only": True,
             "source_mutation": False,
         })
+
+    def _runtime_capability_status(self) -> CommandResult:
+        """What this machine can actually do, and what it has actually spent.
+
+        Two things were invisible before this existed.
+
+        THE ACCELERATOR. `hive.hardware` probed `nvidia-smi` and nothing else, so an AMD or Apple
+        machine fell through to tier -1 "CPU-only" -- `max_local_models()` 0, `max_parallel_steps` 1,
+        nothing kept resident -- while sitting on more memory than the tier-2 threshold. Multi-vendor
+        detection now answers the question; this surfaces the answer, including the device string a
+        caller should hand PyTorch ("cuda" for both NVIDIA and a ROCm build, "mps" for Metal).
+
+        THE LEDGER. `determinex_usage_ledger` was referenced by passport.rs but its latency and cost
+        figures never reached a user-visible surface, so "local is free and fast" was a claim rather
+        than a reading.
+
+        Every field is either measured or explicitly null. Where a probe cannot answer, the reason is
+        carried instead of a zero -- a zero here would read as "measured, and it was nothing", which
+        is the failure mode this repo keeps finding.
+        """
+        payload: dict[str, object] = {"read_only": True}
+
+        try:
+            import sys as _sys
+            _scripts = str(Path(__file__).resolve().parent.parent)
+            if _scripts not in _sys.path:
+                _sys.path.insert(0, _scripts)
+            from hive.hardware import get_hw_profile
+            hw = get_hw_profile()
+            payload["accelerator"] = {
+                "vendor": hw.accelerator,
+                "label": hw.accelerator_label,
+                "torch_device": hw.torch_device,
+                "vram_gb": round(hw.vram_gb, 2),
+                "device_count": hw.gpu_count,
+                "ram_gb": round(hw.ram_gb, 2),
+                "tier": hw.tier,
+                "tier_label": hw.tier_label,
+                "max_local_models": hw.max_local_models(),
+                "max_parallel_steps": hw.max_parallel_steps,
+                "models_kept_resident": list(hw.lifecycle.keep_hot),
+                # Which memory pool the tier was derived from. "tier 1" on 16 GB of VRAM and
+                # "tier 1" on 24 GB of system RAM are different machines, and a reader of this
+                # surface should not have to infer which one they are looking at.
+                "capacity_basis": hw.capacity_basis,
+                # Display-only, and empty on x86. Named so a Snapdragon user can see their machine
+                # WAS recognised -- Determinex simply has no NPU/GPU path on Windows ARM64 and runs
+                # the ARM64 CPU path, which is a different statement from "detection failed".
+                "platform_note": hw.platform_note,
+            }
+        except Exception as exc:
+            payload["accelerator"] = None
+            payload["accelerator_error"] = f"{type(exc).__name__}: {exc}"
+
+        try:
+            import sys as _sys2
+            _scripts2 = str(Path(__file__).resolve().parent.parent)
+            if _scripts2 not in _sys2.path:
+                _sys2.path.insert(0, _scripts2)
+            import determinex_usage_ledger as _ledger
+            payload["usage"] = _ledger.summarize_ledger()
+        except Exception as exc:
+            payload["usage"] = None
+            payload["usage_error"] = f"{type(exc).__name__}: {exc}"
+
+        return self._result("get_runtime_capability_status", "IDE_COMMAND_OK", payload=payload)
 
     def _repair_diagnose(self, workspace: Path | None) -> CommandResult:
         """Brownfield diagnosis via the ONE canonical repair engine. Delegate."""

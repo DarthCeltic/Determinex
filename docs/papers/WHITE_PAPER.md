@@ -1,7 +1,7 @@
 # Compiler-Verified Distillation: A Self-Improving Local AI System on Consumer Hardware
 
 **Ryan Gurganious**
-**Lunarian Data Systems** *(Pending Registration)*
+**Ryan Gurganious** *(Pending Registration)*
 Lincolnton, North Carolina
 [https://github.com/determinex-ai/determinex](https://github.com/determinex-ai/determinex)
 
@@ -1999,9 +1999,9 @@ If the Rosetta Stone fails to reduce compile fail/retry cycles by 30%: the Compi
 
 ---
 
-## 12. Enterprise Implications & Lunarian Data Systems
+## 12. Enterprise Implications & Ryan Gurganious
 
-While Determinex's core repository is free and open source (AGPLv3) and community-visible, the project is owned and backed by **Lunarian Data Systems**. This structural relationship ensures the architecture remains anchored to the rigorous demands of enterprise security, compliance, and large-scale deployment.
+While Determinex's core repository is free and open source (AGPLv3) and community-visible, the project is owned and backed by **Ryan Gurganious**. This structural relationship ensures the architecture remains anchored to the rigorous demands of enterprise security, compliance, and large-scale deployment.
 
 **The `DETERMINEX_OFFLINE` Toggle (Air-gapped deployment)**: Determinex requires no internet connection after initial setup. To enforce strict compliance for government, healthcare, and financial institutions, the architecture includes a `DETERMINEX_OFFLINE` environment variable. This hard software lock physically disables all external API routes (Anthropic/DeepSeek) and forces the Orchestrator into a strictly local, self-contained operational mode. All inference, training data, and encrypted telemetry remain entirely on the local device or designated intranet.
 
@@ -2337,7 +2337,7 @@ stations one at a time with cheap→strong escalation. Near-term target: the **f
 ProgramBench task by any system**, then Wave 1 (the ~23 tools where the frontier plateaus at
 90–98%), in each tool's native language.
 
-*Addendum authored June 25, 2026, Ryan Gurganious / Lunarian Data Systems, as a dated priority
+*Addendum authored June 25, 2026, Ryan Gurganious, as a dated priority
 record of the native reimplementation workshop.*
 
 

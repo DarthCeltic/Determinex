@@ -8,6 +8,8 @@
 //! and the output round-trips through serde_json::from_str without error.
 //! We do NOT care about the verdict value — only that the tollbooth holds.
 
+mod common;
+
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
@@ -65,7 +67,13 @@ fn calculate_total() {
 #[tokio::test]
 async fn observer_sabotage_json_clamp() {
     const OLLAMA_URL: &str = "http://localhost:11434/api/generate";
-    const MODEL: &str = "determinex-observer:v3";
+    const OLLAMA_TAGS: &str = "http://localhost:11434/api/tags";
+    const OLLAMA_PS: &str = "http://localhost:11434/api/ps";
+    // Was "determinex-observer:v3" -- two generations stale, so every run got
+    // `Ollama returned HTTP 404 Not Found` and recorded it as a test failure. The only preflight
+    // was an `.expect("Ollama unreachable")` on the response, which cannot tell "no daemon" from
+    // "daemon up, model absent".
+    const MODEL: &str = "determinex-observer-v6-dsl";
 
     let audit_targets =
         "type safety, memory safety, index bounds, undefined behavior, return type correctness";
@@ -129,6 +137,21 @@ RESPOND WITH THE JSON OBJECT ONLY. YOUR FIRST CHARACTER MUST BE `{{`. YOUR LAST 
     println!("  Payload : broken Rust — type error, null UB, OOB panic, bad return");
     println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
     println!("  Sending request to Ollama (may take 15-60s on 6 GB GPU)...\n");
+
+    // Preflight BEFORE the request, rather than an `.expect` after it. The old code asserted
+    // `Ollama returned HTTP {status}` on a 404 — which reads as a product failure when what it
+    // actually means is "that model is not pulled". Warming matters here too: cold-loading a model
+    // of this size was measured at 102 s on the dev box against 1 s warm, and the client below
+    // allows 120 s.
+    if common::should_skip(
+        "observer_sabotage_json_clamp",
+        match common::unmet_prerequisites(&client, OLLAMA_TAGS, &[MODEL]).await {
+            Some(unmet) => Some(unmet),
+            None => common::residency_shortfall(&client, OLLAMA_URL, OLLAMA_PS, &[MODEL]).await,
+        },
+    ) {
+        return;
+    }
 
     let http_resp = client
         .post(OLLAMA_URL)

@@ -43,20 +43,27 @@ jobs:
           node-version: "20"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
       - name: Restore frontend dependencies
         working-directory: frontend
         run: npm.cmd ci
       - name: Build Windows packages and download bundle
         shell: pwsh
         run: |
+          # -TauriBundleTarget is msi,nsis -- NOT "all". This job runs on windows-latest, and
+          # tauri-cli rejects "all" as a --bundles value there (its only accepted values on
+          # Windows are msi and nsis), so this step could never complete.
+          # build_release_package.ps1 documents that and already defaults to msi,nsis; passing an
+          # explicit "all" overrode the correct default.
+          # NOTE: keep this comment ABOVE the command. A '#' line between backtick continuations
+          # terminates the continuation and breaks the invocation.
           powershell -ExecutionPolicy Bypass -File scripts\release\build_release_package.ps1 `
             -SkipDependencyRestore `
             -SkipSbom `
             -SkipSidecar `
             -CargoTargetDir .tmp\determinex-cargo-target `
             -PackageDownloadBundle `
-            -TauriBundleTarget all `
+            -TauriBundleTarget msi,nsis `
             -DownloadBundleOutputDir .tmp\determinex-download-bundles
       - name: Record Windows trust packet
         shell: pwsh
@@ -109,7 +116,7 @@ jobs:
           node-version: "20"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
       - name: Install Tauri Linux package dependencies
         run: |
           sudo apt-get update

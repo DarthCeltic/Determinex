@@ -172,6 +172,14 @@ def create_session(session_id: str, workspace: str, participants: list[str],
         "created_at": now,
         "last_active": now,
         "turn_count": 0,
+        # Per-agent model overrides ride along with the session (2026-07-31).
+        # `ensure_session_loaded` in agent_chat.rs rehydrates workspace, participants and turn_mode
+        # from this record after an app restart, but had nothing to read models from, so it reset
+        # them to empty. A user who picked opus for claude-code and qwen2.5-coder:14b for
+        # local-ollama silently got the defaults back on the next launch -- and for local-ollama the
+        # default is a DIFFERENT model (DEFAULT_LOCAL_CHAT_MODEL), so the answers changed with no
+        # indication that the choice had been dropped.
+        "models": {},
     }
     index = _read_index()
     index[session_id] = entry
@@ -210,6 +218,130 @@ def _same_path(raw: str, target: Path) -> bool:
 
 def get_session(session_id: str) -> "dict | None":
     return _read_index().get(session_id)
+
+
+PROPOSAL_BEGIN = "<<<DETERMINEX_PROPOSED_EDITS"
+PROPOSAL_END = "DETERMINEX_PROPOSED_EDITS>>>"
+PROPOSAL_SCHEMA = "determinex-chat-proposed-edits-v1"
+
+
+def extract_proposals(text: str) -> list[dict]:
+    """Pull the proposed-edit payloads out of a turn's captured output.
+
+    A chat turn never writes to the workspace (measured 2026-07-31: one conversational turn in six
+    silently rewrote a source file, so the write had to become structurally unavailable rather than
+    merely discouraged). Instead the agent emits a validated proposal, and this reads it back so the
+    user can approve it. Malformed or unknown-schema blocks are skipped rather than raised on -- a
+    junk block in one turn must not make a whole transcript unreadable.
+    """
+    out: list[dict] = []
+    cursor = 0
+    while True:
+        start = text.find(PROPOSAL_BEGIN, cursor)
+        if start < 0:
+            return out
+        body_start = start + len(PROPOSAL_BEGIN)
+        end = text.find(PROPOSAL_END, body_start)
+        if end < 0:
+            return out
+        cursor = end + len(PROPOSAL_END)
+        try:
+            payload = json.loads(text[body_start:end].strip())
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(payload, dict) or payload.get("schema") != PROPOSAL_SCHEMA:
+            continue
+        files = payload.get("files")
+        if not isinstance(files, list):
+            continue
+        for entry in files:
+            if (isinstance(entry, dict) and isinstance(entry.get("path"), str)
+                    and isinstance(entry.get("before"), str)
+                    and isinstance(entry.get("after"), str)):
+                out.append({"path": entry["path"], "before": entry["before"],
+                            "after": entry["after"]})
+
+
+def _resolve_inside(workspace: Path, rel_path: str) -> Path:
+    """Resolve a proposal's path, refusing anything that leaves the workspace.
+
+    The path comes from model output, so `../../etc/hosts` or an absolute path is a thing that can
+    arrive here. Approving a diff is approving the change shown, not write access to the disk.
+    """
+    candidate = (workspace / rel_path).resolve()
+    root = workspace.resolve()
+    if candidate != root and root not in candidate.parents:
+        raise ValueError(f"proposal path escapes the workspace: {rel_path!r}")
+    return candidate
+
+
+def apply_proposal(session_id: str, turn_id: str, workspace: "str | Path") -> dict:
+    """Apply an approved turn's proposed edits, refusing if the files have moved since.
+
+    The staleness check is the point. A proposal carries the exact bytes it was computed against, so
+    if the file changed in between -- the user edited it, another participant's approved proposal
+    landed -- applying anyway would silently discard that work. That is the failure mode approval
+    exists to prevent, so a stale proposal is refused with the path named, not merged hopefully.
+    """
+    ws = Path(workspace)
+    turns = [t for t in read_transcript(session_id) if t.get("turn_id") == turn_id]
+    if not turns:
+        raise KeyError(f"no turn {turn_id!r} in session {session_id!r}")
+    proposals = extract_proposals(turns[-1].get("raw_output") or "")
+    if not proposals:
+        raise ValueError(f"turn {turn_id!r} carries no proposed edits")
+
+    # Verify everything BEFORE writing anything: a half-applied multi-file proposal is a worse
+    # state than a refused one.
+    targets: list[tuple[Path, str, str]] = []
+    for p in proposals:
+        target = _resolve_inside(ws, p["path"])
+        current = target.read_text(encoding="utf-8", errors="replace") if target.exists() else ""
+        if current != p["before"]:
+            raise ValueError(
+                f"{p['path']} has changed since this was proposed -- not applying. "
+                f"Ask the agent again so it can propose against the current file."
+            )
+        targets.append((target, p["path"], p["after"]))
+
+    written: list[str] = []
+    for target, rel, after in targets:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(after, encoding="utf-8")
+        written.append(rel)
+    return {"session_id": session_id, "turn_id": turn_id, "applied": written}
+
+
+def session_models(session_id: str) -> dict:
+    """Return this session's per-agent model overrides, tolerating an older record.
+
+    Sessions created before models were persisted have no `models` key, and a hand-edited index
+    could hold something that is not a mapping. Either way the answer is "no overrides" rather
+    than a crash, because a chat that cannot be opened is worse than one that opens on defaults.
+    """
+    entry = get_session(session_id) or {}
+    raw = entry.get("models")
+    if not isinstance(raw, dict):
+        return {}
+    return {str(k): str(v) for k, v in raw.items() if str(v).strip()}
+
+
+def set_model(session_id: str, agent: str, model: str) -> dict:
+    """Set (or clear, with an empty model) one participant's model override, on disk.
+
+    Mirrors `agent_chat_set_model`'s in-memory semantics exactly: an empty or whitespace-only
+    model removes the override rather than storing a blank, because a blank model tag is the
+    empty-model 404 this file already guards against elsewhere.
+    """
+    if get_session(session_id) is None:
+        raise KeyError(f"unknown chat session {session_id!r}")
+    models = session_models(session_id)
+    if model.strip():
+        models[agent] = model.strip()
+    else:
+        models.pop(agent, None)
+    update_index(session_id, models=models)
+    return models
 
 
 # ---------------------------------------------------------------------------
@@ -773,15 +905,34 @@ def build_context_prompt(session_id: str, speaker: str, *,
     corpus_query = (turns[-1].get("raw_output") or turns[-1].get("task_prompt") or "") if turns else ""
     corpus_block = corpus_context_for(corpus_query)
 
+    # This framing said "respond and/or make the edits that best move the task forward", and then
+    # reinforced editing twice more ("your own edits will be checked...", "make changes you believe
+    # will actually pass"). Read by a small local model, the instruction is unambiguous: edit.
+    #
+    # Measured 2026-07-31 -- asked "What is the capital of France? One word." in a real session,
+    # every model tried to patch a file. The DSL-tuned engineer answered "Paris" inside a
+    # `### FILE: msg.txt` block; the general 3b-instruct chat default rewrote main.rs. The local
+    # agent then graded the malformed patch as a failed edit, retried three times and returned rc=1,
+    # so a plain question to the local participant could not produce a successful turn. Three
+    # separate attempts to fix it inside determinex_local_agent.py all failed, because the room was
+    # still telling the participant its job was editing and no downstream prompt could outvote that.
+    #
+    # Answering and editing are now separated, and the condition is the conversation itself rather
+    # than a flag: reply to what was said, and change files when the conversation asks for a change.
+    # The oracle sentence stays, but attached to the edit case where it belongs -- it was reading as
+    # a general instruction to produce changes.
     lines = [
         f"You are '{speaker}', one of several AI collaborators (plus the human "
         f"user) in a shared multi-agent chat working on the workspace at "
         f"{workspace_str}. Other participants may have already made changes -- "
-        f"read the shared mission plan and conversation below, then respond "
-        f"and/or make the edits that best move the task forward. Your own "
-        f"edits will be checked against the project's real compiler/test "
-        f"oracle afterward, so make changes you believe will actually pass, "
-        f"not just look plausible." + privacy_note,
+        f"read the shared mission plan and conversation below, then reply to "
+        f"what has been said.\n\n"
+        f"If the conversation is asking for a change to the code, make that "
+        f"change; your edits are checked against the project's real "
+        f"compiler/test oracle afterward, so make changes you believe will "
+        f"actually pass, not just look plausible. If you are being asked a "
+        f"question, or for your view, or for a plan, then answer it in prose "
+        f"and do not modify any files." + privacy_note,
         "",
         "--- shared mission plan (the same document every participant reads) ---",
         _maybe_obfuscate(plan.strip()),
@@ -895,6 +1046,25 @@ def main() -> int:
                                  "or null -- used to rehydrate in-memory session state after an app restart")
     p_get.add_argument("session_id")
 
+    p_apply = sub.add_parser("apply-proposal",
+                             help="apply one turn's proposed edits after the user approves them; "
+                                  "refuses if the files changed since the proposal was made")
+    p_apply.add_argument("session_id")
+    p_apply.add_argument("turn_id")
+    p_apply.add_argument("--workspace", required=True)
+
+    p_proposals = sub.add_parser("proposals",
+                                 help="list turns carrying unapplied proposed edits")
+    p_proposals.add_argument("session_id")
+    p_proposals.add_argument("turn_id", nargs="?", default="")
+
+    p_set_model = sub.add_parser("set-model",
+                                 help="persist one participant's model override on the session "
+                                      "record; an empty model clears it")
+    p_set_model.add_argument("session_id")
+    p_set_model.add_argument("agent")
+    p_set_model.add_argument("model", nargs="?", default="")
+
     p_transcript = sub.add_parser("transcript")
     p_transcript.add_argument("session_id")
     p_transcript.add_argument("--json", action="store_true")
@@ -961,6 +1131,35 @@ def main() -> int:
 
     if args.cmd == "get-session":
         print(json.dumps(get_session(args.session_id)))
+        return 0
+
+    if args.cmd == "apply-proposal":
+        try:
+            print(json.dumps(apply_proposal(args.session_id, args.turn_id, args.workspace)))
+        except (KeyError, ValueError, OSError) as exc:
+            print(json.dumps({"error": str(exc)}), file=sys.stderr)
+            return 2
+        return 0
+
+    if args.cmd == "proposals":
+        turns = [t for t in read_transcript(args.session_id)
+                 if not args.turn_id or t.get("turn_id") == args.turn_id]
+        print(json.dumps([
+            {"turn_id": t.get("turn_id"), "speaker": t.get("speaker"),
+             "files": [{"path": p["path"],
+                        "before_lines": len(p["before"].splitlines()),
+                        "after_lines": len(p["after"].splitlines())}
+                       for p in extract_proposals(t.get("raw_output") or "")]}
+            for t in turns if extract_proposals(t.get("raw_output") or "")
+        ]))
+        return 0
+
+    if args.cmd == "set-model":
+        try:
+            print(json.dumps(set_model(args.session_id, args.agent, args.model)))
+        except KeyError as exc:
+            print(json.dumps({"error": str(exc)}), file=sys.stderr)
+            return 2
         return 0
 
     if args.cmd == "transcript":

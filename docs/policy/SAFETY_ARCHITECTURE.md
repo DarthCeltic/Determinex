@@ -287,4 +287,4 @@ To disable: `DETERMINEX_REQUIRE_CLOAK=0`. This reduces privacy protection and sh
 
 ---
 
-*Determinex Safety Architecture · Lunarian Data Systems · 2026-05-27*
+*Determinex Safety Architecture · Ryan Gurganious · 2026-05-27*

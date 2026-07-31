@@ -69,7 +69,7 @@ function MobileWireframe({ color }: { color: string }) {
           className="absolute inset-0 rounded-[28px] border-2"
           style={{ borderColor: `${color}45` }}
         />
-        <div className="absolute inset-[5px] rounded-[23px] bg-[#050a10] overflow-hidden">
+        <div className="absolute inset-[5px] rounded-[23px] bg-[var(--dtx-code-bg-deep)] overflow-hidden">
           <div className="h-5 flex items-center justify-between px-4 border-b border-gray-800/60">
             <div className="w-8 h-1 rounded bg-gray-700" />
             <div className="w-3 h-3 rounded-full border border-gray-700" />
@@ -102,18 +102,18 @@ function MobileWireframe({ color }: { color: string }) {
                   className="w-3.5 h-3.5 rounded-md"
                   style={{
                     background: i === 0 ? `${color}25` : "transparent",
-                    border: `1px solid ${i === 0 ? color + "50" : "#374151"}`,
+                    border: `1px solid ${i === 0 ? color + "50" : "var(--dtx-code-border)"}`,
                   }}
                 />
                 <div
                   className="w-3.5 h-1 rounded"
-                  style={{ background: i === 0 ? `${color}40` : "#1f2937" }}
+                  style={{ background: i === 0 ? `${color}40` : "var(--dtx-code-raised)" }}
                 />
               </div>
             ))}
           </div>
         </div>
-        <div className="absolute top-[5px] left-1/2 -translate-x-1/2 w-12 h-4 rounded-b-xl bg-[#050a10]" />
+        <div className="absolute top-[5px] left-1/2 -translate-x-1/2 w-12 h-4 rounded-b-xl bg-[var(--dtx-code-bg-deep)]" />
       </div>
     </div>
   );
@@ -127,10 +127,10 @@ function WebWireframe({ color }: { color: string }) {
   return (
     <div className="flex items-center justify-center h-full px-6">
       <div className="w-full" style={{ maxWidth: 520 }}>
-        <div className="rounded-t-xl border border-b-0 border-gray-700/60 bg-[#161b22]">
+        <div className="rounded-t-xl border border-b-0 border-gray-700/60 bg-[var(--dtx-code-panel)]">
           <div className="h-7 flex items-center gap-2 px-3">
             <div className="flex gap-1.5">
-              {["#f87171", "#fbbf24", "#34d399"].map((c) => (
+              {["var(--dtx-fail)", "var(--dtx-warn)", "var(--dtx-ok)"].map((c) => (
                 <div
                   key={c}
                   className="w-2 h-2 rounded-full opacity-50"
@@ -138,12 +138,12 @@ function WebWireframe({ color }: { color: string }) {
                 />
               ))}
             </div>
-            <div className="flex-1 h-3.5 rounded bg-[#010409] border border-gray-800 mx-2 flex items-center px-2">
+            <div className="flex-1 h-3.5 rounded bg-[var(--dtx-code-bg-deep)] border border-gray-800 mx-2 flex items-center px-2">
               <div className="h-1 w-16 rounded bg-gray-700" />
             </div>
           </div>
         </div>
-        <div className="border border-gray-700/60 rounded-b-xl bg-[#050a10] overflow-hidden">
+        <div className="border border-gray-700/60 rounded-b-xl bg-[var(--dtx-code-bg-deep)] overflow-hidden">
           <div
             className="h-8 flex items-center gap-3 px-4 border-b"
             style={{ borderColor: `${color}18` }}
@@ -176,13 +176,13 @@ function WebWireframe({ color }: { color: string }) {
                 key={i}
                 className="rounded-xl border p-2"
                 style={{
-                  borderColor: i === 0 ? `${color}30` : "#30363d",
-                  background: i === 0 ? `${color}08` : "#0d1117",
+                  borderColor: i === 0 ? `${color}30` : "var(--dtx-code-border)",
+                  background: i === 0 ? `${color}08` : "var(--dtx-code-bg)",
                 }}
               >
                 <div
                   className="h-8 rounded-lg mb-1.5"
-                  style={{ background: i === 0 ? `${color}15` : "#161b22" }}
+                  style={{ background: i === 0 ? `${color}15` : "var(--dtx-code-panel)" }}
                 />
                 <div className="h-1.5 w-3/4 rounded bg-gray-700 mb-1" />
                 <div className="h-1 w-1/2 rounded bg-gray-800" />
@@ -198,7 +198,7 @@ function WebWireframe({ color }: { color: string }) {
 function CrossPlatformWireframe({ color }: { color: string }) {
   return (
     <div className="flex h-full items-center justify-center gap-5 px-5">
-      <div className="h-[82%] min-w-0 flex-[1.4] rounded-2xl border border-gray-700/60 bg-[#050a10] p-3">
+      <div className="h-[82%] min-w-0 flex-[1.4] rounded-2xl border border-gray-700/60 bg-[var(--dtx-code-bg-deep)] p-3">
         <div className="mb-3 flex items-center gap-1.5">
           <div className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
           <div className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
@@ -206,14 +206,14 @@ function CrossPlatformWireframe({ color }: { color: string }) {
           <div className="ml-auto h-2 w-20 rounded bg-gray-700" />
         </div>
         <div className="grid h-[calc(100%-24px)] grid-cols-[0.42fr_1fr] gap-3">
-          <div className="rounded-xl border border-gray-800 bg-[#0d1117] p-3">
+          <div className="rounded-xl border border-gray-800 bg-[var(--dtx-code-bg)] p-3">
             {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
                 className="mb-2 h-6 rounded-lg border"
                 style={{
-                  borderColor: i === 0 ? `${color}55` : "#1f2937",
-                  background: i === 0 ? `${color}14` : "#111827",
+                  borderColor: i === 0 ? `${color}55` : "var(--dtx-code-raised)",
+                  background: i === 0 ? `${color}14` : "var(--dtx-code-panel)",
                 }}
               />
             ))}
@@ -228,7 +228,7 @@ function CrossPlatformWireframe({ color }: { color: string }) {
             />
             <div className="mt-4 grid grid-cols-3 gap-3">
               {[0, 1, 2].map((i) => (
-                <div key={i} className="h-16 rounded-lg border border-gray-800 bg-[#111827]" />
+                <div key={i} className="h-16 rounded-lg border border-gray-800 bg-[var(--dtx-code-panel)]" />
               ))}
             </div>
             <div className="mt-4 h-2 w-2/3 rounded bg-gray-700" />
@@ -240,7 +240,7 @@ function CrossPlatformWireframe({ color }: { color: string }) {
         className="h-[76%] w-[132px] shrink-0 rounded-[26px] border-2 p-1"
         style={{ borderColor: `${color}45` }}
       >
-        <div className="h-full overflow-hidden rounded-[21px] bg-[#050a10]">
+        <div className="h-full overflow-hidden rounded-[21px] bg-[var(--dtx-code-bg-deep)]">
           <div className="h-5 border-b border-gray-800/60" />
           <div
             className="mx-2 mt-2 h-20 rounded-xl border"
@@ -274,10 +274,10 @@ function ApiWireframe({ color }: { color: string }) {
     { method: "DELETE", status: 204 },
   ];
   const mc: Record<string, string> = {
-    GET: "#34d399",
-    POST: "#60a5fa",
-    PUT: "#f59e0b",
-    DELETE: "#f87171",
+    GET: "var(--dtx-ok)",
+    POST: "var(--dtx-info)",
+    PUT: "var(--dtx-warn)",
+    DELETE: "var(--dtx-fail)",
   };
   const widths = [100, 80, 130, 130, 130];
   return (
@@ -296,7 +296,7 @@ function ApiWireframe({ color }: { color: string }) {
               key={i}
               className="flex items-center gap-3 px-4 py-2"
               style={{
-                borderBottom: i < 4 ? "1px solid #21262d" : "none",
+                borderBottom: i < 4 ? "1px solid var(--dtx-code-border-subtle)" : "none",
                 background: i === 0 ? `${color}07` : "transparent",
               }}
             >
@@ -311,7 +311,7 @@ function ApiWireframe({ color }: { color: string }) {
               </div>
               <div
                 className="text-meta font-mono"
-                style={{ color: ep.status < 300 ? "#34d399" : "#f87171", opacity: 0.7 }}
+                style={{ color: ep.status < 300 ? "var(--dtx-ok)" : "var(--dtx-fail)", opacity: 0.7 }}
               >
                 {ep.status}
               </div>
@@ -351,26 +351,26 @@ function CliWireframe({ color }: { color: string }) {
   ];
   const lc = (kind: string) =>
     kind === "pass"
-      ? "#34d399"
+      ? "var(--dtx-ok)"
       : kind === "cmd"
-        ? "#e2e8f0"
+        ? "var(--dtx-code-text)"
         : kind === "cursor"
           ? color
-          : "#6b7280";
+          : "var(--dtx-code-muted)";
   return (
     <div className="flex items-center justify-center h-full px-6">
       <div className="w-full" style={{ maxWidth: 460 }}>
         <div className="rounded-xl border overflow-hidden" style={{ borderColor: `${color}30` }}>
-          <div className="h-7 flex items-center gap-2 px-3 bg-[#161b22] border-b border-gray-800">
-            {["#f87171", "#fbbf24", "#34d399"].map((c) => (
+          <div className="h-7 flex items-center gap-2 px-3 bg-[var(--dtx-code-panel)] border-b border-gray-800">
+            {["var(--dtx-fail)", "var(--dtx-warn)", "var(--dtx-ok)"].map((c) => (
               <div key={c} className="w-2 h-2 rounded-full opacity-50" style={{ background: c }} />
             ))}
             <div className="flex-1 text-center text-meta font-mono text-gray-600">zsh</div>
           </div>
-          <div className="bg-[#050a10] px-4 py-3 font-mono text-meta flex flex-col gap-1.5">
+          <div className="bg-[var(--dtx-code-bg-deep)] px-4 py-3 font-mono text-meta flex flex-col gap-1.5">
             {lines.map((line, i) => (
               <div key={i} className="flex gap-2">
-                <span style={{ color: line.prompt ? `${color}90` : "#374151" }}>
+                <span style={{ color: line.prompt ? `${color}90` : "var(--dtx-code-border)" }}>
                   {line.prompt ? "$" : "·"}
                 </span>
                 <span style={{ color: lc(line.kind) }}>
@@ -400,14 +400,14 @@ function DashboardWireframe({ color }: { color: string }) {
               key={i}
               className="border rounded-xl p-2.5"
               style={{
-                borderColor: i === 0 ? `${color}35` : "#30363d",
-                background: i === 0 ? `${color}08` : "#0d1117",
+                borderColor: i === 0 ? `${color}35` : "var(--dtx-code-border)",
+                background: i === 0 ? `${color}08` : "var(--dtx-code-bg)",
               }}
             >
               <div className="h-1 w-8 rounded bg-gray-700 mb-1.5" />
               <div
                 className="h-4 w-10 rounded"
-                style={{ background: i === 0 ? `${color}40` : "#374151" }}
+                style={{ background: i === 0 ? `${color}40` : "var(--dtx-code-border)" }}
               />
               <div className="h-1 w-6 rounded bg-gray-800 mt-1.5" />
             </div>

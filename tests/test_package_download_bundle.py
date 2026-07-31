@@ -76,10 +76,25 @@ def test_download_bundle_manifest_includes_installers_checksums_and_boundary(tmp
     assert len(msi_packets) == 1
     msi_packet = json.loads(msi_packets[0].read_text(encoding="utf-8"))
     assert msi_packet["schema_version"] == "determinex-windows-msi-evidence-v1"
-    assert msi_packet["wix_toolset_used"] is True
+    # These four used to be unconditional `True` LITERALS in the packet writer, and
+    # `_windows_msi_errors` checks exactly them -- so dropping any file named *.msi into the
+    # installer directory turned the windows_msi gate green. Asserting True here made this test
+    # confirm the literal rather than any property of the artifact. They are now derived, and this
+    # fixture's MSI is a stub with arbitrary bytes, so the honest expectations are:
+    #
+    #   wix_toolset_used            -> False  (not an OLE compound file, no WiX authoring)
+    #   msi_built                   -> True   (an MSI artifact really was collected)
+    #   msi_sha256_verified         -> True   (a real 64-hex digest was recorded)
+    #   msi_installer_smoke_performed -> False (this script never installs anything; the
+    #                                           clean-host transcript attests that)
+    assert msi_packet["wix_toolset_used"] is False, (
+        "a stub MSI must not be reported as WiX-built; that is what made this gate vacuous"
+    )
     assert msi_packet["msi_built"] is True
     assert msi_packet["msi_sha256_verified"] is True
-    assert msi_packet["msi_installer_smoke_performed"] is True
+    assert msi_packet["msi_installer_smoke_performed"] is False, (
+        "package_download_bundle discovers and checksums artifacts; it cannot attest an install"
+    )
     assert msi_packet["authority_granted"] is False
     assert msi_packet["msi_artifacts"][0]["file_name"] == "Determinex_0.1.0_x64_en-US.msi"
 

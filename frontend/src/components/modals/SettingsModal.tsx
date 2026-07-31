@@ -27,6 +27,7 @@ import { saveApiKeys } from "@/lib/api";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useErrorToast } from "@/components/ErrorToast";
 import { getOllamaModels } from "@/lib/api";
+import { RuntimeCapabilityCard } from "@/components/RuntimeCapabilityCard";
 import {
   NETWORK_POLICY_COPY,
   requestSetupRerun,
@@ -470,7 +471,13 @@ export function SettingsModal() {
                   </button>
                 </div>
 
-                <div className="mb-8 rounded-2xl border border-indigo-500/25 bg-indigo-950/20 p-5">
+                {/* Measured hardware + real usage. Sits above Setup Repair because "what is this
+                    machine" is the first question this tab exists to answer, and until 2026-07-30
+                    nothing answered it: detection was nvidia-smi only, so AMD and Apple rigs
+                    reported CPU-only and ran at the lowest tier. */}
+                <RuntimeCapabilityCard />
+
+                <div className="mb-8 mt-6 rounded-2xl border border-indigo-500/25 bg-indigo-950/20 p-5">
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-indigo-300">

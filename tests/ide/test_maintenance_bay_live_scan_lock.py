@@ -1,8 +1,9 @@
 """Tests for DETERMINEX_MAINTENANCE_BAY_LIVE_SECURITY_SCAN_LOCK_001.
 
-Live wiring for Maintenance Bay: composes the 5 EXISTING scripts/security/*.py
-scanners (secret_scan, dependency_scan, verify_lockfiles, license_scan, container_scan)
-via security_gate.run_all() into one read-only advisory result. No new scanner logic
+Live wiring for Maintenance Bay: composes the EXISTING scripts/security/*.py
+scanners (secret_scan, dependency_scan, verify_lockfiles, verify_installed,
+license_scan, container_scan) via security_gate.run_all() into one read-only advisory
+result. The count is deliberately not written down here -- see expected_gates(). No new scanner logic
 was written -- this rung is wiring, not invention.
 """
 from __future__ import annotations
@@ -27,7 +28,29 @@ PANEL_PATH = _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell
 BRIDGE_RS = _REPO_ROOT / "frontend" / "src-tauri" / "src" / "ide_repair_bridge.rs"
 LIB_RS = _REPO_ROOT / "frontend" / "src-tauri" / "src" / "lib.rs"
 
-EXPECTED_GATES = ("secret_scan", "dependency_scan", "verify_lockfiles", "license_scan", "container_scan")
+# The gates the Maintenance Bay must ALWAYS compose. A floor, not the full list:
+# removing any of these is a real regression and must fail here.
+REQUIRED_GATES = ("secret_scan", "dependency_scan", "verify_lockfiles", "license_scan", "container_scan")
+
+
+# These tests run `security_gate.run_all()` for real, and two of its six scanners write to a
+# COMMITTED path by design. The redirect that stops them overwriting that evidence lives in
+# tests/conftest.py (`_scanner_output_off_tracked_paths`) rather than here: it is a property of the
+# suite, not of this file. It was first fixed here, and the files came back dirty from a different
+# test on the next full run.
+
+
+def expected_gates() -> set[str]:
+    """Derived from security_gate.GATES, not hand-maintained.
+
+    This was a hardcoded 5-tuple and went red the moment a sixth gate
+    (`verify_installed`, 2026-07-28) was added -- a list-drift failure, not a
+    regression in what it guards. Deriving the full set means adding a gate cannot
+    break this lock, while REQUIRED_GATES above still fails if one is dropped.
+    """
+    sys.path.insert(0, str(_REPO_ROOT / "scripts" / "security"))
+    security_gate = importlib.import_module("security_gate")
+    return {name for name, _fn in security_gate.GATES}
 
 
 def test_command_registered_in_full_surface():
@@ -38,9 +61,10 @@ def test_command_deliberately_excluded_from_frozen_read_only_set():
     assert "run_maintenance_bay_scan" not in bcs.UNIFIED_PRODUCT_READ_ONLY_COMMANDS
 
 
-def test_command_surface_runs_all_five_real_gates():
+def test_command_surface_runs_all_real_gates():
     """A REAL correctness check, not shape-only: the actual security_gate.run_all()
-    composition, not a mock. Confirms all 5 gates ran (or reports why one didn't)."""
+    composition, not a mock. Confirms every gate security_gate defines ran (or reports
+    why one didn't)."""
     surface = bcs.IDEBackendCommandSurface()
     r = surface.call("run_maintenance_bay_scan")
     assert r.status == "IDE_COMMAND_OK"
@@ -52,7 +76,11 @@ def test_command_surface_runs_all_five_real_gates():
         assert r.payload.get("overall_passed") is None
         return
     gate_names = {g["gate"] for g in r.payload["gates"]}
-    assert gate_names == set(EXPECTED_GATES)
+    assert gate_names == expected_gates(), (
+        "the command surface did not report every gate security_gate defines"
+    )
+    missing = set(REQUIRED_GATES) - gate_names
+    assert not missing, f"a required gate was dropped from the composition: {sorted(missing)}"
     assert isinstance(r.payload["overall_passed"], bool)
 
 

@@ -309,7 +309,7 @@ export function VerifiedSearch({
       <div className="pointer-events-none absolute inset-0 opacity-8">
         <div
           className="absolute right-0 bottom-0 h-[400px] w-[400px] translate-x-1/3 translate-y-1/3 rounded-full"
-          style={{ background: "#60a5fa", filter: "blur(100px)" }}
+          style={{ background: "var(--dtx-info)", filter: "blur(100px)" }}
         />
       </div>
 

@@ -183,4 +183,4 @@ python scripts/pb_senses_guard.py --guard     # no static-RE in WALs
 
 ---
 
-*Determinex · Ryan Gurganious · Lunarian Data Systems · June 2026*
+*Determinex · Ryan Gurganious · June 2026*

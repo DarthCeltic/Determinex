@@ -37,10 +37,10 @@ export function OracleArena() {
   if (!state) return null;
 
   return (
-    <div className="flex h-full w-full bg-[#0d1117] text-gray-300">
+    <div className="flex h-full w-full bg-[var(--dtx-code-bg)] text-gray-300">
       {/* Left side: Conversation */}
-      <div className="flex-1 max-w-3xl border-r border-[#30363d] flex flex-col h-full bg-[#010409]">
-        <div className="p-6 border-b border-[#30363d] flex items-center justify-between">
+      <div className="flex-1 max-w-3xl border-r border-[var(--dtx-code-border)] flex flex-col h-full bg-[var(--dtx-code-bg-deep)]">
+        <div className="p-6 border-b border-[var(--dtx-code-border)] flex items-center justify-between">
           <div>
             <h2 className="text-xl font-black text-cyan-400 flex items-center gap-2">
               <Zap size={20} /> Oracle Discovery
@@ -67,7 +67,7 @@ export function OracleArena() {
                   {msg.role === "oracle" ? <Bot size={16} /> : <User size={16} />}
                 </div>
                 <div
-                  className={`max-w-[80%] rounded-2xl px-5 py-3.5 text-body leading-relaxed shadow-lg ${msg.role === "oracle" ? "bg-[#161b22] border border-[#30363d]" : "bg-purple-900/10 border border-purple-500/20 text-purple-100"}`}
+                  className={`max-w-[80%] rounded-2xl px-5 py-3.5 text-body leading-relaxed shadow-lg ${msg.role === "oracle" ? "bg-[var(--dtx-code-panel)] border border-[var(--dtx-code-border)]" : "bg-purple-900/10 border border-purple-500/20 text-purple-100"}`}
                 >
                   {msg.text}
                 </div>
@@ -80,7 +80,7 @@ export function OracleArena() {
               <div className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-cyan-900/30 text-cyan-400 border border-cyan-500/30">
                 <Bot size={16} />
               </div>
-              <div className="max-w-[80%] rounded-2xl px-5 py-3.5 text-body leading-relaxed bg-[#161b22] border border-[#30363d]">
+              <div className="max-w-[80%] rounded-2xl px-5 py-3.5 text-body leading-relaxed bg-[var(--dtx-code-panel)] border border-[var(--dtx-code-border)]">
                 {state.oracleTyping || "▌"}
               </div>
             </div>
@@ -91,7 +91,7 @@ export function OracleArena() {
               <div className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-cyan-900/30 text-cyan-400 border border-cyan-500/30">
                 <Bot size={16} />
               </div>
-              <div className="max-w-[80%] rounded-2xl px-5 py-3.5 flex items-center bg-[#161b22] border border-[#30363d]">
+              <div className="max-w-[80%] rounded-2xl px-5 py-3.5 flex items-center bg-[var(--dtx-code-panel)] border border-[var(--dtx-code-border)]">
                 <TypingIndicator />
               </div>
             </div>
@@ -110,7 +110,7 @@ export function OracleArena() {
         {state.paths.length > 0 ? (
           <div className="z-10 w-[80%] max-w-lg aspect-square">
             {/* Show the wireframe of the best path (first path) */}
-            <div className="bg-[#0d1117] border border-[#30363d] rounded-2xl p-8 h-full shadow-2xl flex flex-col items-center justify-center relative overflow-hidden transition-all duration-1000 transform translate-y-0 opacity-100">
+            <div className="bg-[var(--dtx-code-bg)] border border-[var(--dtx-code-border)] rounded-2xl p-8 h-full shadow-2xl flex flex-col items-center justify-center relative overflow-hidden transition-all duration-1000 transform translate-y-0 opacity-100">
               <div className="absolute top-4 left-4 text-meta uppercase font-bold tracking-widest text-gray-500">
                 Current Blueprint
               </div>

@@ -142,7 +142,19 @@ def test_maturity_report_flags_empty_flywheel_and_quarantine():
     r = api.maturity_report(corpus=_fixture())
     # fixture has 1 verified learned_class -> flywheel is NOT empty here
     assert r.flywheel_is_empty is False
-    assert r.quarantine_pending_reabsorption == 2
+    # Renamed from quarantine_pending_reabsorption 2026-07-28: those entries were
+    # REJECTED, not queued (0 verified and 0 ever used at quarantine; the 2026-07-18
+    # salvage already readmitted the 234 that passed a quality gate). The old name
+    # read as outstanding work and invited re-absorbing gated-out material.
+    assert r.quarantined_rejected == 2
+
+
+def test_maturity_report_keeps_the_old_quarantine_key_for_readers():
+    """The rename must not break existing consumers of the JSON, so to_dict() emits
+    both keys plus a note saying which reading is correct."""
+    d = api.maturity_report(corpus=_fixture()).to_dict()
+    assert d["quarantined_rejected"] == d["quarantine_pending_reabsorption"] == 2
+    assert "rejected, not queued" in d["quarantine_note"]
 
 
 def test_maturity_report_finds_real_markers_not_fabricated():

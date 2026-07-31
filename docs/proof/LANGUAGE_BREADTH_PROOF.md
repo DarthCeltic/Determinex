@@ -64,4 +64,4 @@ docker run --rm -i php:8.3-cli       php  -l /dev/stdin < valid.php
 docker run --rm -i eclipse-temurin:21-jdk bash -c '... kotlinc x.kt ...' < valid.kt
 ```
 
-*Determinex · Lunarian Data Systems · correctness substrate proof · 2026-06-17*
+*Determinex · Ryan Gurganious · correctness substrate proof · 2026-06-17*

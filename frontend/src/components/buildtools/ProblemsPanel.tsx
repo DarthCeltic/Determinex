@@ -174,9 +174,18 @@ export function ProblemsPanel({ workspacePath = "" }: Props) {
         ) : Object.keys(byFile).length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-2 opacity-30">
             <AlertCircle size={24} className="text-gray-600" />
-            <p className="text-label text-gray-600">No problems detected</p>
+            <p className="text-label text-gray-600">No diagnostics reported</p>
+            {/* This used to read "Real cargo check results. Nothing wrong right now, or no
+                workspace is open." -- an affirmative claim that a check had run and found the
+                build clean. It cannot know that. get_lsp_symbols wraps cargo in
+                `if let Ok(output)`, so a spawn failure (no Rust toolchain installed) or the 90 s
+                timeout falls through and returns an empty diagnostic list, indistinguishable from
+                a genuinely clean workspace. And for .ts/.tsx it returns empty BY DESIGN -- no
+                TypeScript analysis is wired at all -- so an empty list there certified nothing
+                whatsoever. Stating the scope instead of asserting a result. */}
             <p className="max-w-xs text-center text-meta text-gray-700 font-mono">
-              Real cargo check results. Nothing wrong right now, or no workspace is open.
+              Rust workspaces are analysed with cargo check. Other languages are not analysed yet,
+              and a missing toolchain also reports nothing here.
             </p>
           </div>
         ) : (

@@ -28,7 +28,7 @@ file) a plain-language summary at install time.
 - **Internal Evaluation is permitted** — using Determinex to decide whether to
   enter a commercial agreement, not for production/customer-facing use.
 - **Commercial use requires a separate written agreement** with Ryan
-  Gurganious / Lunarian Data Systems. Commercial and patent rights are
+  Gurganious / Ryan Gurganious. Commercial and patent rights are
   reserved.
 - Full definitions, obligations, and exceptions (including third-party
   component licenses) are in `LICENSE` — this summary does not replace it.

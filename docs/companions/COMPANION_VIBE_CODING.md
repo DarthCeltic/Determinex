@@ -10,7 +10,7 @@ depends: [flow-ai]
 
 # Vibe Coding and the Compiler Oracle: Why Intuition-First Development Works
 
-*A companion to the Determinex white paper. Ryan Gurganious · Lunarian Data Systems · 2026*
+*A companion to the Determinex white paper. Ryan Gurganious · 2026*
 
 ---
 

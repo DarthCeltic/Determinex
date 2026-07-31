@@ -41,7 +41,7 @@ const BENCHMARKS: BenchmarkConfig[] = [
     id: "swebench-lite",
     label: "SWE-bench Lite",
     description: "300-instance bug-fix benchmark. Config D: Claude Architect + DeepSeek Builder.",
-    accentColor: "#34d399",
+    accentColor: "var(--dtx-ok)",
     scriptName: "determinex_swebench_run.py",
     args: ["--config", "d", "--cloak", "--parallel", "4", "--instances", "300"],
     defaultTotal: 300,
@@ -50,7 +50,7 @@ const BENCHMARKS: BenchmarkConfig[] = [
     id: "swebench-verified",
     label: "SWE-bench Verified",
     description: "500-instance human-validated split. Harder than Lite.",
-    accentColor: "#22d3ee",
+    accentColor: "var(--dtx-alt-2)",
     scriptName: "determinex_swebench_run.py",
     args: ["--config", "d", "--cloak", "--parallel", "4", "--split", "verified"],
     defaultTotal: 500,
@@ -59,7 +59,7 @@ const BENCHMARKS: BenchmarkConfig[] = [
     id: "livecode",
     label: "LiveCodeBench",
     description: "Write-from-scratch competitive programming (post-May 2023, no contamination).",
-    accentColor: "#a78bfa",
+    accentColor: "var(--dtx-alt)",
     scriptName: "determinex_livecode_run.py",
     args: ["--n", "200", "--difficulty", "all", "--workers", "4"],
     defaultTotal: 200,
@@ -68,10 +68,14 @@ const BENCHMARKS: BenchmarkConfig[] = [
     id: "bigcode",
     label: "BigCodeBench",
     description: "1,140 function-implementation tasks. Requires Docker for execution.",
-    accentColor: "#f59e0b",
+    accentColor: "var(--dtx-warn)",
     scriptName: "determinex_bigcode_run.py",
     args: ["--n", "500", "--subset", "hard", "--workers", "4"],
-    defaultTotal: 1140,
+    // defaultTotal must match the number of tasks this run ACTUALLY attempts (`--n 500`), not the
+    // size of the full benchmark. It was 1140 while `args` launched 500, and score is computed as
+    // resolved / defaultTotal -- so a run that solved every task it attempted displayed as 43.9%.
+    // The suite's full size stays in `description`, where it is informative rather than load-bearing.
+    defaultTotal: 500,
   },
 ];
 
@@ -327,17 +331,24 @@ export function BenchmarkRunner() {
     }
   };
 
-  const stopBenchmark = (id: string) => {
+  const stopBenchmark = async (id: string) => {
     // Advance generation so the active listener discards any future events.
     generations.current[id] = (generations.current[id] ?? 0) + 1;
     clearInterval(timers.current[id]);
     // Clean up listener.
     unlisteners.current[id]?.();
     delete unlisteners.current[id];
-    // Tell Rust to kill the OS process.
-    invokeSafe("stop_benchmark_run", { benchmarkId: id }).catch((e) =>
-      showError(`Failed to stop benchmark: ${e}`)
-    );
+    // Tell Rust to kill the OS process, and report what actually happened.
+    //
+    // This used to be a fire-and-forget `invokeSafe(...).catch(...)` followed immediately by
+    // setRun(idle) and the "Stopped" log below. Two problems: `invokeSafe` never rejects by
+    // contract (it resolves to null on failure), so the `.catch` and its showError were dead code;
+    // and the state flip plus the log ran synchronously BEFORE the promise settled, so the row went
+    // idle and the log asserted the process had stopped regardless of whether Rust killed anything.
+    const stopConfirmed = await invokeSafe("stop_benchmark_run", { benchmarkId: id });
+    if (stopConfirmed === null) {
+      showError("Stop was requested but not confirmed — the benchmark process may still be running.");
+    }
     setRun(id, { status: "idle" });
     appendLog(id, "âš  Stopped");
   };
@@ -349,7 +360,7 @@ export function BenchmarkRunner() {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 border-b border-[#30363d] bg-[#0d1117]/60 flex-shrink-0">
+      <div className="p-4 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)]/60 flex-shrink-0">
         <div className="flex items-center gap-2 mb-1">
           <Sparkles size={14} className="text-orange-400" />
           <span className="text-meta font-black uppercase tracking-widest text-orange-400">
@@ -428,7 +439,7 @@ export function BenchmarkRunner() {
               return (
                 <div
                   key={cfg.id}
-                  className="bg-[#161b22] border border-[#30363d] rounded-xl overflow-hidden transition-all"
+                  className="bg-[var(--dtx-code-panel)] border border-[var(--dtx-code-border)] rounded-xl overflow-hidden transition-all"
                   style={{ borderColor: isRunning ? cfg.accentColor + "40" : undefined }}
                 >
                   {/* Card header */}
@@ -513,7 +524,7 @@ export function BenchmarkRunner() {
 
                   {/* Expanded: log + history */}
                   {isExpanded && (
-                    <div className="px-3 pb-3 border-t border-[#30363d]/50">
+                    <div className="px-3 pb-3 border-t border-[var(--dtx-code-border)]/50">
                       <LogPane lines={run.log} logOffset={run.logOffset} />
 
                       {hist.length > 0 && (
@@ -545,7 +556,7 @@ export function BenchmarkRunner() {
             })}
 
             {/* Score delta framework */}
-            <div className="mt-2 p-3 bg-[#0d1117] border border-[#30363d]/50 rounded-xl">
+            <div className="mt-2 p-3 bg-[var(--dtx-code-bg)] border border-[var(--dtx-code-border)]/50 rounded-xl">
               <div className="text-eyebrow uppercase font-bold text-gray-600 tracking-widest mb-2">
                 Score Delta Framework
               </div>
@@ -562,7 +573,7 @@ export function BenchmarkRunner() {
                   <span className="text-gray-500">D-Cloaked (Claude Architect)</span>
                   <span className="text-emerald-400">Z% · Z−Y = Architect lift</span>
                 </div>
-                <div className="mt-1 pt-1.5 border-t border-[#30363d]/50 text-gray-600 leading-relaxed">
+                <div className="mt-1 pt-1.5 border-t border-[var(--dtx-code-border)]/50 text-gray-600 leading-relaxed">
                   D-Cloaked broken baseline:{" "}
                   <span className="text-emerald-400">35/300 = 11.7%</span>
                 </div>

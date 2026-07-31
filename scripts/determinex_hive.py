@@ -230,7 +230,20 @@ def cmd_new_session(args) -> None:
     except Exception as _md_err:
         log.debug("project-md generation skipped: %s", _md_err)
 
-    print(f"\nNext: python determinex_hive.py generate-dag --session {session.session_id}")
+    # Echo the path the user actually invoked rather than a bare filename. This printed
+    # "python determinex_hive.py generate-dag ...", which fails from the repo root -- the only
+    # directory the README ever tells you to run from ("python scripts/determinex_hive.py ...").
+    # A copy-pasteable next step that does not run is a dead end at the exact moment the user is
+    # following instructions.
+    # `as_posix()` on purpose: forward slashes work in cmd, PowerShell AND Git Bash, whereas the
+    # native backslash form breaks in bash -- and Git Bash is the documented shell here. The
+    # README already writes it this way ("python scripts/determinex_hive.py ...").
+    _invoked = Path(sys.argv[0]).name if sys.argv and sys.argv[0] else "determinex_hive.py"
+    try:
+        _invoked = Path(sys.argv[0]).resolve().relative_to(Path.cwd()).as_posix()
+    except (ValueError, OSError):
+        pass
+    print(f"\nNext: python {_invoked} generate-dag --session {session.session_id}")
 
 
 def cmd_run_session(args) -> None:
@@ -477,6 +490,83 @@ def cmd_fix(args) -> None:
     print(_json.dumps(result))
 
 
+# ── Bundled helper dispatch (sidecar coverage) ────────────────────────────────
+# WHY THIS EXISTS
+# The PyInstaller sidecar bundles THIS file, so historically it exposed only the
+# hive subcommands. Everything else the Tauri backend needed -- the agent chat room,
+# the agent registry, the usage ledger, the toolchain installer, the model bench --
+# was invoked through a SECOND path (ide_repair_bridge/agent_chat's run_script_json)
+# that shells out to `scripts/<name>.py` by PATH. That path does not exist in an
+# installed copy, so those panels were dev-checkout-only while `ipc_hive` was already
+# bundled-first and correct.
+#
+# Two invocation paths, one of them bundled, and new callers reached for whichever was
+# nearest -- the same divergence that produced two argv builders and two audit docs.
+# This subcommand gives the sidecar coverage for the rest, so `run_script_json` can
+# prefer the bundle and fall back to the repo script only in a dev tree.
+#
+# Allowlisted on purpose: this is a dispatch into arbitrary module main()s, so the set
+# is explicit and argparse `choices` rejects anything else before an import happens.
+_HELPER_MODULES: tuple[str, ...] = (
+    "determinex_agents",
+    "determinex_agent_chat",
+    "determinex_local_model_bench",
+    "determinex_usage_ledger",
+    "determinex_toolchain_installer",
+    "determinex_corpus_api",
+    # The provider registry, so `list_ai_providers` works in an installed copy and not only in a
+    # dev checkout. Read-only: its --json path lists provider names, tiers, default models and
+    # WHETHER a key is set -- it never reads or emits a key's value.
+    "determinex_providers",
+    "ide._tauri_driver",
+    # The model installer, so the app can offer a one-click fix for the state a fresh
+    # install lands in: builder and monitor default to fine-tuned models that no new user
+    # could obtain until 2026-07-29. Safe to expose -- its --check mode is read-only, and the
+    # install path only downloads published GGUFs and shells `ollama create`.
+    "setup.install_determinex_models",
+)
+
+
+def cmd_helper(args) -> None:
+    """Run a bundled helper module's main() with the given argv, in-process."""
+    import importlib
+
+    name = args.script
+    if name not in _HELPER_MODULES:      # argparse enforces this; belt and braces
+        print(f"not an allowed helper: {name}", file=sys.stderr)
+        raise SystemExit(2)
+    mod = importlib.import_module(name)
+    main_fn = getattr(mod, "main", None)
+    if not callable(main_fn):
+        print(f"helper '{name}' has no main()", file=sys.stderr)
+        raise SystemExit(2)
+    # Two main() conventions live in this repo and the dispatch must serve both:
+    # most helpers take no argument and parse sys.argv themselves, while
+    # ide/_tauri_driver.py declares main(argv). Guessing wrong raises TypeError, so the
+    # signature is inspected rather than assumed.
+    forwarded = list(args.rest or [])
+    takes_argv = False
+    try:
+        import inspect
+
+        takes_argv = len(inspect.signature(main_fn).parameters) >= 1
+    except (TypeError, ValueError):
+        takes_argv = False
+
+    # sys.argv is set either way: a helper that declares main(argv) may still read
+    # sys.argv[0] for messages, and it is restored afterwards so one dispatch cannot
+    # leak into another.
+    saved = sys.argv
+    sys.argv = [f"{name.replace('.', '/')}.py", *forwarded]
+    try:
+        # sys.argv, not `forwarded`: a main(argv) in this repo follows the sys.argv
+        # convention and indexes argv[1]/argv[2], so it needs the program name at [0].
+        rc = main_fn(sys.argv) if takes_argv else main_fn()
+    finally:
+        sys.argv = saved
+    raise SystemExit(int(rc or 0))
+
+
 def cmd_explore(args) -> None:
     """Print a JSON workspace summary: file listing, sizes, and step status."""
     _redirect_logging_to_stderr()
@@ -600,6 +690,14 @@ def main() -> None:
     p_fix.add_argument("--issue", required=True, help="Issue description or compiler error")
     p_fix.add_argument("--out", default=None, help="Optional path to write JSON result")
     p_fix.set_defaults(func=cmd_fix)
+
+    p_helper = sub.add_parser(
+        "helper", help="Run a bundled helper script (sidecar coverage for the "
+                       "non-hive scripts the desktop backend needs)")
+    p_helper.add_argument("script", choices=sorted(_HELPER_MODULES))
+    p_helper.add_argument("rest", nargs=argparse.REMAINDER,
+                          help="arguments forwarded verbatim to that script")
+    p_helper.set_defaults(func=cmd_helper)
 
     args = parser.parse_args()
     args.func(args)

@@ -9,6 +9,15 @@
 // as codex and gemini and all of that." The Python registry already existed with
 // zero frontend surface; this is the missing bridge + a real addon panel.
 
+// Python is resolved through `ipc_hive::resolve_python_exe()`, never `Command::new("python")`.
+//
+// That resolver exists for a specific reason: on Windows, PATH `python` is very
+// often the Microsoft Store AppExecLink stub, which does not run Python -- it opens
+// the Store. It also prefers the repo venv, so the interpreter that has the
+// project's dependencies is the one used. Ten call sites across six files bypassed
+// it and used bare `python`, which worked only on machines where PATH happened to
+// resolve to a real interpreter.
+
 use serde::{Deserialize, Serialize};
 use std::io::{Read, Write};
 use std::path::PathBuf;
@@ -38,6 +47,15 @@ pub struct CodingAgentInfo {
     pub installed: bool,
     pub install_hint: String,
     pub aliases: Vec<String>,
+    /// Whether this agent can be pointed at a specific model, and whether it has a distinct
+    /// conversational mode. Both were hardcoded in the panel as a name list
+    /// (`["claude-code","codex","gemini-cli"].includes(...)`), so aider got no model picker despite
+    /// its own --help documenting `--model MODEL`, and any agent added later would get none either.
+    /// Defaulted so an older Python side still deserializes rather than failing the whole list.
+    #[serde(default)]
+    pub supports_model: bool,
+    #[serde(default)]
+    pub supports_chat_mode: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -70,10 +88,9 @@ pub async fn list_coding_agents() -> Result<Vec<CodingAgentInfo>, String> {
     let root = locate_repo_root()
         .ok_or_else(|| format!("could not locate repo root ({AGENTS_SCRIPT} missing)"))?;
 
-    let mut cmd = Command::new("python");
-
-    cmd.hide_console();
-    cmd.arg(root.join(AGENTS_SCRIPT));
+    // Bundled-first (see ipc_hive::helper_command): this used to build
+    // `python <root>/scripts/<name>.py`, which does not exist in an installed copy.
+    let (mut cmd, _bundled) = crate::ipc_hive::helper_command(AGENTS_SCRIPT)?;
     cmd.arg("list");
     cmd.arg("--json");
     cmd.current_dir(&root);
@@ -102,10 +119,9 @@ pub async fn run_coding_agent(
     let root = locate_repo_root()
         .ok_or_else(|| format!("could not locate repo root ({AGENTS_SCRIPT} missing)"))?;
 
-    let mut cmd = Command::new("python");
-
-    cmd.hide_console();
-    cmd.arg(root.join(AGENTS_SCRIPT));
+    // Bundled-first (see ipc_hive::helper_command): this used to build
+    // `python <root>/scripts/<name>.py`, which does not exist in an installed copy.
+    let (mut cmd, _bundled) = crate::ipc_hive::helper_command(AGENTS_SCRIPT)?;
     cmd.arg("run");
     cmd.arg(&agent);
     cmd.arg(&task);
@@ -140,10 +156,24 @@ pub struct AgentStatusEntry {
     pub name: String,
     pub installed: bool,
     pub auth_known: bool,
+    /// The NARROW claim only: a credential is present and usable locally. It is not "this agent
+    /// will answer me" -- see `readiness`, which is what the panel should show.
     pub logged_in: bool,
     pub plan: String,
     pub detail: String,
     pub install_hint: String,
+    /// Named state rather than a boolean: not_installed | no_credentials | no_auth_method |
+    /// credentials_unverified | verified | provider_refused | quota_exhausted | failed.
+    /// Defaulted so an older Python side (or an evidence file captured before this existed)
+    /// deserializes instead of failing the whole roster.
+    #[serde(default)]
+    pub readiness: String,
+    #[serde(default)]
+    pub readiness_evidence: String,
+    #[serde(default)]
+    pub last_probe_status: String,
+    #[serde(default)]
+    pub last_probe_at: String,
 }
 
 #[tauri::command]
@@ -151,9 +181,9 @@ pub async fn agent_status_roster() -> Result<Vec<AgentStatusEntry>, String> {
     let root = locate_repo_root()
         .ok_or_else(|| format!("could not locate repo root ({AGENTS_SCRIPT} missing)"))?;
 
-    let mut cmd = Command::new("python");
-    cmd.hide_console();
-    cmd.arg(root.join(AGENTS_SCRIPT));
+    // Bundled-first (see ipc_hive::helper_command): this used to build
+    // `python <root>/scripts/<name>.py`, which does not exist in an installed copy.
+    let (mut cmd, _bundled) = crate::ipc_hive::helper_command(AGENTS_SCRIPT)?;
     cmd.arg("status");
     cmd.arg("--json");
     cmd.current_dir(&root);
@@ -211,6 +241,41 @@ fn classify_probe(raw: &str, returncode: Option<i32>, timed_out: bool) -> (&'sta
     }
     if lower.contains("429") && lower.contains("rate") {
         return ("quota_exhausted", "rate limited (429)".to_string());
+    }
+    // An eligibility refusal is neither a quota problem nor bad credentials: the credentials are
+    // valid and the product has stopped accepting them. Measured 2026-07-31 against gemini-cli
+    // 0.51.0 holding valid oauth-personal credentials -- `IneligibleTierError: This client is no
+    // longer supported for Gemini Code Assist for individuals. To continue using Gemini, please
+    // migrate to the Antigravity suite of products`. It fell through to the generic arm below,
+    // whose detail is the LAST non-empty line of output: `at
+    // process.processTicksAndRejections (node:internal/process/task_queues:103:5)`. A user reading
+    // that learns nothing about needing an API key, which is the actual next step.
+    // Its own status, not auth_error. This is the one state no local check can ever discover -- the
+    // credential is valid, the login refreshes, and the PROVIDER declines the client -- and its
+    // remedy (a different auth method entirely) resembles none of the others. Collapsing it into
+    // auth_error told the user to go re-authenticate, which cannot work.
+    if lower.contains("ineligibletiererror")
+        || lower.contains("no longer supported for gemini code assist")
+        || (lower.contains("ineligible") && lower.contains("tier"))
+    {
+        let detail = raw
+            .lines()
+            .find(|l| {
+                let l = l.to_lowercase();
+                l.contains("no longer supported") || l.contains("ineligibletiererror")
+            })
+            .unwrap_or("account tier is not eligible for this client -- set GEMINI_API_KEY")
+            .trim()
+            .to_string();
+        return ("provider_refused", detail);
+    }
+    if lower.contains("please set an auth method") {
+        return (
+            "auth_error",
+            "no auth method selected -- set security.auth.selectedType in ~/.gemini/settings.json \
+             (oauth-personal) or set GEMINI_API_KEY"
+                .to_string(),
+        );
     }
     if lower.contains("not logged in")
         || lower.contains("unauthorized")
@@ -291,9 +356,9 @@ pub async fn agent_probe_test(agent: String, workspace: String, app: AppHandle) 
 
     // Same single-source-of-truth `resolve` subcommand the chat pipeline
     // uses, with a short diagnostic prompt standing in for a real task.
-    let mut resolve_cmd = Command::new("python");
-    resolve_cmd.hide_console();
-    resolve_cmd.arg(root.join(AGENTS_SCRIPT));
+    // Bundled-first (see ipc_hive::helper_command): this used to build
+    // `python <root>/scripts/<name>.py`, which does not exist in an installed copy.
+    let (mut resolve_cmd, _bundled) = crate::ipc_hive::helper_command(AGENTS_SCRIPT)?;
     resolve_cmd.arg("resolve");
     resolve_cmd.arg(&agent);
     resolve_cmd.arg(PROBE_PROMPT);
@@ -393,9 +458,178 @@ pub async fn agent_probe_test(agent: String, workspace: String, app: AppHandle) 
         chars[start..].iter().collect()
     };
 
+    // Persist the verdict before emitting it. The event is live-only, so a probe's finding used to
+    // vanish the moment the panel re-rendered and the roster went back to inferring readiness from a
+    // credential file -- which is how "logged in" survived next to an agent the provider had cut
+    // off. Recorded through the Python side rather than written here so there is one store and one
+    // classifier: this function decides what happened, that file remembers it.
+    record_probe_verdict(&agent, status, &detail);
+
     let _ = app.emit(
         "agent-probe-complete",
         AgentProbeCompleteEvent { agent, status: status.to_string(), detail, raw_tail },
     );
     Ok(())
+}
+
+const PROVIDERS_SCRIPT: &str = "scripts/determinex_providers.py";
+
+/// The built-in AI provider roster: every provider Determinex can drive through its universal
+/// `generate()` contract, whether its key is present, and which variable to set if not.
+///
+/// Added 2026-07-31. `determinex_providers.py` knew about seventeen providers and nothing could
+/// list them, so none could be offered for a hive role or a chat participant's model -- registering
+/// a provider changed nothing a user could see. Kimi/Moonshot, Vertex, xAI, Mistral, Together,
+/// Cerebras, Fireworks and OpenRouter were added to that registry in the same pass; this command is
+/// what makes them selectable rather than merely present.
+///
+/// Each row names its env var, because "unavailable" without "set MOONSHOT_API_KEY" is the same
+/// unhelpful shape as a bare `logged_in: false`. No key is ever read or returned here -- only
+/// whether one is set.
+#[tauri::command]
+pub async fn list_ai_providers() -> Result<serde_json::Value, String> {
+    let root = locate_repo_root()
+        .ok_or_else(|| format!("could not locate repo root ({AGENTS_SCRIPT} missing)"))?;
+    let (mut cmd, _bundled) = crate::ipc_hive::helper_command(PROVIDERS_SCRIPT)?;
+    cmd.arg("--json");
+    cmd.current_dir(&root);
+
+    let output = run_with_timeout(cmd, Duration::from_secs(30))
+        .map_err(|e| format!("could not run provider registry: {e}"))?;
+    if !output.status.success() {
+        return Err(format!(
+            "provider registry exited non-zero: {}",
+            String::from_utf8_lossy(&output.stderr)
+        ));
+    }
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    crate::python_json::parse_python_json(&stdout, "provider registry")
+}
+
+/// Best-effort: a roster that cannot remember the last probe is worse than one that cannot record
+/// this one, so a failure here is logged and swallowed rather than failing the probe the user just
+/// watched succeed.
+fn record_probe_verdict(agent: &str, status: &str, detail: &str) {
+    let Some(root) = locate_repo_root() else { return };
+    let Ok((mut cmd, _bundled)) = crate::ipc_hive::helper_command(AGENTS_SCRIPT) else { return };
+    cmd.arg("record-probe")
+        .arg(agent)
+        .arg("--status")
+        .arg(status)
+        .arg("--detail")
+        .arg(detail)
+        .current_dir(&root);
+    match run_with_timeout(cmd, Duration::from_secs(15)) {
+        Ok(out) if out.status.success() => {}
+        Ok(out) => log::warn!(
+            "record-probe for {agent} exited {:?}: {}",
+            out.status.code(),
+            String::from_utf8_lossy(&out.stderr)
+        ),
+        Err(e) => log::warn!("record-probe for {agent} could not run: {e}"),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    //! Probe classification, guarded because its whole job is telling the user what to DO next.
+    //!
+    //! Added 2026-07-31 after running the three cloud agents through the real chat path.
+    //! claude-code and codex answered. gemini-cli, holding valid credentials, refused twice -- first
+    //! with "Please set an Auth method in your settings.json", then, once that was set, with
+    //! `IneligibleTierError: This client is no longer supported for Gemini Code Assist for
+    //! individuals`. Both fell through to the generic arm, whose detail is the last non-empty line
+    //! of output: for the second that is `at process.processTicksAndRejections
+    //! (node:internal/process/task_queues:103:5)`. Correct as a verdict, useless as guidance.
+    use super::classify_probe;
+
+    const INELIGIBLE: &str = "An unexpected critical error occurred:IneligibleTierError: This client \
+is no longer supported for Gemini Code Assist for individuals. To continue using Gemini, please \
+migrate to the Antigravity suite of products: https://antigravity.google
+    at throwIneligibleOrProjectIdError (file:///C:/x/chunk.js:301064:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)";
+
+    #[test]
+    fn an_ineligible_tier_gets_its_own_status_naming_the_cause() {
+        // Its own status, not auth_error. The credential is valid and refreshes; the PROVIDER
+        // declines the client, and the remedy is a different auth method entirely. Told
+        // "auth_error", a user goes and re-authenticates, which cannot work.
+        let (status, detail) = classify_probe(INELIGIBLE, Some(1), false);
+        assert_eq!(status, "provider_refused");
+        assert!(
+            detail.contains("no longer supported"),
+            "the detail must name the cause, got {detail:?}"
+        );
+        assert!(
+            !detail.contains("processTicksAndRejections"),
+            "a stack frame is not guidance, got {detail:?}"
+        );
+    }
+
+    #[test]
+    fn a_provider_refusal_is_not_confused_with_a_local_auth_failure() {
+        // The two live one branch apart and have opposite remedies: one needs a different auth
+        // method, the other needs the same one configured.
+        assert_eq!(classify_probe(INELIGIBLE, Some(1), false).0, "provider_refused");
+        assert_eq!(classify_probe("not logged in", Some(1), false).0, "auth_error");
+    }
+
+    #[test]
+    fn a_missing_auth_method_says_how_to_set_one() {
+        let raw = concat!(
+            r"Please set an Auth method in your C:\Users\x\.gemini\settings.json or specify ",
+            "one of the following environment variables before running: GEMINI_API_KEY, ",
+            "GOOGLE_GENAI_USE_VERTEXAI, GOOGLE_GENAI_USE_GCA"
+        );
+        let (status, detail) = classify_probe(raw, Some(41), false);
+        assert_eq!(status, "auth_error");
+        assert!(detail.contains("settings.json"), "got {detail:?}");
+        assert!(detail.contains("GEMINI_API_KEY"), "got {detail:?}");
+    }
+
+    #[test]
+    fn an_eligibility_refusal_is_not_reported_as_a_quota_problem() {
+        // Distinct remedies: a quota problem waits or pays, this one needs a different auth method.
+        let (status, _) = classify_probe(INELIGIBLE, Some(1), false);
+        assert_ne!(status, "quota_exhausted");
+    }
+
+    #[test]
+    fn a_clean_run_is_ok() {
+        assert_eq!(classify_probe("OK", Some(0), false).0, "ok");
+    }
+
+    #[test]
+    fn quota_and_rate_limits_still_classify() {
+        assert_eq!(classify_probe("RESOURCE_EXHAUSTED", Some(1), false).0, "quota_exhausted");
+        assert_eq!(classify_probe("429 rate limit", Some(1), false).0, "quota_exhausted");
+        assert_eq!(
+            classify_probe("your credits are depleted", Some(1), false).0,
+            "quota_exhausted"
+        );
+    }
+
+    #[test]
+    fn plain_auth_failures_still_classify() {
+        assert_eq!(classify_probe("not logged in", Some(1), false).0, "auth_error");
+        assert_eq!(classify_probe("401 Unauthorized", Some(1), false).0, "auth_error");
+        assert_eq!(classify_probe("invalid api key", Some(1), false).0, "auth_error");
+    }
+
+    #[test]
+    fn a_timeout_is_a_timeout() {
+        assert_eq!(classify_probe("thinking...", None, true).0, "timeout");
+    }
+
+    #[test]
+    fn a_still_running_probe_is_not_a_verdict() {
+        assert_eq!(classify_probe("thinking...", None, false).0, "pending");
+    }
+
+    #[test]
+    fn an_unrecognized_failure_still_reports_something() {
+        let (status, detail) = classify_probe("boom\nsomething broke", Some(2), false);
+        assert_eq!(status, "error");
+        assert_eq!(detail, "something broke");
+    }
 }

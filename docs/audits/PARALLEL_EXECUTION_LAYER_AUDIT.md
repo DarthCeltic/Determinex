@@ -5,7 +5,7 @@
 > Do not edit by hand — regenerate via:
 >
 > ```
-> python scripts/dev/parallel_execution_layer_audit.py --md docs/PARALLEL_EXECUTION_LAYER_AUDIT.md
+> python scripts/dev/parallel_execution_layer_audit.py --md docs/audits/PARALLEL_EXECUTION_LAYER_AUDIT.md
 > ```
 
 This document is a **read-only inventory** of every Python subprocess /
@@ -27,22 +27,22 @@ The audit is intentionally narrow in scope: this rung **inventories** the
 problem; the next rung (`HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001`) will
 migrate the MUST_MIGRATE sites.
 
-**Audit timestamp:** `2026-07-03T00:12:42.901854+00:00`
+**Audit timestamp:** `2026-07-31T06:06:51.221956+00:00`
 **Scope:** `scripts`
-**Total sites found:** **456**
+**Total sites found:** **503**
 
 ## Counts by classification
 
 | Classification | Count |
 |---|---:|
 | BLOCKED_UNSAFE | 0 |
-| HARDENED_COMPILER_PATH | 11 |
-| HIVE_SANDBOXED_PATH | 94 |
-| LEGACY_EXEMPT_READ_ONLY | 155 |
+| HARDENED_COMPILER_PATH | 13 |
+| HIVE_SANDBOXED_PATH | 101 |
+| LEGACY_EXEMPT_READ_ONLY | 185 |
 | LEGACY_EXEMPT_TEST_FIXTURE | 4 |
 | MUST_MIGRATE_TO_HARDENED_RUNNER | 0 |
-| NEEDS_OWNER_DECISION | 1 |
-| PROGRAMBENCH_OUT_OF_SCOPE | 191 |
+| NEEDS_OWNER_DECISION | 3 |
+| PROGRAMBENCH_OUT_OF_SCOPE | 197 |
 | UNKNOWN_REQUIRES_REVIEW | 0 |
 
 ## Counts by kind
@@ -50,10 +50,10 @@ migrate the MUST_MIGRATE sites.
 | Kind | Count |
 |---|---:|
 | `shell=True` | 5 |
-| `subprocess.Popen` | 17 |
+| `subprocess.Popen` | 19 |
 | `subprocess.call` | 1 |
 | `subprocess.check_output` | 6 |
-| `subprocess.run` | 427 |
+| `subprocess.run` | 472 |
 
 ## Top MUST_MIGRATE_TO_HARDENED_RUNNER targets
 

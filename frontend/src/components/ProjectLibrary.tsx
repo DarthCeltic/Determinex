@@ -82,8 +82,8 @@ const STATUS_CONFIGS = {
     label: "Pending",
     icon: Clock,
     color: "text-gray-500",
-    bgBorder: "border-[#30363d] bg-[#0d1117]/60",
-    badgeBg: "text-gray-500 bg-[#161b22] border-[#30363d]",
+    bgBorder: "border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)]/60",
+    badgeBg: "text-gray-500 bg-[var(--dtx-code-panel)] border-[var(--dtx-code-border)]",
   },
 };
 
@@ -173,7 +173,7 @@ function SessionCard({
       <div className="px-3 pb-2 space-y-1.5">
         {/* Step progress bar */}
         <div className="flex items-center gap-2">
-          <div className="flex-1 h-1 rounded-full bg-[#161b22] overflow-hidden">
+          <div className="flex-1 h-1 rounded-full bg-[var(--dtx-code-panel)] overflow-hidden">
             <div
               className={`h-full rounded-full transition-all ${
                 session.status === "complete"
@@ -207,7 +207,7 @@ function SessionCard({
       </div>
 
       {/* Action row — revealed on hover */}
-      <div className="flex border-t border-[#30363d]/50 divide-x divide-[#30363d]/50 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="flex border-t border-[var(--dtx-code-border)]/50 divide-x divide-[var(--dtx-code-border)]/50 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           id={`lib-resume-${session.session_id.slice(0, 8)}`}
           onClick={() => onResume(session.session_id, session.project_name, false)}
@@ -270,9 +270,9 @@ export function ProjectLibrary({ onResume, onClose }: ProjectLibraryProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#0d1117] overflow-hidden">
+    <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-[#30363d] bg-[#161b22]/60 flex-shrink-0">
+      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)]/60 flex-shrink-0">
         <BookOpen size={14} className="text-emerald-400" />
         <div className="flex-1 min-w-0">
           <span className="text-body font-black text-gray-200 tracking-tight">Project Library</span>
@@ -284,21 +284,21 @@ export function ProjectLibrary({ onResume, onClose }: ProjectLibraryProps) {
           onClick={load}
           disabled={loading}
           title="Refresh"
-          className="p-1.5 rounded-lg border border-[#30363d] text-gray-500 hover:text-gray-300 hover:border-gray-500 transition-colors disabled:opacity-40"
+          className="p-1.5 rounded-lg border border-[var(--dtx-code-border)] text-gray-500 hover:text-gray-300 hover:border-gray-500 transition-colors disabled:opacity-40"
         >
           <RefreshCw size={11} className={loading ? "animate-spin" : ""} />
         </button>
         <button
           onClick={onClose}
           title="Close library"
-          className="p-1.5 rounded-lg border border-[#30363d] text-gray-500 hover:text-gray-300 hover:border-gray-500 transition-colors"
+          className="p-1.5 rounded-lg border border-[var(--dtx-code-border)] text-gray-500 hover:text-gray-300 hover:border-gray-500 transition-colors"
         >
           <span className="text-body leading-none">✕</span>
         </button>
       </div>
 
       {/* Filter chips */}
-      <div className="flex gap-1.5 px-4 py-2 border-b border-[#30363d] flex-shrink-0 overflow-x-auto">
+      <div className="flex gap-1.5 px-4 py-2 border-b border-[var(--dtx-code-border)] flex-shrink-0 overflow-x-auto">
         {(["all", "complete", "failed", "in_progress"] as const).map((f) => (
           <button
             key={f}
@@ -311,8 +311,8 @@ export function ProjectLibrary({ onResume, onClose }: ProjectLibraryProps) {
                     ? "border-red-700 bg-red-950/40 text-red-300"
                     : f === "in_progress"
                       ? "border-cyan-700 bg-cyan-950/40 text-cyan-300"
-                      : "border-gray-500 bg-[#161b22] text-gray-300"
-                : "border-[#30363d] text-gray-600 hover:text-gray-400 hover:border-gray-600"
+                      : "border-gray-500 bg-[var(--dtx-code-panel)] text-gray-300"
+                : "border-[var(--dtx-code-border)] text-gray-600 hover:text-gray-400 hover:border-gray-600"
             }`}
           >
             {f === "in_progress" ? "Running" : f.charAt(0).toUpperCase() + f.slice(1)}{" "}

@@ -158,4 +158,4 @@ Records that fail HMAC verification are written to `rejected/` with an `_rejecti
 
 ---
 
-*Determinex Corpus Schema · Lunarian Data Systems · 2026-05-27*
+*Determinex Corpus Schema · Ryan Gurganious · 2026-05-27*

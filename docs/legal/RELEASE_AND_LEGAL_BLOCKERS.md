@@ -13,7 +13,7 @@ certificate exists in this repo or has been purchased.
 
 **Why it needs Ryan**: requires a real-money purchase (EV/OV code-signing
 cert, ~$70-400+/year depending on vendor and whether hardware-token EV
-signing is used) and identity verification tied to Lunarian Data Systems as
+signing is used) and identity verification tied to Ryan Gurganious as
 a legal entity — not something that can be provisioned by an agent.
 
 **What's ready once a cert exists**: Tauri's build config

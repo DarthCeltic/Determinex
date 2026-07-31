@@ -40,23 +40,78 @@ def _redact(s: str) -> str:
     return s[:8] + "..." + s[-4:] if len(s) > 14 else s[:4] + "..."
 
 
+# Values that are published placeholders, not credentials. These are matched against the MATCHED
+# TEXT, which is the only place they can work: `AKIAIOSFODNN7EXAMPLE` was listed in
+# _FALSE_POSITIVE, but that regex is applied to the PATH, so the content entries in it were dead
+# weight. Kept deliberately tiny and exact -- a substring allowlist over content is how a scanner
+# stops finding real keys.
+_PLACEHOLDER_VALUES = frozenset({
+    # AWS's own documentation example key, used across the world in docs and test fixtures. It
+    # appears here as input to a secret-detection tool benchmark.
+    "AKIAIOSFODNN7EXAMPLE",
+})
+
+
 def _scan_text(text: str) -> list[tuple[str, str]]:
     hits = []
     for name, pat in PATTERNS.items():
         for m in pat.findall(text):
+            if m in _PLACEHOLDER_VALUES:
+                continue
             hits.append((name, _redact(m)))
     return hits
 
 
-def _git(args: list[str]) -> str:
+# A deliberately LOOSE, POSIX-ERE-safe superset of PATTERNS, used only to let git narrow the
+# candidate set. Exact matching is always done afterwards in Python by _scan_text, so this only
+# has to preserve recall -- it may over-match freely.
+#
+# It exists because git's regex dialects are not PCRE and disagree with each other: `git grep -E`
+# and `git log -G` both reject `(?:` with "Invalid preceding regular expression", and `\b` is not
+# portable either. `git grep -P` works here but requires a PCRE-enabled build, and `git log -G`
+# ignores --perl-regexp for the pickaxe. Depending on any of that is how the tracked-tree scan
+# came to silently match nothing for months. Nothing below uses a construct outside POSIX ERE.
+_GIT_PREFILTER_ERE = "|".join((
+    "sk-ant-api[0-9]{2}-",
+    "AIzaSy",
+    "sk-[A-Za-z0-9_-]{20,}",
+    "AKIA[0-9A-Z]{16}",
+    "-----BEGIN [A-Z ]*PRIVATE KEY-----",
+))
+
+
+class GitUnavailable(RuntimeError):
+    """Raised when git could not be consulted, so "no findings" means nothing.
+
+    This used to be `except Exception: return ""`, which made a scanner FAILURE indistinguishable
+    from a clean tree: git missing, a bad --root, or the 180 s timeout expiring on this ~10 GB
+    history all yielded zero files, zero findings, "clean", and exit 0. For the gate that runs
+    immediately before a public push, silence and safety must never look alike.
+    """
+
+
+def _git(args: list[str], root: Path | None = None, timeout: int = 180) -> str:
     # decode as utf-8 with replacement so binary blobs (parquet, etc.) and
     # non-cp1252 bytes never crash the scan on Windows.
+    cwd = Path(root) if root is not None else REPO
     try:
-        r = subprocess.run(["git", *args], cwd=str(REPO), capture_output=True,
-                           timeout=180)
-        return (r.stdout or b"").decode("utf-8", errors="replace")
-    except Exception:
-        return ""
+        r = subprocess.run(["git", *args], cwd=str(cwd), capture_output=True,
+                           timeout=timeout)
+    except FileNotFoundError as exc:
+        raise GitUnavailable(f"git is not installed or not on PATH: {exc}") from exc
+    except subprocess.TimeoutExpired as exc:
+        raise GitUnavailable(
+            f"git {' '.join(args[:2])} timed out after {timeout}s in {cwd}; "
+            f"the scan did NOT complete"
+        ) from exc
+    except OSError as exc:
+        raise GitUnavailable(f"git could not be run in {cwd}: {exc}") from exc
+    # `git grep` exits 1 for "no matches", which is a legitimate empty result. Anything above
+    # that is a real failure (not a repository, bad pathspec, ...) and must not read as clean.
+    if r.returncode > 1:
+        detail = (r.stderr or b"").decode("utf-8", errors="replace").strip()[:400]
+        raise GitUnavailable(f"git {' '.join(args[:2])} failed (exit {r.returncode}) in {cwd}: {detail}")
+    return (r.stdout or b"").decode("utf-8", errors="replace")
 
 
 # Paths that legitimately contain key-SHAPED strings -- NOT your secrets:
@@ -64,22 +119,53 @@ def _git(args: list[str]) -> str:
 #    ripsecrets' own fixtures, mbedtls/openssl/age crypto test PEMs, the AWS
 #    documentation example key. These ship with the tools; they are not credentials.
 #  - the secret-detection tooling + its tests contain key SHAPES by design.
+# Tightened 2026-07-29. `testdata` and `crypto` were bare substrings matched anywhere in the
+# path, so they exempted far more than the upstream fixtures they were meant for: measured
+# 3,615 tracked files matching `testdata` and 1,722 matching `crypto`, including 18 outside
+# corpus/ such as assurance/evidence/approval_signature_cryptographic_binding/. Any future path
+# happening to contain either word became silently unscanned. Both are now whole path segments,
+# and corpus/ (which is what actually holds the upstream test vectors) is still excluded outright.
 _FALSE_POSITIVE = re.compile(
     r"^corpus/|/corpus/|ripsecrets|secret_scan|secret_scanner|test_secret"
-    r"|\.parquet$|\.env\.example$|testdata|test_vectors|crypto"
+    r"|\.parquet$|\.env\.example$"
+    r"|(?:^|/)testdata(?:/|$)|(?:^|/)test_vectors(?:/|$)|(?:^|/)crypto(?:/|$)"
     r"|detect.?secret|gitleaks|trufflehog|AKIAIOSFODNN7EXAMPLE", re.I)
 
 
-def scan_tracked() -> dict:
-    """Fast native scan via `git grep` (handles 100k+ tracked files instantly)."""
+def scan_tracked(root: Path | None = None) -> dict:
+    """Fast native scan via `git grep` (handles 100k+ tracked files instantly).
+
+    `root` exists because publish_mirror.py invokes this scanner on the STAGED MIRROR and calls
+    its own docstring "the last gate" before the public push. It passed cwd= to the subprocess,
+    which was inert: REPO is derived from __file__ and _git hardcoded cwd=REPO, so the verdict
+    described the developer checkout while the content about to be published was never examined.
+    """
+    base = Path(root) if root is not None else REPO
     out: dict = {}
-    alt = "|".join(p.pattern for p in PATTERNS.values())
-    files = _git(["grep", "-lE", alt,
-                  "--", ":!*.lock", ":!*package-lock.json"]).splitlines()
+    # The loose ERE prefilter, so this works on any git build. `-lE` with the real PCRE patterns
+    # exited 128 every time ("Invalid preceding regular expression") and, with the old
+    # exception-swallowing _git, printed "clean" having matched nothing. `-lP` works here but
+    # silently requires a PCRE-enabled git. _scan_text does the exact matching either way.
+    alt = _GIT_PREFILTER_ERE
+    # -lP, not -lE. THE PATTERNS ARE PCRE: `sk-(?:proj-)?...` and
+    # `-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----` use non-capturing groups, and the
+    # deepseek pattern uses `\b`. POSIX ERE rejects `(?:`, so `git grep -lE` exited 128 with
+    # "Invalid preceding regular expression" -- EVERY TIME, on every invocation. Combined with
+    # the old `except Exception: return ""`, that meant scan_tracked() returned {} and the tool
+    # printed "clean -- no secrets in tracked files" and exited 0 having matched nothing at all.
+    # This scanner had therefore never scanned anything; the bug was invisible precisely because
+    # the failure path and the clean path produced identical output.
+    try:
+        files = _git(["grep", "-lE", alt,
+                      "--", ":!*.lock", ":!*package-lock.json"], root=base).splitlines()
+    except GitUnavailable:
+        # Last resort: enumerate everything and match in Python. Slower, but a scan that cannot
+        # run must never report clean.
+        files = _git(["ls-files"], root=base).splitlines()
     for rel in files:
         if any(s in rel for s in _SKIP) or _FALSE_POSITIVE.search(rel):
             continue
-        p = REPO / rel
+        p = base / rel
         try:
             if p.stat().st_size > 2_000_000:
                 continue
@@ -91,29 +177,61 @@ def scan_tracked() -> dict:
     return out
 
 
-def scan_history(remotes_only: bool) -> dict:
-    """Scan every blob ever committed (or only on remote refs)."""
-    rev = ["--remotes"] if remotes_only else ["--all"]
-    out = {}
-    # list commits + the .env / config blobs they touched, scan those blobs
-    log = _git(["log", *rev, "--pretty=%H", "--name-only", "--diff-filter=AM"])
-    seen: set[str] = set()
+def scan_history(remotes_only: bool, root: Path | None = None) -> dict:
+    """Scan git history for secrets, letting git do the searching.
+
+    REWRITTEN 2026-07-30 because the previous design could not finish. It listed every
+    add/modify in history, filtered by filename, then ran `git show <commit>:<path>` **once per
+    blob** -- thousands of subprocesses on this ~10 GB history. Measured: `--pushed` ran for over
+    ten minutes without completing, which is why the pushed-history scan had never actually
+    produced a result, and why the legal packet's "pushed_secret_scan" was false while its pasted
+    transcript claimed history had been checked.
+
+    Now a single `git log -G<pattern> --perl-regexp` does the regex search inside git across all
+    diffs, and only CONFIRMED hits -- normally none -- are fetched individually to redact and
+    report. One subprocess in the clean case instead of thousands.
+
+    The filename filter is gone with it: it existed to make the slow path tolerable and it was a
+    correctness hole (a key pasted into a .py or .ps1 was invisible). git now searches every diff
+    regardless of extension.
+    """
+    base = Path(root) if root is not None else REPO
+    rev = "--remotes" if remotes_only else "--all"
+    out: dict = {}
+
+    # -G searches added/removed diff lines, using git's pickaxe regex -- which is POSIX ERE and
+    # rejects the PCRE in PATTERNS even with --perl-regexp. So git gets the loose ERE prefilter and
+    # _scan_text below does the exact matching. A long timeout: this walks the whole history once,
+    # and a timeout raises GitUnavailable rather than being mistaken for "no secrets".
+    # --no-textconv: without it git runs any configured textconv/diff driver while building diffs
+    # and dies on the first blob a driver cannot handle ("E: unsupported filetype ... page.doc /
+    # fatal: unable to read files to diff"), aborting the entire history scan. We want raw bytes
+    # here anyway -- a secret is a secret whether or not a .doc renders.
+    log = _git(
+        ["log", rev, "--no-textconv", f"-G{_GIT_PREFILTER_ERE}",
+         "--name-only", "--pretty=format:%H"],
+        root=base,
+        timeout=1800,
+    )
+
     commit = ""
+    seen: set[str] = set()
     for line in log.splitlines():
-        if re.fullmatch(r"[0-9a-f]{40}", line):
-            commit = line
+        if re.fullmatch(r"[0-9a-f]{40}", line.strip()):
+            commit = line.strip()
             continue
         rel = line.strip()
-        if not rel or any(s in rel for s in _SKIP):
-            continue
-        # only bother with files that commonly hold secrets
-        if not re.search(r"\.env|config|\.json|\.ya?ml|\.sh|\.toml|key|secret|cred", rel, re.I):
+        if not rel or any(s in rel for s in _SKIP) or _FALSE_POSITIVE.search(rel):
             continue
         key = f"{commit}:{rel}"
         if key in seen:
             continue
         seen.add(key)
-        blob = _git(["show", key])
+        # Only reached for a commit git already matched, so this stays cheap.
+        try:
+            blob = _git(["show", key], root=base)
+        except GitUnavailable:
+            continue
         hits = _scan_text(blob)
         if hits:
             out.setdefault(rel, []).append((commit[:9], hits))
@@ -124,10 +242,21 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Determinex secret scanner")
     ap.add_argument("--history", action="store_true", help="scan ALL git history")
     ap.add_argument("--pushed", action="store_true", help="scan only remote/pushed history")
+    ap.add_argument("--root", type=Path, default=None,
+                    help="repository to scan (defaults to this checkout). Use this to scan a "
+                         "staged mirror rather than the developer tree.")
     args = ap.parse_args()
 
-    print("=== secret scan: tracked working tree ===")
-    tracked = scan_tracked()
+    root = args.root or REPO
+    print(f"=== secret scan: tracked working tree ({root}) ===")
+    try:
+        tracked = scan_tracked(root=root)
+    except GitUnavailable as exc:
+        # Fail closed. A scan that could not run must never print a clean verdict.
+        print(f"  SCAN FAILED: {exc}")
+        print("\n=== verdict ===")
+        print("  UNKNOWN: the scan did not complete, so nothing here says the tree is clean.")
+        return 2
     if tracked:
         for rel, hits in tracked.items():
             for name, red in hits:
@@ -139,7 +268,13 @@ def main() -> int:
     if args.pushed or args.history:
         scope = "remote/pushed" if args.pushed else "ALL"
         print(f"\n=== secret scan: {scope} git history ===")
-        hist = scan_history(remotes_only=args.pushed)
+        try:
+            hist = scan_history(remotes_only=args.pushed, root=root)
+        except GitUnavailable as exc:
+            print(f"  SCAN FAILED: {exc}")
+            print("\n=== verdict ===")
+            print("  UNKNOWN: history scan did not complete, so nothing here clears the history.")
+            return 2
         if hist:
             for rel, recs in hist.items():
                 for commit, hits in recs:
@@ -156,7 +291,18 @@ def main() -> int:
         print("  ACTION REQUIRED: a secret is in a leakable location. Rotate the key(s)")
         print("  and remove from tracking/history. See docs/SECURITY_POSTURE.md.")
         return 1
-    print("  OK: no secret in tracked files or pushed history.")
+    # State only what was actually examined. This line used to read "no secret in tracked files
+    # or pushed history" UNCONDITIONALLY -- including when neither --pushed nor --history was
+    # given, so it asserted a property of the history that had not been looked at. That exact
+    # string is captured verbatim into the legal_public_distribution evidence packet, whose own
+    # pushed_secret_scan field is false.
+    if args.pushed:
+        print("  OK: no secret in tracked files or pushed history.")
+    elif args.history:
+        print("  OK: no secret in tracked files; ALL local history scanned (see note below).")
+    else:
+        print("  OK: no secret in tracked files.")
+        print("  NOTE: git history was NOT scanned. Re-run with --pushed before publishing.")
     if args.history:
         print("  (Any matches above were LOCAL-only history -- not leaked off-box, but")
         print("   rotate + scrub if the box could be accessed. See docs/SECURITY_POSTURE.md.)")

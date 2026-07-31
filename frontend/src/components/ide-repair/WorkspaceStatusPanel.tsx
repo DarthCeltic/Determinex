@@ -6,6 +6,13 @@ import * as React from "react";
 
 import { IdeRepairResponse, invokeIdeCommand, isBlocked } from "@/lib/ide-repair-api";
 
+/**
+ * Consumed OUTSIDE the TypeScript import graph: a Python lock test reads this
+ * array out of the source text and asserts the closed set matches the Rust side.
+ * knip cannot see that, so without this tag it reports the export as unused --
+ * and deleting it would break the lock while the type-checker stayed green.
+ * @public
+ */
 export const WORKSPACE_STATUS_PANEL_STATUS_TOKENS = [
   "WORKSPACE_STATUS_PANEL_READY",
   "WORKSPACE_STATUS_UNSUPPORTED_VISIBLE",
@@ -124,5 +131,3 @@ export function WorkspaceStatusPanel({ workspacePath, initial = null }: Props) {
     </section>
   );
 }
-
-export default WorkspaceStatusPanel;

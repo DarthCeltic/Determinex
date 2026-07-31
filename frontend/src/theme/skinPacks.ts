@@ -60,7 +60,171 @@ export interface SkinPack {
   backdropImage?: string;
 }
 
-export type SkinPackStyle = CSSProperties & Record<`--determinex-${string}`, string>;
+export type SkinPackStyle = CSSProperties &
+  Record<`--determinex-${string}`, string> &
+  Partial<Record<`--dtx-${string}`, string>>;
+
+// ── The code-surface layer, derived from whatever skin is active ──────────────
+//
+// WHY THIS EXISTS
+// 28 components styled their chrome with literal GitHub hex -- #0d1117 (97 uses),
+// #30363d (168), #161b22 (55) -- against 32 that used the skin variables. 681 literal
+// hex values in total. That is not a cosmetic inconsistency: a skin sets its palette as
+// CSS variables on the root element, so a literal hex IGNORES ALL 27 SKINS. Half the app
+// simply did not respond to the theme picker.
+//
+// The fix keeps the density distinction those panels wanted -- a code surface should read
+// as recessed and neutral, not neon -- while making it a FUNCTION OF THE SKIN rather than
+// a second hardcoded palette. So every skin gets a coherent code layer for free, and
+// picking a skin changes the whole app.
+//
+// Derived in TypeScript, not with CSS color-mix(): this runs in whatever WebView2 the
+// host has, and a color-mix() that the runtime does not understand fails to an invalid
+// value -- i.e. an unstyled app. Deriving here is also testable, which color-mix is not.
+
+/** [r, g, b, a] with a in 0..1. */
+type Rgba = [number, number, number, number];
+
+/**
+ * Parse #rgb, #rrggbb, rgb() or rgba(). Returns null for anything else (named colours,
+ * gradients), which callers treat as "leave the skin's value alone".
+ *
+ * rgba() support is load-bearing, not completeness for its own sake: the Determinex
+ * skin's border is `rgba(42, 255, 129, 0.2)`. A hex-only parser no-ops on it, so the
+ * derived code border came out as the skin's neon hairline -- on 168 replaced borders,
+ * i.e. exactly the "dense tables should not be neon" property this layer exists for.
+ */
+function parseColor(input: string): Rgba | null {
+  const value = input.trim();
+
+  const rgbMatch = value.match(
+    /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)(?:[\s,/]+([\d.]+%?))?\s*\)$/i
+  );
+  if (rgbMatch) {
+    const alphaRaw = rgbMatch[4];
+    const alpha = alphaRaw
+      ? alphaRaw.endsWith("%")
+        ? parseFloat(alphaRaw) / 100
+        : parseFloat(alphaRaw)
+      : 1;
+    return [
+      parseFloat(rgbMatch[1]),
+      parseFloat(rgbMatch[2]),
+      parseFloat(rgbMatch[3]),
+      Number.isFinite(alpha) ? alpha : 1,
+    ];
+  }
+
+  const hex = value.replace(/^#/, "");
+  if (/^[0-9a-f]{3}$/i.test(hex)) {
+    const [r, g, b] = hex.split("");
+    return [parseInt(r + r, 16), parseInt(g + g, 16), parseInt(b + b, 16), 1];
+  }
+  if (/^[0-9a-f]{6}$/i.test(hex)) {
+    return [
+      parseInt(hex.slice(0, 2), 16),
+      parseInt(hex.slice(2, 4), 16),
+      parseInt(hex.slice(4, 6), 16),
+      1,
+    ];
+  }
+  if (/^[0-9a-f]{8}$/i.test(hex)) {
+    return [
+      parseInt(hex.slice(0, 2), 16),
+      parseInt(hex.slice(2, 4), 16),
+      parseInt(hex.slice(4, 6), 16),
+      parseInt(hex.slice(6, 8), 16) / 255,
+    ];
+  }
+  return null;
+}
+
+const clamp255 = (n: number) => Math.max(0, Math.min(255, Math.round(n)));
+
+/** Serialise back, preserving translucency -- a border that loses its alpha stops being
+ *  a hairline and becomes a solid rule. */
+function formatColor([r, g, b, a]: Rgba): string {
+  if (a >= 1) {
+    return `#${[r, g, b].map((c) => clamp255(c).toString(16).padStart(2, "0")).join("")}`;
+  }
+  return `rgba(${clamp255(r)}, ${clamp255(g)}, ${clamp255(b)}, ${Math.round(a * 1000) / 1000})`;
+}
+
+/** Blend `amount` of `b` into `a`. amount 0 => a, 1 => b. Alpha of `a` is preserved. */
+function mix(a: string, b: string, amount: number): string {
+  const pa = parseColor(a);
+  const pb = parseColor(b);
+  if (!pa || !pb) return a; // unparseable (gradient, named) -- leave the skin's value
+  return formatColor([
+    pa[0] + (pb[0] - pa[0]) * amount,
+    pa[1] + (pb[1] - pa[1]) * amount,
+    pa[2] + (pb[2] - pa[2]) * amount,
+    pa[3],
+  ]);
+}
+
+/** Pull a colour toward its own grey, keeping lightness and alpha. 1 => fully neutral. */
+function desaturate(input: string, amount: number): string {
+  const p = parseColor(input);
+  if (!p) return input;
+  const grey = 0.299 * p[0] + 0.587 * p[1] + 0.114 * p[2];
+  return formatColor([
+    p[0] + (grey - p[0]) * amount,
+    p[1] + (grey - p[1]) * amount,
+    p[2] + (grey - p[2]) * amount,
+    p[3],
+  ]);
+}
+
+/** True when a colour is light enough that surfaces must go DARKER-on-light. */
+function isLight(input: string): boolean {
+  const p = parseColor(input);
+  if (!p) return false;
+  return 0.299 * p[0] + 0.587 * p[1] + 0.114 * p[2] > 140;
+}
+
+/**
+ * Code-surface + semantic tokens for a skin.
+ *
+ * Recession direction follows the skin: on a dark skin a code surface sinks toward black,
+ * on a light skin (plainlight) it must rise toward white instead, or the panels invert
+ * and the text stops being readable.
+ */
+export function getCodeLayerStyle(pack: SkinPack): Record<string, string> {
+  const { bg, panel, panelStrong, border, text, muted, accent, accent2, danger } = pack.colors;
+  const light = isLight(bg);
+  const sink = light ? "#ffffff" : "#000000";
+  const lift = light ? "#000000" : "#ffffff";
+
+  return {
+    // Surfaces: the skin's own, nudged for recession and drained of chroma so dense
+    // tables read as neutral rather than tinted.
+    "--dtx-code-bg-deep": desaturate(mix(bg, sink, 0.45), 0.55),
+    "--dtx-code-bg": desaturate(mix(bg, sink, 0.2), 0.5),
+    "--dtx-code-panel": desaturate(mix(panel, sink, 0.06), 0.45),
+    "--dtx-code-raised": desaturate(mix(panelStrong, lift, 0.05), 0.4),
+
+    // Borders: neutral, because a neon hairline on every row of a table is noise. Derived
+    // from the skin's border when that is a hex; skins using rgba() keep their own.
+    "--dtx-code-border": desaturate(mix(border, lift, 0.12), 0.8),
+    "--dtx-code-border-subtle": desaturate(mix(border, sink, 0.25), 0.85),
+
+    // Text tiers reuse the skin's, so contrast decisions made there hold here.
+    "--dtx-code-text": text,
+    "--dtx-code-muted": muted,
+
+    // Semantic status colours. Tokens rather than literals so a skin can override them
+    // later; today they are constant on purpose -- "pass" must stay recognisably green
+    // across skins, or the meaning shifts with the decoration.
+    "--dtx-ok": "#34d399",
+    "--dtx-warn": "#f59e0b",
+    "--dtx-fail": danger,
+    "--dtx-info": "#60a5fa",
+    "--dtx-alt": "#a78bfa",
+    "--dtx-alt-2": accent2,
+    "--dtx-accent": accent,
+  };
+}
 
 const monoStack =
   '"JetBrains Mono", "SFMono-Regular", "Cascadia Code", "Fira Code", ui-monospace, monospace';
@@ -906,6 +1070,9 @@ export const DEFAULT_SKIN_PACK = SKIN_PACKS.determinex;
 
 export function getSkinPackStyle(pack: SkinPack): SkinPackStyle {
   return {
+    // Code-surface + semantic tokens, derived from this skin. Spread first so an explicit
+    // --determinex-* below always wins over a derived value.
+    ...getCodeLayerStyle(pack),
     "--determinex-bg": pack.colors.bg,
     "--determinex-panel": pack.colors.panel,
     "--determinex-panel-strong": pack.colors.panelStrong,

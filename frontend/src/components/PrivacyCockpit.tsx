@@ -16,12 +16,17 @@ type CloakAuditSummary = {
   api_audit_present: boolean;
   keep_list_preserved: string[];
   identifiers: CloakIdentifier[];
+  // A real audit dir holds 299 cloak_map_*.json files totalling 621 MB. The panel needs a
+  // 200-identifier sample, so the backend opens a bounded few. Displaying a sample as if
+  // it were the whole audit would misstate what the evidence covers.
+  maps_sampled?: number;
+  maps_total?: number;
 };
 
 const VERDICT_COLOR: Record<string, string> = {
-  clean: "#34d399",
-  leaked: "#f87171",
-  unverified: "#f59e0b",
+  clean: "var(--dtx-ok)",
+  leaked: "var(--dtx-fail)",
+  unverified: "var(--dtx-warn)",
 };
 
 export function PrivacyCockpit() {
@@ -50,6 +55,10 @@ export function PrivacyCockpit() {
   };
 
   const identifiers = summary?.identifiers ?? [];
+  // True when the backend read fewer instance maps than the run contains, which makes the
+  // keep-list a union over a sample rather than over the whole run.
+  const mapsPartial =
+    !!summary?.maps_total && !!summary?.maps_sampled && summary.maps_sampled < summary.maps_total;
   const filtered = identifiers.filter(
     (e) =>
       !search ||
@@ -124,8 +133,16 @@ export function PrivacyCockpit() {
                   Cloaked Identifiers
                 </div>
               </div>
-              <div className="rounded-xl border border-white/8 bg-black/30 p-3 text-center">
+              <div
+                className="rounded-xl border border-white/8 bg-black/30 p-3 text-center"
+                title={
+                  mapsPartial
+                    ? `Union of the keep-lists in ${summary.maps_sampled} of ${summary.maps_total} instance maps in this run. Reading all of them means parsing hundreds of MB per refresh.`
+                    : "Union of the keep-lists across every instance map in this run."
+                }
+              >
                 <div className="font-mono text-display font-black text-violet-400">
+                  {mapsPartial ? "≥" : ""}
                   {summary.keep_list_preserved.length}
                 </div>
                 <div className="text-eyebrow uppercase tracking-widest text-gray-600 mt-0.5">
@@ -135,7 +152,7 @@ export function PrivacyCockpit() {
               <div className="rounded-xl border border-white/8 bg-black/30 p-3 text-center">
                 <div
                   className="font-mono text-display font-black"
-                  style={{ color: VERDICT_COLOR[summary.verdict] ?? "#9ca3af" }}
+                  style={{ color: VERDICT_COLOR[summary.verdict] ?? "var(--dtx-code-muted)" }}
                 >
                   {summary.leaks_found}
                 </div>
@@ -198,7 +215,7 @@ export function PrivacyCockpit() {
             <div className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 flex items-center gap-3 shrink-0">
               <ShieldCheck
                 size={16}
-                style={{ color: VERDICT_COLOR[summary.verdict] ?? "#9ca3af" }}
+                style={{ color: VERDICT_COLOR[summary.verdict] ?? "var(--dtx-code-muted)" }}
                 className="shrink-0"
               />
               <div className="min-w-0">

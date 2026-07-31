@@ -10,4 +10,4 @@ Work in progress. Model adapters for the Determinex project will be published he
 
 Nothing released yet.
 
-— Lunarian Data Systems
+— Ryan Gurganious

@@ -13,12 +13,12 @@ import time as _time
 import uuid
 from pathlib import Path
 from hive.manifest import (
-    ManifestSession, StepRecord, save_manifest, load_manifest,
+    ManifestSession, StepRecord, save_manifest, load_manifest, resolve_repo_root,
 )
 from hive.workspace import (
     scaffold_rust_project, scaffold_go_module, scaffold_python_project,
 )
-from hive.budget import record_api_call_cost
+from hive.budget import is_local_model, record_api_call_cost
 from hive.hardware import get_hw_profile
 from hive.concurrent_guard import (
     api_backpressure,           # #27 per-role concurrency semaphore
@@ -107,16 +107,33 @@ def _ollama_extra(model: str, role: str, hw_profile=None) -> dict:
     if not model.startswith("ollama/"):
         return {}
     keep_hot = (hw_profile.lifecycle.keep_hot if hw_profile else ["builder"])
-    if role in keep_hot:
+    max_loaded = (hw_profile.lifecycle.max_loaded if hw_profile else 2)
+
+    # The monitor eviction is decided from CAPACITY, before keep_hot is consulted.
+    #
+    # It used to be an `elif` after `role in keep_hot`, and tier 0 -- the ~6GB rig this whole
+    # branch was written about -- lists "monitor" in keep_hot. So on the one machine whose
+    # arithmetic is spelled out below, the monitor took keep_alive=-1 and this branch never ran.
+    # Measured 2026-07-31 on a 6.0 GB GTX: with the observer pinned, a hive session stalled in
+    # step 2's Monitor call for 19 minutes with zero CPU movement and no error, because the
+    # observer was sharing VRAM with the pinned engineer and running its prefill on CPU. The
+    # same call with keep_alive=0 returned in 39s -- Ollama evicts the engineer and runs the
+    # observer at 100% GPU instead of co-loading both onto the CPU path.
+    #
+    # The arithmetic, unchanged and now actually reachable: observer (3.3GB) + engineer (1.6GB)
+    # + step-N KV cache (430MB) = 5.4GB > 5.2GB available -> CPU offload -> 400-500s prefill
+    # -> builder timeout. Keying on `max_loaded <= 1` rather than on tier means a profile that
+    # says "one model at a time" gets that honoured no matter which roles someone later adds to
+    # keep_hot -- the contradiction cannot come back by list edit.
+    if role == "monitor" and max_loaded <= 1:
+        keep_alive = 0
+    elif role in keep_hot:
         keep_alive = -1   # builder: never evict — stays hot between steps
     elif role == "monitor":
-        keep_alive = 0    # evict observer immediately after verdict; on 6GB VRAM rigs,
-                          # observer (3.3GB) + engineer (1.6GB) + step-N KV cache (430MB)
-                          # = 5.4GB > 5.2GB available → CPU offload → 400-500s prefill
-                          # → builder timeout. oracle/architect stay at 300 so qwen7b
-                          # survives the oracle→architect handoff within generate_dag.
+        keep_alive = 0    # evict observer immediately after verdict
     else:
-        keep_alive = 300  # default 5min (oracle, architect, unknown roles)
+        keep_alive = 300  # default 5min (oracle, architect, unknown roles); keeps qwen7b
+                          # alive across the oracle→architect handoff inside generate_dag.
     return {"keep_alive": keep_alive}
 
 
@@ -137,11 +154,19 @@ def _provider_extra_body(
     return body
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-_ROOT = (
-    Path(_os_env.environ["DETERMINEX_ROOT"]).resolve()
-    if _os_env.environ.get("DETERMINEX_ROOT")
-    else Path(__file__).resolve().parent.parent.parent
-)
+# ONE resolver, in hive.manifest (already imported above, and lower-level -- it does
+# not import this module, so there is no cycle). A second copy here is exactly the
+# divergence that let two argv builders and two audit docs drift apart earlier in
+# this campaign: same fact, two implementations, one of them eventually stale.
+#
+# Why it needs to validate rather than just honour the variable: DETERMINEX_ROOT
+# pointed at C:\Dev\Citadel -- the pre-rename checkout, present on disk but with no
+# litellm_config.yaml. load_role_assignments() therefore reported "config not found"
+# and silently returned its local-only fallbacks, so every hive session ran with
+# architect=local/fast instead of the configured determinex/qwen7b. The config's own
+# comment warns the small model "produces empty plans as architect", and nothing
+# surfaced that the canon was not in effect. Found live 2026-07-28.
+_ROOT = resolve_repo_root()
 
 # ── API rate limit defaults ──────────────────────────────────────────────────────
 _DEFAULT_RATE_LIMIT_PROFILE = {
@@ -241,8 +266,29 @@ class ApiRateLimiter:
                 # Local Ollama calls can stall forever if the model runs out of
                 # VRAM. Pass a ceiling timeout so the executor loop gets a
                 # TimeoutError it can surface to the user instead of a silent hang.
+                #
+                # THE GUARD DID NOT FIRE (found 2026-07-30). The condition was
+                # `_model.startswith("ollama/")`, but `kwargs["model"]` holds the CONFIGURED
+                # ALIAS, not the resolved provider name -- `builder_model` comes straight from
+                # `model_assignments["builder"]`, i.e. `determinex/engineer`. That does not start
+                # with "ollama/", so no timeout was set on the builder, monitor, oracle or
+                # architect calls, and the comment above described exactly what then happened:
+                # the step hung forever.
+                #
+                # Observed directly: a run-session sat 30+ minutes on step 2 with 0% CPU and two
+                # ESTABLISHED sockets to 127.0.0.1:11434, having written its builder output and
+                # then stopped. It is also the most likely cause of the repeated hive limits-test
+                # stalls the same day.
+                #
+                # This is the THIRD appearance of one locality-detection bug. `budget.is_local_model`
+                # exists because the pricing path had it (fixed 2026-07-29: bare tags like
+                # `determinex-engineer-v11-dsl` start with "determinex-", not "determinex/"), and its
+                # docstring already notes the same defect sits in api_client. So use that canonical
+                # helper rather than a fourth hand-rolled prefix test -- it knows about ollama/,
+                # ollama_chat/, hosted_vllm/, text-completion-openai/, determinex/, local/ and the
+                # bare `determinex-` family.
                 _model = kwargs.get("model", "")
-                if isinstance(_model, str) and _model.startswith("ollama/"):
+                if isinstance(_model, str) and _model and is_local_model(_model):
                     kwargs = {**kwargs, "timeout": kwargs.get("timeout", BUILDER_TIMEOUT_SECONDS)}
                 result = fn(*args, **kwargs)
                 usage = getattr(result, "usage", None)
@@ -340,10 +386,38 @@ def load_role_assignments(config_path: Path | None = None) -> dict:
         with open(config_path) as f:
             config = yaml.safe_load(f) or {}
         roles = (config.get("determinex") or {}).get("roles") or {}
-        return {**defaults, **roles}
+        return _apply_role_overrides({**defaults, **roles})
     except Exception as e:
         log.warning("Could not load role assignments from litellm_config.yaml (%s) — using local-only defaults", e)
-        return defaults
+        return _apply_role_overrides(defaults)
+
+
+def _apply_role_overrides(roles: dict) -> dict:
+    """Let one run pin a role without editing the shared config file.
+
+        DETERMINEX_ROLE_BUILDER=determinex/qwen7b
+
+    Added for the router A/B, which has to run the SAME specs with the builder
+    pinned to a single model (the always-frontier arm) and then with a ladder (the
+    routed arm). Doing that by rewriting litellm_config.yaml between arms would
+    mutate shared state mid-experiment and leave the repo dirty if a run died
+    partway. It is generally useful too: overriding a role for one invocation is
+    ordinary, and the neighbouring DETERMINEX_BUILDER_FALLBACK_MODEL already
+    establishes the env-override precedent.
+
+    Only the four known roles are honoured, so a typo cannot silently invent one.
+    """
+    out = dict(roles)
+    for role in ("oracle", "architect", "builder", "monitor"):
+        val = _os_env.environ.get(f"DETERMINEX_ROLE_{role.upper()}", "").strip()
+        if val:
+            out[role] = val
+            # Plain format string, not structlog kwargs: this runs during config
+            # load, which is exactly when the structlog binding may not be in
+            # place, and a TypeError here would take out role resolution itself.
+            log.info("role override: %s -> %s (DETERMINEX_ROLE_%s)",
+                     role, val, role.upper())
+    return out
 
 
 # ── Lightweight model alias resolver ─────────────────────────────────────────
@@ -352,6 +426,45 @@ def load_role_assignments(config_path: Path | None = None) -> dict:
 # checks, no cost-based probing, no startup failures on missing local models.
 
 _alias_map: dict | None = None   # lazy-loaded on first api_call
+
+
+def _alias_config_candidates() -> list[Path]:
+    """Every plausible location of litellm_config.yaml, most specific first.
+
+    WHY MORE THAN ONE. `_ROOT` is `resolve_repo_root()`, which in a PyInstaller sidecar is a temp
+    extraction directory rather than a checkout -- so `_ROOT / "litellm_config.yaml"` was the ONLY
+    place looked at, and in a shipped build nothing was there. The file was bundled by neither path:
+    not in `bundle.resources` (Tauri) and not in the sidecar's PyInstaller data.
+
+    The consequence was not a degraded feature. With no alias map, `determinex/engineer` resolves to
+    ITSELF, and `determinex/` is not a provider litellm knows -- so on a fresh install the hive build
+    loop could not call any model at all. Measured 2026-07-30 by pointing `_ROOT` at an empty dir:
+    0 alias entries, and every role alias resolved to an unusable string.
+
+    Searching candidates rather than picking one avoids trading that bug for a guess about
+    PyInstaller's layout: whichever packaging path delivers the file, this finds it.
+    """
+    candidates: list[Path] = [_ROOT / "litellm_config.yaml"]
+    # PyInstaller one-file extraction root.
+    meipass = getattr(sys, "_MEIPASS", "")
+    if meipass:
+        candidates.append(Path(meipass) / "litellm_config.yaml")
+    # Beside the running executable, and the `../../` resource layout Tauri preserves
+    # (bundle.resources declared as "../../x" land in <install>/_up_/_up_/x).
+    exe_dir = Path(sys.executable).resolve().parent
+    candidates.extend([
+        exe_dir / "litellm_config.yaml",
+        exe_dir / "_up_" / "_up_" / "litellm_config.yaml",
+    ])
+    # Deduplicate, preserving order.
+    seen: set[str] = set()
+    unique: list[Path] = []
+    for candidate in candidates:
+        key = str(candidate).lower()
+        if key not in seen:
+            seen.add(key)
+            unique.append(candidate)
+    return unique
 
 
 def _load_alias_map() -> dict:
@@ -363,10 +476,15 @@ def _load_alias_map() -> dict:
     if _alias_map is not None:
         return _alias_map
 
-    config_path = _ROOT / "litellm_config.yaml"
     _alias_map = {}
-    if not config_path.exists():
-        log.warning("litellm_config.yaml not found — no alias resolution")
+    searched = _alias_config_candidates()
+    config_path = next((c for c in searched if c.exists()), None)
+    if config_path is None:
+        log.warning(
+            "litellm_config.yaml not found in any of %s — no alias resolution, so role aliases "
+            "like 'determinex/engineer' will not resolve to an Ollama tag and model calls will fail",
+            [str(p) for p in searched],
+        )
         return _alias_map
 
     try:

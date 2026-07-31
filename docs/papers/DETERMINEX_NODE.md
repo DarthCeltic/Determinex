@@ -1,8 +1,8 @@
-# LUNARIAN NODE v0 — Fleet Signal Aggregation Specification
+# DETERMINEX NODE v0 — Fleet Signal Aggregation Specification
 
 > **Status:** OWNER-RESOLVED v0.2 — paper design only. Build is post-announce.
 > Disclosure content is pre-filing provisional written-description material.
-> **Owner:** Ryan Gurganious, Lunarian Data Systems. **Drafted:** 2026-06-11.
+> **Owner:** Ryan Gurganious, Ryan Gurganious. **Drafted:** 2026-06-11.
 > **Provenance key:** `[PRIOR]` = consolidates existing Determinex design work.
 > `[NEW]` = introduced in this draft, needs Ryan's verdict before claim triage.
 >
@@ -20,7 +20,7 @@
 
 ## 1. Purpose and one-sentence answers
 
-The Node is the Lunarian-side endpoint where users who opt in submit
+The Node is the Determinex-side endpoint where users who opt in submit
 compiler-verified, Cloak-obfuscated training signal, and from which improved
 model weights flow back to the fleet.
 
@@ -36,7 +36,7 @@ stays inside your boundary unless your contract says otherwise, and what
 crosses is the same Cloaked-pair format, contractually scoped. `[PRIOR —
 corpus cartridge model]`
 
-**The skeptic answer ("why should Lunarian trust submissions?"):** it
+**The skeptic answer ("why should the operator trust submissions?"):** it
 doesn't. Every inbound pair is re-verified by replay before it can touch any
 corpus. A stated verdict is never enough — Section 5 doctrine applied to
 strangers. `[NEW — replay-verification ingestion gate]`
@@ -46,7 +46,7 @@ strangers. `[NEW — replay-verification ingestion gate]`
 ## 2. Data flow (end to end)
 
 ```
-USER MACHINE                      LUNARIAN NODE                    FLEET
+USER MACHINE                      DETERMINEX NODE                    FLEET
 -----------                       -------------                    -----
 ForgeDaemon harvests        →  (1) Intake API (authenticated,
 failure→fix pair                  tier-tagged, rate-limited)
@@ -160,7 +160,7 @@ sealed-by-default + gated promotion pathway, owner verdict 2026-06-11]`
 boundary; any cross-boundary contribution is contract-scoped, Cloaked,
 and replay-verified like everything else. `[PRIOR]`
 
-**Data ownership posture:** the user/org owns their pairs; Lunarian holds
+**Data ownership posture:** the user/org owns their pairs; the operator holds
 a license to train on submitted Cloaked pairs per the consent record
 version in force at submission time. Consent records are versioned and
 hash-referenced in every envelope so "what did they agree to" is always
@@ -353,6 +353,6 @@ Estimate: bounded weeks of work, all deferred until after announce.
 
 ---
 
-*LUNARIAN NODE v0 · Ryan Gurganious · Lunarian Data Systems · 2026-06-11*
+*DETERMINEX NODE v0 · Ryan Gurganious · 2026-06-11*
 *Pre-filing provisional written-description material. Not legal advice.*
 *Not a product specification. Not a build commitment.*

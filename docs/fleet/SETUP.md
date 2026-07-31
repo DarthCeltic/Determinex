@@ -20,7 +20,7 @@ python -m fleet.cli keygen --out-dir ../secrets
 
 ## 1. Hugging Face — the trust-bearing front (free)
 
-Create under your org (`lunariandatasystems`):
+Create under your org (`darthceltic85`):
 
 1. **Dataset repo** `determinex-fleet-corpus` — set it **gated** (you approve access).
    This is provenance + the public face. Put `docs/fleet/CONTRIBUTING.md` and

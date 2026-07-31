@@ -211,5 +211,3 @@ export function RepairPanelShell({ children, workspacePath = "" }: RepairPanelSh
     </div>
   );
 }
-
-export default RepairPanelShell;

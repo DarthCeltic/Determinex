@@ -91,7 +91,7 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
 
   if (loading) {
     return (
-      <div className="flex-1 bg-[#0d1117] flex items-center justify-center">
+      <div className="flex-1 bg-[var(--dtx-code-bg)] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
       </div>
     );
@@ -99,7 +99,7 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
 
   if (!isTauri()) {
     return (
-      <div className="flex-1 bg-[#0d1117] flex flex-col items-center justify-center gap-2 text-center opacity-40">
+      <div className="flex-1 bg-[var(--dtx-code-bg)] flex flex-col items-center justify-center gap-2 text-center opacity-40">
         <p className="text-label text-gray-500">Browser mode cannot read real git merge state</p>
         <p className="text-label text-gray-600">Open the Tauri desktop app to resolve conflicts.</p>
       </div>
@@ -107,30 +107,30 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
   }
 
   return (
-    <div className="flex h-full bg-[#0d1117] text-[#c9d1d9]">
-      <div className="w-64 border-r border-[#30363d] bg-[#161b22] flex flex-col shrink-0">
-        <div className="p-4 border-b border-[#30363d] flex items-center gap-2">
+    <div className="flex h-full bg-[var(--dtx-code-bg)] text-[var(--dtx-code-text)]">
+      <div className="w-64 border-r border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] flex flex-col shrink-0">
+        <div className="p-4 border-b border-[var(--dtx-code-border)] flex items-center gap-2">
           <GitMerge className="w-4 h-4 text-orange-400" />
           <h2 className="text-sm font-bold text-white">Merge Conflicts</h2>
         </div>
         <div className="flex-1 overflow-y-auto">
           {conflicted.length === 0 ? (
-            <div className="p-4 text-xs text-[#8b949e] italic">No unresolved conflicts.</div>
+            <div className="p-4 text-xs text-[var(--dtx-code-muted)] italic">No unresolved conflicts.</div>
           ) : (
             conflicted.map((f) => (
               <div
                 key={f.path}
                 onClick={() => setSelectedPath(f.path)}
                 className={
-                  "p-3 border-b border-[#30363d] cursor-pointer hover:bg-[#21262d] transition-colors " +
-                  (selectedPath === f.path ? "bg-[#21262d] border-l-2 border-l-orange-500" : "")
+                  "p-3 border-b border-[var(--dtx-code-border)] cursor-pointer hover:bg-[var(--dtx-code-border-subtle)] transition-colors " +
+                  (selectedPath === f.path ? "bg-[var(--dtx-code-border-subtle)] border-l-2 border-l-orange-500" : "")
                 }
               >
                 <div className="flex items-center gap-1.5 text-sm font-mono truncate text-orange-400">
                   <AlertTriangle className="w-3 h-3 shrink-0" />
                   {f.path.split(/[/\\]/).pop()}
                 </div>
-                <div className="text-xs text-[#8b949e] truncate">{f.path}</div>
+                <div className="text-xs text-[var(--dtx-code-muted)] truncate">{f.path}</div>
               </div>
             ))
           )}
@@ -154,8 +154,8 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
           </div>
         ) : (
           <>
-            <div className="h-14 border-b border-[#30363d] bg-[#0d1117] px-4 flex items-center justify-between shrink-0">
-              <span className="text-sm font-mono text-[#8b949e]">{selectedPath}</span>
+            <div className="h-14 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-4 flex items-center justify-between shrink-0">
+              <span className="text-sm font-mono text-[var(--dtx-code-muted)]">{selectedPath}</span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setSideBySide((v) => !v)}
@@ -164,7 +164,7 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
                       ? "Switch context diffs to inline"
                       : "Switch context diffs to side-by-side"
                   }
-                  className="px-2.5 py-1.5 flex items-center gap-1.5 text-xs font-medium text-[#8b949e] hover:bg-white/5 border border-white/10 rounded transition-colors"
+                  className="px-2.5 py-1.5 flex items-center gap-1.5 text-xs font-medium text-[var(--dtx-code-muted)] hover:bg-white/5 border border-white/10 rounded transition-colors"
                 >
                   {sideBySide ? (
                     <Rows2 className="w-3.5 h-3.5" />
@@ -205,9 +205,9 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
             </div>
 
             <div className="flex-1 min-h-0 grid grid-rows-2">
-              <div className="grid grid-cols-2 divide-x divide-[#30363d] min-h-0">
+              <div className="grid grid-cols-2 divide-x divide-[var(--dtx-code-border)] min-h-0">
                 <div className="flex flex-col min-h-0">
-                  <div className="shrink-0 px-3 py-1 text-meta uppercase font-bold tracking-wide text-blue-400 bg-black/20 border-b border-[#30363d]">
+                  <div className="shrink-0 px-3 py-1 text-meta uppercase font-bold tracking-wide text-blue-400 bg-black/20 border-b border-[var(--dtx-code-border)]">
                     Ours (base &rarr; ours)
                   </div>
                   <div className="flex-1 min-h-0">
@@ -225,7 +225,7 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
                   </div>
                 </div>
                 <div className="flex flex-col min-h-0">
-                  <div className="shrink-0 px-3 py-1 text-meta uppercase font-bold tracking-wide text-purple-400 bg-black/20 border-b border-[#30363d]">
+                  <div className="shrink-0 px-3 py-1 text-meta uppercase font-bold tracking-wide text-purple-400 bg-black/20 border-b border-[var(--dtx-code-border)]">
                     Theirs (base &rarr; theirs)
                   </div>
                   <div className="flex-1 min-h-0">
@@ -244,7 +244,7 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
                 </div>
               </div>
               <div className="flex flex-col min-h-0 border-t-2 border-orange-500/30">
-                <div className="shrink-0 px-3 py-1 text-meta uppercase font-bold tracking-wide text-orange-400 bg-black/20 border-b border-[#30363d]">
+                <div className="shrink-0 px-3 py-1 text-meta uppercase font-bold tracking-wide text-orange-400 bg-black/20 border-b border-[var(--dtx-code-border)]">
                   Result (edit directly, then Mark Resolved)
                 </div>
                 <div className="flex-1 min-h-0">

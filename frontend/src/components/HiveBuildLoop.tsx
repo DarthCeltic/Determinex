@@ -323,7 +323,7 @@ function FailureBanner({
           <button
             id="hive-failure-newbuild-btn"
             onClick={onNewBuild}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#161b22] border border-[#30363d] hover:border-gray-500 text-gray-400 hover:text-gray-200 rounded-lg text-label font-bold transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[var(--dtx-code-panel)] border border-[var(--dtx-code-border)] hover:border-gray-500 text-gray-400 hover:text-gray-200 rounded-lg text-label font-bold transition-colors"
           >
             <PlusCircle size={10} />
             New Build
@@ -428,7 +428,7 @@ function statusColor(status: string): string {
     case "in_progress":
       return "border-cyan-700/40 bg-cyan-900/10";
     default:
-      return "border-[#30363d] bg-[#0d1117]/40";
+      return "border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)]/40";
   }
 }
 
@@ -498,9 +498,9 @@ const StepRow = React.memo(
         </button>
 
         {expanded && (
-          <div className="border-t border-[#30363d]/60">
+          <div className="border-t border-[var(--dtx-code-border)]/60">
             {/* Full instruction — visible without truncation when expanded */}
-            <div className="px-3 py-2 border-b border-[#30363d]/40">
+            <div className="px-3 py-2 border-b border-[var(--dtx-code-border)]/40">
               <p className="text-label text-gray-300 leading-relaxed">{step.instruction}</p>
             </div>
             {/* Metadata row */}
@@ -563,15 +563,15 @@ const StepRow = React.memo(
                     <span className="text-label text-gray-600">Loading file...</span>
                   </div>
                 ) : fileContent !== null ? (
-                  <div className="rounded-lg border border-[#30363d] overflow-hidden">
-                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[#161b22] border-b border-[#30363d]">
+                  <div className="rounded-lg border border-[var(--dtx-code-border)] overflow-hidden">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[var(--dtx-code-panel)] border-b border-[var(--dtx-code-border)]">
                       <FileCode2 size={10} className="text-cyan-400" />
                       <span className="text-meta font-mono text-gray-500">{step.target_file}</span>
                       <span className="text-meta text-gray-700 ml-auto">
                         {fileContent.split("\n").length} lines
                       </span>
                     </div>
-                    <pre className="text-label font-mono text-gray-300 p-2.5 overflow-x-auto max-h-64 leading-relaxed whitespace-pre bg-[#0a0d13]">
+                    <pre className="text-label font-mono text-gray-300 p-2.5 overflow-x-auto max-h-64 leading-relaxed whitespace-pre bg-[var(--dtx-code-bg)]">
                       {fileContent.slice(0, 4000)}
                       {fileContent.length > 4000 ? "\n\n… (truncated)" : ""}
                     </pre>
@@ -680,7 +680,7 @@ function ActiveStepCard({ step, logLines }: { step: StepStatus; logLines: string
       </div>
 
       {/* Instruction */}
-      <div className="px-3 py-2 border-b border-[#30363d]/50">
+      <div className="px-3 py-2 border-b border-[var(--dtx-code-border)]/50">
         <p className="text-label text-gray-300 leading-relaxed">{step.instruction}</p>
       </div>
 
@@ -745,7 +745,7 @@ function CostMeter({
   return (
     <div className="flex items-center gap-2">
       <DollarSign size={11} className={exhausted ? "text-red-400" : "text-emerald-400"} />
-      <div className="flex-1 bg-[#161b22] rounded-full h-1.5 overflow-hidden">
+      <div className="flex-1 bg-[var(--dtx-code-panel)] rounded-full h-1.5 overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-500 ${color}`}
           style={{ width: `${pct}%` }}
@@ -831,7 +831,7 @@ function CandidateRaceStrip({ lines }: { lines: string[] }) {
   if (candidates.length === 0) return null;
   const winner = candidates.find((c) => c.status === "pass");
   return (
-    <div className="flex-shrink-0 border-b border-[#30363d] bg-black/30 px-3 py-2">
+    <div className="flex-shrink-0 border-b border-[var(--dtx-code-border)] bg-black/30 px-3 py-2">
       <div className="mb-1.5 flex items-center gap-1.5 text-eyebrow font-bold uppercase tracking-widest text-violet-400">
         <Layers size={11} />
         Correctness Amplifier — round {candidates[0].round}, {candidates.length} parallel candidate
@@ -885,7 +885,7 @@ function LogPanel({ lines }: { lines: string[] }) {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="px-3 py-1.5 border-b border-[#30363d] flex-shrink-0 flex items-center gap-1.5">
+      <div className="px-3 py-1.5 border-b border-[var(--dtx-code-border)] flex-shrink-0 flex items-center gap-1.5">
         <Terminal size={11} className="text-gray-500" />
         <span className="text-meta uppercase font-bold tracking-wider text-gray-500">
           Build Log
@@ -900,7 +900,7 @@ function LogPanel({ lines }: { lines: string[] }) {
         ) : (
           <>
             {dropped > 0 && (
-              <div className="text-meta text-gray-700 font-mono px-1 py-1 mb-1 border-b border-[#30363d]/40">
+              <div className="text-meta text-gray-700 font-mono px-1 py-1 mb-1 border-b border-[var(--dtx-code-border)]/40">
                 … {dropped} older lines (showing last {LOG_DISPLAY_CAP})
               </div>
             )}
@@ -995,7 +995,7 @@ function FilesPanel({ steps, sessionId }: { steps: StepStatus[]; sessionId: stri
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex-shrink-0 border-b border-[#30363d] px-3 py-1.5 flex items-center gap-2 bg-[#0d1117]">
+      <div className="flex-shrink-0 border-b border-[var(--dtx-code-border)] px-3 py-1.5 flex items-center gap-2 bg-[var(--dtx-code-bg)]">
         <FileCode2 size={10} className="text-gray-600" />
         <span className="text-eyebrow uppercase font-bold tracking-wider text-gray-600">
           {builtCount}/{files.length} files built
@@ -1011,11 +1011,11 @@ function FilesPanel({ steps, sessionId }: { steps: StepStatus[]; sessionId: stri
           return (
             <div
               key={step.target_file}
-              className="rounded-lg border border-[#30363d] overflow-hidden"
+              className="rounded-lg border border-[var(--dtx-code-border)] overflow-hidden"
             >
               <button
                 onClick={() => toggleFile(step.target_file)}
-                className="w-full flex items-center gap-2 px-3 py-2.5 hover:bg-[#161b22] transition-colors text-left"
+                className="w-full flex items-center gap-2 px-3 py-2.5 hover:bg-[var(--dtx-code-panel)] transition-colors text-left"
               >
                 <FileCode2
                   size={11}
@@ -1040,7 +1040,7 @@ function FilesPanel({ steps, sessionId }: { steps: StepStatus[]; sessionId: stri
                         ? "bg-red-950/60 text-red-400 border border-red-800/40"
                         : step.status === "in_progress"
                           ? "bg-cyan-950/60 text-cyan-400 border border-cyan-800/40 animate-pulse"
-                          : "bg-[#161b22] text-gray-600 border border-[#30363d]"
+                          : "bg-[var(--dtx-code-panel)] text-gray-600 border border-[var(--dtx-code-border)]"
                   }`}
                 >
                   {step.status}
@@ -1052,8 +1052,8 @@ function FilesPanel({ steps, sessionId }: { steps: StepStatus[]; sessionId: stri
               </button>
 
               {isOpen && (
-                <div className="border-t border-[#30363d] bg-[#0a0d13]">
-                  <div className="flex items-center justify-between px-3 py-1.5 border-b border-[#30363d]/50">
+                <div className="border-t border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)]">
+                  <div className="flex items-center justify-between px-3 py-1.5 border-b border-[var(--dtx-code-border)]/50">
                     <span className="text-meta font-mono text-gray-600">
                       {ext} · {step.write_mode}
                     </span>
@@ -1133,7 +1133,7 @@ function PhaseHeader({
   const { label, color } = phaseLabels[phase];
 
   return (
-    <div className="flex items-center gap-3 px-3 py-2.5 border-b border-[#30363d] bg-[#0d1117]/50 flex-shrink-0">
+    <div className="flex items-center gap-3 px-3 py-2.5 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)]/50 flex-shrink-0">
       <Blocks size={14} className={color} />
       <div className="flex-1">
         <div className={`text-label font-bold ${color}`}>{label}</div>
@@ -1456,7 +1456,7 @@ export function HiveBuildLoop({
   return (
     <div className="flex flex-col h-full">
       {/* Back nav */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-[#30363d] flex-shrink-0 bg-[#0d1117]/60">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-[var(--dtx-code-border)] flex-shrink-0 bg-[var(--dtx-code-bg)]/60">
         {onBack && !isActive && (
           <button
             onClick={onBack}
@@ -1509,7 +1509,7 @@ export function HiveBuildLoop({
 
       {/* Cost meter — only shown when API models are actually being used (cost > $0) */}
       {status && status.api_cost_usd > 0 && (
-        <div className="px-3 py-2 border-b border-[#30363d] flex-shrink-0">
+        <div className="px-3 py-2 border-b border-[var(--dtx-code-border)] flex-shrink-0">
           <CostMeter
             cost={status.api_cost_usd}
             budget={status.session_budget_usd}
@@ -1585,7 +1585,7 @@ export function HiveBuildLoop({
           </span>
           <button
             onClick={cancelAutoRetry}
-            className="text-meta text-gray-500 hover:text-gray-300 border border-[#30363d] hover:border-gray-500 px-2 py-0.5 rounded transition-colors"
+            className="text-meta text-gray-500 hover:text-gray-300 border border-[var(--dtx-code-border)] hover:border-gray-500 px-2 py-0.5 rounded transition-colors"
           >
             Cancel
           </button>
@@ -1608,7 +1608,7 @@ export function HiveBuildLoop({
       <CandidateRaceStrip lines={logLines} />
 
       {/* Tab switcher */}
-      <div className="flex border-b border-[#30363d] flex-shrink-0">
+      <div className="flex border-b border-[var(--dtx-code-border)] flex-shrink-0">
         <button
           onClick={() => setActiveTab("steps")}
           className={`px-4 py-1.5 text-meta font-bold uppercase tracking-wider border-b-2 transition-colors ${
@@ -1678,15 +1678,15 @@ export function HiveBuildLoop({
 
                   {/* Animated activity bar */}
                   <div className="px-2 mb-4">
-                    <div className="h-1 rounded-full bg-[#161b22] overflow-hidden">
+                    <div className="h-1 rounded-full bg-[var(--dtx-code-panel)] overflow-hidden">
                       <div className="h-full w-full rounded-full bg-gradient-to-r from-purple-600/70 via-cyan-400/70 to-purple-600/70 animate-pulse" />
                     </div>
                   </div>
 
                   {/* Live log preview — last 12 lines */}
                   {logLines.length > 0 ? (
-                    <div className="flex-1 min-h-0 overflow-hidden mx-2 rounded-xl border border-[#30363d] bg-[#0a0d13] flex flex-col">
-                      <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-[#30363d] flex-shrink-0">
+                    <div className="flex-1 min-h-0 overflow-hidden mx-2 rounded-xl border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] flex flex-col">
+                      <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-[var(--dtx-code-border)] flex-shrink-0">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                         <span className="text-eyebrow uppercase font-bold tracking-wider text-gray-600">
                           Live output · {logLines.length} lines
@@ -1717,7 +1717,7 @@ export function HiveBuildLoop({
                       </div>
                     </div>
                   ) : (
-                    <div className="flex-1 mx-2 rounded-xl border border-[#30363d] bg-[#0a0d13] flex items-center justify-center">
+                    <div className="flex-1 mx-2 rounded-xl border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] flex items-center justify-center">
                       <p className="text-label text-gray-700 font-mono">
                         Waiting for process output...
                       </p>
@@ -1751,13 +1751,13 @@ export function HiveBuildLoop({
 
       {/* Launch build loop button — shown when DAG is ready but loop not started */}
       {dagReady && !buildStarted && (
-        <div className="border-t border-[#30363d] p-3 flex-shrink-0">
+        <div className="border-t border-[var(--dtx-code-border)] p-3 flex-shrink-0">
           {runError && (
             <div className="text-label text-red-400 bg-red-900/20 border border-red-800/40 rounded-lg px-3 py-2 mb-2">
               {runError}
             </div>
           )}
-          <div className="mb-2 flex items-center justify-between rounded-lg border border-[#30363d] bg-black/20 px-3 py-2">
+          <div className="mb-2 flex items-center justify-between rounded-lg border border-[var(--dtx-code-border)] bg-black/20 px-3 py-2">
             <label className="flex items-center gap-2 text-label text-gray-400">
               <input
                 type="checkbox"
@@ -1774,7 +1774,7 @@ export function HiveBuildLoop({
                 <button
                   type="button"
                   onClick={() => setAmplifyKOverride(Math.max(1, effectiveAmplifyK - 1))}
-                  className="h-5 w-5 rounded border border-[#30363d] text-label text-gray-400 hover:border-violet-500/50 hover:text-violet-300"
+                  className="h-5 w-5 rounded border border-[var(--dtx-code-border)] text-label text-gray-400 hover:border-violet-500/50 hover:text-violet-300"
                 >
                   −
                 </button>
@@ -1784,7 +1784,7 @@ export function HiveBuildLoop({
                 <button
                   type="button"
                   onClick={() => setAmplifyKOverride(Math.min(10, effectiveAmplifyK + 1))}
-                  className="h-5 w-5 rounded border border-[#30363d] text-label text-gray-400 hover:border-violet-500/50 hover:text-violet-300"
+                  className="h-5 w-5 rounded border border-[var(--dtx-code-border)] text-label text-gray-400 hover:border-violet-500/50 hover:text-violet-300"
                 >
                   +
                 </button>
@@ -1816,7 +1816,7 @@ export function HiveBuildLoop({
 
       {/* Running indicator */}
       {running && !dagReady && (
-        <div className="border-t border-[#30363d] px-3 py-2.5 flex-shrink-0">
+        <div className="border-t border-[var(--dtx-code-border)] px-3 py-2.5 flex-shrink-0">
           <div className="flex items-center gap-2 text-label text-cyan-400">
             <div className="w-3 h-3 border border-cyan-400 border-t-transparent rounded-full animate-spin" />
             Build loop running —{" "}

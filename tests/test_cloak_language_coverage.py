@@ -18,8 +18,9 @@ commit series):
 Fixed same day: the 6 missing grammars were installed (pip install tree-sitter-{typescript,
 java,ruby,php,c,cpp}), and every language's query was missing parameter/field/local captures
 entirely -- not a per-language quirk, a systematic gap in every _QUERIES entry. Both fixed.
-Current state: 8 of 9 languages obfuscate their fixture completely. javascript is the one
-remaining gap, and it is a structural one, not a missing-grammar one -- see _KNOWN_GAPS.
+Current state (2026-07-28): all 9 languages obfuscate their fixture completely. The last
+gap -- javascript instance fields assigned as `this.X = ...` -- was closed by scoping a
+member_expression capture to `object: (this)`; see _KNOWN_GAPS for why that is safe.
 
 TS_SUPPORTED_LANGUAGES is a hardcoded frozenset of 9, not a probe of what loads, so printing
 it "verifies" nothing -- that was the original audit's mistake. test_advertised_languages_are_
@@ -30,6 +31,7 @@ into the output is a genuine leak and not a stdlib/framework keep-list hit.
 """
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -150,15 +152,17 @@ def _cloak(tmp_path: Path, language: str) -> tuple[str | None, list[str]]:
 # XPASSes and forces this list to be updated. Never soften a fixture to make one of these pass.
 #
 # 2026-07-26: all 9 tree-sitter grammars installed (were 3 of 9), plus parameter/field/local
-# query captures added for every one of them. 8 of 9 languages are now a clean fixture pass.
-# javascript is the one remaining gap, and it is NOT a missing-grammar problem -- the grammar
-# and query both work; the leak is structural (see reason below).
+# query captures added for every one of them. All 9 languages are now a clean fixture pass.
+# javascript was here until 2026-07-28 and is now CLOSED, not softened. The gap was real:
+# `this.zzqField = 0` is an assignment to a member_expression, so field_definition (which only
+# covers `class X { field = 0 }`) never saw it, and instance fields declared the conventional
+# way reached the cloud model in plaintext. The blocker recorded here was that a general
+# `(member_expression property: ...)` capture would also rewrite external API property access.
+# Resolved by scoping the capture to `object: (this)`: a `this.X` field cannot be an external
+# contract, while `res.status` and `JSON.parse` are untouched -- verified on a fixture that
+# contains both. strict=True is what surfaced the fix: closing the gap XPASSed and failed the
+# suite until this entry was removed, exactly as intended.
 _KNOWN_GAPS: dict[str, str] = {
-    "javascript": (
-        "`this.zzqField = 0` is a member_expression assignment, not a field_definition. "
-        "Capturing (member_expression property: ...) would also rewrite external API property "
-        "access (res.status, JSON.parse), so it needs a safe-list-aware rule, not a raw query."
-    ),
 }
 
 
@@ -295,3 +299,148 @@ def test_degraded_opt_out_downgrades_the_refusal_to_a_warning(tmp_path, monkeypa
     (tmp_path / "lib.rs").write_text("pub struct ZzqRec { pub zzq_field: i64 }\n", encoding="utf-8")
     ctx = lx._build_cloak_context_nonpython("t", tmp_path, "rust")
     assert ctx.symbol_map.forward == {}   # proceeds, uncloaked, by explicit operator choice
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Instance fields, and the names the runtime owns
+#
+# The JavaScript `this.field = 0` leak (fixed 2026-07-28) was found because the
+# fixture above happened to plant that form. Nothing else did -- typescript declared
+# `zzqField: number = 0`, php `public $zzqField = 0`, java `private long zzqField`,
+# and ruby planted no field at all. Probing every OO language for the same shape
+# found FOUR more live plaintext leaks:
+#
+#   typescript  this.zzqCtorField = 1        (shares JS's grammar family)
+#   php         $this->zzqCtorField = 1
+#   ruby        @zzq_ivar = 1                (instance variables never captured)
+#   cpp         void zzqSet(...) {}          (method defined INLINE in a class body
+#                                             has declarator: (field_identifier),
+#                                             not (identifier))
+#
+# The same probe surfaced a correctness bug in the other direction: names the
+# LANGUAGE owns were being renamed. `_DUNDER` only matches Python's `__x__` shape, so
+# PHP `__construct` and Ruby `initialize`/`to_s` were all obfuscated -- which does not
+# leak anything, but hands the cloud model a file whose constructor no longer runs.
+# A wrong patch from correct-looking input is its own failure mode.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# language -> (filename, source, must_not_survive, must_survive)
+FIELD_CASES: dict[str, tuple[str, str, list[str], list[str]]] = {
+    "javascript": (
+        "a.js",
+        "class ZzqRec {\n"
+        "  constructor() { this.zzqCtorField = 1; }\n"
+        "  zzqM(zzqP) { this.zzqCtorField = zzqP; return JSON.parse(String(zzqP)); }\n"
+        "}\n",
+        ["ZzqRec", "zzqCtorField", "zzqM", "zzqP"],
+        ["JSON.parse"],
+    ),
+    "typescript": (
+        "a.ts",
+        "class ZzqRec {\n"
+        "  constructor() { this.zzqCtorField = 1; }\n"
+        "  zzqM(zzqP: number) { this.zzqCtorField = zzqP; return JSON.parse(String(zzqP)); }\n"
+        "}\n",
+        ["ZzqRec", "zzqCtorField", "zzqM", "zzqP"],
+        ["JSON.parse"],
+    ),
+    "php": (
+        "a.php",
+        "<?php\nclass ZzqRec {\n"
+        "  function __construct() { $this->zzqCtorField = 1; }\n"
+        "  function zzqM($zzqP) { $this->zzqCtorField = $zzqP; return $this->zzqCtorField; }\n"
+        "}\n",
+        ["ZzqRec", "zzqCtorField", "zzqM", "zzqP"],
+        # __construct is magical per the PHP spec; $this is a keyword. Renaming either
+        # emits code that does not work.
+        ["__construct", "$this"],
+    ),
+    "ruby": (
+        "a.rb",
+        "class ZzqRec\n"
+        "  def initialize(zzq_p)\n"
+        "    @zzq_ivar = zzq_p\n"
+        "  end\n"
+        "  def to_s\n"
+        "    @zzq_ivar.to_s\n"
+        "  end\n"
+        "  def zzq_m\n"
+        "    @zzq_ivar\n"
+        "  end\n"
+        "end\n",
+        ["ZzqRec", "zzq_ivar", "zzq_m", "zzq_p"],
+        # The runtime calls these; renaming initialize stops it being the constructor.
+        ["initialize", "to_s"],
+    ),
+    "cpp": (
+        "a.cpp",
+        "class ZzqRec {\n public:\n  long zzqField;\n"
+        "  ZzqRec() : zzqField(0) {}\n"
+        "  ~ZzqRec() {}\n"
+        "  bool operator==(const ZzqRec& zzqOther) const "
+        "{ return zzqField == zzqOther.zzqField; }\n"
+        "  void zzqSet(long zzqP) { this->zzqField = zzqP; }\n};\n",
+        ["ZzqRec", "zzqField", "zzqSet", "zzqP", "zzqOther"],
+        # `operator` is a C++ keyword, not an identifier -- renaming it would not
+        # compile. The constructor and destructor are the opposite case and get
+        # their own test below, because they MUST be renamed, in lockstep with the
+        # class name.
+        ["operator=="],
+    ),
+}
+
+
+def _obfuscate_field_case(tmp_path, language: str) -> str:
+    filename, source, _, _ = FIELD_CASES[language]
+    (tmp_path / filename).write_text(source, encoding="utf-8")
+    ctx = _build_cloak_context_nonpython(f"f-{language}", tmp_path, language)
+    return obfuscate_source(source, ctx.symbol_map)
+
+
+@pytest.mark.parametrize("language", sorted(FIELD_CASES))
+def test_instance_fields_do_not_survive_obfuscation(tmp_path, language):
+    """Fields assigned through this / $this / @ are the project's own private state.
+    Every one of these forms leaked in plaintext before 2026-07-28."""
+    if ts_mod._load_language_obj(language) is None:
+        pytest.skip(f"{language} grammar not installed")
+    out = _obfuscate_field_case(tmp_path, language)
+    _, _, must_not, _ = FIELD_CASES[language]
+    leaked = [n for n in must_not if n in out]
+    assert not leaked, f"{language}: leaked {leaked}"
+
+
+@pytest.mark.parametrize("language", sorted(FIELD_CASES))
+def test_runtime_owned_names_are_not_renamed(tmp_path, language):
+    """Obfuscating a name the LANGUAGE calls produces a file that no longer works.
+    That is not a leak, it is worse in a different way: the model reasons about, and
+    patches, code whose semantics we broke on the way out."""
+    if ts_mod._load_language_obj(language) is None:
+        pytest.skip(f"{language} grammar not installed")
+    _, _, _, must_survive = FIELD_CASES[language]
+    if not must_survive:
+        pytest.skip(f"no runtime-owned names in the {language} fixture")
+    out = _obfuscate_field_case(tmp_path, language)
+    renamed = [n for n in must_survive if n not in out]
+    assert not renamed, f"{language}: renamed runtime-owned {renamed}"
+
+
+def test_cpp_constructor_and_destructor_track_the_class_name(tmp_path):
+    """C++ is the one case where a runtime-owned name MUST be renamed -- and must be
+    renamed to exactly the same token as something else.
+
+    A constructor and destructor are spelled with the class name, so obfuscating the
+    class without them, or to a different token, yields a file that cannot compile.
+    Asserting "these names survive" would be wrong here; the invariant is that all
+    three move together. That is why the cpp fixture had an empty must-survive list
+    and skipped the runtime-owned check entirely -- an exclusion standing in for an
+    assertion nobody had worked out how to write.
+    """
+    if ts_mod._load_language_obj("cpp") is None:
+        pytest.skip("cpp grammar not installed")
+    out = _obfuscate_field_case(tmp_path, "cpp")
+
+    m = re.search(r"class\s+(x_\d+)\s*\{", out)
+    assert m, f"the class name was not obfuscated at all:\n{out}"
+    cls = m.group(1)
+    assert f"{cls}() :" in out, f"constructor does not match the class name {cls}:\n{out}"
+    assert f"~{cls}()" in out, f"destructor does not match the class name {cls}:\n{out}"

@@ -94,6 +94,18 @@ instructor-output = [
 
 # Self-tuning prompts (3C): DSPy opt-in prompt optimization
 # Install: pip install -e .[dspy]
+#
+# KEEP THIS OUT OF THE BASE ENVIRONMENT (2026-07-28). dspy depends on diskcache,
+# whose PYSEC-2026-2447 has NO upstream fix -- 5.6.3 is the latest release. dspy was
+# installed in the base venv, so that unfixable HIGH CVE blocked the security gate
+# for something nothing was using: hive/executor.py gates the import behind
+# DETERMINEX_USE_DSPY=1, which is off by default and already has a first-class
+# ImportError branch that logs `dspy_import_failed` and carries on. Removing it from
+# the base venv is what MATCHES that design; having it there was the inconsistency.
+#
+# Installing this extra knowingly re-introduces PYSEC-2026-2447. That is a reasonable
+# trade for someone who wants prompt optimisation -- just make it a decision rather
+# than a surprise, and expect `dependency_scan` to report it.
 dspy-prompts = [
     "dspy-ai>=2.4.0",
     "pydantic>=2.0.0",
@@ -182,6 +194,10 @@ addopts = ["-ra", "--strict-markers"]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "integration: integration tests requiring Ollama/Docker",
+    # Reaches a third-party host. Distinct from `integration`, which is about local Ollama
+    # or Docker: these fail on an offline machine for reasons that are not the code's fault,
+    # so they skip rather than fail. Deselect with -m "not network".
+    "network: tests that contact an external service (e.g. the HuggingFace API)",
 ]
 
 [tool.coverage.run]

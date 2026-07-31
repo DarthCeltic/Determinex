@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from collections import Counter
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
@@ -224,17 +225,20 @@ def _clean_host_transcript_errors(data: Any) -> list[str]:
         "workspace_command_smoke_performed",
         "uninstall_performed",
     )
-    for field in expected_true:
-        if data.get(field) is not True:
-            errors.append(f"{field} must be true")
+    # `key`, not `field`: this shadowed `dataclasses.field`, imported at line 14 and used by the
+    # dataclasses above. Harmless as written -- the shadowing is function-local and the class
+    # bodies ran at import -- but it is a trap for anyone who later needs field() in here.
+    for key in expected_true:
+        if data.get(key) is not True:
+            errors.append(f"{key} must be true")
     expected_false = (
         "dry_run",
         "release_ready",
         "authority_granted",
     )
-    for field in expected_false:
-        if data.get(field) is not False:
-            errors.append(f"{field} must be false")
+    for key in expected_false:
+        if data.get(key) is not False:
+            errors.append(f"{key} must be false")
     if data.get("schema_version") != CLEAN_HOST_TRANSCRIPT_SCHEMA_VERSION:
         errors.append(f"schema_version must be {CLEAN_HOST_TRANSCRIPT_SCHEMA_VERSION}")
     if data.get("product_name") != "Determinex":
@@ -269,8 +273,8 @@ def _clean_host_transcript_errors(data: Any) -> list[str]:
 
 
 def _latest_clean_host_transcript(root: Path) -> tuple[Path | None, dict[str, Any] | None, list[str]]:
-    download_manifests = sorted((root / "assurance/evidence").glob("determinex_download_bundle_*/download_manifest.json"), key=lambda p: p.stat().st_mtime, reverse=True)
-    manifest = _read_json(download_manifests[0]) if download_manifests and download_manifests[0].is_file() else None
+    download_manifest_path = newest_download_manifest_path(root)
+    manifest = _read_json(download_manifest_path) if download_manifest_path is not None else None
     valid_hashes = _download_artifact_hashes(root, manifest)
 
     first_invalid: tuple[Path, list[str]] | None = None
@@ -344,18 +348,110 @@ def _latest_packet(
         key=lambda p: p.stat().st_mtime,
         reverse=True,
     )
-    first_invalid: tuple[Path, list[str]] | None = None
-    for candidate in candidates:
-        data = _read_json(candidate)
-        errors = errors_fn(data)
-        if not errors and isinstance(data, dict):
-            return candidate, data, []
-        if first_invalid is None:
-            first_invalid = (candidate, errors)
-    if first_invalid is not None:
-        path, errors = first_invalid
-        return path, None, errors
-    return None, None, []
+    # THE NEWEST PACKET DECIDES. Fixed 2026-07-30: this used to return the first VALID candidate
+    # and merely `continue` past an invalid newer one, so the semantics were "newest valid packet
+    # wins" rather than "the newest packet must be valid". With nine MSI packets on disk an older
+    # passing one always existed, so recording an honest new attestation that FAILED -- a rebuild
+    # whose MSI was bad, or a re-sign that came back NotSigned -- left the gate green indefinitely.
+    # Proven by injecting a rejection for the newest MSI packet: the gate fell back to an older
+    # file, surfaced zero errors, and reported passed.
+    #
+    # Superseding evidence is legitimate, but it has to be NEWER than what it supersedes, not
+    # merely valid. So only the newest packet is consulted; older ones are history, not fallback.
+    if not candidates:
+        return None, None, []
+    newest = candidates[0]
+    data = _read_json(newest)
+    errors = errors_fn(data)
+    if not errors and isinstance(data, dict):
+        return newest, data, []
+    return newest, None, errors
+
+
+def _cyclonedx_component_ids(document: Any) -> set[str]:
+    """Every name a CycloneDX component might be findable by.
+
+    npm components are commonly split into `group` ("@tauri-apps") and `name`
+    ("plugin-updater"), so a bare name lookup misses scoped packages entirely. purl is included
+    because generators disagree about the group/name split.
+    """
+    ids: set[str] = set()
+    if not isinstance(document, dict):
+        return ids
+    for component in document.get("components") or []:
+        if not isinstance(component, dict):
+            continue
+        name = str(component.get("name") or "").strip().lower()
+        group = str(component.get("group") or "").strip().lower()
+        purl = str(component.get("purl") or "").strip().lower()
+        if name:
+            ids.add(name)
+            ids.add(name.replace("_", "-"))
+        if group and name:
+            ids.add(f"{group}/{name}")
+        if purl:
+            ids.add(purl)
+    return ids
+
+
+def _normalize_python_requirement(spec: str) -> str:
+    """"fastembed>=0.4.0" -> "fastembed"; PEP 503 normalised."""
+    name = spec.strip()
+    for separator in ("[", ";", "<", ">", "=", "!", "~", " "):
+        name = name.split(separator, 1)[0]
+    return name.strip().lower().replace("_", ".").replace(".", "-")
+
+
+def _sbom_missing_direct_dependencies(
+    root: Path,
+    npm_cdx: Any,
+    python_cdx: Any,
+) -> list[str]:
+    """Direct dependencies we ship that the SBOMs do not list.
+
+    Returns an empty list when the source of truth cannot be read: an unreadable package.json
+    is a different problem from an incomplete SBOM, and failing this gate for it would report
+    the wrong blocker.
+    """
+    missing: list[str] = []
+
+    npm_ids = _cyclonedx_component_ids(npm_cdx)
+    package_json = _read_json(root / "frontend" / "package.json")
+    if isinstance(package_json, dict) and npm_ids:
+        # Runtime dependencies only. devDependencies are not shipped in the bundle.
+        for dep in (package_json.get("dependencies") or {}):
+            needle = str(dep).strip().lower()
+            if not needle:
+                continue
+            if needle in npm_ids:
+                continue
+            # Scoped package: "@scope/name" may appear as group "@scope" + name "name".
+            if needle.startswith("@") and "/" in needle:
+                _, _, bare = needle.partition("/")
+                if bare in npm_ids:
+                    continue
+            if any(needle in candidate for candidate in npm_ids):
+                continue
+            missing.append(f"npm:{dep}")
+
+    python_ids = _cyclonedx_component_ids(python_cdx)
+    pyproject = root / "pyproject.toml"
+    if python_ids and pyproject.is_file():
+        try:
+            import tomllib
+
+            data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+        except (OSError, ValueError, ImportError):
+            data = {}
+        for spec in ((data.get("project") or {}).get("dependencies") or []):
+            needle = _normalize_python_requirement(str(spec))
+            if not needle or needle in python_ids:
+                continue
+            if any(needle in candidate for candidate in python_ids):
+                continue
+            missing.append(f"python:{needle}")
+
+    return missing
 
 
 def _sbom_gate(root: Path) -> ReleaseGate:
@@ -429,6 +525,35 @@ def _sbom_gate(root: Path) -> ReleaseGate:
                 r".venv\Scripts\python.exe scripts\release\determinex_release_gates.py --output assurance\evidence\determinex_release_gate_status\release_gates_20260707.json",
             ],
         )
+    # ── Content binding ──────────────────────────────────────────────────────────────────
+    # Everything above checks that the files exist, parse, and are branded. None of it checks
+    # that they DESCRIBE WHAT WE SHIP, and the gate's next_action ("Keep SBOMs regenerated")
+    # was an instruction to a human standing in for that check. Measured 2026-07-29: the npm
+    # SBOM was two weeks old and listed neither @tauri-apps/plugin-dialog (shipping for weeks)
+    # nor the updater/process plugins added that day, and this gate reported SBOM coverage as
+    # passed the whole time. An SBOM that omits shipped dependencies is worse than no SBOM,
+    # because it is consumed as a supply-chain assertion.
+    #
+    # Direct dependencies only, deliberately: transitive resolution belongs to the generator,
+    # and demanding it here would turn this into a second, competing implementation.
+    missing_components = _sbom_missing_direct_dependencies(root, npm_cdx, python_cdx)
+    if missing_components:
+        shown = ", ".join(missing_components[:8])
+        more = f" (+{len(missing_components) - 8} more)" if len(missing_components) > 8 else ""
+        return _gate(
+            "sbom",
+            "SBOM coverage",
+            "blocked",
+            evidence,
+            f"SBOM does not list shipped direct dependencies: {shown}{more}",
+            "Regenerate the SBOMs so they describe the dependencies actually shipped.",
+            [
+                r"cd frontend; npm.cmd run generate:sbom",
+                r".venv\Scripts\python.exe scripts\security\generate_sbom.py",
+                r".venv\Scripts\python.exe scripts\release\determinex_release_gates.py --output assurance\evidence\determinex_release_gate_status\release_gates_20260729.json",
+            ],
+        )
+
     return _gate(
         "sbom",
         "SBOM coverage",
@@ -551,6 +676,111 @@ def _clean_host_gate(root: Path) -> ReleaseGate:
     )
 
 
+def newest_download_manifest_path(root: Path) -> Path | None:
+    """THE answer to "which download manifest describes what we ship" — one implementation.
+
+    Promoted to the canonical home 2026-07-31. This glob-and-sort-by-mtime was written out by
+    hand in six places (four in this file, plus full_release_closure and clean_host_kit), and two
+    further scripts skipped it entirely and hardcoded `determinex_download_bundle_20260707` as a
+    default. Every rebuild moves the answer, so the hardcoded ones went stale the first time
+    anyone packaged a bundle, and they stayed stale silently.
+
+    That is not hypothetical twice over. `clean_host_kit._newest_manifest` sorted by `p.name` --
+    identical for every candidate, so the sort was a no-op -- and shipped a kit built from the
+    20260707 bundle while the gates read 20260729. And on 2026-07-31 the clean-host smoke, whose
+    default still named 20260707, produced a transcript claiming installer_sha256_verified=true
+    for an installer that appears in no manifest that script could see.
+
+    Returns None when no manifest exists, so callers keep deciding what absence means.
+    """
+    manifests = sorted(
+        (root / "assurance/evidence").glob("determinex_download_bundle_*/download_manifest.json"),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    for candidate in manifests:
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def _newest_download_manifest(root: Path) -> dict[str, Any] | None:
+    """The manifest describing the artifacts currently on offer, parsed."""
+    path = newest_download_manifest_path(root)
+    if path is None:
+        return None
+    data = _read_json(path)
+    return data if isinstance(data, dict) else None
+
+
+def _release_artifacts_built_at(root: Path, manifest: dict[str, Any] | None) -> str:
+    """When the shipped artifacts were actually BUILT, as an ISO-8601 UTC stamp.
+
+    Anchoring freshness on `manifest.generated_at_utc` was wrong and I proved it by tripping it:
+    re-running package_download_bundle.py to correct a line of SETUP.md moved that stamp forward 14
+    minutes and instantly invalidated end-to-end evidence gathered against byte-identical
+    installers. Repackaging is not rebuilding, and a gate that blocks on it is a gate that gets
+    switched off rather than satisfied.
+
+    The installers' own mtimes are the honest anchor: they move when a build produces new binaries
+    and stay put when the manifest is merely rewritten. Returns "" when nothing can be determined,
+    which callers treat as "no freshness claim" rather than as a failure.
+    """
+    if not isinstance(manifest, dict):
+        return ""
+    newest = 0.0
+    for artifact in manifest.get("artifacts") or []:
+        if not isinstance(artifact, dict):
+            continue
+        source = str(artifact.get("source_path") or "").strip()
+        if not source:
+            continue
+        path = root / source
+        try:
+            newest = max(newest, path.stat().st_mtime)
+        except OSError:
+            continue
+    if newest <= 0:
+        return ""
+    return (
+        datetime.fromtimestamp(newest, tz=timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
+
+
+def _is_passing_status(status: str) -> bool:
+    """Whether a free-text status field reports success.
+
+    `status.endswith("PASSED")` alone is not safe: "NOT_PASSED" ends with "PASSED", and the
+    statuses in this evidence tree are hand-built strings like
+    "LANE_D_BLOCKED_LOCAL_BUILDER_OLLAMA_TIMEOUT". A suffix test on an unconstrained string is
+    one unlucky label away from reading a failure as a pass, so negative markers are excluded
+    explicitly.
+    """
+    upper = status.upper()
+    # A denylist alone was not enough, and the first attempt at this proved it: excluding
+    # negative markers and then accepting any string ENDING in PASSED/SUCCESS still accepted
+    # BYPASSED (the word simply contains "PASSED"), UNVERIFIED_PASSED, PARTIALLY_PASSED,
+    # MOCK_SUCCESS, SIMULATED_SUCCESS and STUBBED_SUCCESS. That replaced one suffix bug with a
+    # narrower version of the same bug.
+    #
+    # So two independent conditions now hold. First, the verdict token must be a WHOLE token --
+    # preceded by a separator or the start of the string -- which is what excludes BYPASSED.
+    # Second, no qualifier may appear anywhere: UNVERIFIED_ matters specifically, because the
+    # lenient-oracle path tags its results with a literal "UNVERIFIED:" prefix, and a qualified
+    # pass is exactly the kind of claim this collector exists not to make.
+    disqualifying = (
+        "NOT", "UNPASSED", "FAIL", "BLOCK", "TIMEOUT", "ERROR", "BYPASS",
+        "UNVERIFIED", "PARTIAL", "MOCK", "SIMULAT", "STUB", "SKIP", "LENIENT",
+        "PENDING", "DEFERRED", "ASSUMED", "EXPECTED",
+    )
+    if any(marker in upper for marker in disqualifying):
+        return False
+    return re.search(r"(?:^|[_\- ])(?:PASSED|SUCCESS)$", upper) is not None
+
+
 def _first_e2e_gate(root: Path) -> ReleaseGate:
     path = root / "assurance/evidence/first_end_to_end_user_workflow/result.json"
     probe = root / "assurance/evidence/first_end_to_end_user_workflow/builder_health_probe_latest.json"
@@ -578,13 +808,52 @@ def _first_e2e_gate(root: Path) -> ReleaseGate:
         )
     status = str(data.get("status", ""))
     rerun_status = str(rerun_data.get("status", "")) if isinstance(rerun_data, dict) else ""
+
+    # ── Freshness binding ────────────────────────────────────────────────────────────────
+    # This gate had NO tie to the code being shipped. It read a status string out of an
+    # evidence file and passed, so a single old transcript authorised every later release: the
+    # passing rerun was dated 2026-07-07 and stayed green across the rename, the addition of
+    # the updater, and a period when the installed app could not launch at all on a clean host
+    # (0xC0000135, fixed 2026-07-29). Its own next_action said "Keep the transcript current
+    # with the release commit" -- an instruction to a human standing in for a check.
+    #
+    # An end-to-end proof taken before the artifacts were built does not exercise them, so the
+    # rule is simply that the proof may not predate what it claims to validate. Compared
+    # against the download manifest rather than against HEAD on purpose: gating on every commit
+    # would demand a rerun for a docs typo and the gate would live permanently blocked, which
+    # is how checks end up quietly relaxed. Cutting new installers is the event that
+    # invalidates the claim.
+    manifest = _newest_download_manifest(root)
+    manifest_built = _release_artifacts_built_at(root, manifest)
+    e2e_stamp = ""
+    for candidate_data in (rerun_data, data):
+        if isinstance(candidate_data, dict) and candidate_data.get("generated_at_utc"):
+            e2e_stamp = str(candidate_data["generated_at_utc"])
+            break
+    if manifest_built and e2e_stamp and e2e_stamp < manifest_built:
+        return _gate(
+            "first_e2e",
+            "First end-to-end user workflow",
+            "blocked",
+            evidence,
+            (
+                f"First E2E evidence ({e2e_stamp}) predates the release artifacts "
+                f"({manifest_built}), so it did not exercise the build being shipped."
+            ),
+            "Rerun the first end-to-end workflow against the current build and recapture it.",
+            [
+                r".venv\Scripts\python.exe scripts\hive\builder_health_probe.py --model determinex/engineer --output assurance\evidence\first_end_to_end_user_workflow\builder_health_probe_latest.json",
+                rf".venv\Scripts\python.exe scripts\determinex_hive.py run-session --session {rerun_session_id}",
+            ],
+        )
+
     rerun_observed = rerun_data.get("observed_result") if isinstance(rerun_data, dict) else {}
     rerun_steps_complete = int(rerun_observed.get("steps_complete", -1)) if isinstance(rerun_observed, dict) else -1
     rerun_steps_total = int(rerun_observed.get("steps_total", -2)) if isinstance(rerun_observed, dict) else -2
     rerun_steps_failed = int(rerun_observed.get("steps_failed", 1)) if isinstance(rerun_observed, dict) else 1
     if (
         isinstance(rerun_data, dict)
-        and (rerun_status.endswith("PASSED") or rerun_status.endswith("SUCCESS"))
+        and _is_passing_status(rerun_status)
         and rerun_steps_total > 0
         and rerun_steps_complete == rerun_steps_total
         and rerun_steps_failed == 0
@@ -601,7 +870,7 @@ def _first_e2e_gate(root: Path) -> ReleaseGate:
                 rf".venv\Scripts\python.exe scripts\determinex_hive.py run-session --session {rerun_session_id}",
             ],
         )
-    if status.endswith("PASSED") or status.endswith("SUCCESS"):
+    if _is_passing_status(status):
         return _gate(
             "first_e2e",
             "First end-to-end user workflow",
@@ -665,12 +934,7 @@ def _installer_gate(root: Path) -> ReleaseGate:
         "assurance/evidence/installer_release_packet_hardening/"
         "run_20260629.INSTALLER_RELEASE_PACKET_HARDENED_UNSIGNED.json"
     )
-    download_manifests = sorted(
-        (root / "assurance/evidence").glob("determinex_download_bundle_*/download_manifest.json"),
-        key=lambda p: p.stat().st_mtime,
-        reverse=True,
-    )
-    download_manifest = download_manifests[0] if download_manifests else None
+    download_manifest = newest_download_manifest_path(root)
     evidence_paths = [p for p in (go_no_go, hardening, download_manifest) if p is not None and p.is_file()]
     evidence = [_rel(root, p) for p in evidence_paths]
     go = _read_json(go_no_go) if go_no_go.is_file() else None
@@ -864,6 +1128,42 @@ def _legal_public_distribution_gate(root: Path) -> ReleaseGate:
         _legal_public_distribution_errors,
     )
     evidence = [_rel(root, path)] if path else []
+
+    # Freshness binding, added 2026-07-30 -- the same one _first_e2e_gate got, for the same reason.
+    # This gate passed on a hand-written packet dated 2026-07-12: 17 days stale, predating the
+    # internal rename, the in-app updater, and all of the MSI work. Nothing tied it to the artifacts
+    # being shipped.
+    #
+    # It matters more here than staleness usually would, because of what the packet asserts. Its
+    # proof for `public_repo_secret_scan_passed: true` is a pasted transcript tail ending
+    # "OK: no secret in tracked files or pushed history." That line was printed UNCONDITIONALLY by
+    # a scanner which -- as of 2026-07-30 -- is now known never to have scanned anything at all:
+    # its PCRE patterns were passed to `git grep -lE`, which rejected them, and the error was
+    # swallowed into a clean verdict. The packet's own `pushed_secret_scan` field is false.
+    #
+    # So the old packet does not merely predate the artifacts; it attests a scan that did not
+    # happen. Forcing regeneration is what gets the now-working scanner's real result on the record.
+    if data is not None:
+        manifest = _newest_download_manifest(root)
+        manifest_built = _release_artifacts_built_at(root, manifest)
+        packet_stamp = str(data.get("generated_at_utc") or "")
+        if manifest_built and packet_stamp and packet_stamp < manifest_built:
+            return _gate(
+                "legal_public_distribution",
+                "Legal/IP public distribution packet",
+                "blocked",
+                evidence,
+                (
+                    f"Legal/IP packet ({packet_stamp}) predates the release artifacts "
+                    f"({manifest_built}); its secret-scan attestation was produced by a scanner "
+                    f"that has since been found never to have scanned."
+                ),
+                "Re-run the secret scan with --pushed and regenerate the public distribution packet.",
+                [
+                    r".venv\Scripts\python.exe scripts\security\secret_scan.py --pushed",
+                    r".venv\Scripts\python.exe scripts\release\public_distribution_packet.py",
+                ],
+            )
     if data is not None:
         return _gate(
             "legal_public_distribution",
@@ -883,10 +1183,18 @@ def _legal_public_distribution_gate(root: Path) -> ReleaseGate:
             "Legal/IP public distribution packet",
             "partial",
             evidence + agpl_evidence,
+            # Report the packet's actual failing fields. This branch used to print a fixed sentence
+            # naming four missing items -- secret scan, repo scrub, model notices, third-party
+            # notices -- while the packet on disk had three of those recorded true and was failing
+            # on two entirely different fields (`legal_review_completed`,
+            # `public_repo_scrub_completed`). The errors were computed and thrown away, so the
+            # operator was told to redo finished work and never told what was actually blocking.
             (
-                "AGPLv3 source license evidence is present, but public repo secret scan, "
-                "repo scrub, model notices, and third-party notices have not been recorded "
-                "in the legal public distribution packet."
+                "AGPLv3 source license evidence is present, but the legal public distribution "
+                "packet is incomplete: " + "; ".join(errors)
+                if errors else
+                "AGPLv3 source license evidence is present, but no legal public distribution "
+                "packet has been recorded."
             ),
             "Complete the public distribution packet after source license, notices, model inventory, secret scan, and repo scrub review.",
             [
@@ -914,6 +1222,17 @@ def _legal_public_distribution_gate(root: Path) -> ReleaseGate:
 
 
 def _windows_msi_errors(data: Any) -> list[str]:
+    # `msi_installer_smoke_performed` is deliberately NOT required here (2026-07-30). The packet
+    # writer is package_download_bundle.py, which discovers, copies and checksums artifacts -- it
+    # never installs anything, and its own msi_smoke_scope field said exactly that. It used to
+    # write all four of these as unconditional `True` literals whenever a file named *.msi existed,
+    # so this gate was satisfied by a file's presence.
+    #
+    # The three below are now derived from the artifact (WiX authoring present in the MSI, an MSI
+    # exists, every recorded sha256 is a real 64-hex digest). The install smoke is attested by the
+    # thing that actually installs: the clean-host transcript, which the clean_host gate validates
+    # independently and which cannot pass without a real install/launch/uninstall cycle. Requiring
+    # it from this packet only ever produced a literal.
     return _packet_field_errors(
         data,
         schema_version=WINDOWS_MSI_SCHEMA_VERSION,
@@ -921,7 +1240,6 @@ def _windows_msi_errors(data: Any) -> list[str]:
             "wix_toolset_used",
             "msi_built",
             "msi_sha256_verified",
-            "msi_installer_smoke_performed",
         ),
     )
 
@@ -966,13 +1284,8 @@ def _windows_msi_gate(root: Path) -> ReleaseGate:
 
 
 def _linux_packages_gate(root: Path) -> ReleaseGate:
-    download_manifests = sorted(
-        (root / "assurance/evidence").glob("determinex_download_bundle_*/download_manifest.json"),
-        key=lambda p: p.stat().st_mtime,
-        reverse=True,
-    )
-    download_manifest = download_manifests[0] if download_manifests else None
-    download = _read_json(download_manifest) if download_manifest and download_manifest.is_file() else None
+    download_manifest = newest_download_manifest_path(root)
+    download = _read_json(download_manifest) if download_manifest is not None else None
     evidence = [_rel(root, download_manifest)] if download_manifest else []
     artifact_types = _valid_download_artifact_types(root, download)
     missing_linux = [package_type for package_type in REQUIRED_LINUX_PACKAGE_TYPES if package_type not in artifact_types]

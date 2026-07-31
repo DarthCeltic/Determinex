@@ -26,7 +26,25 @@ if str(_SCRIPTS) not in sys.path:
 from governance.authority import AUTHORITY_FALSE, json_anchor_violations, scan_text_for_anchor_true  # noqa: E402
 
 SCAN_EXTENSIONS = {".json", ".md", ".yaml", ".yml", ".toml", ".cfg", ".ini"}
-SKIP_PREFIXES = ("archive/", "docs/audits/", "scripts/status/", "scripts/proof/", "tests/status/", "tests/proof/", "node_modules/", "corpus/")
+#: Trees that are not Determinex's claims. `node_modules/` was already here; `.vscode-test/` is the
+#: same kind of thing and was missed because nothing had created one until 2026-07-31, when the
+#: extension-host harness began caching a full VS Code (1,995 files, several hundred of them JSON
+#: manifests the scanner then parsed). The scan went from ~5 s to over its own 90 s timeout, and
+#: `test_day_one_public_claim_scanner_compat` failed as a TIMEOUT rather than a finding — which is
+#: the right way to notice, but the wrong thing to be noticing.
+#:
+#: A downloaded toolchain cache makes no claims about Determinex. Both entries are gitignored build
+#: caches; neither is ever published.
+#:
+#: Deliberately NOT adding `.tmp/` alongside it, though it is also large and gitignored: it holds the
+#: generated `SETUP.md` that ships inside the download ZIP, which is user-facing text this scanner
+#: should keep reading. `.tmp/` was already being scanned before tonight and was never the
+#: bottleneck — widening the skip list past the actual cause would have quietly cost real coverage.
+SKIP_PREFIXES = (
+    "archive/", "docs/audits/", "scripts/status/", "scripts/proof/",
+    "tests/status/", "tests/proof/", "node_modules/", "corpus/",
+    ".vscode-test/",
+)
 TEXT_SKIP_PREFIXES = ("assurance/", "locks/", "docs/ide-frontend/")
 
 

@@ -67,12 +67,9 @@ def _git_head(root: Path) -> str:
 
 
 def _latest_download_manifest(root: Path) -> Path | None:
-    manifests = sorted(
-        (root / "assurance/evidence").glob("determinex_download_bundle_*/download_manifest.json"),
-        key=lambda p: p.stat().st_mtime,
-        reverse=True,
-    )
-    return manifests[0] if manifests else None
+    # Delegates to the one canonical resolver so closure and the gates can never disagree about
+    # which bundle is current -- they had six hand-written copies of this glob between them.
+    return determinex_release_gates.newest_download_manifest_path(root)
 
 
 def verify_download_bundle(root: Path) -> dict[str, Any]:
@@ -152,12 +149,34 @@ def verify_download_bundle(root: Path) -> dict[str, Any]:
         blockers.append("download_bundle_manifest_illegally_claims_public_distribution_ready")
     if not checks["source_commit_current"]:
         blockers.append("download_bundle_source_commit_not_current")
+    # Everything appended ABOVE this line is an integrity finding about this bundle: a corrupt
+    # zip, a missing or wrong-hash artifact, a manifest claiming authority it does not have, a
+    # stale source commit. Those mean the artifact is not trustworthy.
+    #
+    # What follows is different in kind: blockers the manifest itself already reported, i.e. the
+    # release is not ready yet (unsigned, gates deferred). "passed_with_release_blockers" exists
+    # precisely to describe a well-formed bundle for a not-yet-ready release, so those must not
+    # block. Keeping the two in one flat list is what made the verdict below reach for a substring.
+    integrity_blockers = list(dict.fromkeys(blockers))
     for blocker in manifest.get("remaining_blockers") or []:
         blockers.append(str(blocker))
 
     blockers = list(dict.fromkeys(blockers))
     return {
-        "status": "passed_with_release_blockers" if checks["bundle_zip_exists"] and not any("mismatch" in b for b in blockers) else "blocked",
+        # Fixed 2026-07-30. The condition was `not any("mismatch" in b for b in blockers)`, so ONLY
+        # the two blockers whose text happens to contain the word "mismatch" could flip this. A
+        # corrupt zip (download_bundle_zip_invalid), an artifact missing from the zip, a bundle
+        # with no installer artifacts at all, and even
+        # download_bundle_manifest_illegally_claims_release_ready ALL reported
+        # "passed_with_release_blockers". A substring of a human-readable message is not a verdict.
+        # Now it keys on the integrity set, so a broken bundle blocks while a well-formed bundle
+        # for a not-yet-ready release still reports passed_with_release_blockers.
+        "status": (
+            "passed_with_release_blockers"
+            if checks["bundle_zip_exists"] and not integrity_blockers
+            else "blocked"
+        ),
+        "integrity_blockers": integrity_blockers,
         "manifest_path": str(manifest_path),
         "checks": checks,
         "remaining_blockers": blockers,

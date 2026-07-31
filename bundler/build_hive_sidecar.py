@@ -22,6 +22,7 @@ Usage:
 """
 
 import argparse
+import os
 import platform
 import shutil
 import subprocess
@@ -142,12 +143,48 @@ def build_sidecar(triple: str, dry_run: bool = False) -> Path:
         "--paths",         str(ROOT),
         "--paths",         str(SCRIPTS_DIR),
         # Hidden imports that PyInstaller's static analysis may miss
+        # The helper-dispatch modules (determinex_hive.cmd_helper). These are reached
+        # via importlib.import_module, which PyInstaller's static analysis cannot see,
+        # so without these the sidecar would expose `helper` and then fail at import --
+        # and the desktop backend would silently fall back to the repo scripts that do
+        # not exist in an installed copy, which is the whole reason `helper` was added.
+        "--hidden-import", "determinex_agents",
+        "--hidden-import", "determinex_agent_chat",
+        "--hidden-import", "determinex_local_model_bench",
+        "--hidden-import", "determinex_usage_ledger",
+        "--hidden-import", "determinex_toolchain_installer",
+        "--hidden-import", "determinex_corpus_api",
+        # The provider registry, behind list_ai_providers. Added 2026-07-31 in the same pass as the
+        # command itself -- and only because tests/test_router_bridge.py's allowlist guard caught it.
+        # Without this the packaged app would list its 17 AI providers in a dev checkout and show an
+        # empty picker once installed, which is precisely the dev-only-panel failure the `helper`
+        # subcommand exists to prevent.
+        "--hidden-import", "determinex_providers",
+        "--hidden-import", "ide._tauri_driver",
+        # cmd_helper reaches this via importlib, which PyInstaller cannot trace. Without the
+        # hidden import the packaged sidecar would advertise the model installer and then
+        # fail at import -- which matters more than usual here, since this is the command a
+        # fresh install needs to become usable at all.
+        "--hidden-import", "setup.install_determinex_models",
+        # determinex_agents spawns determinex_local_agent as a separate process, so it
+        # is not an import of anything above -- but the sidecar must still be able to
+        # reach it, and swe_agent.* is what it imports.
+        "--hidden-import", "determinex_local_agent",
         "--hidden-import", "litellm",
         "--hidden-import", "rich",
         "--hidden-import", "dotenv",
         "--hidden-import", "tiktoken_ext",
         "--hidden-import", "tiktoken_ext.openai_public",
         "--collect-data", "litellm",
+        # OUR litellm_config.yaml, which is a different thing from litellm's own package data above.
+        # It is the alias map: without it `determinex/engineer` resolves to ITSELF, and `determinex/`
+        # is not a provider litellm knows -- so on a shipped build the hive loop could not call any
+        # model at all. It was bundled by neither path (absent from bundle.resources AND from here),
+        # and `_ROOT` in a PyInstaller sidecar is a temp extraction dir, so the one location the
+        # loader checked never held it. Measured 2026-07-30: 0 alias entries, every role alias
+        # unusable. `hive.api_client._alias_config_candidates` now searches sys._MEIPASS too, which
+        # is where this lands.
+        "--add-data", f"{ROOT / 'litellm_config.yaml'}{os.pathsep}.",
         # Exclude the heavyweight ML stack — the sidecar calls Ollama via HTTP,
         # not torch directly. Excluding these reduces binary size by ~2GB.
         # determinex_rosetta / determinex_inference import torch but they are optional

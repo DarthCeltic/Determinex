@@ -300,13 +300,25 @@ def _verify_typescript(workdir: Path) -> OracleResult:
                 text=f"{runner_name} exited {cp.returncode} with no JUnit report and no "
                      f"'No tests found' message (likely failed to run at all):\n{tail}",
                 status="failure"))
+    # Nothing to verify is NOT a pass. This branch used to set passed=len(failures)==0, which is
+    # True when neither the type check nor the tests ran -- so an empty workspace, or a workspace
+    # holding `const a: number = "not a number";` with no tsconfig, returned passed=True with
+    # total=0. The explanation went into `raw`, which no caller reads.
+    #
+    # This is the Python `compileall`-over-zero-files bug relocated into the universal registry,
+    # and every other oracle in this file already refuses an empty tree (jvm, swift, dotnet,
+    # ruby, php, ...). It matters more here than it looks: verified_search turns a generation
+    # exception into the candidate string "__generation_error__: ..." and verifies it like any
+    # other, so against a lenient oracle that string is reported solved with a proof line.
+    if not (ran_typecheck or ran_tests):
+        failures.append(Failure(
+            test_id="typescript", name="verify",
+            text="no tsconfig.json and no package.json test script -- nothing was verified, so "
+                 "this cannot be reported as a pass",
+            status="failure"))
     passed = len(failures) == 0
-    note = "" if (ran_typecheck or ran_tests) else "no tsconfig.json or package.json -- nothing to verify"
-    result = OracleResult(passed=passed, failures=failures, raw="\n".join(raw),
-                          oracle="typescript", total=total, n_passed=n_passed)
-    if note:
-        result.raw = (result.raw + "\n" + note).strip()
-    return result
+    return OracleResult(passed=passed, failures=failures, raw="\n".join(raw),
+                        oracle="typescript", total=total, n_passed=n_passed)
 
 
 # ---------------------------------------------------------------------------

@@ -41,7 +41,14 @@ def scan() -> dict:
             "tag": tag,
             "id": row.get("ID"),
             "size": row.get("Size"),
-            "created_since": row.get("CreatedSince"),
+            # CreatedAt (absolute), not CreatedSince ("6 days ago"). A relative
+            # time is unresolvable once persisted -- this artifact carries no
+            # generation timestamp, so "6 days ago" had no reference point at all --
+            # and it rewrote the file on every run even when nothing changed, which
+            # trains people to ignore diffs in a security artifact. Docker's
+            # `{{json .}}` already returns both fields; this only ever picked the
+            # wrong one. Fixed 2026-07-28.
+            "created_at": row.get("CreatedAt"),
             "unpinned": tag in {"latest", "<none>", ""},
         })
     return {

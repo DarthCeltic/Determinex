@@ -43,7 +43,7 @@ import {
 // (it talks to the Tauri IPC bridge, which doesn't exist during SSR).
 const AgentChatPanel = dynamic(
   () => import("@/components/AgentChatPanel").then((m) => m.AgentChatPanel),
-  { ssr: false, loading: () => <div className="h-full w-full bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="h-full w-full bg-[var(--dtx-code-bg)]" /> }
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -252,7 +252,7 @@ const BROAD_PATH_CHOICES: Omit<PathInfo, "id">[] = [
     complexityReason: "Needs UI, routing, state, data storage, and verification.",
     buildTime: "1-2 weeks",
     timelineReason: "Most time goes into screens, data model, and end-to-end behavior.",
-    color: "#22d3ee",
+    color: "var(--dtx-alt-2)",
   },
   {
     name: "Developer Tool",
@@ -263,7 +263,7 @@ const BROAD_PATH_CHOICES: Omit<PathInfo, "id">[] = [
     complexityReason: "Needs reliable command behavior and testable edge cases.",
     buildTime: "2-5 days",
     timelineReason: "Scope depends on integrations and command surface.",
-    color: "#a78bfa",
+    color: "var(--dtx-alt)",
   },
   {
     name: "Data Pipeline",
@@ -274,7 +274,7 @@ const BROAD_PATH_CHOICES: Omit<PathInfo, "id">[] = [
     complexityReason: "Needs source contracts, validation, retries, and observability.",
     buildTime: "3-7 days",
     timelineReason: "Connectors and data quality checks drive the schedule.",
-    color: "#34d399",
+    color: "var(--dtx-ok)",
   },
   {
     name: "Game",
@@ -285,7 +285,7 @@ const BROAD_PATH_CHOICES: Omit<PathInfo, "id">[] = [
     complexityReason: "Needs interaction, rules, pacing, and visual feedback.",
     buildTime: "1-2 weeks",
     timelineReason: "Gameplay feel and asset polish take iteration.",
-    color: "#f97316",
+    color: "var(--dtx-warn)",
   },
   {
     name: "Library",
@@ -296,7 +296,7 @@ const BROAD_PATH_CHOICES: Omit<PathInfo, "id">[] = [
     complexityReason: "Small surface area if the API is well-defined.",
     buildTime: "1-4 days",
     timelineReason: "Testing and docs are usually the main work.",
-    color: "#60a5fa",
+    color: "var(--dtx-info)",
   },
   {
     name: "Mobile App",
@@ -307,7 +307,7 @@ const BROAD_PATH_CHOICES: Omit<PathInfo, "id">[] = [
     complexityReason: "Needs device UX, platform constraints, and release packaging.",
     buildTime: "2-4 weeks",
     timelineReason: "Native polish, testing, and deployment add time.",
-    color: "#f472b6",
+    color: "var(--dtx-alt)",
   },
 ];
 
@@ -359,7 +359,7 @@ function pathChoiceForType(type: string): Omit<PathInfo, "id"> | null {
       complexityReason: "Needs data modeling, auth decisions, endpoint tests, and deploy shape.",
       buildTime: "1-2 weeks",
       timelineReason: "Data contracts and security checks define the schedule.",
-      color: "#38bdf8",
+      color: "var(--dtx-info)",
     };
   }
   return BROAD_PATH_CHOICES.find((p) => p.name === type) ?? null;
@@ -469,7 +469,7 @@ function PathCard({
   onClick: () => void;
 }) {
   const complexityColor =
-    path.complexity === "low" ? "#34d399" : path.complexity === "medium" ? "#f59e0b" : "#f87171";
+    path.complexity === "low" ? "var(--dtx-ok)" : path.complexity === "medium" ? "var(--dtx-warn)" : "var(--dtx-fail)";
   return (
     <button
       onClick={onClick}
@@ -510,7 +510,7 @@ export function TypingIndicator() {
       <div className="w-5 h-5 rounded-full bg-cyan-900/60 border border-cyan-500/40 flex items-center justify-center shrink-0 mt-0.5">
         <Sparkles size={9} className="text-cyan-400" />
       </div>
-      <div className="bg-[#0d1f2d] border border-cyan-500/20 rounded-xl rounded-tl-sm px-4 py-3 flex gap-1.5 items-center">
+      <div className="bg-[var(--dtx-code-panel)] border border-cyan-500/20 rounded-xl rounded-tl-sm px-4 py-3 flex gap-1.5 items-center">
         {[0, 1, 2].map((i) => (
           <div
             key={i}
@@ -561,7 +561,7 @@ export function MessageBubble({ msg }: { msg: Message }) {
         <div className="w-5 h-5 rounded-full bg-cyan-900/60 border border-cyan-500/40 flex items-center justify-center shrink-0 mt-0.5">
           <Sparkles size={9} className="text-cyan-400" />
         </div>
-        <div className="flex-1 bg-[#0d1f2d] border border-cyan-500/20 rounded-xl rounded-tl-sm px-3 py-2.5 text-label text-gray-300 leading-relaxed">
+        <div className="flex-1 bg-[var(--dtx-code-panel)] border border-cyan-500/20 rounded-xl rounded-tl-sm px-3 py-2.5 text-label text-gray-300 leading-relaxed">
           {rendered}
         </div>
       </div>
@@ -578,7 +578,7 @@ export function MessageBubble({ msg }: { msg: Message }) {
                 <img
                   src={att.dataUrl}
                   alt={att.name}
-                  className="w-20 h-20 object-cover rounded-xl border border-[#30363d]"
+                  className="w-20 h-20 object-cover rounded-xl border border-[var(--dtx-code-border)]"
                 />
                 {att.colors && att.colors.length > 0 && (
                   <div className="absolute bottom-1 left-1 flex gap-0.5">
@@ -595,7 +595,7 @@ export function MessageBubble({ msg }: { msg: Message }) {
             ))}
           </div>
         )}
-        <div className="bg-[#1c2128] border border-[#30363d] rounded-xl rounded-tr-sm px-3 py-2.5 text-label text-gray-400 leading-relaxed">
+        <div className="bg-[#1c2128] border border-[var(--dtx-code-border)] rounded-xl rounded-tr-sm px-3 py-2.5 text-label text-gray-400 leading-relaxed">
           {msg.text}
         </div>
       </div>
@@ -1269,8 +1269,8 @@ function ConceptLabInner({
 
   if (step === "idea") {
     return (
-      <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 overflow-hidden">
-        <div className="px-4 py-3 border-b border-[#30363d] bg-[#161b22] shrink-0">
+      <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] text-gray-300 overflow-hidden">
+        <div className="px-4 py-3 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] shrink-0">
           <h2 className="text-body font-black uppercase tracking-widest text-cyan-400 flex items-center gap-2">
             <Zap size={13} /> What are you building?
           </h2>
@@ -1374,7 +1374,7 @@ function ConceptLabInner({
 
           {/* Drag-and-drop textarea */}
           <div
-            className={`flex-1 min-h-[100px] relative rounded-xl border transition-colors ${ideaDragOver ? "border-cyan-500/60 bg-cyan-950/20" : "border-[#30363d]"}`}
+            className={`flex-1 min-h-[100px] relative rounded-xl border transition-colors ${ideaDragOver ? "border-cyan-500/60 bg-cyan-950/20" : "border-[var(--dtx-code-border)]"}`}
             onDragOver={(e) => {
               e.preventDefault();
               setIdeaDragOver(true);
@@ -1415,7 +1415,7 @@ function ConceptLabInner({
                   <img
                     src={att.dataUrl}
                     alt={att.name}
-                    className="w-14 h-14 object-cover rounded-xl border border-[#30363d]"
+                    className="w-14 h-14 object-cover rounded-xl border border-[var(--dtx-code-border)]"
                   />
                   {att.colors && att.colors.length > 0 && (
                     <div className="absolute bottom-0.5 left-0.5 flex gap-0.5">
@@ -1464,7 +1464,7 @@ function ConceptLabInner({
               onClick={() => ideaFileRef.current?.click()}
               disabled={consulting}
               title="Attach image (color scheme, UI reference)"
-              className="h-10 w-10 flex items-center justify-center border border-[#30363d] hover:border-cyan-500/40 rounded-xl text-gray-600 hover:text-cyan-400 transition-colors disabled:opacity-40 shrink-0"
+              className="h-10 w-10 flex items-center justify-center border border-[var(--dtx-code-border)] hover:border-cyan-500/40 rounded-xl text-gray-600 hover:text-cyan-400 transition-colors disabled:opacity-40 shrink-0"
             >
               <Paperclip size={14} />
             </button>
@@ -1581,12 +1581,12 @@ function ConceptLabInner({
 
   if (step === "discovery") {
     return (
-      <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 overflow-hidden">
+      <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] text-gray-300 overflow-hidden">
         {/* Path cards — collapse to compact banner once confirmed, dim unselected when one is clicked */}
         {paths.length > 0 &&
           (confirmedPath ? (
             /* Compact chosen banner — replaces the grid */
-            <div className="shrink-0 border-b border-[#30363d] px-3 py-2 flex items-center gap-2">
+            <div className="shrink-0 border-b border-[var(--dtx-code-border)] px-3 py-2 flex items-center gap-2">
               <div
                 className="w-2 h-2 rounded-full shrink-0"
                 style={{ background: confirmedPath.color }}
@@ -1609,7 +1609,7 @@ function ConceptLabInner({
             </div>
           ) : (
             /* Full grid — dim unselected cards when one is clicked */
-            <div className="shrink-0 border-b border-[#30363d] px-3 pt-3 pb-2.5">
+            <div className="shrink-0 border-b border-[var(--dtx-code-border)] px-3 pt-3 pb-2.5">
               <p className="text-eyebrow uppercase font-bold tracking-widest text-gray-600 mb-2 flex items-center gap-1">
                 <ChevronRight size={9} /> Choose your direction
               </p>
@@ -1644,7 +1644,7 @@ function ConceptLabInner({
 
         {/* Input area — guided mode vs free-form */}
         <div
-          className={`shrink-0 border-t transition-colors ${discDragOver ? "border-cyan-500/50 bg-cyan-950/10" : "border-[#30363d]"}`}
+          className={`shrink-0 border-t transition-colors ${discDragOver ? "border-cyan-500/50 bg-cyan-950/10" : "border-[var(--dtx-code-border)]"}`}
           onDragOver={(e) => {
             e.preventDefault();
             setDiscDragOver(true);
@@ -1658,10 +1658,10 @@ function ConceptLabInner({
         >
           {/* ── GUIDED MODE header ── */}
           {guidedMode && !freeFormMode && currentQuestionIdx < guidedQuestions.length && (
-            <div className="px-3 pt-2.5 pb-1.5 border-b border-[#30363d]/60">
+            <div className="px-3 pt-2.5 pb-1.5 border-b border-[var(--dtx-code-border)]/60">
               {/* Progress bar */}
               <div className="flex items-center gap-2 mb-2">
-                <div className="flex-1 h-1 bg-[#161b22] rounded-full overflow-hidden">
+                <div className="flex-1 h-1 bg-[var(--dtx-code-panel)] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-cyan-500 rounded-full transition-all duration-500"
                     style={{ width: `${(currentQuestionIdx / guidedQuestions.length) * 100}%` }}
@@ -1696,7 +1696,7 @@ function ConceptLabInner({
 
           {/* Free-form toggle banner */}
           {guidedMode && freeFormMode && (
-            <div className="px-3 pt-2 pb-1.5 border-b border-[#30363d]/60 flex items-center gap-2">
+            <div className="px-3 pt-2 pb-1.5 border-b border-[var(--dtx-code-border)]/60 flex items-center gap-2">
               <span className="text-meta text-gray-600 font-mono flex-1">Free-form mode</span>
               <button
                 onClick={() => setFreeFormMode(false)}
@@ -1714,7 +1714,7 @@ function ConceptLabInner({
                   <img
                     src={att.dataUrl}
                     alt={att.name}
-                    className="w-12 h-12 object-cover rounded-lg border border-[#30363d]"
+                    className="w-12 h-12 object-cover rounded-lg border border-[var(--dtx-code-border)]"
                   />
                   {att.colors && att.colors.length > 0 && (
                     <div className="absolute bottom-0.5 left-0.5 flex gap-0.5">
@@ -1755,13 +1755,13 @@ function ConceptLabInner({
               onClick={() => discFileRef.current?.click()}
               disabled={oracleThinking || oracleTyping !== null}
               title="Attach image"
-              className="h-9 w-9 flex items-center justify-center border border-[#30363d] hover:border-cyan-500/40 rounded-xl text-gray-600 hover:text-cyan-400 transition-colors disabled:opacity-40 shrink-0"
+              className="h-9 w-9 flex items-center justify-center border border-[var(--dtx-code-border)] hover:border-cyan-500/40 rounded-xl text-gray-600 hover:text-cyan-400 transition-colors disabled:opacity-40 shrink-0"
             >
               <Paperclip size={12} />
             </button>
             <textarea
               ref={inputRef}
-              className="flex-1 min-h-[52px] max-h-[100px] bg-[#010409] border border-[#30363d] rounded-xl p-2.5 text-label font-mono focus:border-cyan-500/60 focus:outline-none resize-none placeholder-gray-700 text-gray-300 leading-relaxed"
+              className="flex-1 min-h-[52px] max-h-[100px] bg-[var(--dtx-code-bg-deep)] border border-[var(--dtx-code-border)] rounded-xl p-2.5 text-label font-mono focus:border-cyan-500/60 focus:outline-none resize-none placeholder-gray-700 text-gray-300 leading-relaxed"
               placeholder={
                 guidedMode && !freeFormMode && currentQuestionIdx < guidedQuestions.length
                   ? "Your answer... (Enter to advance)"
@@ -1824,14 +1824,14 @@ function ConceptLabInner({
 
   if (step === "specReady") {
     return (
-      <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 overflow-hidden">
+      <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] text-gray-300 overflow-hidden">
         {/* Spec editor — takes the majority of the panel */}
         <div
-          className="flex flex-col border-b border-[#30363d] relative"
+          className="flex flex-col border-b border-[var(--dtx-code-border)] relative"
           style={{ flex: "1 1 0", minHeight: 0 }}
         >
           <MatrixRain active={specRefining} label="Updating spec..." />
-          <div className="px-3 py-1.5 bg-[#161b22] border-b border-[#30363d] flex items-center justify-between shrink-0">
+          <div className="px-3 py-1.5 bg-[var(--dtx-code-panel)] border-b border-[var(--dtx-code-border)] flex items-center justify-between shrink-0">
             <span className="text-eyebrow uppercase font-bold tracking-widest text-purple-400">
               Formal Specification
             </span>
@@ -1840,7 +1840,7 @@ function ConceptLabInner({
             </span>
           </div>
           <textarea
-            className="flex-1 min-h-0 bg-[#010409] p-3 text-label font-mono focus:outline-none resize-none text-gray-300 leading-relaxed overflow-y-auto"
+            className="flex-1 min-h-0 bg-[var(--dtx-code-bg-deep)] p-3 text-label font-mono focus:outline-none resize-none text-gray-300 leading-relaxed overflow-y-auto"
             value={spec}
             onChange={(e) => {
               setSpec(e.target.value);
@@ -1852,7 +1852,7 @@ function ConceptLabInner({
 
         {/* Clarifying chat — compact, fixed height */}
         <div
-          className="shrink-0 overflow-y-auto flex flex-col gap-2 px-3 py-2 border-b border-[#30363d]"
+          className="shrink-0 overflow-y-auto flex flex-col gap-2 px-3 py-2 border-b border-[var(--dtx-code-border)]"
           style={{ maxHeight: "110px" }}
         >
           {specMessages.map((msg, i) => (
@@ -1876,7 +1876,7 @@ function ConceptLabInner({
                 key={s.label}
                 onClick={() => handleSpecRefineWith(s.text)}
                 disabled={specRefining || launching}
-                className="px-2 py-0.5 rounded-md border border-[#30363d] bg-[#0d1117] hover:border-amber-500/50 hover:bg-amber-950/30 text-meta text-gray-500 hover:text-amber-300 transition-all disabled:opacity-30 active:scale-95"
+                className="px-2 py-0.5 rounded-md border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] hover:border-amber-500/50 hover:bg-amber-950/30 text-meta text-gray-500 hover:text-amber-300 transition-all disabled:opacity-30 active:scale-95"
               >
                 + {s.label}
               </button>
@@ -1887,7 +1887,7 @@ function ConceptLabInner({
         {/* Spot-change input */}
         <div className="shrink-0 px-3 pb-2 flex gap-2 items-end">
           <textarea
-            className="flex-1 min-h-[40px] max-h-[72px] bg-[#010409] border border-[#30363d] rounded-xl p-2.5 text-label font-mono focus:border-purple-500/60 focus:outline-none resize-none placeholder-gray-700 text-gray-300 leading-relaxed"
+            className="flex-1 min-h-[40px] max-h-[72px] bg-[var(--dtx-code-bg-deep)] border border-[var(--dtx-code-border)] rounded-xl p-2.5 text-label font-mono focus:border-purple-500/60 focus:outline-none resize-none placeholder-gray-700 text-gray-300 leading-relaxed"
             placeholder="Request a spot change... (Enter to send)"
             value={specInput}
             onChange={(e) => setSpecInput(e.target.value)}
@@ -1920,7 +1920,7 @@ function ConceptLabInner({
         )}
 
         {/* Build footer */}
-        <div className="border-t border-[#30363d] px-3 py-2.5 shrink-0 bg-[#0d1117]">
+        <div className="border-t border-[var(--dtx-code-border)] px-3 py-2.5 shrink-0 bg-[var(--dtx-code-bg)]">
           <button
             onClick={handleBuild}
             disabled={!spec.trim() || launching || specRefining}
@@ -1981,7 +1981,7 @@ function ConceptLabInner({
 
   // Launching spinner
   return (
-    <div className="flex flex-col h-full items-center justify-center gap-4 bg-[#0d1117]">
+    <div className="flex flex-col h-full items-center justify-center gap-4 bg-[var(--dtx-code-bg)]">
       <div className="w-8 h-8 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
       <p className="text-label text-emerald-400 font-mono">Initializing session...</p>
     </div>
@@ -2088,7 +2088,7 @@ export function ConceptLab(props: ConceptLabProps) {
         title={chatRailOpen ? "Close chat" : "Open multi-agent chat"}
         aria-label={chatRailOpen ? "Close multi-agent chat" : "Open multi-agent chat"}
         data-testid="work-chat-toggle"
-        className={`absolute left-0 top-1/2 z-20 flex w-6 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-r-md border border-l-0 border-white/8 bg-[#0d1117] py-3 text-gray-600 shadow-lg transition-colors hover:text-fuchsia-300 ${
+        className={`absolute left-0 top-1/2 z-20 flex w-6 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-r-md border border-l-0 border-white/8 bg-[var(--dtx-code-bg)] py-3 text-gray-600 shadow-lg transition-colors hover:text-fuchsia-300 ${
           chatRailOpen ? "border-fuchsia-400/30 text-fuchsia-300" : ""
         }`}
       >
@@ -2098,7 +2098,7 @@ export function ConceptLab(props: ConceptLabProps) {
 
       {chatRailOpen && (
         <div
-          className="absolute left-6 top-0 z-10 h-full border-l border-white/8 bg-[#0d1117] shadow-2xl"
+          className="absolute left-6 top-0 z-10 h-full border-l border-white/8 bg-[var(--dtx-code-bg)] shadow-2xl"
           style={{ width: railWidth }}
         >
           <div

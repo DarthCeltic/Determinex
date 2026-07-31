@@ -210,7 +210,7 @@ export const FileSystemNode = ({
         onClick={(e) => handleDisplayToggle(e)}
         onContextMenu={openContextMenu}
         style={{ paddingLeft: `${depth * 14 + 4}px` }}
-        className={`flex items-center gap-1.5 py-0.5 cursor-pointer transition-colors group ${isWhitelisted && !localNode.isDir ? "bg-cyan-950/40" : "hover:bg-[#2A2D2E] text-[#CCCCCC] border border-transparent"}`}
+        className={`flex items-center gap-1.5 py-0.5 cursor-pointer transition-colors group ${isWhitelisted && !localNode.isDir ? "bg-cyan-950/40" : "hover:bg-[var(--dtx-code-border)] text-[#CCCCCC] border border-transparent"}`}
       >
         <div className="w-[14px] shrink-0 flex justify-center items-center">
           {localNode.isDir && (
@@ -221,11 +221,11 @@ export const FileSystemNode = ({
           )}
         </div>
         {localNode.isDir ? (
-          <Folder size={14} className="text-[#3b8eed] shrink-0" />
+          <Folder size={14} className="text-[var(--dtx-info)] shrink-0" />
         ) : (
           <FileText
             size={14}
-            className={`shrink-0 ${badge ? badge.className : isWhitelisted ? "text-cyan-400" : "text-[#519aba]"}`}
+            className={`shrink-0 ${badge ? badge.className : isWhitelisted ? "text-cyan-400" : "text-[var(--dtx-info)]"}`}
           />
         )}
         {renaming ? (
@@ -269,9 +269,9 @@ export const FileSystemNode = ({
           className="flex items-center gap-1.5 py-0.5"
         >
           {creating === "folder" ? (
-            <Folder size={14} className="text-[#3b8eed] shrink-0" />
+            <Folder size={14} className="text-[var(--dtx-info)] shrink-0" />
           ) : (
-            <FileText size={14} className="shrink-0 text-[#519aba]" />
+            <FileText size={14} className="shrink-0 text-[var(--dtx-info)]" />
           )}
           <input
             autoFocus
@@ -333,7 +333,7 @@ export const FileSystemNode = ({
           />
           <div
             style={{ position: "fixed", left: menu.x, top: menu.y }}
-            className="z-[201] w-44 overflow-hidden rounded-lg border border-white/10 bg-[#161b22] py-1 text-body shadow-2xl"
+            className="z-[201] w-44 overflow-hidden rounded-lg border border-white/10 bg-[var(--dtx-code-panel)] py-1 text-body shadow-2xl"
           >
             {localNode.isDir && (
               <>

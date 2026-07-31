@@ -9,6 +9,7 @@ import {
   Zap,
   Plus,
   Settings,
+  AlertTriangle,
   Check,
   Activity,
   Cpu,
@@ -71,6 +72,7 @@ import {
   isInternalBuild,
   openInternalWindow,
 } from "@/lib/api";
+import type { WorkReadiness } from "@/lib/work-readiness";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useAiRouter } from "@/contexts/AiRouterContext";
 import { useIterationTheme } from "@/contexts/IterationThemeContext";
@@ -79,8 +81,9 @@ import "@xterm/xterm/css/xterm.css";
 
 import { FileSystemNode, FileNode } from "@/components/FileSystemNode";
 import { PipelineDashboard } from "@/components/PipelineDashboard";
-import type { AgentStatus } from "@/components/MatrixExecutionDisplay";
+import { MatrixExecutionDisplay, type AgentStatus } from "@/components/MatrixExecutionDisplay";
 import { SetupWizard } from "@/components/SetupWizard";
+import { UpdateNotice } from "@/components/UpdateNotice";
 import dynamic from "next/dynamic";
 import type { PathInfo } from "@/components/ConceptLab";
 
@@ -88,39 +91,39 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const ConceptLab = dynamic(() => import("@/components/ConceptLab").then((m) => m.ConceptLab), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#010409]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg-deep)]" />,
 });
 const OracleArena = dynamic(() => import("@/components/OracleArena").then((m) => m.OracleArena), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#0d1117]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" />,
 });
 const HealthMap = dynamic(() => import("@/components/HealthMap").then((m) => m.HealthMap), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#0d1117]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" />,
 });
 const AgentTrace = dynamic(() => import("@/components/AgentTrace").then((m) => m.AgentTrace), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#0d1117]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" />,
 });
 const PrivacyCockpit = dynamic(
   () => import("@/components/PrivacyCockpit").then((m) => m.PrivacyCockpit),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const FlywheelFeed = dynamic(
   () => import("@/components/FlywheelFeed").then((m) => m.FlywheelFeed),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const TerminalPanel = dynamic(
   () => import("@/components/TerminalPanel").then((m) => m.TerminalPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const EditorPanel = dynamic(() => import("@/components/EditorPanel").then((m) => m.EditorPanel), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#0d1117]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" />,
 });
 const VerifiedSearch = dynamic(
   () => import("@/components/VerifiedSearch").then((m) => m.VerifiedSearch),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const TeacherOverlay = dynamic(
   () => import("@/components/TeacherOverlay").then((m) => m.TeacherOverlay),
@@ -129,60 +132,60 @@ const TeacherOverlay = dynamic(
 import { getGuideStepFor } from "@/components/TeacherOverlay";
 const ToolsHub = dynamic(() => import("@/components/ToolsHub").then((m) => m.ToolsHub), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#0d1117]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" />,
 });
 const BuildCenter = dynamic(() => import("@/components/BuildCenter").then((m) => m.BuildCenter), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#0d1117]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" />,
 });
 const ExecutionWorkspace = dynamic(
   () => import("@/components/ExecutionWorkspace").then((m) => m.ExecutionWorkspace),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const SuccessorRoadmapPanel = dynamic(
   () => import("@/components/SuccessorRoadmapPanel").then((m) => m.SuccessorRoadmapPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const MissionControlPanel = dynamic(
   () => import("@/components/MissionControlPanel").then((m) => m.MissionControlPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const LearningStudioPanel = dynamic(
   () =>
     import("@/components/ide-product-shell/LearningStudioPanel").then((m) => m.LearningStudioPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const RepoClinicPanel = dynamic(
   () => import("@/components/ide-product-shell/RepoClinicPanel").then((m) => m.RepoClinicPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const MaintenanceBayPanel = dynamic(
   () =>
     import("@/components/ide-product-shell/MaintenanceBayPanel").then((m) => m.MaintenanceBayPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const UnifiedNavigationPanel = dynamic(
   () =>
     import("@/components/ide-product-shell/UnifiedNavigationPanel").then(
       (m) => m.UnifiedNavigationPanel
     ),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const RepairPanelShell = dynamic(
   () => import("@/components/ide-repair/RepairPanelShell").then((m) => m.RepairPanelShell),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const AgentsPanel = dynamic(() => import("@/components/AgentsPanel").then((m) => m.AgentsPanel), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#0d1117]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" />,
 });
 const AgentChatPanel = dynamic(
   () => import("@/components/AgentChatPanel").then((m) => m.AgentChatPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const PassportPanel = dynamic(
   () => import("@/components/PassportPanel").then((m) => m.PassportPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const StatusBar = dynamic(() => import("@/components/StatusBar").then((m) => m.StatusBar), {
   ssr: false,
@@ -194,11 +197,11 @@ const CommandPalette = dynamic(
 );
 const GitPanel = dynamic(() => import("@/components/GitPanel"), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#0d1117]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" />,
 });
 const ProjectAuditPanel = dynamic(
   () => import("@/components/ProjectAuditPanel").then((m) => m.ProjectAuditPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const WorkspaceOnboarding = dynamic(
   () => import("@/components/WorkspaceOnboarding").then((m) => m.WorkspaceOnboarding),
@@ -211,19 +214,19 @@ const ProblemsPanel = dynamic(
   // already used this canonical, fixed copy. Consolidated to one module
   // instead of patching two.
   () => import("@/components/buildtools/ProblemsPanel").then((m) => m.ProblemsPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const DiffReviewPanel = dynamic(
   () => import("@/components/DiffReviewPanel").then((m) => m.DiffReviewPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 const MergeEditor = dynamic(() => import("@/components/MergeEditor").then((m) => m.MergeEditor), {
   ssr: false,
-  loading: () => <div className="flex-1 bg-[#0d1117]" />,
+  loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" />,
 });
 const FileSearchPanel = dynamic(
   () => import("@/components/FileSearchPanel").then((m) => m.FileSearchPanel),
-  { ssr: false, loading: () => <div className="flex-1 bg-[#0d1117]" /> }
+  { ssr: false, loading: () => <div className="flex-1 bg-[var(--dtx-code-bg)]" /> }
 );
 import type { PaletteCommand } from "@/components/CommandPalette";
 import { HiveBuildLoop, type HiveBuildCompletionResult } from "@/components/HiveBuildLoop";
@@ -305,7 +308,15 @@ type WorkspaceAddon =
   | "roadmap"
   | "review"
   | "merge"
-  | "idea"
+  // NOTE: no double-quoted words in comments inside this block. surfaceGroups.test.ts
+  // parses this union by pulling every double-quoted token out of the declaration, so any
+  // such word in a comment is read as a union member. Documenting the removal below put
+  // the removed name straight back into the parsed list; the rewrite then did it again
+  // with the word it used to describe the hazard.
+  //
+  // The idea addon was removed 2026-07-29: a declared member with no addonItems entry, so
+  // the taxonomy advertised Idea Lab and clicking it rendered nothing. That capability is
+  // served by the search member (VerifiedSearch = the Correctness Amplifier).
   | "learning"
   | "repoclinic"
   | "maintenancebay"
@@ -518,7 +529,7 @@ function AddonSwitcher({
           unambiguous, so it stays scrollable but now says so, with a taller cap
           to reduce the need. */}
       {open && (
-        <div className="absolute right-0 top-[calc(100%+8px)] z-[200] max-h-[70vh] w-[220px] overflow-y-auto rounded-xl border border-white/10 bg-[#0a0d12] p-1.5 shadow-2xl animate-fade-in">
+        <div className="absolute right-0 top-[calc(100%+8px)] z-[200] max-h-[70vh] w-[220px] overflow-y-auto rounded-xl border border-white/10 bg-[var(--dtx-code-bg)] p-1.5 shadow-2xl animate-fade-in">
           {items.map((item) => {
             const ItemIcon = item.icon;
             const isActive = item.id === activeId;
@@ -596,6 +607,15 @@ export default function DeterminexIDE() {
   const [fileTree, setFileTree] = useState<FileNode[]>([]);
   const [explorerRoot, setExplorerRoot] = useState<string>("C:\\Dev\\Determinex");
   const [gitBranch, setGitBranch] = useState<string>("");
+  // Whether the last git_status read FAILED, as opposed to succeeding with no changes. Without
+  // this the two are indistinguishable: the catch below resets files to [] and the banner keys on
+  // `explorerGitFiles.length > 0`, so a repo with uncommitted work whose git_status errored (git
+  // not on PATH, a locked index, a timeout) rendered an emerald tick reading "Working tree clean"
+  // on the landing screen.
+  const [explorerGitUnavailable, setExplorerGitUnavailable] = useState(false);
+  // Local-model coverage for the configured roles. Undefined until probed; ConceptLab treats
+  // undefined as "no opinion", so this must actually be fetched or its gate stays dead.
+  const [workReadiness, setWorkReadiness] = useState<WorkReadiness | undefined>(undefined);
   const [explorerGitFiles, setExplorerGitFiles] = useState<GitFile[]>([]);
   const [explorerGitMeta, setExplorerGitMeta] = useState<{
     upstream: string | null;
@@ -622,13 +642,45 @@ export default function DeterminexIDE() {
       setExplorerGitFiles([]);
       return;
     }
+    // Tell the backend which project is open. This is load-bearing, not bookkeeping: credential
+    // reads in env_manager are scoped to THIS root rather than to WorkspaceRoot, which is the file
+    // browser's root and is the system drive so the picker can reach a project anywhere. Without
+    // this call the Env Manager panel correctly refuses to read anything, because "no project is
+    // open" is the safe answer when the backend has not been told.
+    invokeSafe("set_project_root", { path: explorerRoot }).catch(() => {
+      // Non-fatal for the rest of the page; the Env Manager will simply refuse until it succeeds.
+    });
+
+    // Probe model coverage alongside the git read. A failure resolves to an explicit "unknown"
+    // rather than being left undefined, so the difference between "not checked yet" and "checked,
+    // could not tell" stays visible instead of silently reading as "fine".
+    invokeSafe("get_work_readiness")
+      .then((res) => {
+        if (res) setWorkReadiness(res as WorkReadiness);
+      })
+      .catch(() => {
+        setWorkReadiness({
+          status: "unknown",
+          ready: false,
+          label: "Model coverage unknown",
+          summary: "Could not determine local model coverage for the configured roles.",
+          details: [],
+          missingRoles: [],
+        });
+      });
+
     getGitStatus(explorerRoot)
       .then((res) => {
+        setExplorerGitUnavailable(false);
         setGitBranch(res.branch);
         setExplorerGitFiles(res.files);
         setExplorerGitMeta({ upstream: res.upstream, ahead: res.ahead, behind: res.behind });
       })
       .catch(() => {
+        // Record that the read FAILED. Clearing the state alone made a failure look identical to
+        // a clean tree, and the banner then asserted "Working tree clean" about a repo it had not
+        // been able to read.
+        setExplorerGitUnavailable(true);
         setGitBranch("");
         setExplorerGitFiles([]);
         setExplorerGitMeta({ upstream: null, ahead: 0, behind: 0 });
@@ -1731,7 +1783,19 @@ export default function DeterminexIDE() {
       description: "Non-authorizing teaching explanations grounded in the verified corpus.",
       icon: Brain,
       tone: "text-fuchsia-400",
-      panel: <LearningStudioPanel />,
+      // Learning Studio's two calls-to-action used to be dead hash links (#repo-clinic,
+      // #idea-lab) with no matching element anywhere. Wired to the real switchers: Repo
+      // Clinic is an addon panel, and the new-project flow is ConceptLab on the "hive"
+      // sidebar.
+      panel: (
+        <LearningStudioPanel
+          onOpenRepoClinic={() => handleAddonLaunch("repoclinic")}
+          onOpenIdeaLab={() => {
+            closeAddon();
+            setActiveSidebar("hive");
+          }}
+        />
+      ),
     },
     {
       id: "repoclinic",
@@ -1760,7 +1824,13 @@ export default function DeterminexIDE() {
     {
       id: "search",
       label: "Verified Search",
-      description: "Find verified snippets and project context.",
+      // Was "Find verified snippets and project context." -- which describes a retrieval
+      // feature this panel is not, and sent anyone looking for text search here instead of
+      // to "Find in Files" below. VerifiedSearch.tsx opens: "Verified Search = the
+      // Correctness Amplifier, driven from the IDE", and calls preview_idea_oracle then
+      // build_idea. The description now matches what the panel does, and matches the
+      // wording surfaceGroups.ts already used for this same surface.
+      description: "Turn an idea into a verified program: synthesize an oracle, then sample until a candidate passes.",
       icon: Search,
       tone: "text-blue-400",
       panel: <VerifiedSearch selectedModel={selectedModel} workspacePath={explorerRoot} />,
@@ -1897,7 +1967,6 @@ export default function DeterminexIDE() {
   // so a hosted surface renders its real panel with its real label and icon.
   const panelHostedAddon = addonItems.find((item) => item.id === panelAddon) ?? null;
   const runtimeAddonIds: WorkspaceAddon[] = [
-    "idea",
     "learning",
     "repoclinic",
     "maintenancebay",
@@ -2189,7 +2258,7 @@ export default function DeterminexIDE() {
               reclaimed vertical space back to it -- this section never scrolls,
               so every pixel it saves is a pixel the rail can actually use. */}
           <div className="flex flex-col items-center gap-2.5 w-full pb-2 shrink-0">
-            <div className="w-8 h-px bg-[#30363d] flex-shrink-0" />
+            <div className="w-8 h-px bg-[var(--dtx-code-border)] flex-shrink-0" />
             <span className="text-eyebrow uppercase tracking-[0.15em] text-gray-600 font-bold -mb-2">
               Settings
             </span>
@@ -2344,7 +2413,7 @@ export default function DeterminexIDE() {
                     : "hover:bg-[var(--determinex-accent)]/25"
                 }`}
               />
-              <div className="px-5 py-3 border-b border-[#30363d] bg-[#161b22]/50 rounded-t-2xl flex-shrink-0 flex items-center justify-between">
+              <div className="px-5 py-3 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)]/50 rounded-t-2xl flex-shrink-0 flex items-center justify-between">
                 <span className="text-meta uppercase text-gray-300 font-black tracking-widest flex items-center gap-2 drop-shadow-md">
                   {/* A panel-hosted surface names ITSELF. Without this the
                         header kept showing whatever left workspace happened to
@@ -2464,7 +2533,7 @@ export default function DeterminexIDE() {
 
                 {activeSidebar === "explorer" && (
                   <div className="flex flex-col h-full">
-                    <div className="p-4 bg-purple-950/20 border-b border-[#30363d] relative flex-shrink-0 flex justify-between items-start">
+                    <div className="p-4 bg-purple-950/20 border-b border-[var(--dtx-code-border)] relative flex-shrink-0 flex justify-between items-start">
                       <div>
                         <h3 className="text-meta uppercase font-bold text-purple-400 mb-2 tracking-widest flex items-center gap-2">
                           Project Map
@@ -2487,7 +2556,7 @@ export default function DeterminexIDE() {
                         <RefreshCw size={14} />
                       </button>
                     </div>
-                    <div className="grid grid-cols-4 gap-1.5 border-b border-[#30363d] bg-[#010409] p-2">
+                    <div className="grid grid-cols-4 gap-1.5 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg-deep)] p-2">
                       {[
                         ["overview", "Overview", Gauge],
                         ["files", "Files", Files],
@@ -2512,7 +2581,7 @@ export default function DeterminexIDE() {
                         );
                       })}
                     </div>
-                    <div className="flex-1 overflow-y-auto w-full p-4 flex flex-col h-full bg-[#010409]">
+                    <div className="flex-1 overflow-y-auto w-full p-4 flex flex-col h-full bg-[var(--dtx-code-bg-deep)]">
                       {workspaceView === "overview" && (
                         <div className="space-y-3">
                           <div className="rounded-lg border border-purple-500/20 bg-purple-950/20 p-3">
@@ -2569,7 +2638,7 @@ export default function DeterminexIDE() {
                           {explorerRoot !== "" && (
                             <div
                               onClick={() => setExplorerRoot("")}
-                              className="flex items-center gap-1 text-label font-bold text-cyan-400 hover:bg-[#2A2D2E] p-1.5 mb-2 cursor-pointer bg-cyan-950/20 border border-cyan-500/20 rounded"
+                              className="flex items-center gap-1 text-label font-bold text-cyan-400 hover:bg-[var(--dtx-code-border)] p-1.5 mb-2 cursor-pointer bg-cyan-950/20 border border-cyan-500/20 rounded"
                             >
                               <span className="mr-1">&lt; Back</span>
                               <span className="text-gray-400 capitalize opacity-70">to Root</span>
@@ -2577,7 +2646,7 @@ export default function DeterminexIDE() {
                           )}
                           <div
                             onClick={() => setExplorerRoot("")}
-                            className="flex items-center gap-1 text-label font-bold text-gray-300 hover:bg-[#2A2D2E] p-1 mb-1 cursor-pointer"
+                            className="flex items-center gap-1 text-label font-bold text-gray-300 hover:bg-[var(--dtx-code-border)] p-1 mb-1 cursor-pointer"
                           >
                             <ChevronRight size={14} className="rotate-90" />{" "}
                             {explorerRoot.split(/[\\/]/).pop() || "Explorer"}
@@ -2605,7 +2674,7 @@ export default function DeterminexIDE() {
                             </div>
                           )}
                           {sandboxFiles.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-[#30363d]">
+                            <div className="mt-4 pt-4 border-t border-[var(--dtx-code-border)]">
                               <div className="text-eyebrow uppercase font-bold text-purple-400 tracking-widest mb-2 flex items-center gap-1.5">
                                 <Code2 size={9} /> Workspace Output
                               </div>
@@ -2777,6 +2846,12 @@ export default function DeterminexIDE() {
                 )}
 
                 {activeSidebar === "hive" && (
+                  // workReadiness is wired below as of 2026-07-30. ConceptLab has always gated
+                  // spec generation on specGenerationBlockMessage(workReadiness), but the prop was
+                  // never passed and that helper returns null for undefined -- so the branch was
+                  // dead. The Work tab would generate a spec and launch a hive session on an
+                  // install whose Builder and Monitor roles resolve to absent models, with no
+                  // warning at all; "Missing local model coverage for N roles" could never appear.
                   <ConceptLab
                     selectedProjectName={selectedProjectName}
                     projectPath={displayPath(explorerRoot)}
@@ -2802,6 +2877,11 @@ export default function DeterminexIDE() {
                     onConsultingChange={setIsOracleConsulting}
                     externalIdea={externalIdea}
                     onColorHintsChange={setColorHints}
+                    workReadiness={workReadiness}
+                    onOpenModelSettings={() => {
+                      setSettingsTab("roles");
+                      setShowSettings(true);
+                    }}
                     modelPicker={
                       <WorkModelPicker
                         selectedModel={selectedModel}
@@ -2985,19 +3065,25 @@ export default function DeterminexIDE() {
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          {explorerGitFiles.length > 0 ? (
+                          {explorerGitUnavailable ? (
+                            <AlertTriangle size={18} className="shrink-0 text-amber-400" />
+                          ) : explorerGitFiles.length > 0 ? (
                             <FileCode size={18} className="shrink-0 text-amber-400" />
                           ) : (
                             <Check size={18} className="shrink-0 text-emerald-400" />
                           )}
                           <div>
                             <div className="text-label font-black text-white">
-                              {explorerGitFiles.length > 0
-                                ? `${explorerGitFiles.length} uncommitted change${explorerGitFiles.length === 1 ? "" : "s"}`
-                                : "Working tree clean"}
+                              {explorerGitUnavailable
+                                ? "Git status unavailable"
+                                : explorerGitFiles.length > 0
+                                  ? `${explorerGitFiles.length} uncommitted change${explorerGitFiles.length === 1 ? "" : "s"}`
+                                  : "Working tree clean"}
                             </div>
                             <div className="font-mono text-meta text-gray-500">
-                              {gitBranch || "no repo"}
+                              {explorerGitUnavailable
+                                ? "could not read this repository"
+                                : gitBranch || "no repo"}
                               {explorerGitMeta.upstream ? ` · ${explorerGitMeta.upstream}` : ""}
                             </div>
                           </div>
@@ -3104,7 +3190,7 @@ export default function DeterminexIDE() {
                             Attach What You Need
                           </div>
                           <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
-                            {[
+                            {([
                               [
                                 "Terminal",
                                 "terminal",
@@ -3153,12 +3239,6 @@ export default function DeterminexIDE() {
                                 ShieldCheck,
                                 "Live dependency/secret/license/container security scan",
                               ],
-                              [
-                                "Product Surfaces",
-                                "surfaces",
-                                LayoutGrid,
-                                "Overview hub: purpose, proof boundary, and caveats for all 5 unified product surfaces",
-                              ],
                               // Round 2 of the same fix -- see quickAttachIds' comment.
                               [
                                 "Mission Control",
@@ -3185,7 +3265,15 @@ export default function DeterminexIDE() {
                                 "Active hive sessions and local service status",
                               ],
                               ["Merge", "merge", GitMerge, "Resolve git merge conflicts"],
-                            ]
+                              // `satisfies` so the second element is checked against
+                              // WorkspaceAddon at COMPILE time. Without it these tuples
+                              // infer as plain string and the launch call below needed an
+                              // `as WorkspaceAddon` cast, which silenced the checker
+                              // completely: "Product Surfaces" sat here as a dead button
+                              // for one addon-id that had been deliberately retired
+                              // (d0d979a280 removed the duplicate but missed this call
+                              // site), compiling cleanly and doing nothing when clicked.
+                            ] satisfies [string, WorkspaceAddon, LucideIcon, string][])
                               .filter(
                                 ([, addon]) =>
                                   isInternalBuild() || (addon !== "mission" && addon !== "roadmap")
@@ -3196,7 +3284,7 @@ export default function DeterminexIDE() {
                                   <button
                                     key={label as string}
                                     type="button"
-                                    onClick={() => handleAddonLaunch(addon as WorkspaceAddon)}
+                                    onClick={() => handleAddonLaunch(addon)}
                                     className="group rounded-xl border border-white/8 bg-white/[0.03] p-3 text-left transition hover:border-emerald-400/40 hover:bg-emerald-500/10"
                                   >
                                     <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-white">
@@ -3609,6 +3697,26 @@ export default function DeterminexIDE() {
                         </div>
                       )}
 
+                      {/* Live MoA pipeline view.
+                          Mounted 2026-07-29. MatrixExecutionDisplay had existed unrendered:
+                          page.tsx imported only its AgentStatus TYPE, so the three-agent
+                          Sentinel -> Engineer -> Observer pipeline was never shown anywhere,
+                          while every input it needs was already here and live --
+                          agentStatus, matrixLogs, executeAbort, retryCount. The desktop
+                          surface showed the verdict and a log tail but never which agent
+                          held the run. Placed above the log tail so the pipeline state and
+                          the lines it produced read together. */}
+                      {(agentStatus.isExecuting || agentStatus.verdict) && (
+                        <div className="mb-4">
+                          <MatrixExecutionDisplay
+                            agentStatus={agentStatus}
+                            logs={matrixLogs}
+                            onAbort={() => void executeAbort()}
+                            retryCount={retryCount}
+                          />
+                        </div>
+                      )}
+
                       {/* Log tail */}
                       {matrixLogs.length > 0 && (
                         <div className="rounded-2xl border border-white/8 bg-black/40 overflow-hidden mb-4">
@@ -3987,7 +4095,7 @@ export default function DeterminexIDE() {
           </div>
           <button
             onClick={() => setShowSettings(true)}
-            className="rounded-lg border border-[#30363d] bg-[#111821] p-2 text-gray-400"
+            className="rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] p-2 text-gray-400"
             title="Settings"
           >
             <Settings size={16} />
@@ -3996,7 +4104,7 @@ export default function DeterminexIDE() {
       </header>
 
       <main className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
-        <section className="space-y-2 border-b border-[#25303a] pb-3">
+        <section className="space-y-2 border-b border-[var(--dtx-code-border)] pb-3">
           <div>
             <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-cyan-300">
               <ShieldCheck size={13} /> Proof loop
@@ -4014,7 +4122,7 @@ export default function DeterminexIDE() {
             onChange={(e) => setInputVal(e.target.value)}
             disabled={isExecutingPack}
             placeholder="Describe the repo change..."
-            className="min-h-24 w-full resize-none rounded-lg border border-[#30363d] bg-[#010409] px-3 py-3 text-body text-gray-100 outline-none focus:border-cyan-500/50"
+            className="min-h-24 w-full resize-none rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg-deep)] px-3 py-3 text-body text-gray-100 outline-none focus:border-cyan-500/50"
           />
 
           <AiRouteSelect
@@ -4031,7 +4139,7 @@ export default function DeterminexIDE() {
                   "Demo: fix an empty-input parser bug, prove it with tests, and show the review diff."
                 )
               }
-              className="rounded-lg border border-[#30363d] bg-[#111821] px-3 py-2.5 text-meta font-black uppercase tracking-widest text-cyan-300"
+              className="rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] px-3 py-2.5 text-meta font-black uppercase tracking-widest text-cyan-300"
             >
               Load Demo
             </button>
@@ -4040,7 +4148,7 @@ export default function DeterminexIDE() {
               disabled={isExecutingPack || inputVal.trim().length === 0}
               className={`rounded-lg border px-3 py-2.5 text-meta font-black uppercase tracking-widest ${
                 isExecutingPack || inputVal.trim().length === 0
-                  ? "border-[#30363d] bg-[#0d1117] text-gray-600"
+                  ? "border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] text-gray-600"
                   : "border-emerald-500/35 bg-emerald-500/15 text-emerald-300"
               }`}
             >
@@ -4061,7 +4169,7 @@ export default function DeterminexIDE() {
           ].map(([label, detail, tone]) => (
             <div
               key={label}
-              className="rounded-lg border border-[#25303a] bg-[#0d1117] px-3 py-2.5"
+              className="rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-3 py-2.5"
             >
               <div
                 className={`text-meta font-black uppercase tracking-widest ${
@@ -4079,8 +4187,8 @@ export default function DeterminexIDE() {
           ))}
         </section>
 
-        <section className="rounded-lg border border-[#25303a] bg-[#0d1117]">
-          <div className="flex items-center justify-between border-b border-[#25303a] px-3 py-2">
+        <section className="rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)]">
+          <div className="flex items-center justify-between border-b border-[var(--dtx-code-border)] px-3 py-2">
             <span className="text-meta font-black uppercase tracking-widest text-gray-400">
               Activity
             </span>
@@ -4121,19 +4229,19 @@ export default function DeterminexIDE() {
         <nav className="grid grid-cols-2 gap-2 pb-2">
           <a
             href="/proof-center/"
-            className="rounded-lg border border-[#30363d] bg-[#111821] px-3 py-3 text-center text-meta font-black uppercase tracking-widest text-gray-300"
+            className="rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] px-3 py-3 text-center text-meta font-black uppercase tracking-widest text-gray-300"
           >
             Proof Center
           </a>
           <a
             href="/ide-repair/"
-            className="rounded-lg border border-[#30363d] bg-[#111821] px-3 py-3 text-center text-meta font-black uppercase tracking-widest text-gray-300"
+            className="rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] px-3 py-3 text-center text-meta font-black uppercase tracking-widest text-gray-300"
           >
             Repair Panel
           </a>
           <button
             onClick={() => handleSidebarLaunch("benchmark")}
-            className="rounded-lg border border-[#30363d] bg-[#111821] px-3 py-3 text-meta font-black uppercase tracking-widest text-gray-300 col-span-2"
+            className="rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] px-3 py-3 text-meta font-black uppercase tracking-widest text-gray-300 col-span-2"
           >
             Brain & Forge
           </button>
@@ -4153,6 +4261,8 @@ export default function DeterminexIDE() {
       className="relative flex h-[100dvh] w-full overflow-hidden font-sans"
     >
       <SetupWizard />
+      {/* Quiet unless an update exists, and never installs without being asked. */}
+      <UpdateNotice />
 
       <div className="flex h-[100dvh] w-full relative z-10 bg-transparent">
         {isMobile ? renderMobileView() : renderDesktopView()}

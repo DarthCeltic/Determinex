@@ -45,7 +45,7 @@ export function ProgramBenchCockpit() {
   const shownTools = lockedTools.slice(0, DRILLDOWN_LIMIT);
 
   return (
-    <div className="border-b border-[#30363d] bg-[#090d12]">
+    <div className="border-b border-[var(--dtx-code-border)] bg-[#090d12]">
       <div className="p-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 min-w-0">
           <Target size={13} className="text-orange-400 shrink-0" />

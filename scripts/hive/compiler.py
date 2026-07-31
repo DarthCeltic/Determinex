@@ -528,7 +528,50 @@ _ORACLE_IMAGES: dict[str, str] = {
     "rust":   "rust:1.82-slim",
     "go":     "golang:1.23-alpine",
     "python": "python:3.12-slim",
+    # Built locally, not pulled: the oracle runs --network=none, so `npx tsc` would try
+    # to fetch the compiler at RUN time and fail in a way indistinguishable from a type
+    # error. typescript is baked in at build time instead.
+    #   docker build -t determinex-oracle-ts:20 -f docker/oracle/typescript.Dockerfile .
+    "typescript": "determinex-oracle-ts:20",
 }
+
+# How to obtain an image that is missing, so a failure names its own fix rather than
+# leaving the operator to guess.
+_ORACLE_IMAGE_HINT: dict[str, str] = {
+    "typescript": "docker build -t determinex-oracle-ts:20 "
+                  "-f docker/oracle/typescript.Dockerfile .",
+}
+
+# Spellings that mean the same toolchain. Without this, lang="ts" missed the image lookup
+# and fell through to the generic default image, where `tsc` does not exist -- so a missing
+# oracle reported itself as a compile failure, which is the one thing an oracle must never
+# do. Resolved for image selection only; the branch conditions stay explicit.
+_LANG_ALIASES: dict[str, str] = {
+    "ts": "typescript", "tsx": "typescript",
+    "rs": "rust", "py": "python", "golang": "go",
+}
+
+# Type-check with an explicit file list rather than a baked tsconfig.
+#
+# The obvious version -- `tsc --project /determinex-tsconfig.json` -- is wrong in a way
+# that still passes: tsconfig `include` globs resolve relative to the CONFIG's directory,
+# so a config at / made tsc walk the entire container root and reach the sources sideways
+# through /proc/1/cwd. It found the errors, but reported them as `../proc/1/cwd/bad.ts`,
+# which no feedback consumer can map back to a real file, and it type-checked whatever
+# else on the image happened to end in .ts.
+#
+# An explicit list rooted at the workspace keeps paths relative and the scope correct.
+# The empty-source guard is load-bearing: `tsc` over zero files exits 0, so without it an
+# empty or wrongly-pathed workspace would report PASS -- verifying nothing, confidently.
+_TS_DEFAULT_CHECK = (
+    "files=$(find . -name node_modules -prune -o "
+    r"\( -name '*.ts' -o -name '*.tsx' \) -print); "
+    'if [ -z "$files" ]; then '
+    'echo "Compiler Oracle: no .ts/.tsx sources in workspace - nothing to verify"; '
+    "exit 1; fi; "
+    "exec tsc --noEmit --strict --skipLibCheck --target ES2022 "
+    "--module ESNext --moduleResolution bundler $files"
+)
 
 _docker_checked: Optional[bool] = None
 _wsl2_checked:   Optional[bool] = None
@@ -572,12 +615,84 @@ def _windows_to_wsl_path(path: Path) -> str:
     return posix
 
 
+# Images confirmed present in this process. `docker image inspect` is only a local
+# metadata read, but the oracle runs once per step per attempt and it is not free.
+_IMAGES_PRESENT: set[str] = set()
+
+# Provisioning an image is not compiling, and must not be charged to the compile budget.
+# A first-ever build has to fetch its oracle image -- `rust:1.82-slim` alone is 808 MB --
+# and that download used to happen implicitly inside `docker run`, i.e. inside
+# `timeout + 60` where the 60 s was sized for container start. So a new user's very first
+# spec timed out mid-download and was reported as "Fix Docker", which is neither the cause
+# nor a thing they can act on. Found 2026-07-30 (S9).
+_IMAGE_PULL_TIMEOUT = 1800
+
+
+def _ensure_oracle_image(image: str, lang_key: str) -> None:
+    """Make `image` local before a timed compile, so its download is not charged to it.
+
+    Raises rather than continuing on failure, deliberately. Two reasons: letting
+    `docker run` fall back to its own implicit pull is the bug this exists to fix, and a
+    pull failure that reached the caller as a non-zero rc would be recorded as a COMPILE
+    error -- putting a network or registry problem into the WAL as if the generated code
+    were wrong. That is training-data corruption, not just a bad message.
+    """
+    if image in _IMAGES_PRESENT:
+        return
+    try:
+        present = subprocess.run(
+            ["docker", "image", "inspect", image], capture_output=True, timeout=30,
+        ).returncode == 0
+    except Exception:
+        # Can't tell. Fall through: a real pull reports its own failure with a real reason.
+        present = False
+
+    if not present:
+        # A locally-built image has no registry to pull from -- `docker pull
+        # determinex-oracle-ts:20` fails with "pull access denied", which reads like an
+        # auth problem and sends the operator looking for credentials that don't exist.
+        # Name the build command instead.
+        build_cmd = _ORACLE_IMAGE_HINT.get(lang_key)
+        if build_cmd:
+            raise RuntimeError(
+                f"[Oracle] Sandbox image {image} is not built. It is built locally, not "
+                f"pulled (the oracle runs --network=none, so the toolchain must be baked "
+                f"in). Build it with: {build_cmd}"
+            )
+        log.info(
+            "[Oracle] Pulling sandbox image %s — first use on this machine. Not charged "
+            "to the %ss compile timeout.", image, COMPILE_TIMEOUT,
+        )
+        try:
+            pull = subprocess.run(
+                ["docker", "pull", image],
+                capture_output=True, text=True, encoding="utf-8",
+                errors="backslashreplace", timeout=_IMAGE_PULL_TIMEOUT,
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise RuntimeError(
+                f"[Oracle] Timed out after {_IMAGE_PULL_TIMEOUT}s pulling sandbox image "
+                f"{image}. Pre-pull it with: docker pull {image}"
+            ) from exc
+        if pull.returncode != 0:
+            detail = (pull.stderr or pull.stdout or "").strip().replace("\n", " ")
+            raise RuntimeError(
+                f"[Oracle] Could not pull sandbox image {image}: {detail[:300]}. "
+                f"Pre-pull it with: docker pull {image}"
+            )
+        log.info("[Oracle] Sandbox image %s ready.", image)
+
+    _IMAGES_PRESENT.add(image)
+
+
 def _docker_oracle_run(
     cmd: list[str], workspace: Path, lang: str, timeout: int, allow_network: bool,
 ) -> subprocess.CompletedProcess:
     """Execute compiler command inside an ephemeral Docker container."""
     lang_lower = lang.lower()
-    image = _ORACLE_IMAGES.get(lang_lower, "ubuntu:22.04")
+    lang_key = _LANG_ALIASES.get(lang_lower, lang_lower)
+    image = _ORACLE_IMAGES.get(lang_key, "ubuntu:22.04")
+    _ensure_oracle_image(image, lang_key)
     net_flag = [] if allow_network else ["--network=none"]
     # Rust builds need a writable target directory — redirect into /tmp inside
     # the container so the workspace mount doesn't accumulate build artifacts.
@@ -627,7 +742,11 @@ def _docker_oracle_run(
     return subprocess.run(
         docker_cmd,
         capture_output=True, text=True, encoding="utf-8", errors="backslashreplace",
-        timeout=timeout + 60,   # 60s overhead: image pull / container start
+        # 60s overhead: container start and teardown only. The image pull is handled by
+        # _ensure_oracle_image above, so this budget no longer has to cover a download.
+        # Measured warm on a Windows/WSL2 Docker Desktop host: a hello-world `cargo build`
+        # is ~10s wall clock end to end, of which ~9s is container overhead.
+        timeout=timeout + 60,
     )
 
 
@@ -1374,6 +1493,137 @@ def classify_training_quality(step: StepRecord) -> str:
     return "training_ready"
 
 
+def _oracle_install_hint(lang: str) -> str:
+    """The universal oracle registry's install hint for a language, if it has one.
+
+    Read-only: get_oracle() only looks up a dataclass, it does not verify anything, so
+    nothing model-generated executes here. That distinction is the whole reason
+    validate_project cannot simply delegate -- the registry's verify_fns run a direct
+    host subprocess, and this gate's contract is that model output runs sandboxed.
+    """
+    try:
+        import sys as _sys
+        _s = str(Path(__file__).resolve().parent.parent)
+        if _s not in _sys.path:
+            _sys.path.insert(0, _s)
+        from determinex_oracle import get_oracle
+
+        o = get_oracle(lang)
+        return f" A '{o.name}' oracle exists for it outside the sandbox ({o.install_hint})."
+    except Exception:
+        return ""
+
+
+# Python files that are scaffolding rather than project code -- importing them proves
+# nothing about the step and can drag in build-time side effects.
+_PY_IMPORT_SKIP = ("setup.py", "conftest.py")
+
+# Directories whose .py files are not the step's own output, so finding only these is the
+# same as finding nothing. Without the exclusion a vendored .venv or a stale __pycache__
+# would satisfy the has-sources check and hand back the empty-workspace pass it exists to
+# prevent.
+_PY_SOURCE_EXCLUDE = frozenset({
+    ".venv", "venv", "site-packages", "__pycache__", ".git", "node_modules",
+})
+
+
+def _validate_python(workspace: Path, lang: str) -> tuple[bool, str]:
+    """Compiler Oracle for Python: parse, then IMPORT, then run any tests present.
+
+    `python -m compileall` alone -- which is all this used to do -- proves only that
+    the file PARSES. It never executes a line, so a module-level NameError, a bad
+    import, a call to a function that does not exist, or a class referencing an
+    undefined base all pass a "Compiler Oracle: PASS". For a system whose entire
+    reward signal is the oracle, that is the weakest possible reading of "verified",
+    and it is why CLAUDE.md's "every training sample passed a real compiler" was a
+    much softer claim for Python than for Rust.
+
+    Three stages, cheapest first, each strictly stronger than the last:
+      1. compileall      -- syntax
+      2. import          -- module-level execution: undefined names, bad imports
+      3. unittest        -- behaviour, when the project actually ships tests
+
+    Stdlib only, deliberately. The sandbox image is python:3.12-slim with
+    --network=none, so `pytest` is neither installed nor installable; invoking it would
+    fail with "No module named pytest" and that would be indistinguishable from a real
+    test failure. `unittest discover` is always present.
+    """
+    # 0. is there anything here at all?
+    #
+    # Every stage below exits 0 on an empty tree: compileall compiles nothing, the
+    # importer imports nothing, unittest discovers nothing. So a workspace containing no
+    # Python -- a builder step whose patch was malformed, or landed under a different path
+    # than the step declared -- returned PASS, and the WAL recorded that step as verified.
+    # The rust/go/typescript oracles all refuse an empty workspace; this one did not, in
+    # the language the project uses most.
+    #
+    # Checked on the host rather than in the container: it needs no sandbox, and skipping a
+    # container start is the difference between a cheap guard and one worth omitting.
+    sources = [p for p in workspace.rglob("*.py")
+               if not (set(p.parts) & _PY_SOURCE_EXCLUDE)]
+    if not sources:
+        msg = ("Compiler Oracle: no .py sources in workspace - nothing to verify. "
+               "A step cannot be marked verified against an empty tree; check that the "
+               "patch applied and wrote where the step declared.")
+        log.warning("Compiler Oracle: FAIL (no sources)")
+        return False, msg
+
+    # 1. syntax
+    r = _docker_run(["python", "-m", "compileall", "-q", "."],
+                    workspace=workspace, lang=lang, timeout=COMPILE_TIMEOUT,
+                    allow_network=False)
+    if r.returncode != 0:
+        err = (r.stderr or r.stdout)[:400]
+        log.warning("Compiler Oracle: FAIL (syntax)\n%s", err)
+        return False, err
+
+    # 2. import every project module. Executes module-level code -- which is the
+    # point, and is safe only because this runs in the sandbox.
+    skip = ",".join(repr(s) for s in _PY_IMPORT_SKIP)
+    importer = (
+        "import pathlib,importlib.util,sys,traceback\n"
+        f"skip = ({skip},)\n"
+        "bad = []\n"
+        "for p in sorted(pathlib.Path('.').rglob('*.py')):\n"
+        "    if p.name in skip or any(x.startswith('.') or x in ('__pycache__','build','dist')"
+        " for x in p.parts):\n"
+        "        continue\n"
+        "    spec = importlib.util.spec_from_file_location(p.stem, p)\n"
+        "    if spec is None or spec.loader is None:\n"
+        "        continue\n"
+        "    try:\n"
+        "        spec.loader.exec_module(importlib.util.module_from_spec(spec))\n"
+        "    except Exception:\n"
+        "        bad.append(f'{p}: ' + traceback.format_exc(limit=3))\n"
+        "if bad:\n"
+        "    print('IMPORT FAILURES:'); [print(b) for b in bad]; sys.exit(1)\n"
+    )
+    r = _docker_run(["python", "-c", importer], workspace=workspace, lang=lang,
+                    timeout=COMPILE_TIMEOUT, allow_network=False)
+    if r.returncode != 0:
+        err = (r.stdout or r.stderr)[:800]
+        log.warning("Compiler Oracle: FAIL (import)\n%s", err)
+        return False, err
+
+    # 3. behaviour, only if the project ships tests. "No tests" is NOT a failure --
+    # a greenfield step legitimately has none, and reporting that as a FAIL would be
+    # the un-actionable "fails for no reason" this project forbids.
+    has_tests = any(workspace.rglob("test_*.py")) or any(workspace.rglob("*_test.py"))
+    if has_tests:
+        r = _docker_run(["python", "-m", "unittest", "discover", "-v"],
+                        workspace=workspace, lang=lang, timeout=COMPILE_TIMEOUT,
+                        allow_network=False)
+        if r.returncode != 0:
+            err = (r.stderr or r.stdout)[:800]
+            log.warning("Compiler Oracle: FAIL (tests)\n%s", err)
+            return False, err
+        log.info("Compiler Oracle: PASS (syntax + import + tests)")
+        return True, ""
+
+    log.info("Compiler Oracle: PASS (syntax + import; no tests shipped)")
+    return True, ""
+
+
 def validate_project(workspace: Path, lang: str) -> tuple[bool, str]:
     """
     Compiler Oracle: validate the FULL accumulated project state.
@@ -1406,19 +1656,68 @@ def validate_project(workspace: Path, lang: str) -> tuple[bool, str]:
             return passed, output
 
         elif "python" in lang:
-            r = _docker_run(
-                ["python", "-m", "compileall", "-q", "."],
-                workspace=workspace, lang=lang, timeout=COMPILE_TIMEOUT, allow_network=False)
-            if r.returncode != 0:
-                err = (r.stderr or r.stdout)[:200]
-                log.warning("Compiler Oracle: FAIL\n%s", err)
-                return False, err
-            log.info("Compiler Oracle: PASS")
-            return True, ""
+            return _validate_python(workspace, lang)
+
+        elif "typescript" in lang or lang in ("ts", "tsx"):
+            # A real type check, which is what CLAUDE.md has claimed all along while this
+            # branch did not exist and TypeScript fell through to the lenient pass.
+            #
+            # The project's own tsconfig.json wins when it ships one -- its paths/strictness
+            # are part of what the code means. Only when none exists does the image's baked
+            # default apply, which is strict on purpose: a lenient tsc is most of the way
+            # back to the lenient pass this replaces.
+            #
+            # NOT "javascript": tsc over plain JS checks almost nothing, and reporting that
+            # as verified would be the same overclaim in a new place. JS still fails closed.
+            has_cfg = (workspace / "tsconfig.json").is_file()
+            cmd = ["tsc", "--noEmit"] if has_cfg else ["sh", "-c", _TS_DEFAULT_CHECK]
+            r = _docker_run(cmd, workspace=workspace, lang=lang,
+                            timeout=COMPILE_TIMEOUT, allow_network=False)
+            output = (r.stdout or r.stderr)
+            passed = r.returncode == 0
+            if passed:
+                log.info("Compiler Oracle: PASS (tsc --noEmit%s)",
+                         "" if has_cfg else ", image default tsconfig")
+            else:
+                log.warning("Compiler Oracle: FAIL\n%s", output[:400])
+            return passed, output
 
         else:
-            log.info("Compiler Oracle: unknown lang '%s' — lenient pass", lang)
-            return True, ""
+            # FAIL CLOSED. This branch used to return (True, "") -- a "lenient pass"
+            # -- for every language outside rust/go/python. TypeScript, Java, C, C++
+            # all landed here, so every step of such a session was recorded as
+            # Compiler PASS having been verified by nothing at all. CLAUDE.md listed
+            # `tsc` as part of the oracle; it was never reached.
+            #
+            # That directly contradicts the doctrine determinex_oracle.py was built to
+            # enforce -- "a stub raises OracleUnavailable with an install hint: an
+            # oracle NEVER silently passes" -- and a PASS that means nothing is worse
+            # than an honest failure, because it is indistinguishable from a real one
+            # in the WAL and in the training corpus.
+            #
+            # Not delegated to determinex_oracle.get_oracle(): its verify_fns run a
+            # direct host subprocess, and running model-generated code outside the
+            # sandbox to gain verification would trade a correctness gap for a
+            # security one. The fix is an oracle IMAGE for the language (see
+            # _ORACLE_IMAGES), not a looser execution boundary.
+            hint = _oracle_install_hint(lang)
+            for key, build_cmd in _ORACLE_IMAGE_HINT.items():
+                if key in lang:
+                    hint += f" Build its sandbox image with: {build_cmd}"
+                    break
+            msg = (
+                f"No sandboxed Compiler Oracle for lang '{lang}'. Configured: "
+                f"{sorted(_ORACLE_IMAGES)}. A step cannot be marked verified without "
+                f"one.{hint} Set DETERMINEX_ORACLE_LENIENT=1 to accept UNVERIFIED "
+                f"passes for this language (recorded as such, not recommended)."
+            )
+            if os.environ.get("DETERMINEX_ORACLE_LENIENT", "") == "1":
+                log.warning("Compiler Oracle: UNVERIFIED lenient pass for '%s' "
+                            "(DETERMINEX_ORACLE_LENIENT=1) — this step was checked by "
+                            "nothing", lang)
+                return True, f"UNVERIFIED: {msg}"
+            log.error("Compiler Oracle: FAIL — %s", msg)
+            return False, msg
 
     except subprocess.TimeoutExpired:
         return False, f"Compilation timed out after {COMPILE_TIMEOUT}s"

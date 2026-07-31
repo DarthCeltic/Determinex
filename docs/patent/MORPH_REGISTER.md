@@ -171,9 +171,9 @@ prevent pickle RCE, THEN computes tensor-value SHA256 for weight integrity. The 
 
 ---
 
-## M-10: Lunarian Node v0 — Fleet Signal Aggregation (Design-Only, Post-Announce)
+## M-10: Determinex Node v0 — Fleet Signal Aggregation (Design-Only, Post-Announce)
 
-**Current state:** Design document only. `docs/papers/LUNARIAN_NODE.md` drafted 2026-06-11.
+**Current state:** Design document only. `docs/papers/DETERMINEX_NODE.md` drafted 2026-06-11.
 Zero code written. Build is explicitly post-announce.
 
 **Design:** Eight-stage ingestion pipeline:
@@ -184,7 +184,7 @@ anti-poisoning threat vectors documented with v0 mitigations.
 
 **Change vector:** All four `[NEW]` mechanisms (replay gate, corpus-release gating, namespace
 re-mapping, symmetric OTA gate) will be implemented during v0 build. The core pipeline
-structure is stable enough for provisional claiming. Open questions in LUNARIAN_NODE.md §10
+structure is stable enough for provisional claiming. Open questions in DETERMINEX_NODE.md §10
 (test-surface inclusion, influence cap value, school cartridge mix policy) do not block
 provisional filing — they affect implementation detail, not the structural claim elements.
 
@@ -203,9 +203,9 @@ provisional filing — they affect implementation detail, not the structural cla
 
 ---
 
-## M-11: Lunarian Node v0 — Owner Redline Resolution (2026-06-11)
+## M-11: Determinex Node v0 — Owner Redline Resolution (2026-06-11)
 
-**Current state:** LUNARIAN_NODE.md updated from "DRAFT FOR REDLINE" to "OWNER-RESOLVED v0.2"
+**Current state:** DETERMINEX_NODE.md updated from "DRAFT FOR REDLINE" to "OWNER-RESOLVED v0.2"
 via 5-verdict redline session on 2026-06-11. All §10 open questions resolved.
 
 **Resolved verdicts:**
@@ -228,7 +228,7 @@ via 5-verdict redline session on 2026-06-11. All §10 open questions resolved.
    provisional disclosure material.
 
 **Filing implication:** All verdicts are design-only. No change to build scope or post-
-announce commitment. LUNARIAN_NODE.md §10 all five questions now RESOLVED. Claim count
+announce commitment. DETERMINEX_NODE.md §10 all five questions now RESOLVED. Claim count
 updated: 83 → 84 (NOVEL-14 added to `claims_likely_novel.md`).
 
 ---
@@ -240,8 +240,8 @@ updated: 83 → 84 (NOVEL-14 added to `claims_likely_novel.md`).
 | 2026-06-10 | All | Initial population from architecture review |
 | 2026-06-10 | M-09 | Added: provenance sidecar implemented, implementation evidence dated |
 | 2026-06-11 | M-03 | RESOLVED: false alarm — rosetta_v1.pt artifact confirmed 4096/InfoNCE (white paper correct); train_rosetta.py is a v2 redesign, not the production training script. SHA256 PASS. NOVEL-07 corrected to reflect actual 3-layer security impl. |
-| 2026-06-11 | M-10 | Added: Lunarian Node v0 fleet signal aggregation — design-only, post-announce. NOVEL-10–13 + NARROW-04 added to claim_charts/. |
-| 2026-06-11 | M-11 | Added: Lunarian Node v0 owner redline resolution — 5 verdicts applied, spec bumped to OWNER-RESOLVED v0.2, NOVEL-14 added (tier-gated corpus promotion). |
+| 2026-06-11 | M-10 | Added: Determinex Node v0 fleet signal aggregation — design-only, post-announce. NOVEL-10–13 + NARROW-04 added to claim_charts/. |
+| 2026-06-11 | M-11 | Added: Determinex Node v0 owner redline resolution — 5 verdicts applied, spec bumped to OWNER-RESOLVED v0.2, NOVEL-14 added (tier-gated corpus promotion). |
 
 ---
 

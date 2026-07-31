@@ -155,7 +155,27 @@ determinex_limits_report.json
 scripts/session_config.json
 
 # ── Training corpora (large files — store on HuggingFace, not git) ───────────
+# DO NOT "fix" this by deleting the pattern. It is load-bearing:
+# corpus/programbench/training_corpus/pb_verdict_corpus.jsonl is 9.06 GB (measured
+# 2026-07-29). GitHub rejects any single file over 100 MB, so tracking it is not
+# merely inadvisable, it is impossible.
+#
+# But a blanket extension ban is a blunt instrument, and it was also swallowing small
+# authoritative files that are unrecoverable if lost — they are gitignored, so there is
+# no copy in history to restore from. Those are un-ignored explicitly below rather than
+# by weakening the default deny.
 *.jsonl
+
+# Small, authoritative, and irreplaceable. Each is well under GitHub's limit and each is
+# named "active / needed" by
+# corpus/programbench/training_corpus/OFFLOADED_TO_T.md — which is precisely the file
+# that documents which corpora were deliberately moved to T: and which must stay here.
+!corpus/programbench/training_corpus/pb_negative_signal.jsonl
+
+# Guard against the accident this whole block exists to prevent: if a negated file ever
+# grows past what git should carry, `scripts/dev/gitignore_audit.py` fails and says so.
+
+
 
 # ── Patent / legal drafts (private — keep local, never push) ─────────────────
 USPTO_PROVISIONAL_APPLICATION.md
@@ -220,7 +240,7 @@ structure.txt
 
 # ── Branding assets (in assets/ when ready, not root) ─────────────────────────
 determinexlogo.jpg
-lunariandatalogo.jpg
+determinex-logo.jpg
 
 # ── Old UI archive ─────────────────────────────────────────────────────────────
 archive_streamlit/
@@ -325,3 +345,46 @@ corpus/programbench/fts_index.sqlite3
 # *.exe already catches python.exe, but not the site-packages tree, so an
 # `git add -A` would otherwise sweep in a 142MB machine-specific runtime.
 bundler/sidecar/
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# MUST STAY LAST. Git applies the LAST matching pattern, so these negations only
+# hold if nothing below re-excludes the path. Placed mid-file they silently lost to
+# `settings.json`, `/build*` and `.vscode` further down -- *.d recovered, the rest
+# did not, which is worse than not trying because it looks fixed.
+# ═══════════════════════════════════════════════════════════════════════════
+# ── Vendored upstream fixtures must not be eaten by OUR build-artifact patterns ──
+# corpus/programbench/per_tool_overrides/ is a deliberately tracked tree: 124,376 files
+# are already committed. But 1,094 files inside it were being ignored (measured
+# 2026-07-29 by scripts/dev/gitignore_audit.py), because patterns written for this
+# project's own output happen to match UPSTREAM names:
+#
+#   *.d            1083 files -- meant for C dependency files, but ctags' test suite uses
+#                  DIRECTORIES named *.d (Tmain/list-roles.d/), so every fixture inside
+#                  one vanished
+#   fasttext          7 -- a bare name intended as a local artifact dir, matching
+#                  fasttext's own python module tree
+#   settings.json     1 -- meant as VS Code's, matched duckdb's src/common/settings.json
+#   verify_*.json     1 -- matched duckdb's test config
+#   .vscode           1 -- matched an upstream extension's own .vscode
+#   /build*, /*build* 2 -- matched upstream build.sh scripts
+#
+# Total 733 KB, i.e. a rounding error against the tree it belongs to -- while a fresh
+# clone got that tree with 1,094 holes in it, which is exactly the kind of silent
+# incompleteness that makes a campaign non-reproducible.
+!corpus/programbench/per_tool_overrides/**
+
+# SwiftPM build locks. These hold nothing but a PID, and three of them were tracked by accident --
+# so `swift build` inside a fixture (which the test suite does) rewrote them and left `git status`
+# dirty after a plain `pytest`. A contributor on a clean checkout then cannot tell whether they
+# broke something.
+#
+# Deliberately placed AFTER the !per_tool_overrides negation above: later patterns win, and one of
+# the three sat under that force-included tree. That negation exists so a fresh clone gets the
+# complete source tree; a PID lock file is a build artifact, not source, so excluding it serves the
+# same intent rather than reopening a hole.
+#
+# `**/` is load-bearing: a pattern with a mid-path slash is anchored to this file's directory, so a
+# bare `.build/.lock` matches only a repo-root one and left all three nested files un-ignored.
+# Confirmed with `git check-ignore -v`, which still reported the negation as the winning rule.
+**/.build/.lock

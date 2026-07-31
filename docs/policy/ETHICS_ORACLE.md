@@ -1,6 +1,6 @@
 # Ethics Oracle — Deterministic Behavioral Guardrail
 
-> **Authored**: 2026-06-06 · Ryan Gurganious / Lunarian Data Systems  
+> **Authored**: 2026-06-06 · Ryan Gurganious  
 > **Status**: **Implemented 2026-07-01** — see `scripts/determinex_safety.py` (the pre-existing L0-L4
 > `SafetyEngine`, already live-wired into `determinex_hive.py` / `hive/api_client.py` /
 > `hive/compiler.py` / `hive/workspace.py`, was audited before build and found to already cover 4
@@ -136,4 +136,4 @@ This is distinct from:
 
 ---
 
-*Determinex · Ryan Gurganious · Lunarian Data Systems*
+*Determinex · Ryan Gurganious*

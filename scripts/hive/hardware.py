@@ -9,6 +9,7 @@ import logging
 import platform
 import re
 import subprocess
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -132,6 +133,33 @@ class ModelLifecyclePolicy:
     swap_strategy: str      = "role_priority"               # "lru" | "role_priority"
 
 
+def _lifecycle_for_tier(tier: int) -> ModelLifecyclePolicy:
+    """Map a capacity tier to its model-residency policy.
+
+    Tier 0 claimed max_loaded=2 and kept BOTH the builder and the monitor resident. On the ~6 GB
+    card that defines the tier that is not true: builder (1.8 GB) + observer (3.5 GB) + a step's KV
+    cache exceeds what is available, so Ollama runs the observer's prefill on the CPU instead.
+    Measured 2026-07-31 -- a session stalled 19 minutes in step 2's Monitor call with zero CPU
+    movement and no error; the same call with the observer evicted returned in 39s. Keeping the
+    monitor hot there was buying a cache hit with an indefinite hang.
+
+    `max_loaded` is load-bearing rather than decorative: `api_client._ollama_extra` reads it to
+    decide the monitor eviction, so raising tier 0 back to 2 reintroduces the stall. The builder
+    stays in keep_hot -- it reloads in a couple of seconds from page cache between steps, which is
+    the cost worth paying.
+
+    Lives at module scope so the policy can be read and tested without probing hardware; it was
+    previously a dict inside `profile_hardware()`, reachable only by running a real detection.
+    """
+    return {
+        -1: ModelLifecyclePolicy(keep_hot=[], max_loaded=0, swap_strategy="role_priority"),
+         0: ModelLifecyclePolicy(keep_hot=["builder"], max_loaded=1, swap_strategy="role_priority"),
+         1: ModelLifecyclePolicy(keep_hot=["builder", "monitor"], max_loaded=4, swap_strategy="lru"),
+         2: ModelLifecyclePolicy(keep_hot=["builder", "monitor", "oracle", "architect"],
+                                 max_loaded=5, swap_strategy="lru"),
+    }.get(tier, ModelLifecyclePolicy(keep_hot=[], max_loaded=0, swap_strategy="role_priority"))
+
+
 @dataclass
 class ThermalProfile:
     """Idle-time thermal baseline captured once at profile_hardware() call."""
@@ -204,10 +232,41 @@ class HardwareProfile:
     gpu_count: int
     lifecycle: ModelLifecyclePolicy = field(default_factory=ModelLifecyclePolicy)
     thermal: ThermalProfile = field(default_factory=ThermalProfile)
+    #: Which accelerator answered: "nvidia" | "amd" | "apple" | "cpu". Defaulted so any existing
+    #: construction site (tests, fixtures) keeps working without naming it.
+    accelerator: str = "cpu"
+    #: What to hand PyTorch. "cuda" for both NVIDIA and AMD -- a ROCm build of torch deliberately
+    #: keeps the `cuda` device name, which is why vendor and device are recorded separately rather
+    #: than one being inferred from the other.
+    torch_device: str = "cpu"
+    #: Which memory pool `tier` was derived from: "vram" (an accelerator answered), "system_ram"
+    #: (no accelerator, so capacity comes from RAM the way Ollama/llama.cpp actually use it), or
+    #: "none" (nothing readable). Recorded because "tier 1" means something different in each case
+    #: and a reader should not have to guess which.
+    capacity_basis: str = "vram"
+    #: Free-form platform note, e.g. "ARM64" or "Qualcomm Snapdragon (ARM64)". Display only.
+    platform_note: str = ""
 
     @property
     def tier_label(self) -> str:
         return {-1: "CPU-only", 0: "Constrained (~6GB)", 1: "Mid-range", 2: "Full rig"}.get(self.tier, "Unknown")
+
+    @property
+    def accelerator_label(self) -> str:
+        """Human-readable, for the status surface."""
+        names = {"nvidia": "NVIDIA (CUDA)", "amd": "AMD (ROCm)", "intel": "Intel Arc (XPU)",
+                 "apple": "Apple Silicon (Metal)", "cpu": "CPU only"}
+        base = names.get(self.accelerator, self.accelerator)
+        if self.accelerator == "cpu":
+            if self.platform_note:
+                base = f"{base} ({self.platform_note})"
+            # Say what the capacity is based on. A CPU-only host is no longer automatically the
+            # weakest possible one, so "CPU only" alone now understates a 64 GB box.
+            if self.capacity_basis == "system_ram" and self.ram_gb > 0:
+                return f"{base} — {self.ram_gb:.1f} GB system RAM"
+            return base
+        unit = "unified memory" if self.accelerator == "apple" else "VRAM"
+        return f"{base} — {self.vram_gb:.1f} GB {unit}, {self.gpu_count} device(s)"
 
     def max_local_models(self) -> int:
         if self.tier == -1: return 0
@@ -224,7 +283,14 @@ class HardwareProfile:
         Tier 1:    2 — two independent branches can safely run; Compiler Oracle
                        calls are serialised per-session via compiler_lock.
         Tier 2:    gpu_count (at least 2) — one active branch per GPU.
+
+        The reasoning above is about the DEVICE, not the tier, so `gpu_count == 0` returns 1
+        whatever the tier says. That matters now that a CPU-only host can reach tier 1 on system
+        RAM: nothing about having RAM makes concurrent branches safe when there is one shared
+        CPU to run them on.
         """
+        if self.gpu_count <= 0:
+            return 1
         if self.tier <= 0:
             return 1
         if self.tier == 1:
@@ -232,52 +298,261 @@ class HardwareProfile:
         return max(2, self.gpu_count)
 
 
-def profile_hardware() -> HardwareProfile:
-    """Detect VRAM via nvidia-smi. Falls back to tier -1 (CPU-only)."""
-    vram_gb   = 0.0
-    gpu_count = 0
+# ── Accelerator detection, per vendor ────────────────────────────────────────────────────────────
+#
+# This used to probe `nvidia-smi` and nothing else, so on an AMD or Apple machine it fell through to
+# tier -1 "CPU-only" -- a 24 GB Radeon or a 64 GB M3 Max was invisible, `max_local_models()` returned
+# 0, `max_parallel_steps` returned 1, and the lifecycle policy kept nothing hot. The rig was treated
+# as the weakest possible host while sitting on more VRAM than the tier-2 threshold.
+#
+# Each probe returns (vram_gb, device_count) and is expected to fail on hardware it does not describe,
+# so "the tool is absent" and "the tool ran and found nothing" both mean the same thing here: try the
+# next vendor. Order is by how definitive the answer is, not by preference.
+
+def _csv_column_values(text: str, header_names: tuple[str, ...]) -> list[int]:
+    """Integer values from the first CSV column whose header matches one of `header_names`.
+
+    Parsed by COLUMN rather than by regex. The first version of this used
+    `re.findall(r"vram_size[^0-9]{0,12}(\\d+)", ...)`, which cannot work on real CSV: between the
+    header cell and the value there is a newline and a device index, and `[^0-9]` stops dead on that
+    index digit. It matched nothing and the probe silently fell through to the older tool -- a parser
+    that always returns "no AMD GPU" is indistinguishable from having no AMD GPU. Caught by its own
+    test before shipping.
+    """
+    rows = [line.split(",") for line in text.strip().splitlines() if line.strip()]
+    if len(rows) < 2:
+        return []
+    header = [cell.strip().lower() for cell in rows[0]]
+    index = next((i for i, cell in enumerate(header) if cell in header_names), None)
+    if index is None:
+        return []
+    out: list[int] = []
+    for row in rows[1:]:
+        if index >= len(row):
+            continue
+        digits = re.sub(r"[^0-9]", "", row[index])
+        if digits:
+            out.append(int(digits))
+    return out
+
+
+def _probe_nvidia() -> tuple[float, int]:
+    r = subprocess.run(
+        ["nvidia-smi", "--query-gpu=memory.total", "--format=csv,noheader,nounits"],
+        capture_output=True, text=True, timeout=5)
+    if r.returncode != 0:
+        return 0.0, 0
+    values = [int(l.strip()) for l in r.stdout.strip().splitlines() if l.strip().isdigit()]
+    return (max(values) / 1024, len(values)) if values else (0.0, 0)
+
+
+def _probe_amd() -> tuple[float, int]:
+    """AMD, via amd-smi (ROCm 6+) then rocm-smi (older).
+
+    Both print MiB. `rocm-smi --showmeminfo vram --csv` emits a header plus one row per GPU with the
+    total in bytes, while `amd-smi static` reports MB -- so each is parsed on its own terms rather
+    than through one regex that would silently mis-scale by 1024x and land a 24 GB card in tier 0.
+    """
     try:
-        r = subprocess.run(
-            ["nvidia-smi", "--query-gpu=memory.total", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=5)
+        r = subprocess.run(["amd-smi", "static", "--csv"], capture_output=True, text=True, timeout=8)
         if r.returncode == 0:
-            vram_values = [int(l.strip()) for l in r.stdout.strip().splitlines() if l.strip()]
-            if vram_values:
-                gpu_count = len(vram_values)
-                vram_gb   = max(vram_values) / 1024
+            mb = _csv_column_values(r.stdout, ("vram_size", "vram_total", "size"))
+            if mb:
+                return max(mb) / 1024, len(mb)
     except Exception:
         pass
+    r = subprocess.run(
+        ["rocm-smi", "--showmeminfo", "vram", "--csv"], capture_output=True, text=True, timeout=8)
+    if r.returncode != 0:
+        return 0.0, 0
+    # "VRAM Total Memory (B)" column, one row per card.
+    byte_values = [int(m) for m in re.findall(r",\s*(\d{9,})", r.stdout)]
+    if byte_values:
+        return max(byte_values) / (1024 ** 3), len(byte_values)
+    return 0.0, 0
 
-    ram_gb = 0.0
+
+def _probe_intel() -> tuple[float, int]:
+    """Intel Arc / Data Center GPU, via xpu-smi.
+
+    `xpu-smi discovery --dump` emits CSV; memory is reported in MiB. Intel is a separate torch device
+    ("xpu"), not a CUDA alias the way ROCm is -- handing "cuda" to a caller on Arc would fail, which
+    is why the device string is carried per-vendor rather than inferred.
+    """
+    r = subprocess.run(["xpu-smi", "discovery", "--dump", "-1"],
+                       capture_output=True, text=True, timeout=8)
+    if r.returncode != 0:
+        return 0.0, 0
+    mib = _csv_column_values(r.stdout, ("memory physical size", "memory_physical_size", "memory"))
+    if mib:
+        return max(mib) / 1024, len(mib)
+    return 0.0, 0
+
+
+def _probe_apple() -> tuple[float, int]:
+    """Apple Silicon: unified memory, so 'VRAM' is a share of system RAM rather than a separate pool.
+
+    Reported as ~75% of total RAM, which is roughly what Metal will allow a single process to hold.
+    Claiming all of it would put an 8 GB Mac in tier 0 and start swapping under a 3B model.
+    """
+    if platform.system() != "Darwin" or platform.machine() not in ("arm64", "aarch64"):
+        return 0.0, 0
+    r = subprocess.run(["sysctl", "-n", "hw.memsize"], capture_output=True, text=True, timeout=5)
+    if r.returncode != 0 or not r.stdout.strip().isdigit():
+        return 0.0, 0
+    return (int(r.stdout.strip()) / (1024 ** 3)) * 0.75, 1
+
+
+#: (vendor, torch_device, probe). `torch_device` is what a caller hands to PyTorch / a ROCm build.
+_ACCELERATORS: tuple[tuple[str, str, Callable[[], tuple[float, int]]], ...] = (
+    ("nvidia", "cuda", _probe_nvidia),
+    ("amd",    "cuda", _probe_amd),     # ROCm builds of torch deliberately expose AMD as "cuda"
+    ("intel",  "xpu",  _probe_intel),   # Intel is its OWN device, not a cuda alias
+    ("apple",  "mps",  _probe_apple),
+)
+
+
+def detect_accelerator() -> tuple[str, str, float, int]:
+    """(vendor, torch_device, vram_gb, device_count). ("cpu", "cpu", 0.0, 0) when nothing is found."""
+    for vendor, torch_device, probe in _ACCELERATORS:
+        try:
+            vram_gb, count = probe()
+        except Exception:
+            continue
+        if vram_gb > 0 and count > 0:
+            return vendor, torch_device, vram_gb, count
+    return "cpu", "cpu", 0.0, 0
+
+
+def _detect_ram_gb() -> float:
+    """Total physical RAM in GiB, or 0.0 if it genuinely cannot be read.
+
+    Windows used to go through `wmic ComputerSystem get TotalPhysicalMemory`. WMIC is deprecated and
+    is ABSENT from Windows 11 24H2 and later, so the call failed, the bare `except Exception: pass`
+    swallowed it, and the profile reported `ram_gb=0.0` -- indistinguishable from a machine with no
+    memory. Found 2026-07-30 when the new capability surface printed 0.0 GB on a working box.
+
+    `GlobalMemoryStatusEx` is a kernel32 call, so it needs no external binary and cannot be removed by
+    a Windows release. The POSIX paths are kept as they were.
+    """
+    system = platform.system()
     try:
-        if platform.system() == "Windows":
-            r = subprocess.run(
-                ["wmic", "ComputerSystem", "get", "TotalPhysicalMemory", "/value"],
-                capture_output=True, text=True, timeout=5)
-            m = re.search(r"TotalPhysicalMemory=(\d+)", r.stdout)
-            if m: ram_gb = int(m.group(1)) / (1024 ** 3)
-        else:
-            with open("/proc/meminfo") as f:
-                for line in f:
-                    if line.startswith("MemTotal:"):
-                        ram_gb = int(line.split()[1]) / (1024 ** 2)
-                        break
-    except Exception:
-        pass
+        if system == "Windows":
+            import ctypes
 
-    if vram_gb >= 24: tier = 2
-    elif vram_gb >= 12: tier = 1
-    elif vram_gb >= 4:  tier = 0
-    else:               tier = -1
+            class _MemoryStatusEx(ctypes.Structure):
+                _fields_ = [
+                    ("dwLength", ctypes.c_ulong),
+                    ("dwMemoryLoad", ctypes.c_ulong),
+                    ("ullTotalPhys", ctypes.c_ulonglong),
+                    ("ullAvailPhys", ctypes.c_ulonglong),
+                    ("ullTotalPageFile", ctypes.c_ulonglong),
+                    ("ullAvailPageFile", ctypes.c_ulonglong),
+                    ("ullTotalVirtual", ctypes.c_ulonglong),
+                    ("ullAvailVirtual", ctypes.c_ulonglong),
+                    ("ullAvailExtendedVirtual", ctypes.c_ulonglong),
+                ]
 
-    # Derive lifecycle policy from tier
-    lifecycle_map = {
-        -1: ModelLifecyclePolicy(keep_hot=[], max_loaded=0, swap_strategy="role_priority"),
-         0: ModelLifecyclePolicy(keep_hot=["builder", "monitor"], max_loaded=2, swap_strategy="role_priority"),
-         1: ModelLifecyclePolicy(keep_hot=["builder", "monitor"], max_loaded=4, swap_strategy="lru"),
-         2: ModelLifecyclePolicy(keep_hot=["builder", "monitor", "oracle", "architect"], max_loaded=5, swap_strategy="lru"),
-    }
-    lifecycle = lifecycle_map.get(tier, lifecycle_map[-1])
+            status = _MemoryStatusEx()
+            status.dwLength = ctypes.sizeof(_MemoryStatusEx)
+            if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):  # type: ignore[attr-defined]
+                return status.ullTotalPhys / (1024 ** 3)
+            return 0.0
+        if system == "Darwin":
+            r = subprocess.run(["sysctl", "-n", "hw.memsize"],
+                               capture_output=True, text=True, timeout=5)
+            if r.returncode == 0 and r.stdout.strip().isdigit():
+                return int(r.stdout.strip()) / (1024 ** 3)
+            return 0.0
+        with open("/proc/meminfo") as fh:
+            for line in fh:
+                if line.startswith("MemTotal:"):
+                    return int(line.split()[1]) / (1024 ** 2)
+    except Exception as exc:
+        log.debug("[hardware] RAM detection failed: %s", exc)
+    return 0.0
+
+
+#: Held back from the model-capacity budget on an accelerator-less host: the OS, the Tauri app
+#: itself, and whatever cargo/rustc/Docker need during the same session. A CPU-only hive session
+#: competes with its own compiler for this RAM, which a GPU host does not.
+_CPU_RESERVE_GB = 8.0
+
+
+def _tier_for_memory(gb: float) -> int:
+    """Tier from an amount of usable inference memory, wherever it came from.
+
+    One function so the VRAM path and the system-RAM path cannot drift to different thresholds.
+    """
+    if gb >= 23.5:
+        return 2
+    if gb >= 11.5:
+        return 1
+    if gb >= 3.5:
+        return 0
+    return -1
+
+
+def _platform_note() -> str:
+    """Display-only platform detail. Never used to claim an accelerator.
+
+    Windows-on-ARM is worth naming because a Snapdragon user otherwise sees a bare "CPU only" and
+    reasonably concludes Determinex failed to detect their machine. It did detect it -- there is
+    simply no NPU/GPU path for it here, and saying so is better than implying a miss.
+    """
+    machine = (platform.machine() or "").upper()
+    if machine not in ("ARM64", "AARCH64"):
+        return ""
+    processor = (platform.processor() or "")
+    if re.search(r"snapdragon|qualcomm", processor, re.IGNORECASE):
+        return "Qualcomm Snapdragon, ARM64"
+    return "ARM64"
+
+
+def profile_hardware() -> HardwareProfile:
+    """Detect the accelerator across vendors. Falls back to system-RAM capacity when there is none."""
+    vendor, torch_device, vram_gb, gpu_count = detect_accelerator()
+    if vendor != "cpu":
+        log.info("[hardware] accelerator: %s (%.1f GB, %d device(s), torch device '%s')",
+                 vendor, vram_gb, gpu_count, torch_device)
+
+    ram_gb = _detect_ram_gb()
+
+    # Thresholds sit just BELOW the advertised sizes on purpose. A card sold as 24 GB reports
+    # 24564 MiB = 23.99 GiB, so a literal `>= 24` put every 24 GB card -- an RTX 4090 included, not
+    # just AMD -- into tier 1 instead of tier 2, halving max_parallel_steps and dropping two roles
+    # out of keep_hot. The same rounding hid one tier down at 12 GB and 4 GB. Found 2026-07-30 while
+    # adding multi-vendor detection: the simulated 24 GB Radeon landed in tier 1 and the test that
+    # said "the tier must follow the memory" failed on the arithmetic rather than the parsing.
+    tier = _tier_for_memory(vram_gb)
+    capacity_basis = "vram"
+
+    # No accelerator is NOT the same as no capacity. Found 2026-07-31: `tier` came only from
+    # `vram_gb`, so every host without a discrete GPU got tier -1 -- `max_local_models()` 0,
+    # `keep_hot` empty -- and a 128 GB workstation was treated identically to an 8 GB laptop. RAM
+    # was already being detected, and then never used for anything.
+    #
+    # That is wrong on its own terms: Ollama and llama.cpp run models out of system RAM, which is
+    # exactly how a CPU-only install of Determinex works. It also made `keep_hot=[]` backwards --
+    # reloading a model costs MORE on a CPU host, not less, so the machine that most needs the
+    # builder kept resident was the one told to keep nothing.
+    #
+    # This is the whole story on Windows-on-ARM too. Snapdragon X has an Adreno GPU and a Hexagon
+    # NPU, and Determinex uses NEITHER: there is no PyTorch backend for them on Windows ARM64 and
+    # Ollama runs the ARM64 CPU path. So a Snapdragon box is precisely "no accelerator, plenty of
+    # RAM", and it is fixed by this rather than by a probe that would claim an NPU we never call.
+    if vendor == "cpu":
+        usable = max(0.0, ram_gb - _CPU_RESERVE_GB)
+        # Capped at tier 1 deliberately. Tier 2's defining property is one branch per GPU, and
+        # keeping four models resident buys nothing when execution is serialised on one CPU --
+        # it just takes RAM that cargo and Docker want during the same session.
+        tier = min(1, _tier_for_memory(usable))
+        capacity_basis = "system_ram" if ram_gb > 0 else "none"
+        log.info("[hardware] no accelerator; capacity from system RAM: %.1f GB total, "
+                 "%.1f GB usable after %.1f GB reserve -> tier %d",
+                 ram_gb, usable, _CPU_RESERVE_GB, tier)
+
+    lifecycle = _lifecycle_for_tier(tier)
 
     thermal = ThermalProfile.measure()
     if thermal.recommendation:
@@ -286,6 +561,9 @@ def profile_hardware() -> HardwareProfile:
     return HardwareProfile(
         tier=tier, vram_gb=vram_gb, ram_gb=ram_gb,
         gpu_count=gpu_count, lifecycle=lifecycle, thermal=thermal,
+        accelerator=vendor, torch_device=torch_device,
+        capacity_basis=capacity_basis,
+        platform_note=_platform_note() if vendor == "cpu" else "",
     )
 
 

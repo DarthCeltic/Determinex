@@ -481,24 +481,84 @@ def check_settings_spine() -> Check:
         sys.path[:] = _old_path
 
 
+#: The corpus HMAC key env var names, in the SAME precedence the settings spine declares
+#: (`DeterminexSettings.hmac_key`, AliasChoices). Primary first.
+#:
+#: This check used to read `DETERMINEX_HMAC_KEY` and nothing else, while every actual consumer --
+#: `determinex_safety._corpus_hmac_key`, `hive/workspace`, `corpus/corpus_manager` -- reads only
+#: `DETERMINEX_CORPUS_HMAC_KEY`. So the diagnostic disagreed with the thing it diagnoses, in both
+#: directions:
+#:
+#:   * Follow doctor's own fix and set DETERMINEX_HMAC_KEY -> doctor turns green, and corpus rows
+#:     are STILL unsigned. `determinex_hive new-session` keeps warning "No
+#:     DETERMINEX_CORPUS_HMAC_KEY set -- using session-ephemeral HMAC key" on the very next
+#:     command. A resolved warning that isn't resolved is worse than the warning.
+#:   * Set the name that actually works -> doctor reports it "not set".
+#:
+#: Measured 2026-07-31 by running `determinex doctor` and then `determinex_hive.py new-session`
+#: back to back and reading the two messages. determinex_settings.py already carries a comment
+#: about having had this precedence backwards once; this is the same fact stated in a third place,
+#: which is why the names are listed once here and the messages are generated from them.
+_HMAC_KEY_ENV_NAMES = ("DETERMINEX_CORPUS_HMAC_KEY", "DETERMINEX_HMAC_KEY")
+
+
+#: What `determinex_safety._load_hmac_key` actually requires: `bytes.fromhex(raw)` must parse AND
+#: yield at least this many bytes, or it silently falls back to an ephemeral key. 32 BYTES is 64
+#: hex characters -- and this check used to compare `len(key) < 32` against the hex STRING, so a
+#: 32-hex-char (16-byte) key was reported ACTIVE and then rejected by the signing code. Doctor's
+#: verdict has to predict the consumer's behaviour or it is not a diagnostic.
+_HMAC_KEY_MIN_BYTES = 32
+
+
 def check_hmac_key() -> Check:
-    """DETERMINEX_HMAC_KEY must be set; presence-only check (never logs the value)."""
-    key = os.environ.get("DETERMINEX_HMAC_KEY", "")
+    """The corpus HMAC key must be set and usable; presence-only (never logs the value)."""
+    primary, alias = _HMAC_KEY_ENV_NAMES
+    found_name, key = "", ""
+    for name in _HMAC_KEY_ENV_NAMES:
+        value = os.environ.get(name, "").strip()
+        if value:
+            found_name, key = name, value
+            break
+
     if not key:
         return Check(
             "hmac_key", "security", UNAVAIL,
-            detail="DETERMINEX_HMAC_KEY not set — corpus rows will not be signed",
-            fix="set DETERMINEX_HMAC_KEY=<random 32+ bytes hex> in .env",
+            detail=f"{primary} not set — corpus rows will not be signed",
+            fix=f"set {primary}=<64 hex chars> in .env "
+                "(generate: python -c \"import secrets; print(secrets.token_hex(32))\")",
         )
-    if len(key) < 32:
+
+    # The alias is honoured by the SETTINGS SPINE only. determinex_safety, hive/workspace and
+    # corpus/corpus_manager each read the canonical name directly and consult no settings object,
+    # so an alias-only configuration leaves rows signed with an ephemeral key. Reporting that as
+    # ACTIVE is the exact overclaim this check existed to prevent.
+    if found_name != primary:
         return Check(
             "hmac_key", "security", PARTIAL,
-            detail=f"DETERMINEX_HMAC_KEY is short ({len(key)} chars) — recommend ≥32 hex chars",
+            detail=f"only {alias} is set — the signing code reads {primary}, so corpus rows "
+                   "are still signed with an ephemeral key",
+            fix=f"rename it to {primary} in .env",
+        )
+
+    try:
+        raw = bytes.fromhex(key)
+    except ValueError:
+        return Check(
+            "hmac_key", "security", PARTIAL,
+            detail=f"{primary} is not valid hex — the signing code will fall back to an "
+                   "ephemeral key",
+            fix="regenerate with: python -c \"import secrets; print(secrets.token_hex(32))\"",
+        )
+    if len(raw) < _HMAC_KEY_MIN_BYTES:
+        return Check(
+            "hmac_key", "security", PARTIAL,
+            detail=f"{primary} decodes to {len(raw)} bytes; the signing code requires "
+                   f"≥{_HMAC_KEY_MIN_BYTES} and falls back to an ephemeral key below that",
             fix="regenerate with: python -c \"import secrets; print(secrets.token_hex(32))\"",
         )
     return Check(
         "hmac_key", "security", ACTIVE,
-        detail=f"DETERMINEX_HMAC_KEY set ({len(key)} chars)",
+        detail=f"{primary} set ({len(raw)} bytes)",
     )
 
 

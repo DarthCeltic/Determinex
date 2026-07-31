@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import os
+from datetime import datetime, timezone
 from pathlib import Path
 
 from scripts.release import determinex_release_gates as gates
@@ -206,6 +208,180 @@ def test_first_e2e_gate_accepts_passing_rerun_as_superseding_evidence(tmp_path: 
     assert gate.status == "passed"
     assert gate.exact_blocker == ""
     assert any("--session passed-session" in command for command in gate.runbook_commands)
+
+
+def test_first_e2e_gate_blocks_when_the_proof_predates_the_artifacts(tmp_path: Path):
+    """The binding this gate never had.
+
+    It read a status string out of an evidence file and passed, with nothing tying the proof to
+    the code being shipped. In practice one transcript dated 2026-07-07 kept the gate green for
+    three weeks, across an internal rename, the addition of the in-app updater, and a period
+    when the installed app could not launch AT ALL on a clean host (0xC0000135). The gate's own
+    next_action said "Keep the transcript current with the release commit" -- an instruction to a
+    human standing in for a check.
+
+    An end-to-end run that finished before the installers were built cannot have exercised them.
+    """
+    _write_json(
+        tmp_path / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json",
+        {
+            "status": "FIRST_E2E_RERUN_PASSED",
+            "generated_at_utc": "2026-07-07T16:57:30Z",
+            "session_id": "stale-session",
+            "observed_result": {
+                "steps_complete": 2, "steps_total": 2, "steps_failed": 0, "steps_pending": 0,
+            },
+        },
+    )
+    _write_json(
+        tmp_path / "assurance/evidence/first_end_to_end_user_workflow/result.json",
+        {"status": "FIRST_E2E_PASSED", "generated_at_utc": "2026-07-07T16:00:00Z"},
+    )
+    # A REAL artifact with a controlled mtime. Freshness is anchored on when the installers were
+    # built, not on when the manifest was written -- re-running the packager to fix a line of
+    # SETUP.md moved `generated_at_utc` forward 14 minutes and invalidated evidence gathered against
+    # byte-identical installers, which is a gate that gets switched off rather than satisfied.
+    installer = tmp_path / "dist" / "Determinex_setup.msi"
+    installer.parent.mkdir(parents=True, exist_ok=True)
+    installer.write_bytes(b"installer")
+    built = datetime(2026, 7, 30, 0, 28, 44, tzinfo=timezone.utc).timestamp()
+    os.utime(installer, (built, built))
+    _write_json(
+        tmp_path / "assurance/evidence/determinex_download_bundle_20260730/download_manifest.json",
+        {
+            "generated_at_utc": "2026-07-30T00:28:44Z",
+            "artifacts": [{"artifact_type": "windows_msi", "source_path": "dist/Determinex_setup.msi"}],
+        },
+    )
+
+    gate = gates._first_e2e_gate(tmp_path)
+
+    assert gate.status == "blocked"
+    assert "predates the release artifacts" in gate.exact_blocker
+    assert "2026-07-07T16:57:30Z" in gate.exact_blocker
+    assert "2026-07-30T00:28:44Z" in gate.exact_blocker
+
+
+def test_first_e2e_gate_still_passes_when_the_proof_is_newer_than_the_artifacts(tmp_path: Path):
+    """The freshness rule must not block a genuinely current proof, or it gets relaxed."""
+    _write_json(
+        tmp_path / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json",
+        {
+            "status": "FIRST_E2E_RERUN_PASSED",
+            "generated_at_utc": "2026-07-30T01:00:00Z",
+            "session_id": "fresh-session",
+            "observed_result": {
+                "steps_complete": 2, "steps_total": 2, "steps_failed": 0, "steps_pending": 0,
+            },
+        },
+    )
+    _write_json(
+        tmp_path / "assurance/evidence/first_end_to_end_user_workflow/result.json",
+        {"status": "FIRST_E2E_PASSED"},
+    )
+    _write_json(
+        tmp_path / "assurance/evidence/determinex_download_bundle_20260730/download_manifest.json",
+        {"generated_at_utc": "2026-07-30T00:28:44Z", "artifacts": []},
+    )
+
+    assert gates._first_e2e_gate(tmp_path).status == "passed"
+
+
+def test_sbom_gate_blocks_when_it_omits_a_shipped_dependency(tmp_path: Path):
+    """The binding this gate never had.
+
+    It checked that three SBOM files exist, parse as JSON, and carry the right product names --
+    nothing about whether they DESCRIBE WHAT SHIPS, and its next_action ("Keep SBOMs
+    regenerated") was an instruction to a human standing in for the check. Measured on the real
+    repo 2026-07-29: the npm SBOM was two weeks stale and listed neither @tauri-apps/plugin-dialog
+    (shipping for weeks) nor the updater/process plugins added that day, while this gate reported
+    SBOM coverage as passed. An SBOM consumed as a supply-chain assertion is worse than absent
+    when it silently omits shipped code.
+    """
+    _write_json(tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"})
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-python.cyclonedx.json",
+        {"metadata": {"component": {"name": "determinex-python"}}, "components": []},
+    )
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json",
+        {
+            "bomFormat": "CycloneDX",
+            "components": [{"group": "@tauri-apps", "name": "api", "purl": "pkg:npm/%40tauri-apps/api@2.10.1"}],
+        },
+    )
+    _write_json(
+        tmp_path / "frontend/package.json",
+        {
+            "dependencies": {
+                "@tauri-apps/api": "^2.10.1",
+                "@tauri-apps/plugin-updater": "^2.10.1",
+            }
+        },
+    )
+
+    gate = gates._sbom_gate(tmp_path)
+
+    assert gate.status == "blocked"
+    assert "plugin-updater" in gate.exact_blocker
+
+
+def test_sbom_gate_accepts_a_scoped_package_split_into_group_and_name(tmp_path: Path):
+    """Scoped npm packages are commonly emitted as group "@tauri-apps" plus name "plugin-updater".
+    A bare-name lookup would miss every scoped package and this check would false-positive on a
+    perfectly good SBOM -- which is how a check gets removed rather than fixed."""
+    _write_json(tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"})
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-python.cyclonedx.json",
+        {"metadata": {"component": {"name": "determinex-python"}}, "components": []},
+    )
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json",
+        {
+            "bomFormat": "CycloneDX",
+            "components": [{"group": "@tauri-apps", "name": "plugin-updater"}],
+        },
+    )
+    _write_json(
+        tmp_path / "frontend/package.json",
+        {"dependencies": {"@tauri-apps/plugin-updater": "^2.10.1"}},
+    )
+
+    assert gates._sbom_gate(tmp_path).status == "passed"
+
+
+def test_a_negated_status_string_does_not_read_as_a_pass():
+    """`status.endswith("PASSED")` was the test, and "NOT_PASSED" ends with "PASSED".
+
+    The statuses in this evidence tree are hand-built labels like
+    "LANE_D_BLOCKED_LOCAL_BUILDER_OLLAMA_TIMEOUT", so a bare suffix check on an unconstrained
+    string was one unlucky label away from reading a failure as a pass.
+    """
+    for good in ("FIRST_E2E_RERUN_PASSED", "LANE_A_SUCCESS", "passed"):
+        assert gates._is_passing_status(good), good
+    for bad in (
+        "NOT_PASSED",
+        "LANE_D_BLOCKED_LOCAL_BUILDER_OLLAMA_TIMEOUT",
+        "FAILED",
+        "E2E_FAILED_THEN_PASSED",
+        "TIMEOUT_BEFORE_PASSED",
+        "",
+        # The first attempt at this fix excluded negative markers and then accepted anything
+        # ENDING in PASSED/SUCCESS, which still let all of these through. BYPASSED is the
+        # sharpest: the word simply contains "PASSED". UNVERIFIED_PASSED matters specifically
+        # because the lenient-oracle path tags results with a literal "UNVERIFIED:" prefix, so a
+        # qualified pass is exactly the claim this collector must not make.
+        "BYPASSED",
+        "UNVERIFIED_PASSED",
+        "PARTIALLY_PASSED",
+        "MOCK_SUCCESS",
+        "SIMULATED_SUCCESS",
+        "STUBBED_SUCCESS",
+        "SKIPPED_PASSED",
+        "PENDING_SUCCESS",
+        "ASSUMED_PASSED",
+    ):
+        assert not gates._is_passing_status(bad), bad
 
 
 def test_clean_host_gate_uses_fresh_runner_preflight_without_passing_gate(tmp_path: Path):

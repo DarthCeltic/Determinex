@@ -703,14 +703,11 @@ export function TeacherOverlay({ open, onClose, activeSidebar, activeAddon, onAs
   );
 }
 
-export function TeacherButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      title="Open Guide"
-      className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/8 bg-white/[0.03] text-gray-600 hover:border-[var(--determinex-accent)]/30 hover:bg-[var(--determinex-accent)]/8 hover:text-[var(--determinex-accent)] transition-all"
-    >
-      <GraduationCap size={14} />
-    </button>
-  );
-}
+// TeacherButton was removed 2026-07-29. It rendered a GraduationCap trigger for this
+// overlay and was imported by nothing: page.tsx builds its own trigger inline
+// (search "Open Guide"), and that one is strictly better -- its tooltip names the current
+// guide step via getGuideStepFor(), which this generic version could not do.
+//
+// Deleted rather than wired, because wiring it would have replaced a context-aware
+// control with a context-free one. Unused code that duplicates a live feature is worth
+// removing precisely because it reads as the real thing to the next person looking.

@@ -108,9 +108,17 @@ def _build_knowledge_playbook(failures_text: str = "") -> list[str]:
         " so the build finishes fast; keep --release; never wrap the build in a short timeout.",
         "",
     ]
-    # LEARNED classes -- auto-distilled from the system's OWN verified solves (the flywheel). Each is
-    # a (symptom -> exact fix that worked). Oracle still gates the next use, so even a rough learned
-    # class is safe -- it can only HELP (a wrong hint fails verification, no harm).
+    # LEARNED classes -- (symptom -> fix) pairs from TWO sources, and the split matters:
+    # learn_class() writes verified=True for oracle-confirmed flywheel solves, while
+    # determinex_pb_absorb writes verified=False for classes extracted from prose. As of
+    # 2026-07-28 that is 5 verified against 267 absorbed, so describing this list as "the
+    # system's own verified solves" -- which this comment used to -- is off by two orders
+    # of magnitude.
+    #
+    # Mixing them is still sound, and deliberately so: the oracle gates the next use, so a
+    # wrong hint costs a wasted attempt and can never produce a false pass. But the model
+    # should be able to WEIGHT them, so each line below is tagged with its provenance
+    # instead of presenting a prose guess and a proven fix identically.
     learned = kn.get("learned_classes", {})
     if isinstance(learned, dict) and learned:
         import re as _re
@@ -130,15 +138,20 @@ def _build_knowledge_playbook(failures_text: str = "") -> list[str]:
         shown = [(k, v) for k, v in ranked if _score(v) > 0][:20] if ftoks else ranked[:12]
         if not shown:
             shown = ranked[:8]
-        out.append("LEARNED CLASSES (distilled from this system's own verified solves + absorbed "
-                   "prose -- apply when the symptom matches; this list GROWS as the system learns):")
+        n_ver = sum(1 for _k, _v in shown if isinstance(_v, dict) and _v.get("verified"))
+        out.append(
+            f"LEARNED CLASSES ({n_ver} of {len(shown)} shown are oracle-VERIFIED fixes from this "
+            "system's own solves; the rest are unverified hints absorbed from prose. Prefer a "
+            "VERIFIED class when both match. Apply when the symptom matches; the oracle still "
+            "judges the result):")
         for k, v in shown:
             if not isinstance(v, dict):
                 continue
             det = str(v.get("detect") or v.get("symptom") or "")[:140]
             fix = str(v.get("fix") or "").replace("\n", " ; ")[:240]
             if det and fix:
-                out.append(f"  * {v.get('source_tool', k)}: WHEN {det}  ->  FIX {fix}")
+                mark = "VERIFIED" if v.get("verified") else "unverified-prose"
+                out.append(f"  * [{mark}] {v.get('source_tool', k)}: WHEN {det}  ->  FIX {fix}")
         out.append("")
     return out
 

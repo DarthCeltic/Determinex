@@ -228,6 +228,32 @@ Every claim of "zero leakage" requires the following sequence:
    `assurance/evidence/cloak_audits/<run-id>/`.
 6. Add the audit summary line to `docs/EVIDENCE_INDEX.md`.
 
+### What a leak count of 0 does and does not prove
+
+`verify_cloak.py` defines a leak as *an identifier from the run's forward map
+appearing in an API request*. That map is produced by the same extractor whose
+output was obfuscated — so **an identifier the extractor never captured cannot
+appear in the map, and therefore cannot be reported as a leak.** The auditor is
+blind in exactly the places the extractor is blind.
+
+A green audit is therefore proof that *everything Cloak obfuscated stayed
+obfuscated*. It is **not** proof that nothing leaked. The two are only the same
+thing if extraction is complete, which is a separate property with a separate
+test.
+
+That separate test is `tests/test_cloak_language_coverage.py`. It plants
+`zzq`-prefixed identifiers — nonsense to any safe-list — in a per-language fixture
+and asserts none survive. Because it knows the names independently of the map, it
+is the only check that can find an extraction gap. It has found real ones: three
+of nine languages had no working grammar and TypeScript had neither a grammar nor
+a regex fallback (a silent plaintext path, 2026-07-26), and JavaScript instance
+fields written the conventional way — `this.field = 0`, an assignment to a
+member_expression rather than a `field_definition` — survived obfuscation until
+2026-07-28. Every one of those was invisible to `verify_cloak.py` by construction.
+
+So: run the language-coverage suite as part of any privacy claim, and treat its
+result as a precondition for reading the audit's leak count at all.
+
 A run with a non-zero star-import-hole count is **not** a leak by itself, but
 operators must explicitly inspect each warning before publishing privacy
 claims.

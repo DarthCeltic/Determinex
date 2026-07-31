@@ -833,3 +833,129 @@ def test_answer_as_corpus_survives_corpus_query_failure(tmp_path, monkeypatch):
 
     answer = chat.answer_as_corpus("sess-ask-c")  # must not raise
     assert isinstance(answer, str)
+
+
+# ---------------------------------------------------------------------------
+# Per-agent model overrides persist with the session (2026-07-31)
+#
+# `ensure_session_loaded` in agent_chat.rs rehydrates a session's workspace,
+# participants and turn_mode from this index after an app restart, but had
+# nothing to read models from and reset them to empty. Losing a preference
+# would be mild; this was worse. local-ollama's fallback is a DIFFERENT model
+# (model_puller::DEFAULT_LOCAL_CHAT_MODEL) from whatever the user picked, so
+# the same conversation resumed on another model and nothing said so.
+# ---------------------------------------------------------------------------
+
+
+def test_a_new_session_starts_with_no_model_overrides(tmp_path, monkeypatch):
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["claude-code", "local-ollama"], "broadcast")
+    assert chat.session_models("s1") == {}
+    # The key must exist on the record so the Rust side reads a real value, not a gap.
+    assert chat.get_session("s1")["models"] == {}
+
+
+def test_set_model_persists_to_the_index(tmp_path, monkeypatch):
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["claude-code", "local-ollama"], "broadcast")
+
+    chat.set_model("s1", "local-ollama", "qwen2.5-coder:14b-instruct-q4_K_M")
+    chat.set_model("s1", "claude-code", "opus")
+
+    on_disk = json.loads(chat.INDEX_PATH.read_text(encoding="utf-8"))["s1"]["models"]
+    assert on_disk == {
+        "local-ollama": "qwen2.5-coder:14b-instruct-q4_K_M",
+        "claude-code": "opus",
+    }, "the override has to be on the record, or a restart cannot restore it"
+
+
+def test_a_restart_sees_the_same_models(tmp_path, monkeypatch):
+    """The actual regression, expressed the way it is experienced: re-read the index cold."""
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["local-ollama"], "broadcast")
+    chat.set_model("s1", "local-ollama", "deepseek-coder:6.7b")
+
+    # Nothing cached: this is what a fresh process does.
+    assert chat.session_models("s1") == {"local-ollama": "deepseek-coder:6.7b"}
+
+
+def test_an_empty_model_clears_the_override(tmp_path, monkeypatch):
+    """Mirrors agent_chat_set_model: empty means "use the agent's own default"."""
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["claude-code"], "broadcast")
+    chat.set_model("s1", "claude-code", "opus")
+
+    chat.set_model("s1", "claude-code", "")
+
+    assert chat.session_models("s1") == {}
+    assert "claude-code" not in json.loads(chat.INDEX_PATH.read_text(encoding="utf-8"))["s1"]["models"]
+
+
+def test_a_whitespace_model_is_not_stored(tmp_path, monkeypatch):
+    """A blank tag is the empty-model 404 this module already guards against elsewhere."""
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["local-ollama"], "broadcast")
+    chat.set_model("s1", "local-ollama", "   ")
+    assert chat.session_models("s1") == {}
+
+
+def test_model_names_are_stripped(tmp_path, monkeypatch):
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["local-ollama"], "broadcast")
+    chat.set_model("s1", "local-ollama", "  qwen2.5-coder:7b-instruct \n")
+    assert chat.session_models("s1") == {"local-ollama": "qwen2.5-coder:7b-instruct"}
+
+
+def test_setting_one_agents_model_leaves_the_others_alone(tmp_path, monkeypatch):
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["a", "b"], "broadcast")
+    chat.set_model("s1", "a", "model-a")
+    chat.set_model("s1", "b", "model-b")
+    chat.set_model("s1", "a", "model-a2")
+    assert chat.session_models("s1") == {"a": "model-a2", "b": "model-b"}
+
+
+def test_set_model_on_an_unknown_session_is_an_error(tmp_path, monkeypatch):
+    """Must not conjure a session record from a stray call."""
+    _rewire(monkeypatch, tmp_path)
+    try:
+        chat.set_model("nope", "claude-code", "opus")
+    except KeyError as exc:
+        assert "nope" in str(exc)
+    else:
+        raise AssertionError("set_model accepted an unknown session")
+    assert chat.get_session("nope") is None
+
+
+def test_a_session_predating_model_persistence_still_opens(tmp_path, monkeypatch):
+    """Records written before this change have no `models` key at all."""
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["a"], "broadcast")
+    index = json.loads(chat.INDEX_PATH.read_text(encoding="utf-8"))
+    del index["s1"]["models"]
+    chat.INDEX_PATH.write_text(json.dumps(index), encoding="utf-8")
+
+    assert chat.session_models("s1") == {}
+    chat.set_model("s1", "a", "opus")
+    assert chat.session_models("s1") == {"a": "opus"}
+
+
+def test_a_corrupt_models_field_reads_as_no_overrides(tmp_path, monkeypatch):
+    """A chat that will not open is worse than one that opens on defaults."""
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["a"], "broadcast")
+    for junk in ("not-a-dict", 42, ["a", "b"]):
+        index = json.loads(chat.INDEX_PATH.read_text(encoding="utf-8"))
+        index["s1"]["models"] = junk
+        chat.INDEX_PATH.write_text(json.dumps(index), encoding="utf-8")
+        assert chat.session_models("s1") == {}
+
+
+def test_models_survive_other_index_updates(tmp_path, monkeypatch):
+    """record_turn bumps last_active/turn_count through update_index; that must not drop models."""
+    _rewire(monkeypatch, tmp_path)
+    chat.create_session("s1", str(tmp_path), ["a"], "broadcast")
+    chat.set_model("s1", "a", "opus")
+    chat.update_index("s1", turn_count=7, last_active="2026-07-31T00:00:00Z")
+    assert chat.session_models("s1") == {"a": "opus"}
+    assert chat.get_session("s1")["turn_count"] == 7

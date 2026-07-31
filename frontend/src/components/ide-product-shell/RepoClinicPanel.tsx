@@ -117,7 +117,16 @@ export function RepoClinicPanel({
 
       <dl className="mt-2 grid grid-cols-2 gap-1">
         <dt data-testid="repo-clinic-repo-analysis-status">Repo analysis</dt>
-        <dd>analyzed</dd>
+        {/* Was the bare literal "analyzed" -- the one unconditional row in a table whose other
+            eleven rows are all derived. With no workspace open, resolvedWorkspacePath is "" so no
+            diagnosis is even attempted, and the panel still reported the repo as analysed. */}
+        <dd>
+          {!resolvedWorkspacePath
+            ? "no workspace open — not analyzed"
+            : liveDiagnosis
+              ? "analyzed"
+              : "analysis pending"}
+        </dd>
 
         <dt data-testid="repo-clinic-toolchain-status">Toolchain</dt>
         <dd>{verifierCommandPresent ? "detected" : "TOOLCHAIN_MISSING"}</dd>
@@ -212,5 +221,3 @@ export function RepoClinicPanel({
     </section>
   );
 }
-
-export default RepoClinicPanel;

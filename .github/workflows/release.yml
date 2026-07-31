@@ -40,7 +40,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         with:
           targets: >-
             ${{ matrix.platform == 'macos-aarch64' && 'aarch64-apple-darwin' || '' }}
@@ -72,9 +72,15 @@ jobs:
         run: npm ci
 
       - name: Build and publish release
-        uses: tauri-apps/tauri-action@v0
+        uses: tauri-apps/tauri-action@84b9d35b5fc46c1e45415bdb6144030364f7ebc5 # v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Updater signing. bundle.createUpdaterArtifacts is true, so the bundler emits a
+          # signed update archive plus latest.json; without this secret the build FAILS rather
+          # than quietly publishing an unsignable release that no installed app would accept.
+          # Generate with `npx tauri signer generate`; the private key is NOT in the repo.
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
           # macOS code signing (optional — add secrets to enable notarization)
           # APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           # APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}

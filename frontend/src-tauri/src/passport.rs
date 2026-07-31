@@ -27,6 +27,15 @@
 // (raw vs. obfuscated mirror) -- this module's job is credential VISIBILITY
 // and STORAGE, not data scoping.
 
+// Python is resolved through `ipc_hive::resolve_python_exe()`, never `Command::new("python")`.
+//
+// That resolver exists for a specific reason: on Windows, PATH `python` is very
+// often the Microsoft Store AppExecLink stub, which does not run Python -- it opens
+// the Store. It also prefers the repo venv, so the interpreter that has the
+// project's dependencies is the one used. Ten call sites across six files bypassed
+// it and used bare `python`, which worked only on machines where PATH happened to
+// resolve to a real interpreter.
+
 use crate::db::DbState;
 use crate::win_process::HideConsoleExt;
 use reqwest::Client;
@@ -86,9 +95,9 @@ pub struct CliSubscriptionEntry {
 
 fn run_usage_script<T: serde::de::DeserializeOwned>(args: &[&str]) -> Result<T, String> {
     let root = locate_repo_root().ok_or_else(|| "could not locate repo root".to_string())?;
-    let mut cmd = Command::new("python");
-    cmd.hide_console();
-    cmd.arg(root.join(USAGE_SCRIPT));
+    // Bundled-first (see ipc_hive::helper_command): this used to build
+    // `python <root>/scripts/<name>.py`, which does not exist in an installed copy.
+    let (mut cmd, _bundled) = crate::ipc_hive::helper_command(USAGE_SCRIPT)?;
     for a in args {
         cmd.arg(a);
     }
@@ -332,25 +341,101 @@ pub fn passport_disconnect(provider: String, state: State<'_, DbState>) -> Resul
 /// The credential-delivery half for agent_chat.rs: connected passport
 /// tokens (GitHub/HuggingFace, whatever the user has explicitly linked),
 /// returned as an env-var map for injection into ONE agent subprocess's
-/// spawn env only -- never into the built prompt or chat transcript. Native
-/// CLI logins (claude-code/codex/gemini-cli) are NOT included here; those
-/// tools already read their own session files directly and need nothing
-/// injected.
+/// spawn env only -- never into the built prompt or chat transcript.
+///
+/// claude-code and codex authenticate through their own OAuth session files and
+/// need nothing injected (verified live). gemini-cli is the exception: it
+/// requires GEMINI_API_KEY (or an explicit Google OAuth/Vertex mode), so the
+/// model-provider keys saved in the app's own dialog are injected too.
+/// The env var an `api_keys` row should be injected as, or None to never inject it.
+///
+/// An explicit allowlist, not a transformation: the same table also holds
+/// `__passport_*` profile JSON and the Ollama base-URL row, and neither belongs
+/// in a child process's environment. Anything unrecognised is skipped.
+///
+/// Two naming conventions live in this table because two dialogs write to it --
+/// `passport_connect` stores env-var names (`GITHUB_TOKEN`) while
+/// `save_api_keys` stores bare provider names (`gemini`) -- so both are mapped.
+fn spawn_env_var(row: &str) -> Option<&'static str> {
+    match row {
+        // passport_connect rows (already env-var shaped)
+        "GITHUB_TOKEN" => Some("GITHUB_TOKEN"),
+        "HUGGINGFACE_TOKEN" => Some("HUGGINGFACE_TOKEN"),
+        // save_api_keys rows (bare provider names)
+        "gemini" => Some("GEMINI_API_KEY"),
+        "openai" => Some("OPENAI_API_KEY"),
+        "anthropic" => Some("ANTHROPIC_API_KEY"),
+        "openrouter" => Some("OPENROUTER_API_KEY"),
+        "deepseek" => Some("DEEPSEEK_API_KEY"),
+        "groq" => Some("GROQ_API_KEY"),
+        "mistral" => Some("MISTRAL_API_KEY"),
+        "kimi" => Some("MOONSHOT_API_KEY"),
+        _ => None,
+    }
+}
+
 pub fn env_credentials(state: &DbState) -> HashMap<String, String> {
     let mut out = HashMap::new();
     let Ok(conn) = state.conn.lock() else { return out };
-    let Ok(mut stmt) = conn.prepare(
-        "SELECT provider, api_key FROM api_keys WHERE provider IN ('GITHUB_TOKEN', 'HUGGINGFACE_TOKEN')",
-    ) else {
+    // Read every row and filter through the allowlist, rather than naming rows
+    // in the SQL. The previous version selected only GITHUB_TOKEN and
+    // HUGGINGFACE_TOKEN on the belief -- stated in the doc comment above -- that
+    // claude-code/codex/gemini-cli "already read their own session files and need
+    // nothing injected". Two thirds right: claude-code and codex do authenticate
+    // via their own OAuth sessions (verified live 2026-07-28, both reached the
+    // API with nothing injected). gemini-cli does NOT -- it fails with "Please
+    // set an Auth method ... GEMINI_API_KEY" unless a key or a Google OAuth mode
+    // is configured. So a user who saved their Gemini key in Determinex's own
+    // keys dialog got it stored, and then never passed to the gemini-cli
+    // Determinex itself spawned.
+    let Ok(mut stmt) = conn.prepare("SELECT provider, api_key FROM api_keys") else {
         return out;
     };
     let Ok(rows) = stmt.query_map([], |row| Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?))) else {
         return out;
     };
-    for (k, v) in rows.flatten() {
-        if !v.trim().is_empty() {
-            out.insert(k, v);
+    for (row_key, v) in rows.flatten() {
+        if v.trim().is_empty() {
+            continue;
+        }
+        if let Some(var) = spawn_env_var(&row_key) {
+            out.insert(var.to_string(), v);
         }
     }
     out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::spawn_env_var;
+
+    /// The gap this closes: the app's keys dialog stores a Gemini key as the row
+    /// `gemini`, and gemini-cli requires GEMINI_API_KEY. Before this mapping the
+    /// key was saved and then never passed to the CLI Determinex itself spawned.
+    #[test]
+    fn model_provider_rows_map_to_the_env_var_their_cli_actually_reads() {
+        assert_eq!(spawn_env_var("gemini"), Some("GEMINI_API_KEY"));
+        assert_eq!(spawn_env_var("anthropic"), Some("ANTHROPIC_API_KEY"));
+        assert_eq!(spawn_env_var("openai"), Some("OPENAI_API_KEY"));
+        assert_eq!(spawn_env_var("openrouter"), Some("OPENROUTER_API_KEY"));
+    }
+
+    #[test]
+    fn passport_rows_keep_their_existing_names() {
+        assert_eq!(spawn_env_var("GITHUB_TOKEN"), Some("GITHUB_TOKEN"));
+        assert_eq!(spawn_env_var("HUGGINGFACE_TOKEN"), Some("HUGGINGFACE_TOKEN"));
+    }
+
+    /// env_credentials now reads the WHOLE api_keys table instead of naming rows
+    /// in SQL, so the allowlist is the only thing keeping non-credential rows out
+    /// of a child process's environment. These rows share that table.
+    #[test]
+    fn non_credential_rows_are_never_injected() {
+        assert_eq!(spawn_env_var("__passport_github"), None);
+        assert_eq!(spawn_env_var("__passport_huggingface"), None);
+        assert_eq!(spawn_env_var("OLLAMA_BASE_URL"), None);
+        assert_eq!(spawn_env_var("ollama_base_url"), None);
+        assert_eq!(spawn_env_var(""), None);
+        assert_eq!(spawn_env_var("anything_else"), None);
+    }
 }

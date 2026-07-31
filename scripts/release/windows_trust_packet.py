@@ -6,9 +6,18 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+# Run directly, so the repo root needs to be importable before asking the gates which download
+# manifest is current. Same reason as clean_host_kit.
+_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+from scripts.release import determinex_release_gates  # noqa: E402  (needs the sys.path line above)
 
 SCHEMA_VERSION = "determinex-windows-trust-evidence-v1"
 WINDOWS_ARTIFACT_TYPES = {"windows_msi", "windows_nsis_setup"}
@@ -138,14 +147,30 @@ def build_packet(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--manifest", type=Path, default=Path("assurance/evidence/determinex_download_bundle_20260707/download_manifest.json"))
+    # No default here on purpose. This used to default to
+    # assurance/evidence/determinex_download_bundle_20260707/download_manifest.json, a path that
+    # goes stale the moment anyone packages a new bundle -- so the trust packet would silently
+    # report Authenticode status for installers we no longer ship. Resolved below from the same
+    # place the gates resolve it.
+    parser.add_argument("--manifest", type=Path, default=None)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--smartscreen-result", default="not_performed")
     parser.add_argument("--smartscreen-verification-performed", action="store_true")
     args = parser.parse_args()
 
     root = Path.cwd()
-    manifest_path = args.manifest if args.manifest.is_absolute() else root / args.manifest
+    if args.manifest is None:
+        resolved = determinex_release_gates.newest_download_manifest_path(root)
+        if resolved is None:
+            print(
+                "no download_manifest.json under assurance/evidence/ -- package a bundle first "
+                "or pass --manifest explicitly",
+                file=sys.stderr,
+            )
+            return 1
+        manifest_path = resolved
+    else:
+        manifest_path = args.manifest if args.manifest.is_absolute() else root / args.manifest
     output = args.output or root / "assurance/evidence/windows_trust" / f"windows_trust_{_utc_stamp()}.json"
     output = output if output.is_absolute() else root / output
 

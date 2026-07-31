@@ -140,7 +140,7 @@ export function SurfaceDrawer({
   return (
     <div
       data-testid="surface-drawer"
-      className="flex h-full w-[248px] shrink-0 flex-col border-r border-white/8 bg-[#0a0d12]"
+      className="flex h-full w-[248px] shrink-0 flex-col border-r border-white/8 bg-[var(--dtx-code-bg)]"
     >
       <div className="flex items-start gap-2 border-b border-white/8 px-3 py-3">
         <div className="min-w-0 flex-1">

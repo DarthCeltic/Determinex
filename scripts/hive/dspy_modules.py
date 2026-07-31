@@ -237,6 +237,15 @@ def _load_trainset_from_sessions(sessions_dir: str) -> list[dspy.Example]:
         try:
             manifest = json.loads(session_path.read_text(encoding="utf-8"))
             for step in manifest.get("steps", []):
+                # A step whose correctness suite never RAN carries no signal in either direction,
+                # so it must be excluded rather than labelled. Added 2026-07-30 alongside the
+                # executor fix that made "skipped" reachable at all: until then every skip was
+                # recorded as correctness_result="pass" and entered here as PASS/score=1.0, i.e. a
+                # verification that had not happened. Simply letting them fall through would have
+                # been the opposite error -- compiler_result="FAIL"/score=0.2 below teaches the
+                # monitor that correct code is wrong.
+                if step.get("correctness_result") == "skipped":
+                    continue
                 if step.get("quality") == "training_ready":
                     examples.append(dspy.Example(
                         step_instruction=step.get("instruction", ""),

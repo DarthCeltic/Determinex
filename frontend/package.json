@@ -15,13 +15,15 @@
     "test-cov": "vitest run --coverage",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
-    "generate:sbom": "cyclonedx-npm --output-format JSON --output-file ../assurance/sbom/determinex-npm.cyclonedx.json",
+    "generate:sbom": "cyclonedx-npm --ignore-npm-errors --output-format JSON --output-file ../assurance/sbom/determinex-npm.cyclonedx.json",
     "test:e2e": "playwright test",
     "knip": "knip"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "@tauri-apps/plugin-dialog": "^2.7.2",
+    "@tauri-apps/plugin-process": "^2.3.1",
+    "@tauri-apps/plugin-updater": "^2.10.1",
     "@xterm/addon-fit": "^0.11.0",
     "@xterm/xterm": "^6.0.0",
     "framer-motion": "^12.42.2",

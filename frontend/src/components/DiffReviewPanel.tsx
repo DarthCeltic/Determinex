@@ -79,16 +79,16 @@ export function DiffReviewPanel() {
 
   if (loading && stagedDiffs.length === 0) {
     return (
-      <div className="flex-1 bg-[#0d1117] flex items-center justify-center">
+      <div className="flex-1 bg-[var(--dtx-code-bg)] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="flex h-full bg-[#0d1117] text-[#c9d1d9]">
-      <div className="w-64 border-r border-[#30363d] bg-[#161b22] flex flex-col">
-        <div className="p-4 border-b border-[#30363d] flex items-center gap-2">
+    <div className="flex h-full bg-[var(--dtx-code-bg)] text-[var(--dtx-code-text)]">
+      <div className="w-64 border-r border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] flex flex-col">
+        <div className="p-4 border-b border-[var(--dtx-code-border)] flex items-center gap-2">
           <GitCompare className="w-4 h-4 text-purple-400" />
           <h2 className="text-sm font-bold text-white">AI Proposed Changes</h2>
         </div>
@@ -101,7 +101,7 @@ export function DiffReviewPanel() {
             </div>
           ) : stagedDiffs.length === 0 ? (
             <div className="space-y-2 p-4">
-              <p className="text-xs italic text-[#8b949e]">
+              <p className="text-xs italic text-[var(--dtx-code-muted)]">
                 No changes waiting for review. An agent stages a diff here whenever it proposes an
                 edit — nothing touches your files until you approve it.
               </p>
@@ -112,7 +112,7 @@ export function DiffReviewPanel() {
                   and reverts on failure, so git is its review surface. */}
               <p className="text-label leading-relaxed text-[#6e7681]">
                 Verified Search queues oracle-verified programs here with{" "}
-                <span className="text-[#8b949e]">Stage for review</span>. Agent edits do not land
+                <span className="text-[var(--dtx-code-muted)]">Stage for review</span>. Agent edits do not land
                 here — for your own uncommitted work, open Source Control.
               </p>
             </div>
@@ -122,14 +122,14 @@ export function DiffReviewPanel() {
                 key={diff.id}
                 onClick={() => setSelectedDiffId(diff.id)}
                 className={
-                  "p-3 border-b border-[#30363d] cursor-pointer hover:bg-[#21262d] transition-colors " +
-                  (selectedDiffId === diff.id ? "bg-[#21262d] border-l-2 border-l-purple-500" : "")
+                  "p-3 border-b border-[var(--dtx-code-border)] cursor-pointer hover:bg-[var(--dtx-code-border-subtle)] transition-colors " +
+                  (selectedDiffId === diff.id ? "bg-[var(--dtx-code-border-subtle)] border-l-2 border-l-purple-500" : "")
                 }
               >
                 <div className="text-sm font-mono truncate text-blue-400">
                   {diff.path.split(/[/\\]/).pop()}
                 </div>
-                <div className="text-xs text-[#8b949e] truncate">{diff.path}</div>
+                <div className="text-xs text-[var(--dtx-code-muted)] truncate">{diff.path}</div>
               </div>
             ))
           )}
@@ -157,15 +157,15 @@ export function DiffReviewPanel() {
         )}
         {selectedDiff ? (
           <>
-            <div className="h-14 border-b border-[#30363d] bg-[#0d1117] px-4 flex items-center justify-between shrink-0">
+            <div className="h-14 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-4 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-mono text-[#8b949e]">{selectedDiff.path}</span>
+                <span className="text-sm font-mono text-[var(--dtx-code-muted)]">{selectedDiff.path}</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setSideBySide((v) => !v)}
                   title={sideBySide ? "Switch to inline diff" : "Switch to side-by-side diff"}
-                  className="px-2.5 py-1.5 flex items-center gap-1.5 text-xs font-medium text-[#8b949e] hover:bg-white/5 border border-white/10 rounded transition-colors"
+                  className="px-2.5 py-1.5 flex items-center gap-1.5 text-xs font-medium text-[var(--dtx-code-muted)] hover:bg-white/5 border border-white/10 rounded transition-colors"
                 >
                   {sideBySide ? (
                     <Rows2 className="w-3.5 h-3.5" />
@@ -208,7 +208,7 @@ export function DiffReviewPanel() {
           <div className="flex-1 flex flex-col items-center justify-center opacity-50">
             <Check className="w-16 h-16 text-green-500 mb-4" />
             <p className="text-lg">All caught up!</p>
-            <p className="text-sm text-[#8b949e]">No AI changes pending your review.</p>
+            <p className="text-sm text-[var(--dtx-code-muted)]">No AI changes pending your review.</p>
           </div>
         )}
       </div>

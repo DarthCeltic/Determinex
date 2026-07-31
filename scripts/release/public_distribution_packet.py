@@ -22,6 +22,17 @@ NOTICE_FILES = (
     "docs/release/THIRD_PARTY_NOTICES.md",
 )
 
+# The corpus is published (2026-07-31), so the projects vendored inside it are redistributed and
+# their notices are a distribution obligation, not an optional extra. `third_party_notices_present`
+# was true on the strength of a 17-line file that named three SBOMs and did not mention the corpus
+# at all, while the actual inventory of upstream projects lived in a 449-line file the packet never
+# read. An operator attesting legal review off that packet would have been attesting over an
+# inventory that omitted every one of them.
+CORPUS_NOTICE_FILES = (
+    "corpus/THIRD_PARTY_NOTICES.md",
+    "corpus/REDISTRIBUTION_BOUNDARY.json",
+)
+
 
 def _read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace")
@@ -50,6 +61,41 @@ def _notices_present(root: Path) -> tuple[bool, list[str]]:
         if not path.is_file() or not _read_text(path).strip():
             return False, evidence
         evidence.append(rel)
+    corpus_ok, corpus_evidence = _corpus_notices_cover_what_ships(root)
+    evidence.extend(corpus_evidence)
+    return corpus_ok, evidence
+
+
+def _corpus_notices_cover_what_ships(root: Path) -> tuple[bool, list[str]]:
+    """Require the corpus notices to exist AND to be reachable from the release notices.
+
+    Two separate failures are possible and both have to be caught. The notices can be absent, or
+    they can exist while the document an operator actually reads never points at them -- which is
+    the state this check was written for.
+    """
+    evidence: list[str] = []
+    boundary_path = root / "corpus" / "REDISTRIBUTION_BOUNDARY.json"
+    for rel in CORPUS_NOTICE_FILES:
+        path = root / rel
+        if not path.is_file() or not _read_text(path).strip():
+            return False, evidence
+        evidence.append(rel)
+
+    # The boundary manifest must be readable and must actually account for something. An empty
+    # boundary would satisfy a mere file-exists check while accounting for nothing.
+    try:
+        boundary = json.loads(_read_text(boundary_path))
+    except (OSError, json.JSONDecodeError):
+        return False, evidence
+    if not isinstance(boundary, dict):
+        return False, evidence
+    counted = int(boundary.get("publishable_count") or 0) + int(boundary.get("withheld_count") or 0)
+    if counted <= 0:
+        return False, evidence
+
+    release_notices = _read_text(root / "docs/release/THIRD_PARTY_NOTICES.md")
+    if not all(rel in release_notices for rel in CORPUS_NOTICE_FILES):
+        return False, evidence
     return True, evidence
 
 
@@ -64,7 +110,11 @@ def _secret_scan_clean(pushed: bool) -> tuple[bool, str]:
             text=True,
             capture_output=True,
             check=False,
-            timeout=240,
+            # 240s was shorter than the work. With --pushed the scanner walks the entire history of
+            # a ~10 GB repository; it budgets 1800s for that git call itself, so a 4-minute cap here
+            # recorded public_repo_secret_scan_passed=False for a scan that had not finished --
+            # indistinguishable in the packet from a scan that found a secret.
+            timeout=2100,
         )
     except subprocess.TimeoutExpired as exc:
         return False, f"{' '.join(args)} timed out after {exc.timeout} seconds"

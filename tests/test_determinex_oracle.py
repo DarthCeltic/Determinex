@@ -214,19 +214,32 @@ def test_verify_typescript_jest_no_tests_found_is_not_a_failure(tmp_path):
     assert result.passed is True
 
 
-def test_verify_typescript_no_test_framework_is_an_honest_pass(tmp_path):
-    """Regression: this repo's own vscode-extension has a package.json with
-    NO jest/vitest dependency and no real "test" script (just compile/
-    package scripts) -- must be treated as "nothing to verify" (vacuous
-    pass), not silently attempt jest and read npx's refusal as a failure."""
+def test_verify_typescript_no_test_framework_does_not_invoke_a_runner_and_does_not_pass(tmp_path):
+    """Renamed and its verdict corrected 2026-07-29.
+
+    The original intent is right and is preserved below: this repo's own vscode-extension has a
+    package.json with no jest/vitest and no real "test" script, and the oracle must NOT shell out
+    to a runner that is not there and then read npx's refusal as a test failure.
+
+    But the original assertion was `passed is True`, and its docstring called that a "vacuous
+    pass". That is the one thing this project's doctrine forbids -- "an oracle never silently
+    passes" -- and it made the assertion lock in the defect rather than guard against it. Note the
+    fixture ships NO tsconfig.json either, so nothing whatsoever was checked; the real extension
+    does ship one and still passes on the type check alone.
+
+    Not attempting the runner and not claiming a pass are independent, and both are required.
+    """
     (tmp_path / "package.json").write_text(
         '{"scripts": {"compile": "tsc -p ./"}, "devDependencies": {"typescript": "^5.4.0"}}',
         encoding="utf-8",
     )
     with patch.object(oracle_mod, "_run") as mock_run:
         result = oracle_mod._verify_typescript(tmp_path)
+
     mock_run.assert_not_called()
-    assert result.passed is True
+    assert result.passed is False
+    assert result.total == 0
+    assert "nothing was verified" in result.failures[0].text
 
 
 def test_verify_typescript_npm_init_placeholder_test_script_is_not_a_framework(tmp_path):
@@ -643,6 +656,37 @@ def test_verify_mongodb_runs_each_script_and_tears_down_container(tmp_path):
     assert result.passed is True
     assert any(c[:2] == ["docker", "run"] for c in calls)
     assert any(c[:2] == ["docker", "rm"] for c in calls)
+
+
+def test_typescript_oracle_refuses_a_workspace_with_nothing_to_verify(tmp_path):
+    """An oracle never silently passes -- including when it did nothing.
+
+    `_verify_typescript` ran the type check only when tsconfig.json existed and tests only when
+    package.json declared a test script, then set `passed = len(failures) == 0`. With neither
+    present nothing ran, no failures were recorded, and it returned passed=True with total=0.
+    The explanation was appended to `.raw`, which no caller inspects.
+
+    This is the Python `compileall`-over-zero-files bug relocated into the universal registry:
+    every other oracle in this module already refuses an empty tree. It compounds because
+    verified_search turns a generation exception into the candidate string
+    "__generation_error__: ..." and verifies it like any other candidate, so against a lenient
+    oracle that string comes back solved with a proof line attached.
+    """
+    result = oracle_mod._verify_typescript(tmp_path)
+    assert result.passed is False
+    assert result.failures, "must record why nothing could be verified"
+    assert "nothing was verified" in result.failures[0].text
+
+
+def test_typescript_oracle_refuses_broken_source_that_ships_no_config(tmp_path):
+    """The damaging shape: real code, genuinely wrong, and no config to check it with."""
+    (tmp_path / "bad.ts").write_text('const a: number = "not a number";\n', encoding="utf-8")
+
+    result = oracle_mod._verify_typescript(tmp_path)
+
+    assert result.passed is False, (
+        "a workspace containing a type error must not pass merely because it shipped no tsconfig"
+    )
 
 
 def test_verify_mongodb_script_failure_is_reported(tmp_path):

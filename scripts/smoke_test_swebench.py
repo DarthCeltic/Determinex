@@ -238,7 +238,12 @@ def run_smoke_test(tier: str = "auto", quick: bool = False) -> bool:
             from determinex_flywheel import capture_successful_epoch, flywheel_status
             importlib.reload(sys.modules["determinex_flywheel"])
             from determinex_flywheel import capture_successful_epoch, flywheel_status
-            count = capture_successful_epoch(ISSUE_TEXT, patch or "---", "smoke-001", "smoke/test")
+            # The smoke test asserts the capture PATH works, so it states a verified kind
+            # explicitly. capture_successful_epoch now refuses anything else, by design.
+            count = capture_successful_epoch(
+                ISSUE_TEXT, patch or "---", "smoke-001", "smoke/test",
+                verification="compiled+tested",
+            )
             result.check("Flywheel captured entry", count >= 1, f"{count} total entries")
             status = flywheel_status()
             result.check("Flywheel status readable", isinstance(status["entries"], int))

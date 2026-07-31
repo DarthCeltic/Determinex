@@ -78,7 +78,22 @@ fn resolve_write_target(raw_path: &str) -> PathBuf {
 /// `false` — the path escapes the workspace; the caller **must** abort.
 ///
 /// # Usage in Orchestrator
-/// ```rust
+///
+/// Fenced as `text`, not `rust`, because it is a caller-side snippet and not a compilable
+/// example: `workspace`, `candidate` and `OrchestratorError` are orchestrator-scope names, and
+/// `fs` is a PRIVATE module (`mod fs;` in lib.rs) so a doctest — which compiles as an external
+/// user of `app_lib` — cannot reach this function at all. It was fenced as `rust` and therefore
+/// failed to compile, taking the whole `cargo test --doc` target down with it; that is how it went
+/// unnoticed, since `cargo test` stops at the first failing target and the unit tests run first.
+///
+/// Deliberately not "fixed" by making the module `pub`: widening the crate's public API so a
+/// documentation example can compile trades a real design boundary for a cosmetic one. Nor marked
+/// `ignore`, which would still present it as a Rust example that merely isn't run.
+///
+/// Actual coverage of this function is in this file's own `#[test]` block —
+/// `safe_path_allows_new_file_inside_root` and `safe_path_blocks_escape_for_new_file`.
+///
+/// ```text
 /// if !crate::fs::is_safe_path(&workspace.0, &candidate) {
 ///     return Err(OrchestratorError::security_panic("Path Traversal Blocked"));
 /// }

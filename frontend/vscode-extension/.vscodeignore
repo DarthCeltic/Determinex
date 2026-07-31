@@ -7,3 +7,8 @@ tsconfig.json
 **/*.map
 node_modules/**
 .vscodeignore
+# The extension-host test harness compiles to out/test/. `src/**` and `**/*.ts` do not cover the
+# COMPILED output, so without this the VSIX would ship the test suite and its mocha requires --
+# added 2026-07-31 alongside the harness rather than discovered later in a packaged artifact.
+out/test/**
+.vscode-test/**

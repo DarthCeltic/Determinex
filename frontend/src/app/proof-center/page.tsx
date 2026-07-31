@@ -15,6 +15,7 @@ import {
   Lock,
   Calendar,
 } from "lucide-react";
+import { isTauri } from "@/lib/api";
 
 // ── Canonical numbers ─────────────────────────────────────────────────────────
 // CORRECTED 2026-06-30: a full provenance audit found every one of the 67 rows
@@ -46,7 +47,15 @@ function buildReleaseGates(pbLocks: number, pbReferenceArchives: number) {
     {
       id: "integrity",
       label: "Integrity Suite",
-      desc: "Full test suite passes — 5,326 passed, 13 skipped, 0 failed. Claim scanner guard active.",
+      // The figure "5,326 passed, 13 skipped, 0 failed" was hardcoded here and its only source in
+      // the repository was a handoff document marked "confirmed 2026-06-04" -- eight weeks stale by
+      // the time this page shipped it as current. CLAUDE.md also records that the monolithic
+      // `tests/status` run "remains unclaimed", so "Full test suite passes" overstated the
+      // project's own stated boundary. This page's header calls it "the single authoritative
+      // record", which is exactly why a stale literal here is worse than no number.
+      desc:
+        "Python and frontend suites run green in CI. Exact counts are not asserted here because " +
+        "this page cannot read them live; see the release gate collector for current status.",
       status: "passed" as const,
     },
     {
@@ -90,10 +99,16 @@ function buildReleaseGates(pbLocks: number, pbReferenceArchives: number) {
     {
       id: "families",
       label: "Release Families",
-      desc: "31/31 language families native-verified. 0 release-ready families at current lock count (target: ≥1).",
+      // progress/total were 31/31, which renders a FULL 100% bar directly beside this row's own
+      // text saying "0 release-ready families". Two contradictory claims in one card, and the bar
+      // is the one a reader takes at a glance. The honest denominator for a gate about
+      // release-READY families is the release-ready count, which is 0 of a target of 1.
+      desc:
+        "0 release-ready families (target: ≥1). 31 language families have native scaffolding, " +
+        "which is not the same as being release-ready.",
       status: "in-progress" as const,
-      progress: 31,
-      total: 31,
+      progress: 0,
+      total: 1,
     },
   ];
 }
@@ -137,38 +152,80 @@ const SWEBENCH_ROWS = [
 ];
 
 // ── Model benchmark ───────────────────────────────────────────────────────────
-const MODEL_ROWS = [
+//
+// CORRECTED 2026-07-29. This table credited the SHIPPED models (v11/v6/v5) with the
+// scores earned by their PREDECESSORS (v10/v5/v3):
+//
+//   displayed                        actual artifact on disk
+//   C1 Engineer v11-dsl  89% 40/45   57/70 = 81%   (40/45 belongs to v10-dsl)
+//   C3 Observer  v6-dsl  82% 37/45   53/70 = 76%   (37/45 belongs to v5-dsl)
+//   C7 Sentinel  v5-dsl  87% 39/45   NO ARTIFACT   (39/45 belongs to v3)
+//   System Combined      86% 116/135 a sum of the three above
+//
+// CLAUDE.md carries this correction dated 2026-07-28 -- "README, WHITE_PAPER and
+// ARCHITECTURE had been crediting the shipped v11/v6 models with v10/v5's scores...
+// Sentinel v5-dsl genuinely has no eval artifact". The docs were fixed; this page, whose
+// entire purpose is showing proof, was not. Verified here by reading
+// logs/eval_results/*.json directly rather than by copying the prose.
+//
+// The two probe sets are NOT interchangeable: 45-probe and 70-probe have different
+// denominators and different probe content, so a percentage from one cannot be compared
+// with, or summed against, the other. Conflating them is what produced the original row.
+//
+// A null score means NO EVAL ARTIFACT EXISTS. It renders as "not evaluated", never as 0
+// and never as a borrowed number -- an unmeasured model with a score on the Proof Center
+// is the exact overclaim this page exists to refute.
+const MODEL_ROWS: {
+  model: string;
+  params: string;
+  role: string;
+  score: number | null;
+  raw: string;
+  probes: string;
+  evidence: string;
+  color: string;
+}[] = [
   {
     model: "C1 Engineer v11-dsl",
     params: "1.5B",
     role: "Builder",
-    score: 89,
-    raw: "40/45",
-    color: "#34d399",
-  },
-  {
-    model: "C7 Sentinel v5-dsl",
-    params: "7B",
-    role: "Architect",
-    score: 87,
-    raw: "39/45",
-    color: "#f59e0b",
+    score: 81,
+    raw: "57/70",
+    probes: "70-probe",
+    evidence: "eval_citadel-engineer-v11-dsl_20260416_225204.json",
+    color: "var(--dtx-ok)",
   },
   {
     model: "C3 Observer v6-dsl",
     params: "3B",
     role: "Monitor",
-    score: 82,
-    raw: "37/45",
-    color: "#a78bfa",
+    score: 76,
+    raw: "53/70",
+    probes: "70-probe",
+    evidence: "eval_citadel-observer-v6-dsl_20260416_235354.json",
+    color: "var(--dtx-alt)",
   },
   {
-    model: "System Combined",
+    model: "C7 Sentinel v5-dsl",
+    params: "7B",
+    role: "Architect",
+    score: null,
+    raw: "no eval artifact",
+    probes: "—",
+    evidence: "none on disk",
+    color: "var(--dtx-warn)",
+  },
+  {
+    model: "Shipped models measured",
     params: "—",
-    role: "All",
-    score: 86,
-    raw: "116/135",
-    color: "#22d3ee",
+    role: "Builder + Monitor",
+    score: 79,
+    raw: "110/140",
+    probes: "70-probe",
+    // Deliberately NOT "System Combined": the Architect is unmeasured, so no figure can
+    // describe the system as a whole. This row covers the two models that were evaluated.
+    evidence: "sum of the two 70-probe runs above",
+    color: "var(--dtx-alt-2)",
   },
 ];
 
@@ -333,8 +390,18 @@ export default function ProofCenterPage() {
   const [liveStatsSource, setLiveStatsSource] = useState<"live" | "fallback">("fallback");
 
   useEffect(() => {
-    const w = window as unknown as { __TAURI__?: unknown };
-    if (!w.__TAURI__) return; // web preview / no Tauri runtime -- keep the fallback values
+    // isTauri(), not window.__TAURI__. That global is only mounted when
+    // `app.withGlobalTauri: true` is set in tauri.conf.json, and this app never sets it -- so this
+    // check was permanently false and the live read NEVER ran, including inside the packaged
+    // desktop app. The page then rendered "live read unavailable in this context -- open the
+    // desktop app for a live count" to a user who WAS in the desktop app, and every ProgramBench
+    // figure stayed at its module-constant fallback forever.
+    //
+    // Two sibling modules had already hit and documented this exact bug (lib/ide-repair-api.ts,
+    // found live 2026-07-19: "repair doesnt work"; lib/ide-product-shell-api.ts) and both moved to
+    // the real Tauri v2 marker. The Proof Center was never brought in line. Using the canonical
+    // isTauri() from lib/api.ts rather than re-implementing the probe a fourth time.
+    if (!isTauri()) return; // web preview / no Tauri runtime -- keep the fallback values
     let cancelled = false;
     import("@tauri-apps/api/core")
       .then(({ invoke }) =>
@@ -368,16 +435,16 @@ export default function ProofCenterPage() {
       className="min-h-screen"
       style={{
         background:
-          "radial-gradient(circle at 20% 10%, rgba(52,211,153,0.07), transparent 35%), radial-gradient(circle at 85% 5%, rgba(139,92,246,0.07), transparent 30%), #04060a",
+          "radial-gradient(circle at 20% 10%, rgba(52,211,153,0.07), transparent 35%), radial-gradient(circle at 85% 5%, rgba(139,92,246,0.07), transparent 30%), var(--dtx-code-bg-deep)",
         color: "#e6edf3",
-        fontFamily: '"Inter", "Segoe UI", system-ui, sans-serif',
+        fontFamily: "var(--determinex-font-sans)",
       }}
     >
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* ── Header ── */}
         <div className="mb-12">
           <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-emerald-400 mb-3">
-            <ShieldCheck size={12} /> Lunarian Data Systems · Determinex · Evidence Vault
+            <ShieldCheck size={12} /> Ryan Gurganious · Determinex · Evidence Vault
           </div>
           <h1 className="text-5xl font-black tracking-tight text-white mb-4">Evidence Vault</h1>
           <p className="text-sm text-gray-400 max-w-2xl leading-relaxed">
@@ -403,7 +470,7 @@ export default function ProofCenterPage() {
               value: `${pbPct}%`,
               sub: `${pbLocks} / ${PB_TOTAL} tools`,
               Icon: Lock,
-              color: "#34d399",
+              color: "var(--dtx-ok)",
               glow: "rgba(52,211,153,0.25)",
             },
             {
@@ -411,7 +478,7 @@ export default function ProofCenterPage() {
               value: `${pbPct}%`,
               sub: `Frontier: 0–${FRONTIER_MAX_PCT}% · Determinex: ${pbPct}% (honest, corrected 2026-06-30 -- no differentiator claimed here until a real lock lands)`,
               Icon: TrendingUp,
-              color: "#f59e0b",
+              color: "var(--dtx-warn)",
               glow: "rgba(245,158,11,0.2)",
             },
             {
@@ -419,7 +486,7 @@ export default function ProofCenterPage() {
               value: "14.0%",
               sub: "B-Uncloaked baseline, 42/300",
               Icon: Globe,
-              color: "#a78bfa",
+              color: "var(--dtx-alt)",
               glow: "rgba(167,139,250,0.2)",
             },
             {
@@ -427,7 +494,7 @@ export default function ProofCenterPage() {
               value: `${passedCount}/${totalGates}`,
               sub: "Public launch: NO-GO",
               Icon: ShieldCheck,
-              color: passedCount === totalGates ? "#34d399" : "#f87171",
+              color: passedCount === totalGates ? "var(--dtx-ok)" : "var(--dtx-fail)",
               glow: "rgba(248,113,113,0.15)",
             },
           ].map(({ label, value, sub, Icon, color, glow }) => (
@@ -489,22 +556,33 @@ export default function ProofCenterPage() {
                       <td className="px-4 py-3 font-mono text-gray-300">{row.model}</td>
                       <td className="px-4 py-3 font-mono text-gray-600">{row.params}</td>
                       <td className="px-4 py-3 text-gray-500">{row.role}</td>
-                      <td className="px-4 py-3 text-right">
-                        <div className="inline-flex flex-col items-end gap-1">
-                          <span className="font-black" style={{ color: row.color }}>
-                            {row.score}%
+                      <td className="px-4 py-3 text-right" title={`evidence: ${row.evidence}`}>
+                        {row.score === null ? (
+                          // No artifact exists. Rendering a bar here -- at any width --
+                          // would assert a measurement that was never taken.
+                          <span className="font-mono text-meta uppercase tracking-widest text-amber-500/80">
+                            not evaluated
                           </span>
-                          <div className="h-1 w-16 rounded-full bg-white/10 overflow-hidden">
-                            <div
-                              className="h-full rounded-full"
-                              style={{
-                                width: `${row.score}%`,
-                                background: row.color,
-                                boxShadow: `0 0 6px ${row.color}`,
-                              }}
-                            />
+                        ) : (
+                          <div className="inline-flex flex-col items-end gap-1">
+                            <span className="font-black" style={{ color: row.color }}>
+                              {row.score}%
+                            </span>
+                            <div className="text-meta font-mono text-gray-700">
+                              {row.raw} · {row.probes}
+                            </div>
+                            <div className="h-1 w-16 rounded-full bg-white/10 overflow-hidden">
+                              <div
+                                className="h-full rounded-full"
+                                style={{
+                                  width: `${row.score}%`,
+                                  background: row.color,
+                                  boxShadow: `0 0 6px ${row.color}`,
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -588,16 +666,16 @@ export default function ProofCenterPage() {
               {MILESTONES.map((m) => (
                 <div key={m.date + m.event} className="relative flex items-start gap-4">
                   <div
-                    className="absolute -left-[17px] top-1 h-2 w-2 rounded-full border-2 border-[#04060a]"
+                    className="absolute -left-[17px] top-1 h-2 w-2 rounded-full border-2 border-[var(--dtx-code-bg-deep)]"
                     style={{
                       background:
                         m.tag === "lock"
-                          ? "#34d399"
+                          ? "var(--dtx-ok)"
                           : m.tag === "audit"
-                            ? "#a78bfa"
+                            ? "var(--dtx-alt)"
                             : m.tag === "infra"
-                              ? "#22d3ee"
-                              : "#f59e0b",
+                              ? "var(--dtx-alt-2)"
+                              : "var(--dtx-warn)",
                     }}
                   />
                   <div className="shrink-0 font-mono text-label text-gray-600 w-24">{m.date}</div>

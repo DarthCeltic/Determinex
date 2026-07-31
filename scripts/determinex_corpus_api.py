@@ -13,9 +13,15 @@ pb_canonical_tasks.py) -- this module only ever loads and searches.
 Sections queried:
   * _topic_index          -- coarse topic -> [{key, summary}] index of the ~70 dated corpus entries
   * class_patterns         -- the proven (detect/symptom/fix[/applies_to/generalized_in]) playbook
-  * learned_classes        -- the flywheel: oracle-verified (symptom->fix) distilled from real solves.
-                              Quarantined 2026-07-16 (see learned_classes_quarantine_20260716) back to
-                              EMPTY; grows ONLY from verified=True entries going forward.
+  * learned_classes        -- (symptom->fix) pairs from TWO sources, and the split matters. The
+                              2026-07-16 quarantine emptied it and this doc then claimed it "grows
+                              ONLY from verified=True entries going forward" -- which was true for
+                              two days. The 2026-07-18 salvage readmitted 234 quarantined entries as
+                              UNVERIFIED hints, and determinex_pb_absorb still writes verified=false.
+                              Actual state 2026-07-28: 272 entries, 5 verified, 267 absorbed prose.
+                              Sound anyway -- the oracle gates the next use, so a wrong hint costs an
+                              attempt and never a false pass -- but do not read this as a verified
+                              corpus. determinex_pb_amplified_fix tags each line with its provenance.
   * top-level dated entries -- every other key in the file (the ~70+ named corpus write-ups)
   * canonical_tasks.json   -- per-task ground truth (repository, pinned commit, language, test counts)
                               for all ~200 ProgramBench tasks, built by pb_canonical_tasks.py from the
@@ -777,7 +783,9 @@ class MaturityReport:
     generated_from: str
     stats: CorpusStats
     flywheel_is_empty: bool
-    quarantine_pending_reabsorption: int
+    # NOT a backlog: see the accessor's docstring. Kept under the old key in to_dict()
+    # so existing readers do not break, with an honest sibling added beside it.
+    quarantined_rejected: int
     open_items: list[OpenItem] = field(default_factory=list)
     weak_open_items: list[OpenItem] = field(default_factory=list)
 
@@ -786,7 +794,18 @@ class MaturityReport:
             "generated_from": self.generated_from,
             "stats": self.stats.__dict__,
             "flywheel_is_empty": self.flywheel_is_empty,
-            "quarantine_pending_reabsorption": self.quarantine_pending_reabsorption,
+            # The old key is retained for compatibility but it was misleading: these
+            # entries were REJECTED, not queued. The quarantine's own _doc records 0
+            # verified and 0 ever used by the flywheel, 76% extracted from vague spec
+            # prose, and the 2026-07-18 salvage already readmitted the 234 that passed
+            # a quality gate. Reporting the remainder as "pending reabsorption" invited
+            # re-absorbing material that was deliberately gated out.
+            "quarantine_pending_reabsorption": self.quarantined_rejected,
+            "quarantined_rejected": self.quarantined_rejected,
+            "quarantine_note": (
+                "rejected, not queued: 0 verified and 0 ever used at quarantine; the "
+                "2026-07-18 salvage already readmitted the 234 that passed the quality gate"
+            ),
             "open_items": [i.__dict__ for i in self.open_items],
             "weak_open_items": [i.__dict__ for i in self.weak_open_items],
         }
@@ -840,7 +859,7 @@ def maturity_report(topic_filter: str | None = None, corpus: dict[str, Any] | No
         generated_from=DEFAULT_PATH.name if corpus is None else "(in-memory corpus)",
         stats=s,
         flywheel_is_empty=(s.learned_class_verified_count == 0),
-        quarantine_pending_reabsorption=quarantine_count,
+        quarantined_rejected=quarantine_count,
         open_items=open_items,
         weak_open_items=weak_items,
     )

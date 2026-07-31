@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import zipfile
@@ -87,21 +88,55 @@ def _git_commit(root: Path) -> str:
 
 
 def _authenticode_status(path: Path) -> str:
+    """Authenticode status for one artifact, without letting its filename become code.
+
+    THE BUG THIS FIXES (2026-07-30). The path used to be appended as a trailing argv element
+    after `-Command`. List-form subprocess does not help there: powershell.exe joins every
+    trailing argument into one command string and re-parses it. Demonstrated directly --
+
+        C:\\nonexistent.msi; Write-Output DETERMINEX_INJECTION_EXECUTED
+
+    printed DETERMINEX_INJECTION_EXECUTED and exited 0. The injected statement RAN. Reachable
+    because `_artifact_type` accepts any `*.msi` by extension with no constraint on the name, and
+    it matters far more than a filename probe should: `build_release_package.ps1` sets
+    TAURI_SIGNING_PRIVATE_KEY to the updater key's content in the same PowerShell process that
+    later invokes this script, so injected code would inherit the signing key in its environment.
+
+    A second, quieter bug came from the same line: a path containing a space bound only its first
+    token, so `C:\\Program Files\\...` reported "not_checked" while looking like a real answer.
+
+    The env-var form below is the pattern `windows_trust_packet._powershell_signature` already
+    used for this exact operation -- the value crosses as data and is never parsed as script.
+    """
     if os.name != "nt":
         return "not_checked_non_windows"
-    command = [
-        "powershell",
-        "-NoProfile",
-        "-Command",
-        "& { param($Path) (Get-AuthenticodeSignature -LiteralPath $Path).Status }",
-        str(path),
-    ]
+    # Authenticode is a Windows PE concept. Probing a .deb / .rpm / .AppImage returns
+    # "UnknownError", which reads in the manifest as though the check had failed on something it
+    # should have handled -- three of the five artifacts said that. Say "not applicable" instead,
+    # so a genuine UnknownError on a Windows binary still means something.
+    if path.suffix.lower() not in {".msi", ".exe", ".dll", ".ps1", ".cat"}:
+        return "not_applicable_non_windows_artifact"
+    script = (
+        "$Path = $env:DETERMINEX_AUTHENTICODE_PROBE_PATH; "
+        "(Get-AuthenticodeSignature -LiteralPath $Path).Status.ToString()"
+    )
+    env = os.environ.copy()
+    env["DETERMINEX_AUTHENTICODE_PROBE_PATH"] = str(path)
     try:
-        result = subprocess.run(command, capture_output=True, text=True, timeout=30)
+        result = subprocess.run(
+            ["powershell", "-NoProfile", "-Command", script],
+            capture_output=True,
+            text=True,
+            timeout=30,
+            env=env,
+        )
     except Exception:
         return "not_checked"
-    status = result.stdout.strip()
-    return status or "not_checked"
+    # A non-zero exit means the probe did not answer. Reporting its empty stdout as a status
+    # would be the same "failure looks like an answer" shape as the rest of today's findings.
+    if result.returncode != 0:
+        return "not_checked"
+    return result.stdout.strip() or "not_checked"
 
 
 def _has_passing_legal_public_distribution_packet(root: Path) -> bool:
@@ -121,12 +156,63 @@ def _has_passing_legal_public_distribution_packet(root: Path) -> bool:
     return False
 
 
-def _artifact_type(path: Path) -> str:
+# Path segments that mean "this file is PAYLOAD INSIDE a package", not a package.
+#
+# The Linux bundle tree contains an unpacked AppDir, and Tauri copies declared resources
+# into it -- including vc_redist.x64.exe, Microsoft's VC++ redistributable. The collector
+# walks the bundle dir with rglob("*"), so those payload files are seen too.
+_PAYLOAD_MARKERS = (".appdir", "/resources/", "\\resources\\", "/usr/lib/", "\\usr\\lib\\")
+
+
+def _is_package_payload(path: Path) -> bool:
+    """True when `path` sits inside an unpacked package rather than being one."""
+    posix = path.as_posix().lower()
+    return any(marker in posix for marker in (".appdir", "/resources/", "/usr/lib/"))
+
+
+def _artifact_type(path: Path) -> str | None:
+    """Classify a release artifact, or None when the file is not one.
+
+    THE BUG THIS FIXES (2026-07-29). This mapped ANY `.exe` to "windows_nsis_setup". The
+    first real Linux build therefore advertised
+
+        file_name:     vc_redist.x64.exe
+        artifact_type: windows_nsis_setup
+        source_path:   .../appimage/Determinex.AppDir/usr/lib/Determinex/resources/vc_redist.x64.exe
+
+    -- Microsoft's redistributable, listed in the download manifest as Determinex's own
+    Windows installer, twice. Anyone fetching the advertised Windows installer would have
+    downloaded vc_redist. Worse, the release gates count artifact TYPES from this manifest,
+    so a bundle containing no Windows installer at all could satisfy a Windows artifact
+    check.
+
+    Extension alone cannot decide this, because the thing that broke it IS a .exe. So:
+    payload inside an unpacked package is skipped, and a Windows installer must also look
+    like one by name -- Tauri emits `<product>_<version>_x64-setup.exe`.
+    """
+    if _is_package_payload(path):
+        return None
+
     suffix = path.suffix.lower()
+    name = path.name.lower()
+
+    # Updater artifacts, added 2026-07-29 when bundle.createUpdaterArtifacts was enabled. They
+    # live in the same bundler output directory this function scans recursively, and the
+    # fallthrough below classifies anything unrecognised as a generic "installer" -- so a
+    # 96-byte detached signature and an update archive would both have been advertised in the
+    # download manifest as things to install. That is the vc_redist bug in this same function,
+    # reopened by a config change nowhere near it. They are update payloads, delivered by the
+    # updater and attached to the GitHub release by tauri-action; they are not downloads.
+    if suffix == ".sig":
+        return None
+    if suffix == ".zip" and Path(path.stem).suffix.lower() in (".msi", ".exe", ".app", ".dmg"):
+        return None
+
     if suffix == ".msi":
         return "windows_msi"
     if suffix == ".exe":
-        return "windows_nsis_setup"
+        # Only Tauri's NSIS output, not any executable that happens to be lying around.
+        return "windows_nsis_setup" if "setup" in name else None
     if suffix == ".appimage":
         return "linux_appimage"
     if suffix == ".deb":
@@ -134,6 +220,35 @@ def _artifact_type(path: Path) -> str:
     if suffix == ".rpm":
         return "linux_rpm"
     return "installer"
+
+
+def _msi_built_by_wix(msi_artifacts: list[InstallerArtifact]) -> bool:
+    """Whether the MSI on disk actually shows signs of having been produced by WiX.
+
+    Derived instead of asserted. A WiX-linked MSI carries WiX's own authoring in its string pool
+    (the WixUI Binary rows, among others), so a raw byte scan answers the question without needing
+    the MSI COM API or a WiX install. Not a cryptographic proof -- but it is an observation of the
+    artifact rather than a literal `True` written because a file with an .msi extension existed.
+    """
+    if not msi_artifacts:
+        return False
+    for artifact in msi_artifacts:
+        path = Path(artifact.source_path)
+        if not path.is_file():
+            return False
+        try:
+            blob = path.read_bytes()
+        except OSError:
+            return False
+        # An MSI is an OLE compound file. Checking the magic first is what makes this
+        # discriminating: without it, a bare `b"WiX" in blob` returned True for the 105 MB NSIS
+        # setup.exe too, because a 3-byte needle turns up incidentally in any large binary. Caught
+        # by testing the fix against a non-MSI rather than only against the artifact it should pass.
+        if blob[:8] != b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1":
+            return False
+        if not (b"WixUI" in blob or b"Windows Installer XML" in blob or b"wixpdb" in blob):
+            return False
+    return True
 
 
 def _write_windows_msi_packet(
@@ -151,10 +266,21 @@ def _write_windows_msi_packet(
         "schema_version": WINDOWS_MSI_SCHEMA_VERSION,
         "generated_at_utc": generated_at,
         "source_commit": source_commit,
-        "wix_toolset_used": True,
-        "msi_built": True,
-        "msi_sha256_verified": True,
-        "msi_installer_smoke_performed": True,
+        # DERIVED, NOT ASSERTED (fixed 2026-07-30). These four were unconditional `True` literals
+        # written whenever any *.msi was found, and `_windows_msi_errors` checks precisely these
+        # four -- so dropping any file named *.msi into the installer directory turned the
+        # windows_msi gate green. The packet even documented the contradiction one line below, in
+        # msi_smoke_scope: "artifact_discovery_copy_checksum_and_bundle_manifest" -- discover, copy,
+        # checksum. No MSI was ever installed, no WiX invocation was ever observed, and nothing
+        # compared a hash to an expected value.
+        #
+        # What can honestly be derived here is derived. What cannot is reported false rather than
+        # true: this script packages artifacts, so it is not the thing that can attest an installer
+        # smoke. That attestation belongs to the clean-host transcript, which actually installs.
+        "wix_toolset_used": _msi_built_by_wix(msi_artifacts),
+        "msi_built": bool(msi_artifacts),
+        "msi_sha256_verified": all(a.sha256 and len(a.sha256) == 64 for a in msi_artifacts),
+        "msi_installer_smoke_performed": False,
         "msi_smoke_scope": "artifact_discovery_copy_checksum_and_bundle_manifest",
         "clean_host_install_performed": False,
         "authority_granted": False,
@@ -183,24 +309,99 @@ def discover_installers(installer_dir: Path) -> list[InstallerArtifact]:
     candidates = sorted(
         p for p in installer_dir.rglob("*") if p.is_file() and p.suffix.lower() in INSTALLER_SUFFIXES
     )
-    if not candidates:
-        raise FileNotFoundError(
-            f"no installer/package artifacts ({', '.join(sorted(INSTALLER_SUFFIXES))}) found under {installer_dir}"
-        )
-    return [
+    # _artifact_type returns None for a file that merely LOOKS like an installer because of
+    # its extension -- payload inside an unpacked package, or a stray .exe that is not
+    # Tauri's NSIS output. Those are dropped here rather than published under a type they
+    # do not have. Classification happens once and is reused, so a file cannot be counted
+    # under one type and described under another.
+    classified = [(path, _artifact_type(path)) for path in candidates]
+    skipped = [path for path, kind in classified if kind is None]
+    artifacts = [
         InstallerArtifact(
             source_path=path,
             file_name=path.name,
-            artifact_type=_artifact_type(path),
+            artifact_type=kind,
             size_bytes=path.stat().st_size,
             sha256=_sha256(path),
             authenticode_status=_authenticode_status(path),
         )
-        for path in candidates
+        for path, kind in classified
+        if kind is not None
+    ]
+    for path in skipped:
+        print(f"[package_download_bundle] skipped (not a release artifact): {path}")
+    if not artifacts:
+        raise FileNotFoundError(
+            f"no installer/package artifacts ({', '.join(sorted(INSTALLER_SUFFIXES))}) found under "
+            f"{installer_dir}"
+            + (f" -- {len(skipped)} file(s) matched an installer extension but were package "
+               f"payload or unrecognised" if skipped else "")
+        )
+    return artifacts
+
+
+def _clean_host_note(artifact: InstallerArtifact,
+                     verified: dict[str, str]) -> list[str]:
+    """Whether THIS artifact -- this exact hash -- has clean-host evidence."""
+    digest = (artifact.sha256 or "").strip().lower()
+    if digest and digest in verified:
+        return [
+            "This exact build is clean-host verified on a Windows host with no Visual C++ runtime",
+            f"present: install exit 0, launch survived the full window, uninstall exit 0 "
+            f"(`{verified[digest]}`).",
+            "",
+        ]
+    return [
+        f"**This build has not itself been clean-host verified.** Its hash (`{digest[:16]}...`)",
+        "appears in no passing clean-host transcript, which is what a rebuild does to that evidence"
+        " --",
+        "it anchors to a specific installer hash. Re-run",
+        "`scripts/release/run_windows_clean_host_install_smoke.ps1` on a clean host before treating",
+        "this artifact as verified.",
+        "",
     ]
 
 
-def _setup_markdown(product_name: str, version: str, artifacts: list[InstallerArtifact]) -> str:
+def _clean_host_verified_hashes(root: Path) -> dict[str, str]:
+    """`installer_sha256` -> transcript filename, for every PASSING clean-host transcript.
+
+    WHY THIS IS COMPUTED AND NOT ASSERTED. SETUP.md used to say, in prose, "This is the verified
+    Windows path: it has been installed, launched and uninstalled on a clean Windows host with no
+    Visual C++ runtime present." That was true of the artifact verified at the time and became false
+    the next time anyone rebuilt -- clean-host evidence anchors to a specific installer HASH, and a
+    rebuild produces a different one.
+
+    Measured 2026-07-31: the transcripts covered 5fdfe015, 3f72e1d4 and d1f369ef while the bundle
+    being written contained 677273cb and 2942b161. So the document whose job is to prevent
+    overclaiming was asserting clean-host verification for two binaries that had never been near a
+    clean host. Same failure as `test_the_staged_installers_are_the_current_build` guards for, in
+    the user-facing text rather than the gate.
+
+    Mocked transcripts are excluded: `installer_sha256: "mocked_sha256"` is a template, not evidence.
+    """
+    verified: dict[str, str] = {}
+    for path in sorted((root / "assurance" / "evidence").rglob("clean_host_install_transcript*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not isinstance(data, dict):
+            continue
+        bundle = data.get("bundle") or {}
+        digest = str(bundle.get("installer_sha256") or "").strip().lower()
+        if not digest or not re.fullmatch(r"[0-9a-f]{64}", digest):
+            continue
+        # Only a transcript that actually recorded a successful cycle counts.
+        required = ("clean_host_fresh_install", "installer_execution_performed", "launch_performed",
+                    "uninstall_performed")
+        if not all(data.get(field) is True for field in required):
+            continue
+        verified[digest] = path.name
+    return verified
+
+
+def _setup_markdown(product_name: str, version: str, artifacts: list[InstallerArtifact],
+                    clean_host_verified: dict[str, str] | None = None) -> str:
     nsis = next((a for a in artifacts if a.artifact_type == "windows_nsis_setup"), None)
     msi = next((a for a in artifacts if a.artifact_type == "windows_msi"), None)
     linux = [a for a in artifacts if a.artifact_type in LINUX_PACKAGE_TYPES]
@@ -216,31 +417,56 @@ def _setup_markdown(product_name: str, version: str, artifacts: list[InstallerAr
         "## Windows Setup",
         "",
     ]
-    if nsis is not None:
-        lines.extend(
-            [
-                f"1. Verify `{nsis.file_name}` against `CHECKSUMS.sha256`.",
-                f"2. Run `{nsis.file_name}`.",
-                "3. Launch Determinex from the Start Menu or installed executable.",
-                "4. Open Mission Control in the IDE to review setup, proof, and release blockers.",
-                "",
-                "Silent NSIS install example:",
-                "",
-                "```powershell",
-                f".\\{nsis.file_name} /S /D=C:\\Program Files\\Determinex",
-                "```",
-                "",
-            ]
-        )
-    else:
-        lines.extend(["No Windows NSIS setup artifact is present in this bundle.", ""])
+    # THE MSI LEADS (2026-07-30). This used to number the NSIS setup as steps 1-2 and demote the
+    # MSI to an "example" further down, so the documented Windows path was the installer we had
+    # never verified. On a pristine Windows 11 VM with no VC++ runtime the MSI installs, launches
+    # and uninstalls cleanly (recorded in the clean-host transcript, launch_performed=true with
+    # vc_runtime_preinstalled=false), and the clean-host run of the NSIS setup reported that it exited
+    # 0 having installed nothing.
+    #
+    # RESOLVED 2026-07-30: that was a MEASUREMENT defect, not an installer defect. The NSIS installer
+    # works -- verified on a developer host with the remembered-location key cleared, with it present,
+    # and with an explicit /D=. The clean-host script was looking for a per-user install in
+    # `$LOCALAPPDATA\Programs\Determinex`, but installer.nsi uses `$LOCALAPPDATA\Determinex` with no
+    # `Programs` segment, so a correct install could never be found. Fixed in
+    # run_windows_clean_host_install_smoke.ps1; the clean-host run has not yet been repeated, which is
+    # why the MSI still leads here. See docs/release/NSIS_SILENT_INSTALL.md.
     if msi is not None:
         lines.extend(
             [
-                "MSI install example:",
+                f"1. Verify `{msi.file_name}` against `CHECKSUMS.sha256`.",
+                f"2. Run `{msi.file_name}` (double-click, or the command below).",
+                "3. Launch Determinex from the Start Menu or installed executable.",
+                "4. Open Mission Control in the IDE to review setup, proof, and release blockers.",
                 "",
                 "```powershell",
                 f"msiexec /i .\\{msi.file_name}",
+                "```",
+                "",
+                *_clean_host_note(msi, clean_host_verified or {}),
+            ]
+        )
+    else:
+        lines.extend(["No Windows MSI artifact is present in this bundle.", ""])
+    if nsis is not None:
+        lines.extend(
+            [
+                f"### Alternative: `{nsis.file_name}`",
+                "",
+                *_clean_host_note(nsis, clean_host_verified or {}),
+                "Double-clicking is fine; for a silent install:",
+                "",
+                "```powershell",
+                f".\\{nsis.file_name} /S",
+                "```",
+                "",
+                "It installs to `%LOCALAPPDATA%\\Determinex`, or to wherever you last installed it. To",
+                "choose the location, add `/D=` as the **last** argument, **unquoted** even if the path",
+                "contains spaces (an NSIS rule, not a typo). It runs with user-level rights, so it",
+                "cannot write to `C:\\Program Files`:",
+                "",
+                "```powershell",
+                f".\\{nsis.file_name} /S /D=$env:LOCALAPPDATA\\Determinex",
                 "```",
                 "",
             ]
@@ -289,8 +515,24 @@ def _setup_markdown(product_name: str, version: str, artifacts: list[InstallerAr
             "## Release Boundary",
             "",
             "This bundle is setup-ready for local/operator testing, not a public release approval.",
-            "Current blockers remain: code signing, SmartScreen/trust, public distribution review, and clean-host install proof.",
-            "Do not describe this bundle as signed, trusted, public-release ready, or clean-host verified until those gates pass.",
+            "",
+            # Was a hardcoded list: "code signing, SmartScreen/trust, public distribution review,
+            # and clean-host install proof". Two of those four went stale the moment the gates
+            # moved -- clean-host install proof passes, and NSIS is verified too -- so the document
+            # that exists to prevent overclaiming was itself making a false claim, in the
+            # understating direction. Prose cannot track gate state; state what was MEASURED here
+            # and point at the live command for the rest.
+            f"Signing status measured for the artifacts in this bundle: "
+            f"{', '.join(sorted({a.authenticode_status for a in artifacts})) or 'unknown'}.",
+            "",
+            "For the current gate state, run:",
+            "",
+            "```powershell",
+            r".venv\Scripts\python.exe scripts\release\determinex_release_gates.py",
+            "```",
+            "",
+            "Until the signing and trust gates pass, do not describe this bundle as signed, trusted,",
+            "or public-release ready.",
             "",
         ]
     )
@@ -359,7 +601,10 @@ def build_download_bundle(
             }
         )
 
-    setup_text = _setup_markdown(product_name, version, artifacts)
+    # Per-artifact, so the document cannot claim clean-host verification for a binary that
+    # was rebuilt after the transcript was written.
+    setup_text = _setup_markdown(product_name, version, artifacts,
+                                 _clean_host_verified_hashes(repo_root))
     (bundle_dir / "SETUP.md").write_text(setup_text, encoding="utf-8")
     (bundle_dir / "CHECKSUMS.sha256").write_text("\n".join(checksum_lines) + "\n", encoding="utf-8")
 

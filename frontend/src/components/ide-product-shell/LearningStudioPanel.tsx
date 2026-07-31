@@ -51,7 +51,17 @@ const MODE_LABELS: Record<LearningMode, string> = {
   generate_learning_checklist: "Generate learning checklist",
 };
 
-export function LearningStudioPanel() {
+export interface LearningStudioPanelProps {
+  /** Switch the workbench to the Repo Clinic panel. */
+  onOpenRepoClinic?: () => void;
+  /** Switch the workbench to the new-project flow (ConceptLab). */
+  onOpenIdeaLab?: () => void;
+}
+
+export function LearningStudioPanel({
+  onOpenRepoClinic,
+  onOpenIdeaLab,
+}: LearningStudioPanelProps = {}) {
   const [resp, setResp] = React.useState<UnifiedProductResponse | null>(null);
   const [active, setActive] = React.useState<LearningMode>("explain_this_repo");
   const [loading, setLoading] = React.useState(false);
@@ -405,29 +415,47 @@ export function LearningStudioPanel() {
           Learning explains. Learning does NOT approve, apply, or authorize source mutation.
         </div>
 
+        {/* These two were <a href="#repo-clinic"> and <a href="#idea-lab">. NOTHING in the
+            app carries those ids, so both were dead clicks -- a user reading "Want to act
+            on a fix? Open in Repo Clinic" got a changed URL hash and no navigation, while
+            Repo Clinic sat one panel away in the same window.
+
+            Both now call the workbench's real panel switcher. When no handler is supplied
+            they render as plain text rather than a link, so this can never present a
+            clickable promise it cannot keep again. */}
         <div data-testid="learning-studio-route-to-repo-clinic">
           <strong>Want to act on a fix?</strong>{" "}
-          <a
-            data-testid="learning-studio-route-link-repo-clinic"
-            data-routes-to="repo_clinic"
-            className="underline"
-            href="#repo-clinic"
-          >
-            Open in Repo Clinic
-          </a>{" "}
+          {onOpenRepoClinic ? (
+            <button
+              type="button"
+              data-testid="learning-studio-route-link-repo-clinic"
+              data-routes-to="repo_clinic"
+              className="underline"
+              onClick={onOpenRepoClinic}
+            >
+              Open in Repo Clinic
+            </button>
+          ) : (
+            <span data-routes-to="repo_clinic">Repo Clinic</span>
+          )}{" "}
           — the gated repair workflow.
         </div>
 
         <div data-testid="learning-studio-route-to-idea-lab">
           <strong>Want to start a new project?</strong>{" "}
-          <a
-            data-testid="learning-studio-route-link-idea-lab"
-            data-routes-to="idea_lab"
-            className="underline"
-            href="#idea-lab"
-          >
-            Open in Idea Lab
-          </a>{" "}
+          {onOpenIdeaLab ? (
+            <button
+              type="button"
+              data-testid="learning-studio-route-link-idea-lab"
+              data-routes-to="idea_lab"
+              className="underline"
+              onClick={onOpenIdeaLab}
+            >
+              Open in Idea Lab
+            </button>
+          ) : (
+            <span data-routes-to="idea_lab">Idea Lab</span>
+          )}{" "}
           — the gated new-project workflow.
         </div>
 
@@ -460,5 +488,3 @@ export function LearningStudioPanel() {
     </section>
   );
 }
-
-export default LearningStudioPanel;

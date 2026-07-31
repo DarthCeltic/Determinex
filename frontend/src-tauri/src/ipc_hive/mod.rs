@@ -518,6 +518,55 @@ pub(crate) fn hive_command(subcommand: &str) -> Result<(Command, bool), String> 
     Ok((cmd, false))
 }
 
+/// A `Command` that runs one of the bundled HELPER scripts (agent chat, agent
+/// registry, usage ledger, toolchain installer, model bench, corpus API), preferring
+/// the bundled engine and falling back to `python scripts/<name>.py` in a dev tree.
+///
+/// WHY THIS EXISTS
+/// `hive_command` above has been bundled-first for a while, but every non-hive script
+/// the desktop backend needs was invoked through a SECOND path that shells out to
+/// `scripts/<name>.py` by path. That path does not exist in an installed copy, so the
+/// agent chat room and friends were dev-checkout-only while the hive itself shipped
+/// fine. Two invocation paths, one bundled, and new callers reached for whichever was
+/// nearest.
+///
+/// `script` is the repo-relative path the old callers already use
+/// (e.g. "scripts/determinex_agents.py"); the module name handed to the sidecar's
+/// `helper` subcommand is derived from it, so call sites do not have to change shape.
+pub(crate) fn helper_command(script: &str) -> Result<(Command, bool), String> {
+    // "scripts/determinex_agents.py"     -> "determinex_agents"
+    // "scripts/ide/_tauri_driver.py"      -> "ide._tauri_driver"
+    // file_stem() alone was wrong for the nested case: it yields "_tauri_driver",
+    // which is not importable and is not what the sidecar's allowlist names.
+    let module = script
+        .trim_start_matches("./")
+        .strip_prefix("scripts/")
+        .unwrap_or(script)
+        .strip_suffix(".py")
+        .unwrap_or(script)
+        .replace(['/', '\\'], ".");
+
+    if let Some(binary) = resolve_hive_binary() {
+        let mut cmd = Command::new(binary);
+        cmd.hide_console();
+        cmd.arg("helper").arg(&module);
+        return Ok((cmd, true));
+    }
+    // Dev fallback: the repo's script through a resolved interpreter.
+    let path = project_root().join(script);
+    if !path.exists() {
+        return Err(format!(
+            "Neither the bundled determinex-hive binary nor {} was found.              Build the engine with: python bundler/build_hive_sidecar.py",
+            path.display()
+        ));
+    }
+    let python = resolve_python_exe()?;
+    let mut cmd = Command::new(python);
+    cmd.hide_console();
+    cmd.arg(path);
+    Ok((cmd, false))
+}
+
 /// Spawn the Determinex Hive sidecar binary for a subcommand.
 ///
 /// This is the VS Code pattern: Tauri bundles the pre-compiled determinex-hive

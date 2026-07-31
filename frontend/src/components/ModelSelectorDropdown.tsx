@@ -64,7 +64,7 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
     <div className="relative">
       <button
         onClick={() => setModelMenuOpen(!modelMenuOpen)}
-        className={`border ${modelMenuOpen ? "border-cyan-500 bg-cyan-950/30" : "bg-[#010409] border-cyan-500/30"} hover:border-cyan-500 text-meta uppercase tracking-wider font-bold text-cyan-400 rounded-full px-3 py-1.5 outline-none cursor-pointer flex items-center gap-2 shadow-md transition-all`}
+        className={`border ${modelMenuOpen ? "border-cyan-500 bg-cyan-950/30" : "bg-[var(--dtx-code-bg-deep)] border-cyan-500/30"} hover:border-cyan-500 text-meta uppercase tracking-wider font-bold text-cyan-400 rounded-full px-3 py-1.5 outline-none cursor-pointer flex items-center gap-2 shadow-md transition-all`}
       >
         {activeName} <span className="opacity-50 text-meta">{modelMenuOpen ? "▲" : "▼"}</span>
       </button>
@@ -72,11 +72,11 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
       {modelMenuOpen && (
         <>
           <div className="fixed inset-0 z-[40]" onClick={() => setModelMenuOpen(false)} />
-          <div className="absolute bottom-full right-0 mb-3 w-80 bg-[#0d1117] border border-[#30363d] shadow-[0_-10px_40px_rgba(0,0,0,0.9)] rounded-xl overflow-hidden z-[50] flex flex-col animate-in slide-in-from-bottom-2 fade-in duration-200">
+          <div className="absolute bottom-full right-0 mb-3 w-80 bg-[var(--dtx-code-bg)] border border-[var(--dtx-code-border)] shadow-[0_-10px_40px_rgba(0,0,0,0.9)] rounded-xl overflow-hidden z-[50] flex flex-col animate-in slide-in-from-bottom-2 fade-in duration-200">
             <div className="max-h-[60vh] overflow-y-auto no-scrollbar pb-2">
               {tandemPresets.length > 0 && (
                 <div className="flex flex-col">
-                  <div className="px-4 py-2 mt-1 text-eyebrow uppercase tracking-widest font-black bg-emerald-950/40 border-y border-[#30363d] text-emerald-400">
+                  <div className="px-4 py-2 mt-1 text-eyebrow uppercase tracking-widest font-black bg-emerald-950/40 border-y border-[var(--dtx-code-border)] text-emerald-400">
                     Pack Topologies
                   </div>
                   {tandemPresets.map((preset, idx) => (
@@ -86,7 +86,7 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
                         onSelectTopology(preset.topology, preset.name);
                         setModelMenuOpen(false);
                       }}
-                      className="p-3 cursor-pointer transition-colors border-b border-[#30363d]/50 hover:bg-[#161b22]"
+                      className="p-3 cursor-pointer transition-colors border-b border-[var(--dtx-code-border)]/50 hover:bg-[var(--dtx-code-panel)]"
                     >
                       <div className="flex items-center justify-between">
                         <div className="text-xs font-bold leading-none text-emerald-400">
@@ -106,7 +106,7 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
               {modelTiers.map((tier, idx) => (
                 <div key={idx} className="flex flex-col">
                   <div
-                    className={`px-4 py-2 mt-1 text-eyebrow uppercase tracking-widest font-black bg-[#161b22] border-y border-[#30363d] ${tier.color}`}
+                    className={`px-4 py-2 mt-1 text-eyebrow uppercase tracking-widest font-black bg-[var(--dtx-code-panel)] border-y border-[var(--dtx-code-border)] ${tier.color}`}
                   >
                     {tier.title}
                   </div>
@@ -117,7 +117,7 @@ export const ModelSelectorDropdown = memo(function ModelSelectorDropdown({
                         onSelectModel(model.id);
                         setModelMenuOpen(false);
                       }}
-                      className={`p-3 cursor-pointer transition-colors border-b border-[#30363d]/50 last:border-0 ${selectedModel === model.id ? "bg-cyan-900/30" : "hover:bg-[#161b22]"}`}
+                      className={`p-3 cursor-pointer transition-colors border-b border-[var(--dtx-code-border)]/50 last:border-0 ${selectedModel === model.id ? "bg-cyan-900/30" : "hover:bg-[var(--dtx-code-panel)]"}`}
                     >
                       <div className="flex items-center justify-between">
                         <div

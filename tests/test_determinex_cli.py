@@ -191,3 +191,93 @@ def test_evidence_unknown_subcommand(capsys):
     out = capsys.readouterr().out
     assert rc == 1
     assert "Unknown evidence subcommand" in out
+
+
+# ---------------------------------------------------------------------------
+# Help and dispatch must agree
+# ---------------------------------------------------------------------------
+#
+# Found 2026-07-31 while wiring `build`. The set of commands was written down TWICE -- once as
+# click registrations plus the _USAGE text, and again as a literal tuple in main()'s dispatch
+# guard, `elif cmd not in ("doctor", "status")`. Registering `build` and listing it in the help
+# left the guard untouched, so the CLI advertised `build` in its own --help and then answered
+# "Unknown command: 'build'". The guard now derives its list from the click group; these tests
+# pin the agreement rather than the current contents, so the next command added is covered too.
+
+def test_every_advertised_command_is_dispatchable():
+    """Anything named in the help must not be rejected as unknown."""
+    import determinex_cli as cli
+
+    # Only the "Commands:" block. Scoping matters: an earlier version scanned every indented
+    # line and picked up "determinex" from the Example, which is not a command.
+    advertised: set[str] = set()
+    in_commands = False
+    for line in cli._USAGE.splitlines():
+        if line.rstrip() == "Commands:":
+            in_commands = True
+            continue
+        if in_commands:
+            if not line.strip():
+                break
+            if line.startswith("  "):
+                advertised.add(line.split()[0])
+    assert advertised, "could not parse the Commands block out of _USAGE"
+
+    known = set(cli._TOP_LEVEL_COMMANDS) | set(cli._GROUPS_WITH_OWN_SUBCOMMAND_CHECK)
+    unreachable = {a for a in advertised if a not in known}
+    assert not unreachable, (
+        f"the help advertises {sorted(unreachable)} but dispatch would call them unknown"
+    )
+
+
+def test_the_dispatch_list_is_derived_from_the_click_group():
+    """A hand-maintained second copy is what caused the drift."""
+    import determinex_cli as cli
+
+    expected = {
+        name for name in cli._cli.commands
+        if name not in cli._GROUPS_WITH_OWN_SUBCOMMAND_CHECK
+    }
+    assert set(cli._TOP_LEVEL_COMMANDS) == expected
+
+
+def test_build_is_registered_reachable_and_named_in_the_help(capsys):
+    """The engine entry point. Everything else this CLI exposes is diagnostic, so before this
+    an installed Determinex had no way to reach verified search at all."""
+    import determinex_cli as cli
+
+    assert "build" in cli._cli.commands
+    assert "build" in cli._TOP_LEVEL_COMMANDS
+    sys.argv = ["determinex"]
+    assert cli.main() == 0
+    assert "build" in capsys.readouterr().out
+
+
+def test_build_dispatches_to_the_engine_module_without_running_a_model(monkeypatch):
+    """Dispatch is what regressed; the engine has its own tests. Stub it and assert the wiring,
+    including that argv is forwarded so the module's own parser sees the flags."""
+    import determinex_cli as cli
+
+    seen: dict[str, object] = {}
+
+    class _Stub:
+        @staticmethod
+        def main() -> int:
+            seen["argv"] = sys.argv[:]
+            return 0
+
+    monkeypatch.setitem(sys.modules, "determinex_build_from_idea", _Stub)
+    rc = cli._cmd_build(["--idea", "x.md", "--k", "3"])
+    assert rc == 0
+    assert seen["argv"] == ["determinex build", "--idea", "x.md", "--k", "3"]
+
+
+def test_an_unknown_command_is_still_rejected_after_deriving_the_list(capsys):
+    """Deriving the allow-list must not turn it into "accept anything"."""
+    import determinex_cli as cli
+
+    sys.argv = ["determinex", "frobnicate"]
+    rc = cli.main()
+    out = capsys.readouterr().out
+    assert rc == 1
+    assert "Unknown command: 'frobnicate'" in out

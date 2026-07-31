@@ -160,9 +160,9 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
   }[phase];
 
   return (
-    <div className="flex flex-col h-full overflow-hidden bg-[#010409]">
+    <div className="flex flex-col h-full overflow-hidden bg-[var(--dtx-code-bg-deep)]">
       {/* Phase header */}
-      <div className="px-4 py-3 border-b border-[#30363d] flex-shrink-0 bg-[#0d1117]/60">
+      <div className="px-4 py-3 border-b border-[var(--dtx-code-border)] flex-shrink-0 bg-[var(--dtx-code-bg)]/60">
         <div className="flex items-center gap-2">
           <Activity size={11} className={phaseColor} />
           <span className={`text-eyebrow font-bold uppercase tracking-widest ${phaseColor}`}>
@@ -177,7 +177,7 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
 
         {total > 0 && (
           <>
-            <div className="mt-2 h-1 bg-[#161b22] rounded-full overflow-hidden">
+            <div className="mt-2 h-1 bg-[var(--dtx-code-panel)] rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
@@ -203,7 +203,7 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
 
       {/* Active step callout */}
       {inProgress && (
-        <div className="px-4 py-2.5 border-b border-[#30363d] flex-shrink-0 bg-cyan-950/10">
+        <div className="px-4 py-2.5 border-b border-[var(--dtx-code-border)] flex-shrink-0 bg-cyan-950/10">
           <p className="text-eyebrow text-gray-600 uppercase font-bold tracking-widest mb-1">
             Active Step
           </p>
@@ -231,7 +231,7 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
             {steps.map((s) => (
               <div
                 key={s.id}
-                className="flex items-center gap-2 py-1.5 px-2 rounded hover:bg-[#161b22] transition-colors"
+                className="flex items-center gap-2 py-1.5 px-2 rounded hover:bg-[var(--dtx-code-panel)] transition-colors"
               >
                 {s.status === "complete" ? (
                   <Check size={10} className="text-emerald-400 flex-shrink-0" />
@@ -259,7 +259,7 @@ function WarRoom({ sessionId }: { sessionId?: string | null }) {
       </div>
 
       {/* Footer */}
-      <div className="px-4 py-2.5 border-t border-[#30363d] flex-shrink-0 flex items-center gap-2">
+      <div className="px-4 py-2.5 border-t border-[var(--dtx-code-border)] flex-shrink-0 flex items-center gap-2">
         <FileCode2 size={9} className="text-gray-700 flex-shrink-0" />
         <p className="text-meta text-gray-700 font-mono truncate">{sessionId.slice(0, 20)}…</p>
         <p className="text-meta text-gray-700 ml-auto flex-shrink-0">Full view in center →</p>
@@ -317,7 +317,7 @@ export const PipelineDashboard = ({
 
   return (
     <div className="flex flex-col h-full w-full bg-transparent">
-      <div className="p-3 border-b border-[#30363d] flex flex-col gap-3 bg-[#161b22]">
+      <div className="p-3 border-b border-[var(--dtx-code-border)] flex flex-col gap-3 bg-[var(--dtx-code-panel)]">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
             <span
@@ -353,7 +353,7 @@ export const PipelineDashboard = ({
       {showWarRoom ? (
         <WarRoom sessionId={sessionId} />
       ) : (
-        <div className="flex flex-col flex-1 overflow-y-auto no-scrollbar p-6 bg-[#010409]">
+        <div className="flex flex-col flex-1 overflow-y-auto no-scrollbar p-6 bg-[var(--dtx-code-bg-deep)]">
           {phases.map((phase, phaseIdx) => {
             const isFirst = phaseIdx === 0;
             const isLast = phaseIdx === phases.length - 1;
@@ -377,10 +377,10 @@ export const PipelineDashboard = ({
                   <p className="text-gray-400 text-label leading-relaxed">{phase.desc}</p>
                 </div>
                 <div
-                  className={`absolute left-1/2 top-0 ${isLast ? "h-full" : "bottom-[-2.5rem]"} w-[2px] bg-gradient-to-b ${isFirst ? "from-cyan-500 via-[#30363d] to-[#30363d]" : "from-[#30363d] to-transparent"} -translate-x-1/2 ${isFirst ? colors.glow : ""}`}
+                  className={`absolute left-1/2 top-0 ${isLast ? "h-full" : "bottom-[-2.5rem]"} w-[2px] bg-gradient-to-b ${isFirst ? "from-cyan-500 via-[var(--dtx-code-border)] to-[var(--dtx-code-border)]" : "from-[var(--dtx-code-border)] to-transparent"} -translate-x-1/2 ${isFirst ? colors.glow : ""}`}
                 ></div>
                 <div
-                  className={`absolute left-1/2 top-1/2 ${isFirst ? "w-5 h-5 rotate-45" : "w-4 h-4 rounded-full"} border-[2px] ${isFirst ? colors.border : isLast ? "border-red-900" : "border-[#30363d]"} bg-[#0d1117] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ${isFirst ? colors.glow : ""}`}
+                  className={`absolute left-1/2 top-1/2 ${isFirst ? "w-5 h-5 rotate-45" : "w-4 h-4 rounded-full"} border-[2px] ${isFirst ? colors.border : isLast ? "border-red-900" : "border-[var(--dtx-code-border)]"} bg-[var(--dtx-code-bg)] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ${isFirst ? colors.glow : ""}`}
                 >
                   {isFirst && (
                     <div className="w-1.5 h-1.5 bg-white rounded-full -rotate-45 animate-pulse"></div>
@@ -392,7 +392,7 @@ export const PipelineDashboard = ({
                     return (
                       <div
                         key={taskIdx}
-                        className={`${isActiveTask ? `${colors.bg} border-l-[2px] ${colors.border}` : "bg-[#161b22]/50"} border border-[#30363d] p-3 rounded shadow-sm ${isActiveTask ? "shadow-[0_0_10px_rgba(0,229,255,0.05)]" : "opacity-60"}`}
+                        className={`${isActiveTask ? `${colors.bg} border-l-[2px] ${colors.border}` : "bg-[var(--dtx-code-panel)]/50"} border border-[var(--dtx-code-border)] p-3 rounded shadow-sm ${isActiveTask ? "shadow-[0_0_10px_rgba(0,229,255,0.05)]" : "opacity-60"}`}
                       >
                         <div
                           className={`flex items-center ${isActiveTask ? "justify-between" : ""} gap-2 ${isActiveTask ? "mb-1" : ""}`}

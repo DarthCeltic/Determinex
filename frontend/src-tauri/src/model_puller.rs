@@ -9,8 +9,23 @@
 ///   - qwen2.5-coder:7b-instruct    -> larger local reasoning fallback
 ///   - qwen2.5-coder:14b-instruct   -> Leviathan (CPU fallback, optional)
 ///
-/// For custom fine-tuned GGUFs (v1.1 models from RunPod), those are handled
-/// separately via GitHub Releases download and `ollama create -f Modelfile`.
+/// The custom fine-tuned GGUFs (determinex-engineer-v11-dsl, -observer-v6-dsl,
+/// -sentinel-v5-dsl) are NOT pulled here. They are provisioned by `check_determinex_models`
+/// and `install_determinex_models` further down this file, which shell to the bundled
+/// sidecar's `helper setup.install_determinex_models`.
+///
+/// Corrected 2026-07-29 (twice, in one day). This comment first claimed they were "handled
+/// separately via GitHub Releases download and `ollama create -f Modelfile`", which was false:
+/// no GGUF is attached to any release. It was then rewritten to say there was no public place
+/// to get them at all -- true when written, false a few hours later once the three HuggingFace
+/// repos under darthceltic85 were made public and anonymously downloadable.
+///
+/// This mattered because roles.rs defaults a fresh install's builder and monitor to
+/// determinex/engineer and determinex/observer. Until the two commands below existed, two of
+/// four roles pointed at models a new user had no in-app way to obtain, and the shipped
+/// Modelfiles cannot bootstrap them either (Modelfile.engineer reads
+/// `FROM determinex-engineer-v11-dsl`, deriving from the model it would be creating). See
+/// docs/audits/USER_FACING_AUDIT_20260729.md.
 ///
 /// Progress is reported via Tauri events so the frontend SetupWizard can
 /// render per-model progress bars.
@@ -45,6 +60,22 @@ pub struct PullSummary {
 // MODEL RESOLUTION
 // ─────────────────────────────────────────────────────────────────────────────
 
+/// The local model Agent Chat falls back to when a session has no explicit override.
+///
+/// Load-bearing that this lives HERE, beside the install list, and is `pub`. `agent_chat.rs` used
+/// to hardcode its own default of `qwen2.5-coder:14b-instruct-q4_K_M` -- a tag this function
+/// deliberately does NOT install (see the note below about skipping the 14b). Two independent lists
+/// of model tags with nothing linking them, so they drifted: on a fresh install Agent Chat asked
+/// Ollama for a model that was never downloaded and every first message 404'd.
+///
+/// Dev boxes could not see it, because the repo `.env` sets
+/// `DETERMINEX_LOCAL_BUILDER_MODEL=…14b…` and the env var still wins -- and `.env` does not ship in
+/// the installer. Found 2026-07-30 while auditing "do the chat surfaces actually work".
+///
+/// So: whatever this is, it must be a tag `required_models_for_budget` installs unconditionally.
+/// `agent_chat_default_model_is_always_installed` enforces exactly that.
+pub const DEFAULT_LOCAL_CHAT_MODEL: &str = "qwen2.5-coder:3b-instruct";
+
 /// Determine which base models need to be present for the detected hardware tier.
 ///
 /// The tier system from hardware.rs determines the Engineer model size.
@@ -52,8 +83,8 @@ pub struct PullSummary {
 /// The tier determines whether we also pull the 7b and/or 14b.
 fn required_models_for_budget(budget_mb: u64) -> Vec<&'static str> {
     let mut models = vec![
-        "qwen2.5-coder:1.5b-instruct", // Builder fallback - always needed
-        "qwen2.5-coder:3b-instruct",   // local/fast - always needed
+        "qwen2.5-coder:1.5b-instruct",  // Builder fallback - always needed
+        DEFAULT_LOCAL_CHAT_MODEL,       // local/fast + Agent Chat default - always needed
     ];
 
     if budget_mb >= 7000 {
@@ -213,6 +244,106 @@ pub async fn pull_required_models() -> Result<PullSummary, String> {
     ensure_models_ready_with_config(budget_mb, &config).await
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// FINE-TUNED MODEL PROVISIONING
+//
+// Added 2026-07-29. The base qwen models above were the ONLY thing a fresh install could
+// obtain, while roles.rs defaults builder and monitor to the fine-tuned determinex models --
+// so two of four roles pointed at models a new user had no way to get. The Setup Wizard made
+// this worse by announcing "Registering Determinex model swarm with Ollama..." over a call
+// that pulled base models and registered nothing of the kind.
+//
+// The capability already shipped: the bundled sidecar exposes
+// `helper setup.install_determinex_models`, which downloads each GGUF from its public
+// HuggingFace repo, verifies the published sha256, and registers it with a generated
+// Modelfile. Nothing called it. These two commands are that missing wire.
+//
+// Kept as two separate commands on purpose. The download is several GB, so it must be an
+// explicit, informed choice rather than something first-run setup does to someone silently.
+// `check` is cheap and side-effect free, which is what lets the UI ask before spending it.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const MODEL_INSTALLER_SCRIPT: &str = "scripts/setup/install_determinex_models.py";
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeterminexModelStatus {
+    /// Ollama is reachable. Without it nothing can be registered, and that is worth reporting
+    /// as its own condition rather than as a mysterious install failure.
+    pub ollama_available: bool,
+    pub missing_count: u32,
+    pub total_count: u32,
+    /// Raw report from the installer's --check mode, for display when something looks wrong.
+    pub detail: String,
+}
+
+/// Cheap, side-effect free: how many fine-tuned models are missing?
+#[tauri::command]
+pub async fn check_determinex_models() -> Result<DeterminexModelStatus, String> {
+    let (mut cmd, _bundled) = crate::ipc_hive::helper_command(MODEL_INSTALLER_SCRIPT)?;
+    cmd.arg("--check");
+    // helper_command hands back a std::process::Command, so this goes through the same
+    // timeout-wrapped runner every other sidecar caller uses rather than tokio's .output().
+    // --check only shells out to `ollama list`, so a minute is generous.
+    let out = crate::project_audit::run_with_timeout(cmd, std::time::Duration::from_secs(60))
+        .map_err(|e| format!("could not run the model installer: {}", e))?;
+
+    let detail = format!(
+        "{}{}",
+        String::from_utf8_lossy(&out.stdout),
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    // The installer prints "N of M missing" and exits non-zero when any are missing, so exit
+    // status alone cannot distinguish "some missing" from "it failed to run". Parse the line.
+    let (mut missing, mut total) = (0u32, 0u32);
+    let mut parsed = false;
+    for line in detail.lines() {
+        if let Some((left, right)) = line.trim().split_once(" of ") {
+            if let Some(rest) = right.strip_suffix(" missing") {
+                if let (Ok(m), Ok(t)) = (left.trim().parse::<u32>(), rest.trim().parse::<u32>()) {
+                    missing = m;
+                    total = t;
+                    parsed = true;
+                    break;
+                }
+            }
+        }
+    }
+    if !parsed {
+        return Err(format!(
+            "could not read the model installer's report; it said:\n{}",
+            detail.trim()
+        ));
+    }
+
+    Ok(DeterminexModelStatus {
+        ollama_available: !detail.contains("ollama.com"),
+        missing_count: missing,
+        total_count: total,
+        detail: detail.trim().to_string(),
+    })
+}
+
+/// Download and register the fine-tuned models. Several GB; call only on explicit request.
+#[tauri::command]
+pub async fn install_determinex_models() -> Result<String, String> {
+    let (cmd, _bundled) = crate::ipc_hive::helper_command(MODEL_INSTALLER_SCRIPT)?;
+    // Several GB over a home connection. A short timeout here would kill a download that was
+    // working fine and report it as a failure, which is worse than waiting.
+    let out = crate::project_audit::run_with_timeout(cmd, std::time::Duration::from_secs(7200))
+        .map_err(|e| format!("could not run the model installer: {}", e))?;
+
+    let stdout = String::from_utf8_lossy(&out.stdout).to_string();
+    let stderr = String::from_utf8_lossy(&out.stderr).to_string();
+    if !out.status.success() {
+        return Err(format!(
+            "model installation did not complete:\n{}",
+            format!("{}{}", stdout, stderr).trim()
+        ));
+    }
+    Ok(stdout.trim().to_string())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -231,6 +362,34 @@ mod tests {
                 "qwen2.5-coder:7b-instruct",
             ]
         );
+    }
+
+    /// Agent Chat's fallback model must be one the installer actually downloads.
+    ///
+    /// The regression this pins: `agent_chat.rs` hardcoded `qwen2.5-coder:14b-instruct-q4_K_M`,
+    /// which `required_models_for_budget` never installs at any budget. On a fresh install the very
+    /// first chat message asked Ollama for a model that was not there. Invisible on a dev box,
+    /// because the repo `.env` sets DETERMINEX_LOCAL_BUILDER_MODEL and `.env` is not shipped.
+    ///
+    /// Checked at the SMALLEST budget deliberately: a tag that only appears on a big machine would
+    /// still leave a low-spec install broken, which is the exact case that failed.
+    #[test]
+    fn agent_chat_default_model_is_always_installed() {
+        let minimum = required_models_for_budget(0);
+        assert!(
+            minimum.contains(&DEFAULT_LOCAL_CHAT_MODEL),
+            "Agent Chat falls back to {DEFAULT_LOCAL_CHAT_MODEL}, but the installer only pulls \
+             {minimum:?} on a minimum-spec machine — so a fresh install would 404 on its first \
+             chat message. Either pull this tag unconditionally or change the default to one that \
+             is."
+        );
+        // And at every budget the installer supports, not just the floor.
+        for budget in [0_u64, 4000, 8000, 32000] {
+            assert!(
+                required_models_for_budget(budget).contains(&DEFAULT_LOCAL_CHAT_MODEL),
+                "default chat model missing from the install set at budget {budget} MB"
+            );
+        }
     }
 
     #[test]

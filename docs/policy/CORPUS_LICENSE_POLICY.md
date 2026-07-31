@@ -167,7 +167,7 @@ The license policy is enforced at multiple levels:
 
 ## Policy Exceptions
 
-Exceptions require written approval from the project owner (Ryan Gurganious / Lunarian Data Systems)
+Exceptions require written approval from the project owner (Ryan Gurganious)
 and must be recorded in `assurance/security/license_exception_log.json` with:
 - Date of approval
 - SPDX ID and rationale

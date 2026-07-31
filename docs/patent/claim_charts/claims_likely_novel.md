@@ -224,7 +224,7 @@ was inaccurate — the correct description above reflects the actual implementat
 
 ## NOVEL-10: Replay-Verification Ingestion Gate (Never-Trust-Submitted-Verdicts)
 
-**Concept:** `[NEW — LUNARIAN_NODE.md §5 / §9; updated owner verdict 2026-06-11]`
+**Concept:** `[NEW — DETERMINEX_NODE.md §5 / §9; updated owner verdict 2026-06-11]`
 > A method for anti-poisoning ingestion of externally submitted compiler-verified training
 > pairs comprising: (a) receiving a submission asserting a before/after code pair and a
 > claimed compiler verdict (passed/total/exit codes); (b) executing the `before` artifact
@@ -260,7 +260,7 @@ was inaccurate — the correct description above reflects the actual implementat
 - Determinex local compile-gate (CLAUDE.md): same mechanism applied to LOCAL generation;
   the novel element here is applying it to EXTERNAL submissions from untrusted clients
 
-**Source text:** `docs/papers/LUNARIAN_NODE.md` §3 (schema), §5 §(3) (replay detail),
+**Source text:** `docs/papers/DETERMINEX_NODE.md` §3 (schema), §5 §(3) (replay detail),
 §6 §3 (test-surface gaming defense), §9 N-10
 
 **Note for attorney:** This is likely the strongest novel claim in the Node family. It is
@@ -274,7 +274,7 @@ are preferable.
 
 ## NOVEL-11: Corpus-Release Gating by Frozen-Benchmark Regression Test
 
-**Concept:** `[NEW — LUNARIAN_NODE.md §6 §2 / §9]`
+**Concept:** `[NEW — DETERMINEX_NODE.md §6 §2 / §9]`
 > A method for corpus quality assurance comprising: maintaining a frozen internal benchmark
 > set that is never updated during an active training campaign; before publishing any corpus
 > release to training, evaluating the candidate corpus against the frozen benchmark;
@@ -293,7 +293,7 @@ are preferable.
 - The public before/after score in corpus release notes extends the transparency ledger
   concept (NOVEL-05 audit trail) to corpus releases, not just individual pairs
 
-**Source text:** `docs/papers/LUNARIAN_NODE.md` §6 §2 ("slow corpus skew" defense), §8
+**Source text:** `docs/papers/DETERMINEX_NODE.md` §6 §2 ("slow corpus skew" defense), §8
 (transparency ledger), §9 N-11
 
 **Note for attorney:** Design-only as of 2026-06-11. Closely related to the Eval-in-Loop
@@ -305,7 +305,7 @@ family or as an independent system claim covering the corpus-release quality gat
 
 ## NOVEL-12: Per-Submission Cloak-Namespace Re-Mapping at Intake
 
-**Concept:** `[NEW — LUNARIAN_NODE.md §6 §4 / §9]`
+**Concept:** `[NEW — DETERMINEX_NODE.md §6 §4 / §9]`
 > A method for preventing adversarial token-space collision in federated Cloaked-pair
 > ingestion comprising: at intake, generating a fresh, submission-specific opaque-token
 > namespace for each submitted pair (re-assigning all x_NNNN tokens in the submitted
@@ -326,7 +326,7 @@ family or as an independent system claim covering the corpus-release quality gat
   relationship to any individual client's local token assignments — is a privacy-amplifying
   guarantee on top of the existing Cloak privacy properties
 
-**Source text:** `docs/papers/LUNARIAN_NODE.md` §6 §4, §9 N-12
+**Source text:** `docs/papers/DETERMINEX_NODE.md` §6 §4, §9 N-12
 
 **Note for attorney:** Design-only as of 2026-06-11. Closely related to the Project Cloak
 family (NOVEL-01 through NOVEL-05). May be strongest as a dependent claim on a Cloak
@@ -337,7 +337,7 @@ obfuscated training data.
 
 ## NOVEL-13: Client-Side Verified-Locked Gating of OTA Weight Deltas (Symmetric Trust Boundary)
 
-**Concept:** `[PRIOR mechanism, NEW framing — LUNARIAN_NODE.md §7 / §9]`
+**Concept:** `[PRIOR mechanism, NEW framing — DETERMINEX_NODE.md §7 / §9]`
 > A method for secure receipt of over-the-air model weight updates in an AI development
 > system comprising: (a) verifying the cryptographic signature of an inbound weight delta
 > against a trusted organization key before any installation; (b) applying the weight
@@ -364,7 +364,7 @@ obfuscated training data.
 - Model serving updates (vLLM, Ollama hot-swap): atomic swap, no compiler-oracle validation
 - The novel element is the GATE, not the signature or the hot-swap mechanism
 
-**Source text:** `docs/papers/LUNARIAN_NODE.md` §7, §9 N-13
+**Source text:** `docs/papers/DETERMINEX_NODE.md` §7, §9 N-13
 
 **Note for attorney:** The underlying verified_locked gating mechanism already exists in
 Determinex (NOVEL-06, Eval-in-Loop architecture). The novel claim here is its application to
@@ -377,7 +377,7 @@ remotely delivered model updates."
 
 ## NOVEL-14: Tier-Gated Corpus Promotion (NEEDS TRIAGE)
 
-**Concept:** `[NEW — LUNARIAN_NODE.md §4; owner verdict 2026-06-11]`
+**Concept:** `[NEW — DETERMINEX_NODE.md §4; owner verdict 2026-06-11]`
 > A method for regulated cross-tier migration of training signal in a tiered corpus
 > management system comprising: (a) storing submitted training pairs in sealed, tier-specific
 > corpus cartridges (school, enterprise, community) with no automatic cross-tier migration;
@@ -410,7 +410,7 @@ remotely delivered model updates."
 - The combination — tiered sealed storage + multi-condition promotion gate + ledger sign-off
   as a required software pipeline element — has no prior art anticipation as a combined system
 
-**Source text:** `docs/papers/LUNARIAN_NODE.md` §4 (school cartridge, gated promotion
+**Source text:** `docs/papers/DETERMINEX_NODE.md` §4 (school cartridge, gated promotion
 pathway), §8 (transparency ledger sign-off)
 
 **Note for attorney:** NEEDS TRIAGE — flag as candidate claim for evaluation. May be

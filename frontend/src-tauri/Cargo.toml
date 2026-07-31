@@ -4,7 +4,10 @@ version = "0.1.0"
 description = "Determinex - proof-governed local-first AI coding workbench."
 authors = ["Determinex Contributors"]
 license = "AGPL-3.0-or-later"
-repository = "https://github.com/determinex/determinex"
+# Corrected 2026-07-29: this pointed at https://github.com/determinex/determinex, which does not
+# exist (`gh repo view` returns "Could not resolve to a Repository"). It ships inside the crate
+# metadata of a public release, so it was a dead link in the one field people click.
+repository = "https://github.com/DarthCeltic/Determinex"
 edition = "2021"
 rust-version = "1.77.2"
 default-run = "determinex"
@@ -25,6 +28,12 @@ log = "0.4"
 tauri = { version = "2.10.3", features = [] }
 tauri-plugin-log = "2"
 tauri-plugin-shell = "2"
+# In-app updates. Without this an installed build can never learn to update itself: the
+# first published version would be stuck on manual reinstalls forever, so it has to be
+# present in the FIRST public build rather than added in a later one.
+tauri-plugin-updater = "2"
+# Needed only so the app can relaunch itself after an update installs.
+tauri-plugin-process = "2"
 opener = "0.7"
 rusqlite = { version = "0.39.0", features = ["bundled"] }
 sqlite-vec = "0.1.9"

@@ -22,9 +22,9 @@ type FileHealth = {
 const INITIAL_HEALTH: FileHealth[] = [];
 
 const STATUS_CONFIG = {
-  pass: { color: "#34d399", glow: "rgba(52,211,153,0.3)", Icon: CheckCircle2, label: "PASS" },
-  warn: { color: "#f59e0b", glow: "rgba(245,158,11,0.3)", Icon: AlertTriangle, label: "WARN" },
-  error: { color: "#f87171", glow: "rgba(248,113,113,0.3)", Icon: XCircle, label: "ERROR" },
+  pass: { color: "var(--dtx-ok)", glow: "rgba(52,211,153,0.3)", Icon: CheckCircle2, label: "PASS" },
+  warn: { color: "var(--dtx-warn)", glow: "rgba(245,158,11,0.3)", Icon: AlertTriangle, label: "WARN" },
+  error: { color: "var(--dtx-fail)", glow: "rgba(248,113,113,0.3)", Icon: XCircle, label: "ERROR" },
 };
 
 function FileCard({
@@ -147,9 +147,9 @@ export function HealthMap() {
         {/* Summary chips */}
         <div className="grid grid-cols-3 gap-2">
           {[
-            { label: "Passing", count: passing, color: "#34d399" },
-            { label: "Warnings", count: warnings, color: "#f59e0b" },
-            { label: "Errors", count: errors, color: "#f87171" },
+            { label: "Passing", count: passing, color: "var(--dtx-ok)" },
+            { label: "Warnings", count: warnings, color: "var(--dtx-warn)" },
+            { label: "Errors", count: errors, color: "var(--dtx-fail)" },
           ].map((s) => (
             <div
               key={s.label}

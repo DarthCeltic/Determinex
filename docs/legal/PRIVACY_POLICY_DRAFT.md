@@ -76,7 +76,7 @@ before sending sensitive code through them.
 When using local models (Ollama), no data leaves your machine for that
 call — inference runs entirely on your own hardware.
 
-## 6. What we (Lunarian Data Systems) do not do
+## 6. What we (Ryan Gurganious) do not do
 
 - We do not operate a backend that receives your code, logs, or usage data.
 - We do not sell or share data, because we do not collect any in the first

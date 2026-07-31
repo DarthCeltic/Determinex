@@ -42,14 +42,14 @@ export function ServiceLoginModal() {
 
   return (
     <div
-      className="absolute inset-0 z-[60] bg-[#010409]/85 backdrop-blur-md flex items-center justify-center p-8"
+      className="absolute inset-0 z-[60] bg-[var(--dtx-code-bg-deep)]/85 backdrop-blur-md flex items-center justify-center p-8"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-[#0d1117] border border-[#30363d] rounded-xl shadow-2xl p-6 flex flex-col gap-5 animate-in zoom-in-95 duration-200"
+        className="w-full max-w-md bg-[var(--dtx-code-bg)] border border-[var(--dtx-code-border)] rounded-xl shadow-2xl p-6 flex flex-col gap-5 animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-[#30363d] pb-4">
+        <div className="flex items-center justify-between border-b border-[var(--dtx-code-border)] pb-4">
           <div className="flex items-center gap-3">
             <Globe className="text-amber-400" size={22} />
             <div>
@@ -62,7 +62,7 @@ export function ServiceLoginModal() {
           <Shield size={16} className="text-emerald-400" />
         </div>
 
-        <div className="bg-[#010409] border border-[#21262d] rounded-lg p-4 space-y-3">
+        <div className="bg-[var(--dtx-code-bg-deep)] border border-[var(--dtx-code-border-subtle)] rounded-lg p-4 space-y-3">
           <p className="text-label text-gray-400 leading-relaxed">
             Paste your <span className="text-amber-400 font-bold">{showServiceLogin}</span> token
             below. It&apos;s stored locally in this device&apos;s app database — never sent to
@@ -78,7 +78,7 @@ export function ServiceLoginModal() {
               value={serviceKeyInput}
               onChange={(e) => setServiceKeyInput(e.target.value)}
               placeholder={`Paste ${showServiceLogin} token here...`}
-              className="bg-[#161b22] border border-[#30363d] focus:border-amber-500 outline-none rounded-lg p-3 text-sm text-gray-300 w-full font-mono transition-colors"
+              className="bg-[var(--dtx-code-panel)] border border-[var(--dtx-code-border)] focus:border-amber-500 outline-none rounded-lg p-3 text-sm text-gray-300 w-full font-mono transition-colors"
             />
           </div>
           <div className="text-meta text-gray-600 flex items-center gap-1.5 mt-1">
@@ -90,7 +90,7 @@ export function ServiceLoginModal() {
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg text-sm text-gray-400 hover:bg-[#30363d] transition-colors"
+            className="px-4 py-2 rounded-lg text-sm text-gray-400 hover:bg-[var(--dtx-code-border)] transition-colors"
           >
             Cancel
           </button>

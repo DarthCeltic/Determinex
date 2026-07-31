@@ -18,12 +18,12 @@ interface PathDetailPanelProps {
 
 export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathDetailPanelProps) {
   const complexityColor =
-    path.complexity === "low" ? "#34d399" : path.complexity === "medium" ? "#f59e0b" : "#f87171";
+    path.complexity === "low" ? "var(--dtx-ok)" : path.complexity === "medium" ? "var(--dtx-warn)" : "var(--dtx-fail)";
 
   return (
-    <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 overflow-hidden">
+    <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] text-gray-300 overflow-hidden">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-[#30363d] bg-[#161b22]/60 flex items-center gap-4 shrink-0">
+      <div className="px-6 py-4 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)]/60 flex items-center gap-4 shrink-0">
         <button
           onClick={onBack}
           className="text-gray-600 hover:text-gray-300 transition-colors flex items-center gap-1.5 text-label shrink-0"
@@ -54,7 +54,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
 
       {/* Wireframe preview */}
       <div
-        className="shrink-0 h-[340px] border-b border-[#30363d] relative flex items-center justify-center pt-4"
+        className="shrink-0 h-[340px] border-b border-[var(--dtx-code-border)] relative flex items-center justify-center pt-4"
         style={{ background: `${path.color}04` }}
       >
         <PathWireframe path={path} colorOverride={colorOverride} />
@@ -104,7 +104,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
 
           {/* Timeline reason */}
           {path.timelineReason && (
-            <div className="rounded-xl border border-[#30363d] p-3.5">
+            <div className="rounded-xl border border-[var(--dtx-code-border)] p-3.5">
               <div className="flex items-center gap-1.5 mb-1.5">
                 <Clock size={10} className="text-gray-500" />
                 <span className="text-eyebrow uppercase font-bold tracking-widest text-gray-500">
@@ -117,7 +117,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
 
           {/* Prerequisites */}
           {path.prerequisites && path.prerequisites.length > 0 && (
-            <div className="rounded-xl border border-[#30363d] p-3.5">
+            <div className="rounded-xl border border-[var(--dtx-code-border)] p-3.5">
               <div className="flex items-center gap-1.5 mb-2.5">
                 <Wrench size={10} className="text-amber-400" />
                 <span className="text-eyebrow uppercase font-bold tracking-widest text-amber-400/80">
@@ -149,7 +149,7 @@ export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathD
       </div>
 
       {/* Sticky CTA */}
-      <div className="shrink-0 border-t border-[#30363d] px-6 py-4 flex flex-col gap-3 bg-[#0d1117]">
+      <div className="shrink-0 border-t border-[var(--dtx-code-border)] px-6 py-4 flex flex-col gap-3 bg-[var(--dtx-code-bg)]">
         <button
           onClick={() => onChoose(path)}
           className="w-full py-3.5 text-body font-black uppercase tracking-widest rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"

@@ -34,6 +34,8 @@
 //! Run: cargo test --test benchmark_ingestor -- --nocapture
 //!      cargo test --test benchmark_ingestor swe_bench_dyno -- --nocapture
 
+mod common;
+
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::fs::{self, OpenOptions};
@@ -98,10 +100,15 @@ fn ollama_generate_url() -> String {
 fn ollama_tags_url() -> String {
     format!("{}/api/tags", ollama_host())
 }
+fn ollama_ps_url() -> String {
+    format!("{}/api/ps", ollama_host())
+}
 
-const MODEL_SENTINEL: &str = "determinex-sentinel:v2";
-const MODEL_ENGINEER: &str = "determinex-engineer:v3";
-const MODEL_OBSERVER: &str = "determinex-observer:v3";
+// Defaults corrected 2026-07-31 -- up to three generations stale, so the DETERMINEX_*_MODEL
+// overrides below were the only way this ever reached a real model, and unset they 404'd.
+const MODEL_SENTINEL: &str = "determinex-sentinel-v5-dsl";
+const MODEL_ENGINEER: &str = "determinex-engineer-v11-dsl";
+const MODEL_OBSERVER: &str = "determinex-observer-v6-dsl";
 
 const INFERENCE_TIMEOUT_SECS: u64 = 60;
 /// Sentinel only generates a short JSON plan — 2048 is plenty and allocates a smaller KV-cache.
@@ -1918,15 +1925,24 @@ async fn swe_bench_dyno() {
     let dataset_path = Path::new(BENCHMARK_DATASET_PATH);
 
     // ── Pre-flight: Ollama ─────────────────────────────────────────────────────
-    if !ollama_is_reachable(&client).await {
-        println!();
-        println!("╔══════════════════════════════════════════════════════════════════╗");
-        println!("║  [DYNO] swe_bench_dyno — SKIPPED                                 ║");
-        println!("║  Ollama is not reachable at localhost:11434.                      ║");
-        println!("║  Start Ollama and ensure the determinex models are pulled, then      ║");
-        println!("║  re-run: cargo test --test benchmark_ingestor -- --nocapture      ║");
-        println!("╚══════════════════════════════════════════════════════════════════╝");
-        println!();
+    // Was `ollama_is_reachable`, whose banner then said "ensure the determinex models are pulled"
+    // -- advice it did not itself act on. See tests/common/mod.rs.
+    let wanted = [sentinel_model(), engineer_model(), observer_model()];
+    if common::should_skip(
+        "[DYNO] swe_bench_dyno",
+        match common::unmet_prerequisites(&client, &ollama_tags_url(), &wanted).await {
+            Some(unmet) => Some(unmet),
+            None => {
+                common::residency_shortfall(
+                    &client,
+                    &ollama_generate_url(),
+                    &ollama_ps_url(),
+                    &wanted,
+                )
+                .await
+            }
+        },
+    ) {
         return;
     }
 
@@ -1942,9 +1958,28 @@ async fn swe_bench_dyno() {
         println!("[DYNO] Demo dataset written.");
     }
 
+    // A malformed dataset is treated exactly like a missing one: report loudly, regenerate the
+    // demo, continue.
+    //
+    // This dataset lives under .determinex_staging/, which is GITIGNORED -- a local convenience
+    // input, not an assertion target, and a clean clone has no such file (which is why the
+    // create-demo path above exists at all). One stale local copy had a Windows path written into
+    // a prompt with unescaped backslashes, whose \U is not a valid JSON escape, so line 12 failed
+    // to parse and this panicked. Because `cargo test` stops at the first failing target, that one
+    // corrupt local line hid the state of every target after it.
     let tasks = match load_benchmark_dataset(BENCHMARK_DATASET_PATH) {
         Ok(t) => t,
-        Err(e) => panic!("[DYNO] Dataset load failed: {}", e),
+        Err(e) => {
+            println!("[DYNO] Dataset at '{}' failed to load: {}", BENCHMARK_DATASET_PATH, e);
+            println!("[DYNO] It is a gitignored local artifact -- regenerating the 5-task demo.");
+            if let Err(e) = create_demo_dataset(dataset_path) {
+                panic!("[DYNO] Could not regenerate demo dataset: {}", e);
+            }
+            match load_benchmark_dataset(BENCHMARK_DATASET_PATH) {
+                Ok(t) => t,
+                Err(e) => panic!("[DYNO] Regenerated demo dataset also failed to load: {}", e),
+            }
+        }
     };
 
     if tasks.is_empty() {

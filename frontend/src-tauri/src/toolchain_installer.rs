@@ -10,6 +10,15 @@
 // (determinex_toolchain_installer.py, built 2026-07-22) with zero frontend surface -- this is
 // the missing bridge, mirroring agent_registry.rs's pattern for scripts/determinex_agents.py.
 
+// Python is resolved through `ipc_hive::resolve_python_exe()`, never `Command::new("python")`.
+//
+// That resolver exists for a specific reason: on Windows, PATH `python` is very
+// often the Microsoft Store AppExecLink stub, which does not run Python -- it opens
+// the Store. It also prefers the repo venv, so the interpreter that has the
+// project's dependencies is the one used. Ten call sites across six files bypassed
+// it and used bare `python`, which worked only on machines where PATH happened to
+// resolve to a real interpreter.
+
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -60,9 +69,9 @@ pub async fn list_toolchains() -> Result<HashMap<String, bool>, String> {
     let root = locate_repo_root()
         .ok_or_else(|| format!("could not locate repo root ({TOOLCHAIN_SCRIPT} missing)"))?;
 
-    let mut cmd = Command::new("python");
-    cmd.hide_console();
-    cmd.arg(root.join(TOOLCHAIN_SCRIPT));
+    // Bundled-first (see ipc_hive::helper_command): this used to build
+    // `python <root>/scripts/<name>.py`, which does not exist in an installed copy.
+    let (mut cmd, _bundled) = crate::ipc_hive::helper_command(TOOLCHAIN_SCRIPT)?;
     cmd.arg("list");
     cmd.current_dir(&root);
 
@@ -87,9 +96,9 @@ pub async fn install_toolchain(language: String) -> Result<ToolchainInstallResul
     let root = locate_repo_root()
         .ok_or_else(|| format!("could not locate repo root ({TOOLCHAIN_SCRIPT} missing)"))?;
 
-    let mut cmd = Command::new("python");
-    cmd.hide_console();
-    cmd.arg(root.join(TOOLCHAIN_SCRIPT));
+    // Bundled-first (see ipc_hive::helper_command): this used to build
+    // `python <root>/scripts/<name>.py`, which does not exist in an installed copy.
+    let (mut cmd, _bundled) = crate::ipc_hive::helper_command(TOOLCHAIN_SCRIPT)?;
     cmd.arg("install");
     cmd.arg(&language);
     cmd.current_dir(&root);

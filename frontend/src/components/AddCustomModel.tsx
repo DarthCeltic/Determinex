@@ -104,7 +104,7 @@ export function AddCustomModel({ onAdded }: Props) {
         type="button"
         data-testid="add-custom-model-open"
         onClick={() => setOpen(true)}
-        className="flex w-full items-center justify-center gap-1.5 border-t border-[#30363d] px-4 py-2.5 text-meta font-bold uppercase tracking-widest text-gray-400 transition-colors hover:bg-[#161b22] hover:text-white"
+        className="flex w-full items-center justify-center gap-1.5 border-t border-[var(--dtx-code-border)] px-4 py-2.5 text-meta font-bold uppercase tracking-widest text-gray-400 transition-colors hover:bg-[var(--dtx-code-panel)] hover:text-white"
       >
         <Plus size={11} /> Add a model
       </button>
@@ -113,7 +113,7 @@ export function AddCustomModel({ onAdded }: Props) {
 
   return (
     <div
-      className="space-y-2 border-t border-[#30363d] bg-[#010409] p-3"
+      className="space-y-2 border-t border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg-deep)] p-3"
       data-testid="add-custom-model-form"
     >
       <p className="text-meta leading-relaxed text-gray-500">
@@ -128,7 +128,7 @@ export function AddCustomModel({ onAdded }: Props) {
           value={modelId}
           onChange={(e) => setModelId(e.target.value)}
           placeholder="some-model-from-2027"
-          className="w-full rounded border border-[#30363d] bg-[#0d1117] px-2 py-1.5 font-mono text-label text-gray-200 outline-none focus:border-cyan-500"
+          className="w-full rounded border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-2 py-1.5 font-mono text-label text-gray-200 outline-none focus:border-cyan-500"
         />
       </Field>
 
@@ -137,7 +137,7 @@ export function AddCustomModel({ onAdded }: Props) {
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           placeholder={modelId || "Future Vendor 9000"}
-          className="w-full rounded border border-[#30363d] bg-[#0d1117] px-2 py-1.5 text-label text-gray-200 outline-none focus:border-cyan-500"
+          className="w-full rounded border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-2 py-1.5 text-label text-gray-200 outline-none focus:border-cyan-500"
         />
       </Field>
 
@@ -147,7 +147,7 @@ export function AddCustomModel({ onAdded }: Props) {
           value={baseUrl}
           onChange={(e) => setBaseUrl(e.target.value)}
           placeholder="http://localhost:8000/v1"
-          className="w-full rounded border border-[#30363d] bg-[#0d1117] px-2 py-1.5 font-mono text-label text-gray-200 outline-none focus:border-cyan-500"
+          className="w-full rounded border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-2 py-1.5 font-mono text-label text-gray-200 outline-none focus:border-cyan-500"
         />
       </Field>
 
@@ -157,7 +157,7 @@ export function AddCustomModel({ onAdded }: Props) {
           value={apiKeyEnv}
           onChange={(e) => setApiKeyEnv(e.target.value)}
           placeholder="FUTURE_VENDOR_KEY"
-          className="w-full rounded border border-[#30363d] bg-[#0d1117] px-2 py-1.5 font-mono text-label text-gray-200 outline-none focus:border-cyan-500"
+          className="w-full rounded border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-2 py-1.5 font-mono text-label text-gray-200 outline-none focus:border-cyan-500"
         />
       </Field>
 
@@ -166,7 +166,7 @@ export function AddCustomModel({ onAdded }: Props) {
           value={contextWindow}
           onChange={(e) => setContextWindow(e.target.value.replace(/[^0-9]/g, ""))}
           inputMode="numeric"
-          className="w-full rounded border border-[#30363d] bg-[#0d1117] px-2 py-1.5 font-mono text-label text-gray-200 outline-none focus:border-cyan-500"
+          className="w-full rounded border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-2 py-1.5 font-mono text-label text-gray-200 outline-none focus:border-cyan-500"
         />
       </Field>
 

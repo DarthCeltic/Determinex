@@ -94,7 +94,7 @@ export function VanguardToggle({ onStateChange, className = "" }: VanguardToggle
         <div className="flex-1 text-left">
           <p
             className="text-meta font-black tracking-widest uppercase font-mono transition-colors duration-300"
-            style={{ color: enabled ? "#22c55e" : "#6b7280" }}
+            style={{ color: enabled ? "var(--dtx-ok)" : "var(--dtx-code-muted)" }}
           >
             Vanguard Telemetry
           </p>
@@ -110,13 +110,13 @@ export function VanguardToggle({ onStateChange, className = "" }: VanguardToggle
           <Lock
             size={10}
             className="transition-colors duration-300"
-            style={{ color: enabled ? "#22c55e" : "#374151" }}
+            style={{ color: enabled ? "var(--dtx-ok)" : "var(--dtx-code-border)" }}
           />
           {/* Pill */}
           <div
             className="relative w-9 h-5 rounded-full transition-all duration-300"
             style={{
-              background: enabled ? "#166534" : "#1f2937",
+              background: enabled ? "var(--dtx-ok)" : "var(--dtx-code-raised)",
               border: `1px solid ${enabled ? "rgba(34,197,94,0.6)" : "rgba(75,85,99,0.4)"}`,
             }}
           >
@@ -124,7 +124,7 @@ export function VanguardToggle({ onStateChange, className = "" }: VanguardToggle
               className="absolute top-0.5 w-4 h-4 rounded-full shadow-md transition-all duration-300"
               style={{
                 left: enabled ? "calc(100% - 1.1rem)" : "2px",
-                background: enabled ? "#22c55e" : "#4b5563",
+                background: enabled ? "var(--dtx-ok)" : "var(--dtx-code-border)",
                 boxShadow: enabled ? "0 0 8px rgba(34,197,94,0.7)" : "none",
               }}
             />

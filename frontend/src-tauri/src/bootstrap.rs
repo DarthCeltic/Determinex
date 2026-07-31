@@ -16,16 +16,30 @@ use tokio::process::Command;
 
 /// Target model names that the Hive Mind Orchestrator (litellm_config.yaml) expects.
 /// These MUST match the model_name values under determinex.roles in litellm_config.yaml.
-const ENGINEER_TAG: &str = "determinex-engineer-v10-dsl"; // Builder:   Qwen2.5-Coder-1.5B DSL v10
-const OBSERVER_TAG: &str = "determinex-observer-v5-dsl"; // Monitor:   Qwen2.5-3B DSL v5
-const SENTINEL_TAG: &str = "determinex-sentinel-v3"; // Architect: Mistral-7B pre-DSL (87%)
+// Corrected 2026-07-29. These were determinex-engineer-v10-dsl / -observer-v5-dsl /
+// -sentinel-v3, and the first two are listed in `STALE_MODEL_IDS` in
+// scripts/models/model_router.py. So first-run setup was registering exactly the tags the
+// router refuses to route to: any role resolving to one of them returns
+// ROUTE_BLOCKED_STALE_MODEL_ID. A fresh machine could complete setup "successfully" and then
+// be unable to route work to the models it had just registered. Pinned against the router's
+// CURRENT_MODEL_IDS by tests/test_windows_installer_runtime.py so the two languages cannot
+// drift apart again.
+const ENGINEER_TAG: &str = "determinex-engineer-v11-dsl"; // Builder:   Qwen2.5-Coder-1.5B DSL v11
+const OBSERVER_TAG: &str = "determinex-observer-v6-dsl"; // Monitor:   Llama-3.2-3B DSL v6
+const SENTINEL_TAG: &str = "determinex-sentinel-v5-dsl"; // Architect: Mistral-7B DSL v5
 
 /// Registers the three Determinex DSL model tags in Ollama.
 ///
-/// Model tags MUST match litellm_config.yaml role assignments:
-///   engineer → determinex-engineer-v10-dsl (Qwen2.5-Coder-1.5B, DSL v10, +2pp)
-///   observer → determinex-observer-v5-dsl  (Qwen2.5-3B, DSL v5, +4pp)
-///   sentinel → determinex-sentinel-v3      (Mistral-7B pre-DSL, 87% — DSL fine-tune rejected)
+/// Model tags MUST match litellm_config.yaml role assignments and
+/// `scripts/models/model_router.py::CURRENT_MODEL_IDS`:
+///   engineer → determinex-engineer-v11-dsl (Qwen2.5-Coder-1.5B, DSL v11, 57/70 = 81.4%)
+///   observer → determinex-observer-v6-dsl  (Llama-3.2-3B, DSL v6, 53/70 = 75.7%)
+///   sentinel → determinex-sentinel-v5-dsl  (Mistral-7B, DSL v5, no eval artifact on disk)
+///
+/// The per-model figures above are the 70-probe results and are LOWER than the 45-probe
+/// v10/v5 numbers this comment used to quote as "+2pp" and "+4pp" improvements. Those
+/// deltas compared different probe sets and were credited to models that had not been
+/// evaluated; see the correction note in CLAUDE.md.
 ///
 /// The Modelfiles live in <repo>/modelfiles/ and reference GGUFs from DETERMINEX_MODELS_DIR.
 /// If the GGUFs are not yet present (pre-RunPod training run), this step is skipped
@@ -97,17 +111,17 @@ pub async fn run_first_setup(_config: &DeterminexConfig) -> Result<(), String> {
         // (ollama_tag, relative_gguf_path, num_ctx)
         (
             ENGINEER_TAG,
-            "versions/engineer/v10-dsl/determinex-engineer-v10-dsl.gguf",
+            "versions/engineer/v11-dsl/determinex-engineer-v11-dsl.gguf",
             "4096",
         ),
         (
             OBSERVER_TAG,
-            "versions/observer/v5-dsl/determinex-observer-v5-dsl.gguf",
+            "versions/observer/v6-dsl/determinex-observer-v6-dsl.gguf",
             "4096",
         ),
         (
             SENTINEL_TAG,
-            "versions/sentinel/v3/determinex-sentinel-v3.gguf",
+            "versions/sentinel/v5-dsl/determinex-sentinel-v5-dsl.gguf",
             "4096",
         ),
     ];

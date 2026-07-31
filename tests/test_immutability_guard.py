@@ -112,6 +112,38 @@ def test_evidence_validate_no_file_mutations():
     assert before == after, f"evidence validate mutated files: {set(before) ^ set(after)}"
 
 
+def _snapshot(dirs) -> dict[str, float]:
+    """mtime of every file under `dirs`, EXCLUDING Python bytecode caches.
+
+    __pycache__ was included until 2026-07-28, which made this guard fail for a
+    reason that has nothing to do with what it guards: importing a module whose
+    .py is newer than its .pyc rewrites the .pyc, so `config show` "modified" a
+    file whenever any scripts/*.py had been edited since it was last imported.
+    Order-dependent, so it passed in isolation and failed in the full suite --
+    the worst shape for a guard, because a false alarm teaches people to ignore
+    a real one. Bytecode caches are not corpus mutations.
+
+    Separately: this test compares two snapshots taken ~30s apart (walking
+    corpus/ is slow by design, see the caller's docstring), so it is NOT safe to
+    run while anything else writes under scripts/ | assurance/ | corpus/. A
+    second pytest run in parallel will mutate an assurance artifact between the
+    two snapshots and the diff gets attributed to `config show`. Observed
+    2026-07-28. That is a property of the measurement, not a defect to fix here
+    -- but do not chase a `modified` failure without first checking for a
+    concurrent run.
+    """
+    out: dict[str, float] = {}
+    for d in dirs:
+        if not d.exists():
+            continue
+        for f in d.rglob("*"):
+            if "__pycache__" in f.parts or f.suffix in (".pyc", ".pyo"):
+                continue
+            if f.is_file():
+                out[str(f)] = f.stat().st_mtime
+    return out
+
+
 @pytest.mark.slow
 def test_config_show_no_file_mutations(tmp_path, capsys):
     """determinex config show must not write any files.
@@ -124,23 +156,13 @@ def test_config_show_no_file_mutations(tmp_path, capsys):
     import determinex_cli as cli
     # Snapshot entire scripts/ and assurance/ before
     checked_dirs = [_ROOT / "scripts", _ROOT / "assurance", _ROOT / "corpus"]
-    before = {}
-    for d in checked_dirs:
-        if d.exists():
-            for p in d.rglob("*"):
-                if p.is_file():
-                    before[str(p)] = p.stat().st_mtime
+    before = _snapshot(checked_dirs)
 
     sys.argv = ["determinex", "config", "show"]
     cli.main()
     capsys.readouterr()
 
-    after = {}
-    for d in checked_dirs:
-        if d.exists():
-            for p in d.rglob("*"):
-                if p.is_file():
-                    after[str(p)] = p.stat().st_mtime
+    after = _snapshot(checked_dirs)
 
     new_files = set(after) - set(before)
     assert not new_files, f"config show created files: {new_files}"

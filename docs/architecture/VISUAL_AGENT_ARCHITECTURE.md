@@ -126,4 +126,4 @@ Nothing should be imported above its layer in this chain.
 
 ---
 
-*Determinex Visual Agent Architecture · Lunarian Data Systems · 2026-05-27*
+*Determinex Visual Agent Architecture · Ryan Gurganious · 2026-05-27*

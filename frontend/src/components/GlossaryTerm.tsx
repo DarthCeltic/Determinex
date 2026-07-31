@@ -137,7 +137,7 @@ export function GlossaryTerm({ term, definition, children, className = "" }: Glo
         <span
           className={`
             absolute z-50 left-0 w-64 p-3
-            bg-[#0d1117] border border-cyan-500/30 rounded-xl
+            bg-[var(--dtx-code-bg)] border border-cyan-500/30 rounded-xl
             text-label text-gray-300 leading-relaxed
             shadow-[0_0_24px_rgba(0,0,0,0.9)]
             pointer-events-none

@@ -23,7 +23,7 @@ import dynamic from "next/dynamic";
 const MonacoEditor = dynamic(() => import("@monaco-editor/react").then((m) => m.default), {
   ssr: false,
   loading: () => (
-    <div className="flex-1 flex items-center justify-center bg-[#0d1117]">
+    <div className="flex-1 flex items-center justify-center bg-[var(--dtx-code-bg)]">
       <span className="text-label font-mono text-gray-700">Loading editor…</span>
     </div>
   ),
@@ -337,7 +337,7 @@ export function EditorPanel({ pendingFile, workspacePath = "" }: EditorPanelProp
   const rightLang = LANG_MAP[rightExt] ?? "plaintext";
 
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden" style={{ background: "#0d1117" }}>
+    <div className="flex h-full min-h-0 flex-col overflow-hidden" style={{ background: "var(--dtx-code-bg)" }}>
       {/* Tab bar */}
       <div className="flex items-center border-b border-white/8 bg-black/40 overflow-x-auto no-scrollbar shrink-0">
         {openFiles.map((f, i) => (
@@ -495,7 +495,7 @@ export function EditorPanel({ pendingFile, workspacePath = "" }: EditorPanelProp
                   }}
                   options={{
                     fontSize: 13,
-                    fontFamily: '"JetBrains Mono", monospace',
+                    fontFamily: "var(--determinex-font-mono)",
                     fontLigatures: true,
                     minimap: { enabled: false },
                     lineNumbers: "on",
@@ -515,11 +515,11 @@ export function EditorPanel({ pendingFile, workspacePath = "" }: EditorPanelProp
               {/* Split Right editor */}
               {isSplit && rightActiveFile && (
                 <div className="flex-1 min-h-0 overflow-hidden flex flex-col border-l border-white/10">
-                  <div className="p-1 bg-[#161b22]/50 border-b border-white/5 flex items-center gap-2">
+                  <div className="p-1 bg-[var(--dtx-code-panel)]/50 border-b border-white/5 flex items-center gap-2">
                     <select
                       value={rightActiveIdx}
                       onChange={(e) => setRightActiveIdx(Number(e.target.value))}
-                      className="bg-[#0d1117] border border-white/10 rounded px-1 text-white text-meta"
+                      className="bg-[var(--dtx-code-bg)] border border-white/10 rounded px-1 text-white text-meta"
                     >
                       {openFiles.map((f, i) => (
                         <option key={f.path} value={i}>
@@ -535,7 +535,7 @@ export function EditorPanel({ pendingFile, workspacePath = "" }: EditorPanelProp
                     theme="vs-dark"
                     options={{
                       fontSize: 12,
-                      fontFamily: '"JetBrains Mono", monospace',
+                      fontFamily: "var(--determinex-font-mono)",
                       minimap: { enabled: false },
                       lineNumbers: "on",
                       scrollBeyondLastLine: false,
@@ -548,7 +548,7 @@ export function EditorPanel({ pendingFile, workspacePath = "" }: EditorPanelProp
 
               {/* Outline Sidebar */}
               {showOutline && (
-                <div className="w-64 border-l border-white/10 bg-[#161b22]/90 flex flex-col font-mono text-label text-gray-300">
+                <div className="w-64 border-l border-white/10 bg-[var(--dtx-code-panel)]/90 flex flex-col font-mono text-label text-gray-300">
                   <div className="p-3 border-b border-white/5 flex items-center justify-between text-white font-bold bg-black/20">
                     <span>OUTLINE & DIAGNOSTICS</span>
                   </div>

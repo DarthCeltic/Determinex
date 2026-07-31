@@ -2,35 +2,20 @@
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "entry": [
     "src/app/**/{page,layout,route,template,not-found,error,global-error}.tsx",
-    "src/app/**/{page,layout,route}.ts",
     "playwright-tests/**/*.spec.ts",
     "src/**/__tests__/**/*.{ts,tsx}",
-    "eslint.config.mjs",
     "eslint-rules/index.mjs",
-    "next.config.ts",
-    "playwright.config.ts",
-    "vitest.config.ts",
-    "postcss.config.mjs",
     "vscode-extension/src/extension.ts"
   ],
   "project": ["src/**/*.{ts,tsx}", "eslint-rules/**/*.mjs"],
   "ignore": [
-    ".next/**",
-    "out/**",
-    "src-tauri/target/**",
-    "src/components/ide-product-shell/**",
-    "src/components/ide-repair/**",
     "src/lib/ide-invoke-client.ts",
-    "src/lib/ide-panel-bindings.ts",
-    "src/lib/ide-product-shell-api.ts",
-    "src/lib/ide-repair-api.ts",
-    "vscode-extension/out/**"
+    "src/lib/ide-panel-bindings.ts"
   ],
   "ignoreDependencies": [
-    "@tailwindcss/postcss",
     "tailwindcss",
-    "eslint-config-next",
-    "@typescript-eslint/parser"
+    "@typescript-eslint/parser",
+    "vscode"
   ],
   "ignoreExportsUsedInFile": true
 }

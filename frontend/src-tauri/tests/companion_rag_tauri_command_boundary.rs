@@ -1,5 +1,7 @@
+mod common;
+
 use serde_json::json;
-use std::{env, fs, path::PathBuf};
+use std::{fs, path::PathBuf};
 
 #[test]
 fn companion_rag_tauri_command_boundary_is_wired() {
@@ -8,10 +10,14 @@ fn companion_rag_tauri_command_boundary_is_wired() {
         .and_then(|p| p.parent())
         .expect("repo root")
         .to_path_buf();
-    let output_path = PathBuf::from(
-        env::var("DETERMINEX_RAG_TAURI_COMMAND_BOUNDARY_OUTPUT")
-            .expect("DETERMINEX_RAG_TAURI_COMMAND_BOUNDARY_OUTPUT must point to result artifact"),
-    );
+    // Skip, do not panic: harness-supplied output path. See tests/common/mod.rs.
+    let Some(env_values) = common::required_env(
+        "companion_rag_tauri_command_boundary_is_wired",
+        &["DETERMINEX_RAG_TAURI_COMMAND_BOUNDARY_OUTPUT"],
+    ) else {
+        return;
+    };
+    let output_path = PathBuf::from(&env_values[0]);
 
     let lib_rs =
         fs::read_to_string(root.join("frontend/src-tauri/src/lib.rs")).expect("read lib.rs");

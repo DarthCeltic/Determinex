@@ -1,0 +1,1243 @@
+# Generated from the generate_handler! list in src/lib.rs.
+#
+# Its existence is the point: without a permissions/ directory Tauri sets
+# has_app_acl_manifest = false and skips the ACL check for app commands entirely, so every
+# command was reachable from any webview with no permission and no window restriction.
+# Enabling the ACL makes the capability's `windows` list apply to app commands, and makes
+# any command added later denied by default rather than silently exposed.
+#
+# Regenerate after changing generate_handler!:
+#   python scripts/dev/gen_tauri_acl.py
+# tests/test_tauri_acl.py fails if this drifts from the registered set.
+
+
+[[set]]
+identifier = "allow-app-commands"
+description = "Every command registered in generate_handler!."
+permissions = [
+    "allow-add-custom-registry-model",
+    "allow-agent-chat-cloak-status",
+    "allow-agent-chat-create-session",
+    "allow-agent-chat-get-plan",
+    "allow-agent-chat-get-transcript",
+    "allow-agent-chat-list-sessions",
+    "allow-agent-chat-resync-plan",
+    "allow-agent-chat-send",
+    "allow-agent-chat-set-model",
+    "allow-agent-chat-set-plan",
+    "allow-agent-probe-test",
+    "allow-agent-status-roster",
+    "allow-analyze-workspace",
+    "allow-apply-staged-diff",
+    "allow-build-idea",
+    "allow-cancel-session",
+    "allow-check-determinex-models",
+    "allow-check-docker-status",
+    "allow-check-ollama-status",
+    "allow-converse-idea",
+    "allow-create-path",
+    "allow-create-session",
+    "allow-create-todo",
+    "allow-delete-path",
+    "allow-delete-todo",
+    "allow-diagnose-dry-run",
+    "allow-diagnose-live-opt-in",
+    "allow-diagnose-workspace",
+    "allow-discover-idea",
+    "allow-ensure-ollama-installed",
+    "allow-explore-workspace",
+    "allow-fetch-todos",
+    "allow-find-in-files",
+    "allow-fix-workspace",
+    "allow-generate-and-store-embedding",
+    "allow-generate-dag",
+    "allow-generate-learning-studio-content",
+    "allow-generate-llm-program-advisory",
+    "allow-generate-patch-plan",
+    "allow-generate-spec",
+    "allow-get-api-key-status",
+    "allow-get-build-artifacts",
+    "allow-get-cloak-audit-summary",
+    "allow-get-file-system-tree",
+    "allow-get-flywheel-feed",
+    "allow-get-governance-status",
+    "allow-get-health-telemetry",
+    "allow-get-human-approval-packet",
+    "allow-get-idea-lab-verified-demo-status",
+    "allow-get-idea-lab-workflow-state",
+    "allow-get-learning-studio-verified-demo-status",
+    "allow-get-learning-studio-workflow-state",
+    "allow-get-local-model-config",
+    "allow-get-lsp-diagnostics",
+    "allow-get-lsp-symbols",
+    "allow-get-maintenance-bay-verified-demo-status",
+    "allow-get-maintenance-bay-workflow-state",
+    "allow-get-memory-health",
+    "allow-get-model-route-status",
+    "allow-get-models-registry",
+    "allow-get-ollama-base-url",
+    "allow-get-ollama-models",
+    "allow-get-programbench-proof-stats",
+    "allow-get-programbench-snapshot",
+    "allow-get-proof-operator-center-milestone-dashboard-status",
+    "allow-get-proof-operator-center-state",
+    "allow-get-release-gate-status",
+    "allow-get-repair-flow-state",
+    "allow-get-repo-clinic-verified-demo-status",
+    "allow-get-repo-clinic-workflow-state",
+    "allow-get-role-assignments",
+    "allow-get-runtime-capability-status",
+    "allow-get-session-log-path",
+    "allow-get-session-status",
+    "allow-get-staged-diffs",
+    "allow-get-threads",
+    "allow-get-tool-registry",
+    "allow-get-unified-product-navigation-model",
+    "allow-get-unified-splash-demo-spec",
+    "allow-get-user-level-teaching-windows",
+    "allow-get-work-readiness",
+    "allow-get-workspace-files",
+    "allow-get-workspace-status",
+    "allow-git-checkout-branch",
+    "allow-git-clone",
+    "allow-git-commit",
+    "allow-git-conflict-sides",
+    "allow-git-create-branch",
+    "allow-git-list-branches",
+    "allow-git-pull",
+    "allow-git-push",
+    "allow-git-resolve-conflict",
+    "allow-git-stage",
+    "allow-git-stage-all",
+    "allow-git-status",
+    "allow-git-unstage",
+    "allow-github-device-poll",
+    "allow-github-device-start",
+    "allow-github-open-verification",
+    "allow-github-sign-out",
+    "allow-initialize-system",
+    "allow-install-determinex-models",
+    "allow-install-toolchain",
+    "allow-kill-session",
+    "allow-launch-benchmark-run",
+    "allow-list-ci-runs",
+    "allow-list-coding-agents",
+    "allow-list-env-vars",
+    "allow-list-hive-sessions",
+    "allow-list-toolchains",
+    "allow-open-workspace",
+    "allow-orchestrate-audit",
+    "allow-orchestrate-codegen",
+    "allow-orchestrate-plan",
+    "allow-orchestrator-shutdown",
+    "allow-passport-cli-login-status",
+    "allow-passport-cli-subscription-status",
+    "allow-passport-connect",
+    "allow-passport-disconnect",
+    "allow-passport-list",
+    "allow-passport-usage-summary",
+    "allow-pause-session",
+    "allow-preview-idea-oracle",
+    "allow-probe-hardware",
+    "allow-pty-is-alive",
+    "allow-pty-kill",
+    "allow-pty-resize",
+    "allow-pty-spawn",
+    "allow-pty-write",
+    "allow-pull-required-models",
+    "allow-query-corpus",
+    "allow-query-knowledge",
+    "allow-read-file-content",
+    "allow-read-hive-workspace-file",
+    "allow-read-workspace-file",
+    "allow-record-first-gui-hive-ipc-evidence",
+    "allow-refine-spec",
+    "allow-reject-staged-diff",
+    "allow-rename-path",
+    "allow-repair-diagnose",
+    "allow-replay-session",
+    "allow-resume-session",
+    "allow-reveal-env-var",
+    "allow-reveal-in-explorer",
+    "allow-reveal-session-output",
+    "allow-rosetta-fetch",
+    "allow-rosetta-status",
+    "allow-run-coding-agent",
+    "allow-run-maintenance-bay-scan",
+    "allow-run-project-audit",
+    "allow-run-session",
+    "allow-run-terminal-command",
+    "allow-save-api-keys",
+    "allow-save-local-model-config",
+    "allow-save-ollama-base-url",
+    "allow-save-service-key",
+    "allow-set-project-root",
+    "allow-set-role-assignments",
+    "allow-shutdown-sidecar",
+    "allow-sidecar-infer",
+    "allow-sidecar-load",
+    "allow-sidecar-status",
+    "allow-source-apply-dry-run",
+    "allow-spawn-sidecar",
+    "allow-stage-diff-for-review",
+    "allow-start-session",
+    "allow-stop-benchmark-run",
+    "allow-store-to-collection",
+    "allow-stream-session-log",
+    "allow-sync-network-policy",
+    "allow-toggle-todo",
+    "allow-toggle-vanguard-telemetry",
+    "allow-verify-temp-patch",
+    "allow-write-file-content",
+    "allow-write-spec-file",
+]
+
+[[permission]]
+identifier = "allow-add-custom-registry-model"
+description = "Enables the add_custom_registry_model command."
+[permission.commands]
+allow = ["add_custom_registry_model"]
+
+[[permission]]
+identifier = "allow-agent-chat-cloak-status"
+description = "Enables the agent_chat_cloak_status command."
+[permission.commands]
+allow = ["agent_chat_cloak_status"]
+
+[[permission]]
+identifier = "allow-agent-chat-create-session"
+description = "Enables the agent_chat_create_session command."
+[permission.commands]
+allow = ["agent_chat_create_session"]
+
+[[permission]]
+identifier = "allow-agent-chat-get-plan"
+description = "Enables the agent_chat_get_plan command."
+[permission.commands]
+allow = ["agent_chat_get_plan"]
+
+[[permission]]
+identifier = "allow-agent-chat-get-transcript"
+description = "Enables the agent_chat_get_transcript command."
+[permission.commands]
+allow = ["agent_chat_get_transcript"]
+
+[[permission]]
+identifier = "allow-agent-chat-list-sessions"
+description = "Enables the agent_chat_list_sessions command."
+[permission.commands]
+allow = ["agent_chat_list_sessions"]
+
+[[permission]]
+identifier = "allow-agent-chat-resync-plan"
+description = "Enables the agent_chat_resync_plan command."
+[permission.commands]
+allow = ["agent_chat_resync_plan"]
+
+[[permission]]
+identifier = "allow-agent-chat-send"
+description = "Enables the agent_chat_send command."
+[permission.commands]
+allow = ["agent_chat_send"]
+
+[[permission]]
+identifier = "allow-agent-chat-set-model"
+description = "Enables the agent_chat_set_model command."
+[permission.commands]
+allow = ["agent_chat_set_model"]
+
+[[permission]]
+identifier = "allow-agent-chat-set-plan"
+description = "Enables the agent_chat_set_plan command."
+[permission.commands]
+allow = ["agent_chat_set_plan"]
+
+[[permission]]
+identifier = "allow-agent-probe-test"
+description = "Enables the agent_probe_test command."
+[permission.commands]
+allow = ["agent_probe_test"]
+
+[[permission]]
+identifier = "allow-agent-status-roster"
+description = "Enables the agent_status_roster command."
+[permission.commands]
+allow = ["agent_status_roster"]
+
+[[permission]]
+identifier = "allow-analyze-workspace"
+description = "Enables the analyze_workspace command."
+[permission.commands]
+allow = ["analyze_workspace"]
+
+[[permission]]
+identifier = "allow-apply-staged-diff"
+description = "Enables the apply_staged_diff command."
+[permission.commands]
+allow = ["apply_staged_diff"]
+
+[[permission]]
+identifier = "allow-build-idea"
+description = "Enables the build_idea command."
+[permission.commands]
+allow = ["build_idea"]
+
+[[permission]]
+identifier = "allow-cancel-session"
+description = "Enables the cancel_session command."
+[permission.commands]
+allow = ["cancel_session"]
+
+[[permission]]
+identifier = "allow-check-determinex-models"
+description = "Enables the check_determinex_models command."
+[permission.commands]
+allow = ["check_determinex_models"]
+
+[[permission]]
+identifier = "allow-check-docker-status"
+description = "Enables the check_docker_status command."
+[permission.commands]
+allow = ["check_docker_status"]
+
+[[permission]]
+identifier = "allow-check-ollama-status"
+description = "Enables the check_ollama_status command."
+[permission.commands]
+allow = ["check_ollama_status"]
+
+[[permission]]
+identifier = "allow-converse-idea"
+description = "Enables the converse_idea command."
+[permission.commands]
+allow = ["converse_idea"]
+
+[[permission]]
+identifier = "allow-create-path"
+description = "Enables the create_path command."
+[permission.commands]
+allow = ["create_path"]
+
+[[permission]]
+identifier = "allow-create-session"
+description = "Enables the create_session command."
+[permission.commands]
+allow = ["create_session"]
+
+[[permission]]
+identifier = "allow-create-todo"
+description = "Enables the create_todo command."
+[permission.commands]
+allow = ["create_todo"]
+
+[[permission]]
+identifier = "allow-delete-path"
+description = "Enables the delete_path command."
+[permission.commands]
+allow = ["delete_path"]
+
+[[permission]]
+identifier = "allow-delete-todo"
+description = "Enables the delete_todo command."
+[permission.commands]
+allow = ["delete_todo"]
+
+[[permission]]
+identifier = "allow-diagnose-dry-run"
+description = "Enables the diagnose_dry_run command."
+[permission.commands]
+allow = ["diagnose_dry_run"]
+
+[[permission]]
+identifier = "allow-diagnose-live-opt-in"
+description = "Enables the diagnose_live_opt_in command."
+[permission.commands]
+allow = ["diagnose_live_opt_in"]
+
+[[permission]]
+identifier = "allow-diagnose-workspace"
+description = "Enables the diagnose_workspace command."
+[permission.commands]
+allow = ["diagnose_workspace"]
+
+[[permission]]
+identifier = "allow-discover-idea"
+description = "Enables the discover_idea command."
+[permission.commands]
+allow = ["discover_idea"]
+
+[[permission]]
+identifier = "allow-ensure-ollama-installed"
+description = "Enables the ensure_ollama_installed command."
+[permission.commands]
+allow = ["ensure_ollama_installed"]
+
+[[permission]]
+identifier = "allow-explore-workspace"
+description = "Enables the explore_workspace command."
+[permission.commands]
+allow = ["explore_workspace"]
+
+[[permission]]
+identifier = "allow-fetch-todos"
+description = "Enables the fetch_todos command."
+[permission.commands]
+allow = ["fetch_todos"]
+
+[[permission]]
+identifier = "allow-find-in-files"
+description = "Enables the find_in_files command."
+[permission.commands]
+allow = ["find_in_files"]
+
+[[permission]]
+identifier = "allow-fix-workspace"
+description = "Enables the fix_workspace command."
+[permission.commands]
+allow = ["fix_workspace"]
+
+[[permission]]
+identifier = "allow-generate-and-store-embedding"
+description = "Enables the generate_and_store_embedding command."
+[permission.commands]
+allow = ["generate_and_store_embedding"]
+
+[[permission]]
+identifier = "allow-generate-dag"
+description = "Enables the generate_dag command."
+[permission.commands]
+allow = ["generate_dag"]
+
+[[permission]]
+identifier = "allow-generate-learning-studio-content"
+description = "Enables the generate_learning_studio_content command."
+[permission.commands]
+allow = ["generate_learning_studio_content"]
+
+[[permission]]
+identifier = "allow-generate-llm-program-advisory"
+description = "Enables the generate_llm_program_advisory command."
+[permission.commands]
+allow = ["generate_llm_program_advisory"]
+
+[[permission]]
+identifier = "allow-generate-patch-plan"
+description = "Enables the generate_patch_plan command."
+[permission.commands]
+allow = ["generate_patch_plan"]
+
+[[permission]]
+identifier = "allow-generate-spec"
+description = "Enables the generate_spec command."
+[permission.commands]
+allow = ["generate_spec"]
+
+[[permission]]
+identifier = "allow-get-api-key-status"
+description = "Enables the get_api_key_status command."
+[permission.commands]
+allow = ["get_api_key_status"]
+
+[[permission]]
+identifier = "allow-get-build-artifacts"
+description = "Enables the get_build_artifacts command."
+[permission.commands]
+allow = ["get_build_artifacts"]
+
+[[permission]]
+identifier = "allow-get-cloak-audit-summary"
+description = "Enables the get_cloak_audit_summary command."
+[permission.commands]
+allow = ["get_cloak_audit_summary"]
+
+[[permission]]
+identifier = "allow-get-file-system-tree"
+description = "Enables the get_file_system_tree command."
+[permission.commands]
+allow = ["get_file_system_tree"]
+
+[[permission]]
+identifier = "allow-get-flywheel-feed"
+description = "Enables the get_flywheel_feed command."
+[permission.commands]
+allow = ["get_flywheel_feed"]
+
+[[permission]]
+identifier = "allow-get-governance-status"
+description = "Enables the get_governance_status command."
+[permission.commands]
+allow = ["get_governance_status"]
+
+[[permission]]
+identifier = "allow-get-health-telemetry"
+description = "Enables the get_health_telemetry command."
+[permission.commands]
+allow = ["get_health_telemetry"]
+
+[[permission]]
+identifier = "allow-get-human-approval-packet"
+description = "Enables the get_human_approval_packet command."
+[permission.commands]
+allow = ["get_human_approval_packet"]
+
+[[permission]]
+identifier = "allow-get-idea-lab-verified-demo-status"
+description = "Enables the get_idea_lab_verified_demo_status command."
+[permission.commands]
+allow = ["get_idea_lab_verified_demo_status"]
+
+[[permission]]
+identifier = "allow-get-idea-lab-workflow-state"
+description = "Enables the get_idea_lab_workflow_state command."
+[permission.commands]
+allow = ["get_idea_lab_workflow_state"]
+
+[[permission]]
+identifier = "allow-get-learning-studio-verified-demo-status"
+description = "Enables the get_learning_studio_verified_demo_status command."
+[permission.commands]
+allow = ["get_learning_studio_verified_demo_status"]
+
+[[permission]]
+identifier = "allow-get-learning-studio-workflow-state"
+description = "Enables the get_learning_studio_workflow_state command."
+[permission.commands]
+allow = ["get_learning_studio_workflow_state"]
+
+[[permission]]
+identifier = "allow-get-local-model-config"
+description = "Enables the get_local_model_config command."
+[permission.commands]
+allow = ["get_local_model_config"]
+
+[[permission]]
+identifier = "allow-get-lsp-diagnostics"
+description = "Enables the get_lsp_diagnostics command."
+[permission.commands]
+allow = ["get_lsp_diagnostics"]
+
+[[permission]]
+identifier = "allow-get-lsp-symbols"
+description = "Enables the get_lsp_symbols command."
+[permission.commands]
+allow = ["get_lsp_symbols"]
+
+[[permission]]
+identifier = "allow-get-maintenance-bay-verified-demo-status"
+description = "Enables the get_maintenance_bay_verified_demo_status command."
+[permission.commands]
+allow = ["get_maintenance_bay_verified_demo_status"]
+
+[[permission]]
+identifier = "allow-get-maintenance-bay-workflow-state"
+description = "Enables the get_maintenance_bay_workflow_state command."
+[permission.commands]
+allow = ["get_maintenance_bay_workflow_state"]
+
+[[permission]]
+identifier = "allow-get-memory-health"
+description = "Enables the get_memory_health command."
+[permission.commands]
+allow = ["get_memory_health"]
+
+[[permission]]
+identifier = "allow-get-model-route-status"
+description = "Enables the get_model_route_status command."
+[permission.commands]
+allow = ["get_model_route_status"]
+
+[[permission]]
+identifier = "allow-get-models-registry"
+description = "Enables the get_models_registry command."
+[permission.commands]
+allow = ["get_models_registry"]
+
+[[permission]]
+identifier = "allow-get-ollama-base-url"
+description = "Enables the get_ollama_base_url command."
+[permission.commands]
+allow = ["get_ollama_base_url"]
+
+[[permission]]
+identifier = "allow-get-ollama-models"
+description = "Enables the get_ollama_models command."
+[permission.commands]
+allow = ["get_ollama_models"]
+
+[[permission]]
+identifier = "allow-get-programbench-proof-stats"
+description = "Enables the get_programbench_proof_stats command."
+[permission.commands]
+allow = ["get_programbench_proof_stats"]
+
+[[permission]]
+identifier = "allow-get-programbench-snapshot"
+description = "Enables the get_programbench_snapshot command."
+[permission.commands]
+allow = ["get_programbench_snapshot"]
+
+[[permission]]
+identifier = "allow-get-proof-operator-center-milestone-dashboard-status"
+description = "Enables the get_proof_operator_center_milestone_dashboard_status command."
+[permission.commands]
+allow = ["get_proof_operator_center_milestone_dashboard_status"]
+
+[[permission]]
+identifier = "allow-get-proof-operator-center-state"
+description = "Enables the get_proof_operator_center_state command."
+[permission.commands]
+allow = ["get_proof_operator_center_state"]
+
+[[permission]]
+identifier = "allow-get-release-gate-status"
+description = "Enables the get_release_gate_status command."
+[permission.commands]
+allow = ["get_release_gate_status"]
+
+[[permission]]
+identifier = "allow-get-repair-flow-state"
+description = "Enables the get_repair_flow_state command."
+[permission.commands]
+allow = ["get_repair_flow_state"]
+
+[[permission]]
+identifier = "allow-get-repo-clinic-verified-demo-status"
+description = "Enables the get_repo_clinic_verified_demo_status command."
+[permission.commands]
+allow = ["get_repo_clinic_verified_demo_status"]
+
+[[permission]]
+identifier = "allow-get-repo-clinic-workflow-state"
+description = "Enables the get_repo_clinic_workflow_state command."
+[permission.commands]
+allow = ["get_repo_clinic_workflow_state"]
+
+[[permission]]
+identifier = "allow-get-role-assignments"
+description = "Enables the get_role_assignments command."
+[permission.commands]
+allow = ["get_role_assignments"]
+
+[[permission]]
+identifier = "allow-get-runtime-capability-status"
+description = "Enables the get_runtime_capability_status command."
+[permission.commands]
+allow = ["get_runtime_capability_status"]
+
+[[permission]]
+identifier = "allow-get-session-log-path"
+description = "Enables the get_session_log_path command."
+[permission.commands]
+allow = ["get_session_log_path"]
+
+[[permission]]
+identifier = "allow-get-session-status"
+description = "Enables the get_session_status command."
+[permission.commands]
+allow = ["get_session_status"]
+
+[[permission]]
+identifier = "allow-get-staged-diffs"
+description = "Enables the get_staged_diffs command."
+[permission.commands]
+allow = ["get_staged_diffs"]
+
+[[permission]]
+identifier = "allow-get-threads"
+description = "Enables the get_threads command."
+[permission.commands]
+allow = ["get_threads"]
+
+[[permission]]
+identifier = "allow-get-tool-registry"
+description = "Enables the get_tool_registry command."
+[permission.commands]
+allow = ["get_tool_registry"]
+
+[[permission]]
+identifier = "allow-get-unified-product-navigation-model"
+description = "Enables the get_unified_product_navigation_model command."
+[permission.commands]
+allow = ["get_unified_product_navigation_model"]
+
+[[permission]]
+identifier = "allow-get-unified-splash-demo-spec"
+description = "Enables the get_unified_splash_demo_spec command."
+[permission.commands]
+allow = ["get_unified_splash_demo_spec"]
+
+[[permission]]
+identifier = "allow-get-user-level-teaching-windows"
+description = "Enables the get_user_level_teaching_windows command."
+[permission.commands]
+allow = ["get_user_level_teaching_windows"]
+
+[[permission]]
+identifier = "allow-get-work-readiness"
+description = "Enables the get_work_readiness command."
+[permission.commands]
+allow = ["get_work_readiness"]
+
+[[permission]]
+identifier = "allow-get-workspace-files"
+description = "Enables the get_workspace_files command."
+[permission.commands]
+allow = ["get_workspace_files"]
+
+[[permission]]
+identifier = "allow-get-workspace-status"
+description = "Enables the get_workspace_status command."
+[permission.commands]
+allow = ["get_workspace_status"]
+
+[[permission]]
+identifier = "allow-git-checkout-branch"
+description = "Enables the git_checkout_branch command."
+[permission.commands]
+allow = ["git_checkout_branch"]
+
+[[permission]]
+identifier = "allow-git-clone"
+description = "Enables the git_clone command."
+[permission.commands]
+allow = ["git_clone"]
+
+[[permission]]
+identifier = "allow-git-commit"
+description = "Enables the git_commit command."
+[permission.commands]
+allow = ["git_commit"]
+
+[[permission]]
+identifier = "allow-git-conflict-sides"
+description = "Enables the git_conflict_sides command."
+[permission.commands]
+allow = ["git_conflict_sides"]
+
+[[permission]]
+identifier = "allow-git-create-branch"
+description = "Enables the git_create_branch command."
+[permission.commands]
+allow = ["git_create_branch"]
+
+[[permission]]
+identifier = "allow-git-list-branches"
+description = "Enables the git_list_branches command."
+[permission.commands]
+allow = ["git_list_branches"]
+
+[[permission]]
+identifier = "allow-git-pull"
+description = "Enables the git_pull command."
+[permission.commands]
+allow = ["git_pull"]
+
+[[permission]]
+identifier = "allow-git-push"
+description = "Enables the git_push command."
+[permission.commands]
+allow = ["git_push"]
+
+[[permission]]
+identifier = "allow-git-resolve-conflict"
+description = "Enables the git_resolve_conflict command."
+[permission.commands]
+allow = ["git_resolve_conflict"]
+
+[[permission]]
+identifier = "allow-git-stage"
+description = "Enables the git_stage command."
+[permission.commands]
+allow = ["git_stage"]
+
+[[permission]]
+identifier = "allow-git-stage-all"
+description = "Enables the git_stage_all command."
+[permission.commands]
+allow = ["git_stage_all"]
+
+[[permission]]
+identifier = "allow-git-status"
+description = "Enables the git_status command."
+[permission.commands]
+allow = ["git_status"]
+
+[[permission]]
+identifier = "allow-git-unstage"
+description = "Enables the git_unstage command."
+[permission.commands]
+allow = ["git_unstage"]
+
+[[permission]]
+identifier = "allow-github-device-poll"
+description = "Enables the github_device_poll command."
+[permission.commands]
+allow = ["github_device_poll"]
+
+[[permission]]
+identifier = "allow-github-device-start"
+description = "Enables the github_device_start command."
+[permission.commands]
+allow = ["github_device_start"]
+
+[[permission]]
+identifier = "allow-github-open-verification"
+description = "Enables the github_open_verification command."
+[permission.commands]
+allow = ["github_open_verification"]
+
+[[permission]]
+identifier = "allow-github-sign-out"
+description = "Enables the github_sign_out command."
+[permission.commands]
+allow = ["github_sign_out"]
+
+[[permission]]
+identifier = "allow-initialize-system"
+description = "Enables the initialize_system command."
+[permission.commands]
+allow = ["initialize_system"]
+
+[[permission]]
+identifier = "allow-install-determinex-models"
+description = "Enables the install_determinex_models command."
+[permission.commands]
+allow = ["install_determinex_models"]
+
+[[permission]]
+identifier = "allow-install-toolchain"
+description = "Enables the install_toolchain command."
+[permission.commands]
+allow = ["install_toolchain"]
+
+[[permission]]
+identifier = "allow-kill-session"
+description = "Enables the kill_session command."
+[permission.commands]
+allow = ["kill_session"]
+
+[[permission]]
+identifier = "allow-launch-benchmark-run"
+description = "Enables the launch_benchmark_run command."
+[permission.commands]
+allow = ["launch_benchmark_run"]
+
+[[permission]]
+identifier = "allow-list-ci-runs"
+description = "Enables the list_ci_runs command."
+[permission.commands]
+allow = ["list_ci_runs"]
+
+[[permission]]
+identifier = "allow-list-coding-agents"
+description = "Enables the list_coding_agents command."
+[permission.commands]
+allow = ["list_coding_agents"]
+
+[[permission]]
+identifier = "allow-list-env-vars"
+description = "Enables the list_env_vars command."
+[permission.commands]
+allow = ["list_env_vars"]
+
+[[permission]]
+identifier = "allow-list-hive-sessions"
+description = "Enables the list_hive_sessions command."
+[permission.commands]
+allow = ["list_hive_sessions"]
+
+[[permission]]
+identifier = "allow-list-toolchains"
+description = "Enables the list_toolchains command."
+[permission.commands]
+allow = ["list_toolchains"]
+
+[[permission]]
+identifier = "allow-open-workspace"
+description = "Enables the open_workspace command."
+[permission.commands]
+allow = ["open_workspace"]
+
+[[permission]]
+identifier = "allow-orchestrate-audit"
+description = "Enables the orchestrate_audit command."
+[permission.commands]
+allow = ["orchestrate_audit"]
+
+[[permission]]
+identifier = "allow-orchestrate-codegen"
+description = "Enables the orchestrate_codegen command."
+[permission.commands]
+allow = ["orchestrate_codegen"]
+
+[[permission]]
+identifier = "allow-orchestrate-plan"
+description = "Enables the orchestrate_plan command."
+[permission.commands]
+allow = ["orchestrate_plan"]
+
+[[permission]]
+identifier = "allow-orchestrator-shutdown"
+description = "Enables the orchestrator_shutdown command."
+[permission.commands]
+allow = ["orchestrator_shutdown"]
+
+[[permission]]
+identifier = "allow-passport-cli-login-status"
+description = "Enables the passport_cli_login_status command."
+[permission.commands]
+allow = ["passport_cli_login_status"]
+
+[[permission]]
+identifier = "allow-passport-cli-subscription-status"
+description = "Enables the passport_cli_subscription_status command."
+[permission.commands]
+allow = ["passport_cli_subscription_status"]
+
+[[permission]]
+identifier = "allow-passport-connect"
+description = "Enables the passport_connect command."
+[permission.commands]
+allow = ["passport_connect"]
+
+[[permission]]
+identifier = "allow-passport-disconnect"
+description = "Enables the passport_disconnect command."
+[permission.commands]
+allow = ["passport_disconnect"]
+
+[[permission]]
+identifier = "allow-passport-list"
+description = "Enables the passport_list command."
+[permission.commands]
+allow = ["passport_list"]
+
+[[permission]]
+identifier = "allow-passport-usage-summary"
+description = "Enables the passport_usage_summary command."
+[permission.commands]
+allow = ["passport_usage_summary"]
+
+[[permission]]
+identifier = "allow-pause-session"
+description = "Enables the pause_session command."
+[permission.commands]
+allow = ["pause_session"]
+
+[[permission]]
+identifier = "allow-preview-idea-oracle"
+description = "Enables the preview_idea_oracle command."
+[permission.commands]
+allow = ["preview_idea_oracle"]
+
+[[permission]]
+identifier = "allow-probe-hardware"
+description = "Enables the probe_hardware command."
+[permission.commands]
+allow = ["probe_hardware"]
+
+[[permission]]
+identifier = "allow-pty-is-alive"
+description = "Enables the pty_is_alive command."
+[permission.commands]
+allow = ["pty_is_alive"]
+
+[[permission]]
+identifier = "allow-pty-kill"
+description = "Enables the pty_kill command."
+[permission.commands]
+allow = ["pty_kill"]
+
+[[permission]]
+identifier = "allow-pty-resize"
+description = "Enables the pty_resize command."
+[permission.commands]
+allow = ["pty_resize"]
+
+[[permission]]
+identifier = "allow-pty-spawn"
+description = "Enables the pty_spawn command."
+[permission.commands]
+allow = ["pty_spawn"]
+
+[[permission]]
+identifier = "allow-pty-write"
+description = "Enables the pty_write command."
+[permission.commands]
+allow = ["pty_write"]
+
+[[permission]]
+identifier = "allow-pull-required-models"
+description = "Enables the pull_required_models command."
+[permission.commands]
+allow = ["pull_required_models"]
+
+[[permission]]
+identifier = "allow-query-corpus"
+description = "Enables the query_corpus command."
+[permission.commands]
+allow = ["query_corpus"]
+
+[[permission]]
+identifier = "allow-query-knowledge"
+description = "Enables the query_knowledge command."
+[permission.commands]
+allow = ["query_knowledge"]
+
+[[permission]]
+identifier = "allow-read-file-content"
+description = "Enables the read_file_content command."
+[permission.commands]
+allow = ["read_file_content"]
+
+[[permission]]
+identifier = "allow-read-hive-workspace-file"
+description = "Enables the read_hive_workspace_file command."
+[permission.commands]
+allow = ["read_hive_workspace_file"]
+
+[[permission]]
+identifier = "allow-read-workspace-file"
+description = "Enables the read_workspace_file command."
+[permission.commands]
+allow = ["read_workspace_file"]
+
+[[permission]]
+identifier = "allow-record-first-gui-hive-ipc-evidence"
+description = "Enables the record_first_gui_hive_ipc_evidence command."
+[permission.commands]
+allow = ["record_first_gui_hive_ipc_evidence"]
+
+[[permission]]
+identifier = "allow-refine-spec"
+description = "Enables the refine_spec command."
+[permission.commands]
+allow = ["refine_spec"]
+
+[[permission]]
+identifier = "allow-reject-staged-diff"
+description = "Enables the reject_staged_diff command."
+[permission.commands]
+allow = ["reject_staged_diff"]
+
+[[permission]]
+identifier = "allow-rename-path"
+description = "Enables the rename_path command."
+[permission.commands]
+allow = ["rename_path"]
+
+[[permission]]
+identifier = "allow-repair-diagnose"
+description = "Enables the repair_diagnose command."
+[permission.commands]
+allow = ["repair_diagnose"]
+
+[[permission]]
+identifier = "allow-replay-session"
+description = "Enables the replay_session command."
+[permission.commands]
+allow = ["replay_session"]
+
+[[permission]]
+identifier = "allow-resume-session"
+description = "Enables the resume_session command."
+[permission.commands]
+allow = ["resume_session"]
+
+[[permission]]
+identifier = "allow-reveal-env-var"
+description = "Enables the reveal_env_var command."
+[permission.commands]
+allow = ["reveal_env_var"]
+
+[[permission]]
+identifier = "allow-reveal-in-explorer"
+description = "Enables the reveal_in_explorer command."
+[permission.commands]
+allow = ["reveal_in_explorer"]
+
+[[permission]]
+identifier = "allow-reveal-session-output"
+description = "Enables the reveal_session_output command."
+[permission.commands]
+allow = ["reveal_session_output"]
+
+[[permission]]
+identifier = "allow-rosetta-fetch"
+description = "Enables the rosetta_fetch command."
+[permission.commands]
+allow = ["rosetta_fetch"]
+
+[[permission]]
+identifier = "allow-rosetta-status"
+description = "Enables the rosetta_status command."
+[permission.commands]
+allow = ["rosetta_status"]
+
+[[permission]]
+identifier = "allow-run-coding-agent"
+description = "Enables the run_coding_agent command."
+[permission.commands]
+allow = ["run_coding_agent"]
+
+[[permission]]
+identifier = "allow-run-maintenance-bay-scan"
+description = "Enables the run_maintenance_bay_scan command."
+[permission.commands]
+allow = ["run_maintenance_bay_scan"]
+
+[[permission]]
+identifier = "allow-run-project-audit"
+description = "Enables the run_project_audit command."
+[permission.commands]
+allow = ["run_project_audit"]
+
+[[permission]]
+identifier = "allow-run-session"
+description = "Enables the run_session command."
+[permission.commands]
+allow = ["run_session"]
+
+[[permission]]
+identifier = "allow-run-terminal-command"
+description = "Enables the run_terminal_command command."
+[permission.commands]
+allow = ["run_terminal_command"]
+
+[[permission]]
+identifier = "allow-save-api-keys"
+description = "Enables the save_api_keys command."
+[permission.commands]
+allow = ["save_api_keys"]
+
+[[permission]]
+identifier = "allow-save-local-model-config"
+description = "Enables the save_local_model_config command."
+[permission.commands]
+allow = ["save_local_model_config"]
+
+[[permission]]
+identifier = "allow-save-ollama-base-url"
+description = "Enables the save_ollama_base_url command."
+[permission.commands]
+allow = ["save_ollama_base_url"]
+
+[[permission]]
+identifier = "allow-save-service-key"
+description = "Enables the save_service_key command."
+[permission.commands]
+allow = ["save_service_key"]
+
+[[permission]]
+identifier = "allow-set-project-root"
+description = "Enables the set_project_root command."
+[permission.commands]
+allow = ["set_project_root"]
+
+[[permission]]
+identifier = "allow-set-role-assignments"
+description = "Enables the set_role_assignments command."
+[permission.commands]
+allow = ["set_role_assignments"]
+
+[[permission]]
+identifier = "allow-shutdown-sidecar"
+description = "Enables the shutdown_sidecar command."
+[permission.commands]
+allow = ["shutdown_sidecar"]
+
+[[permission]]
+identifier = "allow-sidecar-infer"
+description = "Enables the sidecar_infer command."
+[permission.commands]
+allow = ["sidecar_infer"]
+
+[[permission]]
+identifier = "allow-sidecar-load"
+description = "Enables the sidecar_load command."
+[permission.commands]
+allow = ["sidecar_load"]
+
+[[permission]]
+identifier = "allow-sidecar-status"
+description = "Enables the sidecar_status command."
+[permission.commands]
+allow = ["sidecar_status"]
+
+[[permission]]
+identifier = "allow-source-apply-dry-run"
+description = "Enables the source_apply_dry_run command."
+[permission.commands]
+allow = ["source_apply_dry_run"]
+
+[[permission]]
+identifier = "allow-spawn-sidecar"
+description = "Enables the spawn_sidecar command."
+[permission.commands]
+allow = ["spawn_sidecar"]
+
+[[permission]]
+identifier = "allow-stage-diff-for-review"
+description = "Enables the stage_diff_for_review command."
+[permission.commands]
+allow = ["stage_diff_for_review"]
+
+[[permission]]
+identifier = "allow-start-session"
+description = "Enables the start_session command."
+[permission.commands]
+allow = ["start_session"]
+
+[[permission]]
+identifier = "allow-stop-benchmark-run"
+description = "Enables the stop_benchmark_run command."
+[permission.commands]
+allow = ["stop_benchmark_run"]
+
+[[permission]]
+identifier = "allow-store-to-collection"
+description = "Enables the store_to_collection command."
+[permission.commands]
+allow = ["store_to_collection"]
+
+[[permission]]
+identifier = "allow-stream-session-log"
+description = "Enables the stream_session_log command."
+[permission.commands]
+allow = ["stream_session_log"]
+
+[[permission]]
+identifier = "allow-sync-network-policy"
+description = "Enables the sync_network_policy command."
+[permission.commands]
+allow = ["sync_network_policy"]
+
+[[permission]]
+identifier = "allow-toggle-todo"
+description = "Enables the toggle_todo command."
+[permission.commands]
+allow = ["toggle_todo"]
+
+[[permission]]
+identifier = "allow-toggle-vanguard-telemetry"
+description = "Enables the toggle_vanguard_telemetry command."
+[permission.commands]
+allow = ["toggle_vanguard_telemetry"]
+
+[[permission]]
+identifier = "allow-verify-temp-patch"
+description = "Enables the verify_temp_patch command."
+[permission.commands]
+allow = ["verify_temp_patch"]
+
+[[permission]]
+identifier = "allow-write-file-content"
+description = "Enables the write_file_content command."
+[permission.commands]
+allow = ["write_file_content"]
+
+[[permission]]
+identifier = "allow-write-spec-file"
+description = "Enables the write_spec_file command."
+[permission.commands]
+allow = ["write_spec_file"]

@@ -193,8 +193,23 @@ CLASSIFICATION_RULES: tuple[_Rule, ...] = (
     # ── Ops / infra utilities (fixed-argv, no user payload) ─────────────────
     _Rule(re.compile(r"^scripts/release/"), "LEGACY_EXEMPT_READ_ONLY",
           "Release packaging scripts; read-only w.r.t user payload, fixed command lines."),
+    _Rule(re.compile(r"^scripts/publish_mirror\.py$"), "LEGACY_EXEMPT_READ_ONLY",
+          "Release tooling that happens to live at scripts/ root rather than under "
+          "scripts/release/, so it fell through to the UNKNOWN catch-all. Both of its "
+          "execution sites were read before classifying: a `run(args: list[str])` git "
+          "helper and `[sys.executable, scripts/security/secret_scan.py]`. Fixed argv, "
+          "no shell=True, and it never executes model-generated or user-supplied "
+          "payload -- it publishes the mirror and gates on the repo's own scanner."),
     _Rule(re.compile(r"^scripts/claim_scanner/"), "LEGACY_EXEMPT_READ_ONLY",
           "Claim scanner checks compliance; no user payload execution."),
+    _Rule(re.compile(r"^scripts/determinex_corpus_fetch\.py$"), "LEGACY_EXEMPT_READ_ONLY",
+          "Reconstructs a vendored corpus tool from upstream: fixed `git init` / `remote add` / "
+          "`fetch --depth 1 <sha>` / `checkout <sha>` argv, no shell=True. The remote URL and the "
+          "commit are read from corpus/programbench/canonical_tasks.json -- repo-controlled data "
+          "committed by a human, not model output and not user input -- and the fetched tree is "
+          "only ever written to disk, never executed. Reviewed 2026-07-31: the audit surfaced this "
+          "as UNKNOWN_REQUIRES_REVIEW because scripts/ root has no blanket rule, which is the "
+          "catch-all behaving correctly for a newly added execution site."),
     _Rule(re.compile(r"^scripts/determinex_orphan_reaper\.py$"), "LEGACY_EXEMPT_READ_ONLY",
           "Box-hygiene utility: fixed `ps -eo ...` inventory + `kill -9 <pid>` on "
           "orphaned processes it discovers itself. No shell=True, no user-controlled "
@@ -588,6 +603,13 @@ CLASSIFICATION_RULES: tuple[_Rule, ...] = (
           "Local model query helper."),
     _Rule(re.compile(r"^scripts/determinex_benchmark"), "LEGACY_EXEMPT_READ_ONLY",
           "Benchmark orchestrators (drive documented determinex/external benchmarks)."),
+    _Rule(re.compile(r"^scripts/determinex_route_ab\.py$"), "LEGACY_EXEMPT_READ_ONLY",
+          "Model Router A/B orchestrator, same shape as the benchmark drivers above: it "
+          "spawns determinex_hive.py with FIXED argv ([sys.executable, hive, subcommand, "
+          "--session ...]), no shell=True and no interpolated payload. It does cause "
+          "model-generated code to run, but only by invoking the hive, which is the "
+          "component that sandboxes it (validate_project -> Docker); the harness itself "
+          "executes nothing the model produced."),
     _Rule(re.compile(r"^scripts/determinex_bigcode_run\.py$"),
           "LEGACY_EXEMPT_READ_ONLY",
           "BigCodeBench runner — drives the BigCodeBench harness binary."),
@@ -624,6 +646,15 @@ CLASSIFICATION_RULES: tuple[_Rule, ...] = (
           "operator-initiated, fixed package-ID dict, never arbitrary/"
           "user-controlled command text; same posture as "
           "determinex_local_model_bench.py's fixed-argument hardware probe."),
+    _Rule(re.compile(r"^scripts/setup/install_determinex_models\.py$"),
+          "LEGACY_EXEMPT_READ_ONLY",
+          "Operator-initiated model provisioning, same posture as "
+          "determinex_toolchain_installer.py. Two execution sites, both read before "
+          "classifying: `ollama list` (read-only probe) and `ollama create <tag> -f "
+          "<generated Modelfile>`. Argv is fixed; the only interpolated values come from "
+          "the module-level MODELS tuple and a tempfile path this script writes itself. "
+          "It downloads published GGUF weights over HTTPS and hands them to Ollama — it "
+          "never executes model-generated code, so it does not need the hardened runner."),
 
     # Sprint orchestration drivers
     _Rule(re.compile(r"^scripts/sprint4_"), "LEGACY_EXEMPT_READ_ONLY",
@@ -1042,7 +1073,7 @@ _MD_PREAMBLE = """# Parallel Execution Layer Audit
 > Do not edit by hand — regenerate via:
 >
 > ```
-> python scripts/dev/parallel_execution_layer_audit.py --md docs/PARALLEL_EXECUTION_LAYER_AUDIT.md
+> python scripts/dev/parallel_execution_layer_audit.py --md docs/audits/PARALLEL_EXECUTION_LAYER_AUDIT.md
 > ```
 
 This document is a **read-only inventory** of every Python subprocess /

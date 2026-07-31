@@ -138,6 +138,40 @@ def certify_one(slug: str, apply: bool) -> dict:
     by_v, impossible, reopen = _partition(adjs)
     res = {"slug": slug, "impossible": impossible, "reopen": reopen,
            "report": str(report)}
+    # PROOF REQUIRED, not just a count (2026-07-30). This certified on `impossible > 0 and
+    # reopen == 0` alone and then wrote a CEILING_CERT.md asserting "ALL proven IMPOSSIBLE" and
+    # "This is the maximum attainable score" into the locked archive -- and with --update-index
+    # --apply it set eval_index status to ceiling_certified, which is what the public catalog is
+    # generated from.
+    #
+    # Two facts make a bare count insufficient. First, the only IMPOSSIBLE verdict that is actually
+    # reachable comes from a regex over pytest skip messages ("Too slow", "requires network", ...),
+    # not from a proof: the identical-context-conflict branch in determinex_adjudicator.py is dead
+    # code, because it builds `distinct` by excluding peers whose test_id equals f.test_id and then
+    # requires exactly that equality for `same_ctx`. Second, an upstream skip is a provisioning
+    # decision, not a demonstration that no binary can satisfy the requirement.
+    #
+    # So certification now requires every IMPOSSIBLE unit to carry a non-empty proof string. Today
+    # that means nothing self-certifies, which is the correct outcome while the proof branch is
+    # unreachable -- a certifier that cannot obtain proof must not issue certificates.
+    impossible_adjs = by_v.get(Verdict.IMPOSSIBLE, [])
+    # `remediation` is the field the adjudicator puts its explanation in -- Adjudication has
+    # (failure, verdict, strategy, remediation, confidence) and the "PROOF: ..." text is passed
+    # positionally as remediation. Reading a non-existent `rationale` here would have defaulted to
+    # "" and marked every unit unproven: conservative by accident, and wrong as documentation.
+    unproven = [
+        a for a in impossible_adjs
+        if not str(getattr(a, "remediation", "") or "").strip().startswith("PROOF:")
+    ]
+    if impossible > 0 and reopen == 0 and unproven:
+        res["result"] = "DEMOTE_UNPROVEN"
+        res["unproven_impossible"] = len(unproven)
+        res["reason"] = (
+            f"{len(unproven)} of {len(impossible_adjs)} IMPOSSIBLE unit(s) carry no PROOF: "
+            f"rationale. A ceiling certificate asserts 'ALL proven IMPOSSIBLE' and must not be "
+            f"issued on an upstream-skip classification alone."
+        )
+        return res
     if impossible > 0 and reopen == 0:
         res["result"] = "CERTIFIED"
         cert = _render_cert(slug, report, by_v, impossible)

@@ -205,18 +205,69 @@ fn is_cloud_assignment(model_id: &str) -> bool {
         .any(|prefix| lower.starts_with(prefix))
 }
 
+/// First whitespace-delimited token, with a trailing `# comment` and surrounding quotes removed.
+fn yaml_scalar(rest: &str) -> Option<String> {
+    let value = rest.split('#').next().unwrap_or("").trim();
+    let value = value.trim_matches(|c| c == '"' || c == '\'');
+    (!value.is_empty()).then(|| value.to_string())
+}
+
+/// `model_name` alias -> the `model:` it resolves to, from litellm_config.yaml's `model_list`.
+///
+/// CRASH-ON-LAUNCH FIX, 2026-07-31. This was a regex ending in `(?=^\s*-\s*model_name:|...)` — a
+/// LOOK-AHEAD, which the Rust `regex` crate does not support and never will: it guarantees linear
+/// time and look-around cannot be done in linear time. `Regex::new` therefore returned
+/// `Err(Syntax)` for every input, and the `.expect("valid model entry regex")` turned that into a
+/// panic on a tokio worker, which aborts the process:
+///
+///   thread 'tokio-rt-worker' panicked at src\ollama_probe.rs:213:6:
+///   valid model entry regex: Syntax( ... look-around ... is not supported )
+///   -> exit 0xC0000409 (STATUS_STACK_BUFFER_OVERRUN), Windows event BEX64
+///
+/// So this function had never once run to completion, and `get_work_readiness` — called by the UI
+/// at startup — killed the app.
+///
+/// WHY IT SURVIVED THE CLEAN-HOST GATE. The caller reads `litellm_config.yaml` first and returns
+/// early on a read error. A clean host has no config, so the early return fired and the app stayed
+/// up for the smoke's whole launch window. The crash needs the config to be PRESENT — which is to
+/// say, it needs a real user's machine. The gate passed precisely because the triggering condition
+/// was absent.
+///
+/// Parsed line-by-line rather than with a cleverer regex. The structure being read is a YAML list,
+/// scanning is what handles it, and no regex feature is load-bearing any more.
 fn parse_model_aliases(config: &str) -> HashMap<String, String> {
     let mut aliases = HashMap::new();
-    let entry_re = Regex::new(
-        r"(?ms)^\s*-\s*model_name:\s*([^\s#]+)(.*?)(?=^\s*-\s*model_name:|^router_settings:|^determinex:|\z)"
-    )
-    .expect("valid model entry regex");
-    let model_re = Regex::new(r"(?m)^\s*model:\s*([^\s#]+)").expect("valid model regex");
-    for cap in entry_re.captures_iter(config) {
-        if let (Some(alias), Some(block)) = (cap.get(1), cap.get(2)) {
-            if let Some(model_cap) = model_re.captures(block.as_str()) {
-                if let Some(model) = model_cap.get(1) {
-                    aliases.insert(alias.as_str().to_string(), model.as_str().to_string());
+    let mut current_alias: Option<String> = None;
+
+    for line in config.lines() {
+        let trimmed = line.trim_start();
+
+        // A new list entry closes the previous one.
+        if let Some(rest) = trimmed.strip_prefix('-') {
+            if let Some(rest) = rest.trim_start().strip_prefix("model_name:") {
+                current_alias = yaml_scalar(rest);
+                continue;
+            }
+        }
+
+        // Any top-level key ends `model_list` — matched structurally rather than by naming
+        // `router_settings`/`determinex`, so a new sibling section cannot silently swallow entries.
+        if !trimmed.is_empty()
+            && !line.starts_with([' ', '\t'])
+            && !trimmed.starts_with('-')
+            && !trimmed.starts_with('#')
+            && trimmed.contains(':')
+        {
+            current_alias = None;
+            continue;
+        }
+
+        if let Some(alias) = current_alias.clone() {
+            if let Some(rest) = trimmed.strip_prefix("model:") {
+                if let Some(model) = yaml_scalar(rest) {
+                    // First `model:` in the entry wins, as the original regex intended.
+                    aliases.insert(alias, model);
+                    current_alias = None;
                 }
             }
         }
@@ -417,4 +468,141 @@ pub async fn get_work_readiness() -> Result<WorkReadinessResponse, String> {
         checks,
         checked_at: chrono::Utc::now().timestamp_millis(),
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The exact shape litellm_config.yaml uses: a `model_list`, nested `litellm_params`, a
+    /// commented-out alternative, then sibling top-level sections.
+    const SAMPLE: &str = r#"
+model_list:
+  - model_name: determinex/engineer
+    litellm_params:
+      model: ollama/determinex-engineer-v11-dsl
+      api_base: http://localhost:11434
+  - model_name: determinex/qwen7b    # Qwen2.5-Coder-7B base
+    litellm_params:
+      model: ollama/qwen2.5-coder:7b-instruct
+      api_base: http://localhost:11434
+  - model_name: cloud/deepseek-chat
+    litellm_params:
+      model: openrouter/deepseek/deepseek-chat
+
+router_settings:
+  model: this-must-not-be-captured
+
+determinex:
+  roles:
+    builder: determinex/engineer
+"#;
+
+    #[test]
+    fn aliases_resolve_to_their_underlying_model() {
+        let aliases = parse_model_aliases(SAMPLE);
+        assert_eq!(
+            aliases.get("determinex/engineer").map(String::as_str),
+            Some("ollama/determinex-engineer-v11-dsl")
+        );
+        assert_eq!(
+            aliases.get("cloud/deepseek-chat").map(String::as_str),
+            Some("openrouter/deepseek/deepseek-chat")
+        );
+    }
+
+    #[test]
+    fn a_trailing_comment_is_not_part_of_the_alias() {
+        let aliases = parse_model_aliases(SAMPLE);
+        assert!(
+            aliases.contains_key("determinex/qwen7b"),
+            "alias keys must stop at the comment: {:?}",
+            aliases.keys().collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
+    fn a_sibling_top_level_section_does_not_leak_into_the_last_entry() {
+        // `router_settings:` carries its own `model:`. The original regex ended its block at a
+        // hardcoded list of section names; this ends it at any top-level key, so a NEW sibling
+        // section cannot silently start being absorbed.
+        let aliases = parse_model_aliases(SAMPLE);
+        assert!(
+            !aliases.values().any(|v| v == "this-must-not-be-captured"),
+            "a top-level section's model: was captured as an alias target: {aliases:?}"
+        );
+    }
+
+    #[test]
+    fn every_entry_in_the_shipped_config_resolves() {
+        // The regression that mattered: this function panicked for EVERY input, so
+        // get_work_readiness aborted the app on any machine that had the config.
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../litellm_config.yaml");
+        let Ok(config) = std::fs::read_to_string(&path) else {
+            eprintln!("skipping: {} not present", path.display());
+            return;
+        };
+        let declared = config
+            .lines()
+            .filter(|l| l.trim_start().starts_with("- model_name:"))
+            .count();
+        let aliases = parse_model_aliases(&config);
+        assert_eq!(
+            aliases.len(),
+            declared,
+            "parsed {} aliases from a config declaring {}: {:?}",
+            aliases.len(),
+            declared,
+            aliases
+        );
+    }
+
+    #[test]
+    fn parsing_never_panics_on_malformed_input() {
+        // The whole failure mode was a panic reaching a tokio worker and aborting the process.
+        for junk in ["", "model_list:", "- model_name:", "  model: x", "\u{0}\u{1}", "- model_name: a\n- model_name: b"] {
+            let _ = parse_model_aliases(junk);
+        }
+    }
+
+    #[test]
+    fn role_assignments_resolve_against_the_alias_map() {
+        // The two halves of get_work_readiness have to agree: a role pointing at an alias the
+        // alias map does not contain means readiness can never resolve a target model, which is
+        // indistinguishable from "the model is missing". Worth pinning now that
+        // parse_model_aliases returns real data for the first time.
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../litellm_config.yaml");
+        let Ok(config) = std::fs::read_to_string(&path) else {
+            eprintln!("skipping: {} not present", path.display());
+            return;
+        };
+        let aliases = parse_model_aliases(&config);
+        let roles = parse_role_assignments(&config);
+        assert!(!roles.is_empty(), "no role assignments parsed");
+
+        for (role, assignment) in &roles {
+            if is_cloud_assignment(assignment) {
+                continue; // a cloud role needs no local Ollama tag
+            }
+            assert!(
+                aliases.contains_key(assignment),
+                "role {role} is assigned {assignment}, which is not in the alias map: {:?}",
+                aliases.keys().collect::<Vec<_>>()
+            );
+        }
+    }
+
+    #[test]
+    fn every_static_regex_in_this_module_compiles() {
+        // The defect class, not just the instance: a `Regex::new(...).expect(...)` on a pattern
+        // the regex crate rejects is a guaranteed panic that no amount of input testing reveals.
+        for pattern in [
+            r"(?m)^\s*model:\s*([^\s#]+)",
+            r"(?m)^\s*([a-z_]+):\s*([^\s#]+)",
+        ] {
+            assert!(Regex::new(pattern).is_ok(), "pattern does not compile: {pattern}");
+        }
+    }
 }

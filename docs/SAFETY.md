@@ -247,5 +247,5 @@ alert = guard.check(generated_output, task_id="run_001")  # returns first Copyri
 
 ---
 
-*Determinex · Ryan Gurganious · Lunarian Data Systems*  
+*Determinex · Ryan Gurganious*  
 *Safety doc last updated: 2026-06-10 — provenance sidecar wiring + observe/enforce mode documented*

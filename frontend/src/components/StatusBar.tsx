@@ -254,7 +254,7 @@ export function StatusBar({
                 so a hidden scrollbar leaves no way to discover the rest. Same
                 trap as the left rail and the addon switcher. */}
             {attachPopoverOpen && (
-              <div className="absolute bottom-6 left-0 z-[200] w-[220px] max-h-[60vh] overflow-y-auto rounded-xl border border-white/10 bg-[#0a0d12] p-1.5 shadow-2xl animate-fade-in">
+              <div className="absolute bottom-6 left-0 z-[200] w-[220px] max-h-[60vh] overflow-y-auto rounded-xl border border-white/10 bg-[var(--dtx-code-bg)] p-1.5 shadow-2xl animate-fade-in">
                 {quickAttachItems.map((item) => {
                   const ItemIcon = item.icon;
                   const active = activeAddonId === item.id;

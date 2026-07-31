@@ -129,13 +129,27 @@ def _network_policy() -> str:
 
 
 def _is_local_litellm_model(model: str) -> bool:
-    normalized = model.strip().lower()
-    return (
-        normalized.startswith("ollama/")
-        or normalized.startswith("ollama_chat/")
-        or normalized.startswith("hosted_vllm/")
-        or normalized.startswith("text-completion-openai/")
-    )
+    """Is this model served locally?
+
+    Delegates to budget_guard.is_local_model, the canonical rule shared with the cloud
+    spend cap and the session pricer. This function's own list was missing `local/` and
+    `determinex/`, and the bare `determinex-*` tags that hive/ctx_config.py assigns by
+    default -- so genuinely local models were treated as cloud in two places that
+    matter: the usage ledger billed them, and DETERMINEX_NETWORK_POLICY=offline
+    REFUSED them as if they were about to leave the machine.
+
+    Falls back to the original prefix list if budget_guard cannot be imported, because
+    an offline-policy check must never fail open.
+    """
+    try:
+        from budget_guard import is_local_model
+        return is_local_model(model)
+    except Exception:  # noqa: BLE001 — never let accounting/policy break on an import
+        normalized = (model or "").strip().lower()
+        return normalized.startswith(
+            ("ollama/", "ollama_chat/", "hosted_vllm/", "text-completion-openai/",
+             "determinex/", "local/", "determinex-")
+        )
 
 
 def _litellm_generator(model: str) -> GenerateFn:
@@ -158,12 +172,32 @@ def _litellm_generator(model: str) -> GenerateFn:
     return _gen
 
 
-# USD per 1M tokens (in, out) for cloud lanes without a BudgetGuard PRICING row.
-# Conservative overestimates — the ledger exists to catch runaway spend early.
+# USD per 1M tokens (in, out) for cloud lanes with no BudgetGuard PRICING row.
+#
+# This SUPPLEMENTS budget_guard.PRICING, which is what the comment here always claimed
+# and the code never did: the lookup below used to consult only this dict -- one entry --
+# and fall back to a flat $1/$1 for everything else. So every model was billed at a
+# fictional flat rate: free local calls appeared as spend in the "gas gauge", and a real
+# claude-sonnet call (3.00/15.00) was under-reported by roughly 10x. A gauge that
+# under-reports the expensive model is worse than no gauge.
+#
+# Canonical table first, this dict second, conservative default last.
 _LEDGER_PRICING_DEFAULT = (1.0, 1.0)
 _LEDGER_PRICING = {
     "huggingface/qwen/qwen2.5-coder-32b-instruct": (0.9, 0.9),
 }
+
+
+def _ledger_rate(model: str) -> tuple[float, float]:
+    """(in, out) $/1M for the ledger. Local models are free and never reach here."""
+    try:
+        from budget_guard import price_per_1m
+        rate = price_per_1m(model)
+        if rate is not None:
+            return rate
+    except Exception:  # noqa: BLE001 — accounting must never break generation
+        pass
+    return _LEDGER_PRICING.get(model.lower(), _LEDGER_PRICING_DEFAULT)
 
 
 def _ledger_append(model: str, resp) -> None:
@@ -176,7 +210,9 @@ def _ledger_append(model: str, resp) -> None:
         usage = getattr(resp, "usage", None)
         tin = int(getattr(usage, "prompt_tokens", 0) or 0)
         tout = int(getattr(usage, "completion_tokens", 0) or 0)
-        pin, pout = _LEDGER_PRICING.get(model.lower(), _LEDGER_PRICING_DEFAULT)
+        # A locally-served model costs nothing. Billing it invented spend in the gauge
+        # that the user then had to reconcile against a real credit balance.
+        pin, pout = (0.0, 0.0) if _is_local_litellm_model(model) else _ledger_rate(model)
         ledger_dir = Path(__file__).resolve().parent.parent / "logs" / "api_ledger"
         ledger_dir.mkdir(parents=True, exist_ok=True)
         with open(ledger_dir / "providers.jsonl", "a", encoding="utf-8") as f:
@@ -236,6 +272,51 @@ register_provider("groq", tier=3, env_key="GROQ_API_KEY",
 register_provider("huggingface", tier=3, env_key="HUGGINGFACE_API_KEY",
                   default_model="huggingface/Qwen/Qwen2.5-Coder-32B-Instruct",
                   aliases=("hf",))
+# ── Added 2026-07-31 ────────────────────────────────────────────────────────────────────────────
+# Ryan: "kimi, hf, vars ai, etc etc etc should all be configured in this". hf was already here
+# (aliased below); these were not, and their absence was not a capability gap -- every one of them
+# routes through the same LiteLLM call the existing rows use, so what was missing was the row. An
+# unregistered provider cannot be selected by name anywhere in the system: not as a hive role, not as
+# a chat participant's model, not by the amplifier's router.
+#
+# No key is written by this. `env_key` names the variable the operator sets; a provider whose key is
+# absent stays unavailable and says which variable to set, rather than failing at call time with a
+# provider error that does not name the fix.
+register_provider("moonshot", tier=3, env_key="MOONSHOT_API_KEY",
+                  default_model="moonshot/kimi-k2-0711-preview",
+                  aliases=("kimi", "moonshot-ai"))
+# Vertex is Google's OTHER surface, and the distinction is load-bearing rather than pedantic: the
+# `gemini` row above uses an AI Studio key (GEMINI_API_KEY), while Vertex authenticates with GCP
+# service-account credentials and a project/location. Google ended Code Assist for individual
+# accounts on 2026-07-31 -- measured on this machine, gemini-cli refused with IneligibleTierError --
+# so having both surfaces registered separately is what lets a Google model be reached at all when
+# one of the two paths is closed to an account.
+register_provider("vertex_ai", tier=4, env_key="GOOGLE_APPLICATION_CREDENTIALS",
+                  default_model="vertex_ai/gemini-2.5-pro",
+                  aliases=("vertex", "vertexai", "gcp"))
+register_provider("xai", tier=3, env_key="XAI_API_KEY",
+                  default_model="xai/grok-4",
+                  aliases=("grok",))
+register_provider("mistral", tier=3, env_key="MISTRAL_API_KEY",
+                  default_model="mistral/codestral-latest",
+                  aliases=("codestral",))
+register_provider("together_ai", tier=3, env_key="TOGETHERAI_API_KEY",
+                  default_model="together_ai/Qwen/Qwen2.5-Coder-32B-Instruct",
+                  aliases=("together",))
+register_provider("cerebras", tier=3, env_key="CEREBRAS_API_KEY",
+                  default_model="cerebras/qwen-3-coder-480b")
+# OpenRouter had no row despite OPENROUTER_API_KEY being the key the SWE-bench ablation's DeepSeek
+# builder runs on (see CLAUDE.md's config table). A bare `openrouter/...` model string always worked
+# because the prefix passes through untouched, but with no registered row the NAME resolved to
+# nothing -- so the one provider that fronts hundreds of models could not be picked by name, only by
+# knowing a full model path.
+register_provider("openrouter", tier=3, env_key="OPENROUTER_API_KEY",
+                  default_model="openrouter/deepseek/deepseek-chat",
+                  aliases=("or",))
+register_provider("fireworks_ai", tier=3, env_key="FIREWORKS_AI_API_KEY",
+                  default_model="fireworks_ai/accounts/fireworks/models/qwen3-coder-480b-a35b-instruct",
+                  aliases=("fireworks",))
+
 register_provider("local", tier=1, env_key="",
                   default_model="ollama/determinex-coder-base-tiny:latest",
                   aliases=("ollama", "tiny"))
@@ -248,7 +329,7 @@ register_provider("bonsai", tier=1, env_key="",
 # amplifier benefits from vLLM's continuous batching: K=8 requests served in
 # parallel instead of sequentially, cutting per-tool wall-clock time ~6x.
 #
-# Setup (Linux + CUDA required):
+# Setup (Linux; CUDA or ROCm -- AMD Radeon is verified, see below):
 #   pip install vllm>=0.5.0
 #   vllm serve Qwen/Qwen2.5-Coder-32B-Instruct --port 8000 --dtype bfloat16
 #
@@ -256,8 +337,26 @@ register_provider("bonsai", tier=1, env_key="",
 #   DETERMINEX_VLLM_BASE_URL=http://localhost:8000
 #   DETERMINEX_VLLM_MODEL=Qwen/Qwen2.5-Coder-32B-Instruct
 #
+# Remote/hosted vLLM (e.g. an AMD Radeon Cloud instance) works through this same
+# provider -- set DETERMINEX_VLLM_BASE_URL to the instance's /v1 URL and supply
+# DETERMINEX_VLLM_API_KEY (or AMD_API_KEY). Measured on a Radeon GPU 2026-07-31:
+# 30.0 tok/s single-stream vs 166.9 tok/s aggregate at K=6 concurrent -- i.e. K=6
+# verified-search sampling cost 1.08x the wall clock of a single sample.
+#
 # _is_local_litellm_model() already recognizes "hosted_vllm/" prefix as local.
-_VLLM_BASE_URL = os.environ.get("DETERMINEX_VLLM_BASE_URL", "http://localhost:8000").rstrip("/")
+# A REMOTE vLLM (e.g. an AMD Radeon Cloud instance) is the same protocol but adds
+# two things a localhost server does not have: a bearer token, and a base URL that
+# already ends in /v1. Both are handled here so the AMD path needs no separate
+# provider. AMD_BASE_URL/AMD_API_KEY are honored as a fallback so a Radeon Cloud
+# instance's credentials live in exactly one place in .env rather than two.
+_VLLM_BASE_URL = (
+    os.environ.get("DETERMINEX_VLLM_BASE_URL")
+    or os.environ.get("AMD_BASE_URL")
+    or "http://localhost:8000"
+).rstrip("/")
+_VLLM_API_KEY = (
+    os.environ.get("DETERMINEX_VLLM_API_KEY") or os.environ.get("AMD_API_KEY") or ""
+)
 _VLLM_DEFAULT_MODEL = os.environ.get(
     "DETERMINEX_VLLM_MODEL", "hosted_vllm/Qwen/Qwen2.5-Coder-32B-Instruct"
 )
@@ -266,16 +365,58 @@ if not _VLLM_DEFAULT_MODEL.startswith("hosted_vllm/"):
     _VLLM_DEFAULT_MODEL = f"hosted_vllm/{_VLLM_DEFAULT_MODEL}"
 
 
+_VLLM_MODEL_EXPLICIT = bool(os.environ.get("DETERMINEX_VLLM_MODEL"))
+_VLLM_DISCOVERED: list[str] = []  # one-element cache; [] = not yet probed
+
+
+def _vllm_discover_model() -> str:
+    """Ask the server which model it actually serves.
+
+    Without this, pointing DETERMINEX_VLLM_BASE_URL (or AMD_BASE_URL) at a working
+    server still 404s whenever that server happens not to be serving the hard-coded
+    default -- a hosted instance serves exactly ONE model, chosen at launch, and the
+    operator has no reason to expect a client-side constant to match it. Measured
+    2026-07-31: a Radeon Cloud instance serving Qwen2.5-Coder-7B-Instruct resolved to
+    the 32B default and would have failed every call.
+
+    Only consulted when the operator did NOT pin DETERMINEX_VLLM_MODEL; an explicit
+    pin always wins. Cached, so this costs one request per process.
+    """
+    if _VLLM_DISCOVERED:
+        return _VLLM_DISCOVERED[0]
+    import json as _json
+    import urllib.request
+    headers = {"Authorization": f"Bearer {_VLLM_API_KEY}"} if _VLLM_API_KEY else {}
+    name = ""
+    try:
+        req = urllib.request.Request(f"{_VLLM_BASE_URL}/models", headers=headers)
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = _json.loads(r.read()).get("data") or []
+        if data:
+            name = f"hosted_vllm/{data[0]['id']}"
+    except Exception:
+        name = ""
+    _VLLM_DISCOVERED.append(name)
+    return name
+
+
 def _vllm_factory(model: str) -> GenerateFn:
     """Factory for vLLM provider: routes through LiteLLM's hosted_vllm backend."""
+    if model == _VLLM_DEFAULT_MODEL and not _VLLM_MODEL_EXPLICIT:
+        model = _vllm_discover_model() or model
+
     def _gen(prompt: str, temperature: float) -> str:
         import litellm
+        kwargs = {}
+        if _VLLM_API_KEY:
+            kwargs["api_key"] = _VLLM_API_KEY
         resp = litellm.completion(
             model=model,
             temperature=float(temperature),
             messages=[{"role": "user", "content": prompt}],
             max_tokens=8192,
             api_base=_VLLM_BASE_URL,
+            **kwargs,
         )
         _ledger_append(model, resp)
         return resp.choices[0].message.content or ""
@@ -283,13 +424,23 @@ def _vllm_factory(model: str) -> GenerateFn:
 
 
 def _vllm_available() -> bool:
-    """vLLM is available if its API responds to /health."""
+    """vLLM is available if its OpenAI-compatible API answers.
+
+    /models is probed before /health because it is the one endpoint both a bare
+    localhost server and a hosted instance expose at the documented base URL. A
+    hosted base URL already ends in /v1, where /health does not exist -- probing
+    only /health would report a perfectly working remote endpoint as unavailable.
+    """
     import urllib.request
-    try:
-        urllib.request.urlopen(f"{_VLLM_BASE_URL}/health", timeout=2)
-        return True
-    except Exception:
-        return False
+    headers = {"Authorization": f"Bearer {_VLLM_API_KEY}"} if _VLLM_API_KEY else {}
+    for path in ("/models", "/health"):
+        try:
+            req = urllib.request.Request(f"{_VLLM_BASE_URL}{path}", headers=headers)
+            with urllib.request.urlopen(req, timeout=5):
+                return True
+        except Exception:
+            continue
+    return False
 
 
 register_provider(
@@ -436,12 +587,46 @@ except Exception as exc:  # pragma: no cover - defensive
     print(f"[providers] could not load user-added models: {exc}", file=sys.stderr)
 
 
+#: Providers that are served by a local Ollama, so a model name with no provider prefix can
+#: only mean an Ollama tag. Kept as a set rather than a `name == "local"` test so an addon that
+#: registers another Ollama-backed provider gets the same treatment by adding itself here.
+_OLLAMA_BACKED_PROVIDERS = frozenset({"local"})
+
+
+def _qualify_local_model(provider: Provider, model: str) -> str:
+    """Give a bare Ollama tag the `ollama/` prefix the LiteLLM lane requires.
+
+    THE BUG (measured 2026-07-31). `--provider local --model determinex-engineer-v11-dsl:latest`
+    -- the tag exactly as `ollama list` prints it -- reached `_litellm_generator` unprefixed, and
+    LiteLLM raised `BadRequestError: LLM Provider NOT provided` on EVERY call. Downstream that
+    surfaced as `build_from_idea` reporting "not solved, 12 samples", i.e. a verdict on a model
+    that was never once reached.
+
+    This is the third place the bare-tag footgun has bitten; `budget.is_local_model` and
+    `api_client._resolve_model` both carry comments about it.
+
+    NOT the same as guessing locality from a name, which `budget.is_local_model` deliberately
+    refuses to do (Bedrock ships `anthropic.claude-v2:1` -- colon, no slash -- and treating that
+    as local would price a real cloud call at $0). Here the caller has ALREADY declared
+    `provider="local"`. Honouring that declaration is not inference.
+
+    A name that already carries a prefix is left alone, so `ollama/x`, `openrouter/y` and a
+    deliberate override all still pass through untouched.
+    """
+    if provider.name not in _OLLAMA_BACKED_PROVIDERS:
+        return model
+    if not model or "/" in model:
+        return model
+    return f"ollama/{model}"
+
+
 def get_generator(provider: str, model: str | None = None) -> GenerateFn:
     """Return the universal generate(prompt, temperature) for a provider."""
     p = _PROVIDERS.get(provider.lower())
     if p is None:
         raise KeyError(f"unknown provider '{provider}'. Known: {sorted(set(_PROVIDERS))}")
     m = model or p.default_model
+    m = _qualify_local_model(p, m)
     if p.factory is not None:
         return p.factory(m)
     return _litellm_generator(m)
@@ -485,7 +670,35 @@ def to_router_entries(only_available: bool = True):
     return entries
 
 
+def registry_json() -> list[dict]:
+    """The provider roster as data, so the IDE can show and assign it.
+
+    There was only the human-readable report below, so the seventeen providers this module knows
+    about were invisible to the app: nothing could list them, so nothing could offer them for a hive
+    role or a chat participant's model, and adding a provider row changed nothing a user could see.
+    Each row names the env var it needs, because "unavailable" without "set MOONSHOT_API_KEY" is the
+    same unhelpful shape as a bare `logged_in: false`.
+    """
+    out: list[dict] = []
+    for name, ok in available().items():
+        p = _PROVIDERS[name]
+        out.append({
+            "name": name,
+            "tier": p.tier,
+            "available": ok,
+            "env_key": p.env_key,
+            "default_model": p.default_model,
+            "aliases": list(p.aliases),
+            "needs": "" if ok else (p.env_key or "a reachable local endpoint"),
+        })
+    return out
+
+
 def main() -> int:
+    if "--json" in sys.argv:
+        import json as _json
+        print(_json.dumps(registry_json()))
+        return 0
     print("=== Determinex providers (universal generate contract) ===")
     for name, ok in available().items():
         p = _PROVIDERS[name]

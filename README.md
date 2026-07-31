@@ -13,11 +13,11 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org)
 [![Rust](https://img.shields.io/badge/Rust-1.75%2B-orange)](https://rustup.rs)
-[![Models on HuggingFace](https://img.shields.io/badge/🤗%20Models-Determinex-yellow)](https://huggingface.co/lunariandatasystems)
+[![Models on HuggingFace](https://img.shields.io/badge/🤗%20Models-Determinex-yellow)](https://huggingface.co/darthceltic85)
 [![White Paper](https://img.shields.io/badge/Paper-WHITE__PAPER.md-green)](docs/papers/WHITE_PAPER.md)
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-♥-pink)](https://github.com/sponsors/DarthCeltic)
 
-*Built by [Ryan Gurganious](https://github.com/DarthCeltic) · [Lunarian Data Systems](https://lunariandata.com)*
+*Built by [Ryan Gurganious](https://github.com/DarthCeltic)*
 
 </div>
 
@@ -77,9 +77,9 @@ Full grounded account, including the honest safety/unsafe surface and the teachi
 
 | Model | Params | Role | HuggingFace | Ollama Tag |
 |-------|--------|------|-------------|-----------|
-| **C1 · Engineer v11-dsl** | 1.5B (Qwen2.5-Coder) | Builder — fast code generation, DSL-tuned | [🤗 Download](https://huggingface.co/lunariandatasystems/determinex-engineer) | `determinex-engineer-v11-dsl` |
-| **C3 · Observer v6-dsl** | 3B (Llama-3.2) | Monitor — error diagnosis, adjudication | [🤗 Download](https://huggingface.co/lunariandatasystems/determinex-observer) | `determinex-observer-v6-dsl` |
-| **C7 · Sentinel v5-dsl** | 7B (Mistral) | Architect / Oracle — DAG planning, escalation | [🤗 Download](https://huggingface.co/lunariandatasystems/determinex-sentinel) | `determinex-sentinel-v5-dsl` |
+| **C1 · Engineer v11-dsl** | 1.5B (Qwen2.5-Coder) | Builder — fast code generation, DSL-tuned | [🤗 Download](https://huggingface.co/darthceltic85/determinex-engineer) | `determinex-engineer-v11-dsl` |
+| **C3 · Observer v6-dsl** | 3B (Llama-3.2) | Monitor — error diagnosis, adjudication | [🤗 Download](https://huggingface.co/darthceltic85/determinex-observer-llama-3.2) | `determinex-observer-v6-dsl` |
+| **C7 · Sentinel v5-dsl** | 7B (Mistral) | Architect / Oracle — DAG planning, escalation | [🤗 Download](https://huggingface.co/darthceltic85/determinex-sentinel) | `determinex-sentinel-v5-dsl` |
 
 All three run locally via Ollama. No subscription. No cloud required for the core build loop.
 
@@ -193,6 +193,137 @@ The cloud model never sees `authenticate_user`, `validate_payment`, or any other
 - At least one compiler: `rustc`, `go`, or `python` (for the Compiler Oracle)
 - 6GB+ VRAM **or** 16GB+ RAM (CPU inference supported)
 
+### Hardware support
+
+Determinex sizes itself to the accelerator it finds, because that decision is load-bearing: the
+detected tier sets how many models stay resident and how many build steps run concurrently. A machine
+mis-detected as CPU-only is driven at the weakest possible settings regardless of what it actually has.
+
+| Vendor | Detected via | PyTorch device | Verified |
+| --- | --- | --- | --- |
+| NVIDIA | `nvidia-smi` | `cuda` | on real hardware |
+| AMD (ROCm) | `amd-smi`, then `rocm-smi` | `cuda` ¹ | simulated ² |
+| Intel Arc | `xpu-smi discovery` | `xpu` | simulated ² |
+| Apple Silicon | `sysctl hw.memsize` ³ | `mps` | simulated ² |
+| No GPU (x86, or Windows on ARM / Snapdragon) | system RAM ⁴ | `cpu` | on real hardware |
+
+¹ A ROCm build of PyTorch keeps the `cuda` device name, so that is what Determinex reports on AMD.
+Reporting `"rocm"` would hand you a device string PyTorch rejects.
+
+² **Simulated means simulated.** The parsing, the unit scaling and the tier arithmetic are tested
+against the vendor tools' documented CSV output, but no AMD, Intel or Apple hardware was available
+during development. If you are the first to run Determinex on a ROCm box, that run is the real
+verification — and a bug report is genuinely useful.
+
+³ Unified memory is a shared pool, so a fraction is reported rather than all of it. Claiming the whole
+amount would put an 8GB Mac in the wrong tier and start swapping under a 3B model.
+
+⁴ **No GPU is not no capacity.** Ollama and llama.cpp run models out of system RAM, so on a host with
+no accelerator Determinex sizes itself from RAM (less an 8 GB reserve for the OS, the app, and the
+compiler running in the same session) instead of assuming the worst. Until 2026-07-31 it did assume the
+worst: a 128 GB workstation was driven exactly like an 8 GB laptop, allowed **zero** resident models.
+Concurrent build steps stay at 1 without a GPU — having RAM does not make parallel branches safe on one
+shared CPU. The capability card names which pool your tier came from, since "tier 1 on 16 GB of VRAM"
+and "tier 1 on 24 GB of RAM" are different machines.
+
+**Windows on ARM (Snapdragon X):** recognised and named, running the ARM64 CPU path with RAM-derived
+capacity. Determinex does **not** use the Hexagon NPU or the Adreno GPU — there is no PyTorch backend
+for either on Windows ARM64 — so it doesn't claim to. Using an NPU as an inference device (Hexagon,
+Intel AI Boost, Apple Neural Engine) would need an ONNX Runtime path and is not built. Those machines
+work; they are not accelerated.
+
+**See what your machine reports:** Settings → AI Engine & Diagnostics shows the detected accelerator,
+tier, PyTorch device, resident-model policy and real usage/cost from the ledger. A probe that cannot
+answer says so — it never shows a measured-looking zero. Full coverage matrix:
+[`docs/architecture/UNIVERSAL_AI_SETUP_COVERAGE.md`](docs/architecture/UNIVERSAL_AI_SETUP_COVERAGE.md).
+
+### Running on AMD Radeon GPU (ROCm)
+
+Determinex runs on AMD Radeon GPUs by two paths. Their verification status differs, so
+each says which it is.
+
+#### Path A — hosted vLLM on a Radeon GPU (VERIFIED)
+
+This is the measured path. Launch a Radeon Cloud instance with Deploy Type
+`vLLM Model API` and serve command:
+
+```bash
+vllm serve Qwen/Qwen2.5-Coder-7B-Instruct --host 0.0.0.0 --port 8000
+```
+
+The ready dialog gives a base URL and a per-instance API key. Put both in `.env`:
+
+```bash
+AMD_BASE_URL=https://radeon-global.anruicloud.com/spaces/<instance-id>/8000/v1
+AMD_API_KEY=<per-instance-key>
+```
+
+Then run the greenfield loop against it — the `vllm` provider reaches any
+OpenAI-compatible vLLM, local or hosted, and asks the server which model it serves:
+
+```bash
+python scripts/determinex_build_from_idea.py --idea idea.md --provider vllm --k 6
+```
+
+**Measured 2026-07-31** on Qwen2.5-Coder-7B-Instruct (ROCm 7.2.1, vLLM 0.16.1):
+30.0 tok/s single-stream vs **166.9 tok/s aggregate at K=6 concurrent** — 5.56× the
+throughput for 1.08× the wall clock. Sampling six verified-search candidates costs 8%
+more time than sampling one, so correctness amplification is close to free on this
+hardware. Re-measure per GPU; this is a batching property, not a constant.
+
+#### Path B — AMD's free shared Model API (NOT VERIFIED)
+
+`litellm_config.yaml` carries `amd/qwen3-35b` and `amd/deepseek-flash` pointing at AMD's
+shared Token Factory endpoint. These have **never been executed from this repo** — the
+portal requires a China-registered account. They are wired and labelled, not claimed.
+They read `AMD_FREE_API_KEY`, deliberately separate from `AMD_API_KEY`, so a
+dedicated-instance key is never transmitted to a third-party host.
+
+#### Path C — local Ollama on an AMD Radeon GPU (ROCm)
+
+Ollama auto-detects ROCm and Determinex's accelerator probe covers AMD, but the
+following has not been run on a physical Radeon card by this project — it is documented,
+not measured. Reference profile, RX 7900 XTX / 24 GB:
+
+```bash
+# Ollama's install script auto-detects ROCm
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Verify AMD GPU is detected
+rocminfo | grep "gfx"          # shows gfx1100 for RX 7900 XTX, gfx1030 for RX 6800 XT
+rocm-smi                        # shows VRAM usage, GPU utilization
+
+# Pull models — Q4_K_M quantization fits comfortably on Radeon VRAM
+ollama pull qwen2.5-coder:14b-instruct-q4_K_M   # ~8.5 GB VRAM
+# ollama pull qwen2.5-coder:32b-instruct-q4_K_M # ~20 GB VRAM (fits RX 7900 XTX)
+
+# Start Ollama server
+OLLAMA_HOST=0.0.0.0 ollama serve
+
+# Clone and start Determinex
+git clone https://github.com/DarthCeltic/Determinex && cd Determinex
+cp .env.example .env           # edit: OLLAMA_BASE_URL=http://localhost:11434
+uv sync
+uv run python scripts/determinex_hive.py
+```
+
+**On Radeon Cloud instances** (AMD Radeon Cloud at `radeon-global.anruicloud.com`):
+the instance already has ROCm installed. Skip to the `curl ... ollama install.sh` step.
+The `rc-tunnel expose --port 3000` command publishes the Determinex frontend to a public URL.
+
+**VRAM fit on common Radeon GPUs:**
+
+| GPU | VRAM | Recommended model | Concurrent models |
+|---|---|---|---|
+| RX 7900 XTX | 24 GB | qwen2.5-coder:32b-instruct-q4_K_M | 1 large or 2 small |
+| RX 7800 XT | 16 GB | qwen2.5-coder:14b-instruct-q4_K_M | 1–2 |
+| RX 7600 | 8 GB | qwen2.5-coder:7b-instruct-q4_K_M | 1 |
+
+> **ROCm detection note:** AMD detection uses `amd-smi` then `rocm-smi`. PyTorch on ROCm
+> reports the device as `cuda` (not `rocm`) — this is expected. If you are the first
+> to run Determinex on a specific Radeon GPU, please open an issue with your `rocminfo`
+> output. That run is the real verification, and a report is genuinely useful.
+
 ### Install
 
 ```bash
@@ -224,20 +355,80 @@ DETERMINEX_ENGINEER_MODEL=ollama/qwen2.5-coder:1.5b-instruct
 DETERMINEX_OBSERVER_MODEL=ollama/qwen2.5-coder:3b-instruct
 ```
 
-### Option B — Use the Fine-Tuned Models
+### Option B — Use the Fine-Tuned Models (one command)
+
+The Determinex models are what a fresh install assigns to the Builder and Monitor roles, so
+without them the app reports *"Missing local model coverage"* and will not generate a spec.
+This downloads them and registers them with Ollama:
+
+```bash
+python scripts/setup/install_determinex_models.py            # ~12.6 GB total
+python scripts/setup/install_determinex_models.py --check    # what is missing, no downloads
+python scripts/setup/install_determinex_models.py --role builder   # just one
+```
+
+Downloads resume, so an interrupted fetch does not start over, and each GGUF is checked
+against the SHA-256 HuggingFace publishes before it is registered. Already-registered models
+are skipped.
+
+Requires [Ollama](https://ollama.com) on PATH. Weights:
+[engineer](https://huggingface.co/darthceltic85/determinex-engineer) ·
+[observer](https://huggingface.co/darthceltic85/determinex-observer-llama-3.2) ·
+[sentinel](https://huggingface.co/darthceltic85/determinex-sentinel).
+
+<details>
+<summary>Registering GGUFs you already have on disk</summary>
+
+`register_models.ps1` / `register_models.sh` register from a local directory instead of
+downloading. They need `DETERMINEX_MODELS_DIR` set in `.env` and expect the layout
+`$DETERMINEX_MODELS_DIR/versions/<role>/<version>/<tag>.gguf`.
 
 ```bash
 cp .env.example .env
-# Set DETERMINEX_MODELS_DIR to wherever your GGUFs are
+# set DETERMINEX_MODELS_DIR to wherever your GGUFs are
 
-# Windows
-.\register_models.ps1
-
-# Linux / macOS
-bash register_models.sh
+.\register_models.ps1     # Windows
+bash register_models.sh   # Linux / macOS
 ```
 
-GGUFs available at [huggingface.co/lunariandatasystems](https://huggingface.co/lunariandatasystems).
+Use the installer above unless you already have the weights — it needs no configuration.
+</details>
+
+### Smallest thing that proves it works
+
+One idea file, one command, one oracle-verified program. No spec DAG, no session.
+
+```bash
+cat > idea.md << 'EOF'
+# clamp
+
+Write a function `clamp(x: int, lo: int, hi: int) -> int` that returns x
+constrained to the inclusive range [lo, hi].
+
+Examples:
+- clamp(5, 1, 10) == 5
+- clamp(-3, 1, 10) == 1
+- clamp(99, 1, 10) == 10
+EOF
+
+determinex build --idea idea.md --provider local --k 4
+```
+
+```
+[vs] r1 s1/4 t=0.0 gen 12s verify 1s -> PASS (score 0.00)
+synthesized oracle: 4 checks
+result: SOLVED  samples=1
+proof: program PASSES all 4 synthesized checks (oracle-verified, 1 samples).
+```
+
+Determinex reads the examples, **synthesizes an oracle** from them, then samples the model until
+something passes it. `SOLVED` is only ever printed because a real test run passed — the candidate
+executes inside a workspace-bounded sandbox with the network denied, never a raw subprocess.
+
+If the generator cannot be reached at all, you get `NOT ATTEMPTED` and the underlying error —
+never a correctness verdict on a model that was never called.
+
+`determinex --help` lists the rest (`doctor`, `status`, `config`, `evidence`).
 
 ### Run a Build Session
 
@@ -353,7 +544,7 @@ organization, the best way to support continued development is:
 - 💖 [Sponsor on GitHub](https://github.com/sponsors/DarthCeltic)
 - 🐛 [Report bugs](https://github.com/DarthCeltic/determinex/issues/new?template=bug_report.md) or [request features](https://github.com/DarthCeltic/determinex/issues/new?template=feature_request.md)
 
-Consulting and private deployment help: **ryan@lunariandata.com**
+Consulting and private deployment help: **Darthceltic1985@gmail.com**
 
 ---
 
@@ -364,7 +555,7 @@ Consulting and private deployment help: **ryan@lunariandata.com**
   author    = {Gurganious, Ryan},
   title     = {Determinex: Compiler-Verified Multi-Agent Code Intelligence with Privacy-Sovereign Cloud AI},
   year      = {2026},
-  publisher = {Lunarian Data Systems},
+  publisher = {Ryan Gurganious},
   url       = {https://github.com/DarthCeltic/determinex},
   note      = {AGPLv3}
 }
@@ -372,20 +563,58 @@ Consulting and private deployment help: **ryan@lunariandata.com**
 
 ---
 
+## The corpus
+
+Determinex learns from real programs. For each of 200 CLI tools the **Native Reimplementation
+Loop** takes the actual upstream source at a pinned commit plus an actual test oracle, so a model
+reimplements against ground truth rather than against a description. That corpus is the product,
+not an appendix to it — but it is 158,788 files and 9.7 GB, and most of it is *other people's
+software*.
+
+So it ships in two halves:
+
+| | Where | What |
+| --- | --- | --- |
+| **Knowledge layer** | this repo | the pins (`canonical_tasks.json` — repository + commit for all 200), the board, `build_knowledge.json`, all 227 `compile.sh` recipes, the behavioural specs, and `eval_report_sha256` for every evaluation |
+| **Full corpus** | published dataset | the vendored upstream trees and the raw evaluation reports |
+
+You do not need the dataset to use the corpus. Any tool reconstructs from its own maintainers:
+
+```bash
+determinex corpus list
+determinex corpus fetch cmatrix     # clones abishekvashok/cmatrix at the pinned commit,
+                                    # then overlays our compile.sh
+```
+
+**Verifying a published number.** This repo carries `eval_report_sha256` per row in
+`eval_index.json`; the dataset carries the report. Hash one against the other and you have proved
+the artifact produced the number.
+
+**Licensing of vendored code.** Every vendored project stays under **its own license, held by its
+own copyright holders** — nothing is relicensed by inclusion, and these are separate programs
+distributed alongside Determinex (mere aggregation). [`corpus/THIRD_PARTY_NOTICES.md`](corpus/THIRD_PARTY_NOTICES.md)
+lists all of them with SPDX identifier, upstream URL, pinned commit and where the license text
+lives. 59 trees whose license text could not be recovered from upstream are **withheld** from both
+the repo and the dataset, and listed there with the reason; `determinex corpus fetch` still gets
+them from their maintainers.
+
 ## License
 
-GNU Affero General Public License v3.0 (AGPLv3) — see [LICENSE](LICENSE) and
-[docs/papers/LICENSING.md](docs/papers/LICENSING.md). OSI-approved open source.
-Fine-tuned model weights and adapters released by Lunarian Data Systems are
+GNU Affero General Public License v3.0 **or later** (`AGPL-3.0-or-later`) — see [LICENSE](LICENSE)
+and [docs/papers/LICENSING.md](docs/papers/LICENSING.md). OSI-approved open source.
+Fine-tuned model weights and adapters released by Ryan Gurganious are
 covered by the same license unless a model card states otherwise. Base model
 licenses apply: [Qwen2.5](https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B),
 [Mistral 7B](https://huggingface.co/mistralai/Mistral-7B-v0.1).
+
+This applies to Determinex's own code. It does **not** apply to anything under `corpus/` — see
+above.
 
 ---
 
 <div align="center">
 
-*Determinex · Ryan Gurganious · Lunarian Data Systems · 2026*
+*Determinex · Ryan Gurganious · 2026*
 
 </div>
 

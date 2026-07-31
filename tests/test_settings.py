@@ -277,3 +277,58 @@ def test_env_bool_default_false_when_unset(monkeypatch):
     from determinex_settings import DeterminexSettings
     s = DeterminexSettings()
     assert s.flywheel_auto is False
+
+
+# ── a path override that points at nothing must not be silent ────────────────
+#
+# Found live 2026-07-28: .env carried DETERMINEX_CORPUS_ROOT=T:/citadel_corpus from
+# before the rename. T:/determinex_corpus exists and is populated; T:/citadel_corpus
+# does not exist at all. Because an env override short-circuits _resolve_path before
+# its local_fallback branch, every reader of settings.corpus_root was handed a
+# non-existent directory -- i.e. an empty corpus -- with nothing said about it. That
+# defeats the function's own documented promise that "no T:/ is required for
+# correctness when a local fallback is available".
+#
+# The value is still returned (an operator may be naming a directory they are about
+# to create, and silently redirecting them would be worse). It just cannot be silent.
+
+
+def test_a_dead_path_override_warns_on_stderr(monkeypatch, capsys):
+    import determinex_settings as S
+
+    monkeypatch.setenv("DETERMINEX_TEST_DEAD_PATH", "T:/definitely-not-here-20260728")
+    S._warned_dead_overrides.discard("DETERMINEX_TEST_DEAD_PATH")
+
+    got = S._resolve_path("DETERMINEX_TEST_DEAD_PATH", "T:/whatever", local_fallback="corpus")
+
+    err = capsys.readouterr().err
+    assert "DETERMINEX_TEST_DEAD_PATH" in err and "does not exist" in err
+    # Behaviour is unchanged: the override still wins.
+    assert str(got).replace("\\", "/").endswith("definitely-not-here-20260728")
+
+
+def test_the_dead_path_warning_is_not_repeated(monkeypatch, capsys):
+    """These properties re-resolve on every read; a warning printed fifty times a
+    run is a warning people learn to ignore."""
+    import determinex_settings as S
+
+    monkeypatch.setenv("DETERMINEX_TEST_DEAD_PATH2", "T:/definitely-not-here-20260728")
+    S._warned_dead_overrides.discard("DETERMINEX_TEST_DEAD_PATH2")
+
+    S._resolve_path("DETERMINEX_TEST_DEAD_PATH2", "T:/whatever")
+    first = capsys.readouterr().err
+    S._resolve_path("DETERMINEX_TEST_DEAD_PATH2", "T:/whatever")
+    second = capsys.readouterr().err
+
+    assert "does not exist" in first
+    assert second == ""
+
+
+def test_a_live_path_override_stays_quiet(monkeypatch, capsys):
+    import determinex_settings as S
+
+    monkeypatch.setenv("DETERMINEX_TEST_LIVE_PATH", str(S._REPO_ROOT))
+    S._warned_dead_overrides.discard("DETERMINEX_TEST_LIVE_PATH")
+
+    S._resolve_path("DETERMINEX_TEST_LIVE_PATH", "T:/whatever")
+    assert capsys.readouterr().err == ""

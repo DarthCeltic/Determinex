@@ -203,7 +203,7 @@ class TestMaliciousMavenPluginDetection:
     def test_dependency_confusion_naming(self):
         """Internal package names on public repo are a supply chain risk."""
         content = """<dependency>
-  <groupId>com.lunarian-internal</groupId>
+  <groupId>com.determinex-internal</groupId>
   <artifactId>determinex-core-private</artifactId>
   <version>1.0.0</version>
 </dependency>"""

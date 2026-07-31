@@ -198,5 +198,3 @@ export function UnifiedNavigationPanel() {
     </section>
   );
 }
-
-export default UnifiedNavigationPanel;

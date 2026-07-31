@@ -48,5 +48,5 @@ regulated data of any kind.
 
 ## Contact
 
-Lunarian Data Systems — see repository contact. Changes to this policy are published
+Ryan Gurganious — see repository contact. Changes to this policy are published
 in this file with a dated revision.

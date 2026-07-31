@@ -19,6 +19,15 @@
 // of truth for CLI invocation shape, shared with agent_registry.rs) so the
 // argv template itself is never duplicated here.
 
+// Python is resolved through `ipc_hive::resolve_python_exe()`, never `Command::new("python")`.
+//
+// That resolver exists for a specific reason: on Windows, PATH `python` is very
+// often the Microsoft Store AppExecLink stub, which does not run Python -- it opens
+// the Store. It also prefers the repo venv, so the interpreter that has the
+// project's dependencies is the one used. Ten call sites across six files bypassed
+// it and used bare `python`, which worked only on machines where PATH happened to
+// resolve to a real interpreter.
+
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, VecDeque};
 use std::io::{Read, Write};
@@ -211,13 +220,21 @@ fn run_script_json(root: &Path, script: &str, args: &[&str]) -> Result<serde_jso
 fn run_script_json_timeout(
     root: &Path, script: &str, args: &[&str], timeout: Duration,
 ) -> Result<serde_json::Value, String> {
-    let mut cmd = Command::new("python");
-    cmd.hide_console();
-    cmd.arg(root.join(script));
+    // BUNDLED-FIRST. This used to build `python <root>/scripts/<name>.py` directly,
+    // which meant every panel routed through here -- the agent chat room, the agent
+    // registry, the usage ledger, the toolchain installer, the model bench -- worked
+    // only in a dev checkout, because an installed copy has no scripts/ directory.
+    // hive_command had been bundled-first for a while; this second path was not, so the
+    // hive shipped and the panels around it did not. helper_command resolves the
+    // bundled engine's `helper <module>` dispatch and falls back to the repo script.
+    let (mut cmd, bundled) = crate::ipc_hive::helper_command(script)?;
     for a in args {
         cmd.arg(a);
     }
     cmd.current_dir(root);
+    if !bundled {
+        log::debug!("{script}: bundled engine not found, using the repo script");
+    }
     let start = Instant::now();
     let output = run_with_timeout(cmd, timeout)
         .map_err(|e| format!("could not run {script}: {e}"))?;
@@ -274,9 +291,23 @@ fn cloak_enabled() -> bool {
     std::env::var("DETERMINEX_CLOAK").map(|v| !v.trim().is_empty()).unwrap_or(false)
 }
 
+/// The model a local chat participant uses when the session sets no override.
+///
+/// The fallback comes from `model_puller::DEFAULT_LOCAL_CHAT_MODEL` rather than a literal here.
+/// This used to hardcode `qwen2.5-coder:14b-instruct-q4_K_M`, which the installer deliberately does
+/// NOT pull, so on a fresh install every first chat message asked Ollama for a model that was never
+/// downloaded. It was invisible on a dev box because the repo `.env` sets
+/// `DETERMINEX_LOCAL_BUILDER_MODEL` -- and `.env` is not shipped in the installer.
+///
+/// The env var still wins, so a machine that does have the 14b keeps using it.
 fn local_model_tag() -> String {
     std::env::var("DETERMINEX_LOCAL_BUILDER_MODEL")
-        .unwrap_or_else(|_| "qwen2.5-coder:14b-instruct-q4_K_M".to_string())
+        .ok()
+        .map(|v| v.trim().to_string())
+        // An env var set to whitespace must not resolve to an empty model tag: that is the
+        // empty-model 404 this file already guards against in agent_chat_set_model.
+        .filter(|v| !v.is_empty())
+        .unwrap_or_else(|| crate::model_puller::DEFAULT_LOCAL_CHAT_MODEL.to_string())
 }
 
 fn local_ollama_base_url() -> String {
@@ -463,6 +494,23 @@ fn ensure_session_loaded(
         _ => TurnMode::Broadcast,
     };
 
+    // Model overrides are rehydrated too (2026-07-31). This used to be `HashMap::new()`, so a
+    // restart restored the session's participants and mode but silently dropped which model each
+    // one was using. That is worse than losing a preference: local-ollama's default is a DIFFERENT
+    // model from whatever the user picked, so the same session started answering with a different
+    // model and nothing in the UI said so. `models` now lives on the persisted record next to
+    // participants, which is where a per-session choice belongs.
+    let models: HashMap<String, String> = persisted
+        .get("models")
+        .and_then(|v| v.as_object())
+        .map(|obj| {
+            obj.iter()
+                .filter_map(|(k, v)| v.as_str().map(|s| (k.clone(), s.to_string())))
+                .filter(|(_, v)| !v.trim().is_empty())
+                .collect()
+        })
+        .unwrap_or_default();
+
     let mut sessions = state.0.lock().map_err(|e| format!("ChatState mutex poisoned: {e}"))?;
     sessions.entry(session_id.to_string()).or_insert(ChatSession {
         workspace,
@@ -470,7 +518,7 @@ fn ensure_session_loaded(
         turn_mode,
         queue: VecDeque::new(),
         running: false,
-        models: HashMap::new(),
+        models,
     });
     Ok(())
 }
@@ -480,8 +528,11 @@ fn ensure_session_loaded(
 /// any model name their own CLI recognizes (their --model/-m flag, wired in
 /// determinex_agents.py's model_flag); local-ollama accepts any tag already
 /// pulled in Ollama (see ollama_probe::get_ollama_models for the picker's
-/// source of truth). In-memory only, same lifecycle as the rest of
-/// ChatSession -- resets to default on app restart.
+/// source of truth).
+///
+/// Persisted on the session record as of 2026-07-31, so the choice survives an
+/// app restart the same way participants and turn mode do. It used to be
+/// in-memory only and reset to defaults on relaunch.
 #[tauri::command]
 pub async fn agent_chat_set_model(
     session_id: String,
@@ -491,16 +542,60 @@ pub async fn agent_chat_set_model(
 ) -> Result<(), String> {
     let root = locate_repo_root().ok_or_else(|| "could not locate repo root".to_string())?;
     ensure_session_loaded(&root, &session_id, &state)?;
-    let mut sessions = state.0.lock().map_err(|e| format!("ChatState mutex poisoned: {e}"))?;
-    let session = sessions
-        .get_mut(&session_id)
-        .ok_or_else(|| format!("unknown chat session '{session_id}'"))?;
-    if model.trim().is_empty() {
-        session.models.remove(&agent);
-    } else {
-        session.models.insert(agent, model);
+    {
+        let mut sessions = state.0.lock().map_err(|e| format!("ChatState mutex poisoned: {e}"))?;
+        let session = sessions
+            .get_mut(&session_id)
+            .ok_or_else(|| format!("unknown chat session '{session_id}'"))?;
+        if model.trim().is_empty() {
+            session.models.remove(&agent);
+        } else {
+            session.models.insert(agent.clone(), model.clone());
+        }
     }
+    // Write it through AFTER the in-memory update, and let a write failure surface. Swallowing it
+    // would leave the running session on the new model and the next launch on the old one, which
+    // reads to the user as the setting randomly forgetting itself.
+    run_script_json(&root, CHAT_SCRIPT, &["set-model", &session_id, &agent, &model])?;
     Ok(())
+}
+
+/// Apply one turn's proposed edits, after the user has approved them.
+///
+/// Chat turns never write to the workspace. Measured 2026-07-31: one conversational turn in six --
+/// a turn whose whole content was answering a question -- silently rewrote a source file, because a
+/// small model in a workspace context sometimes decides to edit. That is sampling, not prompt
+/// wording, so the write is structurally unavailable instead of discouraged: the agent emits a
+/// validated proposal and this is the only path that puts bytes on disk.
+///
+/// Refuses a stale proposal (the file changed since it was proposed) and a path that leaves the
+/// workspace; both are enforced in determinex_agent_chat.apply_proposal so the CLI and the IDE
+/// cannot disagree about what approval permits.
+#[tauri::command]
+pub async fn agent_chat_apply_proposal(
+    session_id: String,
+    turn_id: String,
+    workspace: String,
+) -> Result<Vec<String>, String> {
+    let root = locate_repo_root().ok_or_else(|| "could not locate repo root".to_string())?;
+    let raw = run_script_json(
+        &root,
+        CHAT_SCRIPT,
+        &["apply-proposal", &session_id, &turn_id, "--workspace", &workspace],
+    )?;
+    Ok(raw
+        .get("applied")
+        .and_then(|v| v.as_array())
+        .map(|arr| arr.iter().filter_map(|x| x.as_str().map(String::from)).collect())
+        .unwrap_or_default())
+}
+
+/// List the turns in a session that carry proposed edits nobody has applied yet, so the panel can
+/// show an approval affordance without parsing transcript text in the UI layer.
+#[tauri::command]
+pub async fn agent_chat_list_proposals(session_id: String) -> Result<serde_json::Value, String> {
+    let root = locate_repo_root().ok_or_else(|| "could not locate repo root".to_string())?;
+    run_script_json(&root, CHAT_SCRIPT, &["proposals", &session_id])
 }
 
 #[tauri::command]
@@ -751,6 +846,15 @@ fn run_one_turn(
         prompt_for_resolve_str,
         "--workspace".to_string(),
         workspace.to_string(),
+        // Every resolve from this module is a chat-room turn, so the conversational contract is
+        // always the right one here. It matters for local-ollama: without it the local agent runs
+        // under an edit-or-fail system prompt, and a plain answer comes back wrapped in
+        // SEARCH/REPLACE syntax, is graded as a malformed patch, retried three times, and the turn
+        // fails carrying the correct answer inside it. Measured live 2026-07-31 -- "What is the
+        // capital of France?" produced "Paris" inside a `### FILE: msg.txt` block and rc=1.
+        // Agents that declare no chat_flag (the cloud CLIs, which converse by default) are
+        // unaffected; `run_agent()` outside chat keeps the strict editing contract.
+        "--chat".to_string(),
     ];
     if let Some(m) = &model {
         resolve_args.push("--model".to_string());

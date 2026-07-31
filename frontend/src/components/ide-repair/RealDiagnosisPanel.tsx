@@ -106,5 +106,3 @@ export function RealDiagnosisPanel({ workspacePath }: Props) {
     </div>
   );
 }
-
-export default RealDiagnosisPanel;

@@ -47,6 +47,78 @@ PRICING: dict[str, tuple[float, float]] = {
     "claude-opus-4-6":    (15.00, 75.00),
 }
 
+# Rate applied to a cloud model with no PRICING row. Non-zero on purpose -- see
+# estimate_cost_usd. USD per 1M tokens (in, out).
+UNKNOWN_CLOUD_RATE: tuple[float, float] = (8.00, 8.00)
+
+# Prefixes that unambiguously name a locally-served model, plus this project's own
+# Ollama tags, which are BARE names: hive/ctx_config.py assigns
+# `determinex-engineer-v11-dsl` and friends as the DEFAULT role models, and those start
+# with "determinex-", not "determinex/".
+LOCAL_MODEL_PREFIXES: tuple[str, ...] = (
+    "ollama/", "ollama_chat/", "hosted_vllm/", "text-completion-openai/",
+    "determinex/", "local/", "determinex-",
+)
+
+
+def is_local_model(model: str) -> bool:
+    """Is this model served locally, and therefore free?
+
+    Deliberately does NOT infer locality from tag syntax. `name:tag` looks
+    distinctively Ollama, but Bedrock ships `anthropic.claude-v2:1` -- colon, no
+    slash. Reading that as local would price a real cloud call at zero and hide
+    genuine spend, which is the worst direction this module can fail in.
+    """
+    return (model or "").strip().lower().startswith(LOCAL_MODEL_PREFIXES)
+
+
+def price_per_1m(model: str) -> tuple[float, float] | None:
+    """(input, output) $/1M rate for `model`, or None if it is not priced here.
+
+    Matches by SUBSTRING, longest key first. PRICING's keys are bare
+    (`deepseek-chat`), but the strings that reach a cost function usually carry a
+    provider prefix -- `deepseek/deepseek-chat`,
+    `openrouter/deepseek/deepseek-v4-flash`, `anthropic/claude-sonnet-4-6` -- because
+    that is what litellm needs. An exact-key `.get()` misses every one of those.
+
+    THE BUG THIS FIXES (2026-07-29). BudgetGuard.estimate_cost and .charge both did
+    `PRICING.get(model, (0.0, 0.0))`: exact key, defaulting to FREE. So a prefixed
+    cloud model cost $0, `spend_usd` never moved, and the USD cap never engaged --
+    on the module whose entire job is refusing to overspend. The default PB
+    configuration passes bare names and priced correctly, which is why this survived;
+    `DETERMINEX_DEEPSEEK_MODEL` set to the OpenRouter-prefixed form (the form
+    CLAUDE.md's .env implies) silently disables the cap.
+
+    hive/budget.py already carried this exact fix, with a comment explaining it, for
+    its own copy of the lookup. Both now call this one.
+    """
+    if not model:
+        return None
+    m = model.lower()
+    for key in sorted(PRICING, key=len, reverse=True):
+        if key.lower() in m:
+            return PRICING[key]
+    return None
+
+
+def estimate_cost_usd(model: str, tokens_in: int, tokens_out: int) -> float:
+    """Canonical USD estimate for one call. The single cost function.
+
+    Three cases, and the choice of default is the point:
+      local     -> exactly 0.0
+      priced    -> the real per-model rate
+      unknown   -> UNKNOWN_CLOUD_RATE, never 0.0
+
+    An unknown model must cost SOMETHING. Under-reporting spend overspends real
+    money; over-reporting merely exhausts a cap early and falls back to local. Those
+    outcomes are not symmetric, so the fallback deliberately errs toward the
+    recoverable one.
+    """
+    if is_local_model(model):
+        return 0.0
+    in_rate, out_rate = price_per_1m(model) or UNKNOWN_CLOUD_RATE
+    return (tokens_in / 1_000_000) * in_rate + (tokens_out / 1_000_000) * out_rate
+
 
 class BudgetExceeded(RuntimeError):
     """Raised when a guard refuses a new call."""
@@ -117,8 +189,7 @@ class BudgetGuard:
 
     def estimate_cost(self, model: str, tokens_in: int, tokens_out: int) -> float:
         """Return estimated USD for a potential call."""
-        in_rate, out_rate = PRICING.get(model, (0.0, 0.0))
-        return (tokens_in / 1_000_000) * in_rate + (tokens_out / 1_000_000) * out_rate
+        return estimate_cost_usd(model, tokens_in, tokens_out)
 
     def allow_estimated(
         self,
@@ -143,8 +214,7 @@ class BudgetGuard:
 
     def charge(self, model: str, tokens_in: int, tokens_out: int, instance_id: str) -> float:
         """Record a call after it completes. Returns USD cost of this call."""
-        in_rate, out_rate = PRICING.get(model, (0.0, 0.0))
-        cost = (tokens_in / 1_000_000) * in_rate + (tokens_out / 1_000_000) * out_rate
+        cost = estimate_cost_usd(model, tokens_in, tokens_out)
         self.state.calls += 1
         self.state.spend_usd += cost
         self.state.by_task[instance_id] = self.state.by_task.get(instance_id, 0) + 1

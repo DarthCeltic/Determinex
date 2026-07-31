@@ -462,7 +462,13 @@ class ChronoDaemon:
     ):
         self.db_path    = Path(db_path)
         self.session_id = session_id or str(uuid.uuid4())
-        self._lock      = threading.Lock()
+        # RLock, not Lock. `_poll_loop` used to take this and then call `_write_snapshot()`, which
+        # takes it again -- a self-deadlock that parked a whole hive session for 19 minutes with no
+        # error (see `_poll_loop`). That call site is fixed, but the same shape is one careless edit
+        # away in any of the five methods that take this lock, and the failure mode is silence rather
+        # than a crash. Re-entrancy makes the mistake survivable instead of fatal; it does not excuse
+        # holding the lock across a disk write, which is why the fix at the call site stands too.
+        self._lock      = threading.RLock()
         self._thread    = None
         self._running   = False
 
@@ -634,14 +640,36 @@ class ChronoDaemon:
         print("[ChronoDaemon] Stopped.", flush=True)
 
     def _poll_loop(self):
-        """Background thread: write periodic snapshots on the poll interval."""
+        """Background thread: write periodic snapshots on the poll interval.
+
+        THE DEADLOCK, fixed 2026-07-31. This held `self._lock` and then called
+        `_write_snapshot()`, which takes `self._lock` itself. With a plain (non-reentrant) Lock that
+        is a self-deadlock in this thread, and it dies holding the lock -- so the next caller of
+        `record_compile_result` blocks forever behind it.
+
+        That is exactly what happened, twice, in the same place: a hive session stalled after step
+        2's Compiler Oracle reported PASS, because recording that pass is what calls
+        `record_compile_result`. Zero CPU in the process, no child process, no container, Ollama idle
+        and answering other requests normally, and no error -- for 19 minutes, and it would have sat
+        there indefinitely. Diagnosed by re-running under
+        `faulthandler.dump_traceback_later(150, repeat=True)`, which named both halves at once: this
+        thread parked in `_write_snapshot`, the main thread parked in `record_compile_result`.
+        Guessing had gone through Ollama, Docker, VRAM pressure and the thermal governor first, all
+        wrong, because every one of them can also present as "stopped with no message".
+
+        The flag is read under the lock and the write happens outside it. Two of the three
+        `_write_snapshot()` call sites were already outside the lock, which is how the third came to
+        be inside -- the convention was never stated. Doing it this way also stops a disk write from
+        holding the lock against `record_compile_result`, which the oracle path calls per attempt.
+        """
         while self._running:
             time.sleep(CHRONO_POLL_SECONDS)
             if not self._running:
                 break
             with self._lock:
-                if self._current_buffer_path:
-                    self._write_snapshot()
+                have_buffer = bool(self._current_buffer_path)
+            if have_buffer:
+                self._write_snapshot()
 
     # ── Internal helpers ─────────────────────────────────────────────────────
 

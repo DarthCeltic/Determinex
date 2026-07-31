@@ -13,4 +13,4 @@ oracle-verified code contributions for the Determinex project.
 
 Not yet populated. Access is gated. See the project for details.
 
-— Lunarian Data Systems
+— Ryan Gurganious

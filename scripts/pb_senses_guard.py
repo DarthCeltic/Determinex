@@ -58,6 +58,20 @@ def scan_dir(wal_dir: Path) -> list[dict]:
     return violations
 
 
+def count_scannable(wal_dir: Path) -> int:
+    """How many WAL files this guard can actually read.
+
+    scan_dir() returns [] for "scanned everything, all clean" AND for "the directory
+    is not there" -- and main() printed "OK: no static-RE tool references found" for
+    both. A guard that cannot find its input has no verdict to give; saying OK is the
+    one answer it must not give, because in CI exit 0 is indistinguishable from a real
+    pass. Same shape as the provenance guard's empty registry, fixed the same day.
+    """
+    if not wal_dir.exists():
+        return 0
+    return sum(1 for _ in wal_dir.rglob("*.json")) + sum(1 for _ in wal_dir.rglob("*.jsonl"))
+
+
 def main() -> None:
     guard_mode = "--guard" in sys.argv
     custom_path = None
@@ -68,6 +82,7 @@ def main() -> None:
 
     wal_dir = custom_path or DEFAULT_WAL_DIR
     print(f"Scanning WAL files in {wal_dir}...")
+    n_files = count_scannable(wal_dir)
     violations = scan_dir(wal_dir)
 
     if violations:
@@ -77,8 +92,17 @@ def main() -> None:
         if guard_mode:
             print("SENSES GUARD FAILED")
             sys.exit(1)
+    elif n_files == 0:
+        # No files examined, so there is no verdict to report. Not an error outside
+        # --guard (a fresh checkout legitimately has no sessions yet), but --guard is
+        # a request for a verdict and "I found nothing to read" is not one.
+        print(f"NO WAL FILES to scan in {wal_dir} — nothing examined, so no verdict.")
+        if guard_mode:
+            print("SENSES GUARD FAILED: examined 0 WAL files. Point --path at a real "
+                  "session directory, or do not gate on a guard with no input.")
+            sys.exit(1)
     else:
-        print(f"OK: no static-RE tool references found in {wal_dir}.")
+        print(f"OK: no static-RE tool references found in {n_files} WAL file(s) under {wal_dir}.")
 
 
 if __name__ == "__main__":

@@ -178,7 +178,7 @@ export default function GitPanel({ workspacePath }: Props) {
 
   if (!workspacePath) {
     return (
-      <div className="flex-1 flex items-center justify-center p-4 bg-[#0d1117] text-label font-mono text-gray-600">
+      <div className="flex-1 flex items-center justify-center p-4 bg-[var(--dtx-code-bg)] text-label font-mono text-gray-600">
         No workspace open.
       </div>
     );
@@ -186,7 +186,7 @@ export default function GitPanel({ workspacePath }: Props) {
 
   if (!isTauri()) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center gap-2 p-4 bg-[#0d1117] text-center opacity-40">
+      <div className="flex-1 flex flex-col items-center justify-center gap-2 p-4 bg-[var(--dtx-code-bg)] text-center opacity-40">
         <p className="text-label text-gray-500">Browser mode cannot read real git status</p>
         <p className="text-label text-gray-600">
           Open the Tauri desktop app to stage, commit, and push.
@@ -197,7 +197,7 @@ export default function GitPanel({ workspacePath }: Props) {
 
   if (!status) {
     return (
-      <div className="flex-1 flex items-center justify-center p-4 bg-[#0d1117]">
+      <div className="flex-1 flex items-center justify-center p-4 bg-[var(--dtx-code-bg)]">
         <div className="flex items-center gap-2 text-label font-mono text-gray-500 animate-pulse">
           <RefreshCw className="h-3 w-3 animate-spin" />
           Loading Git Status...
@@ -210,9 +210,9 @@ export default function GitPanel({ workspacePath }: Props) {
   const unstagedFiles = status.files.filter((f) => f.status !== "staged");
 
   return (
-    <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 font-mono text-label border-l border-white/5">
+    <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] text-gray-300 font-mono text-label border-l border-white/5">
       {/* Header Panel */}
-      <div className="flex items-center justify-between p-3 border-b border-white/5 bg-[#161b22]">
+      <div className="flex items-center justify-between p-3 border-b border-white/5 bg-[var(--dtx-code-panel)]">
         <div className="flex items-center gap-1.5 font-semibold text-white">
           <GitBranch className="h-3.5 w-3.5 text-blue-400" />
           <span>Source Control</span>
@@ -230,7 +230,7 @@ export default function GitPanel({ workspacePath }: Props) {
       </div>
 
       {/* Sync / Remote status */}
-      <div className="flex items-center justify-between px-3 py-2 bg-[#161b22]/50 border-b border-white/5 text-label">
+      <div className="flex items-center justify-between px-3 py-2 bg-[var(--dtx-code-panel)]/50 border-b border-white/5 text-label">
         <div className="flex items-center gap-3">
           <button
             onClick={handlePull}
@@ -261,7 +261,7 @@ export default function GitPanel({ workspacePath }: Props) {
               <select
                 value={status.branch}
                 onChange={(e) => handleCheckout(e.target.value)}
-                className="flex-1 bg-[#0d1117] border border-white/10 rounded px-2 py-1 text-white focus:outline-none focus:border-blue-500"
+                className="flex-1 bg-[var(--dtx-code-bg)] border border-white/10 rounded px-2 py-1 text-white focus:outline-none focus:border-blue-500"
               >
                 {branches.map((b) => (
                   <option key={b.name} value={b.name}>
@@ -271,7 +271,7 @@ export default function GitPanel({ workspacePath }: Props) {
               </select>
               <button
                 onClick={() => setShowAddBranch(!showAddBranch)}
-                className="p-1.5 bg-[#21262d] hover:bg-[#30363d] text-white rounded transition-colors"
+                className="p-1.5 bg-[var(--dtx-code-border-subtle)] hover:bg-[var(--dtx-code-border)] text-white rounded transition-colors"
                 title="Create Branch"
               >
                 <Plus className="h-3 w-3" />
@@ -285,7 +285,7 @@ export default function GitPanel({ workspacePath }: Props) {
                   placeholder="New branch name"
                   value={newBranchName}
                   onChange={(e) => setNewBranchName(e.target.value)}
-                  className="flex-1 bg-[#0d1117] border border-white/10 rounded px-2 py-0.5 text-white focus:outline-none"
+                  className="flex-1 bg-[var(--dtx-code-bg)] border border-white/10 rounded px-2 py-0.5 text-white focus:outline-none"
                 />
                 <button
                   type="submit"
@@ -392,7 +392,7 @@ export default function GitPanel({ workspacePath }: Props) {
           </div>
 
           {/* Commit Box Form */}
-          <div className="p-3 border-t border-white/5 bg-[#161b22]/50">
+          <div className="p-3 border-t border-white/5 bg-[var(--dtx-code-panel)]/50">
             {error && (
               <div className="flex items-start gap-1 p-2 bg-red-950/30 border border-red-500/20 rounded text-red-400 mb-2 text-label">
                 <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
@@ -409,7 +409,7 @@ export default function GitPanel({ workspacePath }: Props) {
                     handleCommit(e);
                   }
                 }}
-                className="w-full h-14 bg-[#0d1117] border border-white/10 rounded p-2 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 resize-none"
+                className="w-full h-14 bg-[var(--dtx-code-bg)] border border-white/10 rounded p-2 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 resize-none"
               />
               <button
                 type="submit"
@@ -427,7 +427,7 @@ export default function GitPanel({ workspacePath }: Props) {
         <div className="w-1/2 flex flex-col bg-[#0b0e14] overflow-hidden">
           {selectedFile ? (
             <div className="flex-1 flex flex-col h-full overflow-hidden">
-              <div className="p-3 border-b border-white/5 bg-[#161b22] flex items-center justify-between">
+              <div className="p-3 border-b border-white/5 bg-[var(--dtx-code-panel)] flex items-center justify-between">
                 <span className="font-semibold text-white">{selectedFile.path}</span>
                 <span className="text-gray-500 text-meta uppercase">{selectedFile.status}</span>
               </div>

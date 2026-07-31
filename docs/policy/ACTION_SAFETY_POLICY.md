@@ -115,4 +115,4 @@ Every blocked action and declined confirmation is written to `T:/determinex_corp
 
 ---
 
-*Determinex Action Safety Policy · Lunarian Data Systems · 2026-05-27*
+*Determinex Action Safety Policy · Ryan Gurganious · 2026-05-27*

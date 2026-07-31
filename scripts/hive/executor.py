@@ -13,6 +13,7 @@ import logging
 import os
 import re
 import threading
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -87,6 +88,28 @@ if _DSPY_ENABLED:
 
 
 
+#: Signals `run_correctness_tests` returns to mean "the tests did not run", as opposed to "the tests
+#: passed". Every one is returned as `(True, signal)`, which is why both call sites have to test for
+#: these BEFORE testing the boolean -- see the notes at those sites.
+_CORRECTNESS_SKIP_PREFIXES = (
+    "harness_not_found",
+    "harness_read_error",   # carries ": {exception}"
+    "lang_unsupported",
+    "test_timeout",
+    "runner_not_found",     # carries ": {exception}"
+)
+
+
+def _is_correctness_skip(output: str) -> bool:
+    """Whether a run_correctness_tests result means the suite never ran.
+
+    Prefix, not equality: two of the signals append an exception message, so exact membership
+    silently missed them -- and `harness_read_error` was absent from the tuple that was being
+    matched at all.
+    """
+    return str(output or "").startswith(_CORRECTNESS_SKIP_PREFIXES)
+
+
 def _run_daemon_timeout(fn, timeout: float):
     """Run fn on a daemon thread and raise TimeoutError without waiting forever."""
     done = threading.Event()
@@ -131,18 +154,16 @@ except Exception:
     _LatentRetriever = None  # type: ignore[assignment,misc]
 
 
-def _ollama_extra(model: str, role: str, hw_profile=None) -> dict:
-    """Return extra_body dict for Ollama calls, empty dict for API models."""
-    if not model.startswith("ollama/"):
-        return {}
-    keep_hot = (hw_profile.lifecycle.keep_hot if hw_profile else ["builder"])
-    if role in keep_hot:
-        keep_alive = -1   # builder: never evict — stays hot between steps
-    elif role == "monitor":
-        keep_alive = 0    # evict observer immediately; see api_client._ollama_extra
-    else:
-        keep_alive = 300  # default 5min (oracle, architect, unknown roles)
-    return {"keep_alive": keep_alive}
+# VRAM keep-alive policy lives in ONE place: hive.api_client._ollama_extra.
+#
+# This module carried a byte-for-byte copy of it. When the tier-0 policy was corrected on
+# 2026-07-31 -- the ~6GB rig cannot hold the builder and the observer at once, and pinning both
+# stalled a session for 19 minutes -- the copy here would have kept the old behaviour on whichever
+# call sites resolve through the executor, so the same session could evict the observer down one
+# path and pin it down the other. That is the divergence this codebase's own AUDIT-BEFORE-BUILD
+# rule exists to prevent, and re-deriving the answer is cheaper than keeping two copies honest.
+# The import direction is safe: executor already imports api_client, which does not import back.
+from hive.api_client import _ollama_extra  # noqa: E402  (kept beside its only consumer)
 
 
 def _provider_extra_body(
@@ -454,12 +475,14 @@ def _correctness_allows_completion(
     passed, output = run_correctness_tests(
         workspace, session.lang, session.correctness_test_harness,
     )
-    skip_signals = ("harness_not_found", "lang_unsupported", "test_timeout", "runner_not_found")
+    # Skip first, by prefix -- see the long note at the other call site. Every skip signal is
+    # returned as (True, signal), so testing `passed` first made this branch unreachable and a step
+    # whose tests never ran was recorded as a correctness pass.
+    if _is_correctness_skip(output):
+        step.correctness_result = "skipped"
+        return True, ""
     if passed:
         step.correctness_result = "pass"
-        return True, ""
-    if output in skip_signals:
-        step.correctness_result = "skipped"
         return True, ""
 
     step.correctness_result = "compile_hacked"
@@ -698,30 +721,129 @@ def execute_step(
         code = _extract_code_block(response_text or "")
         last_builder_output = code
 
+        # Shared by both opt-in paths below: apply a candidate and let the SAME
+        # Compiler Oracle judge it. Hoisted out of the amplifier block so the
+        # router can reuse the identical verifier -- routing must never change
+        # what "passes" means, only who gets to attempt it.
+        def _apply_validate(_code: str) -> "tuple[bool, str]":
+            if not apply_step_output(workspace, step, _code):
+                return False, "apply_step_output failed"
+            _lc = compiler_lock if compiler_lock is not None else contextlib.nullcontext()
+            with _lc:
+                return validate_project(workspace, session.lang)
+
+        # Per-call telemetry for the generations the router/amplifier make. Two gaps
+        # this closes, both recorded as unprobed in the 2026-07-28 probe notes:
+        #   * LATENCY had no home anywhere -- the ledger tracks tokens and dollars,
+        #     never milliseconds -- while routing measurably cost 27% and 31% more wall
+        #     clock than always-frontier. A cost with no instrument is a cost that gets
+        #     argued about instead of measured.
+        #   * PER-CALL TOKENS were not captured, only per-session totals, so cost could
+        #     not be attributed to a rung. That is exactly why the paid A/B has an
+        #     unexplained gap: routed made 2 paid calls where baseline made 3, which
+        #     predicts ~33% saving, and 1.6% was observed.
+        _gen_calls: list[dict] = []
+
+        def _gen_with(_model: str, _temp: float) -> str:
+            _t0 = time.time()
+            _r = api_call(
+                litellm.completion, model=_model,
+                messages=messages, session_id=session.session_id,
+                temperature=_temp,
+                extra_body=_provider_extra_body(_model, "builder", get_hw_profile()),
+            )
+            # EVERY extra generation is billed. The single builder call above records
+            # its own cost (see `usage = getattr(builder_resp, ...)`), but the router
+            # and the amplifier make ADDITIONAL calls through this closure and none of
+            # them were counted -- so with DETERMINEX_AMPLIFY=1 and K=6 against a paid
+            # model, six calls happened and one was billed, and the budget guard
+            # under-counted by ~6x. The routed A/B made this visible: its manifests
+            # showed api_cost_usd=0.0 for sessions that demonstrably called DeepSeek.
+            #
+            # Fixed here rather than in each bridge because both now share this
+            # closure, so one accounting point covers both paths.
+            _u = getattr(_r, "usage", None)
+            record_api_call_cost(
+                session,
+                getattr(_u, "total_tokens", 0) if _u else APPROX_TOKENS_PER_STEP,
+                model=_model,
+                prompt_tokens=getattr(_u, "prompt_tokens", None) if _u else None,
+                completion_tokens=getattr(_u, "completion_tokens", None) if _u else None,
+            )
+            _gen_calls.append({
+                "model": _model,
+                "temp": round(float(_temp), 2),
+                "ms": int((time.time() - _t0) * 1000),
+                "tokens_in": int(getattr(_u, "prompt_tokens", 0) or 0) if _u else 0,
+                "tokens_out": int(getattr(_u, "completion_tokens", 0) or 0) if _u else 0,
+            })
+            return _extract_code_block(_r.choices[0].message.content or "")
+
+        # ── Model Router (DETERMINEX_ROUTE; default derived, see route_decision) ──
+        # Walk a configured ladder of builder models cheapest-first, escalating
+        # only when verified search on the cheap tier exhausts. A step the local
+        # 1.5B can clear costs nothing; one it cannot escalates carrying its own
+        # error trace. A no-op unless a ladder of 2+ models is configured
+        # (determinex.builder_ladder / DETERMINEX_ROUTE_LADDER).
+        _routed = None
+        try:
+            from hive.router_bridge import load_ladder, route_decision, routed_build
+            _route_on, _route_why = route_decision()
+            # Logged either way. A derived default that stays silent is indistinguishable
+            # from a feature that is broken, and the reason is the whole value of deriving
+            # it -- "off because your ladder has a paid rung" is actionable, "off" is not.
+            log.info("  [ROUTE] %s -- %s", "on" if _route_on else "off", _route_why)
+            if _route_on and not _rosetta_used:
+                _ladder = load_ladder()
+                _routed = routed_build(
+                    lambda _m: (lambda _p, _t: _gen_with(_m, _t)),
+                    _apply_validate, _ladder,
+                )
+                if _routed is None:
+                    log.info("  [ROUTE] enabled but no 2+ model ladder configured "
+                             "(determinex.builder_ladder / DETERMINEX_ROUTE_LADDER) "
+                             "-- falling through to the single builder")
+                elif _routed.code:
+                    code = _routed.code
+                    last_builder_output = code
+                    log.info("  [ROUTE] %s via %s (tier %d, %d escalation(s), "
+                             "%d samples, est cost %.3f)",
+                             "PASS" if _routed.passed else "best-partial",
+                             _routed.model_used, _routed.tier_used,
+                             _routed.escalations, _routed.samples, _routed.est_cost)
+                    # Persist WHICH rung produced this, both places. A logged-only
+                    # result cannot be measured after the fact, so "routing saved X"
+                    # would have no evidence behind it.
+                    from hive.router_bridge import (
+                        provenance_dict,
+                        record_route_decision,
+                    )
+                    step.route_provenance = provenance_dict(_routed, _gen_calls)
+                    record_route_decision(session.session_id, step.id, _routed,
+                                          _gen_calls)
+        except Exception as _route_e:  # never let routing break the build loop
+            # WARNING, not debug: the operator explicitly asked for routing via
+            # DETERMINEX_ROUTE=1. Swallowing the reason at debug level meant an
+            # enabled feature could silently not run, which is indistinguishable
+            # from it running and finding nothing to do.
+            log.warning("  [ROUTE] skipped (%s): %s",
+                        type(_route_e).__name__, _route_e)
+            _routed = None
+
         # ── Correctness Amplifier (opt-in: DETERMINEX_AMPLIFY=1) ──────────────
         # Replace this single candidate with a verified-search winner: sample K
         # builder candidates at varied temperature, apply+validate each against
         # the SAME Compiler Oracle, keep the first that PASSES. Lets a weak local
         # builder converge on steps it could not one-shot. Off by default.
+        #
+        # Skipped when the router already ran: the router does verified search at
+        # every tier it visits, so amplifying afterwards would re-sample a model
+        # the oracle has already exhausted -- paying twice for the same evidence.
         try:
             from hive.amplifier_bridge import amplified_build, amplify_enabled
-            if amplify_enabled() and not _rosetta_used:
+            if amplify_enabled() and not _rosetta_used and _routed is None:
                 def _gen_at_temp(_temp: float) -> str:
-                    _r = api_call(
-                        litellm.completion, model=model_assignments["builder"],
-                        messages=messages, session_id=session.session_id,
-                        temperature=_temp,
-                        extra_body=_provider_extra_body(
-                            model_assignments["builder"], "builder", get_hw_profile()),
-                    )
-                    return _extract_code_block(_r.choices[0].message.content or "")
-
-                def _apply_validate(_code: str) -> "tuple[bool, str]":
-                    if not apply_step_output(workspace, step, _code):
-                        return False, "apply_step_output failed"
-                    _lc = compiler_lock if compiler_lock is not None else contextlib.nullcontext()
-                    with _lc:
-                        return validate_project(workspace, session.lang)
+                    return _gen_with(model_assignments["builder"], _temp)
 
                 _amp = amplified_build(_gen_at_temp, _apply_validate)
                 if _amp.code:
@@ -730,7 +852,10 @@ def execute_step(
                     log.info("  [AMPLIFY] verified search: %s after %d samples",
                              "PASS" if _amp.passed else "best-partial", _amp.samples)
         except Exception as _amp_e:  # never let amplification break the build loop
-            log.debug("  [AMPLIFY] skipped: %s", _amp_e)
+            # Same reasoning as [ROUTE] above: an explicitly-enabled feature that
+            # fails must say so.
+            log.warning("  [AMPLIFY] skipped (%s): %s",
+                        type(_amp_e).__name__, _amp_e)
 
         # Save builder output to step dir for traceability
         step_output_dir = _steps_dir(session.session_id) / f"step_{step.id:04d}_outputs"
@@ -1012,14 +1137,28 @@ def execute_step(
             _ct_passed, _ct_output = run_correctness_tests(
                 workspace, session.lang, session.correctness_test_harness,
             )
-            _skip_signals = ("harness_not_found", "lang_unsupported",
-                             "test_timeout", "runner_not_found")
-            if _ct_passed:
-                step.correctness_result = "pass"
-                log.info("  Correctness tests: PASS — Semantic Guarantee satisfied.")
-            elif _ct_output in _skip_signals:
+            # SKIP IS CHECKED FIRST, and by prefix. Fixed 2026-07-30.
+            #
+            # run_correctness_tests returns (True, <signal>) for all five of its skip signals, so
+            # `if _ct_passed:` matched first and the `elif` below was UNREACHABLE: a step whose
+            # tests never ran was recorded as correctness_result="pass". That fed
+            # `_tests_passed` (crediting the gamma channel of the adjudication score) and the dspy
+            # trainset (compiler_result=PASS, score=1.0) with a verification that had not happened.
+            #
+            # Triggers are ordinary, not exotic: the Architect declared a harness path the Builder
+            # never wrote; the language is not rust/go/python (TypeScript included, which
+            # validate_project now genuinely verifies -- so a whole TS session recorded every step's
+            # tests as "pass"); the run timed out; the runner binary is missing.
+            #
+            # Prefix matching because two signals carry a suffix -- "harness_read_error: {e}" and
+            # "runner_not_found: {e}" -- so exact membership missed them, and harness_read_error was
+            # not even in the tuple.
+            if _is_correctness_skip(_ct_output):
                 step.correctness_result = "skipped"
                 log.info("  Correctness tests: SKIPPED (%s)", _ct_output)
+            elif _ct_passed:
+                step.correctness_result = "pass"
+                log.info("  Correctness tests: PASS — Semantic Guarantee satisfied.")
             else:
                 # GATE: inject test failure back into Builder retry loop.
                 # This is the core TDD enforcement: compiler PASS is necessary but

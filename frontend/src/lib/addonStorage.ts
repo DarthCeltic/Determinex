@@ -16,17 +16,36 @@ function parseAddonIds(raw: string | null): string[] {
   return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === "string") : [];
 }
 
-export function readInstalledAddonIds(storage: Storage): Set<string> {
-  const defaults = defaultInstalledAddonIds();
-  const current = parseAddonIds(storage.getItem(ADDON_STORAGE_KEY));
-  const legacy = parseAddonIds(storage.getItem(LEGACY_ADDON_STORAGE_KEY));
-  const merged = new Set([...defaults, ...legacy, ...current]);
+/** Addons that genuinely cannot be uninstalled, as opposed to merely seeded as present. */
+function builtinAddonIds(): Set<string> {
+  return new Set(ADDONS.filter((a) => a.status === "builtin").map((a) => a.id));
+}
 
-  if (legacy.length > 0 && current.length === 0) {
-    writeInstalledAddonIds(storage, merged);
+export function readInstalledAddonIds(storage: Storage): Set<string> {
+  const builtins = builtinAddonIds();
+  const stored = storage.getItem(ADDON_STORAGE_KEY);
+  const current = parseAddonIds(stored);
+  const legacy = parseAddonIds(storage.getItem(LEGACY_ADDON_STORAGE_KEY));
+
+  // UNINSTALL USED TO NEVER PERSIST (fixed 2026-07-30). This merged defaultInstalledAddonIds()
+  // -- which includes every addon whose STATIC status is "installed" -- back in on every read,
+  // while writeInstalledAddonIds only excluded "builtin". So clicking Uninstall on a seeded addon
+  // wrote a list without it and the very next read put it straight back; reload and it was
+  // "Installed" again.
+  //
+  // The distinction that was missing: "builtin" means genuinely not removable, whereas
+  // "installed" in the static list is only a FIRST-RUN SEED. Once the user has an explicit stored
+  // list, that list is authoritative and only builtins are forced back in.
+  if (stored !== null) {
+    return new Set([...builtins, ...current]);
   }
 
-  return merged;
+  // First run (or legacy migration): seed from the static list.
+  const seeded = new Set([...defaultInstalledAddonIds(), ...legacy]);
+  if (legacy.length > 0) {
+    writeInstalledAddonIds(storage, seeded);
+  }
+  return seeded;
 }
 
 export function writeInstalledAddonIds(storage: Storage, installed: Set<string>): string[] {

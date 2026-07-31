@@ -45,7 +45,7 @@ export function RainCityTheme({
       y: Math.random() * h * 2 - h,
       speed: 4 + Math.random() * 8,
       len: 30 + Math.random() * 80,
-      color: Math.random() < 0.6 ? "#3b82f6" : Math.random() < 0.5 ? "#ec4899" : "#8b5cf6",
+      color: Math.random() < 0.6 ? "var(--dtx-info)" : Math.random() < 0.5 ? "var(--dtx-alt)" : "#8b5cf6",
       alpha: 0.2 + Math.random() * 0.4,
       width: 0.5 + Math.random() * 1.5,
     }));
@@ -78,7 +78,7 @@ export function RainCityTheme({
       if (tick % 90 === 0) {
         BUILDINGS.forEach((b) => {
           if (Math.random() < 0.15) {
-            const wc = Math.random() < 0.5 ? "#3b82f6" : "#ec4899";
+            const wc = Math.random() < 0.5 ? "var(--dtx-info)" : "var(--dtx-alt)";
             ctx.fillStyle = wc + "40";
             const wx = b.x + Math.random() * (b.w - 4) + 2;
             const wy = h - b.h + Math.random() * (b.h - 4) + 2;
@@ -141,8 +141,8 @@ export function RainCityTheme({
 
   if (!active) return null;
 
-  const blue = "#3b82f6";
-  const pink = "#ec4899";
+  const blue = "var(--dtx-info)";
+  const pink = "var(--dtx-alt)";
   const question = PATCH_REFLECTIONS[Math.floor(Date.now() / 5000) % PATCH_REFLECTIONS.length];
 
   if (fullPanel) {

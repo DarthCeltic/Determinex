@@ -33,7 +33,12 @@ audit = importlib.import_module("scripts.dev.parallel_execution_layer_audit")
 
 LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
-DOC_PATH = _REPO_ROOT / "docs" / "PARALLEL_EXECUTION_LAYER_AUDIT.md"
+# docs/audits/, not docs/ root. The 2026-05-29 docs reorg moved every audit
+# under docs/audits/ but left a copy at the old path, and this constant kept
+# pointing at the copy -- so the doc humans read was regenerated while the doc
+# this invariant guarded went stale, and the test still passed. See
+# test_the_audit_doc_has_exactly_one_copy below.
+DOC_PATH = _REPO_ROOT / "docs" / "audits" / "PARALLEL_EXECUTION_LAYER_AUDIT.md"
 
 
 STATUS_TOKENS = frozenset({
@@ -504,4 +509,25 @@ def test_lock_manifest_pins_zero_blocked_unsafe_at_seal():
     pinned = data["counts_snapshot"]["BLOCKED_UNSAFE"]
     assert pinned == 0, (
         f"Rung-4 sealed snapshot pinned BLOCKED_UNSAFE=0; got pinned={pinned}"
+    )
+
+
+def test_the_audit_doc_has_exactly_one_copy():
+    """Why this exists: there were two.
+
+    The 2026-05-29 docs reorg put every audit under `docs/audits/` but left the
+    original at `docs/` root. DOC_PATH still named the root copy, so
+    `test_doc_counts_match_runtime_audit` guarded a file nobody regenerated while
+    the file humans actually read drifted freely -- and regenerating the real doc
+    could not turn this suite green, because it was checking the other one.
+
+    A stale duplicate of a generated security inventory is worse than no
+    duplicate: it reads as current and reports counts that are not.
+    """
+    found = sorted(
+        p.relative_to(_REPO_ROOT).as_posix()
+        for p in _REPO_ROOT.glob("docs/**/PARALLEL_EXECUTION_LAYER_AUDIT.md")
+    )
+    assert found == ["docs/audits/PARALLEL_EXECUTION_LAYER_AUDIT.md"], (
+        f"expected exactly one audit doc at the canonical path, found {found}"
     )

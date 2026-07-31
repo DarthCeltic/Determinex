@@ -31,6 +31,8 @@
 //!
 //! Run: cargo test --test eval_harness -- --nocapture
 
+mod common;
+
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::time::{Duration, Instant};
@@ -41,10 +43,15 @@ use std::time::{Duration, Instant};
 
 const OLLAMA_GENERATE: &str = "http://localhost:11434/api/generate";
 const OLLAMA_TAGS: &str = "http://localhost:11434/api/tags";
+const OLLAMA_PS: &str = "http://localhost:11434/api/ps";
 
-const MODEL_SENTINEL: &str = "determinex-sentinel:v2";
-const MODEL_ENGINEER: &str = "determinex-engineer:v2";
-const MODEL_OBSERVER: &str = "determinex-observer:v3";
+// Corrected 2026-07-31. These were `determinex-sentinel:v2`, `determinex-engineer:v2` and
+// `determinex-observer:v3` -- up to three generations behind the tags actually shipped, so every
+// generate returned `Ollama HTTP 404 Not Found` on every machine. The reachability guard below only
+// asked whether the daemon answered, so the test sailed past it and reported the 404 as a failure.
+const MODEL_SENTINEL: &str = "determinex-sentinel-v5-dsl";
+const MODEL_ENGINEER: &str = "determinex-engineer-v11-dsl";
+const MODEL_OBSERVER: &str = "determinex-observer-v6-dsl";
 
 /// 5-minute ceiling — same as the production orchestrator.
 const INFERENCE_TIMEOUT_SECS: u64 = 60;
@@ -359,15 +366,30 @@ async fn benchmark_chaos_mutation() {
     let client = build_client();
 
     // ── Pre-flight ────────────────────────────────────────────────────────────
-    if !ollama_is_reachable(&client).await {
-        println!();
-        println!("╔══════════════════════════════════════════════════════════════════╗");
-        println!("║  [EVAL] benchmark_chaos_mutation — SKIPPED                       ║");
-        println!("║  Ollama not reachable at localhost:11434.                         ║");
-        println!("║  Run: ollama serve                                                ║");
-        println!("╚══════════════════════════════════════════════════════════════════╝");
-        println!();
-        return; // skip, do not panic
+    // Was `ollama_is_reachable`, which answers "is the daemon up" -- not "is the model
+    // pulled". See tests/common/mod.rs.
+    if common::should_skip(
+        "[EVAL] benchmark_chaos_mutation",
+        match common::unmet_prerequisites(
+            &client,
+            OLLAMA_TAGS,
+            &[MODEL_SENTINEL, MODEL_ENGINEER, MODEL_OBSERVER],
+        )
+        .await
+        {
+            Some(unmet) => Some(unmet),
+            // Pulled is not the same as loadable-together. Warm them and confirm residency, so a
+            // 102 s cold load never lands inside the 60 s production timeout below.
+            None => common::residency_shortfall(
+                &client,
+                OLLAMA_GENERATE,
+                OLLAMA_PS,
+                &[MODEL_SENTINEL, MODEL_ENGINEER, MODEL_OBSERVER],
+            )
+            .await,
+        },
+    ) {
+        return;
     }
 
     let user_prompt = concat!(
@@ -591,14 +613,29 @@ async fn benchmark_context_decay() {
     let client = build_client();
 
     // ── Pre-flight ────────────────────────────────────────────────────────────
-    if !ollama_is_reachable(&client).await {
-        println!();
-        println!("╔══════════════════════════════════════════════════════════════════╗");
-        println!("║  [EVAL] benchmark_context_decay — SKIPPED                        ║");
-        println!("║  Ollama not reachable at localhost:11434.                         ║");
-        println!("║  Run: ollama serve                                                ║");
-        println!("╚══════════════════════════════════════════════════════════════════╝");
-        println!();
+    // Was `ollama_is_reachable`, which answers "is the daemon up" -- not "is the model
+    // pulled". See tests/common/mod.rs.
+    if common::should_skip(
+        "[EVAL] benchmark_context_decay",
+        match common::unmet_prerequisites(
+            &client,
+            OLLAMA_TAGS,
+            &[MODEL_SENTINEL, MODEL_ENGINEER, MODEL_OBSERVER],
+        )
+        .await
+        {
+            Some(unmet) => Some(unmet),
+            // Pulled is not the same as loadable-together. Warm them and confirm residency, so a
+            // 102 s cold load never lands inside the 60 s production timeout below.
+            None => common::residency_shortfall(
+                &client,
+                OLLAMA_GENERATE,
+                OLLAMA_PS,
+                &[MODEL_SENTINEL, MODEL_ENGINEER, MODEL_OBSERVER],
+            )
+            .await,
+        },
+    ) {
         return;
     }
 

@@ -108,7 +108,7 @@ export function ExecutionWorkspace() {
 
   if (!isTauri()) {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-2 bg-[#0d1117] text-center opacity-40">
+      <div className="flex flex-1 flex-col items-center justify-center gap-2 bg-[var(--dtx-code-bg)] text-center opacity-40">
         <p className="text-label text-gray-500">Browser mode cannot read live runtime state</p>
         <p className="text-label text-gray-600">
           Open the Tauri desktop app for real session and service status.
@@ -118,7 +118,7 @@ export function ExecutionWorkspace() {
   }
 
   return (
-    <div className="flex h-full w-full flex-col overflow-y-auto bg-[#0d1117] p-6 no-scrollbar">
+    <div className="flex h-full w-full flex-col overflow-y-auto bg-[var(--dtx-code-bg)] p-6 no-scrollbar">
       <div className="mb-6 border-b border-white/10 pb-6">
         <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-rose-300">
           <Cpu size={14} /> Runtime

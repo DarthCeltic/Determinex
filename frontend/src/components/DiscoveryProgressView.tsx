@@ -32,14 +32,14 @@ export function DiscoveryProgressView({
   colorOverride,
 }: DiscoveryProgressViewProps) {
   const complexityColor =
-    path.complexity === "low" ? "#34d399" : path.complexity === "medium" ? "#f59e0b" : "#f87171";
+    path.complexity === "low" ? "var(--dtx-ok)" : path.complexity === "medium" ? "var(--dtx-warn)" : "var(--dtx-fail)";
 
   const progress = Math.min(answeredCount, 5) / 5;
 
   return (
-    <div className="flex flex-col h-full bg-[#0d1117] text-gray-300 overflow-hidden">
+    <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] text-gray-300 overflow-hidden">
       {/* Header strip */}
-      <div className="shrink-0 px-6 py-3 border-b border-[#30363d] bg-[#161b22]/60 flex items-center gap-3">
+      <div className="shrink-0 px-6 py-3 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)]/60 flex items-center gap-3">
         <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: path.color }} />
         <div className="flex-1 min-w-0">
           <span className="text-body font-black truncate" style={{ color: path.color }}>
@@ -64,7 +64,7 @@ export function DiscoveryProgressView({
 
       {/* Wireframe — top half */}
       <div
-        className="shrink-0 border-b border-[#30363d] relative"
+        className="shrink-0 border-b border-[var(--dtx-code-border)] relative"
         style={{ height: "42%", background: `${path.color}04` }}
       >
         <PathWireframe path={path} colorOverride={colorOverride} />
@@ -109,8 +109,8 @@ export function DiscoveryProgressView({
                 key={item.key}
                 className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-all"
                 style={{
-                  background: answered ? `${path.color}08` : active ? "#161b22" : "transparent",
-                  border: `1px solid ${answered ? path.color + "25" : active ? "#30363d" : "transparent"}`,
+                  background: answered ? `${path.color}08` : active ? "var(--dtx-code-panel)" : "transparent",
+                  border: `1px solid ${answered ? path.color + "25" : active ? "var(--dtx-code-border)" : "transparent"}`,
                 }}
               >
                 {/* Status dot */}
@@ -140,7 +140,7 @@ export function DiscoveryProgressView({
                 <div className="flex-1 min-w-0">
                   <div
                     className="text-label font-bold"
-                    style={{ color: answered ? path.color : active ? "#e2e8f0" : "#4b5563" }}
+                    style={{ color: answered ? path.color : active ? "var(--dtx-code-text)" : "var(--dtx-code-border)" }}
                   >
                     {item.label}
                   </div>
@@ -153,7 +153,7 @@ export function DiscoveryProgressView({
 
         {/* Stack + prerequisites */}
         {path.prerequisites && path.prerequisites.length > 0 && (
-          <div className="rounded-xl border border-[#30363d] p-3.5 mt-1">
+          <div className="rounded-xl border border-[var(--dtx-code-border)] p-3.5 mt-1">
             <div className="flex items-center gap-1.5 mb-2">
               <Wrench size={9} className="text-amber-400/70" />
               <span className="text-eyebrow uppercase font-bold tracking-widest text-amber-400/60">

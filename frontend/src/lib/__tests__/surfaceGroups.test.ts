@@ -13,14 +13,80 @@ import { SURFACE_GROUPS, GROUP_BY_SURFACE, allSurfaceIds } from "../surfaceGroup
  * hand-copied list, so adding a panel without giving it a home fails here
  * rather than silently producing another orphan.
  */
-const PAGE = readFileSync(resolve(__dirname, "../../app/page.tsx"), "utf8");
+const PAGE_RAW = readFileSync(resolve(__dirname, "../../app/page.tsx"), "utf8");
+
+/**
+ * page.tsx with comments stripped.
+ *
+ * These parsers read declarations as TEXT, which makes them fragile to prose in a way that
+ * is easy to miss. Documenting the removal of an addon inside the union block broke this
+ * three separate times in one sitting:
+ *
+ *   1. the comment named the removed member in double quotes, so the member regex put it
+ *      straight back into the parsed list;
+ *   2. the rewrite used the word describing the hazard, in double quotes, and was itself
+ *      parsed as a member;
+ *   3. the next rewrite contained a semicolon, and the lazy `[\s\S]*?;` terminated the
+ *      union block early -- 13 members parsed out of 21, so most of the union silently
+ *      vanished from the check.
+ *
+ * Contorting comments to please a regex is the wrong end to fix. Comments are stripped
+ * before any parsing, so prose can say whatever it needs to.
+ */
+const PAGE = PAGE_RAW.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
 
 function unionMembers(typeName: string): string[] {
   // e.g.  type WorkspaceAddon =\n  | "terminal"\n  | "editor" ... ;
   const re = new RegExp(`type\\s+${typeName}\\s*=([\\s\\S]*?);`, "m");
   const block = PAGE.match(re);
   if (!block) throw new Error(`could not find type ${typeName} in page.tsx`);
-  return [...block[1].matchAll(/"([a-z0-9-]+)"/g)].map((m) => m[1]);
+  const members = [...block[1].matchAll(/"([a-z0-9-]+)"/g)].map((m) => m[1]);
+  // A truncated parse is worse than a failed one: it silently shrinks the set every check
+  // below iterates over. WorkspaceAddon has ~21 members and PrimaryWorkspace ~10.
+  if (members.length < 8) {
+    throw new Error(
+      `type ${typeName} parsed to only ${members.length} members -- the declaration regex ` +
+        `is truncating (a semicolon in a comment will do it)`
+    );
+  }
+  return members;
+}
+
+/**
+ * The ids that actually have a PANEL in page.tsx's `addonItems` registry.
+ *
+ * WHY THIS EXISTS, AND WHY THE UNION IS NOT ENOUGH
+ * "never offers a surface that cannot open" below was written for precisely the bug its
+ * own comment describes -- a taxonomy entry pointing at an addon with nothing to render.
+ * But it checked membership of the WorkspaceAddon TYPE UNION, and a type union is just a
+ * list of allowed strings: adding `| "idea"` satisfies it while no panel exists.
+ *
+ * Measured 2026-07-29: `idea` ("Idea Lab") was advertised in the taxonomy, present in the
+ * union, absent from `addonItems` -- so `selectedAddon` resolved to null, the dock render
+ * is guarded by `addonDockOpen && selectedAddon`, and clicking the menu item did
+ * NOTHING. The guard written to prevent exactly that passed the whole time, because it
+ * never looked at panels.
+ *
+ * This reads the registry entries instead: an id only counts when something renders it.
+ */
+function registryAddonIds(): string[] {
+  const start = PAGE.indexOf("const addonItems");
+  if (start < 0) throw new Error("could not find addonItems in page.tsx");
+  // The registry is a top-level array literal; `panel:` appears once per entry, so pair
+  // each id with the panel that follows it and keep only ids that have one.
+  const tail = PAGE.slice(start);
+  const ids: string[] = [];
+  const entry = /id:\s*"([a-z0-9-]+)"[\s\S]*?panel:/g;
+  let m: RegExpExecArray | null;
+  while ((m = entry.exec(tail)) !== null) {
+    ids.push(m[1]);
+    // Stop runaway matching across the whole file if the registry ends.
+    if (ids.length > 100) break;
+  }
+  if (ids.length < 15) {
+    throw new Error(`addonItems parse found only ${ids.length} panels -- regex is broken`);
+  }
+  return ids;
 }
 
 describe("surface taxonomy", () => {
@@ -52,7 +118,9 @@ describe("surface taxonomy", () => {
     // nothing could render -- exactly the "list of things that do nothing" this
     // taxonomy replaced. The old checks only ran page.tsx -> taxonomy, so a
     // taxonomy entry with no panel behind it was invisible.
-    const addons = new Set(unionMembers("WorkspaceAddon"));
+    // Registry, not type union: a union member with no panel renders nothing. See
+    // registryAddonIds() for the instance this missed.
+    const addons = new Set(registryAddonIds());
     const sidebars = new Set(unionMembers("PrimaryWorkspace"));
     const orphans = SURFACE_GROUPS.flatMap((g) =>
       g.members

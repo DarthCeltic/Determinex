@@ -1,3 +1,7 @@
 node_modules/
 out/
 *.vsix
+
+# @vscode/test-electron caches a full ~320 MB VS Code here for the extension-host suite.
+# Never commit it (I did, once: 1,053 files in one `git add frontend/vscode-extension/`).
+.vscode-test/

@@ -1,17 +1,21 @@
+mod common;
+
 use rusqlite::{params, Connection};
 use serde_json::json;
-use std::{env, fs, path::PathBuf};
+use std::{fs, path::PathBuf};
 
 #[test]
 fn companion_seeded_db_supports_local_vector_query() {
-    let db_path = PathBuf::from(
-        env::var("DETERMINEX_COMPANION_QUERY_DB")
-            .expect("DETERMINEX_COMPANION_QUERY_DB must point to a seeded companion DB copy"),
-    );
-    let output_path = PathBuf::from(
-        env::var("DETERMINEX_RAG_QUERY_SMOKE_OUTPUT")
-            .expect("DETERMINEX_RAG_QUERY_SMOKE_OUTPUT must point to the result artifact"),
-    );
+    // Skip, do not panic: these inputs come from an external harness, so their absence is an
+    // unmet prerequisite rather than a failure. See tests/common/mod.rs.
+    let Some(env_values) = common::required_env(
+        "companion_seeded_db_supports_local_vector_query",
+        &["DETERMINEX_COMPANION_QUERY_DB", "DETERMINEX_RAG_QUERY_SMOKE_OUTPUT"],
+    ) else {
+        return;
+    };
+    let db_path = PathBuf::from(&env_values[0]);
+    let output_path = PathBuf::from(&env_values[1]);
 
     unsafe {
         rusqlite::ffi::sqlite3_auto_extension(Some(std::mem::transmute(

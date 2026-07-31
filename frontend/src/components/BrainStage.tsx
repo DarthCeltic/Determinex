@@ -207,12 +207,12 @@ export function BrainStage({
             </div>
             {tauriActive && cpuPct !== null ? (
               <div className="flex-1 flex flex-col gap-4 justify-center">
-                <TelemetryGauge label="CPU" value={cpuPct} max={100} color="#22d3ee" unit="%" />
+                <TelemetryGauge label="CPU" value={cpuPct} max={100} color="var(--dtx-alt-2)" unit="%" />
                 <TelemetryGauge
                   label="RAM"
                   value={ramUsedGb}
                   max={ramTotalGb}
-                  color="#a78bfa"
+                  color="var(--dtx-alt)"
                   unit="GB"
                 />
               </div>

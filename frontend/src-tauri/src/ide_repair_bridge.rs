@@ -18,6 +18,15 @@
 // against std::process::Command rather than the broader Tauri sidecar
 // machinery so the Claude lane review surface is small.
 
+// Python is resolved through `ipc_hive::resolve_python_exe()`, never `Command::new("python")`.
+//
+// That resolver exists for a specific reason: on Windows, PATH `python` is very
+// often the Microsoft Store AppExecLink stub, which does not run Python -- it opens
+// the Store. It also prefers the repo venv, so the interpreter that has the
+// project's dependencies is the one used. Ten call sites across six files bypassed
+// it and used bare `python`, which worked only on machines where PATH happened to
+// resolve to a real interpreter.
+
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use std::process::Command;
@@ -87,9 +96,14 @@ fn run_backend_command(command: &str, args_json: &str) -> IdeRepairResponse {
 
     // Spawn `python scripts/ide/_tauri_driver.py <command> <args_json>`.
     // No shell. argv only.
-    let mut cmd = Command::new("python");
-    cmd.hide_console();
-    cmd.arg(root.join(PYTHON_DRIVER));
+    // Bundled-first (see ipc_hive::helper_command): this used to build
+    // `python <root>/scripts/<name>.py`, which does not exist in an installed copy.
+    let (mut cmd, _bundled) = match crate::ipc_hive::helper_command(PYTHON_DRIVER) {
+        Ok(v) => v,
+        // This function returns IdeRepairResponse, not Result, so it reports through
+        // its own backend_missing constructor rather than `?`.
+        Err(e) => return IdeRepairResponse::backend_missing(command, &e),
+    };
     cmd.arg(command);
     cmd.arg(args_json);
     cmd.current_dir(&root);
@@ -316,6 +330,21 @@ pub fn query_corpus(query: String, mode: Option<String>) -> IdeRepairResponse {
     })
     .to_string();
     run_backend_command("query_corpus", &args)
+}
+
+// What this machine can actually do, and what it has actually spent (2026-07-30).
+//
+// Two things had no user-visible surface. The accelerator was detected only via `nvidia-smi`, so an
+// AMD or Apple rig reported CPU-only and was driven at the lowest tier -- 0 resident models, 1
+// parallel step -- while holding more memory than the top tier requires. And
+// `determinex_usage_ledger` was already referenced by passport.rs, but its latency and cost figures
+// never reached the UI, so "local is free and fast" was a claim rather than a reading.
+//
+// Read-only and pure wiring: the payload is assembled in the Python backend surface, which is where
+// hive.hardware and the ledger live. Nothing here decides anything.
+#[tauri::command]
+pub fn get_runtime_capability_status() -> IdeRepairResponse {
+    run_backend_command("get_runtime_capability_status", "{}")
 }
 
 #[tauri::command]

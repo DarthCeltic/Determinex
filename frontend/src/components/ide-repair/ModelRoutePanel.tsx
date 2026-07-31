@@ -16,6 +16,13 @@ function humanize(token: string): string {
     .join(" ");
 }
 
+/**
+ * Consumed OUTSIDE the TypeScript import graph: a Python lock test reads this
+ * array out of the source text and asserts the closed set matches the Rust side.
+ * knip cannot see that, so without this tag it reports the export as unused --
+ * and deleting it would break the lock while the type-checker stayed green.
+ * @public
+ */
 export const FRONTEND_MODEL_ROUTE_PANEL_STATUS_TOKENS = [
   "MODEL_ROUTE_PANEL_READY",
   "MODEL_ROUTE_DRY_RUN_VISIBLE",
@@ -174,5 +181,3 @@ export function ModelRoutePanel({ taskClass = "BUILD_DIAGNOSIS", initial = null 
     </section>
   );
 }
-
-export default ModelRoutePanel;

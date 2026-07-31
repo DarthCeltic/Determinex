@@ -2517,8 +2517,13 @@ class DeterminexSWEAgent:
     instance dict keys: repo, instance_id, problem_statement, base_commit, etc.
     """
 
+    #: What the most recent compile gate actually established. Never "verified" by default --
+    #: a patch produced without a gate run must not inherit a verified label.
+    last_gate_verification: str = "unverified:no_gate_run"
+
     def __init__(self) -> None:
         _load_latent_index()
+        self.last_gate_verification = "unverified:no_gate_run"
 
     def solve(
         self,
@@ -2630,7 +2635,10 @@ class DeterminexSWEAgent:
         if patch:
             try:
                 from determinex_flywheel import capture_successful_epoch
-                capture_successful_epoch(issue_text, patch, instance_id, repo_name)  # type: ignore[arg-type]
+                capture_successful_epoch(  # type: ignore[arg-type]
+                    issue_text, patch, instance_id, repo_name,
+                    verification=self.last_gate_verification,
+                )
             except ImportError:
                 log.debug("determinex_flywheel not available — skipping capture")
 
@@ -2763,10 +2771,26 @@ class DeterminexSWEAgent:
 
     # ── Compile gate ──────────────────────────────────────────────────────────
 
-    def _run_compile_check(self, repo_path: Path, repo_language: str) -> str:
+    def _run_compile_check(self, repo_path: Path, repo_language: str) -> tuple[str, bool]:
         """
         Run a compile check on repo_path, collecting ALL errors (not just first).
-        Returns empty string on success, error text on failure.
+
+        Returns (error_text, checked).
+          error_text — "" when nothing was wrong; error output when it was.
+          checked    — whether a compiler actually ran and reached a verdict.
+
+        WHY THE SECOND VALUE EXISTS
+        ---------------------------
+        This used to return a bare string, so `""` meant BOTH "compiled clean" and "could not
+        check". Seven paths returned `""` without compiling anything: no Python sources, no
+        pom/gradle, no tsconfig, no CMakeLists/Makefile, an unsupported language, any exception,
+        and -- worst -- FileNotFoundError, i.e. cargo/go/mvn not installed. On a host missing the
+        toolchain the gate reported PASS for every patch it was ever given.
+
+        That PASS is what ultimately writes `"verified": true` into auto_curriculum.jsonl, so the
+        conflation did not just mislabel a run, it fed unverified patches to the next LoRA retrain
+        -- against CLAUDE.md's "all training data must be compiler-validated before entering
+        corpus". Callers must now branch on `checked` before treating "" as success.
         """
         try:
             if repo_language == "python":
@@ -2775,14 +2799,14 @@ class DeterminexSWEAgent:
                     if not any(p in f.parts for p in {"__pycache__", "site-packages", "vendor", ".git"})
                 ][:30]
                 if not src_files:
-                    return ""
+                    return "", False   # nothing to compile is not a clean compile
                 r = subprocess.run(
                     [sys.executable, "-m", "py_compile"] + src_files,
                     capture_output=True, text=True, timeout=30, cwd=repo_path,
                 )
                 if r.returncode != 0:
-                    return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                    return _collect_all_errors(r.stdout, r.stderr), True
+                return "", True
 
             if repo_language == "go":
                 r = subprocess.run(
@@ -2790,8 +2814,8 @@ class DeterminexSWEAgent:
                     capture_output=True, text=True, timeout=90, cwd=repo_path,
                 )
                 if r.returncode != 0:
-                    return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                    return _collect_all_errors(r.stdout, r.stderr), True
+                return "", True
 
             if repo_language == "rust":
                 # cargo check is faster than cargo build and emits all type/borrow errors
@@ -2800,8 +2824,8 @@ class DeterminexSWEAgent:
                     capture_output=True, text=True, timeout=120, cwd=repo_path,
                 )
                 if r.returncode != 0:
-                    return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                    return _collect_all_errors(r.stdout, r.stderr), True
+                return "", True
 
             if repo_language == "java":
                 for build_file, cmd in [
@@ -2813,9 +2837,9 @@ class DeterminexSWEAgent:
                         r = subprocess.run(cmd, capture_output=True, text=True,
                                            timeout=120, cwd=repo_path)
                         if r.returncode != 0:
-                            return _collect_all_errors(r.stdout, r.stderr)
-                        return ""
-                return ""
+                            return _collect_all_errors(r.stdout, r.stderr), True
+                        return "", True
+                return "", False   # no recognised build file — nothing was compiled
 
             if repo_language == "typescript":
                 if (repo_path / "tsconfig.json").exists():
@@ -2824,8 +2848,9 @@ class DeterminexSWEAgent:
                         capture_output=True, text=True, timeout=90, cwd=repo_path,
                     )
                     if r.returncode != 0:
-                        return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                        return _collect_all_errors(r.stdout, r.stderr), True
+                    return "", True
+                return "", False   # no tsconfig — tsc never ran
 
             if repo_language in ("c", "cpp"):
                 build_dir = repo_path / "_determinex_build_gate"
@@ -2837,35 +2862,44 @@ class DeterminexSWEAgent:
                         r = subprocess.run(["make", "-j2", "-k"],  # -k = keep going on error
                                            cwd=build_dir, capture_output=True, text=True, timeout=120)
                         if r.returncode != 0:
-                            return _collect_all_errors(r.stdout, r.stderr)
-                    elif (repo_path / "Makefile").exists():
+                            return _collect_all_errors(r.stdout, r.stderr), True
+                        return "", True
+                    if (repo_path / "Makefile").exists():
                         r = subprocess.run(["make", "-k"],
                                            cwd=repo_path, capture_output=True, text=True, timeout=120)
                         if r.returncode != 0:
-                            return _collect_all_errors(r.stdout, r.stderr)
+                            return _collect_all_errors(r.stdout, r.stderr), True
+                        return "", True
                 finally:
                     shutil.rmtree(str(build_dir), ignore_errors=True)
-                return ""
+                return "", False   # neither CMakeLists nor Makefile — nothing was built
 
         except FileNotFoundError as e:
-            log.warning("Compile check: tool not found (%s) — skipping", e)
-            return ""
+            # The toolchain is absent. Previously "" => PASS for every patch on this host.
+            log.warning("Compile check: tool not found (%s) — NOT verified", e)
+            return "", False
         except subprocess.TimeoutExpired:
-            return "[compile check timed out]"
+            return "[compile check timed out]", True
         except Exception as e:
-            log.warning("Compile check error: %s", e)
-            return ""
+            log.warning("Compile check error: %s — NOT verified", e)
+            return "", False
 
-        return ""  # unsupported language — no check
+        return "", False  # unsupported language — no check ran
 
-    def _run_target_tests(self, repo_path: Path, repo_language: str, fail_tests: str) -> str:
+    def _run_target_tests(
+        self, repo_path: Path, repo_language: str, fail_tests: str,
+    ) -> tuple[str, bool]:
         """
         Run only the FAIL_TO_PASS tests without -x/--fail-fast so ALL failures are collected.
-        Returns empty string on pass, error text on failure.
+
+        Returns (error_text, ran) -- same reasoning as _run_compile_check: `""` alone could not
+        distinguish "every target test passed" from "no test was executed". Four paths returned
+        it without running anything: no FAIL_TO_PASS ids, no recognised Java build file, an
+        absent test runner (FileNotFoundError), and an unsupported language.
         """
         test_ids = [t.strip() for t in fail_tests.splitlines() if t.strip()][:10]
         if not test_ids:
-            return ""
+            return "", False   # no FAIL_TO_PASS ids given — no test ran
 
         try:
             if repo_language == "python":
@@ -2874,8 +2908,8 @@ class DeterminexSWEAgent:
                     capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
                 )
                 if r.returncode != 0:
-                    return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                    return _collect_all_errors(r.stdout, r.stderr), True
+                return "", True
 
             if repo_language == "go":
                 pattern = "|".join(
@@ -2886,8 +2920,8 @@ class DeterminexSWEAgent:
                     capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
                 )
                 if r.returncode != 0:
-                    return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                    return _collect_all_errors(r.stdout, r.stderr), True
+                return "", True
 
             if repo_language == "rust":
                 names = [t.split("::")[-1] for t in test_ids]
@@ -2896,8 +2930,8 @@ class DeterminexSWEAgent:
                     capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
                 )
                 if r.returncode != 0:
-                    return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                    return _collect_all_errors(r.stdout, r.stderr), True
+                return "", True
 
             if repo_language == "java":
                 test_class = ",".join(t.split("::")[-1] for t in test_ids)
@@ -2912,9 +2946,9 @@ class DeterminexSWEAgent:
                         r = subprocess.run(cmd, capture_output=True, text=True,
                                            timeout=TEST_TIMEOUT, cwd=repo_path)
                         if r.returncode != 0:
-                            return _collect_all_errors(r.stdout, r.stderr)
-                        return ""
-                return ""
+                            return _collect_all_errors(r.stdout, r.stderr), True
+                        return "", True
+                return "", False   # no recognised build file — no test ran
 
             if repo_language in ("javascript", "typescript"):
                 r = subprocess.run(
@@ -2922,8 +2956,8 @@ class DeterminexSWEAgent:
                     capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
                 )
                 if r.returncode != 0:
-                    return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                    return _collect_all_errors(r.stdout, r.stderr), True
+                return "", True
 
             if repo_language == "ruby":
                 # SWE-bench Ruby IDs: path/to/test_file.rb or Class#method
@@ -2938,8 +2972,8 @@ class DeterminexSWEAgent:
                 r = subprocess.run(cmd, capture_output=True, text=True,
                                    timeout=TEST_TIMEOUT, cwd=repo_path)
                 if r.returncode != 0:
-                    return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                    return _collect_all_errors(r.stdout, r.stderr), True
+                return "", True
 
             if repo_language == "php":
                 # Prefer phpunit from vendor (Composer-managed)
@@ -2952,17 +2986,17 @@ class DeterminexSWEAgent:
                     capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
                 )
                 if r.returncode != 0:
-                    return _collect_all_errors(r.stdout, r.stderr)
-                return ""
+                    return _collect_all_errors(r.stdout, r.stderr), True
+                return "", True
 
         except FileNotFoundError:
-            return ""
+            return "", False   # test runner absent — nothing was verified
         except subprocess.TimeoutExpired:
-            return "[target tests timed out]"
+            return "[target tests timed out]", True
         except Exception as e:
-            return f"[test run error] {e}"
+            return f"[test run error] {e}", True
 
-        return ""
+        return "", False  # unsupported language — no test ran
 
     def _compile_gate(
         self,
@@ -2982,6 +3016,8 @@ class DeterminexSWEAgent:
         """
         wt: Optional[Path] = None
         label = f"gate_{repo_path.name[:12]}_{os.getpid()}_{threading.get_ident()}"
+        # Reset per run: a previous instance's "compiled+tested" must never carry over.
+        self.last_gate_verification = "unverified:no_gate_run"
 
         try:
             wt = _create_worktree(repo_path, label)
@@ -3001,7 +3037,7 @@ class DeterminexSWEAgent:
             # the error is pre-existing (e.g. a dep incompatibility in the env).
             # Apply the patch anyway and accept it — we cannot penalise the patch
             # for a dependency bug we can't control.
-            baseline_err = self._run_compile_check(wt, repo_language)
+            baseline_err, baseline_checked = self._run_compile_check(wt, repo_language)
             if baseline_err:
                 log.warning(
                     "Compile gate: baseline compile FAILED before patch — "
@@ -3013,7 +3049,18 @@ class DeterminexSWEAgent:
                     input=patch_to_apply, text=True, cwd=wt,
                     capture_output=True, timeout=30,
                 )
+                # PASS so the run continues -- we cannot penalise a patch for a dependency bug
+                # we do not control -- but the patch itself was never compiled, so this is not
+                # verification and must not be recorded as such.
+                self.last_gate_verification = "unverified:baseline_compile_failed"
                 return True, ""
+            if not baseline_checked:
+                # No compiler ran on the clean tree (absent toolchain, unsupported language, no
+                # build file). Nothing downstream can be called compiler-validated.
+                log.warning(
+                    "Compile gate: no compile check available for %s — patch will be "
+                    "UNVERIFIED, not compiler-validated", repo_language,
+                )
 
             # Apply patch
             apply_r = subprocess.run(
@@ -3030,26 +3077,39 @@ class DeterminexSWEAgent:
             log.info("Compile gate: patch applied cleanly")
 
             # Post-patch compile — only errors introduced by the patch reach here
-            compile_err = self._run_compile_check(wt, repo_language)
+            compile_err, compile_checked = self._run_compile_check(wt, repo_language)
             if compile_err:
                 log.warning("Compile gate: COMPILE FAIL:\n%s", compile_err[:400])
                 safe = cloak_ctx.obfuscate_text(compile_err) if cloak_ctx else compile_err
                 return False, f"[COMPILE ERRORS]\n{safe}"
 
-            log.info("Compile gate: compile PASS")
+            if compile_checked:
+                log.info("Compile gate: compile PASS")
 
             # Target test run — collect ALL failures
             # Respect SKIP_NATIVE_TESTS: on Windows/Docker-eval mode the Docker
             # harness is the test oracle; compile-only is still valuable here.
+            tests_ran = False
             if not SKIP_NATIVE_TESTS:
-                test_err = self._run_target_tests(wt, repo_language, fail_tests)
+                test_err, tests_ran = self._run_target_tests(wt, repo_language, fail_tests)
                 if test_err:
                     safe = cloak_ctx.obfuscate_text(test_err) if cloak_ctx else test_err
                     return False, f"[TEST FAILURES]\n{safe}"
 
+            # Record WHAT was established, so the flywheel is not free to call any PASS
+            # "verified". Compile-only still satisfies CLAUDE.md's compiler-validated bar;
+            # nothing-compiled does not.
+            if compile_checked and tests_ran:
+                self.last_gate_verification = "compiled+tested"
+            elif compile_checked:
+                self.last_gate_verification = "compiled_only"
+            else:
+                self.last_gate_verification = "unverified:no_compile_check"
+
             return True, ""
 
         except Exception as e:
+            self.last_gate_verification = "unverified:gate_exception"
             return False, f"[compile gate exception] {e}"
         finally:
             if wt:

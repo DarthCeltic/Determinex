@@ -295,4 +295,4 @@ Edit `windows_literacy_tasks.py`. Follow the schema:
 
 ---
 
-*Determinex Windows Eval Playbook · Ryan Gurganious · Lunarian Data Systems · May 2026*
+*Determinex Windows Eval Playbook · Ryan Gurganious · May 2026*

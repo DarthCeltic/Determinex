@@ -30,7 +30,7 @@ By opting in you represent and agree that:
 - **You have the right to share this code.** It is your own work, or it is under a
   license that permits this use, and sharing it does not violate any employer/NDA/
   third-party obligation. *Do not contribute code you are not authorized to share.*
-- **You grant** Lunarian Data Systems a non-exclusive, worldwide, royalty-free
+- **You grant** Ryan Gurganious a non-exclusive, worldwide, royalty-free
   license to use the contributed (obfuscated) material to train, evaluate, and improve
   Determinex models, and to redistribute the resulting models.
 - **You understand** contributions are re-verified and may be dropped, deduplicated,

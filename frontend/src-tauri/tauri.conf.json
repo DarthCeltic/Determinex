@@ -26,9 +26,18 @@
       "csp": "default-src 'self' tauri: asset: https://asset.localhost; connect-src 'self' http://localhost:* http://127.0.0.1:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: asset: tauri: https://asset.localhost; font-src 'self' data:"
     }
   },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/DarthCeltic/Determinex/releases/latest/download/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDlBNkI4MzlCRTc5QzU0NzAKUldSd1ZKem5tNE5ybXNyc2h5NmlsRjZ2WjY0T25UV0MyWVF2WmVFTThDTWEwckxyeS9XL2ZRWmUK"
+    }
+  },
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -42,20 +51,24 @@
       "../../Modelfile.engineer",
       "../../Modelfile.observer",
       "../../Modelfile.leviathan",
-      "resources/vc_redist.x64.exe"
+      "LICENSE",
+      "vcruntime140.dll",
+      "vcruntime140_1.dll",
+      "msvcp140.dll",
+      "msvcp140_1.dll",
+      "msvcp140_2.dll",
+      "concrt140.dll"
     ],
     "externalBin": [
       "bin/determinex-hive"
     ],
     "windows": {
       "wix": {
-        "language": "en-US",
-        "fragmentPaths": ["windows/vc_redist.wxs"]
+        "language": "en-US"
       },
       "nsis": {
         "installerIcon": "icons/icon.ico",
-        "displayLanguageSelector": false,
-        "installerHooks": "installer-hooks.nsh"
+        "displayLanguageSelector": false
       }
     },
     "shortDescription": "Proof-governed local-first AI coding workbench",

@@ -10,6 +10,13 @@ import { IdeRepairResponse, invokeIdeCommand } from "@/lib/ide-repair-api";
 /** One file the repair engine proposes changing. Source stays untouched. */
 type ProposedFile = { path: string; original_content: string; proposed_content: string };
 
+/**
+ * Consumed OUTSIDE the TypeScript import graph: a Python lock test reads this
+ * array out of the source text and asserts the closed set matches the Rust side.
+ * knip cannot see that, so without this tag it reports the export as unused --
+ * and deleting it would break the lock while the type-checker stayed green.
+ * @public
+ */
 export const DIAGNOSE_PATCH_PLAN_STATUS_TOKENS = [
   "FRONTEND_DIAGNOSE_DRY_RUN_READY",
   "FRONTEND_LIVE_DIAGNOSE_OPT_IN_REQUIRED",
@@ -195,5 +202,3 @@ export function DiagnoseAndPatchPlanPanel({ workspacePath, taskClass = "BUILD_DI
     </section>
   );
 }
-
-export default DiagnoseAndPatchPlanPanel;

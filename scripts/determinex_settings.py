@@ -50,6 +50,27 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 _REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
+_warned_dead_overrides: set[str] = set()
+
+
+def _warn_dead_override(env_var: str, p: Path) -> None:
+    """Say once, on stderr, that an env-var path override does not exist.
+
+    Deduplicated per variable: these properties are read repeatedly (the settings
+    object is a cached singleton but individual properties re-resolve), and a
+    warning repeated fifty times per run trains people to ignore it.
+    """
+    if env_var in _warned_dead_overrides:
+        return
+    _warned_dead_overrides.add(env_var)
+    print(
+        f"[determinex_settings] WARNING: {env_var}={p} does not exist. "
+        f"Every consumer of this setting will see an empty/missing directory. "
+        f"Fix the value in .env or unset it to use the built-in default.",
+        file=sys.stderr,
+    )
+
+
 def _resolve_path(
     env_var: str,
     t_default: str,
@@ -67,7 +88,24 @@ def _resolve_path(
     """
     raw = os.environ.get(env_var, "").strip()
     if raw:
-        return Path(raw)
+        p = Path(raw)
+        # An env override that points at nothing is returned anyway -- an operator
+        # may legitimately be naming a directory that does not exist yet, and
+        # silently redirecting them somewhere else would be worse. But it must not
+        # be SILENT: the override short-circuits before the local_fallback branch
+        # below, so a stale value defeats this function's own documented promise
+        # that "no T:/ is required for correctness when a local fallback is
+        # available" and hands every consumer an empty directory instead.
+        #
+        # Found live 2026-07-28: .env carried DETERMINEX_CORPUS_ROOT=T:/citadel_corpus
+        # from before the rename. T:/determinex_corpus exists and is populated,
+        # T:/citadel_corpus does not exist at all, and every reader of
+        # settings.corpus_root was quietly pointed at the dead path. This is the
+        # same split-brain that corpus_wiring_census.py records as "healed
+        # 2026-07-18" -- healed in the data, but not in the pointer.
+        if not p.exists():
+            _warn_dead_override(env_var, p)
+        return p
 
     t_path = Path(t_default)
 

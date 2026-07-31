@@ -3,7 +3,7 @@ title: "FILING_READINESS — Provisional Patent Application Checklist"
 status: NOT READY — STAGING
 date: 2026-06-10
 inventor: Ryan Gurganious
-assignee: Lunarian Data Systems (Pending Registration)
+assignee: Ryan Gurganious (Pending Registration)
 warning: >
   DO NOT change PATENT_FILED status anywhere in this repository until a provisional
   application number has been assigned by the USPTO. This document is a staging
@@ -28,7 +28,7 @@ Attorney engagement is required before filing.
 | **Rosetta Stone** (Latent Bridge) | ~20 | 2 at risk (broad), 2 needing narrowing, 3 likely novel | HIGH |
 | **Compiler Oracle / Eval-in-Loop** | ~12 | 1 at risk (broad), 1 needing narrowing, 2 likely novel | MEDIUM |
 | **Latent RAG + Task-Vector Routing** (Phase 3) | ~8 | 2 at risk (broad), 1 needing narrowing, 2 likely novel | MEDIUM |
-| **Lunarian Node** (Fleet Signal Aggregation) | ~19 | 0 at risk, 1 needing narrowing (NARROW-04), 5 likely novel (NOVEL-10–14; NOVEL-14 needs triage) | HIGH — file before announce |
+| **Determinex Node** (Fleet Signal Aggregation) | ~19 | 0 at risk, 1 needing narrowing (NARROW-04), 5 likely novel (NOVEL-10–14; NOVEL-14 needs triage) | HIGH — file before announce |
 
 For full claim triage, see:
 - [`claim_charts/claims_at_risk.md`](claim_charts/claims_at_risk.md)
@@ -54,7 +54,7 @@ For full claim triage, see:
 | A9 | Benchmark validation results (ProgramBench) | **NEEDS REDO** — historical "47 locks" claim invalidated 2026-06-30 by provenance audit (counted upstream source builds, not reimplementations; honest count is 0/200 legitimate). Do not cite the old figure in any filing. | `corpus/programbench/eval_index.json`, `docs/papers/PROGRAMBENCH.md` correction banner |
 | A10 | Rosetta Stone validation results (5 architecture pairs) | DONE | WHITE_PAPER.md §3.4 (Table) |
 | A11 | Cloak zero-leakage audit pass | DONE | `logs/swebench/clean_ablation/SUMMARY_clean.md` |
-| A12 | Lunarian Node v0 fleet architecture documented | DONE | `docs/papers/LUNARIAN_NODE.md` — provisional written-description material; all [NEW] mechanisms design-only, post-announce build |
+| A12 | Determinex Node v0 fleet architecture documented | DONE | `docs/papers/DETERMINEX_NODE.md` — provisional written-description material; all [NEW] mechanisms design-only, post-announce build |
 
 ### B. Prior Art Analysis
 
@@ -78,7 +78,7 @@ For full claim triage, see:
 |---|---|---|---|
 | C1 | Patent attorney engaged | NOT DONE | Required. No provisional can be filed without attorney review. |
 | C2 | Inventor disclosure meeting scheduled | NOT DONE | Ryan Gurganious + attorney walkthrough of architecture |
-| C3 | Assignment agreement drafted | NOT DONE | Lunarian Data Systems (pending registration) |
+| C3 | Assignment agreement drafted | NOT DONE | Ryan Gurganious (pending registration) |
 | C4 | Entity status determination (micro/small entity) | NOT DONE | Affects filing fees |
 | C5 | NDA with attorney for confidential source code review | NOT DONE | Attorney will need access to scripts/determinex_cloak/ |
 
@@ -106,8 +106,8 @@ For full claim triage, see:
 
 | # | Item | Status | Notes |
 |---|---|---|---|
-| E1 | Lunarian Data Systems registration | PENDING | "Pending Registration" as of this document |
-| E2 | GitHub repository public disclosure date confirmed | **CONFIRMED — PRIVATE** | `lunariandatasystems-cmd/determinex` verified private as of 2026-06-11 (screenshot). "You don't have any public repositories yet." No grace-period clock is running. PCT is not barred. |
+| E1 | Ryan Gurganious registration | PENDING | "Pending Registration" as of this document |
+| E2 | GitHub repository public disclosure date confirmed | **CONFIRMED — PRIVATE** | `DarthCeltic/determinex` verified private as of 2026-06-11 (screenshot). "You don't have any public repositories yet." No grace-period clock is running. PCT is not barred. |
 | E3 | Earliest public disclosure date established | **CONFIRMED — NO DISCLOSURE** | Repo is private. No public disclosure of any kind has been made. Filing can occur without grace-period constraint. |
 | E4 | PATENT\_FILED status in CLAUDE.md set to `true` | NOT DONE — DO NOT DO UNTIL USPTO NUMBER ASSIGNED | |
 
@@ -131,7 +131,7 @@ For full claim triage, see:
 
 ### Grace Period Note (35 USC 102(b))
 
-**CLEARED 2026-06-11**: The GitHub repository (`lunariandatasystems-cmd/determinex`) is confirmed private. No public disclosure by the inventor has occurred. The 35 USC 102(b)(1)(A) grace period clock has not started. Filing timing is at the inventor's discretion with no urgency from self-disclosure. Non-US filing (PCT/EPO) is not barred by any prior inventor disclosure.
+**CLEARED 2026-06-11**: The GitHub repository (`DarthCeltic/determinex`) is confirmed private. No public disclosure by the inventor has occurred. The 35 USC 102(b)(1)(A) grace period clock has not started. Filing timing is at the inventor's discretion with no urgency from self-disclosure. Non-US filing (PCT/EPO) is not barred by any prior inventor disclosure.
 
 ---
 

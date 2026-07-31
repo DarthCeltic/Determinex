@@ -85,6 +85,10 @@ class ScanReport:
             "critical_count": self.critical_count,
             "high_count": self.high_count,
             "blocked": self.blocked,
+            # Serialised so the artifact can explain ITSELF. `blocked: true` with
+            # every count at 0 is otherwise unreadable: a consumer cannot tell
+            # "scanned clean but blocked for another reason" from "never scanned".
+            "scan_error": self.scan_error,
             "vulnerability_count": len(self.vulnerabilities),
             "vulnerabilities": [
                 {
@@ -168,6 +172,57 @@ def scan_with_pip_audit() -> ScanReport | None:
         return None
 
 
+def _merge_over_previous(new: dict, out: Path) -> dict:
+    """Never let a scan that COULD NOT RUN erase the findings of one that did.
+
+    Found live 2026-07-28: the 2026-07-23 artifact recorded a real pip-audit run
+    -- 383 packages, 5 HIGH CVEs, each enumerated. A later run on a machine whose
+    venv has no `pip_audit` module overwrote all of it with zeros and an empty
+    vulnerability list. `blocked: true` was preserved (the ScanReport.blocked
+    property already handles scan_error correctly), so it was not a silent PASS
+    -- but the evidence of 5 known HIGH vulnerabilities was gone from the file,
+    destroyed by a run that scanned nothing.
+
+    Same protection, and the same reasoning, as the ProgramBench eval path's
+    `_persist_best`: a starved or failed re-run must not clobber a good result.
+
+    The previous findings are kept, `blocked` is forced true (a stale record must
+    never read as current clearance -- if the old scan was clean, "clean 5 days
+    ago and unscannable now" is not a pass), and the failed attempt is recorded
+    explicitly rather than silently dropped.
+    """
+    if not new.get("scan_error"):
+        return new                      # a real scan; it is the new truth
+    try:
+        prev = json.loads(out.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return new                      # nothing to preserve
+    # The discriminator is the SCANNER, not scan_error. A record this function
+    # already preserved carries both a real scanner name AND a scan_error (the
+    # error from the attempt that failed against it), so testing scan_error here
+    # made the protection survive exactly ONE failed run and then throw the
+    # findings away on the second. Found by running security_gate.py after the
+    # first version of this fix was already committed and its own tests green:
+    # the unit test for repeated failures used a bare failure as the previous
+    # record rather than a preserved-stale one, so it could not see this.
+    if prev.get("scanner", "none") == "none":
+        return new                      # nothing was ever really scanned
+    merged = dict(prev)
+    merged["blocked"] = True
+    merged["stale"] = True
+    merged["scan_error"] = new["scan_error"]
+    merged["last_attempt_timestamp"] = new["timestamp"]
+    # `timestamp` keeps naming when the findings below were actually observed, so
+    # nothing reads them as fresher than they are.
+    log.error(
+        "[dependency_scan] scanner unavailable -- KEEPING the %s findings from %s "
+        "(%d critical, %d high) rather than overwriting them with zeros",
+        prev.get("scanner"), prev.get("timestamp"),
+        prev.get("critical_count", 0), prev.get("high_count", 0),
+    )
+    return merged
+
+
 def run(output_path: Path | None = None) -> ScanReport:
     import datetime
 
@@ -182,7 +237,8 @@ def run(output_path: Path | None = None) -> ScanReport:
 
     out = output_path or _SCAN_OUTPUT
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(report.to_dict(), indent=2), encoding="utf-8")
+    payload = _merge_over_previous(report.to_dict(), out)
+    out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     if report.blocked:
         log.error("[dependency_scan] BLOCKED: %d critical, %d high severity CVEs",

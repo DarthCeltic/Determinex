@@ -46,12 +46,12 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
       const term = new Terminal({
         cursorBlink: true,
         convertEol: true,
-        fontFamily: '"JetBrains Mono", "Cascadia Mono", Consolas, monospace',
+        fontFamily: "var(--determinex-font-mono)",
         fontSize: 12,
         lineHeight: 1.18,
         scrollback: 8000,
         theme: {
-          background: "#010409",
+          background: "var(--dtx-code-bg-deep)",
           foreground: "#e6edf3",
           cursor: "#00ffcc",
           selectionBackground: "#12343b",
@@ -181,7 +181,7 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
   return (
     <div
       className="flex h-full min-h-0 flex-col overflow-hidden"
-      style={{ background: "#010409", fontFamily: '"JetBrains Mono", monospace' }}
+      style={{ background: "var(--dtx-code-bg-deep)", fontFamily: "var(--determinex-font-mono)" }}
     >
       <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-white/8 bg-black/60 px-4 py-2">
         <span className="text-label font-mono text-gray-500">

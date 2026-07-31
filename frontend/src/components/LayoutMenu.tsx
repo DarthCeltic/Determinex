@@ -85,9 +85,9 @@ export function LayoutMenu() {
       {open && (
         <div
           data-testid="layout-menu"
-          className="absolute bottom-full left-0 mb-2 w-72 overflow-hidden rounded-xl border border-[#30363d] bg-[#0d1117] shadow-2xl"
+          className="absolute bottom-full left-0 mb-2 w-72 overflow-hidden rounded-xl border border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] shadow-2xl"
         >
-          <div className="border-b border-[#30363d] px-3 py-2 text-eyebrow font-black uppercase tracking-widest text-gray-500">
+          <div className="border-b border-[var(--dtx-code-border)] px-3 py-2 text-eyebrow font-black uppercase tracking-widest text-gray-500">
             Panel layouts
           </div>
 
@@ -95,7 +95,7 @@ export function LayoutMenu() {
               user changes it -- shipped without a picker in the first pass, which
               knip found as an unused DENSITY_LABELS export. A setting with no way
               to reach it is the same defect as a button that does nothing. */}
-          <div className="border-b border-[#30363d] p-2">
+          <div className="border-b border-[var(--dtx-code-border)] p-2">
             <div className="mb-1.5 text-eyebrow font-black uppercase tracking-widest text-gray-600">
               Text size
             </div>
@@ -143,7 +143,7 @@ export function LayoutMenu() {
               layouts.map((l) => (
                 <div
                   key={l.name}
-                  className="flex items-center gap-1 border-b border-[#30363d]/50 px-2 py-1.5 last:border-0"
+                  className="flex items-center gap-1 border-b border-[var(--dtx-code-border)]/50 px-2 py-1.5 last:border-0"
                 >
                   <button
                     type="button"
@@ -177,7 +177,7 @@ export function LayoutMenu() {
           </div>
 
           {naming ? (
-            <div className="flex items-center gap-1.5 border-t border-[#30363d] p-2">
+            <div className="flex items-center gap-1.5 border-t border-[var(--dtx-code-border)] p-2">
               <input
                 autoFocus
                 value={name}
@@ -187,7 +187,7 @@ export function LayoutMenu() {
                 }}
                 placeholder="Layout name"
                 aria-label="Layout name"
-                className="min-w-0 flex-1 rounded border border-[#30363d] bg-black/40 px-2 py-1 text-label text-gray-200 outline-none focus:border-[var(--determinex-accent)]"
+                className="min-w-0 flex-1 rounded border border-[var(--dtx-code-border)] bg-black/40 px-2 py-1 text-label text-gray-200 outline-none focus:border-[var(--determinex-accent)]"
               />
               <button
                 type="button"
@@ -198,7 +198,7 @@ export function LayoutMenu() {
               </button>
             </div>
           ) : (
-            <div className="flex border-t border-[#30363d]">
+            <div className="flex border-t border-[var(--dtx-code-border)]">
               <button
                 type="button"
                 onClick={() => setNaming(true)}
@@ -215,7 +215,7 @@ export function LayoutMenu() {
                   setNote("Reset to defaults.");
                 }}
                 title="Clear every panel size back to the built-in defaults"
-                className="flex items-center justify-center gap-1.5 border-l border-[#30363d] px-2.5 py-2 text-eyebrow font-bold uppercase tracking-widest text-gray-500 transition-colors hover:bg-white/[0.04] hover:text-gray-200"
+                className="flex items-center justify-center gap-1.5 border-l border-[var(--dtx-code-border)] px-2.5 py-2 text-eyebrow font-bold uppercase tracking-widest text-gray-500 transition-colors hover:bg-white/[0.04] hover:text-gray-200"
               >
                 <RotateCcw size={10} /> Reset
               </button>
@@ -223,7 +223,7 @@ export function LayoutMenu() {
           )}
 
           {note && (
-            <p className="border-t border-[#30363d] px-3 py-1.5 text-eyebrow text-emerald-300/80">
+            <p className="border-t border-[var(--dtx-code-border)] px-3 py-1.5 text-eyebrow text-emerald-300/80">
               {note}
             </p>
           )}

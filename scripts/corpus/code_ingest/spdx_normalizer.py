@@ -51,15 +51,25 @@ _NORMALIZATIONS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"\bunlicense\b", re.I), "Unlicense"),
     # CC0
     (re.compile(r"cc0|creative.commons.zero|public.domain", re.I), "CC0-1.0"),
-    # GPL — handle both "v2"/"v3" and "version 2"/"version 3" forms
-    (re.compile(r"(?:gnu.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?3)|(?:gpl.{0,5}v?3)|gplv3|gpl-3", re.I), "GPL-3.0-only"),
-    (re.compile(r"(?:gnu.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2)|(?:gpl.{0,5}v?2)|gplv2|gpl-2", re.I), "GPL-2.0-only"),
+    # AGPL and LGPL are matched BEFORE plain GPL, and the GPL patterns below
+    # are tempered so they cannot span the words "affero"/"lesser".
+    #
+    # Both, deliberately. Ordering alone is one careless reorder away from a
+    # silent regression, and the tempered pattern alone would still leave the
+    # more-specific rule second. Found live 2026-07-28: `gnu.{0,20}general`
+    # happily spans " Affero " (8 chars), so the repo's own AGPL-3.0-or-later
+    # LICENSE was classified GPL-3.0-only -- a RED-bucket id -- which blocked
+    # security_gate.py on Determinex's own correctly-licensed LICENSE file.
+    # " Lesser " is the same length, so every LGPL text was misread too.
     # AGPL
     (re.compile(r"affero.{0,20}general.{0,20}public|agpl.{0,5}v?3", re.I), "AGPL-3.0-only"),
     # LGPL — handle both "v2.1" and "version 2.1" forms; check 2.1 before 2.0
     (re.compile(r"(?:lesser.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?3)|(?:lgpl.{0,5}v?3)|lgplv3|lgpl-3", re.I), "LGPL-3.0-only"),
     (re.compile(r"(?:lesser.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2\.1)|(?:lgpl.{0,5}v?2\.1)|lgpl-2\.1", re.I), "LGPL-2.1-only"),
     (re.compile(r"(?:lesser.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2(?!\.1))|(?:lgpl.{0,5}v?2(?!\.1))|lgplv2(?!\.1)|lgpl-2(?!\.)", re.I), "LGPL-2.0-only"),
+    # GPL — handle both "v2"/"v3" and "version 2"/"version 3" forms
+    (re.compile(r"(?:gnu(?:(?!affero|lesser).){0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?3)|(?<![a-z])(?:gpl.{0,5}v?3|gplv3|gpl-3)", re.I), "GPL-3.0-only"),
+    (re.compile(r"(?:gnu(?:(?!affero|lesser).){0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2)|(?<![a-z])(?:gpl.{0,5}v?2|gplv2|gpl-2)", re.I), "GPL-2.0-only"),
     # MPL
     (re.compile(r"mozilla.{0,20}public.{0,20}license.{0,10}2|mpl.{0,5}2", re.I), "MPL-2.0"),
     # EPL
@@ -103,9 +113,42 @@ def normalize(raw: str) -> str | None:
     # Try normalizations
     for pattern, spdx_id in _NORMALIZATIONS:
         if pattern.search(normalized):
-            return spdx_id
+            return _apply_or_later(spdx_id, normalized)
 
     return None
+
+
+# "either version N of the License, or (at your option) any later version" is the
+# FSF's standard grant, and it is the difference between `-only` and `-or-later`
+# -- two distinct SPDX identifiers with different obligations. Nothing detected it,
+# so every GNU-family license normalised to `-only` even though the `-or-later`
+# ids are in the allowed set above. Determinex's own LICENSE carries this grant.
+_OR_LATER = re.compile(
+    r"(?:any\s+later\s+version)|(?:or\s+\(?at\s+your\s+option\)?\s+any\s+later)"
+    r"|(?:either\s+version\s+[\d.]+\s+of\s+the\s+licen[cs]e,?\s+or)",
+    re.I,
+)
+
+# Only the GNU family expresses the "or later" choice this way.
+_OR_LATER_ELIGIBLE = frozenset({
+    "GPL-2.0-only", "GPL-3.0-only",
+    "AGPL-3.0-only",
+    "LGPL-2.0-only", "LGPL-2.1-only", "LGPL-3.0-only",
+})
+
+
+def _apply_or_later(spdx_id: str, normalized: str) -> str:
+    """Upgrade a `-only` GNU identifier to `-or-later` when the text grants it."""
+    if spdx_id in _OR_LATER_ELIGIBLE and _OR_LATER.search(normalized):
+        candidate = spdx_id.replace("-only", "-or-later")
+        # Never emit an identifier no bucket knows: bucket() would return
+        # "unknown", which is a WEAKER signal than the correct `-only` answer.
+        # LGPL-2.0-or-later is exactly such a case here -- it appears in no
+        # bucket, so that upgrade is declined rather than silently downgrading
+        # a red-bucket license to unknown.
+        if candidate in (GREEN_LICENSES | YELLOW_LICENSES | RED_LICENSES):
+            return candidate
+    return spdx_id
 
 
 def bucket(spdx_id: str | None) -> str:
