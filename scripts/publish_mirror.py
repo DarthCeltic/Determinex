@@ -242,7 +242,11 @@ def collect(allowlist: list[str], allow_new: bool) -> tuple[list[str], list[str]
     skipped: list[str] = []
     for entry in allowlist:
         top = entry.split("/", 1)[0]
-        if top in NEVER and not entry.replace("\\", "/").startswith(NEVER_EXCEPT):
+        # rstrip the slash on BOTH sides: the exception is written "logs/eval_results/" but
+        # the allowlist entry is the bare directory "logs/eval_results", so a naive
+        # startswith says no and the exception silently does nothing.
+        _entry = entry.replace("\\", "/").rstrip("/")
+        if top in NEVER and not _entry.startswith(tuple(e.rstrip("/") for e in NEVER_EXCEPT)):
             skipped.append(f"{entry} (on the never-copy list)")
             continue
         if not (REPO / entry).exists():
