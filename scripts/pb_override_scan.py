@@ -156,7 +156,21 @@ def main() -> None:
     eval_only = "--eval-only" in sys.argv
     guard_mode = "--guard" in sys.argv
 
-    # Load board to know which tools are locked
+    # Load board to know which tools are locked.
+    #
+    # A raw FileNotFoundError traceback here is the worst available outcome: it fails the
+    # job (correct) while telling the reader nothing about WHY (not correct), and it looks
+    # identical to the scanner crashing. Seen live in CI as
+    # `FileNotFoundError: [Errno 2] No such file or directory:
+    # 'logs/programbench_lock_board.json'` with a six-frame pathlib traceback above it.
+    # This guard exists to stop a locked tool's compile.sh from suppressing test
+    # collection; if it cannot read the board it is enforcing nothing, and it should say so
+    # in one line.
+    if not BOARD_PATH.is_file():
+        print(f"GUARD CANNOT RUN: {BOARD_PATH} is missing, so no tool's lock status is "
+              f"known and no compile.sh can be checked against it. This is not a pass.",
+              file=sys.stderr)
+        sys.exit(1)
     board = json.loads(BOARD_PATH.read_text(encoding="utf-8"))
     locked_slugs = {e["base_slug"] for e in board if e.get("locked_archive")}
     # Only tools claiming official_full_suite_resolved=True are subject to the

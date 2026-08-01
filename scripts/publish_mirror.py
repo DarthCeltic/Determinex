@@ -104,7 +104,14 @@ CORPUS_BULK_FILES: tuple[str, ...] = ()
 # logs/eval_results/eval_determinex-engineer-v10-dsl_20260415_233437.json"). A claim whose
 # evidence is unreachable is a claim on trust. 1.8 MB, scanned, no credentials and no
 # personal paths.
-NEVER_EXCEPT = ("logs/eval_results/",)
+NEVER_EXCEPT = (
+    "logs/eval_results/",
+    # The ProgramBench lock board, 210 entries, tracked, no credentials. Withholding it made
+    # the Governance Gates job die on `FileNotFoundError: logs/programbench_lock_board.json`
+    # -- the override scan is a gate against a locked tool's compile.sh suppressing test
+    # collection, and a gate that cannot read its input is not enforcing anything.
+    "logs/programbench_lock_board.json",
+)
 
 NEVER = {
     ".env",
