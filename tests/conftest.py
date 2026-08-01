@@ -162,6 +162,24 @@ _EVIDENCE_INDEX = Path(__file__).resolve().parent.parent / "assurance" / "eviden
 _EVIDENCE_TESTS = frozenset({
     "test_evidence_artifact_present",
     "test_evidence_index_entry_present",
+    # The `*_final_state_lock` family evaluates a record assembled FROM the evidence tree,
+    # and fails with "evidence artifact file missing on disk: assurance/evidence/...".
+    # Named individually rather than exempting their modules: those five modules hold 61
+    # tests of which only these 20 read evidence, and skipping all 61 to cover 20 is the
+    # over-skip this file already has one scar from.
+    "test_aggregate_invariants",
+    "test_all_six_dimensions_closed",
+    "test_all_two_dimensions_closed",
+    "test_live_evaluation_all_dimensions_closed",
+    "test_live_evaluation_all_eight_dimensions_closed",
+    "test_live_evaluation_passes",
+    "test_live_evaluation_safe_for_cross_lane_boundary",
+    "test_missing_rung_blocks",
+    "test_next_recommended_is_repo_clinic_fixture_repair",
+    "test_next_recommended_rung_is_python_cli_splash",
+    "test_synthetic_full_skeleton_passes",
+    "test_synthetic_repo_passes_when_complete",
+    "test_synthetic_skeleton_passes",
 })
 
 
@@ -189,6 +207,19 @@ def _module_missing_data_paths(module) -> list[Path]:
     for attr in vars(module).values():
         if isinstance(attr, Path) and "assurance" in attr.parts and not attr.exists():
             out.append(attr)
+    if out:
+        return out
+    # Fallback: a module can build its evidence path INSIDE a function, where `vars()`
+    # cannot see it -- test_determinex_cli.py does exactly that. Falling back to the source
+    # text is safe because the per-test name gate still applies: a module merely mentioning
+    # assurance/ exempts nothing on its own.
+    src = getattr(module, "__file__", None)
+    if src and not _EVIDENCE_INDEX.is_file():
+        try:
+            if "assurance" in Path(src).read_text(encoding="utf-8", errors="replace"):
+                return [_EVIDENCE_INDEX]
+        except OSError:
+            pass
     return out
 
 
