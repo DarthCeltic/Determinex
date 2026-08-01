@@ -780,6 +780,50 @@
         "suite_tests_the_parts_never_the_product"
       ],
       "status": "Fixed in place. OPEN: no automated detector for the class."
+    },
+    "guard_shadowed_by_an_earlier_branch": {
+      "detect": "An if/elif chain where a later branch holds the real logic and an earlier branch's condition is a superset of it. Tell: a well-documented function with a clear docstring that no test exercises end to end, plus a config constant added later whose membership silently satisfies the earlier branch.",
+      "symptom": "The documented behaviour never happens and NOTHING fails. `publish_mirror.collect()` ran `if top in NARROW` before `elif top == 'corpus'`, and `NARROW = {'corpus'}`, so `filter_corpus` -- written specifically to separate our knowledge layer from vendored upstream source -- was unreachable. The public repo published ONE corpus file instead of 1,706.",
+      "fix": "Do not express an exception by adding the key to a set an earlier branch tests. Give the exception its own precise mechanism: here, the reason for narrowing was GitHub push protection rejecting secret-DETECTION tools' fixtures -- 6 files out of 1,711 -- so name those 6 (CORPUS_SECRET_FIXTURES) instead of withholding 1,705 others.",
+      "why_nothing_caught_it": "The allowlist was DERIVED FROM THE MIRROR'S OWN TREE, so the published state was both the input and the check: whatever was published was, by construction, what should be published. A self-referential check cannot detect a shortfall. It took cloning the public repo and running the product's own tests against it -- 38 failures + 7 errors, all from absent data.",
+      "measured": "2026-08-01. 1 corpus file published -> 1,706. Public-checkout failures 45 -> 21 -> 1.",
+      "code_paths": [
+        "*publish_mirror.py"
+      ],
+      "cross_refs": [
+        "publish_reports_success_it_did_not_verify",
+        "an_exception_derived_from_state_deletes_itself"
+      ],
+      "status": "FIXED. corpus removed from NARROW; CORPUS_SECRET_FIXTURES names the 6."
+    },
+    "an_exception_derived_from_state_deletes_itself": {
+      "detect": "A sync/publish whose file list is derived from the DESTINATION, plus an exception that must be re-argued on each run (a flag, an override). The exception applies on the run that names it and is absent on the next.",
+      "symptom": "Publish once with the override: the files appear. Publish again with no override: the derivation does not re-admit them, they are present remotely and absent locally, and the sync DELETES them. Measured: 6,385 files -> 6,294, silently, one commit later.",
+      "fix": "Make the exception unconditional and part of the program, not the invocation. publish_mirror now appends NEVER_EXCEPT entries to the allowlist on every run, and the acceptance test is that a second publish with NO flags reports 'mirror already matches this checkout' rather than a deletion.",
+      "trap": "Three sub-traps, each of which silently did nothing: (1) the exception is written 'logs/eval_results/' with a trailing slash while the allowlist entry is the bare directory, so startswith() said no; (2) the mirror's TOP-LEVEL entry is `logs`, which is on NEVER, so a prefix test against the exception never matched; (3) git cannot re-include a file whose parent DIRECTORY is excluded, so `logs/` had to become `logs/*` before any negation could reach the files.",
+      "measured": "2026-08-01, 91 eval artifacts the WHITE_PAPER cites by path.",
+      "code_paths": [
+        "*publish_mirror.py"
+      ],
+      "cross_refs": [
+        "guard_shadowed_by_an_earlier_branch",
+        "publish_reports_success_it_did_not_verify"
+      ],
+      "status": "FIXED + acceptance-tested (second publish must be a no-op)."
+    },
+    "test_the_artifact_not_the_source_tree": {
+      "detect": "A product distributed as a subset of the development checkout -- a mirror, a wheel, a container -- whose test suite only ever runs against the full checkout.",
+      "symptom": "Everything passes locally and the shipped artifact is broken in ways no local run can see. `swebench_stats()` returned {} for every public clone because a 36 MB inventory was withheld on size; `determinex_corpus_api` had no corpus to read at all.",
+      "fix": "Clone the published artifact and run the product's own tests against it. One 10-minute pass gave the complete list; discovering the same list through CI at one failure per push (`-x`) would have taken 45 round trips. Drop `-x` in CI for the same reason.",
+      "measured": "2026-08-01. Public clone: 38 failed + 7 errors, 2,495 passed. After publishing the knowledge layer, the SWE-bench inventory, and the eval artifacts: 4,439 passed.",
+      "code_paths": [
+        "*publish_mirror.py",
+        "*.github/workflows/ci.yml"
+      ],
+      "cross_refs": [
+        "suite_tests_the_parts_never_the_product"
+      ],
+      "status": "Technique established. OPEN: not yet automated -- a scheduled job that clones the mirror and runs the suite would make this a standing check."
     }
   },
   "lib_to_apt": {
@@ -16769,6 +16813,18 @@
       {
         "key": "vacuous_assertion_passes_for_the_wrong_reason",
         "summary": "`assert needle not in out` where the fixture never emits `needle` is green forever. Prove the needle exists in the input first."
+      },
+      {
+        "key": "guard_shadowed_by_an_earlier_branch",
+        "summary": "`corpus` in NARROW made filter_corpus unreachable; the public repo shipped 1 corpus file instead of 1,706 and nothing failed, because the mirror was its own check."
+      },
+      {
+        "key": "an_exception_derived_from_state_deletes_itself",
+        "summary": "An allowlist derived from the destination re-deletes anything admitted by a one-off override. Make exceptions unconditional; assert the second publish is a no-op."
+      },
+      {
+        "key": "test_the_artifact_not_the_source_tree",
+        "summary": "Clone the published artifact and run the product's tests against it. One pass beat 45 CI round trips and found the shipped product was hollow."
       }
     ],
     "BUILD_TOOLCHAIN": [
