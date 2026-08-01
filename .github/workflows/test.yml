@@ -89,7 +89,12 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install -e .[dev]
+          # [cloak] too, not just [dev]. Project Cloak's identifier extraction is a hard
+          # tree-sitter dependency and degrades to NO obfuscation without the grammars --
+          # CI reported it as "rust: identifiers leaked in plaintext: ['zzq_field',
+          # 'zzq_param']" across 8 languages. The extra already lists all 10 grammars; it
+          # simply was never installed here.
+          pip install -e .[dev,cloak]
       - name: Pytest with coverage (gate ≥2%)
         env:
           DETERMINEX_ROOT: ${{ github.workspace }}
@@ -164,7 +169,13 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install minimal deps
-        run: pip install -e . --no-deps
+        # --no-deps keeps this job fast, but the `determinex` entrypoint is a click app, so
+        # it exited with `ModuleNotFoundError: No module named 'click'` before validating a
+        # single evidence entry. Name the runtime deps the CLI actually needs rather than
+        # dropping --no-deps and pulling the whole tree.
+        run: |
+          pip install -e . --no-deps
+          pip install click pydantic pydantic-settings pyyaml
       - name: Validate evidence index (read-only)
         env:
           DETERMINEX_ROOT: ${{ github.workspace }}
@@ -196,7 +207,12 @@ jobs:
       - name: Install Python deps
         run: |
           pip install -r requirements.txt
-          pip install -e .[dev]
+          # [cloak] too, not just [dev]. Project Cloak's identifier extraction is a hard
+          # tree-sitter dependency and degrades to NO obfuscation without the grammars --
+          # CI reported it as "rust: identifiers leaked in plaintext: ['zzq_field',
+          # 'zzq_param']" across 8 languages. The extra already lists all 10 grammars; it
+          # simply was never installed here.
+          pip install -e .[dev,cloak]
       - name: Run architecture regression gauntlet (--strict)
         env:
           # No Windows drive letter on CI; gauntlet's PATH_PORTABILITY

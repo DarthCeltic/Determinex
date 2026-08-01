@@ -111,4 +111,10 @@ repos:
         name: Reject API-key-shaped strings (Anthropic / Google / OpenAI / generic)
         language: pygrep
         entry: '(sk-ant-api[0-9]{2}-[A-Za-z0-9_-]{20}|AIzaSy[A-Za-z0-9_-]{30}|sk-[a-zA-Z0-9]{40,}|sk-proj-[A-Za-z0-9_-]{20})'
-        exclude: '(^|/)(\.env\.example|.*\.lock|package-lock\.json|.*\.bak)$'
+        # tests/corpus/test_secret_code_rejected.py exists to prove the corpus REJECTS
+        # secret-shaped code, so it must contain secret-shaped code -- the same reason
+        # ripsecrets ships 56 `sk_live_` samples. Named exactly, not by a `tests/` wildcard:
+        # per the corpus class `scanner_exclusion_outlives_its_premise`, a broad exclusion
+        # keeps applying after the premise stops being true, and the whole tests/ tree is
+        # published. Every string in that file is a syntactic fake (`sk-aBcDe...`).
+        exclude: '(^|/)(\.env\.example|.*\.lock|package-lock\.json|.*\.bak|tests/corpus/test_secret_code_rejected\.py)$'
