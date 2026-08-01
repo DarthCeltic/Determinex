@@ -29,7 +29,21 @@ jobs:
       - name: Install lint deps
         run: uv pip install --system ruff
       - name: ruff check
-        run: ruff check scripts/ --select E,F,W,I --ignore E501,W503
+        # W503 is a FLAKE8 rule ruff never implemented, so this command failed instantly
+        # ("Unknown rule selector `W503`") on every run since it was written -- it lints
+        # nothing, and it skips every downstream job. It only became visible as `failure`
+        # rather than `startup_failure` once billing let CI actually run.
+        #
+        # Gating on E,F,W,I would fail on 2412 pre-existing findings, so it would go
+        # straight back to permanently-red and stop being a signal. E9/F63/F7 (syntax
+        # errors, broken comparisons, misplaced statements) is green today and is a real
+        # gate: anything it catches is a bug, not a style opinion.
+        #
+        # DEFERRED, not dropped: F82 (undefined name) reports 85 findings, 76 of them in
+        # determinex_projector.py / determinex_rosetta.py / rosetta_softprefix_smoke.py.
+        # Those are real -- determinex_projector.py does not import at all
+        # (NameError: PROJECTION_SAVE). Fix those, then add F82 here.
+        run: ruff check scripts/ --select E9,F63,F7 --ignore E501
 
   unit-tests:
     name: Unit Tests (fast)
