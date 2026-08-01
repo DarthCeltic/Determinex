@@ -43,7 +43,12 @@ def test_audit_report_written_with_non_authorizing_notes(tmp_path: Path):
     report = audit_mod.write_report(output, _REPO_ROOT)
     text = output.read_text(encoding="utf-8")
 
-    assert report.blocked_section_ids == ()
+    # Same structural exemption as above: assurance/ is never published, so release_gates
+    # is blocked in a public checkout. Tuple here, list there -- the two assertions read the
+    # same field through different accessors, which is why fixing only one left CI red.
+    assert report.blocked_section_ids == (
+        () if (_REPO_ROOT / "assurance" / "evidence").is_dir() else ("release_gates",)
+    )
     assert "does not prove public release readiness" in text
     assert "universal verified support" in text
     assert '"authority_granted": false' in text
