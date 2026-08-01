@@ -479,6 +479,7 @@ def test_live_wiring_census_guard_passes():
     """The census guard is the standing defense against built-but-invisible artifacts and
     split-brain data-root pointers. It must pass on the current tree."""
     import importlib
+    import re
     import sys as _sys
     from pathlib import Path as _P
     root = _P(api.__file__).resolve().parents[1]
@@ -493,8 +494,12 @@ def test_live_wiring_census_guard_passes():
         # "empty/broken" -- a true statement about the wrong thing. The orphan check above is
         # environment-independent and still holds everywhere.
         value = str(p.get("value") or "")
-        anchor = _P(value).anchor
-        if anchor and not _P(anchor).exists():
+        # Match the drive prefix TEXTUALLY, not via Path.anchor. On Linux
+        # PurePosixPath("T:/determinex_corpus").anchor is '' -- "T:" is an ordinary
+        # character there, not a drive -- so the anchor test silently never fired and CI
+        # still reported the pointer broken.
+        drive = re.match(r"^([A-Za-z]):[\\/]", value)
+        if drive and not _P(f"{drive.group(1)}:/").exists():
             continue
         assert p["resolves_nonempty"], f"pointer {p['pointer']} -> {p['value']} is empty/broken"
 
