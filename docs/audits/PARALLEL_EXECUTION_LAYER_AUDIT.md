@@ -27,9 +27,9 @@ The audit is intentionally narrow in scope: this rung **inventories** the
 problem; the next rung (`HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001`) will
 migrate the MUST_MIGRATE sites.
 
-**Audit timestamp:** `2026-08-01T15:30:58.241584+00:00`
+**Audit timestamp:** `2026-08-01T18:58:02.774007+00:00`
 **Scope:** `scripts`
-**Total sites found:** **514**
+**Total sites found:** **515**
 
 ## Counts by classification
 
@@ -38,7 +38,7 @@ migrate the MUST_MIGRATE sites.
 | BLOCKED_UNSAFE | 0 |
 | HARDENED_COMPILER_PATH | 13 |
 | HIVE_SANDBOXED_PATH | 101 |
-| LEGACY_EXEMPT_READ_ONLY | 196 |
+| LEGACY_EXEMPT_READ_ONLY | 197 |
 | LEGACY_EXEMPT_TEST_FIXTURE | 4 |
 | MUST_MIGRATE_TO_HARDENED_RUNNER | 0 |
 | NEEDS_OWNER_DECISION | 3 |
@@ -53,7 +53,7 @@ migrate the MUST_MIGRATE sites.
 | `subprocess.Popen` | 19 |
 | `subprocess.call` | 1 |
 | `subprocess.check_output` | 6 |
-| `subprocess.run` | 483 |
+| `subprocess.run` | 484 |
 
 ## Top MUST_MIGRATE_TO_HARDENED_RUNNER targets
 
