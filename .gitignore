@@ -57,6 +57,9 @@ logs/*
 !logs/eval_results/
 logs/eval_results/*
 !logs/eval_results/*.json
+# The PB lock board -- the override guard's only input. Without it that CI job
+# dies before checking a single compile.sh.
+!logs/programbench_lock_board.json
 determinex_memory/
 sessions/
 

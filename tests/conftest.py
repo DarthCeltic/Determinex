@@ -231,7 +231,17 @@ def pytest_collection_modifyitems(config, items):  # noqa: ARG001
     against (`pb_override_scan --guard`) in the ProgramBench submission context. The
     condition here is a fact about the checkout, not about a test's name -- and where the
     evidence tree exists, which is every development checkout, nothing is skipped at all.
+
+    That last clause is load-bearing and was briefly untrue. Without this early return the
+    per-module check fired on any DECLARED assurance path that happened not to exist, and
+    tests/models/test_real_local_model_provider_config_lock.py declares
+    assurance/evidence/local_model_configs, which this repository does not have -- so two
+    tests were skipped on the development box. Disabling the rule showed both PASS. The
+    exemption exists for a checkout with NO evidence tree, not for a module that names a
+    directory it does not need.
     """
+    if evidence_tree_present():
+        return
     cache: dict[str, list[Path]] = {}
     for item in items:
         module = getattr(item, "module", None)
