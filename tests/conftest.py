@@ -212,8 +212,15 @@ def pytest_collection_modifyitems(config, items):  # noqa: ARG001
         missing = cache[name]
         if not missing:
             continue
+        # Module-level exemption is too blunt even scoped to assurance/: a module that
+        # DECLARES an evidence path usually has many tests that never touch it. Skipping the
+        # whole module took skipped from 260 to 2,175 against a real public clone -- ~1,900
+        # tests switched off to cover a handful. Require the test itself to be about
+        # evidence, so the rest of the module is still held to every assertion.
+        if item.name not in _EVIDENCE_TESTS and "evidence" not in item.name:
+            continue
         item.add_marker(pytest.mark.skip(
-            reason=f"this checkout does not ship {missing[0].as_posix().split('/')[0]}/ data "
-                   f"that this module asserts on (missing: {missing[0].name}); the lock was "
-                   f"NOT verified in this run"
+            reason=f"this checkout does not ship assurance/ (publish_mirror.NEVER), which "
+                   f"this test asserts on (missing: {missing[0].name}); the evidence lock "
+                   f"was NOT verified in this run"
         ))

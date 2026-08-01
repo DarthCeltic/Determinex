@@ -90,10 +90,21 @@ CORPUS_BULK_PREFIXES = ("eval_report",)
 #: Individually large reference data that belongs in the dataset. Named explicitly rather than
 #: caught by a size threshold, because a size rule would silently start dropping things as files
 #: grow, and "the repo quietly stopped shipping X" is the failure mode this repo keeps finding.
-CORPUS_BULK_FILES = (
-    "corpus/swebench/swebench_inventory.json",   # 36 MB SWE-bench task inventory
-    "corpus/programbench/xray_index.json",       # 8.8 MB per-test index
-)
+# Withheld for SIZE only -- nothing here is private or third-party. Both are back in as of
+# 2026-08-01: 36 MB and 8.8 MB are comfortably under GitHub's 50 MB per-file warning, the
+# repo total lands near 110 MB against a 1 GB soft limit, and withholding them broke the
+# thing the repo exists to provide. `determinex_corpus_api.swebench_stats()` reads the
+# inventory and returned {} for every public clone, so the SWE-bench surface the README
+# points at did not work for anyone who was not us.
+CORPUS_BULK_FILES: tuple[str, ...] = ()
+
+# Exceptions to NEVER, at subtree granularity. A top-level block is the right default --
+# `logs/` holds run traces and cloak audits -- but blocking the whole tree also withheld the
+# 91 benchmark artifacts the WHITE_PAPER cites BY PATH ("verified
+# logs/eval_results/eval_determinex-engineer-v10-dsl_20260415_233437.json"). A claim whose
+# evidence is unreachable is a claim on trust. 1.8 MB, scanned, no credentials and no
+# personal paths.
+NEVER_EXCEPT = ("logs/eval_results/",)
 
 NEVER = {
     ".env",
@@ -231,7 +242,7 @@ def collect(allowlist: list[str], allow_new: bool) -> tuple[list[str], list[str]
     skipped: list[str] = []
     for entry in allowlist:
         top = entry.split("/", 1)[0]
-        if top in NEVER:
+        if top in NEVER and not entry.replace("\\", "/").startswith(NEVER_EXCEPT):
             skipped.append(f"{entry} (on the never-copy list)")
             continue
         if not (REPO / entry).exists():
@@ -330,7 +341,9 @@ def main() -> int:
         # absent from a fresh clone of the public repo hours later. Either the request is
         # wrong or NEVER is stale; both need a human, and neither is served by a skip line
         # buried among thirty others.
-        if extra.split("/", 1)[0] in NEVER:
+        if (extra.split("/", 1)[0] in NEVER
+                and not extra.replace("\\", "/").rstrip("/").startswith(
+                    tuple(e.rstrip("/") for e in NEVER_EXCEPT))):
             raise SystemExit(
                 f"--allow-new-path {extra!r} contradicts the NEVER list, which refuses "
                 f"{extra.split('/', 1)[0]!r}. Nothing published. Either drop the flag, or "

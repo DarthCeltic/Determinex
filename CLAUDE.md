@@ -566,7 +566,7 @@ Both are handled by doing the work:
 
 | Half | Where | Size |
 | --- | --- | --- |
-| Knowledge layer — pins, board, `build_knowledge.json`, 227 `compile.sh`, specs, report hashes | git repo | 1,709 files / 69 MB |
+| Knowledge layer — pins, board, `build_knowledge.json`, 227 `compile.sh`, specs, report hashes | git repo | 1,706 files / 65 MB |
 | Vendored trees + raw eval reports | dataset (`export_corpus_dataset.py`, staged not uploaded) | 155,919 files / 9.5 GB |
 
 `scripts/release/third_party_corpus_audit.py` fetches missing license texts **from each project's
@@ -576,6 +576,18 @@ copyright line is exactly what MIT and BSD require preserved. 409 missing → 59
 and the dataset export read that one manifest** so they cannot drift. The 59 that still have no
 license text are withheld from both, listed with the reason, and remain reachable via
 `determinex corpus fetch <tool>` from their own maintainers.
+
+> **This split was documented for days before it was true (fixed 2026-08-01).** `filter_corpus`
+> — the function that performs it — was **unreachable**. `corpus` had been added to
+> `publish_mirror.NARROW`, and the `if top in NARROW` branch in `collect()` runs before the
+> `elif top == "corpus"` branch, so the filter never executed and the public repo shipped
+> **one** corpus file instead of 1,706. The Native Reimplementation Loop feeds real source and
+> a real oracle to a model, so a public repo without the knowledge layer is the hollow product
+> this section exists to prevent — and nothing failed, because the mirror's own file list was
+> both the input and the check. The narrowing had a real cause (GitHub push protection rejects
+> secret-DETECTION tools' fixtures — ripsecrets alone ships 56 `sk_live_` strings by design);
+> that cause is 6 files out of 1,711, now named in `CORPUS_SECRET_FIXTURES` and withheld
+> individually rather than by withholding everything.
 
 Two traps worth remembering. `per_tool_overrides/` READS like a directory of our recipes and is
 142,750 files of which ~420 are ours — our `compile.sh` sits *inside* a complete upstream checkout
