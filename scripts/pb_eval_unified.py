@@ -37,10 +37,27 @@ INDEX_FILE = PB_DIR / "eval_index.json"
 LOG_DIR = ROOT / "logs"
 REGRESSIONS_LOG = LOG_DIR / "regressions.jsonl"
 
+def _is_dir(p: str | Path | None) -> bool:
+    """`Path.is_dir()` that treats "I am not allowed to look" as "not this one".
+
+    pathlib swallows ENOENT/ENOTDIR/EBADF/ELOOP and re-raises everything else, so EACCES
+    propagates. Probing "/root/ProgramBench" as a non-root user therefore raises
+    PermissionError at IMPORT time -- this module could not be imported at all on any Linux
+    box where /root is the usual 0700, which is every one of them except the eval box.
+    Found by CI: `ERROR tests/scripts/test_pb_eval_unified_disk_guard.py - PermissionError:
+    [Errno 13] Permission denied: '/root/ProgramBench'`, at collection, before a single
+    assertion ran. A candidate path we cannot stat is simply not our install.
+    """
+    try:
+        return bool(p) and Path(p).is_dir()
+    except OSError:
+        return False
+
+
 # Local ProgramBench install (box-portable: env override -> Linux box -> Windows dev)
 def _detect_pb_local() -> Path:
     for c in (os.environ.get("PROGRAMBENCH_HOME"), "/root/ProgramBench", "T:/Dev/ProgramBench"):
-        if c and Path(c).is_dir():
+        if _is_dir(c):
             return Path(c)
     return Path("T:/Dev/ProgramBench")
 
@@ -50,7 +67,7 @@ def _detect_pb_staging() -> Path:
     if e:
         return Path(e)
     # on the Linux eval box, stage under /root/determinex-staging (same place official_eval uses)
-    return Path("/root/determinex-staging") if Path("/root/ProgramBench").is_dir() else Path("T:/determinex-programbench")
+    return Path("/root/determinex-staging") if _is_dir("/root/ProgramBench") else Path("T:/determinex-programbench")
 
 
 PB_LOCAL = _detect_pb_local()
@@ -197,7 +214,7 @@ def ensure_eval_disk_headroom(path: str | Path | None = None,
     if path is None:
         path = os.environ.get("DETERMINEX_PB_DISK_GUARD_PATH")
     if path is None:
-        path = "/" if Path("/root/ProgramBench").is_dir() else PB_STAGING.anchor or "."
+        path = "/" if _is_dir("/root/ProgramBench") else PB_STAGING.anchor or "."
     if min_free_gb is None:
         min_free_gb = float(os.environ.get("DETERMINEX_PB_MIN_FREE_GB", "20"))
     usage = shutil.disk_usage(path)
