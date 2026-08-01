@@ -37,8 +37,18 @@ import determinex_agents as agents  # noqa: E402
 
 @pytest.fixture()
 def fake_home(tmp_path, monkeypatch):
-    """An isolated HOME with no gemini state, and no auth env vars leaking in."""
+    """An isolated HOME with no gemini state, and no auth env vars leaking in.
+
+    Also reports every probed CLI as installed. These tests are about reading AUTH STATE
+    off disk, and `_cheap_status` returns early with logged_in=False when the binary is
+    absent -- so on a machine without the gemini CLI (every CI runner) the fixture's
+    carefully written credentials were never consulted and the test asserted nothing about
+    the code it names. Whether a CLI is installed is a different question, covered by
+    `test_the_status_call_never_raises_on_the_real_machine`, which deliberately uses the
+    real machine.
+    """
     monkeypatch.setattr(Path, "home", staticmethod(lambda: tmp_path))
+    monkeypatch.setattr(agents.shutil, "which", lambda name, *a, **k: f"/usr/local/bin/{name}")
     for name in agents._GEMINI_AUTH_ENV:
         monkeypatch.delenv(name, raising=False)
     return tmp_path

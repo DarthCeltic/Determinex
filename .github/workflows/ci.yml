@@ -93,7 +93,11 @@ jobs:
             click \
             pydantic-settings \
             requests \
-            tqdm
+            tqdm \
+            tree-sitter \
+            tree-sitter-rust tree-sitter-ruby tree-sitter-php tree-sitter-java \
+            tree-sitter-javascript tree-sitter-typescript tree-sitter-python \
+            tree-sitter-go tree-sitter-c tree-sitter-cpp
           # These are the module-level third-party imports reachable from tests/ that were
           # NOT installed here. `tenacity` surfaced first as a collection ImportError, and
           # finding the rest one CI round trip at a time would have taken five more pushes,
@@ -104,6 +108,13 @@ jobs:
           # and belong to training paths; any test needing them should carry a `slow` or
           # `integration` marker, which this job already filters out. Installing them to
           # make a fast lane pass would make it not a fast lane.
+          #
+          # The tree-sitter grammars ARE installed, and that is not inconsistent with the
+          # above. Project Cloak's whole claim is that it obfuscates 10 languages, and
+          # without the grammars it degrades to no obfuscation -- CI reported exactly that
+          # as "rust: identifiers leaked in plaintext: ['zzq_field', 'zzq_param']" across 8
+          # languages. A privacy claim that CI cannot check is the one claim that must not
+          # be skipped, and the wheels are small.
       - name: Run fast unit tests
         run: |
           python -m pytest tests/ \

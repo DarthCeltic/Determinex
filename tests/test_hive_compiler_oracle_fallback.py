@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import concurrent.futures
+import os
 import subprocess
 import sys
 import time
@@ -100,12 +101,16 @@ def test_safe_compiler_env_preserves_standard_user_toolchain_bins(monkeypatch, t
     cargo_bin = fake_home / ".cargo" / "bin"
     cargo_bin.mkdir(parents=True)
     monkeypatch.setenv("USERPROFILE", str(fake_home))
+    monkeypatch.setenv("HOME", str(fake_home))
     monkeypatch.setenv("PATH", r"C:\Windows\System32")
     monkeypatch.setenv("ANTHROPIC_API_KEY", "must-not-leak")
 
     safe = compiler._make_safe_env()
 
-    path_entries = safe["PATH"].split(";")
+    # os.pathsep, not a literal ';'. The separator is ':' on Linux, so splitting on ';'
+    # returned ONE entry containing the whole PATH and the membership check could never
+    # pass -- the test asserted a Windows-shaped fact and only ever ran on Windows.
+    path_entries = safe["PATH"].split(os.pathsep)
     assert str(cargo_bin) in path_entries
     assert "ANTHROPIC_API_KEY" not in safe
 

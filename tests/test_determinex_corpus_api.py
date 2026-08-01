@@ -487,6 +487,15 @@ def test_live_wiring_census_guard_passes():
     res = census_mod.census()
     assert res["orphans"] == [], f"unwired corpus artifacts: {res['orphans']}"
     for p in res["pointers"]:
+        # A pointer at an absolute location this machine does not have is machine-specific
+        # configuration, not a broken pointer. `settings.corpus_root -> T:/determinex_corpus`
+        # names a Windows drive that cannot exist on a Linux runner, and CI reported it as
+        # "empty/broken" -- a true statement about the wrong thing. The orphan check above is
+        # environment-independent and still holds everywhere.
+        value = str(p.get("value") or "")
+        anchor = _P(value).anchor
+        if anchor and not _P(anchor).exists():
+            continue
         assert p["resolves_nonempty"], f"pointer {p['pointer']} -> {p['value']} is empty/broken"
 
 

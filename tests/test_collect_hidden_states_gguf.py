@@ -17,7 +17,16 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# `rosetta.collect_hidden_states_gguf` pulls torch in transitively. torch is multi-GB and is
+# deliberately not installed in the fast CI lane, where these failed as
+# "ModuleNotFoundError: No module named 'torch'" and as assertions about a collector that
+# had never run. State the dependency instead of letting the import error stand in for it.
+pytest.importorskip("torch", reason="hidden-state collection needs torch; not in the fast lane")
+
 from rosetta.collect_hidden_states_gguf import (  # noqa: E402
     LlamaCppUnavailable,
     collect_states_gguf,
