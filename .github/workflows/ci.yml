@@ -16,12 +16,12 @@ env:
   # No corpus HMAC key in CI — ephemeral key is acceptable for tests.
   # Safety WAL and escalation state are temp-dir scoped by test fixtures.
   PYTHONPATH: scripts
-  # ubuntu-latest ships a PEP 668 "externally-managed-environment" Python, so every
-  # `uv pip install --system` in this file failed with exit 2 -- all five of them, in five
-  # different jobs. The lint job failed first and the rest depend on it, so the whole
-  # workflow reported one failure that looked like a lint problem and was not: the linter
-  # never ran. Set once at workflow level rather than patching five call sites, any of
-  # which a later edit would miss.
+  # ubuntu-latest ships a PEP 668 "externally-managed-environment" Python, which refused
+  # `uv pip install --system` outright. Necessary but NOT sufficient: clearing PEP 668 only
+  # revealed the next layer, "Permission denied" on the root-owned Debian site-packages.
+  # The actual cure is the setup-python step each job now has; this stays because a job
+  # added later without one should fail on permissions, which names the problem, rather
+  # than on an externally-managed-environment error, which does not.
   UV_BREAK_SYSTEM_PACKAGES: "1"
 
 jobs:
@@ -33,6 +33,15 @@ jobs:
       - uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
         with:
           version: ">=0.4.0"
+      # The other four jobs in this file already do this; lint was the only one that did
+      # not, which is the entire reason it failed. Without it `--system` resolves to the
+      # runner's root-owned Debian python (/usr/local/lib/python3.12/dist-packages) and the
+      # install dies on "Permission denied (os error 13)". setup-python puts a writable
+      # interpreter first on PATH, so --system means the one this job owns.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - name: Install lint deps
         run: uv pip install --system ruff
       - name: ruff check
