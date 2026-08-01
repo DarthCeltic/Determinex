@@ -730,7 +730,10 @@
         "scanner_exclusion_outlives_its_premise",
         "status_run_clobbers_operator_attestation"
       ],
-      "status": "FIXED: contradiction now raises; push now verifies the remote tree."
+      "status": "FIXED on three axes: the NEVER/--allow-new-path contradiction raises; the push verifies the remote tree; the publish set now excludes what the mirror's .gitignore refuses. OPEN: the secret scan still reports 'git history was NOT scanned' on every run and nothing acts on it.",
+      "root_cause_found_by_the_check": "The staging clone inherits the MIRROR's .gitignore, so `git add -A` silently refuses anything it matches. `archive/` at line 247 ate all 7 scripts/archive/*.py files -- copied into staging, counted in 'N files to publish', never committed, absent from the remote on EVERY publish ever made. The verification found this on its first live run, which is the argument for adding it.",
+      "the_fix_has_two_traps": "(1) `subprocess.run(..., text=True)` translates \\n to \\r\\n on Windows, so `git check-ignore --stdin` received 'scripts/archive/x.py\\r' and quoted the \\r back into every answer. Use -z on both sides. (2) `--no-index` makes check-ignore judge TRACKED files too, so `.env.example` -- which the mirror already tracks and `git add` would update happily -- was reported as refused, cutting the publish set from 11 files to 1. Both were caught in a dry run before pushing.",
+      "correct_behaviour": "Drop ignored files from the INTENT list before committing and report them, so 'published N files' describes the mirror rather than a wish. Do not `git add --force` past the mirror's own ignore rules -- those rules are the mirror's, and overriding them silently is the same failure in the other direction."
     },
     "suite_tests_the_parts_never_the_product": {
       "detect": "A large green suite over a system whose value is a COMPOSITION (prompt -> provider -> model -> oracle). Count the tests that drive the composition end to end with nothing stubbed. If that number is near zero, the suite cannot see a whole class of failure no matter how many unit tests are added.",

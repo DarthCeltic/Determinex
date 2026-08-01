@@ -348,6 +348,30 @@ def main() -> int:
         print("[4/5] Secret scan on the staged mirror ...")
         secret_scan(staging)
 
+        # The staging clone inherits the MIRROR's .gitignore, so `git add -A` silently drops
+        # anything it matches -- `archive/` eats all of scripts/archive/. Those files were
+        # copied, counted, and reported as published on every prior run, and were never in
+        # the remote. Ask git what it refuses BEFORE committing and take them out of the
+        # intent list, so "published N files" describes the mirror rather than a wish.
+        # `run()` has no stdin channel, and the file list is far past a Windows command
+        # line's length limit, so this one call goes direct.
+        #
+        # -z on BOTH sides, not newlines: text mode translates \n to \r\n on Windows, so
+        # git received "scripts/archive/x.py\r" and quoted the \r back into every answer.
+        # And NOT --no-index: that flag makes check-ignore judge tracked files too, which
+        # reported `.env.example` as refused when the mirror already tracks it and `git add`
+        # would update it happily -- it cut the publish set from 11 files to 1.
+        ignored = subprocess.run(
+            ["git", "check-ignore", "--stdin", "-z"],
+            cwd=str(staging), input="\0".join(files), capture_output=True,
+            text=True, encoding="utf-8", errors="replace", check=False,
+        ).stdout.split("\0")
+        if ignored:
+            drop = {p.strip().replace("\\", "/") for p in ignored if p.strip()}
+            files = [f for f in files if f not in drop]
+            print(f"      - {len(drop)} file(s) refused by the mirror's own .gitignore, "
+                  f"removed from the publish set: {sorted(drop)[:5]}")
+
         run(["git", "add", "-A"], cwd=staging)
         status = run(["git", "status", "--porcelain"], cwd=staging)
         if not status.strip():
