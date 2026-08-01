@@ -143,3 +143,46 @@ def sample_python_module(tmp_repo: Path) -> Path:
         encoding="utf-8",
     )
     return src
+
+
+# ---------------------------------------------------------------------------------------
+# Evidence-dependent locks: skip where the evidence tree is deliberately absent.
+# ---------------------------------------------------------------------------------------
+# `assurance/` is on publish_mirror.NEVER, so the PUBLIC checkout has no evidence tree and
+# 226 `test_evidence_*` functions across 123 lock files assert on artifacts that cannot be
+# there. They failed in CI not because anything regressed but because the artifacts are
+# deliberately not distributed -- and CI that is red for a structural reason is CI that
+# people learn to ignore.
+#
+# Centralised rather than marked file by file: 123 files is 123 chances to miss one, and
+# every new lock test would inherit the same trap. The guards stay FULLY live in the
+# development checkout, which is the only place the evidence exists to be guarded.
+_EVIDENCE_INDEX = Path(__file__).resolve().parent.parent / "assurance" / "evidence" / "evidence_index.json"
+
+_EVIDENCE_TESTS = frozenset({
+    "test_evidence_artifact_present",
+    "test_evidence_index_entry_present",
+})
+
+
+def evidence_tree_present(index: Path | None = None) -> bool:
+    """Separate from the hook so the rule itself is directly testable."""
+    return (index or _EVIDENCE_INDEX).is_file()
+
+
+def pytest_collection_modifyitems(config, items):  # noqa: ARG001
+    """Skip ONLY the two named evidence assertions, and only when the tree is absent.
+
+    Deliberately not a pattern match: a broad filter here would silently disable tests
+    nobody intended to disable, which is the failure mode this repository already has a
+    guard against (`pb_override_scan --guard`) in the ProgramBench submission context.
+    """
+    if evidence_tree_present():
+        return
+    skip = pytest.mark.skip(
+        reason="assurance/evidence is never published, so this checkout has no evidence "
+               "tree; the evidence lock was NOT verified in this run"
+    )
+    for item in items:
+        if item.name in _EVIDENCE_TESTS:
+            item.add_marker(skip)

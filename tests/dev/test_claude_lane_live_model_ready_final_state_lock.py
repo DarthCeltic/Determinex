@@ -24,16 +24,6 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "CLAUDE_LANE_LIVE_MODEL_READY_FI
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "claude_lane_live_model_ready_final_state"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-# `assurance/` is on publish_mirror.NEVER, so the public checkout has no evidence tree and
-# these assertions cannot hold there -- not because anything regressed, but because the
-# artifacts are deliberately not distributed. CI red for a structural reason trains people
-# to ignore CI. Skip where the tree is absent, and say so; the guard stays fully live in the
-# development checkout, which is the only place the evidence exists to guard.
-needs_evidence = pytest.mark.skipif(
-    not EVIDENCE_INDEX.is_file(),
-    reason="no assurance/evidence tree in this checkout (it is never published); the "
-           "evidence lock was NOT verified in this run",
-)
 LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 
 STATUS_TOKENS = frozenset(TOKENS)
@@ -120,7 +110,6 @@ def test_lock_manifest_exists_and_validates():
     assert set(blob.get("status_tokens", [])).issubset(STATUS_TOKENS)
 
 
-@needs_evidence
 def test_evidence_artifact_present():
     candidates = sorted(EVIDENCE_DIR.glob("run_*.json"))
     assert candidates
@@ -128,7 +117,6 @@ def test_evidence_artifact_present():
     assert blob["lock_id"] == "CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001"
 
 
-@needs_evidence
 def test_evidence_index_entry_present():
     idx = json.loads(EVIDENCE_INDEX.read_text(encoding="utf-8"))
     ids = {e.get("evidence_id") for e in idx.get("entries", [])}
