@@ -20,7 +20,13 @@ def test_systematic_audit_sections_pass_for_current_checkout():
     assert payload["schema_version"] == "determinex-systematic-ide-user-audit-v1"
     assert payload["release_ready"] is False
     assert payload["authority_granted"] is False
-    assert payload["blocked_section_ids"] == []
+    # `release_gates` reads assurance/evidence/determinex_release_gate_status/, and
+    # assurance/ is on publish_mirror.NEVER -- so in the public checkout that section is
+    # blocked for a structural reason, not a regression. Everything else must still be
+    # unblocked, which is what this assertion is actually protecting.
+    _evidence = _REPO_ROOT / "assurance" / "evidence"
+    expected_blocked = [] if _evidence.is_dir() else ["release_gates"]
+    assert payload["blocked_section_ids"] == expected_blocked
     section_ids = {section["section_id"] for section in payload["sections"]}
     assert section_ids == {
         "mission_control",
