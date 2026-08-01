@@ -139,6 +139,19 @@ def mirror_allowlist(remote: str, branch: str) -> list[str]:
     return entries
 
 
+# Top-level entries whose allowlist is derived at FILE granularity from the mirror rather
+# than "everything tracked under the directory". A path lands here when the mirror publishes
+# a deliberate handful out of a large local tree -- adding it as a directory would smuggle
+# the rest in on the next publish.
+NARROW: set[str] = {"corpus"}
+
+
+def mirror_files_under(entry: str) -> list[str]:
+    """The files the mirror actually publishes under `entry` (recursive, FETCH_HEAD)."""
+    out = run(["git", "ls-tree", "-r", "--name-only", "FETCH_HEAD", "--", entry])
+    return [line.strip() for line in out.splitlines() if line.strip()]
+
+
 def tracked_files_under(path: str) -> list[str]:
     """Files git tracks under a path in THIS checkout, so ignored build output and
     untracked scratch never reach the mirror."""
@@ -202,7 +215,24 @@ def collect(allowlist: list[str], allow_new: bool) -> tuple[list[str], list[str]
         if not found:
             skipped.append(f"{entry} (nothing tracked under it)")
             continue
-        if top == "corpus":
+        if top in NARROW:
+            # NARROW paths keep the mirror's own FILE list, not everything tracked under the
+            # directory. `corpus` was added to the mirror as a single file
+            # (corpus/programbench/build_knowledge.json), but resolving the top-level entry
+            # swept all 1,700+ tracked corpus files back in -- and GitHub push protection
+            # rejected the push, because the ProgramBench knowledge layer includes
+            # secret-detection tools' test corpora (ripsecrets ships 56 sk_live_ strings by
+            # design). Deriving at file granularity keeps "the mirror can only receive paths
+            # it already publishes" true one level down.
+            published = set(mirror_files_under(entry))
+            narrowed = [f for f in found if f in published]
+            if len(narrowed) != len(found):
+                skipped.append(f"{entry} ({len(found) - len(narrowed)} file(s) not published "
+                               f"by the mirror; use --allow-new-path to add one)")
+            found = narrowed
+            if not found:
+                continue
+        elif top == "corpus":
             kept, dropped = filter_corpus(found)
             if dropped:
                 skipped.append(f"{entry} ({dropped} vendored upstream file(s) withheld)")

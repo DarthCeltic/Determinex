@@ -1001,6 +1001,9 @@ def incremental_solve(observations, ladder, helptext, short, k=4, rounds=2, case
     ordered = sorted(observations, key=lambda o: (len(o.stdout), o.probe.name))
     # DETERMINEX RULE: native decompose -> compile each station as a real binary. Python is dev-only.
     if runner is None:
+        # NOTE: main() always passes an image-aware runner (same-platform grading). This
+        # fallback only fires for a direct call, and a host-built binary must not be graded
+        # against in-image ground truth -- pass runner=make_native_runner(lang, image=...).
         runner = OBS._run_candidate_py if _LANG == "python" else OBS.make_native_runner(_LANG)
     current = "import sys\n" if _LANG == "python" else ""  # lang-appropriate empty seed
     stations = 0
@@ -1372,10 +1375,25 @@ def main() -> int:
 
     # DETERMINEX RULE: native submissions. lang!=python => the candidate is COMPILED (compiler
     # oracle) and run as a real binary; python is dev-only and never a real submission.
-    runner = OBS._run_candidate_py if args.lang == "python" else OBS.make_native_runner(args.lang)
+    # SAME-PLATFORM GRADING (2026-07-31): the reference was observed inside `image`, so the
+    # candidate is built and run there too. Grading a host binary against in-image ground truth
+    # produced 0/234 for a known-good reimplementation that scores 84% built in-image -- a false
+    # zero indistinguishable from model incapacity. The preflight refuses the mismatch outright.
+    OBS.assert_same_platform_as_reference(image, runner_is_containerized=True)
+    runner = (OBS._run_candidate_py if args.lang == "python"
+              else OBS.make_native_runner(args.lang, image=image))
     if args.lang != "python":
-        print(f"[native] {args.lang}: candidates COMPILED + run as real binaries (compiler oracle)")
-    verify = OBS.make_verify(observations, check_stderr=args.check_stderr, runner=runner)
+        print(f"[native] {args.lang}: candidates COMPILED + run as real binaries "
+              f"IN {image.split('/')[-1][:44]} (same platform as the reference)")
+    # BATCHED ORACLE: make_verify has no early exit, so per-probe container + bind-mount
+    # overhead dominated (1310 ms/probe = 5.1 min per candidate, for a tool that runs in ~5 ms).
+    # One container for the whole battery: 239 ms/probe, ~50 s per candidate, same accuracy.
+    _batch = (args.lang, image) if (args.lang != "python" and image) else None
+    if _batch:
+        print(f"[oracle] batched: whole {len(observations)}-probe battery in ONE container "
+              f"(~5x faster than per-probe)")
+    verify = OBS.make_verify(observations, check_stderr=args.check_stderr, runner=runner,
+                             batch=_batch)
 
     # CASE MEMORY (amplifier #3): inject a VERIFIED past solution for a similar tool as a worked
     # example -- the corpus "houses all of it", carrying proven technique from tool to tool.

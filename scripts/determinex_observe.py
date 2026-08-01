@@ -849,6 +849,8 @@ def _run_candidate_py(code: str, p: Probe, *, timeout: int = 20) -> tuple[str, s
 # bottom tier. PB itself is language-agnostic; native is OUR stricter, legitimate standard.
 import os as _os  # noqa: E402
 import shutil as _shutil  # noqa: E402
+import sys as _sys  # noqa: E402
+import uuid as _uuid  # noqa: E402
 
 
 def _compile_native(lang: str, code: str, d: Path) -> tuple[Path | None, str]:
@@ -946,7 +948,268 @@ def _run_capture_safe(cmd, *, cwd, stdin, timeout):
 _native_cache: dict = {}  # code-hash -> (persistent_dir, binary_path|None, compile_err)
 
 
-def make_native_runner(lang: str, *, timeout: int = 30):
+_BUILDER_IMAGES: dict[str, str] = {
+    "go": "golang:1.23-alpine",
+    "rust": "rust:1.82-slim",
+    "c": "gcc:13",
+    "cpp": "gcc:13",
+    "c++": "gcc:13",
+}
+
+# Build flags that make the artifact runnable in the TASK image, which has no toolchain.
+# Static linking is what makes that legal: the binary needs nothing from the runtime image.
+_STATIC_BUILD: dict[str, list[str]] = {
+    "go": ["go", "build", "-o", "cand", "."],
+    "rust": ["sh", "-c", "rustc --edition 2021 -O -C target-feature=+crt-static -o cand main.rs"],
+    "c": ["sh", "-c", "cc -O2 -static -o cand main.c"],
+    "cpp": ["sh", "-c", "c++ -O2 -std=c++17 -static -o cand main.cpp"],
+}
+_SRC_NAME: dict[str, str] = {"go": "main.go", "rust": "main.rs", "c": "main.c", "cpp": "main.cpp"}
+
+
+def _compile_native_in_container(lang: str, code: str, d: Path) -> tuple[Path | None, str]:
+    """Build the candidate inside a toolchain container, --network=none, statically linked.
+
+    Offline by construction: a candidate that reaches for a third-party module fails to build
+    rather than silently fetching it, which is the rule PB submissions are held to anyway.
+    """
+    L = lang.lower()
+    builder = _BUILDER_IMAGES.get(L)
+    cmd = _STATIC_BUILD.get(L)
+    if not builder or not cmd:
+        return None, f"no containerized builder configured for '{lang}'"
+    (d / _SRC_NAME[L]).write_text(code, encoding="utf-8")
+    base = ["docker", "run", "--rm", "--network=none", "-v", f"{d}:/w", "-w", "/w"]
+    try:
+        if L == "go":
+            subprocess.run([*base, builder, "go", "mod", "init", "m"],
+                           capture_output=True, text=True, timeout=120)
+            base = [*base[:2], "--rm", "--network=none", "-e", "CGO_ENABLED=0",
+                    "-v", f"{d}:/w", "-w", "/w"]
+        cp = subprocess.run([*base, builder, *cmd], capture_output=True, text=True, timeout=600)
+    except subprocess.TimeoutExpired:
+        return None, "compile-timeout (container)"
+    except FileNotFoundError:
+        return None, "docker not available for containerized build"
+    if cp.returncode != 0:
+        return None, (cp.stderr or cp.stdout or "compile failed")[:1200]
+    b = d / "cand"
+    return (b, "") if b.exists() else (None, "binary missing after container build")
+
+
+def assert_same_platform_as_reference(image: str | None, *, runner_is_containerized: bool) -> None:
+    """PREFLIGHT (2026-07-31): refuse to grade a candidate against ground truth captured on a
+    DIFFERENT platform.
+
+    `observe_in_image` captures the reference by running the real binary inside a Linux task
+    image. `_compile_native` + `make_native_runner` build and execute the candidate on the
+    HOST. On a Windows or macOS host that compares a native host binary against Linux ground
+    truth, and every platform-dependent behavior -- path separators, line endings, exit codes,
+    TTY/ioctl, error text -- diverges for reasons that have nothing to do with the candidate.
+
+    MEASURED 2026-07-31, gron, a known-good 1551-line legitimate reimplementation:
+        host build+run on Windows ............  0/234   (0.0%)
+        build+run in the Linux task image .... 21/25    (84.0%)
+    Same candidate, same probes, same oracle. The only variable was the platform. The zero
+    was indistinguishable from "the model cannot do this", which is exactly the failure this
+    codebase keeps having to unlearn.
+
+    On a Linux host the two happen to line up, which is why this survived: the project's own
+    runners are Linux. It is still not a guarantee (host libc/env != image libc/env), so the
+    containerized runner is correct everywhere and required off-Linux.
+    """
+    if not image or runner_is_containerized:
+        return
+    if _sys.platform.startswith("linux"):
+        return
+    raise RuntimeError(
+        f"PLATFORM MISMATCH: reference behavior was observed inside {image!r} (Linux), but the "
+        f"candidate would be built and run on this host ({_sys.platform}). Grading across "
+        f"platforms produces false zeros that look like model incapacity. "
+        f"Use make_native_runner(lang, image=...) so the candidate is built and run on the "
+        f"same platform as the reference, or run on a Linux host."
+    )
+
+
+_BATCH_SEP = "\x1e@@DTX_REC@@\x1e"
+
+# One shell driver runs the WHOLE probe battery inside a single container. Written with LF
+# endings by the caller -- a CRLF script is a syntax error to /bin/sh, and this file is
+# authored on Windows.
+_BATCH_DRIVER = """#!/bin/sh
+RES=/w/results.txt
+: > "$RES"
+for d in /w/p_*; do
+    [ -d "$d" ] || continue
+    cd "$d" || continue
+    if [ -f ./__stdin ]; then
+        /w/cand $(cat ./__argv) < ./__stdin > ./__out 2> ./__err
+    else
+        /w/cand $(cat ./__argv) < /dev/null > ./__out 2> ./__err
+    fi
+    rc=$?
+    printf '%s\\n%s\\n' "$(basename "$d")" "$rc" >> "$RES"
+    printf '%s' "__SEP__" >> "$RES"
+    cat ./__out >> "$RES"; printf '%s' "__SEP__" >> "$RES"
+    cat ./__err >> "$RES"; printf '%s' "__SEP__" >> "$RES"
+done
+echo DTX_BATCH_DONE
+"""
+
+
+def run_probes_batched(lang: str, code: str, probes: list, image: str, *,
+                       timeout: int = 1800) -> tuple[list[tuple[str, str, int]], str]:
+    """Run EVERY probe in one container invocation.
+
+    The tool under test runs in ~5 ms; per-probe `docker run`/`exec` plus a Windows->WSL2
+    bind-mount crossing cost ~1.3 s, i.e. 99.6% overhead, so a 234-probe oracle spent ~5 min
+    per candidate. Staging all inputs once and running a single driver removes that whole
+    term. Returns ([(stdout, stderr, rc), ...] aligned to `probes`, compile_error).
+    """
+    build = Path(tempfile.mkdtemp(prefix="dtx_bbuild_"))
+    binary, cerr = _compile_native_in_container(lang, code, build)
+    if binary is None:
+        return [], cerr
+
+    root = Path(tempfile.mkdtemp(prefix="dtx_batch_"))
+    (root / "cand").write_bytes(binary.read_bytes())
+    _os.chmod(root / "cand", 0o755)
+    with open(root / "driver.sh", "w", encoding="utf-8", newline="\n") as f:
+        f.write(_BATCH_DRIVER.replace("__SEP__", _BATCH_SEP))
+
+    for i, p in enumerate(probes):
+        d = root / f"p_{i:04d}"
+        d.mkdir(parents=True, exist_ok=True)
+        for fn, content in (getattr(p, "files", None) or {}).items():
+            (d / fn).write_text(content, encoding="utf-8")
+        import base64 as _b64
+        for fn, b64 in (getattr(p, "bin_files", None) or {}).items():
+            (d / fn).write_bytes(_b64.b64decode(b64))
+        (d / "__argv").write_text(" ".join(getattr(p, "argv", None) or []), encoding="utf-8")
+        if getattr(p, "stdin", None):
+            (d / "__stdin").write_text(p.stdin, encoding="utf-8")
+
+    # NO BIND MOUNT. Measured on Docker Desktop / WSL2: with `-v host:/w` the driver took
+    # 256 s for 234 probes (~1.09 s each) even though the whole battery is ONE container run
+    # and the tool itself runs in ~5 ms -- the cost is every file read crossing the
+    # Windows->WSL2 boundary. Streaming the tree in as a tar and the results back out keeps
+    # all I/O on the container's own filesystem.
+    import io
+    import tarfile
+    buf = io.BytesIO()
+    def _exec_bits(ti: "tarfile.TarInfo") -> "tarfile.TarInfo":
+        # Windows has no execute bit, so a tar built here arrives mode 0644 and every probe
+        # fails with "permission denied" -- which looks exactly like a candidate that produces
+        # no output. Set it explicitly for the things that must run.
+        base = _os.path.basename(ti.name)
+        if base in ("cand", "driver.sh") or ti.isdir():
+            ti.mode = 0o755
+        return ti
+
+    with tarfile.open(fileobj=buf, mode="w") as tf:
+        tf.add(str(root), arcname=".", filter=_exec_bits)
+    buf.seek(0)
+    try:
+        cid = subprocess.run(["docker", "create", "--network=none", "-w", "/w",
+                              "--entrypoint", "sh", image, "/w/driver.sh"],
+                             capture_output=True, text=True, timeout=180).stdout.strip()
+        if not cid:
+            return [], "docker create failed"
+        subprocess.run(["docker", "cp", "-", f"{cid}:/w"], input=buf.getvalue(),
+                       capture_output=True, timeout=600)
+        cp = subprocess.run(["docker", "start", "-a", cid],
+                            capture_output=True, text=True, timeout=timeout)
+        got = subprocess.run(["docker", "cp", f"{cid}:/w/results.txt", "-"],
+                             capture_output=True, timeout=600)
+        subprocess.run(["docker", "rm", "-f", cid], capture_output=True, timeout=120)
+    except subprocess.TimeoutExpired:
+        return [("", "<batch-timeout>", 124)] * len(probes), ""
+    if "DTX_BATCH_DONE" not in (cp.stdout or ""):
+        return [], f"batch driver failed: {(cp.stderr or cp.stdout)[:600]}"
+
+    with tarfile.open(fileobj=io.BytesIO(got.stdout), mode="r") as tf:
+        m = tf.next()
+        f = tf.extractfile(m) if m else None
+        raw = f.read().decode("utf-8", errors="replace") if f else ""
+    parts = raw.split(_BATCH_SEP)
+    by_name: dict[str, tuple[str, str, int]] = {}
+    i = 0
+    while i + 2 < len(parts):
+        lines = [x for x in parts[i].splitlines() if x.strip()]
+        if len(lines) >= 2:
+            try:
+                by_name[lines[-2]] = (parts[i + 1], parts[i + 2], int(lines[-1]))
+            except ValueError:
+                pass
+        i += 3
+    return [by_name.get(f"p_{j:04d}", ("", "<missing>", -1)) for j in range(len(probes))], ""
+
+
+_warm: dict[str, tuple[str, Path]] = {}   # code-hash -> (container id, host root mounted at /w)
+
+
+def _warm_container(image: str, key: str, *, allow_network: bool = False) -> str:
+    """One long-lived container per CANDIDATE, so probes cost a `docker exec` (~50 ms) instead
+    of a `docker run` (~1.5 s). With a 234-probe oracle and no early exit in make_verify, the
+    per-run cost was ~6 min of pure startup per candidate.
+
+    Returns "" if Docker is unavailable, so the caller falls back to `docker run`.
+    """
+    hit = _warm.get(key)
+    if hit:
+        return hit[0]
+    root = Path(tempfile.mkdtemp(prefix=f"dtx_warm_{key[:10]}_"))
+    net = [] if allow_network else ["--network=none"]
+    try:
+        cp = subprocess.run(
+            ["docker", "run", "-d", "--rm", *net, "-v", f"{root}:/w", "-w", "/w",
+             "--entrypoint", "sh", image, "-c", "sleep 86400"],
+            capture_output=True, text=True, timeout=180)
+    except Exception:
+        return ""
+    cid = (cp.stdout or "").strip()
+    if cp.returncode != 0 or not cid:
+        return ""
+    _warm[key] = (cid, root)
+    import atexit
+    def _cleanup(c: str = cid) -> None:
+        subprocess.run(["docker", "rm", "-f", c], capture_output=True, timeout=60)
+    atexit.register(_cleanup)
+    return cid
+
+
+def _exec_probe(cid: str, src_dir: Path, binname: str, argv: list[str],
+                stdin: str | None, timeout: int) -> tuple[str, str, int]:
+    """Run one probe inside the already-warm container. Each probe gets a fresh subdirectory
+    so its input files cannot leak into the next one.
+
+    The BINARY is copied once per candidate, not per probe. Copying it every time cost ~1.2 s
+    for an 8 MB static Go binary and wiped out the warm container's whole advantage: measured
+    1.54 s/probe with the copy vs ~0.30 s for a bare `docker exec` on this host.
+    """
+    root = next((r for c, r in _warm.values() if c == cid), None)
+    if root is None:
+        raise RuntimeError("warm container has no mounted root")
+    shared_bin = root / binname
+    if not shared_bin.exists():
+        _shutil.copy2(src_dir / binname, shared_bin)
+        _os.chmod(shared_bin, 0o755)
+    sub = root / _uuid.uuid4().hex[:12]
+    sub.mkdir(parents=True, exist_ok=True)
+    for f in src_dir.iterdir():        # probe inputs only -- the binary already lives at /w
+        if f.name != binname and f.is_file():
+            _shutil.copy2(f, sub / f.name)
+    cp = subprocess.run(["docker", "exec", "-i", "-w", f"/w/{sub.name}", cid,
+                         f"/w/{binname}", *argv],
+                        input=(stdin or ""), capture_output=True, text=True, timeout=timeout)
+    try:
+        _shutil.rmtree(sub, ignore_errors=True)
+    except Exception:
+        pass
+    return cp.stdout, cp.stderr, cp.returncode
+
+
+def make_native_runner(lang: str, *, timeout: int = 30, image: str | None = None):
     """A candidate runner that COMPILES the native source once (cached per code-hash) then runs
     the real binary on each probe -- pluggable into make_verify(runner=...). Compile failure =>
     the compiler oracle rejects the candidate (returns a nonzero rc with the compiler error as
@@ -954,10 +1217,14 @@ def make_native_runner(lang: str, *, timeout: int = 30):
     import hashlib
 
     def runner(code: str, p: Probe, *, timeout: int = timeout) -> tuple[str, str, int]:
-        h = hashlib.sha256((lang + "\x00" + code).encode()).hexdigest()
+        h = hashlib.sha256((lang + "\x00" + (image or "host") + "\x00" + code).encode()).hexdigest()
         if h not in _native_cache:
             d = Path(tempfile.mkdtemp(prefix="determinex_native_"))
-            binary, cerr = _compile_native(lang, code, d)
+            # Build where the reference was observed. See assert_same_platform_as_reference:
+            # a host build graded against in-image ground truth produced 0/234 for a candidate
+            # that scores 84% when built and run in the image.
+            binary, cerr = (_compile_native_in_container(lang, code, d) if image
+                            else _compile_native(lang, code, d))
             _native_cache[h] = (d, binary, cerr)
         _d, binary, cerr = _native_cache[h]
         if binary is None:
@@ -985,6 +1252,30 @@ def make_native_runner(lang: str, *, timeout: int = 30):
                         srv = _start_host_server(p.serve, str(sd))
                     except OSError:
                         srv = None
+                if image:
+                    # Run in the SAME image the reference was observed in, so libc, locale,
+                    # TTY-ness and error text match.
+                    #
+                    # PERF (2026-07-31): `docker run` per probe costs ~1.5 s of container
+                    # startup. make_verify has no early exit, so a 234-probe oracle spends
+                    # ~6 min per candidate on startup alone -- 6-8 h for a k=32 x 2-round
+                    # search, which makes the correct fix unusable. Keep ONE warm container
+                    # per candidate (keyed by code hash) and `docker exec` each probe (~50 ms).
+                    cid = _warm_container(image, h, allow_network=bool(p.serve))
+                    if cid:
+                        try:
+                            return _exec_probe(cid, rdp, local_bin.name, argv, p.stdin, timeout)
+                        except subprocess.TimeoutExpired:
+                            return "", "<timeout>", 124
+                    net = [] if p.serve else ["--network=none"]
+                    dcmd = ["docker", "run", "--rm", "-i", *net,
+                            "-v", f"{rdp}:/w", "-w", "/w", image, "/w/" + local_bin.name, *argv]
+                    try:
+                        cp = subprocess.run(dcmd, input=(p.stdin or ""), capture_output=True,
+                                            text=True, timeout=timeout)
+                        return cp.stdout, cp.stderr, cp.returncode
+                    except subprocess.TimeoutExpired:
+                        return "", "<timeout>", 124
                 cmd = [str(local_bin), *argv]
                 try:
                     from intake.hardened_runner import run as _hrun
@@ -1009,17 +1300,34 @@ def make_native_runner(lang: str, *, timeout: int = 30):
 
 
 def make_verify(observations: list[Observation], *, check_stderr: bool = False,
-                runner=_run_candidate_py):
+                runner=_run_candidate_py, batch: tuple[str, str] | None = None):
     """Return verify(code)->OracleResult: candidate must reproduce stdout (and rc) on every
     probe. stderr is checked only if check_stderr (stderr is often less stable). SOUND: only
-    observed probes are asserted."""
+    observed probes are asserted.
+
+    `batch=(lang, image)` runs the WHOLE battery in one container instead of invoking `runner`
+    per probe. There is no early exit here, so per-probe container + bind-mount overhead
+    dominated everything: measured 1310 ms/probe (5.1 min/candidate) per-probe vs 239 ms/probe
+    (56 s/candidate) batched, at identical accuracy (223/234 both ways). The tool itself runs
+    in ~5 ms; the rest was transport.
+    """
     def verify(code: str) -> OracleResult:
         failures: list[Failure] = []
+        precomputed: list[tuple[str, str, int]] | None = None
+        if batch:
+            _lang, _image = batch
+            precomputed, _cerr = run_probes_batched(_lang, code, [o.probe for o in observations],
+                                                    _image)
+            if _cerr:
+                # Compile failure: the compiler oracle rejects the candidate, with the error as
+                # feedback -- same contract as the per-probe path.
+                precomputed = [("", f"<compile-error: {_cerr}>", 1)] * len(observations)
         npass = 0
         n_genuine = n_genuine_pass = 0
         tot_exp_lines = matched_lines = 0
-        for o in observations:
-            so, se, rc = runner(code, o.probe)
+        for _idx, o in enumerate(observations):
+            so, se, rc = (precomputed[_idx] if precomputed is not None
+                          else runner(code, o.probe))
 
             # ASSERTION-AWARE PATH (2026-07-03): honor the official test's REAL criteria
             # (CONTAINS / rc-only) instead of demanding exact reproduction of the reference

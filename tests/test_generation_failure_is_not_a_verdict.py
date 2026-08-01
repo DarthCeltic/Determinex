@@ -305,6 +305,77 @@ class TestTheDistinctionSurvivesToTheIdeBoundary:
         assert "idea_text" in surface, "the backend must read idea_text"
 
 
+class TestADegenerateSamplerIsNotAModelVerdict:
+    """A provider that ignores `temperature` silently reduces verified search to K=1.
+
+    MEASURED 2026-07-31 against OpenRouter's free tier: four draws at t=0.0/0.5/1.0/1.0
+    returned BYTE-IDENTICAL text (same sha256), and a k=8 x 2-round reimpl run logged 15
+    "duplicate, skipped" out of 16 samples. The run then reported "238 fail" as though it
+    had genuinely tried sixteen times.
+
+    The old diagnosis was "no distinct candidates (model is looping)". That sends the
+    reader at the prompt when the fix is the provider. Same class as the two faults already
+    documented in this module -- a provider fault wearing a model verdict's clothes.
+    """
+
+    class _R:
+        passed = False
+        score = 0.0
+
+        def __init__(self):
+            self.failures = [type("F", (), {"test_id": "t", "name": "n", "text": "x"})()]
+
+    def _search(self, gen, k=8, rounds=2):
+        from determinex_verified_search import VerifiedSearch
+        return VerifiedSearch(verify=lambda _t: self._R(), k=k, rounds=rounds,
+                              adjudicate=False).solve(gen, "p")
+
+    def test_a_temperature_ignoring_provider_is_named_as_such(self):
+        res = self._search(lambda _p, _t: "IDENTICAL OUTPUT")
+        assert res.solved is False
+        assert "SAMPLER IGNORED TEMPERATURE" in res.proof, res.proof
+
+    def test_it_is_not_misdiagnosed_as_a_looping_model(self):
+        res = self._search(lambda _p, _t: "IDENTICAL OUTPUT")
+        assert "looping" not in res.proof.lower(), (
+            "the model is not looping; the provider is not sampling"
+        )
+
+    def test_the_proof_says_it_is_a_provider_fault_not_a_capability_verdict(self):
+        res = self._search(lambda _p, _t: "IDENTICAL OUTPUT")
+        low = res.proof.lower()
+        assert "provider" in low and "not a model capability verdict" in low, res.proof
+
+    def test_the_proof_reports_how_many_temperatures_were_actually_tried(self):
+        """Without the counts a reader cannot tell this from an unlucky single draw."""
+        res = self._search(lambda _p, _t: "IDENTICAL OUTPUT")
+        assert "distinct temperatures" in res.proof
+        assert "8 draws" in res.proof, res.proof
+
+    def test_a_varying_sampler_is_never_flagged(self):
+        """Negative control: the check must not fire on a healthy provider."""
+        res = self._search(lambda _p, t: f"varies at {t}")
+        assert "SAMPLER IGNORED TEMPERATURE" not in res.proof, res.proof
+
+    def test_a_single_temperature_run_is_never_flagged(self):
+        """With k=1 there is only one temperature, so identical output proves nothing."""
+        res = self._search(lambda _p, _t: "IDENTICAL", k=1, rounds=1)
+        assert "SAMPLER IGNORED TEMPERATURE" not in res.proof, res.proof
+
+    def test_a_degenerate_sampler_that_solves_still_solves(self):
+        """The check must not steal a win: one identical-but-correct answer is still a pass."""
+        from determinex_verified_search import VerifiedSearch
+
+        class _Pass:
+            passed = True
+            failures: list = []
+            score = 1.0
+
+        res = VerifiedSearch(verify=lambda _t: _Pass(), k=8, rounds=2,
+                             adjudicate=False).solve(lambda _p, _t: "IDENTICAL", "p")
+        assert res.solved is True
+
+
 class TestAFencedCandidateIsNotAModelVerdict:
     """Same class as the module docstring, one provider further out.
 

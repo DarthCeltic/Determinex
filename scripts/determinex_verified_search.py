@@ -148,6 +148,7 @@ class VerifiedSearch:
     def solve(self, generate: GenerateFn, prompt: str) -> SearchResult:
         history: list[Candidate] = []
         seen: set[str] = set()
+        temps_used: set[float] = set()   # to tell a degenerate sampler from a looping model
         feedback = ""
         best: Candidate | None = None
         total = 0
@@ -177,6 +178,7 @@ class VerifiedSearch:
             # CONCURRENTLY (bounded by max_conc, see above). Each generate() opens its own
             # connection (thread-safe).
             temps = [self._temp_for(i) for i in range(self.k)]
+            temps_used.update(temps)
 
             def _gen_one(temp, _p=round_prompt):
                 t0 = _time.time()
@@ -241,6 +243,27 @@ class VerifiedSearch:
                         generation_errors=gen_errors,
                         generation_error_sample=first_gen_error)
             # --- round did not solve: build feedback from the best partial ---
+            # DEGENERATE SAMPLER (2026-07-31): a provider that ignores `temperature` returns
+            # byte-identical text at every temperature, so K draws dedup to ONE candidate and
+            # verified search silently becomes K=1 -- while still reporting "N samples". The
+            # whole architecture rests on drawing DISTINCT candidates, so this is not a model
+            # verdict at all. Measured on OpenRouter's free tier: four draws at t=0.0/0.5/1.0/1.0
+            # produced one distinct output (sha identical), and a k=8 x 2-round run yielded 15
+            # "duplicate, skipped" out of 16.
+            #
+            # This is the THIRD time this file has had to separate a provider fault from a model
+            # behaviour (see the generation-error note above, and the bare-Ollama-tag note in
+            # tests/test_generation_failure_is_not_a_verdict.py). Same lesson each time: "the
+            # model is looping" is a diagnosis, and diagnoses must be earned.
+            if (len(seen) <= 1 and total >= 4 and len({round(t, 3) for t in temps_used}) >= 2):
+                return self._escalate(
+                    best, history, total, r + 1,
+                    f"SAMPLER IGNORED TEMPERATURE: {total} draws across "
+                    f"{len({round(t, 3) for t in temps_used})} distinct temperatures produced "
+                    f"{len(seen)} distinct candidate(s). Verified search is degenerate at K=1 on "
+                    f"this provider -- best-of-K cannot work until sampling varies. This is a "
+                    f"provider/config fault, NOT a model capability verdict.",
+                    gen_errors=gen_errors, first_gen_error=first_gen_error)
             if distinct_this_round == 0:
                 # Distinguish "the model repeats itself" from "the model was never reached".
                 # Both produced zero distinct candidates, and the old code called both looping --

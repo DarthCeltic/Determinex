@@ -507,6 +507,91 @@
     "hackathon and OSS submission forks"
    ],
    "status": "FOUND 2026-07-31, remediated by revocation."
+  },
+  "scanner_exclusion_outlives_its_premise": {
+   "detect": "A secret scanner that EXCLUDES a path as known-false-positive, where that path later becomes publishable. In this repo: secret_scan.py's _FALSE_POSITIVE excludes '^corpus/' because corpus holds upstream benchmark test vectors.",
+   "symptom": "The scanner reports 'clean -- no secrets in tracked files' and the publish tool trusts it, while the remote rejects the push. The scanner is not wrong; it answered a question about the files it looks at, and something else changed which files matter.",
+   "proven": "2026-07-31: publishing corpus/ with publish_mirror.py --allow-new-path corpus passed our own staged secret scan and was then REJECTED by GitHub push protection with 10 detections. corpus/programbench/specs/sirwart__ripsecrets.34c9e03.json alone contains 56 sk_live_ strings, 5 ghp_ tokens, 4 PRIVATE KEY headers, 3 slack and 2 sendgrid tokens -- it is a SECRET-DETECTION TOOL's test corpus, so being full of secret-shaped strings is its purpose.",
+   "fix": "An exclusion must be scoped to a publication decision, not to a directory name. When a path moves from never-published to published, its exclusions must be re-derived -- ideally by having the publish boundary and the scanner read the SAME manifest, the way the corpus license boundary already does via REDISTRIBUTION_BOUNDARY.json.",
+   "resolution_taken": "Did NOT publish corpus/ and did NOT click GitHub's 10 unblock links -- asserting someone else's test fixtures are false positives is not a call we can make. Published ONLY corpus/programbench/build_knowledge.json, which is determinex_corpus_api's DEFAULT_PATH, so the recorded findings are reproducible from a public clone without redistributing 69 MB of upstream secret fixtures. Verified by cloning the public repo anonymously and running the documented search command.",
+   "applies_to": [
+    "scripts/security/secret_scan.py",
+    "scripts/publish_mirror.py",
+    "tests/test_corpus_publication_boundary.py"
+   ],
+   "status": "FOUND 2026-07-31. Worked around by narrowing publication; the coupling is not fixed.",
+   "see_also": "amd_radeon_hackathon_incident_2026_07_31"
+  },
+  "prove_oracle_difficulty_with_the_prior_winner": {
+   "detect": "You have a synthesized oracle and need to know whether it has real difficulty, or whether it merely looks hard. Applies whenever a task solves on sample 1 and you cannot tell if that means 'good model' or 'trivial oracle'.",
+   "method": "Keep the program that PASSED the weaker oracle. Enrich the oracle, then re-run that SAME program against it. If the prior winner still passes, the enrichment added zero difficulty and the task is unchanged no matter how much longer the spec got. If it fails, you have measured exactly how much difficulty you added, and where.",
+   "why_it_matters": "Difficulty is otherwise judged by how hard a task LOOKS, which is how a demo ends up showing a 7B model solving run-length encoding. This is a cheap, decisive check -- one pytest run, no model calls.",
+   "known_trap_json_literals": "For any JSON/serialization task: Python's repr of None/True/False is None/True/False, but JSON's is null/true/false. A candidate that f-strings values straight into output (f'{path} = {obj};') passes every string/number/array/object example and fails only on null and booleans. One example pins it.",
+   "proven": "2026-07-31, gron-style JSON flattening: qwen2.5-coder:14b solved a 5-example oracle on sample 1. Adding ONE example -- gron('{\"n\":null,\"t\":true}') -- made that exact winning program fail 1 of 6 (emitted 'json.n = None;' for 'json.n = null;'). Same task, same model, genuine difficulty, and the added case is faithful to the real tool rather than invented to be hard.",
+   "relation": "Complements ORACLE_MUST_PIN_CORE_INVARIANTS_2026_06_24: that entry warns enrichment must ADD to and never DILUTE the core (a richer oracle let verified search trade away bare-stdin and crash 96->19). This entry is the other half -- enrichment that adds nothing is just as useless, and the prior winner tells you which happened.",
+   "applies_to": [
+    "determinex_synthesize",
+    "determinex_build_from_idea",
+    "demo and benchmark task selection"
+   ],
+   "non_finding": "The investigation that produced this ALSO looked like a synthesizer bug -- a SyntaxError at collection while validate_oracle reported 'oracle runnable'. It was not. The generated oracle compiled; the malformed file was the throwaway candidate in the test harness. Recorded so nobody re-opens it: validate_oracle was correct."
+  },
+  "verified_search_K_is_bounded_by_kv_concurrency": {
+   "detect": "Choosing K for verified search / best-of-K sampling against a batching server (vLLM, TGI, SGLang). Applies to any deployment where K is picked by intuition.",
+   "rule": "Keep K below floor(kv_cache_tokens / max_model_len). Both numbers are printed by vLLM at boot ('GPU KV cache size: N tokens' and 'Maximum concurrency for M tokens per request: X'). Exceeding it makes requests preempt instead of batch.",
+   "measured": "AMD Radeon, ROCm 7.2.1, vLLM 0.16.1, Qwen2.5-Coder-7B-Instruct, 256-tok completions: K=1 28.7 tok/s @8.92s | K=8 220.3 @9.30 | K=16 413.5 @9.91 | K=32 739.9 @10.75 | K=48 849.7 @13.62 | K=64 512.6 @29.59 (COLLAPSE). Server declared max concurrency 61.83x; the cliff lands between 48 and 64, i.e. exactly where the arithmetic says.",
+   "why_it_matters": "K is the only knob converting GPU capacity into correctness (P = 1-(1-p)^K). At p=0.3: K=6 -> 88.2%, K=16 -> 99.7%, K=32 -> 99.999%, and K=32 costs 1.21x the wall clock of K=1. Under-setting K wastes correctness that is nearly free; over-setting it is catastrophic, not merely suboptimal.",
+   "second_finding_prefix_cache": "Verified search's prompts are IDENTICAL but for temperature -- near-ideal for a prefix cache and unlike a normal agent's K distinct prompts. Measured at K=16: 99.51% hit rate vs 1.35%, worth 410.9 vs 292.9 tok/s and 9.97s vs 13.98s. So enable_prefix_caching is load-bearing for this workload, not a generic nicety.",
+   "method_warning": "The first A/B appended the variant marker to the END of each 'distinct' prompt. The long prefix stayed shared, the control also scored ~99% hit rate, and the gap looked like 30% instead of 40%+. To defeat a prefix cache the prompts must diverge at token 0. A control that does not control is worse than no control.",
+   "applies_to": [
+    "determinex_verified_search",
+    "determinex_amplified_solve",
+    "scripts/hive/amplifier_bridge.py",
+    "any batching inference server"
+   ],
+   "status": "MEASURED 2026-07-31 on real hardware. Re-measure per GPU; the RULE generalises, the numbers do not."
+  },
+  "amplification_floor_p_must_exceed_zero": {
+   "detect": "Verified search / best-of-K reports 'not solved' at every K on a task, and the harness has already been cleared (candidates compile, failures are varied assertion errors, not a uniform import error).",
+   "rule": "P = 1-(1-p)^K is 0 for every K when p is 0. Sampling multiplies capability; it cannot manufacture it. Raising K on a p=0 task is wasted compute, not a longer shot.",
+   "measured": "2026-07-31, AMD Radeon, Qwen2.5-Coder-7B-Instruct, 960 independent generations (192 per task, temp 0.6, verified against the same synthesized oracle): rle 4-check 192/192 (p=1.000) | rle 6-check with double-digit runs 192/192 (1.000) | gron 4-check 0/192 | gron 5-check 1/192 (0.0052) | gron 6-check with JSON-literal semantics 0/192. No mid-range p was findable in budget; removing the array case did not help, so the barrier is container-declaration semantics, not indexing.",
+   "diagnostic_ladder": "Given a 0/N sweep, distinguish three causes IN THIS ORDER: (1) harness -- uniform import/collection error on every candidate (see fenced_candidate_not_stripped); (2) oracle too strict / slop -- run the Test Validator; (3) genuine p=0 -- candidates compile and fail on VARIED assertions. Only (3) justifies 'the model cannot do this'.",
+   "policy": "Do NOT tune K per task. The K-sweep shows cost is near-flat to K=32 (1.21x wall clock for 25.8x tokens), so run large K always: nearly free, and it pays exactly when p is mid-range, which is unknowable in advance. See verified_search_K_is_bounded_by_kv_concurrency for the upper bound.",
+   "measure_p_cheaply": "Draw N i.i.d. candidates ONCE at fixed temperature, verify all N, then bootstrap any K from that pool. Same estimator as re-running each K live, no extra GPU. Caveat: with 0 or 1 successes the bootstrap is near-tautological and validates nothing.",
+   "applies_to": [
+    "determinex_verified_search",
+    "determinex_amplified_solve",
+    "determinex_build_from_idea"
+   ],
+   "status": "MEASURED 2026-07-31 on real hardware."
+  },
+  "offline_toolchain_readiness_verified_both_ways": {
+   "detect": "Before claiming a native reimplementation was produced legitimately, you must show the build environment had the toolchain LOCALLY and could not reach upstream. Applies to every PB/native submission.",
+   "verify_both_directions": "POSITIVE: a stdlib-only program compiles with --network=none. NEGATIVE: a program importing a third-party module FAILS with --network=none. Only running both proves the toolchain is present AND the network is genuinely off. The positive alone would also pass if the container silently had network.",
+   "measured": "2026-07-31, docker golang:1.23-alpine, --network=none: stdlib json+fmt program -> BUILD_OK; import github.com/fatih/color -> 'no required module provides package ... to add it: go get' -> BUILD_REFUSED_OFFLINE. Oracle images all present locally: rust:1.82-slim, golang:1.23-alpine, python:3.12-slim, determinex-oracle-ts:20.",
+   "consequence_for_the_prompt": "Because upstream fetch is refused, a candidate MUST be standard-library only. determinex_pb_reimpl already states this (language_directive: 'standard library only, no external'). If a reimpl prompt ever omits it, the model writes an ordinary third-party import and every candidate fails to build -- which reads as model incapacity but is a prompt gap. Check the prompt before blaming the model.",
+   "task_image_gotcha": "determinex_pb_reimpl aborts with 'no :task image for <slug>' when the PB cleanroom image is absent. Running the official `programbench eval` once PULLS it (programbench/<owner>_<n>_<tool>.<hash>:task_cleanroom_v6, ~2.9 GB), after which the reimpl loop runs. Also: the slug must be the FULL owner__tool.hash form, not the short name.",
+   "applies_to": [
+    "scripts/determinex_pb_reimpl.py",
+    "scripts/hive/compiler.py",
+    "any native PB submission"
+   ],
+   "status": "VERIFIED 2026-07-31 on the local Docker host."
+  },
+  "degenerate_sampler_collapses_verified_search_to_k1": {
+   "detect": "A verified-search run logs mostly 'duplicate, skipped' -- e.g. 15 of 16 samples -- or escalates with 'no distinct candidates (model is looping)'. Check the provider before the prompt.",
+   "root_cause": "The provider IGNORES the temperature parameter (or serves a cached response), so every draw is byte-identical. K draws dedup to ONE candidate and best-of-K silently becomes K=1, while the run still reports 'N samples'. The entire amplification argument P = 1-(1-p)^K assumes DISTINCT draws; without them K is a lie.",
+   "proven": "2026-07-31, OpenRouter free tier, openrouter/qwen/qwen3-coder:free: four completions at temperature 0.0 / 0.5 / 1.0 / 1.0 returned identical text (same sha256, same length). A k=8 x rounds=2 ProgramBench reimpl run produced 15 'duplicate, skipped' out of 16 and reported '238 fail' as if it had tried sixteen times. By contrast the Radeon-hosted vLLM (Qwen2.5-Coder-7B) DOES vary -- its samples were distinct.",
+   "fix_shipped": "determinex_verified_search now detects it: when >=4 draws across >=2 distinct temperatures yield <=1 distinct candidate, it escalates with 'SAMPLER IGNORED TEMPERATURE ... provider/config fault, NOT a model capability verdict' instead of 'model is looping'. Guarded by 7 tests including two negative controls (a varying sampler and a k=1 run must NOT trip it) and one that a degenerate-but-CORRECT answer still counts as solved.",
+   "why_it_matters_beyond_this_bug": "Free/cheap tiers are exactly where a small-model amplification strategy wants to run. If the tier does not sample, the strategy is worthless there and the failure is invisible. Verify sampling variance before trusting ANY best-of-K result from a new provider: draw twice at different temperatures and compare hashes. It costs two calls.",
+   "family": "Third instance in this module of a PROVIDER fault reported as a MODEL verdict, after the bare-Ollama-tag BadRequestError and the unstripped-fence bug. The recurring lesson: 'the model is looping' / 'not solved' are diagnoses, and diagnoses must be earned.",
+   "applies_to": [
+    "determinex_verified_search",
+    "determinex_amplified_solve",
+    "determinex_pb_reimpl",
+    "litellm_config.yaml free/* tier"
+   ],
+   "status": "FOUND AND FIXED 2026-07-31."
   }
  },
  "lib_to_apt": {
