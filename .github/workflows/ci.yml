@@ -87,7 +87,23 @@ jobs:
             numpy \
             psutil \
             httpx \
-            litellm
+            litellm \
+            tenacity \
+            cryptography \
+            click \
+            pydantic-settings \
+            requests \
+            tqdm
+          # These are the module-level third-party imports reachable from tests/ that were
+          # NOT installed here. `tenacity` surfaced first as a collection ImportError, and
+          # finding the rest one CI round trip at a time would have taken five more pushes,
+          # so the set was computed by walking module-level imports across scripts/ and
+          # subtracting stdlib, first-party and this list.
+          #
+          # Deliberately EXCLUDED: torch, transformers, peft, datasets. They are multi-GB
+          # and belong to training paths; any test needing them should carry a `slow` or
+          # `integration` marker, which this job already filters out. Installing them to
+          # make a fast lane pass would make it not a fast lane.
       - name: Run fast unit tests
         run: |
           python -m pytest tests/ \
