@@ -48,7 +48,15 @@ __pycache__/
 .determinex_tmp/
 .determinex_tools/
 quarantine/
-logs/
+# `logs/` excluded the DIRECTORY, and git cannot re-include a file whose parent directory is
+# excluded -- so no negation could ever reach the eval artifacts, and the mirror's copy of
+# this file made `git add -A` refuse all 91 of them on publish. Exclude the CONTENTS instead,
+# then re-admit the one subtree the WHITE_PAPER cites by path. 1.8 MB, scanned for
+# credentials and personal paths. Run traces, cloak audits and everything else stay out.
+logs/*
+!logs/eval_results/
+logs/eval_results/*
+!logs/eval_results/*.json
 determinex_memory/
 sessions/
 

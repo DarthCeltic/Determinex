@@ -1,0 +1,56 @@
+{
+  "model": "llama3.2:3b",
+  "concept": "count_chars(s: &str, target: char) -> usize",
+  "timestamp": "2026-04-12T13:57:12.912939",
+  "passed": 4,
+  "total": 5,
+  "score_pct": 80,
+  "grade": "A",
+  "probes": [
+    {
+      "probe_id": "P1_basic",
+      "label": "Basic: count a specific char",
+      "passed": false,
+      "elapsed": 2.7,
+      "compile_error": "error[E0425]: cannot find value `c` in this scope\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpffw7amz2.rs:3:34\n  |\n3 |     s.chars().filter(|&ch| ch == c).count()\n  |                                  ^\n  |\nhelp: a local variable with a similar name exists\n  |\n3 |     s.chars().filter(|&ch| ch == ch).c",
+      "runtime_out": "",
+      "body_preview": "s.chars().filter(|&ch| ch == c).count()"
+    },
+    {
+      "probe_id": "P2_empty",
+      "label": "Edge case: empty string returns 0",
+      "passed": true,
+      "elapsed": 3.1,
+      "compile_error": "",
+      "runtime_out": "EDGE PASS",
+      "body_preview": "if s.is_empty() {\n        return 0;\n    }\n    let mut count = 0;\n    for c in s.chars() {\n        if c == target {\n            count += 1;\n        }\n    }\n    count"
+    },
+    {
+      "probe_id": "P3_unicode",
+      "label": "Unicode: multi-byte chars",
+      "passed": true,
+      "elapsed": 2.65,
+      "compile_error": "",
+      "runtime_out": "UNICODE PASS",
+      "body_preview": "s.chars().filter(|c| *c == target).count()"
+    },
+    {
+      "probe_id": "P4_idiomatic",
+      "label": "Idiomatic: one-liner functional style",
+      "passed": true,
+      "elapsed": 2.64,
+      "compile_error": "",
+      "runtime_out": "IDIOMATIC PASS",
+      "body_preview": "s.chars().filter(|c| *c == target).count()"
+    },
+    {
+      "probe_id": "P5_rename_variant",
+      "label": "Concept transfer: renamed function",
+      "passed": true,
+      "elapsed": 2.69,
+      "compile_error": "",
+      "runtime_out": "TRANSFER PASS",
+      "body_preview": "text.chars().filter(|c| *c == ch).count()"
+    }
+  ]
+}

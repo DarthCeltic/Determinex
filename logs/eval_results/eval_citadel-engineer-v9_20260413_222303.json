@@ -1,0 +1,60 @@
+{
+  "model": "citadel-engineer-v9",
+  "timestamp": "2026-04-13T22:23:03.328642",
+  "concepts": {
+    "safe_divide": {
+      "concept": "safe_divide",
+      "lang": "python",
+      "passed": 2,
+      "total": 5,
+      "score_pct": 40,
+      "grade": "C",
+      "probes": [
+        {
+          "probe_id": "SD_P1_basic",
+          "label": "Basic: normal division",
+          "passed": false,
+          "elapsed": 2.79,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp4ei4__aa.py\", line 8\n    return a / b<|eot|\n                 ^\nSyntaxError: invalid syntax\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "SD_P2_zero_divisor",
+          "label": "Zero divisor returns None",
+          "passed": false,
+          "elapsed": 2.74,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp_e5wmcan.py\", line 9\n    ```<|eot_id|>\n    ^\nSyntaxError: invalid syntax\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "SD_P3_zero_dividend",
+          "label": "Zero dividend returns 0.0, not None",
+          "passed": false,
+          "elapsed": 2.91,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpg12iu4hf.py\", line 12\n    ```<|eot_id|>\n    ^\nSyntaxError: invalid syntax\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "SD_P4_negative",
+          "label": "Negative numbers",
+          "passed": true,
+          "elapsed": 2.63,
+          "compile_error": "",
+          "runtime_out": "SD_P4 PASS"
+        },
+        {
+          "probe_id": "SD_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 2.7,
+          "compile_error": "",
+          "runtime_out": "SD_P5 PASS"
+        }
+      ]
+    }
+  },
+  "total_passed": 2,
+  "total_probes": 5,
+  "overall_pct": 40,
+  "overall_grade": "C"
+}
