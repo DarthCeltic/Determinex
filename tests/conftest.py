@@ -170,19 +170,50 @@ def evidence_tree_present(index: Path | None = None) -> bool:
     return (index or _EVIDENCE_INDEX).is_file()
 
 
-def pytest_collection_modifyitems(config, items):  # noqa: ARG001
-    """Skip ONLY the two named evidence assertions, and only when the tree is absent.
+def _module_missing_data_paths(module) -> list[Path]:
+    """assurance/ paths a test module DECLARES that this checkout does not have.
 
-    Deliberately not a pattern match: a broad filter here would silently disable tests
-    nobody intended to disable, which is the failure mode this repository already has a
-    guard against (`pb_override_scan --guard`) in the ProgramBench submission context.
+    Scoped to `assurance/` ON PURPOSE, and that scope was measured rather than reasoned.
+    Widening it to `corpus/` too -- on the apparently sound grounds that the public mirror
+    ships only the corpus knowledge layer -- was a disaster: against a real public clone it
+    took skipped from 260 to 2,187 and passed from 4,392 to 2,491. About 1,900 passing tests
+    were switched off to convert 26 failures, because a module declaring ten corpus paths of
+    which one was absent had ALL of its tests skipped, most of which never touched it.
+
+    Turning off working tests to make CI green is precisely the failure this repository
+    guards against elsewhere (`pb_override_scan --guard`). The narrow rule is the correct
+    one: `assurance/` is never published at all, so a module declaring a path under it in a
+    public checkout genuinely cannot verify what it claims to.
     """
-    if evidence_tree_present():
-        return
-    skip = pytest.mark.skip(
-        reason="assurance/evidence is never published, so this checkout has no evidence "
-               "tree; the evidence lock was NOT verified in this run"
-    )
+    out: list[Path] = []
+    for attr in vars(module).values():
+        if isinstance(attr, Path) and "assurance" in attr.parts and not attr.exists():
+            out.append(attr)
+    return out
+
+
+def pytest_collection_modifyitems(config, items):  # noqa: ARG001
+    """Skip evidence-dependent locks when the evidence tree is absent -- and only then.
+
+    Deliberately NOT a name pattern: a filter that guesses would silently disable tests
+    nobody intended to disable, which is the failure mode this repository already guards
+    against (`pb_override_scan --guard`) in the ProgramBench submission context. The
+    condition here is a fact about the checkout, not about a test's name -- and where the
+    evidence tree exists, which is every development checkout, nothing is skipped at all.
+    """
+    cache: dict[str, list[Path]] = {}
     for item in items:
-        if item.name in _EVIDENCE_TESTS:
-            item.add_marker(skip)
+        module = getattr(item, "module", None)
+        if module is None:
+            continue
+        name = module.__name__
+        if name not in cache:
+            cache[name] = _module_missing_data_paths(module)
+        missing = cache[name]
+        if not missing:
+            continue
+        item.add_marker(pytest.mark.skip(
+            reason=f"this checkout does not ship {missing[0].as_posix().split('/')[0]}/ data "
+                   f"that this module asserts on (missing: {missing[0].name}); the lock was "
+                   f"NOT verified in this run"
+        ))

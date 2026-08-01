@@ -108,8 +108,12 @@ jobs:
         run: |
           python -m pytest tests/ \
             -m "not slow and not integration and not hetzner and not docker" \
-            -x -q --timeout=60 \
+            -q --timeout=60 \
             --ignore=tests/corpus
+          # NOT -x. Fail-fast stops at the first failure, so one CI run reveals exactly one
+          # broken test and the next one needs another push and another ~4 minutes. Fixing a
+          # class of failure that way costs one round trip per instance -- the evidence-tree
+          # locks alone would have taken over a hundred. Report everything, fix in batches.
 
   governance-gates:
     name: Governance Gates
