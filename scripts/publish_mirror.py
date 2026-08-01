@@ -337,6 +337,16 @@ def main() -> int:
 
     print(f"[1/5] Reading the mirror's own tree from {args.remote}/{args.branch} ...")
     allowlist = mirror_allowlist(args.remote, args.branch)
+    # NEVER_EXCEPT paths are unconditional, not derived. The allowlist comes from the
+    # mirror's own tree, and the mirror's top-level entry for these is `logs`, which is on
+    # NEVER -- so the exception survived exactly one publish (the one that named it via
+    # --allow-new-path) and the very next run dropped the entry, saw 91 files present
+    # remotely and absent locally, and DELETED them. An exception that has to be re-argued
+    # every run is not an exception.
+    for exc in NEVER_EXCEPT:
+        entry = exc.rstrip("/")
+        if entry not in allowlist and (REPO / entry).exists():
+            allowlist.append(entry)
     for extra in args.allow_new_path:
         # An explicit --allow-new-path for a NEVER path is a CONTRADICTION: the operator
         # asserts "publish this", the policy asserts "never publish this", and only one of

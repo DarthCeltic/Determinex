@@ -1,0 +1,60 @@
+{
+  "model": "citadel-engineer-v9",
+  "timestamp": "2026-04-13T22:32:51.030346",
+  "concepts": {
+    "go_fmt_errorf": {
+      "concept": "go_fmt_errorf",
+      "lang": "go",
+      "passed": 3,
+      "total": 5,
+      "score_pct": 60,
+      "grade": "B",
+      "probes": [
+        {
+          "probe_id": "GF_P1_basic",
+          "label": "Basic: fmt.Errorf with %w wraps correctly",
+          "passed": true,
+          "elapsed": 12.62,
+          "compile_error": "",
+          "runtime_out": "GF_P1 PASS"
+        },
+        {
+          "probe_id": "GF_P2_message",
+          "label": "Wrapped error message contains msg and original",
+          "passed": false,
+          "elapsed": 2.69,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp2a6estng.go:11:41: err redeclared in this block\n\tC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp2a6estng.go:11:29: other declaration of err\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GF_P3_chain",
+          "label": "Double-wrapped: errors.Is reaches root",
+          "passed": true,
+          "elapsed": 2.87,
+          "compile_error": "",
+          "runtime_out": "GF_P3 PASS"
+        },
+        {
+          "probe_id": "GF_P4_nil_safe",
+          "label": "Nil error input returns nil",
+          "passed": false,
+          "elapsed": 8.44,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1l_kh0hn.go:10:83: syntax error: unexpected name wrapped at end of statement\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GF_P5_rename",
+          "label": "Concept transfer: renamed to annotate_error",
+          "passed": true,
+          "elapsed": 2.8,
+          "compile_error": "",
+          "runtime_out": "GF_P5 PASS"
+        }
+      ]
+    }
+  },
+  "total_passed": 3,
+  "total_probes": 5,
+  "overall_pct": 60,
+  "overall_grade": "B"
+}

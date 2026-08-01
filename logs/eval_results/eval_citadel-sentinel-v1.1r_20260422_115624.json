@@ -1,0 +1,710 @@
+{
+  "model": "citadel-sentinel-v1.1r",
+  "timestamp": "2026-04-22T11:56:24.064204",
+  "concepts": {
+    "count_chars": {
+      "concept": "count_chars",
+      "lang": "rust",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "CC_P1_basic",
+          "label": "Basic: count a specific char",
+          "passed": true,
+          "elapsed": 10.71,
+          "compile_error": "",
+          "runtime_out": "CC_P1 PASS"
+        },
+        {
+          "probe_id": "CC_P2_empty",
+          "label": "Edge case: empty string returns 0",
+          "passed": true,
+          "elapsed": 8.32,
+          "compile_error": "",
+          "runtime_out": "CC_P2 PASS"
+        },
+        {
+          "probe_id": "CC_P3_unicode",
+          "label": "Unicode: multi-byte chars",
+          "passed": true,
+          "elapsed": 8.04,
+          "compile_error": "",
+          "runtime_out": "CC_P3 PASS"
+        },
+        {
+          "probe_id": "CC_P4_idiomatic",
+          "label": "Idiomatic: iterator style",
+          "passed": true,
+          "elapsed": 7.31,
+          "compile_error": "",
+          "runtime_out": "CC_P4 PASS"
+        },
+        {
+          "probe_id": "CC_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 7.51,
+          "compile_error": "",
+          "runtime_out": "CC_P5 PASS"
+        }
+      ]
+    },
+    "first_even": {
+      "concept": "first_even",
+      "lang": "rust",
+      "passed": 4,
+      "total": 5,
+      "score_pct": 80,
+      "grade": "A",
+      "probes": [
+        {
+          "probe_id": "FE_P1_basic",
+          "label": "Basic: mixed slice",
+          "passed": true,
+          "elapsed": 9.64,
+          "compile_error": "",
+          "runtime_out": "FE_P1 PASS"
+        },
+        {
+          "probe_id": "FE_P2_empty",
+          "label": "Edge case: empty slice returns None",
+          "passed": true,
+          "elapsed": 9.0,
+          "compile_error": "",
+          "runtime_out": "FE_P2 PASS"
+        },
+        {
+          "probe_id": "FE_P3_all_odd",
+          "label": "All odd: returns None",
+          "passed": true,
+          "elapsed": 9.54,
+          "compile_error": "",
+          "runtime_out": "FE_P3 PASS"
+        },
+        {
+          "probe_id": "FE_P4_first_is_even",
+          "label": "First element is even",
+          "passed": true,
+          "elapsed": 9.64,
+          "compile_error": "",
+          "runtime_out": "FE_P4 PASS"
+        },
+        {
+          "probe_id": "FE_P5_negative",
+          "label": "Negative even numbers",
+          "passed": false,
+          "elapsed": 10.24,
+          "compile_error": "\nthread 'main' (32448) panicked at C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpxh3lela7.rs:10:5:\nassertion `left == right` failed: zero is even\n  left: None\n right: Some(0)\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "safe_divide": {
+      "concept": "safe_divide",
+      "lang": "python",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "SD_P1_basic",
+          "label": "Basic: normal division",
+          "passed": true,
+          "elapsed": 8.63,
+          "compile_error": "",
+          "runtime_out": "SD_P1 PASS"
+        },
+        {
+          "probe_id": "SD_P2_zero_divisor",
+          "label": "Zero divisor returns None",
+          "passed": true,
+          "elapsed": 8.11,
+          "compile_error": "",
+          "runtime_out": "SD_P2 PASS"
+        },
+        {
+          "probe_id": "SD_P3_zero_dividend",
+          "label": "Zero dividend returns 0.0, not None",
+          "passed": true,
+          "elapsed": 10.86,
+          "compile_error": "",
+          "runtime_out": "SD_P3 PASS"
+        },
+        {
+          "probe_id": "SD_P4_negative",
+          "label": "Negative numbers",
+          "passed": true,
+          "elapsed": 7.84,
+          "compile_error": "",
+          "runtime_out": "SD_P4 PASS"
+        },
+        {
+          "probe_id": "SD_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 9.88,
+          "compile_error": "",
+          "runtime_out": "SD_P5 PASS"
+        }
+      ]
+    },
+    "wrap_error": {
+      "concept": "wrap_error",
+      "lang": "go",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "WE_P1_basic",
+          "label": "Basic: errors.Is chain works after wrap",
+          "passed": true,
+          "elapsed": 7.1,
+          "compile_error": "",
+          "runtime_out": "WE_P1 PASS"
+        },
+        {
+          "probe_id": "WE_P2_message",
+          "label": "Wrapped message contains both parts",
+          "passed": true,
+          "elapsed": 6.55,
+          "compile_error": "",
+          "runtime_out": "WE_P2 PASS"
+        },
+        {
+          "probe_id": "WE_P3_double_wrap",
+          "label": "Double-wrapped: errors.Is reaches base",
+          "passed": true,
+          "elapsed": 6.74,
+          "compile_error": "",
+          "runtime_out": "WE_P3 PASS"
+        },
+        {
+          "probe_id": "WE_P4_unwrap",
+          "label": "errors.Unwrap returns the original",
+          "passed": true,
+          "elapsed": 6.64,
+          "compile_error": "",
+          "runtime_out": "WE_P4 PASS"
+        },
+        {
+          "probe_id": "WE_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 6.72,
+          "compile_error": "",
+          "runtime_out": "WE_P5 PASS"
+        }
+      ]
+    },
+    "arc_mutex": {
+      "concept": "arc_mutex",
+      "lang": "rust",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "AM_P1_basic",
+          "label": "Basic: Arc<Mutex<i32>> shared counter across threads",
+          "passed": true,
+          "elapsed": 22.16,
+          "compile_error": "",
+          "runtime_out": "AM_P1 PASS"
+        },
+        {
+          "probe_id": "AM_P2_correct_sum",
+          "label": "Correct sum with race-free accumulation",
+          "passed": true,
+          "elapsed": 21.48,
+          "compile_error": "",
+          "runtime_out": "AM_P2 PASS"
+        },
+        {
+          "probe_id": "AM_P3_large",
+          "label": "Large dataset, no data races",
+          "passed": true,
+          "elapsed": 21.63,
+          "compile_error": "",
+          "runtime_out": "AM_P3 PASS"
+        },
+        {
+          "probe_id": "AM_P4_empty",
+          "label": "Edge case: empty vec returns 0",
+          "passed": true,
+          "elapsed": 21.88,
+          "compile_error": "",
+          "runtime_out": "AM_P4 PASS"
+        },
+        {
+          "probe_id": "AM_P5_rename",
+          "label": "Concept transfer: renamed to parallel_sum",
+          "passed": true,
+          "elapsed": 22.16,
+          "compile_error": "",
+          "runtime_out": "AM_P5 PASS"
+        }
+      ]
+    },
+    "refcell_borrow": {
+      "concept": "refcell_borrow",
+      "lang": "rust",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "RB_P1_basic",
+          "label": "Basic: borrow_mut to push items",
+          "passed": true,
+          "elapsed": 11.33,
+          "compile_error": "",
+          "runtime_out": "RB_P1 PASS"
+        },
+        {
+          "probe_id": "RB_P2_empty",
+          "label": "Appending to empty RefCell vec",
+          "passed": true,
+          "elapsed": 11.31,
+          "compile_error": "",
+          "runtime_out": "RB_P2 PASS"
+        },
+        {
+          "probe_id": "RB_P3_multiple_borrows",
+          "label": "Multiple sequential borrow_mut calls",
+          "passed": true,
+          "elapsed": 11.14,
+          "compile_error": "",
+          "runtime_out": "RB_P3 PASS"
+        },
+        {
+          "probe_id": "RB_P4_read_after",
+          "label": "borrow() readable after borrow_mut completes",
+          "passed": true,
+          "elapsed": 12.24,
+          "compile_error": "",
+          "runtime_out": "RB_P4 PASS"
+        },
+        {
+          "probe_id": "RB_P5_rename",
+          "label": "Concept transfer: renamed to push_into_cell",
+          "passed": true,
+          "elapsed": 12.83,
+          "compile_error": "",
+          "runtime_out": "RB_P5 PASS"
+        }
+      ]
+    },
+    "go_panic_recover": {
+      "concept": "go_panic_recover",
+      "lang": "go",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "GP_P1_basic",
+          "label": "Basic: recover panic and return error",
+          "passed": true,
+          "elapsed": 11.81,
+          "compile_error": "",
+          "runtime_out": "GP_P1 PASS"
+        },
+        {
+          "probe_id": "GP_P2_string_panic",
+          "label": "String panic message preserved in error",
+          "passed": true,
+          "elapsed": 17.82,
+          "compile_error": "",
+          "runtime_out": "GP_P2 PASS"
+        },
+        {
+          "probe_id": "GP_P3_no_panic",
+          "label": "No panic returns nil",
+          "passed": true,
+          "elapsed": 11.24,
+          "compile_error": "",
+          "runtime_out": "GP_P3 PASS"
+        },
+        {
+          "probe_id": "GP_P4_error_panic",
+          "label": "Panic with error value",
+          "passed": true,
+          "elapsed": 17.87,
+          "compile_error": "",
+          "runtime_out": "GP_P4 PASS"
+        },
+        {
+          "probe_id": "GP_P5_rename",
+          "label": "Concept transfer: renamed to catch_panic",
+          "passed": true,
+          "elapsed": 11.43,
+          "compile_error": "",
+          "runtime_out": "GP_P5 PASS"
+        }
+      ]
+    },
+    "go_fmt_errorf": {
+      "concept": "go_fmt_errorf",
+      "lang": "go",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "GF_P1_basic",
+          "label": "Basic: fmt.Errorf with %w wraps correctly",
+          "passed": true,
+          "elapsed": 7.06,
+          "compile_error": "",
+          "runtime_out": "GF_P1 PASS"
+        },
+        {
+          "probe_id": "GF_P2_message",
+          "label": "Wrapped error message contains msg and original",
+          "passed": true,
+          "elapsed": 7.23,
+          "compile_error": "",
+          "runtime_out": "GF_P2 PASS"
+        },
+        {
+          "probe_id": "GF_P3_chain",
+          "label": "Double-wrapped: errors.Is reaches root",
+          "passed": true,
+          "elapsed": 6.73,
+          "compile_error": "",
+          "runtime_out": "GF_P3 PASS"
+        },
+        {
+          "probe_id": "GF_P4_nil_safe",
+          "label": "Nil error input returns nil",
+          "passed": true,
+          "elapsed": 8.81,
+          "compile_error": "",
+          "runtime_out": "GF_P4 PASS"
+        },
+        {
+          "probe_id": "GF_P5_rename",
+          "label": "Concept transfer: renamed to annotate_error",
+          "passed": true,
+          "elapsed": 7.04,
+          "compile_error": "",
+          "runtime_out": "GF_P5 PASS"
+        }
+      ]
+    },
+    "first_even_zero": {
+      "concept": "first_even_zero",
+      "lang": "rust",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "FEZ_P1_zero",
+          "label": "Zero is even \u2014 must return Some(0)",
+          "passed": true,
+          "elapsed": 9.84,
+          "compile_error": "",
+          "runtime_out": "FEZ_P1 PASS"
+        },
+        {
+          "probe_id": "FEZ_P2_negative_even",
+          "label": "Negative even numbers are even",
+          "passed": true,
+          "elapsed": 9.04,
+          "compile_error": "",
+          "runtime_out": "FEZ_P2 PASS"
+        },
+        {
+          "probe_id": "FEZ_P3_mixed",
+          "label": "Mixed positive, negative, and zero",
+          "passed": true,
+          "elapsed": 8.95,
+          "compile_error": "",
+          "runtime_out": "FEZ_P3 PASS"
+        },
+        {
+          "probe_id": "FEZ_P4_idiomatic",
+          "label": "Idiomatic iterator style with zero/negative awareness",
+          "passed": true,
+          "elapsed": 9.0,
+          "compile_error": "",
+          "runtime_out": "FEZ_P4 PASS"
+        },
+        {
+          "probe_id": "FEZ_P5_rename",
+          "label": "Concept transfer: renamed, must still handle zero",
+          "passed": true,
+          "elapsed": 9.21,
+          "compile_error": "",
+          "runtime_out": "FEZ_P5 PASS"
+        }
+      ]
+    },
+    "go_goroutine": {
+      "concept": "go_goroutine",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "GG_P1_basic",
+          "label": "Basic: sum with goroutine and channel",
+          "passed": false,
+          "elapsed": 29.79,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp3snhwcy_.go:12:32: syntax error: unexpected ( in parameter list; possibly missing comma or )\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P2_empty",
+          "label": "Empty slice returns 0",
+          "passed": false,
+          "elapsed": 17.95,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpzcjmhu8c.go:12:32: syntax error: unexpected ( in parameter list; possibly missing comma or )\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P3_negative",
+          "label": "Handles negative numbers",
+          "passed": false,
+          "elapsed": 15.62,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpzz3spq1d.go:12:32: syntax error: unexpected ( in parameter list; possibly missing comma or )\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P4_single",
+          "label": "Single element",
+          "passed": false,
+          "elapsed": 13.21,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpnrnnf3f9.go:12:32: syntax error: unexpected ( in parameter list; possibly missing comma or )\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P5_large",
+          "label": "Large slice (100 elements)",
+          "passed": false,
+          "elapsed": 14.15,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpex_tqd1r.go:12:32: syntax error: unexpected ( in parameter list; possibly missing comma or )\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "go_waitgroup": {
+      "concept": "go_waitgroup",
+      "lang": "go",
+      "passed": 2,
+      "total": 5,
+      "score_pct": 40,
+      "grade": "C",
+      "probes": [
+        {
+          "probe_id": "GW_P1_double",
+          "label": "Double each element in parallel",
+          "passed": false,
+          "elapsed": 26.38,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpwf3jk1re.go:10:47: syntax error: unexpected ( in parameter list; possibly missing comma or )\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpwf3jk1re.go:13:2: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P2_identity",
+          "label": "Identity function preserves order",
+          "passed": false,
+          "elapsed": 16.85,
+          "compile_error": "panic: index 0: expected 5 got 2\n\ngoroutine 1 [running]:\nmain.main()\n\tC:/Users/ryang/AppData/Local/Temp/tmpr7aeyd94.go:29 +0x18e\nexit status 2\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P3_empty",
+          "label": "Empty slice returns empty",
+          "passed": true,
+          "elapsed": 17.11,
+          "compile_error": "",
+          "runtime_out": "GW_P3 PASS"
+        },
+        {
+          "probe_id": "GW_P4_negate",
+          "label": "Negate all elements",
+          "passed": false,
+          "elapsed": 17.05,
+          "compile_error": "panic: index 0: expected -1 got -3\n\ngoroutine 1 [running]:\nmain.main()\n\tC:/Users/ryang/AppData/Local/Temp/tmp5q6_fuz8.go:30 +0x199\nexit status 2\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P5_single",
+          "label": "Single element",
+          "passed": true,
+          "elapsed": 17.1,
+          "compile_error": "",
+          "runtime_out": "GW_P5 PASS"
+        }
+      ]
+    },
+    "py_dataclass": {
+      "concept": "py_dataclass",
+      "lang": "python",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "PDC_P1_basic",
+          "label": "Point dataclass exists and is instantiable",
+          "passed": false,
+          "elapsed": 17.52,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpm0ky4bi5.py\", line 8, in <module>\n    class Point:\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpm0ky4bi5.py\", line 12, in Point\n    def distance_to(self, other: Optional[Point]) -> float:\n                                ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PDC_P2_same",
+          "label": "Distance to self is zero",
+          "passed": false,
+          "elapsed": 17.76,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmptupyv453.py\", line 8, in <module>\n    class Point:\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmptupyv453.py\", line 12, in Point\n    def distance_to(self, other: Optional[Point] = None) -> float:\n                         ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PDC_P3_negative",
+          "label": "Negative coordinates",
+          "passed": false,
+          "elapsed": 17.43,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpyk7jmc_f.py\", line 8, in <module>\n    class Point:\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpyk7jmc_f.py\", line 12, in Point\n    def distance_to(self, other: Optional[Point] = None) -> float:\n                         ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PDC_P4_symmetry",
+          "label": "Distance is symmetric",
+          "passed": false,
+          "elapsed": 17.38,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpmqlduagw.py\", line 8, in <module>\n    class Point:\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpmqlduagw.py\", line 12, in Point\n    def distance_to(self, other: Optional[Point] = None) -> float:\n                         ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PDC_P5_unit",
+          "label": "Unit distance along x-axis",
+          "passed": false,
+          "elapsed": 17.52,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp7s421day.py\", line 8, in <module>\n    class Point:\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp7s421day.py\", line 12, in Point\n    def distance_to(self, other: Optional[Point] = None) -> float:\n                         ",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "py_retry": {
+      "concept": "py_retry",
+      "lang": "python",
+      "passed": 2,
+      "total": 5,
+      "score_pct": 40,
+      "grade": "C",
+      "probes": [
+        {
+          "probe_id": "PRT_P1_succeeds_first",
+          "label": "Succeeds on first try",
+          "passed": false,
+          "elapsed": 29.01,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp2kk7ikxp.py\", line 5, in <module>\n    from type_var import OptionalType\nModuleNotFoundError: No module named 'type_var'\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PRT_P2_retries",
+          "label": "Retries then succeeds",
+          "passed": true,
+          "elapsed": 20.14,
+          "compile_error": "",
+          "runtime_out": "PRT_P2 PASS"
+        },
+        {
+          "probe_id": "PRT_P3_all_fail",
+          "label": "All attempts fail \u2014 raises last exception",
+          "passed": false,
+          "elapsed": 33.21,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1qxyh931.py\", line 5, in <module>\n    from type_vars import Literal\nModuleNotFoundError: No module named 'type_vars'\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PRT_P4_once",
+          "label": "times=1 means one attempt only",
+          "passed": true,
+          "elapsed": 27.3,
+          "compile_error": "",
+          "runtime_out": "PRT_P4 PASS"
+        },
+        {
+          "probe_id": "PRT_P5_return_type",
+          "label": "Preserves non-None return value",
+          "passed": false,
+          "elapsed": 35.26,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpmoaugta9.py\", line 11, in <module>\n    ) -> Optional[fn.__annotations__['return']]:\n                  ^^\nNameError: name 'fn' is not defined\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "ts_generic": {
+      "concept": "ts_generic",
+      "lang": "typescript",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "TSG_P1_identity",
+          "label": "Identity function compiles and returns value",
+          "passed": true,
+          "elapsed": 5.27,
+          "compile_error": "",
+          "runtime_out": "TSG_P1 PASS"
+        },
+        {
+          "probe_id": "TSG_P2_group_by",
+          "label": "groupBy works on an array of objects",
+          "passed": true,
+          "elapsed": 16.28,
+          "compile_error": "",
+          "runtime_out": "TSG_P2 PASS"
+        },
+        {
+          "probe_id": "TSG_P3_pick",
+          "label": "pick returns object with only selected keys",
+          "passed": true,
+          "elapsed": 10.2,
+          "compile_error": "",
+          "runtime_out": "TSG_P3 PASS"
+        },
+        {
+          "probe_id": "TSG_P4_unique",
+          "label": "unique removes duplicates",
+          "passed": true,
+          "elapsed": 5.96,
+          "compile_error": "",
+          "runtime_out": "TSG_P4 PASS"
+        },
+        {
+          "probe_id": "TSG_P5_partition",
+          "label": "partition splits array into two groups",
+          "passed": true,
+          "elapsed": 13.75,
+          "compile_error": "",
+          "runtime_out": "TSG_P5 PASS"
+        }
+      ]
+    }
+  },
+  "total_passed": 53,
+  "total_probes": 70,
+  "overall_pct": 76,
+  "overall_grade": "B"
+}

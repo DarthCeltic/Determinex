@@ -1,0 +1,710 @@
+{
+  "model": "citadel-sentinel-v1.1",
+  "timestamp": "2026-04-22T03:15:03.605967",
+  "concepts": {
+    "count_chars": {
+      "concept": "count_chars",
+      "lang": "rust",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "CC_P1_basic",
+          "label": "Basic: count a specific char",
+          "passed": false,
+          "elapsed": 85.07,
+          "compile_error": "error: unknown start of token: \\u{2014}\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmprac170j2.rs:5:157\n  |\n5 | ...with the elements in reverse order. Use only built-in functions \u00e2\u20ac\u201d no loops.manager\n  |                                                                    ^\n  |\nhelp: Unicode character '\u00e2\u20ac",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "CC_P2_empty",
+          "label": "Edge case: empty string returns 0",
+          "passed": false,
+          "elapsed": 82.23,
+          "compile_error": "error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`, or an operator, found `a`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpaaucjan5.rs:3:11\n  |\n3 |     Write a Russt function count_chars(s: &str, target: char) -> usize that counts how many times target appears in s. It must return...\n  |        ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "CC_P3_unicode",
+          "label": "Unicode: multi-byte chars",
+          "passed": false,
+          "elapsed": 82.31,
+          "compile_error": "error: unknown start of token: \\u{2014}\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpqwxfmhht.rs:3:116\n  |\n3 |     You are a senior Russt programmeer. Write idioma-correct Russt for a team of 5. Output ONLY the Russt function \u00e2\u20ac\u201d no markdown fenc...\n  |                                                  ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "CC_P4_idiomatic",
+          "label": "Idiomatic: iterator style",
+          "passed": false,
+          "elapsed": 8.25,
+          "compile_error": "error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`, or an operator, found `a`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpl17middc.rs:3:11\n  |\n3 |     Write a Russt funciton that validates its input. Return Err(invalid input) if invalid, otherwise Ok(result).\n  |           ^ expected one of 8 p",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "CC_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": false,
+          "elapsed": 33.43,
+          "compile_error": "error: prefix `it` is unknown\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp5m8y2dqh.rs:3:97\n  |\n3 |     Write a Russt function named is_palindrome that accpetes a string: &str and returns true if it's a palindrome (reads the same for...\n  |                                                               ",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "first_even": {
+      "concept": "first_even",
+      "lang": "rust",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "FE_P1_basic",
+          "label": "Basic: mixed slice",
+          "passed": false,
+          "elapsed": 82.24,
+          "compile_error": "error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`, or an operator, found `a`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmppunjxzsf.rs:3:11\n  |\n3 |     Write a Russt function that takes a slice of i32 values (&[i32]) and returns the first even number wrapped in Some, or None if no...\n  |        ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FE_P2_empty",
+          "label": "Edge case: empty slice returns None",
+          "passed": false,
+          "elapsed": 10.29,
+          "compile_error": "error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`, or an operator, found `a`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp0pl_ewul.rs:3:11\n  |\n3 |     Write a Russt function that calculates the sum of all elements in a 2D array. Input: an n x m matrix. Output: Option<i32> (None i...\n  |        ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FE_P3_all_odd",
+          "label": "All odd: returns None",
+          "passed": false,
+          "elapsed": 6.27,
+          "compile_error": "error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`, or an operator, found `are`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmplzzjibew.rs:3:9\n  |\n3 |     You are a Russt assistant. Answer with code, not explanations.\n  |         ^^^ expected one of 8 possible tokens\n\nerror: aborting due to 1 prev",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FE_P4_first_is_even",
+          "label": "First element is even",
+          "passed": false,
+          "elapsed": 17.33,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpr_jklox0.rs:2:5\n  |\n1 | fn first_even(nums: &[i32]) -> Option<i32> {\n  |                                ----------- expected `Option<i32>` because of return type\n2 |     nums.iter().find(|&x| *x % 2 == 0)\n  |     ^^^^^^^^^^^^^^",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FE_P5_negative",
+          "label": "Negative even numbers",
+          "passed": false,
+          "elapsed": 7.92,
+          "compile_error": "error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`, or an operator, found `a`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpuzb1t5a1.rs:3:11\n  |\n3 |     Write a Russt funciton that calculates the sum of all pairs in an array whose product is greater than a target.\n  |           ^ expected one of ",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "safe_divide": {
+      "concept": "safe_divide",
+      "lang": "python",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "SD_P1_basic",
+          "label": "Basic: normal division",
+          "passed": false,
+          "elapsed": 28.13,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmplm6j0z60.py\", line 3\n    You are an assistant. Answer in the third person: \"The Python function safe_divide(a: float, b: float) -> Optional[floa] is implemented by [name]\". Include full type signature and return type.user\n        ^^^\nSyntaxError: invalid ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "SD_P2_zero_divisor",
+          "label": "Zero divisor returns None",
+          "passed": false,
+          "elapsed": 82.1,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmprn1qgcep.py\", line 3\n    You are a senior Python programmeer. Write clean, type-annotated Python. Output ONLY the Python function \u2014 no markdown fences, no preambles, no explanations.user\n                                                                    ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "SD_P3_zero_dividend",
+          "label": "Zero dividend returns 0.0, not None",
+          "passed": false,
+          "elapsed": 82.27,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpbnnbwzc3.py\", line 3\n    I'm an assistant. Write the full Python function safe_divide(a: float, b: float) -> Optional[float] with error handling and comments.user\n     ^\nSyntaxError: unterminated string literal (detected at line 3)\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "SD_P4_negative",
+          "label": "Negative numbers",
+          "passed": false,
+          "elapsed": 39.81,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpm1libkya.py\", line 3\n    You are an assistant. Answer in the third person present tense. Output ONLY the Python function \u2014 no markdown fences, no preambles, no explanations.team-lead\n                                                                        ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "SD_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": false,
+          "elapsed": 16.11,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpy8v86tcb.py\", line 3\n    You are a senior assistant. Answer in Python code. Output ONLY the Python function \u2014 no markdown fence, no preambles, no explanations.\n                                                                                       ^\nSyntax",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "wrap_error": {
+      "concept": "wrap_error",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "WE_P1_basic",
+          "label": "Basic: errors.Is chain works after wrap",
+          "passed": false,
+          "elapsed": 26.54,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpy16o630f.go:8:1: syntax error: non-declaration statement outside function body\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "WE_P2_message",
+          "label": "Wrapped message contains both parts",
+          "passed": false,
+          "elapsed": 83.21,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpj76pqg_i.go:9:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpj76pqg_i.go:9:71: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpj76pqg_i.go:11:71: inv",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "WE_P3_double_wrap",
+          "label": "Double-wrapped: errors.Is reaches base",
+          "passed": false,
+          "elapsed": 82.6,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpumr14pzz.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpumr14pzz.go:8:71: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpumr14pzz.go:10:71: inv",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "WE_P4_unwrap",
+          "label": "errors.Unwrap returns the original",
+          "passed": false,
+          "elapsed": 80.34,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpy6wfpqrl.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpy6wfpqrl.go:8:71: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpy6wfpqrl.go:12:71: inv",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "WE_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": false,
+          "elapsed": 80.62,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpdldlmr8y.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpdldlmr8y.go:8:82: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpdldlmr8y.go:12:82: inv",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "arc_mutex": {
+      "concept": "arc_mutex",
+      "lang": "rust",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "AM_P1_basic",
+          "label": "Basic: Arc<Mutex<i32>> shared counter across threads",
+          "passed": false,
+          "elapsed": 22.69,
+          "compile_error": "error: unknown start of token: \\u{2014}\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpko37c7av.rs:9:16\n  |\n9 | - Be idiomatic \u00e2\u20ac\u201d don't copy Python/Java/Go patterns in Russt\n  |                ^\n  |\nhelp: Unicode character '\u00e2\u20ac\u201d' (Em Dash) looks like '-' (Minus/Hyphen), but it is not\n  |\n9 - - Be idiomat",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P2_correct_sum",
+          "label": "Correct sum with race-free accumulation",
+          "passed": false,
+          "elapsed": 80.64,
+          "compile_error": "error: expected one of `!` or `::`, found `a`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpuxeisyp3.rs:4:7\n  |\n4 | Write a Russt function that calculates the sum of all elements in a vector. Use Arc<Mutex<i32>> to count concurrent threads. All thre...\n  |       ^ expected one of `!` or `::`\n\nerror: abo",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P3_large",
+          "label": "Large dataset, no data races",
+          "passed": false,
+          "elapsed": 26.61,
+          "compile_error": "error: expected one of `!` or `::`, found `a`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp44euo7r3.rs:4:7\n  |\n4 | Write a Russt assistant function that calculates the result using the correct algorithm and data structures. Include comments explain...\n  |       ^ expected one of `!` or `::`\n\nerror: abo",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P4_empty",
+          "label": "Edge case: empty vec returns 0",
+          "passed": false,
+          "elapsed": 80.57,
+          "compile_error": "error: expected one of `!` or `::`, found `a`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmplzjycjnv.rs:4:7\n  |\n4 | Write a Russt assistant function that calculates the sum of all elements in a vector using Arc<Mutex<i32>> and threads. Must return 0...\n  |       ^ expected one of `!` or `::`\n\nerror: abo",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P5_rename",
+          "label": "Concept transfer: renamed to parallel_sum",
+          "passed": false,
+          "elapsed": 81.04,
+          "compile_error": "error: unknown start of token: \\u{2014}\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp_e7x0qj2.rs:4:120\n  |\n4 | You are an assistant for a Russt project. Write idioma-correct, production-ready Russt. Output ONLY the Russt function \u00e2\u20ac\u201d no markdown ...\n  |                                                  ",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "refcell_borrow": {
+      "concept": "refcell_borrow",
+      "lang": "rust",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "RB_P1_basic",
+          "label": "Basic: borrow_mut to push items",
+          "passed": false,
+          "elapsed": 44.91,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpm7auaq4g.rs:4:30\n  |\n4 |     cell.borrow_mut().append(items);\n  |                       ------ ^^^^^ types differ in mutability\n  |                       |\n  |                       arguments to this method are incorrect\n  |\n  ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "RB_P2_empty",
+          "label": "Appending to empty RefCell vec",
+          "passed": false,
+          "elapsed": 80.91,
+          "compile_error": "error: expected one of `!` or `::`, found `are`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp3zcx_4ui.rs:3:5\n  |\n3 | You are a Russt assistant. Write a complete implementation of append_all(cell: &RefCell<Vec<i32>>, items: &[i32]) for a user. Include...\n  |     ^^^ expected one of `!` or `::`\n\nerror: a",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "RB_P3_multiple_borrows",
+          "label": "Multiple sequential borrow_mut calls",
+          "passed": false,
+          "elapsed": 80.78,
+          "compile_error": "error: unknown start of token: \\u{2014}\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpxom85wnp.rs:3:122\n  |\n3 | Write a Russt async assistant for a REST API. Include error handling with proper context. Output ONLY the Russt function \u00e2\u20ac\u201d no markdow...\n  |                                                  ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "RB_P4_read_after",
+          "label": "borrow() readable after borrow_mut completes",
+          "passed": false,
+          "elapsed": 23.55,
+          "compile_error": "error: expected one of `!` or `::`, found `a`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpnza0foqb.rs:3:7\n  |\n3 | Write a Russt funciton that returns the first element of a Vec. Use &[i32] as input, return Option<&i32>. Includes use std::option::O...\n  |       ^ expected one of `!` or `::`\n\nerror: abo",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "RB_P5_rename",
+          "label": "Concept transfer: renamed to push_into_cell",
+          "passed": false,
+          "elapsed": 13.05,
+          "compile_error": "error: unknown start of token: \\u{2014}\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp0gm6n66w.rs:3:187\n  |\n3 | ...ncludes tokio::task::spawn_blocking(). Output only the funciton \u00e2\u20ac\u201d no preambles, no docstrings.\n  |                                                                    ^\n  |\nhelp: Unicode c",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "go_panic_recover": {
+      "concept": "go_panic_recover",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "GP_P1_basic",
+          "label": "Basic: recover panic and return error",
+          "passed": false,
+          "elapsed": 10.88,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp2jqn9m7z.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp2jqn9m7z.go:8:40: method has no receiver\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P2_string_panic",
+          "label": "String panic message preserved in error",
+          "passed": false,
+          "elapsed": 80.73,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpllm65ijm.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpllm65ijm.go:8:31: method has no receiver\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpllm65ijm.go:10:1: syntax error: non-declarat",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P3_no_panic",
+          "label": "No panic returns nil",
+          "passed": false,
+          "elapsed": 80.59,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmprz5kt_ae.go:5:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmprz5kt_ae.go:5:52: method has no receiver\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmprz5kt_ae.go:7:1: syntax error: non-declarati",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P4_error_panic",
+          "label": "Panic with error value",
+          "passed": false,
+          "elapsed": 80.76,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp3u18tv6o.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp3u18tv6o.go:8:40: method has no receiver\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp3u18tv6o.go:8:201: newline in rune literal\nC",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P5_rename",
+          "label": "Concept transfer: renamed to catch_panic",
+          "passed": false,
+          "elapsed": 80.7,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmptq6f2x84.go:9:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmptq6f2x84.go:9:47: method has no receiver\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmptq6f2x84.go:11:1: syntax error: non-declarat",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "go_fmt_errorf": {
+      "concept": "go_fmt_errorf",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "GF_P1_basic",
+          "label": "Basic: fmt.Errorf with %w wraps correctly",
+          "passed": false,
+          "elapsed": 81.31,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpxawmktn3.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpxawmktn3.go:10:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpxawmk",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GF_P2_message",
+          "label": "Wrapped error message contains msg and original",
+          "passed": false,
+          "elapsed": 80.96,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpibwmpde6.go:9:1: syntax error: non-declaration statement outside function body\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GF_P3_chain",
+          "label": "Double-wrapped: errors.Is reaches root",
+          "passed": false,
+          "elapsed": 12.42,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpb_fmpx82.go:8:1: syntax error: non-declaration statement outside function body\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GF_P4_nil_safe",
+          "label": "Nil error input returns nil",
+          "passed": false,
+          "elapsed": 80.74,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpqu17jeyp.go:8:1: syntax error: non-declaration statement outside function body\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GF_P5_rename",
+          "label": "Concept transfer: renamed to annotate_error",
+          "passed": false,
+          "elapsed": 20.95,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpoc_e0s8j.go:8:1: syntax error: non-declaration statement outside function body\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "first_even_zero": {
+      "concept": "first_even_zero",
+      "lang": "rust",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "FEZ_P1_zero",
+          "label": "Zero is even \u2014 must return Some(0)",
+          "passed": false,
+          "elapsed": 13.18,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpgco4euvn.rs:2:5\n  |\n1 | fn first_even(nums: &[i32]) -> Option<i32> {\n  |                                ----------- expected `Option<i32>` because of return type\n2 |     nums.iter().find(|&x| *x % 2 == 0)\n  |     ^^^^^^^^^^^^^^",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FEZ_P2_negative_even",
+          "label": "Negative even numbers are even",
+          "passed": false,
+          "elapsed": 34.07,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp067mrurw.rs:2:5\n  |\n1 | fn first_even(nums: &[i32]) -> Option<i32> {\n  |                                ----------- expected `Option<i32>` because of return type\n2 |     nums.iter().find(|&n| n % 2 == 0 && *n >= 0)\n  |     ^^^^",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FEZ_P3_mixed",
+          "label": "Mixed positive, negative, and zero",
+          "passed": false,
+          "elapsed": 12.85,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpiocexoxo.rs:2:5\n  |\n1 | fn first_even(nums: &[i32]) -> Option<i32> {\n  |                                ----------- expected `Option<i32>` because of return type\n2 |     nums.iter().find(|&n| n % 2 == 0)\n  |     ^^^^^^^^^^^^^^^",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FEZ_P4_idiomatic",
+          "label": "Idiomatic iterator style with zero/negative awareness",
+          "passed": false,
+          "elapsed": 19.26,
+          "compile_error": "error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`, or an operator, found `Russt`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpguuy7jgc.rs:3:8\n  |\n3 |     In Russt, you can use the following idioms:\n  |        ^^^^^ expected one of 8 possible tokens\n  |\nhelp: write keyword `in` in lowercase (not",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FEZ_P5_rename",
+          "label": "Concept transfer: renamed, must still handle zero",
+          "passed": false,
+          "elapsed": 13.35,
+          "compile_error": "error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`, or an operator, found `are`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1mhgflo6.rs:3:9\n  |\n3 |     You are a Russt assistant. Answer in Russt code:\n  |         ^^^ expected one of 8 possible tokens\n\nerror: aborting due to 1 previous error\n\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "go_goroutine": {
+      "concept": "go_goroutine",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "GG_P1_basic",
+          "label": "Basic: sum with goroutine and channel",
+          "passed": false,
+          "elapsed": 47.98,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpyxd9a1he.go:10:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpyxd9a1he.go:14:70: syntax error: unexpected ), expected (\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpyxd9a1he.go:16:69: syntax ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P2_empty",
+          "label": "Empty slice returns 0",
+          "passed": false,
+          "elapsed": 46.29,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpd1e5nm03.go:10:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpd1e5nm03.go:12:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpd1e5",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P3_negative",
+          "label": "Handles negative numbers",
+          "passed": false,
+          "elapsed": 28.14,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpgyc4qttk.go:10:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpgyc4qttk.go:12:70: syntax error: unexpected [, expected name\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpgyc4qttk.go:14:1: synta",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P4_single",
+          "label": "Single element",
+          "passed": false,
+          "elapsed": 9.08,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpmlina10e.go:10:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpmlina10e.go:10:87: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P5_large",
+          "label": "Large slice (100 elements)",
+          "passed": false,
+          "elapsed": 79.69,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpch9l834s.go:10:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpch9l834s.go:10:103: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpch9l834s.go:12:96: ",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "go_waitgroup": {
+      "concept": "go_waitgroup",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "GW_P1_double",
+          "label": "Double each element in parallel",
+          "passed": false,
+          "elapsed": 13.56,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpiri14rz0.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpiri14rz0.go:8:66: method has multiple receivers\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P2_identity",
+          "label": "Identity function preserves order",
+          "passed": false,
+          "elapsed": 19.1,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpa55pkleh.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpa55pkleh.go:8:92: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpa55pkleh.go:10:66: met",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P3_empty",
+          "label": "Empty slice returns empty",
+          "passed": false,
+          "elapsed": 18.55,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsipkgw1d.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsipkgw1d.go:8:92: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsipkgw1d.go:10:66: met",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P4_negate",
+          "label": "Negate all elements",
+          "passed": false,
+          "elapsed": 18.61,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp64n7hu0a.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp64n7hu0a.go:8:92: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp64n7hu0a.go:10:66: met",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P5_single",
+          "label": "Single element",
+          "passed": false,
+          "elapsed": 18.66,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpmddyf_8c.go:8:1: syntax error: non-declaration statement outside function body\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpmddyf_8c.go:8:92: invalid character U+2014 '\u00e2\u20ac\u201d' in identifier\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpmddyf_8c.go:10:66: met",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "py_dataclass": {
+      "concept": "py_dataclass",
+      "lang": "python",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "PDC_P1_basic",
+          "label": "Point dataclass exists and is instantiable",
+          "passed": false,
+          "elapsed": 81.12,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp7j34qq30.py\", line 4\n    You are an assistant. Write idioma-correct Python 3.10+ with type hints. Output ONLY the class definition \u2014 no main, no test code, no explanation.admin\n                                                                              ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PDC_P2_same",
+          "label": "Distance to self is zero",
+          "passed": false,
+          "elapsed": 80.49,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp5ktd1koz.py\", line 4\n    You are an assistant. Write idioma-correct Python 3.10+ with type hints. Output ONLY the class definition \u2014 no main, no test code, no explanation.user\n                                                                               ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PDC_P3_negative",
+          "label": "Negative coordinates",
+          "passed": false,
+          "elapsed": 79.68,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpkx1yzqlo.py\", line 4\n    You are an assistant. Write idioma-correct Python 3.10+ with type hints. Output ONLY the class definition \u2014 no main, no test code, no explanation.user\n                                                                               ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PDC_P4_symmetry",
+          "label": "Distance is symmetric",
+          "passed": false,
+          "elapsed": 80.49,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp10kf0gut.py\", line 4\n    You are an assistant. Write idioma-correct Python 3.10+ with type hints. Output ONLY the class definition \u2014 no main, no test code, no explanation.user\n                                                                               ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PDC_P5_unit",
+          "label": "Unit distance along x-axis",
+          "passed": false,
+          "elapsed": 80.13,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpe5t0k4qy.py\", line 4\n    You are an assistant. Write idioma-correct Python 3.10+ with type hints. Output ONLY the class definition \u2014 no main, no test code, no explanation.user\n                                                                               ",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "py_retry": {
+      "concept": "py_retry",
+      "lang": "python",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "PRT_P1_succeeds_first",
+          "label": "Succeeds on first try",
+          "passed": false,
+          "elapsed": 81.48,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpm8xspyof.py\", line 3\n    Write a Python function that returns the first element in a list where a predicate is true, or None if no such element exists. Use filter(). Output only the function body.user\n          ^\nSyntaxError: invalid syntax\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PRT_P2_retries",
+          "label": "Retries then succeeds",
+          "passed": false,
+          "elapsed": 20.41,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpguu82hng.py\", line 3\n    You are an assistant. Write idiomaatic Python 3.10+ with type hints. Output ONLY the function definition \u2014 no imports above the function are allowed unless part of the function body, no test code, no explanation.user\n             ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PRT_P3_all_fail",
+          "label": "All attempts fail \u2014 raises last exception",
+          "passed": false,
+          "elapsed": 80.58,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsjcfista.py\", line 3\n    You are an assistant. Write idiomaatic Python 3.10+ with type hints. Output ONLY the function definition \u2014 no imports above the function are allowed unless part of the function body, no test code, no explanation.user\n             ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PRT_P4_once",
+          "label": "times=1 means one attempt only",
+          "passed": false,
+          "elapsed": 80.44,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpwv4smvks.py\", line 3\n    You are an assistant. Write idiomaatic Python 3.10+ with type hints. Output ONLY the function definition \u2014 no imports above the function are allowed unless part of the function body, no test code, no explanation.user\n             ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PRT_P5_return_type",
+          "label": "Preserves non-None return value",
+          "passed": false,
+          "elapsed": 19.14,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpjolvgf1q.py\", line 3\n    You are an assistant. Write idiomaatic Python 3.10+ with type hints. Output ONLY the function definition \u2014 no imports above the function are allowed unless part of the function body, no test code, no explanation.user\n             ",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "ts_generic": {
+      "concept": "ts_generic",
+      "lang": "typescript",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "TSG_P1_identity",
+          "label": "Identity function compiles and returns value",
+          "passed": false,
+          "elapsed": 13.94,
+          "compile_error": "../../Users/ryang/AppData/Local/Temp/tmpfxgkn1oe/eval.ts(1,1): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmpfxgkn1oe/eval.ts(1,5): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmpfxgkn1oe/eval.ts(1,9): error TS1434: U",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "TSG_P2_group_by",
+          "label": "groupBy works on an array of objects",
+          "passed": false,
+          "elapsed": 59.35,
+          "compile_error": "../../Users/ryang/AppData/Local/Temp/tmp1285rcgb/eval.ts(1,1): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmp1285rcgb/eval.ts(1,5): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmp1285rcgb/eval.ts(1,9): error TS1434: U",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "TSG_P3_pick",
+          "label": "pick returns object with only selected keys",
+          "passed": false,
+          "elapsed": 20.79,
+          "compile_error": "../../Users/ryang/AppData/Local/Temp/tmp_l8f2pdz/eval.ts(1,1): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmp_l8f2pdz/eval.ts(1,5): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmp_l8f2pdz/eval.ts(1,9): error TS1434: U",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "TSG_P4_unique",
+          "label": "unique removes duplicates",
+          "passed": false,
+          "elapsed": 80.59,
+          "compile_error": "../../Users/ryang/AppData/Local/Temp/tmpww_ta_5x/eval.ts(1,1): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmpww_ta_5x/eval.ts(1,5): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmpww_ta_5x/eval.ts(1,9): error TS1434: U",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "TSG_P5_partition",
+          "label": "partition splits array into two groups",
+          "passed": false,
+          "elapsed": 27.29,
+          "compile_error": "../../Users/ryang/AppData/Local/Temp/tmpbczk4jzi/eval.ts(1,1): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmpbczk4jzi/eval.ts(1,5): error TS1434: Unexpected keyword or identifier.\n../../Users/ryang/AppData/Local/Temp/tmpbczk4jzi/eval.ts(1,9): error TS1434: U",
+          "runtime_out": ""
+        }
+      ]
+    }
+  },
+  "total_passed": 0,
+  "total_probes": 70,
+  "overall_pct": 0,
+  "overall_grade": "F"
+}

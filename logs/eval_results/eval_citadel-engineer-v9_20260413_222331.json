@@ -1,0 +1,60 @@
+{
+  "model": "citadel-engineer-v9",
+  "timestamp": "2026-04-13T22:23:31.485162",
+  "concepts": {
+    "refcell_borrow": {
+      "concept": "refcell_borrow",
+      "lang": "rust",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "RB_P1_basic",
+          "label": "Basic: borrow_mut to push items",
+          "passed": false,
+          "elapsed": 4.9,
+          "compile_error": "error[E0425]: cannot find type `RefCell` in this scope\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpozi3k4h4.rs:1:22\n  |\n1 | fn append_all(cell: &RefCell<Vec<i32>>, items: &[i32]) {\n  |                      ^^^^^^^ not found in this scope\n  |\nhelp: consider importing this struct\n  |\n1 + use std::cell::",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "RB_P2_empty",
+          "label": "Appending to empty RefCell vec",
+          "passed": false,
+          "elapsed": 3.74,
+          "compile_error": "error[E0425]: cannot find type `RefCell` in this scope\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpv2fa_bd8.rs:1:22\n  |\n1 | fn append_all(cell: &RefCell<Vec<i32>>, items: &[i32]) { cell.borrow_mut().extend(items); }\n  |                      ^^^^^^^ not found in this scope\n  |\nhelp: consider importing ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "RB_P3_multiple_borrows",
+          "label": "Multiple sequential borrow_mut calls",
+          "passed": false,
+          "elapsed": 3.83,
+          "compile_error": "error[E0425]: cannot find type `RefCell` in this scope\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpdmubuybe.rs:1:22\n  |\n1 | fn append_all(cell: &RefCell<Vec<i32>>, items: &[i32]) {\n  |                      ^^^^^^^ not found in this scope\n  |\nhelp: consider importing this struct\n  |\n1 + use std::cell::",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "RB_P4_read_after",
+          "label": "borrow() readable after borrow_mut completes",
+          "passed": false,
+          "elapsed": 3.82,
+          "compile_error": "error[E0425]: cannot find type `RefCell` in this scope\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpx4f0cd3o.rs:1:22\n  |\n1 | fn append_all(cell: &RefCell<Vec<i32>>, items: &[i32]) {\n  |                      ^^^^^^^ not found in this scope\n  |\nhelp: consider importing this struct\n  |\n1 + use std::cell::",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "RB_P5_rename",
+          "label": "Concept transfer: renamed to push_into_cell",
+          "passed": false,
+          "elapsed": 3.94,
+          "compile_error": "error[E0425]: cannot find type `RefCell` in this scope\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpdsw_jmib.rs:1:29\n  |\n1 | fn push_into_cell(storage: &RefCell<Vec<i32>>, new_items: &[i32]) { storage.borrow_mut().extend(new_items); }\n  |                             ^^^^^^^ not found in this scope\n  |\n",
+          "runtime_out": ""
+        }
+      ]
+    }
+  },
+  "total_passed": 0,
+  "total_probes": 5,
+  "overall_pct": 0,
+  "overall_grade": "F"
+}

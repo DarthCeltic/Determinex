@@ -1,0 +1,56 @@
+{
+  "model": "citadel-student:trained",
+  "concept": "count_chars(s: &str, target: char) -> usize",
+  "timestamp": "2026-04-12T17:38:44.990336",
+  "passed": 4,
+  "total": 5,
+  "score_pct": 80,
+  "grade": "A",
+  "probes": [
+    {
+      "probe_id": "P1_basic",
+      "label": "Basic: count a specific char",
+      "passed": true,
+      "elapsed": 7.22,
+      "compile_error": "",
+      "runtime_out": "ALL PASS",
+      "body_preview": "s.chars().filter(|&ch| ch == c).count()"
+    },
+    {
+      "probe_id": "P2_empty",
+      "label": "Edge case: empty string returns 0",
+      "passed": false,
+      "elapsed": 9.87,
+      "compile_error": "error[E0277]: the type `str` cannot be indexed by `usize`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp3_fk53wl.rs:3:55\n  |\n3 |         Some(index) => (index..s.len()).filter(|&i| s[i] == target).count(),\n  |                                                       ^ string indices are ranges of `usize`\n ",
+      "runtime_out": "",
+      "body_preview": "match s.find(target) {\n        Some(index) => (index..s.len()).filter(|&i| s[i] == target).count(),\n        None => 0,\n    }"
+    },
+    {
+      "probe_id": "P3_unicode",
+      "label": "Unicode: multi-byte chars",
+      "passed": true,
+      "elapsed": 6.93,
+      "compile_error": "",
+      "runtime_out": "UNICODE PASS",
+      "body_preview": "s.chars().filter(|c| *c == target).count()"
+    },
+    {
+      "probe_id": "P4_idiomatic",
+      "label": "Idiomatic: one-liner functional style",
+      "passed": true,
+      "elapsed": 6.5,
+      "compile_error": "",
+      "runtime_out": "IDIOMATIC PASS",
+      "body_preview": "s.chars().filter(|&c| c == target).count()"
+    },
+    {
+      "probe_id": "P5_rename_variant",
+      "label": "Concept transfer: renamed function",
+      "passed": true,
+      "elapsed": 7.13,
+      "compile_error": "",
+      "runtime_out": "TRANSFER PASS",
+      "body_preview": "text.chars().filter(|&c| c == ch).count()"
+    }
+  ]
+}

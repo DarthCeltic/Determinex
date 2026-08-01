@@ -1,0 +1,60 @@
+{
+  "model": "citadel-engineer-v10-dsl",
+  "timestamp": "2026-04-15T20:19:33.210852",
+  "concepts": {
+    "arc_mutex": {
+      "concept": "arc_mutex",
+      "lang": "rust",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "AM_P1_basic",
+          "label": "Basic: Arc<Mutex<i32>> shared counter across threads",
+          "passed": false,
+          "elapsed": 5.7,
+          "compile_error": "error[E0597]: `total` does not live long enough\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpoj964f5p.rs:14:6\n   |\n 5 |     let total = Arc::new(Mutex::new(0i32));\n   |         ----- binding `total` declared here\n...\n14 |     *total.lock().unwrap()\n   |      ^^^^^----------------\n   |      |\n   |     ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P2_correct_sum",
+          "label": "Correct sum with race-free accumulation",
+          "passed": false,
+          "elapsed": 3.46,
+          "compile_error": "error[E0597]: `counter` does not live long enough\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp8a_fl717.rs:12:6\n   |\n 5 |     let counter = Arc::new(Mutex::new(0i32));\n   |         ------- binding `counter` declared here\n...\n12 |     *counter.lock().unwrap()\n   |      ^^^^^^^----------------\n   |     ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P3_large",
+          "label": "Large dataset, no data races",
+          "passed": false,
+          "elapsed": 3.46,
+          "compile_error": "error[E0597]: `counter` does not live long enough\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpwmlzv8ie.rs:17:6\n   |\n 5 |     let counter = Arc::new(Mutex::new(0i32));\n   |         ------- binding `counter` declared here\n...\n17 |     *counter.lock().unwrap()\n   |      ^^^^^^^----------------\n   |     ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P4_empty",
+          "label": "Edge case: empty vec returns 0",
+          "passed": false,
+          "elapsed": 3.67,
+          "compile_error": "error[E0597]: `total` does not live long enough\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpw33xarrv.rs:23:6\n   |\n 9 |     let total = Arc::new(Mutex::new(0i32));\n   |         ----- binding `total` declared here\n...\n23 |     *total.lock().unwrap()\n   |      ^^^^^----------------\n   |      |\n   |     ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P5_rename",
+          "label": "Concept transfer: renamed to parallel_sum",
+          "passed": false,
+          "elapsed": 3.47,
+          "compile_error": "error[E0597]: `total` does not live long enough\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpm3dp2_qn.rs:14:6\n   |\n 5 |     let total = Arc::new(Mutex::new(0i32));\n   |         ----- binding `total` declared here\n...\n14 |     *total.lock().unwrap()\n   |      ^^^^^----------------\n   |      |\n   |     ",
+          "runtime_out": ""
+        }
+      ]
+    }
+  },
+  "total_passed": 0,
+  "total_probes": 5,
+  "overall_pct": 0,
+  "overall_grade": "F"
+}

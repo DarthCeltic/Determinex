@@ -1,0 +1,460 @@
+{
+  "model": "citadel-engineer-v9",
+  "timestamp": "2026-04-13T22:46:38.645199",
+  "concepts": {
+    "count_chars": {
+      "concept": "count_chars",
+      "lang": "rust",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "CC_P1_basic",
+          "label": "Basic: count a specific char",
+          "passed": true,
+          "elapsed": 4.52,
+          "compile_error": "",
+          "runtime_out": "CC_P1 PASS"
+        },
+        {
+          "probe_id": "CC_P2_empty",
+          "label": "Edge case: empty string returns 0",
+          "passed": true,
+          "elapsed": 2.7,
+          "compile_error": "",
+          "runtime_out": "CC_P2 PASS"
+        },
+        {
+          "probe_id": "CC_P3_unicode",
+          "label": "Unicode: multi-byte chars",
+          "passed": true,
+          "elapsed": 2.71,
+          "compile_error": "",
+          "runtime_out": "CC_P3 PASS"
+        },
+        {
+          "probe_id": "CC_P4_idiomatic",
+          "label": "Idiomatic: iterator style",
+          "passed": true,
+          "elapsed": 2.53,
+          "compile_error": "",
+          "runtime_out": "CC_P4 PASS"
+        },
+        {
+          "probe_id": "CC_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 2.68,
+          "compile_error": "",
+          "runtime_out": "CC_P5 PASS"
+        }
+      ]
+    },
+    "first_even": {
+      "concept": "first_even",
+      "lang": "rust",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "FE_P1_basic",
+          "label": "Basic: mixed slice",
+          "passed": true,
+          "elapsed": 2.78,
+          "compile_error": "",
+          "runtime_out": "FE_P1 PASS"
+        },
+        {
+          "probe_id": "FE_P2_empty",
+          "label": "Edge case: empty slice returns None",
+          "passed": true,
+          "elapsed": 2.64,
+          "compile_error": "",
+          "runtime_out": "FE_P2 PASS"
+        },
+        {
+          "probe_id": "FE_P3_all_odd",
+          "label": "All odd: returns None",
+          "passed": true,
+          "elapsed": 2.71,
+          "compile_error": "",
+          "runtime_out": "FE_P3 PASS"
+        },
+        {
+          "probe_id": "FE_P4_first_is_even",
+          "label": "First element is even",
+          "passed": true,
+          "elapsed": 2.63,
+          "compile_error": "",
+          "runtime_out": "FE_P4 PASS"
+        },
+        {
+          "probe_id": "FE_P5_negative",
+          "label": "Negative even numbers",
+          "passed": true,
+          "elapsed": 2.62,
+          "compile_error": "",
+          "runtime_out": "FE_P5 PASS"
+        }
+      ]
+    },
+    "safe_divide": {
+      "concept": "safe_divide",
+      "lang": "python",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "SD_P1_basic",
+          "label": "Basic: normal division",
+          "passed": true,
+          "elapsed": 2.77,
+          "compile_error": "",
+          "runtime_out": "SD_P1 PASS"
+        },
+        {
+          "probe_id": "SD_P2_zero_divisor",
+          "label": "Zero divisor returns None",
+          "passed": true,
+          "elapsed": 2.73,
+          "compile_error": "",
+          "runtime_out": "SD_P2 PASS"
+        },
+        {
+          "probe_id": "SD_P3_zero_dividend",
+          "label": "Zero dividend returns 0.0, not None",
+          "passed": true,
+          "elapsed": 2.92,
+          "compile_error": "",
+          "runtime_out": "SD_P3 PASS"
+        },
+        {
+          "probe_id": "SD_P4_negative",
+          "label": "Negative numbers",
+          "passed": true,
+          "elapsed": 2.64,
+          "compile_error": "",
+          "runtime_out": "SD_P4 PASS"
+        },
+        {
+          "probe_id": "SD_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 2.69,
+          "compile_error": "",
+          "runtime_out": "SD_P5 PASS"
+        }
+      ]
+    },
+    "wrap_error": {
+      "concept": "wrap_error",
+      "lang": "go",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "WE_P1_basic",
+          "label": "Basic: errors.Is chain works after wrap",
+          "passed": true,
+          "elapsed": 2.72,
+          "compile_error": "",
+          "runtime_out": "WE_P1 PASS"
+        },
+        {
+          "probe_id": "WE_P2_message",
+          "label": "Wrapped message contains both parts",
+          "passed": true,
+          "elapsed": 2.61,
+          "compile_error": "",
+          "runtime_out": "WE_P2 PASS"
+        },
+        {
+          "probe_id": "WE_P3_double_wrap",
+          "label": "Double-wrapped: errors.Is reaches base",
+          "passed": true,
+          "elapsed": 2.64,
+          "compile_error": "",
+          "runtime_out": "WE_P3 PASS"
+        },
+        {
+          "probe_id": "WE_P4_unwrap",
+          "label": "errors.Unwrap returns the original",
+          "passed": true,
+          "elapsed": 2.55,
+          "compile_error": "",
+          "runtime_out": "WE_P4 PASS"
+        },
+        {
+          "probe_id": "WE_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 2.63,
+          "compile_error": "",
+          "runtime_out": "WE_P5 PASS"
+        }
+      ]
+    },
+    "arc_mutex": {
+      "concept": "arc_mutex",
+      "lang": "rust",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "AM_P1_basic",
+          "label": "Basic: Arc<Mutex<i32>> shared counter across threads",
+          "passed": false,
+          "elapsed": 4.19,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp01xwtt4b.rs:4:474\n  |\n4 | ...-> i32 { let (sum_tx, sum_rx) = std::sync::mpsc::channel(); let data_arc = Arc::new(Mutex::new(0)); for chunk in data.chunks(100) { let data_clone = data_arc.clone(); let tx = sum_tx.clone(); thread",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P2_correct_sum",
+          "label": "Correct sum with race-free accumulation",
+          "passed": false,
+          "elapsed": 3.71,
+          "compile_error": "error[E0597]: `counter` does not live long enough\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpk27zngon.rs:21:6\n   |\n 5 |     let counter = Arc::new(Mutex::new(0));\n   |         ------- binding `counter` declared here\n...\n21 |     *counter.lock().unwrap()\n   |      ^^^^^^^----------------\n   |      |\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P3_large",
+          "label": "Large dataset, no data races",
+          "passed": false,
+          "elapsed": 4.25,
+          "compile_error": "error[E0597]: `data` does not live long enough\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpxbfmn96o.rs:8:18\n   |\n 4 |   fn count_concurrent(data: Vec<i32>) -> i32 {\n   |                       ---- binding `data` declared here\n...\n 8 |       for chunk in data.chunks(10_000) {\n   |                    ^",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P4_empty",
+          "label": "Edge case: empty vec returns 0",
+          "passed": false,
+          "elapsed": 3.72,
+          "compile_error": "error[E0382]: use of moved value: `counter_clone`\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpcn241c8j.rs:19:10\n   |\n10 |     let counter_clone = Arc::clone(&counter);\n   |         ------------- move occurs because `counter_clone` has type `Arc<std::sync::Mutex<i32>>`, which does not implement the `C",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P5_rename",
+          "label": "Concept transfer: renamed to parallel_sum",
+          "passed": false,
+          "elapsed": 3.4,
+          "compile_error": "error[E0283]: type annotations needed\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpxqohzwfx.rs:7:74\n  |\n7 |     thread::spawn(move || *shared_guard.lock().unwrap() += values.iter().sum());\n  |                                                         --               ^^^ cannot infer type of the type par",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "refcell_borrow": {
+      "concept": "refcell_borrow",
+      "lang": "rust",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "RB_P1_basic",
+          "label": "Basic: borrow_mut to push items",
+          "passed": true,
+          "elapsed": 2.85,
+          "compile_error": "",
+          "runtime_out": "RB_P1 PASS"
+        },
+        {
+          "probe_id": "RB_P2_empty",
+          "label": "Appending to empty RefCell vec",
+          "passed": true,
+          "elapsed": 2.76,
+          "compile_error": "",
+          "runtime_out": "RB_P2 PASS"
+        },
+        {
+          "probe_id": "RB_P3_multiple_borrows",
+          "label": "Multiple sequential borrow_mut calls",
+          "passed": true,
+          "elapsed": 2.9,
+          "compile_error": "",
+          "runtime_out": "RB_P3 PASS"
+        },
+        {
+          "probe_id": "RB_P4_read_after",
+          "label": "borrow() readable after borrow_mut completes",
+          "passed": true,
+          "elapsed": 2.92,
+          "compile_error": "",
+          "runtime_out": "RB_P4 PASS"
+        },
+        {
+          "probe_id": "RB_P5_rename",
+          "label": "Concept transfer: renamed to push_into_cell",
+          "passed": true,
+          "elapsed": 2.85,
+          "compile_error": "",
+          "runtime_out": "RB_P5 PASS"
+        }
+      ]
+    },
+    "go_panic_recover": {
+      "concept": "go_panic_recover",
+      "lang": "go",
+      "passed": 3,
+      "total": 5,
+      "score_pct": 60,
+      "grade": "B",
+      "probes": [
+        {
+          "probe_id": "GP_P1_basic",
+          "label": "Basic: recover panic and return error",
+          "passed": false,
+          "elapsed": 5.4,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1f7w9ems.go:10:68: assignment mismatch: 2 variables but recover returns 1 value\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1f7w9ems.go:10:133: missing return\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P2_string_panic",
+          "label": "String panic message preserved in error",
+          "passed": true,
+          "elapsed": 3.22,
+          "compile_error": "",
+          "runtime_out": "GP_P2 PASS"
+        },
+        {
+          "probe_id": "GP_P3_no_panic",
+          "label": "No panic returns nil",
+          "passed": false,
+          "elapsed": 2.78,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpfwhbb6bl.go:14:1: missing return\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P4_error_panic",
+          "label": "Panic with error value",
+          "passed": true,
+          "elapsed": 2.78,
+          "compile_error": "",
+          "runtime_out": "GP_P4 PASS"
+        },
+        {
+          "probe_id": "GP_P5_rename",
+          "label": "Concept transfer: renamed to catch_panic",
+          "passed": true,
+          "elapsed": 2.84,
+          "compile_error": "",
+          "runtime_out": "GP_P5 PASS"
+        }
+      ]
+    },
+    "go_fmt_errorf": {
+      "concept": "go_fmt_errorf",
+      "lang": "go",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "GF_P1_basic",
+          "label": "Basic: fmt.Errorf with %w wraps correctly",
+          "passed": true,
+          "elapsed": 7.57,
+          "compile_error": "",
+          "runtime_out": "GF_P1 PASS"
+        },
+        {
+          "probe_id": "GF_P2_message",
+          "label": "Wrapped error message contains msg and original",
+          "passed": true,
+          "elapsed": 7.5,
+          "compile_error": "",
+          "runtime_out": "GF_P2 PASS"
+        },
+        {
+          "probe_id": "GF_P3_chain",
+          "label": "Double-wrapped: errors.Is reaches root",
+          "passed": true,
+          "elapsed": 2.51,
+          "compile_error": "",
+          "runtime_out": "GF_P3 PASS"
+        },
+        {
+          "probe_id": "GF_P4_nil_safe",
+          "label": "Nil error input returns nil",
+          "passed": true,
+          "elapsed": 7.51,
+          "compile_error": "",
+          "runtime_out": "GF_P4 PASS"
+        },
+        {
+          "probe_id": "GF_P5_rename",
+          "label": "Concept transfer: renamed to annotate_error",
+          "passed": true,
+          "elapsed": 2.59,
+          "compile_error": "",
+          "runtime_out": "GF_P5 PASS"
+        }
+      ]
+    },
+    "first_even_zero": {
+      "concept": "first_even_zero",
+      "lang": "rust",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "FEZ_P1_zero",
+          "label": "Zero is even \u2014 must return Some(0)",
+          "passed": true,
+          "elapsed": 2.88,
+          "compile_error": "",
+          "runtime_out": "FEZ_P1 PASS"
+        },
+        {
+          "probe_id": "FEZ_P2_negative_even",
+          "label": "Negative even numbers are even",
+          "passed": true,
+          "elapsed": 2.8,
+          "compile_error": "",
+          "runtime_out": "FEZ_P2 PASS"
+        },
+        {
+          "probe_id": "FEZ_P3_mixed",
+          "label": "Mixed positive, negative, and zero",
+          "passed": true,
+          "elapsed": 2.74,
+          "compile_error": "",
+          "runtime_out": "FEZ_P3 PASS"
+        },
+        {
+          "probe_id": "FEZ_P4_idiomatic",
+          "label": "Idiomatic iterator style with zero/negative awareness",
+          "passed": true,
+          "elapsed": 2.74,
+          "compile_error": "",
+          "runtime_out": "FEZ_P4 PASS"
+        },
+        {
+          "probe_id": "FEZ_P5_rename",
+          "label": "Concept transfer: renamed, must still handle zero",
+          "passed": true,
+          "elapsed": 2.81,
+          "compile_error": "",
+          "runtime_out": "FEZ_P5 PASS"
+        }
+      ]
+    }
+  },
+  "total_passed": 38,
+  "total_probes": 45,
+  "overall_pct": 84,
+  "overall_grade": "A"
+}

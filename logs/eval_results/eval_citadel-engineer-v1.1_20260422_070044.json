@@ -1,0 +1,710 @@
+{
+  "model": "citadel-engineer-v1.1",
+  "timestamp": "2026-04-22T07:00:44.012479",
+  "concepts": {
+    "count_chars": {
+      "concept": "count_chars",
+      "lang": "rust",
+      "passed": 2,
+      "total": 5,
+      "score_pct": 40,
+      "grade": "C",
+      "probes": [
+        {
+          "probe_id": "CC_P1_basic",
+          "label": "Basic: count a specific char",
+          "passed": true,
+          "elapsed": 4.78,
+          "compile_error": "",
+          "runtime_out": "CC_P1 PASS"
+        },
+        {
+          "probe_id": "CC_P2_empty",
+          "label": "Edge case: empty string returns 0",
+          "passed": false,
+          "elapsed": 2.52,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp01pjjdam.rs:2:24\n  |\n2 |     s.chars().filter(|&&x| x == target).count()\n  |                       -^^\n  |                       ||\n  |                       |expected `char`, found `&_`\n  |                       expected due t",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "CC_P3_unicode",
+          "label": "Unicode: multi-byte chars",
+          "passed": false,
+          "elapsed": 2.49,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpl6dj9ejn.rs:2:24\n  |\n2 |     s.chars().filter(|&&c|c==target).count()\n  |                       -^^\n  |                       ||\n  |                       |expected `char`, found `&_`\n  |                       expected due to t",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "CC_P4_idiomatic",
+          "label": "Idiomatic: iterator style",
+          "passed": false,
+          "elapsed": 2.47,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp3jt842nn.rs:1:62\n  |\n1 | fn count_chars(s:&str,target:char)->usize{s.chars().filter(|&&c|c==target).count()}\n  |                                                             -^^\n  |                                               ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "CC_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 2.45,
+          "compile_error": "",
+          "runtime_out": "CC_P5 PASS"
+        }
+      ]
+    },
+    "first_even": {
+      "concept": "first_even",
+      "lang": "rust",
+      "passed": 3,
+      "total": 5,
+      "score_pct": 60,
+      "grade": "B",
+      "probes": [
+        {
+          "probe_id": "FE_P1_basic",
+          "label": "Basic: mixed slice",
+          "passed": false,
+          "elapsed": 2.59,
+          "compile_error": "error: this file contains an unclosed delimiter\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpyumsgtkw.rs:9:3\n   |\n 1 | fn first_even(a: &[i32]) -> Option<&i32> {\n   |                                          - unclosed delimiter\n...\n 9 | }\n   |  ^\n\nerror: aborting due to 1 previous error\n\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FE_P2_empty",
+          "label": "Edge case: empty slice returns None",
+          "passed": true,
+          "elapsed": 2.67,
+          "compile_error": "",
+          "runtime_out": "FE_P2 PASS"
+        },
+        {
+          "probe_id": "FE_P3_all_odd",
+          "label": "All odd: returns None",
+          "passed": true,
+          "elapsed": 2.58,
+          "compile_error": "",
+          "runtime_out": "FE_P3 PASS"
+        },
+        {
+          "probe_id": "FE_P4_first_is_even",
+          "label": "First element is even",
+          "passed": true,
+          "elapsed": 2.59,
+          "compile_error": "",
+          "runtime_out": "FE_P4 PASS"
+        },
+        {
+          "probe_id": "FE_P5_negative",
+          "label": "Negative even numbers",
+          "passed": false,
+          "elapsed": 2.71,
+          "compile_error": "error[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp_2zv6fvc.rs:2:5\n  |\n1 | fn first_even(nums: &[i32]) -> Option<i32> {\n  |                                ----------- expected `Option<i32>` because of return type\n2 |     nums.iter().filter(|&&n| n%2==0 && n<0).min() // None if ",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "safe_divide": {
+      "concept": "safe_divide",
+      "lang": "python",
+      "passed": 4,
+      "total": 5,
+      "score_pct": 80,
+      "grade": "A",
+      "probes": [
+        {
+          "probe_id": "SD_P1_basic",
+          "label": "Basic: normal division",
+          "passed": true,
+          "elapsed": 2.62,
+          "compile_error": "",
+          "runtime_out": "SD_P1 PASS"
+        },
+        {
+          "probe_id": "SD_P2_zero_divisor",
+          "label": "Zero divisor returns None",
+          "passed": true,
+          "elapsed": 2.59,
+          "compile_error": "",
+          "runtime_out": "SD_P2 PASS"
+        },
+        {
+          "probe_id": "SD_P3_zero_dividend",
+          "label": "Zero dividend returns 0.0, not None",
+          "passed": true,
+          "elapsed": 2.71,
+          "compile_error": "",
+          "runtime_out": "SD_P3 PASS"
+        },
+        {
+          "probe_id": "SD_P4_negative",
+          "label": "Negative numbers",
+          "passed": false,
+          "elapsed": 2.56,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpw93u8yyj.py\", line 11, in <module>\n    assert safe_divide(-6.0, -2.0) == 3.0, f\"Expected 3.0, got {safe_divide(-6.0, -2.0)}\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Expected 3.0, got None\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "SD_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 2.58,
+          "compile_error": "",
+          "runtime_out": "SD_P5 PASS"
+        }
+      ]
+    },
+    "wrap_error": {
+      "concept": "wrap_error",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "WE_P1_basic",
+          "label": "Basic: errors.Is chain works after wrap",
+          "passed": false,
+          "elapsed": 2.56,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpeeiknlp4.go:14:13: undefined: wrap_error\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "WE_P2_message",
+          "label": "Wrapped message contains both parts",
+          "passed": false,
+          "elapsed": 2.6,
+          "compile_error": "panic: message missing context: got %q%!(EXTRA string=[file not found] file not found)\n\ngoroutine 1 [running]:\nmain.main()\n\tC:/Users/ryang/AppData/Local/Temp/tmpj4kkhz1k.go:20 +0x18c\nexit status 2\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "WE_P3_double_wrap",
+          "label": "Double-wrapped: errors.Is reaches base",
+          "passed": false,
+          "elapsed": 2.98,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpyfh127wl.go:10:19: undefined: WrappedError\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpyfh127wl.go:17:11: undefined: wrap_error\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpyfh127wl.go:18:11: undefined: wrap_error\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "WE_P4_unwrap",
+          "label": "errors.Unwrap returns the original",
+          "passed": false,
+          "elapsed": 2.57,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpm1bhvo8z.go:8:8: fmt redeclared in this block\n\tC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpm1bhvo8z.go:5:2: other declaration of fmt\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpm1bhvo8z.go:8:8: \"fmt\" imported and not used\nC:\\Users\\ryang\\AppData\\Local\\T",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "WE_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": false,
+          "elapsed": 2.63,
+          "compile_error": "panic: errors.Is failed on renamed function\n\ngoroutine 1 [running]:\nmain.main()\n\tC:/Users/ryang/AppData/Local/Temp/tmp7s3xrsrs.go:18 +0xbe\nexit status 2\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "arc_mutex": {
+      "concept": "arc_mutex",
+      "lang": "rust",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "AM_P1_basic",
+          "label": "Basic: Arc<Mutex<i32>> shared counter across threads",
+          "passed": false,
+          "elapsed": 3.62,
+          "compile_error": "error[E0433]: failed to resolve: could not find `ArcLockOrder` in `sync`\n  --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpk4xm8yga.rs:10:60\n   |\n10 |             cloned.lock().unwrap().fetch_add(v, std::sync::ArcLockOrder::SeqCst);\n   |                                                            ^^^^^^^^^^",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P2_correct_sum",
+          "label": "Correct sum with race-free accumulation",
+          "passed": false,
+          "elapsed": 2.95,
+          "compile_error": "warning: unused import: `std::thread`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpw2l14fse.rs:2:5\n  |\n2 | use std::thread;\n  |     ^^^^^^^^^^^\n  |\n  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default\n\nerror[E0599]: no method named `add` found for struct `std::sync::MutexGuard<",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P3_large",
+          "label": "Large dataset, no data races",
+          "passed": false,
+          "elapsed": 3.0,
+          "compile_error": "warning: unused import: `std::thread`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp6ob_vcic.rs:2:5\n  |\n2 | use std::thread;\n  |     ^^^^^^^^^^^\n  |\n  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default\n\nerror[E0308]: mismatched types\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp6ob",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P4_empty",
+          "label": "Edge case: empty vec returns 0",
+          "passed": false,
+          "elapsed": 2.66,
+          "compile_error": "\nthread 'main' (17832) panicked at C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpq6g1zkpx.rs:10:5:\nassertion `left == right` failed: single element failed\n  left: 0\n right: 42\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "AM_P5_rename",
+          "label": "Concept transfer: renamed to parallel_sum",
+          "passed": false,
+          "elapsed": 3.22,
+          "compile_error": "warning: unused imports: `Arc` and `Mutex`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp6gi71asf.rs:1:17\n  |\n1 | use std::sync::{Arc, Mutex};\n  |                 ^^^  ^^^^^\n  |\n  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default\n\nwarning: unused import: `std::thread`\n --> C:\\U",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "refcell_borrow": {
+      "concept": "refcell_borrow",
+      "lang": "rust",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "RB_P1_basic",
+          "label": "Basic: borrow_mut to push items",
+          "passed": true,
+          "elapsed": 2.68,
+          "compile_error": "",
+          "runtime_out": "RB_P1 PASS"
+        },
+        {
+          "probe_id": "RB_P2_empty",
+          "label": "Appending to empty RefCell vec",
+          "passed": true,
+          "elapsed": 2.62,
+          "compile_error": "",
+          "runtime_out": "RB_P2 PASS"
+        },
+        {
+          "probe_id": "RB_P3_multiple_borrows",
+          "label": "Multiple sequential borrow_mut calls",
+          "passed": true,
+          "elapsed": 2.7,
+          "compile_error": "",
+          "runtime_out": "RB_P3 PASS"
+        },
+        {
+          "probe_id": "RB_P4_read_after",
+          "label": "borrow() readable after borrow_mut completes",
+          "passed": true,
+          "elapsed": 2.61,
+          "compile_error": "",
+          "runtime_out": "RB_P4 PASS"
+        },
+        {
+          "probe_id": "RB_P5_rename",
+          "label": "Concept transfer: renamed to push_into_cell",
+          "passed": true,
+          "elapsed": 2.67,
+          "compile_error": "",
+          "runtime_out": "RB_P5 PASS"
+        }
+      ]
+    },
+    "go_panic_recover": {
+      "concept": "go_panic_recover",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "GP_P1_basic",
+          "label": "Basic: recover panic and return error",
+          "passed": false,
+          "elapsed": 2.65,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp5qxjp503.go:11:54: syntax error: unexpected ), expected expression\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P2_string_panic",
+          "label": "String panic message preserved in error",
+          "passed": false,
+          "elapsed": 2.84,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsm3u5lkc.go:12:99: syntax error: unexpected ( at end of statement\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsm3u5lkc.go:16:6: syntax error: unexpected name main, expected (\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsm3u5lkc.go:17:48: syntax error: ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P3_no_panic",
+          "label": "No panic returns nil",
+          "passed": false,
+          "elapsed": 2.73,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1lcinmny.go:7:24: undefined: errors\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1lcinmny.go:10:1: missing return\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1lcinmny.go:14:9: undefined: safe_call\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P4_error_panic",
+          "label": "Panic with error value",
+          "passed": false,
+          "elapsed": 2.72,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmprtitefvs.go:11:71: syntax error: unexpected keyword type, expected expression\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GP_P5_rename",
+          "label": "Concept transfer: renamed to catch_panic",
+          "passed": false,
+          "elapsed": 2.61,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpf_da9nzj.go:12:54: syntax error: unexpected ), expected expression\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "go_fmt_errorf": {
+      "concept": "go_fmt_errorf",
+      "lang": "go",
+      "passed": 1,
+      "total": 5,
+      "score_pct": 20,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "GF_P1_basic",
+          "label": "Basic: fmt.Errorf with %w wraps correctly",
+          "passed": false,
+          "elapsed": 2.59,
+          "compile_error": "panic: errors.Is failed \u00e2\u20ac\u201d must use %%w in fmt.Errorf\n\ngoroutine 1 [running]:\nmain.main()\n\tC:/Users/ryang/AppData/Local/Temp/tmpttckydea.go:18 +0xbe\nexit status 2\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GF_P2_message",
+          "label": "Wrapped error message contains msg and original",
+          "passed": true,
+          "elapsed": 2.79,
+          "compile_error": "",
+          "runtime_out": "GF_P2 PASS"
+        },
+        {
+          "probe_id": "GF_P3_chain",
+          "label": "Double-wrapped: errors.Is reaches root",
+          "passed": false,
+          "elapsed": 3.11,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpz_0s4uhg.go:21:11: undefined: wrap_error\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpz_0s4uhg.go:22:11: undefined: wrap_error\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GF_P4_nil_safe",
+          "label": "Nil error input returns nil",
+          "passed": false,
+          "elapsed": 2.67,
+          "compile_error": "panic: errors.Is failed on non-nil input\n\ngoroutine 1 [running]:\nmain.main()\n\tC:/Users/ryang/AppData/Local/Temp/tmp99tnp9ih.go:22 +0xde\nexit status 2\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GF_P5_rename",
+          "label": "Concept transfer: renamed to annotate_error",
+          "passed": false,
+          "elapsed": 2.51,
+          "compile_error": "panic: errors.Is failed\n\ngoroutine 1 [running]:\nmain.main()\n\tC:/Users/ryang/AppData/Local/Temp/tmplcl9sv_5.go:18 +0xbe\nexit status 2\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "first_even_zero": {
+      "concept": "first_even_zero",
+      "lang": "rust",
+      "passed": 3,
+      "total": 5,
+      "score_pct": 60,
+      "grade": "B",
+      "probes": [
+        {
+          "probe_id": "FEZ_P1_zero",
+          "label": "Zero is even \u2014 must return Some(0)",
+          "passed": false,
+          "elapsed": 3.04,
+          "compile_error": "\nthread 'main' (16984) panicked at C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsjqh3px8.rs:5:5:\nassertion `left == right` failed: zero is even\n  left: Some(1)\n right: Some(0)\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FEZ_P2_negative_even",
+          "label": "Negative even numbers are even",
+          "passed": true,
+          "elapsed": 2.63,
+          "compile_error": "",
+          "runtime_out": "FEZ_P2 PASS"
+        },
+        {
+          "probe_id": "FEZ_P3_mixed",
+          "label": "Mixed positive, negative, and zero",
+          "passed": false,
+          "elapsed": 2.72,
+          "compile_error": "\nthread 'main' (26800) panicked at C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpw6_kxpmp.rs:9:5:\nassertion `left == right` failed\n  left: Some(0)\n right: Some(-4)\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "FEZ_P4_idiomatic",
+          "label": "Idiomatic iterator style with zero/negative awareness",
+          "passed": true,
+          "elapsed": 2.61,
+          "compile_error": "",
+          "runtime_out": "FEZ_P4 PASS"
+        },
+        {
+          "probe_id": "FEZ_P5_rename",
+          "label": "Concept transfer: renamed, must still handle zero",
+          "passed": true,
+          "elapsed": 2.61,
+          "compile_error": "",
+          "runtime_out": "FEZ_P5 PASS"
+        }
+      ]
+    },
+    "go_goroutine": {
+      "concept": "go_goroutine",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "GG_P1_basic",
+          "label": "Basic: sum with goroutine and channel",
+          "passed": false,
+          "elapsed": 2.63,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpiq2searc.go:14:23: undefined: sum\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P2_empty",
+          "label": "Empty slice returns 0",
+          "passed": false,
+          "elapsed": 2.66,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1fhwm1mu.go:15:19: undefined: reduce\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P3_negative",
+          "label": "Handles negative numbers",
+          "passed": false,
+          "elapsed": 2.71,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp2vzxxhzk.go:13:16: undefined: sum_concurrent\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp2vzxxhzk.go:17:9: undefined: sum_concurrent\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P4_single",
+          "label": "Single element",
+          "passed": false,
+          "elapsed": 2.7,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmp06s5lfy7.go:19:12: undefined: sum_concurrent\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GG_P5_large",
+          "label": "Large slice (100 elements)",
+          "passed": false,
+          "elapsed": 3.08,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsx3h993l.go:15:37: cannot index ch (variable of type chan int)\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsx3h993l.go:15:51: undefined: v\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpsx3h993l.go:24:9: undefined: sum_concurrent\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "go_waitgroup": {
+      "concept": "go_waitgroup",
+      "lang": "go",
+      "passed": 0,
+      "total": 5,
+      "score_pct": 0,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "GW_P1_double",
+          "label": "Double each element in parallel",
+          "passed": false,
+          "elapsed": 3.15,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpe_tk8cng.go:8:8: sync redeclared in this block\n\tC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpe_tk8cng.go:5:2: other declaration of sync\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpe_tk8cng.go:8:8: \"sync\" imported and not used\nC:\\Users\\ryang\\AppData\\Loca",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P2_identity",
+          "label": "Identity function preserves order",
+          "passed": false,
+          "elapsed": 3.03,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmptik2hkeh.go:8:8: sync redeclared in this block\n\tC:\\Users\\ryang\\AppData\\Local\\Temp\\tmptik2hkeh.go:5:2: other declaration of sync\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmptik2hkeh.go:8:8: \"sync\" imported and not used\nC:\\Users\\ryang\\AppData\\Loca",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P3_empty",
+          "label": "Empty slice returns empty",
+          "passed": false,
+          "elapsed": 3.0,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpble_7gh2.go:8:8: sync redeclared in this block\n\tC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpble_7gh2.go:5:2: other declaration of sync\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpble_7gh2.go:8:8: \"sync\" imported and not used\nC:\\Users\\ryang\\AppData\\Loca",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P4_negate",
+          "label": "Negate all elements",
+          "passed": false,
+          "elapsed": 3.0,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpv7y0ti8x.go:8:8: sync redeclared in this block\n\tC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpv7y0ti8x.go:5:2: other declaration of sync\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmpv7y0ti8x.go:8:8: \"sync\" imported and not used\nC:\\Users\\ryang\\AppData\\Loca",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "GW_P5_single",
+          "label": "Single element",
+          "passed": false,
+          "elapsed": 3.01,
+          "compile_error": "# command-line-arguments\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmptmq8zsir.go:8:8: sync redeclared in this block\n\tC:\\Users\\ryang\\AppData\\Local\\Temp\\tmptmq8zsir.go:5:2: other declaration of sync\nC:\\Users\\ryang\\AppData\\Local\\Temp\\tmptmq8zsir.go:8:8: \"sync\" imported and not used\nC:\\Users\\ryang\\AppData\\Loca",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "py_dataclass": {
+      "concept": "py_dataclass",
+      "lang": "python",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "PDC_P1_basic",
+          "label": "Point dataclass exists and is instantiable",
+          "passed": true,
+          "elapsed": 3.0,
+          "compile_error": "",
+          "runtime_out": "PDC_P1 PASS"
+        },
+        {
+          "probe_id": "PDC_P2_same",
+          "label": "Distance to self is zero",
+          "passed": true,
+          "elapsed": 2.79,
+          "compile_error": "",
+          "runtime_out": "PDC_P2 PASS"
+        },
+        {
+          "probe_id": "PDC_P3_negative",
+          "label": "Negative coordinates",
+          "passed": true,
+          "elapsed": 2.8,
+          "compile_error": "",
+          "runtime_out": "PDC_P3 PASS"
+        },
+        {
+          "probe_id": "PDC_P4_symmetry",
+          "label": "Distance is symmetric",
+          "passed": true,
+          "elapsed": 2.79,
+          "compile_error": "",
+          "runtime_out": "PDC_P4 PASS"
+        },
+        {
+          "probe_id": "PDC_P5_unit",
+          "label": "Unit distance along x-axis",
+          "passed": true,
+          "elapsed": 2.77,
+          "compile_error": "",
+          "runtime_out": "PDC_P5 PASS"
+        }
+      ]
+    },
+    "py_retry": {
+      "concept": "py_retry",
+      "lang": "python",
+      "passed": 2,
+      "total": 5,
+      "score_pct": 40,
+      "grade": "C",
+      "probes": [
+        {
+          "probe_id": "PRT_P1_succeeds_first",
+          "label": "Succeeds on first try",
+          "passed": false,
+          "elapsed": 3.11,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpibioeuv4.py\", line 12\n    raise e with type(e).__name__() + f\"({e})\"  # re-raise same type with prefix failed-\"\n            ^^^^\nSyntaxError: invalid syntax\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PRT_P2_retries",
+          "label": "Retries then succeeds",
+          "passed": true,
+          "elapsed": 2.73,
+          "compile_error": "",
+          "runtime_out": "PRT_P2 PASS"
+        },
+        {
+          "probe_id": "PRT_P3_all_fail",
+          "label": "All attempts fail \u2014 raises last exception",
+          "passed": false,
+          "elapsed": 2.95,
+          "compile_error": "Traceback (most recent call last):\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpny1j8vik.py\", line 8, in retry\n    return fn()\n           ^^^^\n  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmpny1j8vik.py\", line 14, in always_fail\n    raise RuntimeError(\"always\")\nRuntimeError: always\n\nDuring handling of ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PRT_P4_once",
+          "label": "times=1 means one attempt only",
+          "passed": false,
+          "elapsed": 2.89,
+          "compile_error": "  File \"C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp_1xrk8bq.py\", line 10\n    raise next(iter(e for e in yield if True))\n                               ^^^^^\nSyntaxError: invalid syntax\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "PRT_P5_return_type",
+          "label": "Preserves non-None return value",
+          "passed": true,
+          "elapsed": 2.76,
+          "compile_error": "",
+          "runtime_out": "PRT_P5 PASS"
+        }
+      ]
+    },
+    "ts_generic": {
+      "concept": "ts_generic",
+      "lang": "typescript",
+      "passed": 1,
+      "total": 5,
+      "score_pct": 20,
+      "grade": "F",
+      "probes": [
+        {
+          "probe_id": "TSG_P1_identity",
+          "label": "Identity function compiles and returns value",
+          "passed": true,
+          "elapsed": 2.4,
+          "compile_error": "",
+          "runtime_out": "TSG_P1 PASS"
+        },
+        {
+          "probe_id": "TSG_P2_group_by",
+          "label": "groupBy works on an array of objects",
+          "passed": false,
+          "elapsed": 2.82,
+          "compile_error": "../../Users/ryang/AppData/Local/Temp/tmpj5kffckf/eval.ts(1,23): error TS2307: Cannot find module 'lodash' or its corresponding type declarations.\n../../Users/ryang/AppData/Local/Temp/tmpj5kffckf/eval.ts(3,1): error TS2552: Cannot find name 'groupedBy'. Did you mean 'groupBy'?\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "TSG_P3_pick",
+          "label": "pick returns object with only selected keys",
+          "passed": false,
+          "elapsed": 2.67,
+          "compile_error": "../../Users/ryang/AppData/Local/Temp/tmp7reuo83y/eval.ts(3,23): error TS2536: Type 'K' cannot be used to index type '{}'.\n../../Users/ryang/AppData/Local/Temp/tmp7reuo83y/eval.ts(4,3): error TS2322: Type '{}' is not assignable to type 'Pick<T, K>'.\n",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "TSG_P4_unique",
+          "label": "unique removes duplicates",
+          "passed": false,
+          "elapsed": 2.66,
+          "compile_error": "../../Users/ryang/AppData/Local/Temp/tmpnz6wnt_o/eval.ts(1,26): error TS2307: Cannot find module 'lodash' or its corresponding type declarations.\n../../Users/ryang/AppData/Local/Temp/tmpnz6wnt_o/eval.ts(3,25): error TS7006: Parameter 'a' implicitly has an 'any' type.\n../../Users/ryang/AppData/Local/",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "TSG_P5_partition",
+          "label": "partition splits array into two groups",
+          "passed": false,
+          "elapsed": 2.74,
+          "compile_error": "../../Users/ryang/AppData/Local/Temp/tmpyb5u6u1d/eval.ts(1,24): error TS2307: Cannot find module 'lodash' or its corresponding type declarations.\n../../Users/ryang/AppData/Local/Temp/tmpyb5u6u1d/eval.ts(3,3): error TS2322: Type 'T[]' is not assignable to type '[T[], T[]]'.\n  Target requires 2 elemen",
+          "runtime_out": ""
+        }
+      ]
+    }
+  },
+  "total_passed": 26,
+  "total_probes": 70,
+  "overall_pct": 37,
+  "overall_grade": "F"
+}

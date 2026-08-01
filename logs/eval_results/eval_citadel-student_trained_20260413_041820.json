@@ -1,0 +1,210 @@
+{
+  "model": "citadel-student:trained",
+  "timestamp": "2026-04-13T04:18:20.350026",
+  "concepts": {
+    "count_chars": {
+      "concept": "count_chars",
+      "lang": "rust",
+      "passed": 4,
+      "total": 5,
+      "score_pct": 80,
+      "grade": "A",
+      "probes": [
+        {
+          "probe_id": "CC_P1_basic",
+          "label": "Basic: count a specific char",
+          "passed": true,
+          "elapsed": 16.73,
+          "compile_error": "",
+          "runtime_out": "CC_P1 PASS"
+        },
+        {
+          "probe_id": "CC_P2_empty",
+          "label": "Edge case: empty string returns 0",
+          "passed": false,
+          "elapsed": 9.42,
+          "compile_error": "error[E0277]: the type `str` cannot be indexed by `usize`\n --> C:\\Users\\ryang\\AppData\\Local\\Temp\\tmp1e4fcge0.rs:3:55\n  |\n3 |         Some(index) => (index..s.len()).filter(|&i| s[i] == target).count(),\n  |                                                       ^ string indices are ranges of `usize`\n ",
+          "runtime_out": ""
+        },
+        {
+          "probe_id": "CC_P3_unicode",
+          "label": "Unicode: multi-byte chars",
+          "passed": true,
+          "elapsed": 6.42,
+          "compile_error": "",
+          "runtime_out": "CC_P3 PASS"
+        },
+        {
+          "probe_id": "CC_P4_idiomatic",
+          "label": "Idiomatic: iterator style",
+          "passed": true,
+          "elapsed": 6.48,
+          "compile_error": "",
+          "runtime_out": "CC_P4 PASS"
+        },
+        {
+          "probe_id": "CC_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 6.72,
+          "compile_error": "",
+          "runtime_out": "CC_P5 PASS"
+        }
+      ]
+    },
+    "first_even": {
+      "concept": "first_even",
+      "lang": "rust",
+      "passed": 4,
+      "total": 5,
+      "score_pct": 80,
+      "grade": "A",
+      "probes": [
+        {
+          "probe_id": "FE_P1_basic",
+          "label": "Basic: mixed slice",
+          "passed": true,
+          "elapsed": 7.69,
+          "compile_error": "",
+          "runtime_out": "FE_P1 PASS"
+        },
+        {
+          "probe_id": "FE_P2_empty",
+          "label": "Edge case: empty slice returns None",
+          "passed": true,
+          "elapsed": 7.17,
+          "compile_error": "",
+          "runtime_out": "FE_P2 PASS"
+        },
+        {
+          "probe_id": "FE_P3_all_odd",
+          "label": "All odd: returns None",
+          "passed": true,
+          "elapsed": 7.91,
+          "compile_error": "",
+          "runtime_out": "FE_P3 PASS"
+        },
+        {
+          "probe_id": "FE_P4_first_is_even",
+          "label": "First element is even",
+          "passed": true,
+          "elapsed": 7.49,
+          "compile_error": "",
+          "runtime_out": "FE_P4 PASS"
+        },
+        {
+          "probe_id": "FE_P5_negative",
+          "label": "Negative even numbers",
+          "passed": false,
+          "elapsed": 8.52,
+          "compile_error": "\nthread 'main' (26936) panicked at C:\\Users\\ryang\\AppData\\Local\\Temp\\tmphz8rmo7n.rs:13:5:\nassertion `left == right` failed: zero is even\n  left: None\n right: Some(0)\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n",
+          "runtime_out": ""
+        }
+      ]
+    },
+    "safe_divide": {
+      "concept": "safe_divide",
+      "lang": "python",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "SD_P1_basic",
+          "label": "Basic: normal division",
+          "passed": true,
+          "elapsed": 7.67,
+          "compile_error": "",
+          "runtime_out": "SD_P1 PASS"
+        },
+        {
+          "probe_id": "SD_P2_zero_divisor",
+          "label": "Zero divisor returns None",
+          "passed": true,
+          "elapsed": 6.64,
+          "compile_error": "",
+          "runtime_out": "SD_P2 PASS"
+        },
+        {
+          "probe_id": "SD_P3_zero_dividend",
+          "label": "Zero dividend returns 0.0, not None",
+          "passed": true,
+          "elapsed": 8.64,
+          "compile_error": "",
+          "runtime_out": "SD_P3 PASS"
+        },
+        {
+          "probe_id": "SD_P4_negative",
+          "label": "Negative numbers",
+          "passed": true,
+          "elapsed": 6.45,
+          "compile_error": "",
+          "runtime_out": "SD_P4 PASS"
+        },
+        {
+          "probe_id": "SD_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 7.1,
+          "compile_error": "",
+          "runtime_out": "SD_P5 PASS"
+        }
+      ]
+    },
+    "wrap_error": {
+      "concept": "wrap_error",
+      "lang": "go",
+      "passed": 5,
+      "total": 5,
+      "score_pct": 100,
+      "grade": "S",
+      "probes": [
+        {
+          "probe_id": "WE_P1_basic",
+          "label": "Basic: errors.Is chain works after wrap",
+          "passed": true,
+          "elapsed": 6.46,
+          "compile_error": "",
+          "runtime_out": "WE_P1 PASS"
+        },
+        {
+          "probe_id": "WE_P2_message",
+          "label": "Wrapped message contains both parts",
+          "passed": true,
+          "elapsed": 5.54,
+          "compile_error": "",
+          "runtime_out": "WE_P2 PASS"
+        },
+        {
+          "probe_id": "WE_P3_double_wrap",
+          "label": "Double-wrapped: errors.Is reaches base",
+          "passed": true,
+          "elapsed": 5.49,
+          "compile_error": "",
+          "runtime_out": "WE_P3 PASS"
+        },
+        {
+          "probe_id": "WE_P4_unwrap",
+          "label": "errors.Unwrap returns the original",
+          "passed": true,
+          "elapsed": 5.48,
+          "compile_error": "",
+          "runtime_out": "WE_P4 PASS"
+        },
+        {
+          "probe_id": "WE_P5_rename",
+          "label": "Concept transfer: renamed function",
+          "passed": true,
+          "elapsed": 5.76,
+          "compile_error": "",
+          "runtime_out": "WE_P5 PASS"
+        }
+      ]
+    }
+  },
+  "total_passed": 18,
+  "total_probes": 20,
+  "overall_pct": 90,
+  "overall_grade": "A"
+}
